@@ -4,18 +4,19 @@ import Hero from "../components/shared/Hero";
 
 const Home = ({ showMenu }) => {
   return (
-    <div className="bg-white min-h-screen">
+    <div className={`py-2 px-4 transition-all duration-300 ${
+      showMenu ? "ml-28" : "ml-0"
+    }`}>
       <Header showMenu={showMenu} />
       <Hero />
       
-      {/* Contenido principal de la página de inicio */}
       <section className="py-12 px-4 md:px-8 max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-[#000031] mb-4">
             Bienvenido a Jeager Resto
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Descubre nuestra exquisita gastronomía y servicios premium
+            Descubre nuestra exquisita gastronomía
           </p>
         </div>
 
