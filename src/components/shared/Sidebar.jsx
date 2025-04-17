@@ -33,9 +33,9 @@ const Sidebar = ({ showMenu }) => {
             { icon: <MdOutlineHome />, path: "/", active: true },
             { icon: <MdOutlineCalendarMonth />, path: "/events" },
             { icon: <MdOutlineSchool />, path: "/courses" },
-            { icon: <MdQuestionMark />, path: "/faq" },
+            { icon: <MdQuestionMark />, path: "/about" },
             { icon: <MdCloudySnowing />, path: "/weather" },
-            { icon: <MdSos />, path: "/emergency" },
+            { icon: <MdSos />, path: "/sos" },
           ].map((item, index) => (
             <li key={index} className="group">
               <Link

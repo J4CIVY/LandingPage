@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Sos from "./pages/Sos";
+import Weather from "./pages/Weather";
+import About from "./pages/About";
 import Events from "./pages/Events";
 import Home from "./pages/Home";
 import Sidebar from "./components/shared/Sidebar";
@@ -27,6 +30,9 @@ function App() {
           <Routes>
             <Route path="/" element={<Home showMenu={showMenu} />} />
             <Route path="/events" element={<Events showMenu={showMenu} />} />
+            <Route path="/about" element={<About showMenu={showMenu} />} />
+            <Route path="/weather" element={<Weather />} />
+            <Route path="/sos" element={<Sos />} />
           </Routes>
         </main>
         
