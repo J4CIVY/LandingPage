@@ -27,7 +27,7 @@ const Events = ({ showMenu }) => {
   ];
 
   return (
-    <div className={`py-2 px-4 transition-all duration-300 ${
+    <div className={`py-2 px-2 transition-all duration-300 ${
       showMenu ? "ml-28" : "ml-0"
     }`}>
       <Header showMenu={showMenu} />

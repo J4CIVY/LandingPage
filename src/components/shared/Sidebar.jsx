@@ -12,7 +12,7 @@ import {
 const Sidebar = ({ showMenu }) => {
   return (
     <div
-      className={`bg-[#000031] fixed top-0 h-full w-28 flex flex-col justify-between py-6 z-50 transition-all duration-300 ease-in-out ${
+      className={`bg-[#000031] fixed top-0 h-full w-28 flex flex-col justify-between py-6 z-50 transition-all duration-300 ${
         showMenu ? "left-0" : "-left-full lg:left-0"
       }`}
     >

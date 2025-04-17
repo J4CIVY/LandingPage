@@ -3,7 +3,7 @@ import React from "react";
 const Header = ({ showMenu }) => {
   return (
     <header className={`transition-all duration-300 ${
-      showMenu ? "ml-36" : "ml-10"
+      showMenu ? "ml-28" : "ml-0"
     }`}>
       <div className="flex items-center justify-between gap-4 mb-6">
         <div className={`transition-all duration-300 ${

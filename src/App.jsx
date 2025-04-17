@@ -15,17 +15,10 @@ function App() {
     <Router>
       <div className="bg-[#ffffff] min-h-screen">
         <Sidebar showMenu={showMenu} />
-
-        {showMenu && (
-          <div 
-            className="fixed inset-0 bg-[#000031] bg-opacity-50 z-40 lg:hidden"
-            onClick={() => setShowMenu(false)}
-          />
-        )}
         
         {/* Contenido principal con el mismo desplazamiento que MobileMenu */}
         <main className={`transition-all duration-300 pb-20 ${
-          showMenu ? "lg:ml-36" : "lg:ml-10"
+          showMenu ? "lg:ml-28" : "lg:ml-0"
         }`}>
           <Routes>
             <Route path="/" element={<Home showMenu={showMenu} />} />
@@ -33,7 +26,7 @@ function App() {
             <Route path="/about" element={<About showMenu={showMenu} />} />
             <Route path="/weather" element={<Weather />} />
             <Route path="/sos" element={<Sos />} />
-          </Routes>
+            </Routes>
         </main>
         
         <MobileMenu
