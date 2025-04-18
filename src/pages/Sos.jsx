@@ -96,9 +96,7 @@ const Sos = ({ showMenu }) => {
   };
 
   return (
-    <div className={`py-2 px-2 transition-all duration-300 ${
-      showMenu ? "ml-28" : "ml-0"
-    }`}>
+    <div className={`py-2 px-2 transition-all duration-300 ${showMenu ? "ml-28" : "ml-0"}`}>
       <Header showMenu={showMenu} />
       
       {/* Hero Section */}

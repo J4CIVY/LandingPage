@@ -7,6 +7,8 @@ import {
   MdCloudySnowing,
   MdSos,
   MdPowerSettingsNew,
+  MdConnectWithoutContact,
+  MdOutlineDocumentScanner
 } from "react-icons/md";
 
 const Sidebar = ({ showMenu }) => {
@@ -36,6 +38,8 @@ const Sidebar = ({ showMenu }) => {
             { icon: <MdQuestionMark />, path: "/about" },
             { icon: <MdCloudySnowing />, path: "/weather" },
             { icon: <MdSos />, path: "/sos" },
+            { icon: <MdConnectWithoutContact />, path: "/contact" },
+            { icon: <MdOutlineDocumentScanner />, path: "/documents" },
           ].map((item, index) => (
             <li key={index} className="group">
               <Link

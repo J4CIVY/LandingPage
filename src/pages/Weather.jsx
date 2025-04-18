@@ -33,9 +33,7 @@ const Weather = ({ showMenu }) => {
   };
 
   return (
-    <div className={`py-2 px-2 transition-all duration-300 ${
-      showMenu ? "lg:ml-36" : "lg:ml-10"
-    }`}>
+    <div className={`py-2 px-2 transition-all duration-300 ${showMenu ? "ml-28" : "ml-0"}`}>
       <Header showMenu={showMenu} />
       
       {/* Título y última actualización */}
