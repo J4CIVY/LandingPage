@@ -24,8 +24,8 @@ const Sidebar = ({ showMenu }) => {
           {/* Logo */}
           <li className="mb-6 flex justify-center">
             <img 
-              src="/Logo_Motoclub_BSK_Motorcycle_Team_SVG_500X500_white.svg" 
-              alt="Logo BSK" 
+              src="/Logo_Letras_Motoclub_BSK_Motorcycle_Team_White_192X192.webp" 
+              alt="Logo BSK Motorcycle Team" 
               className="w-20 h-20 object-contain"
             />
           </li>

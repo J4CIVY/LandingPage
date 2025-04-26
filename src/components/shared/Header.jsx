@@ -11,7 +11,7 @@ const Header = ({ showMenu }) => {
           showMenu ? "opacity-0 w-0" : "opacity-100 w-20"
         }`}>
           <img 
-            src="/src/assets/Logo_Letras_Motoclub_BSK_Motorcycle_Team_Blue_192X192.webp" 
+            src="/Logo_Letras_Motoclub_BSK_Motorcycle_Team_Blue_192X192.webp" 
             alt="Logo BSK Motorcycle Team" 
             className="w-full h-auto"
           />
