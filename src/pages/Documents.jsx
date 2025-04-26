@@ -69,7 +69,6 @@ const Documents = ({ showMenu }) => {
 
   return (
     <div className={`py-2 px-2 transition-all duration-300 ${showMenu ? "ml-28" : "ml-0"}`}>
-      <Header showMenu={showMenu} />
       
       {/* Hero Section */}
       <section className="bg-[#000031] text-white py-16 px-4 md:px-20">

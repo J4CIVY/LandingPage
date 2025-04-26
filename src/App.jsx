@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./components/auth/Login";
 import Documents from "./pages/Documents";
 import Contact from "./pages/Contact";
 import Sos from "./pages/Sos";
@@ -10,7 +11,7 @@ import Events from "./pages/Events";
 import Home from "./pages/Home";
 import Sidebar from "./components/shared/Sidebar";
 import MobileMenu from "./components/shared/MobileMenu";
-
+import Header from "./components/shared/Header";
 
 function App() {
   const [showMenu, setShowMenu] = useState(false);
@@ -19,7 +20,7 @@ function App() {
     <Router>
       <div className="bg-[#ffffff] min-h-screen">
         <Sidebar showMenu={showMenu} />
-        
+        <Header showMenu={showMenu}/>
         {/* Contenido principal con el mismo desplazamiento que MobileMenu */}
         <main className={`transition-all duration-300 pb-20 ${
           showMenu ? "lg:ml-28" : "lg:ml-0"
@@ -33,6 +34,7 @@ function App() {
             <Route path="/sos" element={<Sos showMenu={showMenu} />} />
             <Route path="/contact" element={<Contact showMenu={showMenu} />} />
             <Route path="/documents" element={<Documents showMenu={showMenu} />} />
+            <Route path="/login" element={<Login showMenu={showMenu} />} />
             </Routes>
         </main>
         

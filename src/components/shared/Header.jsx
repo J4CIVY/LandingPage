@@ -1,6 +1,7 @@
 import React from "react";
 
 const Header = ({ showMenu }) => {
+  
   return (
     <header className={`transition-all duration-300 ${
       showMenu ? "ml-28" : "ml-0"
