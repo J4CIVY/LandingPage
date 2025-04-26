@@ -103,16 +103,16 @@ const Home = ({ showMenu }) => {
               <h3 className="text-2xl font-semibold text-[#000031] mb-4 mt-8">Nuestros Valores</h3>
               <ul className="space-y-3">
                 <li className="flex items-start">
-                  <span className="text-[#00FF99] mr-2">✓</span>
-                  <span className="text-gray-700">Respeto por los compañeros y la comunidad motera</span>
+                  <span className="text-[#ff0000] mr-2">Hermandad:</span>
+                  <span className="text-gray-700">Somos una familia de motociclistas, unidos por la confianza, la lealtad y el apoyo mutuo dentro y fuera de la carretera.</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-[#00FF99] mr-2">✓</span>
-                  <span className="text-gray-700">Seguridad como prioridad en todas nuestras rutas</span>
+                  <span className="text-[#ff0000] mr-2">Espíritu:</span>
+                  <span className="text-gray-700">Mantenemos vivo el espíritu aventurero, disfrutando cada ruta con pasión, alegría y la energía que nos impulsa a descubrir nuevos caminos.</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-[#00FF99] mr-2">✓</span>
-                  <span className="text-gray-700">Pasión por el motociclismo y el estilo de vida</span>
+                  <span className="text-[#ff0000] mr-2">Respeto:</span>
+                  <span className="text-gray-700">Valoramos y cuidamos a cada miembro y a cada comunidad que visitamos, promoviendo la tolerancia, la responsabilidad y la seguridad en todo momento.</span>
                 </li>
               </ul>
             </div>
