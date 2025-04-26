@@ -91,8 +91,13 @@ const Home = ({ showMenu }) => {
             <div>
               <h3 className="text-2xl font-semibold text-[#000031] mb-4">Nuestra Historia</h3>
               <p className="text-gray-700 mb-6">
-                Fundado en 2005, BSK Motorcycle Team nació de la pasión compartida por un grupo de amigos por las motos y la carretera abierta. 
-                Lo que comenzó como un pequeño grupo de entusiastas ahora es una comunidad vibrante con más de 150 miembros.
+              BSK Motorcycle Team nació en 2022 en Bogotá, Colombia, como el sueño de un grupo de motociclistas apasionados por la aventura, la hermandad y el respeto. Desde su fundación, el club se ha caracterizado por organizar rodadas, tours y eventos de formación para fortalecer las habilidades de conducción de sus miembros.
+              </p>
+              <p className="text-gray-700 mb-6">
+              En su primer año, el club consolidó rutas como el Tour Andino, el Tour de la Tatacoa y el Tour de Navidad, estableciendo así una tradición de recorrer los caminos de Colombia con un espíritu de camaradería. Posteriormente, se creó una estructura organizacional sólida, respaldada por la empresa Organización Motear SAS (OMSAS), y se estableció una filosofía basada en hermandad, espíritu aventurero y respeto mutuo.
+              </p>
+              <p className="text-gray-700 mb-6">
+              A lo largo de su historia, BSK ha crecido en membresías, actividades y beneficios, manteniéndose fiel a su misión de crear un espacio seguro y divertido para amantes de la motocicleta, con visión de ser un referente en el motociclismo turístico y formativo en Colombia.
               </p>
               
               <h3 className="text-2xl font-semibold text-[#000031] mb-4 mt-8">Nuestros Valores</h3>
