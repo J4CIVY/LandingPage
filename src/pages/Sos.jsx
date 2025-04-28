@@ -21,7 +21,7 @@ const Sos = () => {
     width: '100%',
     height: '400px'
   };
-  
+
   const center = {
     lat: 4.5709,
     lng: -74.2973
@@ -96,7 +96,7 @@ const Sos = () => {
 
   return (
     <div className={`transition-all duration-300`}>
-      
+
       {/* Hero Section */}
       <section className="bg-[#000031] text-white py-16 px-4 md:px-20">
         <div className="max-w-7xl mx-auto text-center">
@@ -170,7 +170,7 @@ const Sos = () => {
                   <h2 className="text-2xl font-bold text-[#000031] ml-3">{service.type}</h2>
                 </div>
                 <p className="text-gray-700 mb-6">{service.description}</p>
-                
+
                 <div className="space-y-4">
                   {service.contacts.map((contact, idx) => (
                     <div key={idx} className="bg-white p-4 rounded-lg">
@@ -204,7 +204,7 @@ const Sos = () => {
         <div className="py-12 px-4 md:px-8 max-w-3xl mx-auto">
           <div className="bg-white rounded-xl shadow-md p-6 md:p-8">
             <h2 className="text-2xl font-bold text-[#000031] mb-6">Formulario de Emergencia</h2>
-            
+
             <form onSubmit={handleSubmit}>
               <div className="grid md:grid-cols-2 gap-6 mb-6">
                 <div>
@@ -296,13 +296,13 @@ const Sos = () => {
       {activeTab === "workshops" && (
         <div className="py-12 px-4 md:px-8 max-w-7xl mx-auto">
           <h2 className="text-2xl font-bold text-[#000031] mb-6">Talleres Asociados</h2>
-          
+
           <div className="mb-8 bg-white rounded-xl shadow-md p-6">
             <h3 className="text-xl font-semibold text-[#000031] mb-4 flex items-center">
               <FaMapMarkerAlt className="text-red-500 mr-2" />
               Talleres más cercanos a tu ubicación
             </h3>
-            
+
             <LoadScript googleMapsApiKey="AIzaSyA0gRLAP3rzEgHQsR-a5UH0EyyCpEVE6zA">
               <GoogleMap
                 mapContainerStyle={mapContainerStyle}
@@ -317,7 +317,7 @@ const Sos = () => {
                     }}
                   />
                 )}
-                
+
                 {nearestWorkshops.map((workshop) => (
                   <Marker
                     key={workshop.id}
@@ -328,7 +328,7 @@ const Sos = () => {
                     }}
                   />
                 ))}
-                
+
                 {selectedWorkshop && (
                   <InfoWindow
                     position={selectedWorkshop.location}
@@ -338,7 +338,7 @@ const Sos = () => {
                       <h4 className="font-bold">{selectedWorkshop.name}</h4>
                       <p>{selectedWorkshop.address}</p>
                       <p>Tel: {selectedWorkshop.phone}</p>
-                      <a 
+                      <a
                         href={`tel:${selectedWorkshop.phone.replace(/\s/g, '')}`}
                         className="text-blue-500 hover:underline"
                       >
@@ -373,7 +373,7 @@ const Sos = () => {
                     </ul>
                   </div>
                   <div className="flex space-x-3">
-                    <a 
+                    <a
                       href={`tel:${workshop.phone.replace(/\s/g, '')}`}
                       className="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center"
                     >

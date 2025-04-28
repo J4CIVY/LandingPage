@@ -52,10 +52,10 @@ function App() {
         }}>
           <Header ref={headerRef} />
         </div>
-        
+
         {/* Contenido principal con padding dinámico */}
-        <main 
-          style={{ 
+        <main
+          style={{
             paddingTop: `${headerHeight}px`,
             minHeight: `calc(100vh - ${headerHeight}px)`,
             position: 'relative'

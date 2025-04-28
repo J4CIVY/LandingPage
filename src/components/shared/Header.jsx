@@ -52,8 +52,8 @@ const Header = forwardRef((props, ref) => {
       <header ref={setRefs} className="fixed w-full z-50">
         {/* Sección 1: Banner de emergencia */}
         <div className={`transition-all duration-300 ${isScrolled ? 'h-0 opacity-0' : 'h-10 opacity-100'} bg-red-600 flex items-center justify-center`}>
-          <button 
-            onClick={() => navigate('/sos')} 
+          <button
+            onClick={() => navigate('/sos')}
             className="text-white text-sm md:text-base font-medium hover:underline"
           >
             ¿Necesitas asistencia técnica o de emergencias?
@@ -62,22 +62,31 @@ const Header = forwardRef((props, ref) => {
 
         {/* Sección 2: Logo */}
         <div className="bg-[#000031] flex items-center justify-center py-4">
-          <button onClick={() => navigate('/')} className="text-white text-2xl font-bold">
-            <span>BSK</span>
-            <span className="text-[#00FF99]">MOTORCYCLE</span>
-            <span>TEAM</span>
+          <button
+            onClick={() => navigate('/')}
+            className="focus:outline-none"
+            aria-label="Ir a inicio"
+          >
+            <img
+              src="/Logo_Letras_Motoclub_BSK_Motorcycle_Team_White_192X192.webp"
+              alt="Logo Motoclub BSK Motorcycle Team"
+              className="w-[100px] md:w-[120px] h-auto object-contain"
+              width={120}
+              height={120}
+              loading="lazy"
+            />
           </button>
         </div>
 
         {/* Sección 3: Botones principales */}
         <div className={`transition-all duration-300 ${isScrolled ? 'h-0 opacity-0' : 'h-16 opacity-100'} bg-[#000031] flex items-center justify-center space-x-4 px-4`}>
-          <button 
+          <button
             className="bg-white text-[#000031] font-bold py-2 px-4 md:px-6 rounded hover:bg-[#00FF99] transition-colors"
             onClick={() => navigate('/login')}
           >
             Hazte Miembro
           </button>
-          <button 
+          <button
             className="bg-white text-[#000031] font-bold py-2 px-4 md:px-6 rounded hover:bg-[#00FF99] transition-colors"
             onClick={() => navigate('/login')}
           >
@@ -106,7 +115,7 @@ const Header = forwardRef((props, ref) => {
 
             {/* Menú móvil (icono centrado) */}
             <div className="md:hidden absolute left-1/2 transform -translate-x-1/2">
-              <button 
+              <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="text-white focus:outline-none"
                 aria-expanded={isMenuOpen}
@@ -128,7 +137,7 @@ const Header = forwardRef((props, ref) => {
 
       {/* Menú móvil desplegable */}
       {isMenuOpen && (
-        <div 
+        <div
           className="md:hidden fixed inset-0 bg-white z-40 overflow-y-auto"
           style={{ top: headerRef.current?.offsetHeight || '144px' }}
         >
