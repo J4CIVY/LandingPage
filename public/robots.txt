@@ -1,0 +1,11 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /private/
+Disallow: /api/
+Disallow: /config/
+Allow: /images/
+Allow: /static/
+Allow: /
+Sitemap: https://www.bskmt.com/sitemap.xml
+Sitemap: https://www.bskmt.com/sitemap-news.xml

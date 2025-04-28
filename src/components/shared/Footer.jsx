@@ -4,28 +4,28 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#000031] text-white">
+    <footer className="bg-[#000031] text-gray-500">
       {/* Primera Sección - Logo y Lema */}
       <section className="py-8 px-4">
         <div className="max-w-6xl mx-auto flex flex-col items-center justify-center space-y-4">
           <img 
-            src="/logo-bsk-motorcycle-team.png" 
+            src="/Logos_Footer_Motoclub_BSK_Motorcycle_Team.webp" 
             alt="Logo BSK Motorcycle Team" 
-            className="h-20 w-auto"
+            className="h-44 w-auto"
           />
-          <p className="text-lg font-light italic text-center">"Hermandad, Espíritu y Respeto"</p>
+          <p className="text-base font-light italic text-center">Hermandad, Espíritu y Respeto</p>
         </div>
       </section>
 
       {/* Segunda Sección - Apoyos y Vigilancia */}
-      <section className="py-8 px-4 border-t border-gray-700">
+      <section className="py-8 px-4 border-t border-[#000031]">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
             {/* Apoyo */}
             <div className="flex flex-col items-center space-y-2">
               <h2 className="text-sm font-semibold uppercase tracking-wider">Con El Apoyo De</h2>
               <img 
-                src="/logo-innpulsa-colombia.png" 
+                src="/Logo_Innpulsa_Colombia_SNF.webp" 
                 alt="Logo Innpulsa Colombia" 
                 className="h-12 w-auto"
               />
@@ -36,14 +36,9 @@ const Footer = () => {
               <h2 className="text-sm font-semibold uppercase tracking-wider">Vigilado Por</h2>
               <div className="flex flex-col sm:flex-row items-center gap-4">
                 <img 
-                  src="/logo-sic.png" 
-                  alt="Logo Superintendencia de Industria y Comercio" 
-                  className="h-10 w-auto"
-                />
-                <img 
-                  src="/logo-supersociedades.png" 
+                  src="/Logo_Supersociedades_SNF.webp" 
                   alt="Logo Superintendencia de Sociedades" 
-                  className="h-10 w-auto"
+                  className="h-12 w-auto"
                 />
               </div>
             </div>
@@ -52,7 +47,7 @@ const Footer = () => {
       </section>
 
       {/* Tercera Sección - Redes Sociales y Menú Legal */}
-      <section className="py-8 px-4 border-t border-gray-700">
+      <section className="py-8 px-4 border-t border-[#000031]">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             {/* Redes Sociales */}
@@ -109,21 +104,11 @@ const Footer = () => {
       </section>
 
       {/* Cuarta Sección - Copyright */}
-      <section className="py-6 px-4 border-t border-gray-700">
+      <section className="py-6 px-4 border-t border-white">
         <div className="max-w-6xl mx-auto">
           <div className="text-center text-xs md:text-sm space-y-2">
             <p>
               Copyright © 2022 - {currentYear} Organización Motear S.A.S., OMSAS. Todos los derechos reservados.
-            </p>
-            <p>
-              La marca BSK Motorcycle Team (BSK MT) es una marca registrada de Organización Motear S.A.S., OMSAS.
-            </p>
-            <p>
-              Los logos "Maskert" son imágenes registradas de BSK MT.
-            </p>
-            <p>
-              El uso de este sitio está sujeto a las condiciones de uso expresas.
-              Al utilizar este sitio, aceptas cumplir con estos Términos universales de servicio.
             </p>
           </div>
         </div>
