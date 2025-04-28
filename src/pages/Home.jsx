@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
-
-const Home = ({ showMenu }) => {
+const Home = () => {
 
   const [activeTab, setActiveTab] = useState('events');
   const [activeGalleryImage, setActiveGalleryImage] = useState(0);
@@ -50,9 +49,7 @@ const Home = ({ showMenu }) => {
   ];
 
   return (
-    <div className={`py-0 px-0 transition-all duration-300 ${
-      showMenu ? "ml-28" : "ml-0"
-    }`}>
+    <div className="min-h-screen bg-gray-100">
 
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center bg-[#000031] overflow-hidden">
