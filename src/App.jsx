@@ -10,6 +10,7 @@ import Courses from "./pages/Courses";
 import Events from "./pages/Events";
 import Home from "./pages/Home";
 import Header from "./components/shared/Header";
+import Footer from "./components/shared/Footer"; // Importa el componente Footer
 
 function App() {
   const headerRef = useRef();
@@ -40,7 +41,7 @@ function App() {
 
   return (
     <Router>
-      <div className="bg-[#ffffff] min-h-screen">
+      <div className="bg-[#ffffff] min-h-screen flex flex-col">
         {/* Contenedor fijo para el header */}
         <div style={{
           position: 'fixed',
@@ -58,7 +59,8 @@ function App() {
           style={{
             paddingTop: `${headerHeight}px`,
             minHeight: `calc(100vh - ${headerHeight}px)`,
-            position: 'relative'
+            position: 'relative',
+            flex: 1
           }}
           className="pb-20"
         >
@@ -74,6 +76,9 @@ function App() {
             <Route path="/login" element={<Login />} />
           </Routes>
         </main>
+
+        {/* Agrega el Footer aquí */}
+        <Footer />
       </div>
     </Router>
   );

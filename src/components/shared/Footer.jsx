@@ -1,53 +1,135 @@
+import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
+
 const Footer = () => {
-    return (
-      <footer className={`transition-all duration-300 ${
-        showMenu ? "ml-28" : "ml-0"
-      }`}>
+  const currentYear = new Date().getFullYear();
+
+  return (
+    <footer className="bg-[#000031] text-white">
+      {/* Primera Sección - Logo y Lema */}
+      <section className="py-8 px-4">
+        <div className="max-w-6xl mx-auto flex flex-col items-center justify-center space-y-4">
+          <img 
+            src="/logo-bsk-motorcycle-team.png" 
+            alt="Logo BSK Motorcycle Team" 
+            className="h-20 w-auto"
+          />
+          <p className="text-lg font-light italic text-center">"Hermandad, Espíritu y Respeto"</p>
+        </div>
+      </section>
+
+      {/* Segunda Sección - Apoyos y Vigilancia */}
+      <section className="py-8 px-4 border-t border-gray-700">
         <div className="max-w-6xl mx-auto">
-          {/* Sección de apoyos */}
-          <div className="flex flex-col items-center space-y-8 mb-8">
-            {/* Apoyo de INNPULSA */}
-            <div className="text-center">
-              <p className="text-sm text-gray-400 mb-4">CON EL APOYO DE</p>
-              <div className="flex justify-center">
-                <img 
-                  src="/logos/innpulsa-colombia.png" 
-                  alt="INNPULSA Colombia" 
-                  className="h-16 object-contain opacity-90 hover:opacity-100 transition-opacity"
-                />
-              </div>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
+            {/* Apoyo */}
+            <div className="flex flex-col items-center space-y-2">
+              <h2 className="text-sm font-semibold uppercase tracking-wider">Con El Apoyo De</h2>
+              <img 
+                src="/logo-innpulsa-colombia.png" 
+                alt="Logo Innpulsa Colombia" 
+                className="h-12 w-auto"
+              />
             </div>
-            
-            {/* Vigilado por */}
-            <div className="text-center">
-              <p className="text-sm text-gray-400 mb-4">VIGILADO POR</p>
-              <div className="flex flex-wrap justify-center items-center gap-8">
+
+            {/* Vigilancia */}
+            <div className="flex flex-col items-center space-y-2">
+              <h2 className="text-sm font-semibold uppercase tracking-wider">Vigilado Por</h2>
+              <div className="flex flex-col sm:flex-row items-center gap-4">
                 <img 
-                  src="/logos/super-sociedades.png" 
-                  alt="Superintendencia de Sociedades" 
-                  className="h-12 object-contain opacity-80 hover:opacity-100 transition-opacity"
+                  src="/logo-sic.png" 
+                  alt="Logo Superintendencia de Industria y Comercio" 
+                  className="h-10 w-auto"
                 />
                 <img 
-                  src="/logos/super-industria.png" 
-                  alt="Superintendencia de Industria y Comercio" 
-                  className="h-12 object-contain opacity-80 hover:opacity-100 transition-opacity"
+                  src="/logo-supersociedades.png" 
+                  alt="Logo Superintendencia de Sociedades" 
+                  className="h-10 w-auto"
                 />
               </div>
             </div>
           </div>
-          
-          {/* Información legal */}
-          <div className="border-t border-gray-700 pt-6 text-center">
-            <p className="text-xs text-gray-500">
-              © {new Date().getFullYear()} BSK Motorcycle Team. Todos los derechos reservados.
+        </div>
+      </section>
+
+      {/* Tercera Sección - Redes Sociales y Menú Legal */}
+      <section className="py-8 px-4 border-t border-gray-700">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            {/* Redes Sociales */}
+            <div className="flex flex-col items-center md:items-start space-y-3">
+              <p className="text-sm font-medium">Síguenos</p>
+              <div className="flex space-x-4">
+                <a 
+                  href="https://facebook.com/bskmotorcycleteam" 
+                  aria-label="Facebook BSK Motorcycle Team"
+                  className="text-white hover:text-blue-400 transition-colors"
+                >
+                  <FaFacebook size={20} />
+                </a>
+                <a 
+                  href="https://instagram.com/bskmotorcycleteam" 
+                  aria-label="Instagram BSK Motorcycle Team"
+                  className="text-white hover:text-pink-500 transition-colors"
+                >
+                  <FaInstagram size={20} />
+                </a>
+                <a 
+                  href="https://twitter.com/bskmotorcycleteam" 
+                  aria-label="Twitter BSK Motorcycle Team"
+                  className="text-white hover:text-blue-300 transition-colors"
+                >
+                  <FaTwitter size={20} />
+                </a>
+                <a 
+                  href="https://youtube.com/bskmotorcycleteam" 
+                  aria-label="YouTube BSK Motorcycle Team"
+                  className="text-white hover:text-red-500 transition-colors"
+                >
+                  <FaYoutube size={20} />
+                </a>
+              </div>
+            </div>
+
+            {/* Menú Legal */}
+            <nav aria-label="Menú legal">
+              <ul className="flex flex-wrap justify-center gap-4 md:gap-6">
+                <li>
+                  <a href="/condiciones" className="text-sm hover:underline">Condiciones</a>
+                </li>
+                <li>
+                  <a href="/privacidad" className="text-sm hover:underline">Privacidad</a>
+                </li>
+                <li>
+                  <a href="/mapa-web" className="text-sm hover:underline">Mapa web</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </section>
+
+      {/* Cuarta Sección - Copyright */}
+      <section className="py-6 px-4 border-t border-gray-700">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center text-xs md:text-sm space-y-2">
+            <p>
+              Copyright © 2022 - {currentYear} Organización Motear S.A.S., OMSAS. Todos los derechos reservados.
             </p>
-            <p className="text-xs text-gray-500 mt-2">
-              NIT: 901.444.877-6 | Dirección: Carrera 5 A No. 36 A Sur 28, 110431, Ayacucho, San Cristobal, Bogota, Bogota D.C., Colombia
+            <p>
+              La marca BSK Motorcycle Team (BSK MT) es una marca registrada de Organización Motear S.A.S., OMSAS.
+            </p>
+            <p>
+              Los logos "Maskert" son imágenes registradas de BSK MT.
+            </p>
+            <p>
+              El uso de este sitio está sujeto a las condiciones de uso expresas.
+              Al utilizar este sitio, aceptas cumplir con estos Términos universales de servicio.
             </p>
           </div>
         </div>
-      </footer>
-    );
-  };
-  
-  export default Footer;
+      </section>
+    </footer>
+  );
+};
+
+export default Footer;
