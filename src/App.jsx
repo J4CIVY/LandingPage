@@ -1,3 +1,4 @@
+import { useRef, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/auth/Login";
 import Documents from "./pages/Documents";
@@ -10,14 +11,57 @@ import Events from "./pages/Events";
 import Home from "./pages/Home";
 import Header from "./components/shared/Header";
 
-
 function App() {
+  const headerRef = useRef();
+  const [headerHeight, setHeaderHeight] = useState(0);
+
+  // Actualizar altura del header
+  useEffect(() => {
+    const updateHeaderHeight = () => {
+      if (headerRef.current) {
+        setHeaderHeight(headerRef.current.offsetHeight);
+      }
+    };
+
+    // Actualización inicial
+    updateHeaderHeight();
+
+    // Observar cambios en el header
+    const resizeObserver = new ResizeObserver(updateHeaderHeight);
+    if (headerRef.current) {
+      resizeObserver.observe(headerRef.current);
+    }
+
+    // Limpieza
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
+
   return (
     <Router>
       <div className="bg-[#ffffff] min-h-screen">
-        <Header />
-        {/* Contenido principal */}
-        <main className="pb-20">
+        {/* Contenedor fijo para el header */}
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 50,
+          width: '100%'
+        }}>
+          <Header ref={headerRef} />
+        </div>
+        
+        {/* Contenido principal con padding dinámico */}
+        <main 
+          style={{ 
+            paddingTop: `${headerHeight}px`,
+            minHeight: `calc(100vh - ${headerHeight}px)`,
+            position: 'relative'
+          }}
+          className="pb-20"
+        >
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/events" element={<Events />} />

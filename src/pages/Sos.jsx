@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Header from "../components/shared/Header";
 import { FaWhatsapp, FaPhone, FaAmbulance, FaWrench, FaShieldAlt, FaMapMarkerAlt, FaTools, FaUserAlt, FaPaperPlane } from "react-icons/fa";
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import axios from 'axios';
 
-const Sos = ({ showMenu }) => {
+const Sos = () => {
   const [activeTab, setActiveTab] = useState("emergency");
   const [userLocation, setUserLocation] = useState(null);
   const [nearestWorkshops, setNearestWorkshops] = useState([]);
@@ -96,8 +95,7 @@ const Sos = ({ showMenu }) => {
   };
 
   return (
-    <div className={`py-2 px-2 transition-all duration-300 ${showMenu ? "ml-28" : "ml-0"}`}>
-      <Header showMenu={showMenu} />
+    <div className={`transition-all duration-300`}>
       
       {/* Hero Section */}
       <section className="bg-[#000031] text-white py-16 px-4 md:px-20">

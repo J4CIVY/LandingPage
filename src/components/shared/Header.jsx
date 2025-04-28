@@ -1,12 +1,22 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, forwardRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-const Header = () => {
+const Header = forwardRef((props, ref) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const headerRef = useRef(null);
+
+  // Combinamos ambas refs
+  const setRefs = (node) => {
+    headerRef.current = node;
+    if (typeof ref === 'function') {
+      ref(node);
+    } else if (ref) {
+      ref.current = node;
+    }
+  };
 
   // Bloquear scroll cuando el menú está abierto
   useEffect(() => {
@@ -39,7 +49,7 @@ const Header = () => {
 
   return (
     <>
-      <header ref={headerRef} className="fixed w-full z-50">
+      <header ref={setRefs} className="fixed w-full z-50">
         {/* Sección 1: Banner de emergencia */}
         <div className={`transition-all duration-300 ${isScrolled ? 'h-0 opacity-0' : 'h-10 opacity-100'} bg-red-600 flex items-center justify-center`}>
           <button 
@@ -143,6 +153,6 @@ const Header = () => {
       )}
     </>
   );
-};
+});
 
 export default Header;
