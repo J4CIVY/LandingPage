@@ -1,83 +1,64 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
+  <head>
+    <!-- Codificación y vista adaptable -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="Content-Security-Policy"
-    content="default-src 'self'; img-src 'self' data: https:; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline'; font-src 'self' https:; connect-src 'self' https:">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
-  <meta name="description"
-    content="BSK Motorcycle Team - Comunidad apasionada por el motociclismo. Únete a nuestros eventos, rutas y experiencias sobre dos ruedas.">
+    <!-- Título y descripción SEO -->
+    <title>BSK Motorcycle Team | Hermandad, Espíritu y Respeto en Dos Ruedas</title>
+    <meta name="description" content="BSK Motorcycle Team: motoclub de hermandad, espíritu y respeto. Rodadas, aventuras y pasión por las motos." />
 
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.bskmotorteam.com/">
-  <meta property="og:title" content="Motoclub BSK Motorcycle Team - Pasión sobre dos ruedas">
-  <meta property="og:description"
-    content="Únete a la comunidad BSK Motorcycle Team. Eventos, rutas y experiencias para amantes de las motos.">
-  <meta property="og:image" content="https://www.bskmotorteam.com/images/og-image.webp">
+    <!-- Favicon y recursos importantes -->
+    <link rel="icon" href="/Favicon_BSK_Motorcycle_Team_40x40.webp" type="image/webp" />
+    <link rel="preload" as="image" href="/Logo_Letras_BSK_MT_500x500.webp" imagesrcset="/Logo_Letras_BSK_MT_1200.webp" type="image/webp" />
+    
+    <!-- Preconexiones para mejorar el tiempo de carga (si usas fuentes o CDN) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Tipografía (solo si realmente la usas) -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"> -->
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="https://www.bskmotorteam.com/">
-  <meta name="twitter:title" content="Motoclub BSK Motorcycle Team - Pasión sobre dos ruedas">
-  <meta name="twitter:description"
-    content="Únete a la comunidad BSK Motorcycle Team. Eventos, rutas y experiencias para amantes de las motos.">
-  <meta name="twitter:image" content="https://www.bskmotorteam.com/images/twitter-card.webp">
+    <!-- Open Graph (para compartir en redes) -->
+    <meta property="og:title" content="BSK Motorcycle Team" />
+    <meta property="og:description" content="Vive la pasión motera con BSK Motorcycle Team. Rodadas y comunidad." />
+    <meta property="og:image" content="/Logo_Letras_BSK_MT_500x500.webp" />
+    <meta property="og:url" content="https://bskmt.com/" />
+    <meta property="og:type" content="website" />
 
-  <!-- Favicon (modern approach with multiple sizes/formats) -->
-  <link rel="icon" href="/Favicon_BSK_Motorcycle_Team_40x40.webp" sizes="any">
-  <link rel="icon" type="image/webp" href="/Favicon_BSK_Motorcycle_Team_40x40.webp" />
-  <link rel="apple-touch-icon" href="/Favicon_BSK_Motorcycle_Team_40x40.webp">
-  <link rel="manifest" href="/site.webmanifest">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="BSK Motorcycle Team" />
+    <meta name="twitter:description" content="Rodadas, aventuras y pasión por las motos. Únete al BSK Motorcycle Team." />
+    <meta name="twitter:image" content="/Logo_Letras_BSK_MT_500x500.webp" />
 
-  <!-- Preload critical resources -->
-  <link rel="preload" href="/src/main.jsx" as="script">
-  <link rel="preload" href="/assets/fonts/roboto.woff2" as="font" type="font/woff2" crossorigin>
+    <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      script-src 'self';
+      style-src 'self' 'unsafe-inline';
+      img-src 'self' data:;
+      font-src 'self' https://fonts.gstatic.com;
+      connect-src 'self';
+      object-src 'none';
+    " />
 
-  <!-- Preconnect to external domains -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Otros headers útiles -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="robots" content="index, follow" />
 
-  <!-- Canonical URL -->
-  <link rel="canonical" href="https://www.bskmt.com/">
+    <!-- Manifest (opcional para PWA) -->
+    <!-- <link rel="manifest" href="/manifest.json" /> -->
+  </head>
 
-  <title>BSK Motorcycle Team | Comunidad de Motociclismo y Eventos</title>
+  <body class="bg-[#ffffff] text-[#111111] antialiased">
+    <noscript>
+      Necesitas habilitar JavaScript para utilizar correctamente el sitio web de BSK Motorcycle Team.
+    </noscript>
 
-  <!-- Theme color for browsers that support it -->
-  <meta name="theme-color" content="#ffffff">
-  <meta name="color-scheme" content="light dark">
+    <div id="root"></div>
 
-  <!-- iOS specific meta tags -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="BSK Motorcycle Team">
-
-  <!-- Microsoft specific meta tags -->
-  <meta name="msapplication-TileColor" content="#ffffff">
-  <meta name="msapplication-config" content="/browserconfig.xml">
-</head>
-
-<body class="bg-[#ffffff]">
-  <!-- Fallback content for SEO and JS-disabled users -->
-  <noscript>
-  </noscript>
-  <div id="root"></div>
-  <script type="module" src="/src/main.jsx"></script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js');
-      });
-    }
-
-    // Send performance metrics to your analytics
-    window.addEventListener('load', () => {
-      const perfData = window.performance.timing;
-      const loadTime = perfData.loadEventEnd - perfData.navigationStart;
-      console.log('Page load time:', loadTime);
-    });
-  </script>
-</body>
-
+    <!-- Carga del script React -->
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
