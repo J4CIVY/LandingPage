@@ -1,7 +1,6 @@
 import React from "react";
-import Header from "../components/shared/Header";
 
-const Events = ({ showMenu }) => {
+const Events = () => {
   const upcomingEvents = [
     {
       id: 1,
@@ -27,10 +26,7 @@ const Events = ({ showMenu }) => {
   ];
 
   return (
-    <div className={`py-2 px-2 transition-all duration-300 ${
-      showMenu ? "ml-28" : "ml-0"
-    }`}>
-      <Header showMenu={showMenu} />
+    <div className="min-h-screen bg-[#ffffff]">
       
       {/* Contenido principal de eventos */}
       <section className="py-12 px-4 md:px-8 max-w-7xl mx-auto">

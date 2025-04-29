@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Header from "../components/shared/Header";
 
-const Weather = ({ showMenu }) => {
+const Weather = () => {
   const [lastUpdated, setLastUpdated] = useState(new Date());
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
@@ -33,8 +32,7 @@ const Weather = ({ showMenu }) => {
   };
 
   return (
-    <div className={`py-2 px-2 transition-all duration-300 ${showMenu ? "ml-28" : "ml-0"}`}>
-      <Header showMenu={showMenu} />
+    <div className="min-h-screen bg-[#ffffff]">
       
       {/* Título y última actualización */}
       <section className="bg-[#000031] text-white py-8 px-4">

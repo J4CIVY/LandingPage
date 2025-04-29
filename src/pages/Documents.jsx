@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import Header from "../components/shared/Header";
 
-const Documents = ({ showMenu }) => {
+const Documents = () => {
   const [activeDoc, setActiveDoc] = useState("statutes");
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -68,7 +67,7 @@ const Documents = ({ showMenu }) => {
   };
 
   return (
-    <div className={`py-2 px-2 transition-all duration-300 ${showMenu ? "ml-28" : "ml-0"}`}>
+    <div className="min-h-screen bg-[#ffffff]">
       
       {/* Hero Section */}
       <section className="bg-[#000031] text-white py-16 px-4 md:px-20">

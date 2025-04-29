@@ -95,7 +95,7 @@ const Sos = () => {
   };
 
   return (
-    <div className={`transition-all duration-300`}>
+    <div className="min-h-screen bg-[#ffffff]">
 
       {/* Hero Section */}
       <section className="bg-[#000031] text-white py-16 px-4 md:px-20">

@@ -93,7 +93,7 @@ const Home = () => {
         </script>
       </SEO>
 
-      <div className="min-h-screen bg-gray-100">
+      <div className="min-h-screen bg-[#ffffff]">
 
         {/* Hero Section */}
         <section className="relative h-screen flex items-center justify-center bg-[#000031] overflow-hidden">
