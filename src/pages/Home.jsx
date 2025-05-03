@@ -10,15 +10,15 @@ const Home = () => {
   const upcomingEvents = [
     {
       id: 1,
-      title: 'Ruta Costera 2023',
+      title: 'PRIMER TINTO O AROMÁTICA MAYO 2025',
       date: '15 Octubre 2023',
-      description: 'Recorrido por la costa con paradas en los puntos más emblemáticos.',
-      location: 'Salida desde clubhouse'
+      description: 'Ven a compartir tu pasión por las motos en un espacio seguro. No importa si ya eres parte del BSK o solo quieres conocernos: aquí hablamos de rutas, seguridad y proyectos, siempre con respeto y café en mano.',
+      location: 'Glorieta de la Avenida Villavicencio con Autopista Sur, Bogotá'
     },
     {
       id: 2,
       title: 'Concentración Nacional',
-      date: '5 Noviembre 2023',
+      date: 'Sábado 3 de mayo de 2025',
       description: 'Encuentro nacional de clubs de motociclismo con exhibiciones y competiciones.',
       location: 'Circuito Central'
     },
@@ -201,7 +201,7 @@ const Home = () => {
                 {upcomingEvents.map(event => (
                   <div key={event.id} className="bg-white text-[#000031] rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105">
                     <div className="h-48 bg-gray-300 overflow-hidden">
-                      <img src={`/images/event-${event.id}.jpg`} alt={event.title} className="w-full h-full object-cover" />
+                      <img src={`/${event.id}.webp`} alt={event.title} className="w-full h-full object-cover" />
                     </div>
                     <div className="p-6">
                       <h3 className="text-xl font-bold mb-2">{event.title}</h3>
