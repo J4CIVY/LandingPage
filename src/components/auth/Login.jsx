@@ -17,18 +17,28 @@ const Login = () => {
     setIsLoading(true);
     setError("");
 
-    // Simulamos un delay de red (1 segundo)
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ correo: email, password }),
+      });
 
-    // Validación local (ejemplo básico)
-    if (email === "admin@bsk.com" && password === "123456") {
-      console.log("Login exitoso. Redirigiendo...");
-      // Mock: Guardamos un token ficticio en localStorage
-      localStorage.setItem("token", "mock-token-123");
-      window.location.href = "/"; // Redirigir al home (cambia esto por navigate si usas react-router)
-    } else {
-      setError("Credenciales incorrectas. Usa admin@bsk.com / 123456 para probar.");
+      const data = await res.json();
+
+      if (res.ok) {
+        localStorage.setItem("token", data.token);
+        window.location.href = "/"; // Redirige al home
+      } else {
+        setError(data.mensaje || "Credenciales inválidas.");
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      setError("Error de conexión con el servidor.");
     }
+
     setIsLoading(false);
   };
 
@@ -59,7 +69,7 @@ const Login = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full pl-10 p-2 border rounded focus:ring-2 focus:ring-[#FF0000] focus:border-transparent"
-                placeholder="admin@bsk.com"
+                placeholder="usuario@bskmt.com"
                 required
               />
             </div>
@@ -74,7 +84,7 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full pl-10 p-2 border rounded focus:ring-2 focus:ring-[#FF0000] focus:border-transparent"
-                placeholder="123456"
+                placeholder="••••••••"
                 required
               />
             </div>
