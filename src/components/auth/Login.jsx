@@ -1,8 +1,8 @@
 import { useState } from "react";
 import {
-    MdOutlineEmail,
-    MdLockOutline,
-    MdOutlineSportsMotorsports
+  MdOutlineEmail,
+  MdLockOutline,
+  MdOutlineSportsMotorsports
 } from "react-icons/md";
 import { Link } from "react-router-dom";
 
@@ -17,8 +17,17 @@ const Login = () => {
     setIsLoading(true);
     setError("");
 
+    const API_URL = import.meta.env.VITE_API_URL;
+    console.log("VITE_API_URL:", API_URL);
+
+    if (!API_URL) {
+      setError("VITE_API_URL no está definido. Verifica tu archivo .env.production.");
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
+      const res = await fetch(`${API_URL}/api/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,12 +39,12 @@ const Login = () => {
 
       if (res.ok) {
         localStorage.setItem("token", data.token);
-        window.location.href = "/"; // Redirige al home
+        window.location.href = "/";
       } else {
         setError(data.mensaje || "Credenciales inválidas.");
       }
     } catch (err) {
-      console.error("Error:", err);
+      console.error("Error de conexión:", err);
       setError("Error de conexión con el servidor.");
     }
 
