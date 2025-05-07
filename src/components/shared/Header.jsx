@@ -43,9 +43,9 @@ const Header = forwardRef((props, ref) => {
     <>
       <header 
         ref={setRefs} 
-        className="fixed w-full z-50 bg-[#000031] shadow-md py-3" // Añadido py-3 para espacio vertical
+        className="fixed w-full z-50 bg-[#000031] shadow-md py-2" // Añadido py-3 para espacio vertical
       >
-        <div className="container mx-auto px-5"> {/* Aumentado px-4 a px-5 */}
+        <div className="container mx-auto px-4"> {/* Aumentado px-4 a px-5 */}
           {/* Contenedor principal */}
           <div className="flex items-center justify-between h-full"> {/* Cambiado h-16 a h-full */}
             {/* Logo alineado a la izquierda */}
