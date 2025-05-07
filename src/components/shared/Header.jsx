@@ -82,25 +82,9 @@ const Header = forwardRef((props, ref) => {
               </ul>
             </nav>
 
-            {/* Botones de membresía (solo desktop) */}
-            <div className="hidden md:flex items-center space-x-4">
-              <button
-                className="bg-white text-[#000031] font-bold py-2 px-4 rounded hover:bg-[#00FF99] transition-colors"
-                onClick={() => navigate('/login')}
-              >
-                Hazte Miembro
-              </button>
-              <button
-                className="bg-white text-[#000031] font-bold py-2 px-4 rounded hover:bg-[#00FF99] transition-colors"
-                onClick={() => navigate('/login')}
-              >
-                Área de Miembros
-              </button>
-            </div>
-
             {/* Botón de menú hamburguesa (solo móvil) */}
             <button
-              className="md:hidden text-white focus:outline-none"
+              className="md:hidden text-white focus:outline-none mr-2"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label="Menú"
             >
@@ -114,7 +98,10 @@ const Header = forwardRef((props, ref) => {
 
         {/* Menú móvil desplegable */}
         {isMenuOpen && (
-          <div className="md:hidden fixed inset-0 bg-[#000031] z-40 overflow-y-auto pt-16">
+          <div 
+            className="md:hidden fixed inset-0 bg-[#000031] z-40 overflow-y-auto"
+            style={{ top: '64px' }} // Ajustamos para que quede debajo del header
+          >
             <div className="container mx-auto px-4 py-8 flex flex-col h-full">
               {/* Items del menú */}
               <ul className="flex-1 flex flex-col space-y-6">
