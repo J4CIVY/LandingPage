@@ -140,8 +140,8 @@ const Header = forwardRef((props, ref) => {
                   </button>
                   <div className="text-white text-sm">
                     <p>Contacto de emergencia:</p>
-                    <p>Teléfono: +XX XXX XXX XXX</p>
-                    <p>Email: emergencias@bskmotorcycle.com</p>
+                    <p>Teléfono: +57 312 519 2000</p>
+                    <p>Email: emergencias@bskmt.com</p>
                   </div>
                 </div>
               </div>
