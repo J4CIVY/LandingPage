@@ -210,7 +210,7 @@ const Home = () => {
                 {upcomingEvents.map(event => (
                   <div key={event.id} className="bg-white text-[#000031] rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105">
                     <div className="h-48 bg-gray-300 overflow-hidden">
-                      <img src={`/${event.id}.webp`} alt={event.title} className="w-full h-full object-cover" />
+                      <img src={`/${event.title}.webp`} alt={event.title} className="w-full h-full object-cover" />
                     </div>
                     <div className="p-6">
                       <h3 className="text-xl font-bold mb-2">{event.title}</h3>
