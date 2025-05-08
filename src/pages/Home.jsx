@@ -19,23 +19,23 @@ const Home = () => {
     {
       id: 1,
       title: 'Direct To Tocaima 2025',
-      date: '10 Mayo 2025',
+      date: 'Sabado 10 Mayo 2025',
       description: 'Una noche para sentir la carretera, con seguridad y hermanos de rutas. Al final, solo quedan los recuerdos y las ganas de repetirlo.',
-      location: 'EDS Terpel Chusacá (Autopista Sur Vía Soacha-Sibaté, Km 14).'
+      location: 'EDS Terpel Chusacá (Autopista Sur Vía Soacha-Sibaté, Km 14)'
     },
     {
       id: 2,
       title: 'Segundo Tinto O Aromatica Mayo 2025',
       date: 'Sábado 17 de mayo de 2025',
-      description: 'Ven a compartir tu pasión por las motos en un espacio seguro. No importa si ya eres parte del BSK o solo quieres conocernos: aquí hablamos de rutas, seguridad y proyectos, siempre con respeto y café en mano.',
-      location: 'Glorieta de la Avenida Villavicencio con Autopista Sur, Bogotá'
+      description: 'Ven a compartir tu pasión por las motos en un espacio seguro. No importa si ya eres parte de BSK o solo quieres conocernos.',
+      location: 'Glorieta de la Avenida Villavicencio con Autopista Sur'
     },
     {
       id: 3,
       title: 'Road To Guamal Meta 2025',
-      date: '25 Mayo 2025',
-      description: 'Aprende los fundamentos del mantenimiento de tu moto con nuestros expertos.',
-      location: 'Taller BSK'
+      date: 'Domingo 25 Mayo 2025',
+      description: 'Un viaje donde el destino es tan bueno como el camino. Disfruta la ruta, el agua y la hermandad BSK.',
+      location: 'EDS Primax El Éxito (Autopista Bogotá-Villavicencio, Km 1)'
     }
   ];
 
