@@ -40,10 +40,12 @@ const Home = () => {
   ];
 
   const galleryImages = [
-    { id: 1, src: '/comida.png', alt: 'Evento anual 2022' },
-    { id: 2, src: '/comida.png', alt: 'Ruta de montaña' },
-    { id: 3, src: '/comida.png', alt: 'Concentración regional' },
-    { id: 4, src: '/comida.png', alt: 'Miembros del club' }
+    { id: 1, src: '/Banner_Algunos_Miembros_Motoclub_BSK_Motocycle_Team.webp', alt: 'Algunos Miembros De BSK Motorcycle Team' },
+    { id: 2, src: '/Banner_Capacitacion_Seguridad_Vial_2025_BSK_Motocycle_Team.webp', alt: 'Capacitacion Suridad Vial 2025' },
+    { id: 3, src: '/Banner_Direct_To_Chochi_2025_Motoclub_BSK_Motocycle_Team.webp', alt: 'Direct To Chiachi 2025' },
+    { id: 4, src: '/Banner_Primer_Tinto_o_Aromatica_Junio_2024_Motoclub_BSK_Motorcycle_Team.webp', alt: 'Primer Tinto O Aromatica Junio 2024' },
+    { id: 5, src: '/Banner_Road_To_Villeta_2023_Motoclub_BSK_Motorcycle_Team.webp', alt: 'Roa To Villeta 2023' },
+    { id: 6, src: '/Banner_Tour_Andino_2023_Motoclub_BSK_Motocycle_Team.webp', alt: 'Tour Andino 2023' }
   ];
 
   const featuredProducts = [
