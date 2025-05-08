@@ -112,7 +112,10 @@ const Home = () => {
               src="/Banner_Home_Motoclub_BSK_Motorcycle_Team.webp"
               alt="BSK Motorcycle Team"
               className="w-full h-full object-cover"
-              style={{ aspectRatio: '16/9' }}
+              style={{
+                aspectRatio: '16/9',
+                objectPosition: 'center center'
+              }}
             />
             <div className="absolute inset-0 bg-black opacity-50"></div>
           </div>
@@ -209,8 +212,12 @@ const Home = () => {
               <div className="grid md:grid-cols-3 gap-8">
                 {upcomingEvents.map(event => (
                   <div key={event.id} className="bg-white text-[#000031] rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105">
-                    <div className="h-48 bg-gray-300 overflow-hidden">
-                      <img src={`/${event.title}.webp`} alt={event.title} className="w-full h-full object-cover" />
+                    <div className="relative" style={{ aspectRatio: '16/9' }}>
+                      <img
+                        src={`/${event.title}.webp`}
+                        alt={event.title}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <div className="p-6">
                       <h3 className="text-xl font-bold mb-2">{event.title}</h3>
@@ -248,7 +255,7 @@ const Home = () => {
               GALERÍA <span className="text-[#FF0000]">MULTIMEDIA</span>
             </h2>
 
-            <div className="relative h-96 mb-8 rounded-xl overflow-hidden shadow-xl">
+            <div className="relative mb-8 rounded-xl overflow-hidden shadow-xl" style={{ aspectRatio: '16/9' }}>
               <img
                 src={galleryImages[activeGalleryImage].src}
                 alt={galleryImages[activeGalleryImage].alt}
@@ -276,18 +283,6 @@ const Home = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </button>
-            </div>
-
-            <div className="grid grid-cols-4 gap-4">
-              {galleryImages.map((image, index) => (
-                <button
-                  key={image.id}
-                  onClick={() => setActiveGalleryImage(index)}
-                  className={`h-24 rounded-lg overflow-hidden transition-all ${activeGalleryImage === index ? 'ring-4 ring-[#FF0000] transform scale-105' : 'opacity-70 hover:opacity-100'}`}
-                >
-                  <img src={image.src} alt={image.alt} className="w-full h-full object-cover" />
-                </button>
-              ))}
             </div>
           </div>
         </section>
@@ -508,8 +503,12 @@ const Home = () => {
             <div className="grid md:grid-cols-3 gap-8">
               {featuredProducts.map(product => (
                 <div key={product.id} className="bg-gray-50 rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105">
-                  <div className="h-64 bg-gray-200 overflow-hidden">
-                    <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                  <div className="relative" style={{ aspectRatio: '1/1' }}>
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-full object-contain p-4 bg-white"
+                    />
                   </div>
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-[#000031] mb-2">{product.name}</h3>
