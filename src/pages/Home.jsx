@@ -18,7 +18,7 @@ const Home = () => {
   const upcomingEvents = [
     {
       id: 1,
-      title: 'PRIMER TINTO O AROMÁTICA MAYO 2025',
+      title: 'Primer Tinto O Aromatica Mayo 2025 BSK Motorcycle Team',
       date: '15 Octubre 2023',
       description: 'Ven a compartir tu pasión por las motos en un espacio seguro. No importa si ya eres parte del BSK o solo quieres conocernos: aquí hablamos de rutas, seguridad y proyectos, siempre con respeto y café en mano.',
       location: 'Glorieta de la Avenida Villavicencio con Autopista Sur, Bogotá'
