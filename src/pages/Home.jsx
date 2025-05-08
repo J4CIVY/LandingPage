@@ -475,20 +475,20 @@ const Home = () => {
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="bg-white p-8 rounded-xl shadow-lg">
                   <div className="flex items-center mb-6">
-                    <img src="/images/member1.jpg" alt="Miembro" className="w-16 h-16 rounded-full mr-6" />
+                    <img src="/member1.webp" alt="Miembro" className="w-16 h-16 rounded-full mr-6" />
                     <div>
                       <h4 className="text-xl font-bold text-[#000031]">Carlos Méndez</h4>
-                      <p className="text-[#00FF99]">Miembro desde 2019</p>
+                      <p className="text-[#00FF99]">Miembro desde 2024</p>
                     </div>
                   </div>
                   <p className="text-gray-700 italic">"La asistencia en carretera que ofrece el club me dio tranquilidad en mi último viaje largo. Saber que tenía apoyo en caso de emergencia hizo toda la diferencia."</p>
                 </div>
                 <div className="bg-white p-8 rounded-xl shadow-lg">
                   <div className="flex items-center mb-6">
-                    <img src="/images/member2.jpg" alt="Miembro" className="w-16 h-16 rounded-full mr-6" />
+                    <img src="/member2.webp" alt="Miembro" className="w-16 h-16 rounded-full mr-6" />
                     <div>
                       <h4 className="text-xl font-bold text-[#000031]">Laura Torres</h4>
-                      <p className="text-[#00FF99]">Miembro desde 2020</p>
+                      <p className="text-[#00FF99]">Miembro desde 2022</p>
                     </div>
                   </div>
                   <p className="text-gray-700 italic">"Los descuentos en repuestos y talleres ya han cubierto el costo de mi membresía varias veces. Además, la comunidad es increíble, he hecho amigos para toda la vida."</p>
