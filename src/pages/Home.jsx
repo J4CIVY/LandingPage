@@ -159,14 +159,14 @@ const Home = () => {
 
               <div className="relative h-96 rounded-xl overflow-hidden shadow-2xl">
                 <img
-                  src="/images/about-us.jpg"
-                  alt="Miembros del BSK Motorcycle Team"
+                  src="/Banner_Tour_Andino_Motoclub_BSK_Motocycle_Team_2023_Carlos.webp"
+                  alt="Miembros De BSK Motorcycle Team"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#000031] to-transparent opacity-70"></div>
                 <div className="absolute bottom-0 left-0 p-6 text-white">
                   <p className="text-xl italic">"No es solo un club, es una familia sobre ruedas."</p>
-                  <p className="mt-2 font-semibold">- Carlos M., Miembro desde 2010</p>
+                  <p className="mt-2 font-semibold">- Carlos M., Miembro desde 2022</p>
                 </div>
               </div>
             </div>
