@@ -97,16 +97,15 @@ const Home = () => {
 
         {/* Hero Section */}
         <section className="relative h-screen flex items-center justify-center bg-[#000031] overflow-hidden">
-          <div className="absolute inset-0 bg-black opacity-50"></div>
-          <video
-            autoPlay
-            loop
-            muted
-            className="absolute z-0 w-auto min-w-full min-h-full max-w-none"
-          >
-            <source src="/Motorcycle_Hero.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+          <div className="absolute inset-0 w-full h-full">
+            <img
+              src="/Banner_Home_Motoclub_BSK_Motorcycle_Team.webp"
+              alt="BSK Motorcycle Team"
+              className="w-full h-full object-cover"
+              style={{ aspectRatio: '16/9' }}
+            />
+            <div className="absolute inset-0 bg-black opacity-50"></div>
+          </div>
 
           <div className="relative z-10 text-center px-4">
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in">
