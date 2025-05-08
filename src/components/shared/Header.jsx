@@ -57,7 +57,7 @@ const Header = forwardRef((props, ref) => {
               <img
                 src="/Logo_Letras_Motoclub_BSK_Motorcycle_Team_White_192X192.webp"
                 alt="Logo Motoclub BSK Motorcycle Team"
-                className="w-[100px] md:w-[120px] h-auto object-contain"
+                className="w-[80px] md:w-[100px] h-auto object-contain"
                 width={90}
                 height={90}
                 loading="lazy"
