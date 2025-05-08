@@ -549,7 +549,7 @@ const Home = () => {
               {blogPosts.map(post => (
                 <div key={post.id} className="bg-white rounded-xl overflow-hidden shadow-lg">
                   <div className="h-48 bg-gray-300 overflow-hidden">
-                    <img src={`/images/blog-${post.id}.jpg`} alt={post.title} className="w-full h-full object-cover" />
+                    <img src={`/${post.title}.webp`} alt={post.title} className="w-full h-full object-cover" />
                   </div>
                   <div className="p-6">
                     <p className="text-sm text-gray-500 mb-2">{post.date}</p>
