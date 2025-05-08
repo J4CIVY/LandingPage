@@ -289,86 +289,199 @@ const Home = () => {
               BENEFICIOS DE <span className="text-[#00FF99]">SER MIEMBRO</span>
             </h2>
 
-            <div className="grid md:grid-cols-2 gap-12">
-              <div>
-                <h3 className="text-2xl font-semibold text-[#000031] mb-6">Ventajas Exclusivas</h3>
-
-                <div className="space-y-6">
-                  <div className="flex items-start">
-                    <div className="bg-[#000031] text-white p-3 rounded-full mr-4">
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h4 className="text-lg font-semibold text-[#000031]">Descuentos en Talleres</h4>
-                      <p className="text-gray-700">15% de descuento en todos los talleres asociados al club.</p>
-                    </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Beneficios Sociales */}
+              <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+                <div className="flex items-center mb-4">
+                  <div className="bg-[#000031] text-white p-3 rounded-full mr-4">
+                    <span className="text-xl">🏍️</span>
                   </div>
-
-                  <div className="flex items-start">
-                    <div className="bg-[#000031] text-white p-3 rounded-full mr-4">
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h4 className="text-lg font-semibold text-[#000031]">Eventos Privados</h4>
-                      <p className="text-gray-700">Acceso a eventos exclusivos para miembros del club.</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start">
-                    <div className="bg-[#000031] text-white p-3 rounded-full mr-4">
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h4 className="text-lg font-semibold text-[#000031]">Seguro Colectivo</h4>
-                      <p className="text-gray-700">Tarifas especiales en seguros para motociclistas.</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start">
-                    <div className="bg-[#000031] text-white p-3 rounded-full mr-4">
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h4 className="text-lg font-semibold text-[#000031]">Asistencia en Ruta</h4>
-                      <p className="text-gray-700">Servicio de asistencia en carretera las 24 horas.</p>
-                    </div>
-                  </div>
+                  <h3 className="text-xl font-bold text-[#000031]">Comunidad</h3>
                 </div>
+                <ul className="space-y-3">
+                  <li className="flex items-start">
+                    <span className="text-[#00FF99] mr-2">✔</span>
+                    <span>Pertenencia a comunidad con intereses comunes</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#00FF99] mr-2">✔</span>
+                    <span>Red de apoyo entre motociclistas</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#00FF99] mr-2">✔</span>
+                    <span>Amistades duraderas</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#00FF99] mr-2">✔</span>
+                    <span>Reuniones y encuentros regulares</span>
+                  </li>
+                </ul>
               </div>
 
-              <div>
-                <h3 className="text-2xl font-semibold text-[#000031] mb-6">Testimonios</h3>
-
-                <div className="space-y-6">
-                  <div className="bg-white p-6 rounded-xl shadow-md">
-                    <div className="flex items-center mb-4">
-                      <img src="/images/member1.jpg" alt="Miembro" className="w-12 h-12 rounded-full mr-4" />
-                      <div>
-                        <h4 className="font-semibold text-[#000031]">Ana Rodríguez</h4>
-                        <p className="text-sm text-gray-600">Miembro desde 2018</p>
-                      </div>
-                    </div>
-                    <p className="text-gray-700 italic">"Unirme al BSK fue la mejor decisión. No solo he hecho amigos increíbles, sino que he descubierto rutas que nunca hubiera imaginado."</p>
+              {/* Beneficios Técnicos */}
+              <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+                <div className="flex items-center mb-4">
+                  <div className="bg-[#000031] text-white p-3 rounded-full mr-4">
+                    <span className="text-xl">🛠️</span>
                   </div>
+                  <h3 className="text-xl font-bold text-[#000031]">Asistencia Técnica</h3>
+                </div>
+                <ul className="space-y-3">
+                  <li className="flex items-start">
+                    <span className="text-[#00FF99] mr-2">✔</span>
+                    <span>Asistencia mecánica básica entre miembros</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#00FF99] mr-2">✔</span>
+                    <span>Descuentos en servicios mecánicos</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#00FF99] mr-2">✔</span>
+                    <span>Acceso a conocimientos técnicos compartidos</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#00FF99] mr-2">✔</span>
+                    <span>Talleres de mantenimiento y seguridad</span>
+                  </li>
+                </ul>
+              </div>
 
-                  <div className="bg-white p-6 rounded-xl shadow-md">
-                    <div className="flex items-center mb-4">
-                      <img src="/images/member2.jpg" alt="Miembro" className="w-12 h-12 rounded-full mr-4" />
-                      <div>
-                        <h4 className="font-semibold text-[#000031]">Javier López</h4>
-                        <p className="text-sm text-gray-600">Miembro desde 2015</p>
-                      </div>
-                    </div>
-                    <p className="text-gray-700 italic">"La organización de los eventos es impecable. Siempre nos sentimos seguros y bien atendidos en cada salida."</p>
+              {/* Beneficios Económicos */}
+              <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+                <div className="flex items-center mb-4">
+                  <div className="bg-[#000031] text-white p-3 rounded-full mr-4">
+                    <span className="text-xl">💰</span>
                   </div>
+                  <h3 className="text-xl font-bold text-[#000031]">Ventajas Económicas</h3>
+                </div>
+                <ul className="space-y-3">
+                  <li className="flex items-start">
+                    <span className="text-[#00FF99] mr-2">✔</span>
+                    <span>Descuentos en ropa y accesorios</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#00FF99] mr-2">✔</span>
+                    <span>Convenios con aseguradoras</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#00FF99] mr-2">✔</span>
+                    <span>Beneficios en combustible</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#00FF99] mr-2">✔</span>
+                    <span>Compra colectiva con precios reducidos</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Beneficios Recreativos */}
+              <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+                <div className="flex items-center mb-4">
+                  <div className="bg-[#000031] text-white p-3 rounded-full mr-4">
+                    <span className="text-xl">🎉</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-[#000031]">Actividades Recreativas</h3>
+                </div>
+                <ul className="space-y-3">
+                  <li className="flex items-start">
+                    <span className="text-[#00FF99] mr-2">✔</span>
+                    <span>Rutas y viajes grupales</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#00FF99] mr-2">✔</span>
+                    <span>Acceso preferencial a eventos</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#00FF99] mr-2">✔</span>
+                    <span>Celebraciones exclusivas</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#00FF99] mr-2">✔</span>
+                    <span>Sorteos y rifas internas</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Beneficios Formativos */}
+              <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+                <div className="flex items-center mb-4">
+                  <div className="bg-[#000031] text-white p-3 rounded-full mr-4">
+                    <span className="text-xl">🧠</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-[#000031]">Formación</h3>
+                </div>
+                <ul className="space-y-3">
+                  <li className="flex items-start">
+                    <span className="text-[#00FF99] mr-2">✔</span>
+                    <span>Charlas sobre seguridad vial</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#00FF99] mr-2">✔</span>
+                    <span>Conducción defensiva</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#00FF99] mr-2">✔</span>
+                    <span>Capacitación para diferentes terrenos</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#00FF99] mr-2">✔</span>
+                    <span>Charlas de liderazgo y crecimiento</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Beneficios de Seguridad */}
+              <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+                <div className="flex items-center mb-4">
+                  <div className="bg-[#000031] text-white p-3 rounded-full mr-4">
+                    <span className="text-xl">🛡️</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-[#000031]">Seguridad</h3>
+                </div>
+                <ul className="space-y-3">
+                  <li className="flex items-start">
+                    <span className="text-[#00FF99] mr-2">✔</span>
+                    <span>Apoyo en carretera en emergencias</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#00FF99] mr-2">✔</span>
+                    <span>Sistemas de localización en salidas</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#00FF99] mr-2">✔</span>
+                    <span>Protocolos de seguridad para salidas</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#00FF99] mr-2">✔</span>
+                    <span>Red de apoyo en viajes largos</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Testimonios (se mantienen igual) */}
+            <div className="mt-16">
+              <h3 className="text-2xl font-semibold text-[#000031] mb-8 text-center">TESTIMONIOS DE MIEMBROS</h3>
+              <div className="grid md:grid-cols-2 gap-8">
+                <div className="bg-white p-8 rounded-xl shadow-lg">
+                  <div className="flex items-center mb-6">
+                    <img src="/images/member1.jpg" alt="Miembro" className="w-16 h-16 rounded-full mr-6" />
+                    <div>
+                      <h4 className="text-xl font-bold text-[#000031]">Carlos Méndez</h4>
+                      <p className="text-[#00FF99]">Miembro desde 2019</p>
+                    </div>
+                  </div>
+                  <p className="text-gray-700 italic">"La asistencia en carretera que ofrece el club me dio tranquilidad en mi último viaje largo. Saber que tenía apoyo en caso de emergencia hizo toda la diferencia."</p>
+                </div>
+                <div className="bg-white p-8 rounded-xl shadow-lg">
+                  <div className="flex items-center mb-6">
+                    <img src="/images/member2.jpg" alt="Miembro" className="w-16 h-16 rounded-full mr-6" />
+                    <div>
+                      <h4 className="text-xl font-bold text-[#000031]">Laura Torres</h4>
+                      <p className="text-[#00FF99]">Miembro desde 2020</p>
+                    </div>
+                  </div>
+                  <p className="text-gray-700 italic">"Los descuentos en repuestos y talleres ya han cubierto el costo de mi membresía varias veces. Además, la comunidad es increíble, he hecho amigos para toda la vida."</p>
                 </div>
               </div>
             </div>
