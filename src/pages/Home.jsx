@@ -1,5 +1,13 @@
 import React, { useState } from "react";
 import SEO from "../components/shared/SEO";
+import { 
+  FaUsers, 
+  FaTools, 
+  FaMoneyBillWave, 
+  FaGlassCheers, 
+  FaGraduationCap, 
+  FaShieldAlt 
+} from 'react-icons/fa';
 
 const Home = () => {
 
@@ -294,7 +302,7 @@ const Home = () => {
               <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
                 <div className="flex items-center mb-4">
                   <div className="bg-[#000031] text-white p-3 rounded-full mr-4">
-                    <span className="text-xl">🏍️</span>
+                    <FaUsers className="w-6 h-6" />
                   </div>
                   <h3 className="text-xl font-bold text-[#000031]">Comunidad</h3>
                 </div>
@@ -322,7 +330,7 @@ const Home = () => {
               <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
                 <div className="flex items-center mb-4">
                   <div className="bg-[#000031] text-white p-3 rounded-full mr-4">
-                    <span className="text-xl">🛠️</span>
+                    <FaTools className="w-6 h-6" /> {/* Icono de herramientas */}
                   </div>
                   <h3 className="text-xl font-bold text-[#000031]">Asistencia Técnica</h3>
                 </div>
@@ -350,7 +358,7 @@ const Home = () => {
               <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
                 <div className="flex items-center mb-4">
                   <div className="bg-[#000031] text-white p-3 rounded-full mr-4">
-                    <span className="text-xl">💰</span>
+                    <FaMoneyBillWave className="w-6 h-6" /> {/* Icono de dinero */}
                   </div>
                   <h3 className="text-xl font-bold text-[#000031]">Ventajas Económicas</h3>
                 </div>
@@ -378,7 +386,7 @@ const Home = () => {
               <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
                 <div className="flex items-center mb-4">
                   <div className="bg-[#000031] text-white p-3 rounded-full mr-4">
-                    <span className="text-xl">🎉</span>
+                    <FaGlassCheers className="w-6 h-6" /> {/* Icono de celebración */}
                   </div>
                   <h3 className="text-xl font-bold text-[#000031]">Actividades Recreativas</h3>
                 </div>
@@ -406,7 +414,7 @@ const Home = () => {
               <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
                 <div className="flex items-center mb-4">
                   <div className="bg-[#000031] text-white p-3 rounded-full mr-4">
-                    <span className="text-xl">🧠</span>
+                    <FaGraduationCap className="w-6 h-6" /> {/* Icono de formación */}
                   </div>
                   <h3 className="text-xl font-bold text-[#000031]">Formación</h3>
                 </div>
@@ -434,7 +442,7 @@ const Home = () => {
               <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
                 <div className="flex items-center mb-4">
                   <div className="bg-[#000031] text-white p-3 rounded-full mr-4">
-                    <span className="text-xl">🛡️</span>
+                    <FaShieldAlt className="w-6 h-6" /> {/* Icono de escudo */}
                   </div>
                   <h3 className="text-xl font-bold text-[#000031]">Seguridad</h3>
                 </div>
@@ -459,7 +467,7 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Testimonios (se mantienen igual) */}
+            {/* Testimonios */}
             <div className="mt-16">
               <h3 className="text-2xl font-semibold text-[#000031] mb-8 text-center">TESTIMONIOS DE MIEMBROS</h3>
               <div className="grid md:grid-cols-2 gap-8">
