@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SEO from "../components/shared/SEO";
 import {
   FaUsers,
@@ -10,7 +10,6 @@ import {
 } from 'react-icons/fa';
 
 const Home = () => {
-
   const [activeTab, setActiveTab] = useState('events');
   const [activeGalleryImage, setActiveGalleryImage] = useState(0);
 
@@ -58,6 +57,17 @@ const Home = () => {
     { id: 1, title: 'Consejos para viajes largos en moto', excerpt: 'Aprende cómo prepararte para tus aventuras en carretera...', date: '10 Sept 2023' },
     { id: 2, title: 'Nuevas regulaciones de seguridad', excerpt: 'Los cambios en la normativa que todo motociclista debe conocer...', date: '28 Ago 2023' }
   ];
+
+  // Efecto para el carrusel automático
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveGalleryImage((prev) =>
+        prev === galleryImages.length - 1 ? 0 : prev + 1
+      );
+    }, 5000); // Cambia cada 5 segundos (5000 milisegundos)
+
+    return () => clearInterval(interval); // Limpia el intervalo al desmontar
+  }, []); // El array vacío asegura que solo se ejecute una vez
 
   return (
     <>
@@ -255,34 +265,37 @@ const Home = () => {
               GALERÍA <span className="text-[#FF0000]">MULTIMEDIA</span>
             </h2>
 
-            <div className="relative mb-8 rounded-xl overflow-hidden shadow-xl" style={{ aspectRatio: '16/9' }}>
-              <img
-                src={galleryImages[activeGalleryImage].src}
-                alt={galleryImages[activeGalleryImage].alt}
-                className="w-full h-full object-cover"
-              />
+            <div className="relative mb-8 rounded-xl overflow-hidden shadow-xl group" style={{ aspectRatio: '16/9' }}>
+              {/* Imagen principal con transición suave */}
+              <div className="relative w-full h-full">
+                {galleryImages.map((image, index) => (
+                  <img
+                    key={image.id}
+                    src={image.src}
+                    alt={image.alt}
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${index === activeGalleryImage ? 'opacity-100' : 'opacity-0'}`}
+                    loading="lazy"
+                  />
+                ))}
+              </div>
+
+              {/* Overlay y texto */}
               <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50"></div>
               <div className="absolute bottom-0 left-0 p-6 text-white">
                 <p className="text-xl">{galleryImages[activeGalleryImage].alt}</p>
               </div>
 
-              <button
-                onClick={() => setActiveGalleryImage((prev) => (prev === 0 ? galleryImages.length - 1 : prev - 1))}
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-
-              <button
-                onClick={() => setActiveGalleryImage((prev) => (prev === galleryImages.length - 1 ? 0 : prev + 1))}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
+              {/* Indicadores de posición (puntos) */}
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                {galleryImages.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setActiveGalleryImage(index)}
+                    className={`w-3 h-3 rounded-full transition-all ${index === activeGalleryImage ? 'bg-[#FF0000] w-6' : 'bg-white bg-opacity-50'}`}
+                    aria-label={`Ir a imagen ${index + 1}`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -537,7 +550,7 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Blog o Noticias */}
+        {/* Blog o Noticias - Versión Modificada */}
         <section className="py-20 px-4 bg-gray-100">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-4xl font-bold text-center text-[#000031] mb-12">
@@ -546,9 +559,15 @@ const Home = () => {
 
             <div className="grid md:grid-cols-2 gap-8 mb-12">
               {blogPosts.map(post => (
-                <div key={post.id} className="bg-white rounded-xl overflow-hidden shadow-lg">
-                  <div className="h-48 bg-gray-300 overflow-hidden">
-                    <img src={`/${post.title}.webp`} alt={post.title} className="w-full h-full object-cover" />
+                <div key={post.id} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                  {/* Contenedor de imagen con relación de aspecto fija */}
+                  <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
+                    <img
+                      src={`/${post.title}.webp`}
+                      alt={post.title}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
                   </div>
                   <div className="p-6">
                     <p className="text-sm text-gray-500 mb-2">{post.date}</p>
@@ -565,9 +584,9 @@ const Home = () => {
               ))}
             </div>
 
+            {/* Preguntas Frecuentes (sin cambios ya que no contiene imágenes) */}
             <div className="bg-white rounded-xl p-8 shadow-lg">
               <h3 className="text-2xl font-bold text-[#000031] mb-6 text-center">PREGUNTAS FRECUENTES</h3>
-
               <div className="space-y-4">
                 <div className="border-b border-gray-200 pb-4">
                   <button className="flex justify-between items-center w-full text-left">
