@@ -18,22 +18,22 @@ const Home = () => {
   const upcomingEvents = [
     {
       id: 1,
-      title: 'Primer Tinto O Aromatica Mayo 2025 BSK Motorcycle Team',
-      date: '15 Octubre 2023',
+      title: 'Direct To Tocaima 2025',
+      date: '10 Mayo 2025',
+      description: 'Una noche para sentir la carretera, con seguridad y hermanos de rutas. Al final, solo quedan los recuerdos y las ganas de repetirlo.',
+      location: 'EDS Terpel Chusacá (Autopista Sur Vía Soacha-Sibaté, Km 14).'
+    },
+    {
+      id: 2,
+      title: 'Segundo Tinto O Aromatica Mayo 2025',
+      date: 'Sábado 17 de mayo de 2025',
       description: 'Ven a compartir tu pasión por las motos en un espacio seguro. No importa si ya eres parte del BSK o solo quieres conocernos: aquí hablamos de rutas, seguridad y proyectos, siempre con respeto y café en mano.',
       location: 'Glorieta de la Avenida Villavicencio con Autopista Sur, Bogotá'
     },
     {
-      id: 2,
-      title: 'Concentración Nacional',
-      date: 'Sábado 3 de mayo de 2025',
-      description: 'Encuentro nacional de clubs de motociclismo con exhibiciones y competiciones.',
-      location: 'Circuito Central'
-    },
-    {
       id: 3,
-      title: 'Taller de Mantenimiento',
-      date: '20 Noviembre 2023',
+      title: 'Road To Guamal Meta 2025',
+      date: '25 Mayo 2025',
       description: 'Aprende los fundamentos del mantenimiento de tu moto con nuestros expertos.',
       location: 'Taller BSK'
     }
