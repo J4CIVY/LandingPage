@@ -12,6 +12,7 @@ import Home from "./pages/Home";
 import Header from "./components/shared/Header";
 import Footer from "./components/shared/Footer";
 import CookieBanner from "./components/shared/CookieBanner";
+import CookiePolicy from "./components/shared/CookiePolicy";
 
 function App() {
   const headerRef = useRef();
@@ -75,6 +76,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/documents" element={<Documents />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/cookie-policy" element={<CookiePolicy />} />
           </Routes>
         </main>
 
