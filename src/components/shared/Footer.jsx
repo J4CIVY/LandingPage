@@ -104,7 +104,7 @@ const Footer = () => {
       </section>
 
       {/* Cuarta Sección - Copyright */}
-      <section className="py-6 px-4 border-t border-white">
+      <section className="py-6 px-4 border-t border-[#000031]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center text-xs md:text-sm space-y-2">
             <p>
