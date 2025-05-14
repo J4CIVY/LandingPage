@@ -10,7 +10,8 @@ import Courses from "./pages/Courses";
 import Events from "./pages/Events";
 import Home from "./pages/Home";
 import Header from "./components/shared/Header";
-import Footer from "./components/shared/Footer"; // Importa el componente Footer
+import Footer from "./components/shared/Footer";
+import CookieBanner from './components/CookieBanner';
 
 function App() {
   const headerRef = useRef();
@@ -78,6 +79,7 @@ function App() {
         </main>
 
         {/* Agrega el Footer aquí */}
+        <CookieBanner />
         <Footer />
       </div>
     </Router>
