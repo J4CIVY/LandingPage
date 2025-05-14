@@ -27,11 +27,11 @@ const About = () => {
             <div>
               <h3 className="text-2xl font-semibold mb-4">Los Comienzos</h3>
               <p className="mb-6">
-                BSK Motorcycle Team nació en 2010 de la pasión compartida por un grupo de amigos amantes de las motos. 
+                BSK Motorcycle Team nació en 2022 de la pasión compartida por un grupo de amigos amantes de las motos. 
                 Lo que comenzó como salidas casuales los fines de semana, pronto se convirtió en un movimiento organizado.
               </p>
               <p className="mb-6">
-                En 2012, oficializamos nuestro club con el objetivo de promover el motociclismo responsable y crear 
+                En 2022, oficializamos nuestro club con el objetivo de promover el motociclismo responsable y crear 
                 una comunidad donde la camaradería y el respeto fueran los pilares fundamentales.
               </p>
             </div>
@@ -47,13 +47,17 @@ const About = () => {
             <div className="order-1 md:order-2">
               <h3 className="text-2xl font-semibold mb-4">Crecimiento y Reconocimiento</h3>
               <p className="mb-6">
-                Para 2015, BSK ya contaba con más de 50 miembros activos y habíamos organizado nuestro primer evento 
-                benéfico, recaudando fondos para causas locales. Este fue el primero de muchos eventos que marcarían 
-                nuestro compromiso con la comunidad.
+                Al finalizar el primer año, BSK ya contaba con 17 miembros activos y habíamos organizado varios eventos 
+                entre ellos el Tour Andino, Tour De Los LLanos, Tour Navideño, Road To Villeta, Road To Guamal, 
+                Road To Girardot, We Come And Go Tocaima, We Come And Go Choachi, We Come And Go La Calera, Direct To F2R, 
+                adicionalmente realizamos algunos eventos benéficos, recaudando fondos para causas locales y realizamos 
+                algunas capacitaciones en seguridad vial y y tecnicas de manejo. Estos fueron los primeros de muchos eventos 
+                que marcarían nuestro compromiso con la comunidad.
               </p>
               <p>
-                Hoy, con más de 200 miembros en toda la región, seguimos creciendo manteniendo nuestros valores 
-                originales: pasión por las motos, respeto por la vida y compromiso con nuestra comunidad.
+                Hoy, contamos con exactamente 39 miembros activos en Bogotá y cundinamarca, y algo mas de 150 seguidores y 
+                seguimos creciendo manteniendo nuestros valores originales: pasión por las motos, respeto por la vida y 
+                compromiso con nuestra comunidad.
               </p>
             </div>
             <div className="order-2 md:order-1 bg-gray-800 rounded-lg overflow-hidden h-64 md:h-96">
@@ -93,8 +97,9 @@ const About = () => {
               </div>
               <h3 className="text-2xl font-semibold mb-4">Visión</h3>
               <p>
-                Ser reconocidos como el club de motociclistas más respetado de la región, conocido por nuestros 
-                altos estándares éticos, nuestro compromiso con la seguridad vial y nuestro espíritu de comunidad.
+                Ser reconocidos como el club de motociclistas más respetado de Bogotá, Colombia, Amedrica y el mundo, 
+                conocido por nuestros altos estándares éticos, nuestro compromiso con la seguridad vial y nuestro 
+                espíritu de comunidad.
               </p>
             </article>
 
@@ -127,8 +132,8 @@ const About = () => {
             <div>
               <h3 className="text-2xl font-bold mb-4">Hermandad</h3>
               <p>
-                En BSK no somos solo compañeros de ruta, somos familia. Apoyamos a nuestros miembros en las buenas 
-                y en las malas, dentro y fuera de la carretera.
+                En BSK Motorcycle Team no somos solo compañeros de ruta, somos familia. Apoyamos a nuestros miembros 
+                en las buenas y en las malas, dentro y fuera de la carretera.
               </p>
             </div>
             <div>
@@ -166,7 +171,7 @@ const About = () => {
                 "Unirme a BSK fue la mejor decisión que pude tomar. No solo he hecho amigos para toda la vida, 
                 sino que he aprendido a ser un motociclista más seguro y responsable."
               </p>
-              <p className="font-semibold">- Carlos, miembro desde 2015</p>
+              <p className="font-semibold">- Carlos, miembro desde 2022</p>
             </article>
 
             <article className="bg-white text-primary p-6 rounded-lg shadow-lg">
@@ -174,7 +179,7 @@ const About = () => {
                 "Los eventos benéficos que organizamos me llenan de orgullo. Demostramos que los motociclistas 
                 podemos ser una fuerza positiva en la comunidad."
               </p>
-              <p className="font-semibold">- Ana, miembro desde 2018</p>
+              <p className="font-semibold">- Ana, miembro desde 2022</p>
             </article>
 
             <article className="bg-white text-primary p-6 rounded-lg shadow-lg md:col-span-2 lg:col-span-1">
@@ -182,7 +187,7 @@ const About = () => {
                 "Como mujer motociclista, encontré en BSK un espacio de respeto e igualdad. Aquí lo único que 
                 importa es la pasión por las motos."
               </p>
-              <p className="font-semibold">- Laura, miembro desde 2020</p>
+              <p className="font-semibold">- Laura, miembro desde 2024</p>
             </article>
           </div>
         </div>
