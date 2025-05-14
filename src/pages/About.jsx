@@ -3,7 +3,7 @@ import { FaMotorcycle, FaHandsHelping, FaShieldAlt } from 'react-icons/fa';
 
 const About = () => {
   return (
-    <main className="min-h-screen bg-primary text-white">
+    <main className="min-h-screen bg-primary text-slate-950">
       {/* Hero Section */}
       <section className="relative py-20 px-4 bg-primary">
         <div className="max-w-6xl mx-auto">
