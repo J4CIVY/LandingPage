@@ -11,7 +11,7 @@ import Events from "./pages/Events";
 import Home from "./pages/Home";
 import Header from "./components/shared/Header";
 import Footer from "./components/shared/Footer";
-import CookieBanner from './components/CookieBanner';
+import CookieBanner from "./components/CookieBanner"; // Asegúrate de crear este componente
 
 function App() {
   const headerRef = useRef();
@@ -79,8 +79,10 @@ function App() {
         </main>
 
         {/* Agrega el Footer aquí */}
-        <CookieBanner />
         <Footer />
+
+        {/* Banner de Cookies - Se muestra sobre el footer */}
+        <CookieBanner />
       </div>
     </Router>
   );
