@@ -11,7 +11,7 @@ import Events from "./pages/Events";
 import Home from "./pages/Home";
 import Header from "./components/shared/Header";
 import Footer from "./components/shared/Footer";
-import CookieBanner from "./components/CookieBanner"; // Asegúrate de crear este componente
+import CookieBanner from "./components/shared/CookieBanner";
 
 function App() {
   const headerRef = useRef();
