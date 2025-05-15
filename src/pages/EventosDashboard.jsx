@@ -17,7 +17,18 @@ const EventosDashboard = () => {
   const obtenerEventos = async () => {
     try {
       const res = await axios.get('/api/eventos');
-      setEventos(res.data);
+      console.log('Respuesta eventos:', res.data);
+
+      // Ajusta aquí según la estructura que veas en consola:
+      // Ejemplo si la API responde { eventos: [...] }
+      if (Array.isArray(res.data)) {
+        setEventos(res.data);
+      } else if (res.data.eventos && Array.isArray(res.data.eventos)) {
+        setEventos(res.data.eventos);
+      } else {
+        setEventos([]); // Por seguridad si no viene arreglo
+        console.warn('La respuesta de eventos no es un arreglo esperado.');
+      }
     } catch (err) {
       console.error('Error al obtener eventos', err);
     }
@@ -71,37 +82,76 @@ const EventosDashboard = () => {
     <div className="p-6 max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">{editando ? 'Editar Evento' : 'Nuevo Evento'}</h1>
       <form onSubmit={handleSubmit} className="space-y-4 bg-gray-100 p-4 rounded-lg shadow">
-        <input type="text" placeholder="Título" value={form.titulo}
-          onChange={(e) => setForm({ ...form, titulo: e.target.value })} className="w-full p-2" />
-        <textarea placeholder="Descripción" value={form.descripcion}
-          onChange={(e) => setForm({ ...form, descripcion: e.target.value })} className="w-full p-2" />
-        <input type="date" value={form.fecha}
-          onChange={(e) => setForm({ ...form, fecha: e.target.value })} className="w-full p-2" />
-        <input type="text" placeholder="Lugar" value={form.lugar}
-          onChange={(e) => setForm({ ...form, lugar: e.target.value })} className="w-full p-2" />
-        <input type="text" placeholder="URL de imagen" value={form.imagen}
-          onChange={(e) => setForm({ ...form, imagen: e.target.value })} className="w-full p-2" />
+        <input
+          type="text"
+          placeholder="Título"
+          value={form.titulo}
+          onChange={(e) => setForm({ ...form, titulo: e.target.value })}
+          className="w-full p-2"
+          required
+        />
+        <textarea
+          placeholder="Descripción"
+          value={form.descripcion}
+          onChange={(e) => setForm({ ...form, descripcion: e.target.value })}
+          className="w-full p-2"
+          required
+        />
+        <input
+          type="date"
+          value={form.fecha}
+          onChange={(e) => setForm({ ...form, fecha: e.target.value })}
+          className="w-full p-2"
+          required
+        />
+        <input
+          type="text"
+          placeholder="Lugar"
+          value={form.lugar}
+          onChange={(e) => setForm({ ...form, lugar: e.target.value })}
+          className="w-full p-2"
+          required
+        />
+        <input
+          type="text"
+          placeholder="URL de imagen"
+          value={form.imagen}
+          onChange={(e) => setForm({ ...form, imagen: e.target.value })}
+          className="w-full p-2"
+          required
+        />
         <button type="submit" className="bg-blue-700 text-white px-4 py-2 rounded">
           {editando ? 'Actualizar Evento' : 'Crear Evento'}
         </button>
       </form>
 
       <h2 className="text-xl font-semibold mt-10 mb-2">Lista de Eventos</h2>
-      <ul className="space-y-2">
-        {eventos.map(evento => (
-          <li key={evento._id} className="bg-white p-4 rounded shadow flex justify-between items-center">
-            <div>
-              <h3 className="font-bold">{evento.titulo}</h3>
-              <p>{new Date(evento.fecha).toLocaleDateString()}</p>
-              <p>{evento.lugar}</p>
-            </div>
-            <div className="flex gap-2">
-              <button onClick={() => handleEdit(evento)} className="text-blue-600">Editar</button>
-              <button onClick={() => handleDelete(evento._id)} className="text-red-600">Eliminar</button>
-            </div>
-          </li>
-        ))}
-      </ul>
+      {Array.isArray(eventos) && eventos.length > 0 ? (
+        <ul className="space-y-2">
+          {eventos.map((evento) => (
+            <li
+              key={evento._id}
+              className="bg-white p-4 rounded shadow flex justify-between items-center"
+            >
+              <div>
+                <h3 className="font-bold">{evento.titulo}</h3>
+                <p>{new Date(evento.fecha).toLocaleDateString()}</p>
+                <p>{evento.lugar}</p>
+              </div>
+              <div className="flex gap-2">
+                <button onClick={() => handleEdit(evento)} className="text-blue-600">
+                  Editar
+                </button>
+                <button onClick={() => handleDelete(evento._id)} className="text-red-600">
+                  Eliminar
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No hay eventos para mostrar.</p>
+      )}
     </div>
   );
 };
