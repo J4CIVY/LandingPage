@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+const API_BASE_URL = 'https://api.bskmt.com/api';
+
 const EventosDashboard = () => {
   const [eventos, setEventos] = useState([]);
   const [form, setForm] = useState({
@@ -16,17 +18,15 @@ const EventosDashboard = () => {
 
   const obtenerEventos = async () => {
     try {
-      const res = await axios.get('/api/eventos');
+      const res = await axios.get(`${API_BASE_URL}/eventos`);
       console.log('Respuesta eventos:', res.data);
 
-      // Ajusta aquí según la estructura que veas en consola:
-      // Ejemplo si la API responde { eventos: [...] }
       if (Array.isArray(res.data)) {
         setEventos(res.data);
       } else if (res.data.eventos && Array.isArray(res.data.eventos)) {
         setEventos(res.data.eventos);
       } else {
-        setEventos([]); // Por seguridad si no viene arreglo
+        setEventos([]);
         console.warn('La respuesta de eventos no es un arreglo esperado.');
       }
     } catch (err) {
@@ -41,12 +41,17 @@ const EventosDashboard = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const config = { headers: { Authorization: `Bearer ${token}` } };
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      };
 
       if (editando) {
-        await axios.put(`/api/eventos/${editando}`, form, config);
+        await axios.put(`${API_BASE_URL}/eventos/${editando}`, form, config);
       } else {
-        await axios.post('/api/eventos', form, config);
+        await axios.post(`${API_BASE_URL}/eventos`, form, config);
       }
 
       setForm({ titulo: '', descripcion: '', fecha: '', lugar: '', imagen: '' });
@@ -59,8 +64,12 @@ const EventosDashboard = () => {
 
   const handleDelete = async (id) => {
     try {
-      const config = { headers: { Authorization: `Bearer ${token}` } };
-      await axios.delete(`/api/eventos/${id}`, config);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      await axios.delete(`${API_BASE_URL}/eventos/${id}`, config);
       obtenerEventos();
     } catch (err) {
       console.error('Error al eliminar evento', err);
