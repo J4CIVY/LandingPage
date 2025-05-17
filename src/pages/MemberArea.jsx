@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
-  faUserCog, faCalendarAlt, faMotorcycle, 
-  faStar, faMedal, faHeadset, faHistory,
-  faChartLine, faTicketAlt, faUsers,
-  faMapMarkedAlt, faStore, faShieldAlt,
-  faBell, faCog, faSignOutAlt, faChevronDown,
-  faExclamationTriangle, faCheckCircle, faClock
-} from '@fortawesome/free-solid-svg-icons';
+  FaUserCog, FaCalendarAlt, FaMotorcycle, 
+  FaStar, FaMedal, FaHeadset, FaHistory,
+  FaChartLine, FaTicketAlt, FaUsers,
+  FaMapMarkedAlt, FaStore, FaShieldAlt,
+  FaBell, FaCog, FaSignOutAlt, FaChevronDown,
+  FaExclamationTriangle, FaCheckCircle, FaClock
+} from 'react-icons/fa';
 
 const MemberArea = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -109,15 +108,15 @@ const MemberArea = () => {
   const statusIcon = (status) => {
     switch(status) {
       case 'confirmed':
-        return <FontAwesomeIcon icon={faCheckCircle} className="text-green-500 mr-1" />;
+        return <FaCheckCircle className="text-green-500 mr-1" />;
       case 'pending':
-        return <FontAwesomeIcon icon={faClock} className="text-yellow-500 mr-1" />;
+        return <FaClock className="text-yellow-500 mr-1" />;
       case 'En proceso':
-        return <FontAwesomeIcon icon={faClock} className="text-blue-500 mr-1" />;
+        return <FaClock className="text-blue-500 mr-1" />;
       case 'Cerrado':
-        return <FontAwesomeIcon icon={faCheckCircle} className="text-gray-500 mr-1" />;
+        return <FaCheckCircle className="text-gray-500 mr-1" />;
       default:
-        return <FontAwesomeIcon icon={faExclamationTriangle} className="text-red-500 mr-1" />;
+        return <FaExclamationTriangle className="text-red-500 mr-1" />;
     }
   };
 
@@ -136,12 +135,12 @@ const MemberArea = () => {
               <h2 className="text-xl md:text-2xl font-bold text-gray-800">{userData.name}</h2>
               <div className="flex items-center mt-1">
                 <span className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white text-xs md:text-sm px-3 py-1 rounded-full flex items-center">
-                  <FontAwesomeIcon icon={faMedal} className="mr-1" /> {userData.membership}
+                  <FaMedal className="mr-1" /> {userData.membership}
                   <span className="ml-2 text-white text-opacity-90">Vence: {userData.membershipExpiry}</span>
                 </span>
               </div>
               <div className="flex items-center mt-2">
-                <FontAwesomeIcon icon={faStar} className="text-yellow-500 mr-1" />
+                <FaStar className="text-yellow-500 mr-1" />
                 <span className="font-semibold text-gray-700">{userData.points} Puntos</span>
               </div>
             </div>
@@ -149,13 +148,13 @@ const MemberArea = () => {
           
           <div className="flex flex-wrap gap-2 w-full md:w-auto">
             <button className="flex items-center bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-2 rounded-lg text-sm transition">
-              <FontAwesomeIcon icon={faBell} className="mr-2" /> Notificaciones
+              <FaBell className="mr-2" /> Notificaciones
             </button>
             <button className="flex items-center bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-2 rounded-lg text-sm transition">
-              <FontAwesomeIcon icon={faCog} className="mr-2" /> Configuración
+              <FaCog className="mr-2" /> Configuración
             </button>
             <button className="flex items-center bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-2 rounded-lg text-sm transition">
-              <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" /> Cerrar sesión
+              <FaSignOutAlt className="mr-2" /> Cerrar sesión
             </button>
           </div>
         </div>
@@ -164,28 +163,28 @@ const MemberArea = () => {
         <Tabs selectedIndex={activeTab} onSelect={index => setActiveTab(index)}>
           <TabList className="flex overflow-x-auto border-b border-gray-200">
             <Tab className="px-4 py-3 text-sm font-medium cursor-pointer focus:outline-none border-b-2 border-transparent hover:text-orange-600 hover:border-orange-300 transition flex items-center">
-              <FontAwesomeIcon icon={faUserCog} className="mr-2" /> Mi Cuenta
+              <FaUserCog className="mr-2" /> Mi Cuenta
             </Tab>
             <Tab className="px-4 py-3 text-sm font-medium cursor-pointer focus:outline-none border-b-2 border-transparent hover:text-orange-600 hover:border-orange-300 transition flex items-center">
-              <FontAwesomeIcon icon={faCalendarAlt} className="mr-2" /> Mis Eventos
+              <FaCalendarAlt className="mr-2" /> Mis Eventos
             </Tab>
             <Tab className="px-4 py-3 text-sm font-medium cursor-pointer focus:outline-none border-b-2 border-transparent hover:text-orange-600 hover:border-orange-300 transition flex items-center">
-              <FontAwesomeIcon icon={faMotorcycle} className="mr-2" /> Próximas Rodadas
+              <FaMotorcycle className="mr-2" /> Próximas Rodadas
             </Tab>
             <Tab className="px-4 py-3 text-sm font-medium cursor-pointer focus:outline-none border-b-2 border-transparent hover:text-orange-600 hover:border-orange-300 transition flex items-center">
-              <FontAwesomeIcon icon={faStar} className="mr-2" /> Mis Puntos
+              <FaStar className="mr-2" /> Mis Puntos
             </Tab>
             <Tab className="px-4 py-3 text-sm font-medium cursor-pointer focus:outline-none border-b-2 border-transparent hover:text-orange-600 hover:border-orange-300 transition flex items-center">
-              <FontAwesomeIcon icon={faMedal} className="mr-2" /> Mi Membresía
+              <FaMedal className="mr-2" /> Mi Membresía
             </Tab>
             <Tab className="px-4 py-3 text-sm font-medium cursor-pointer focus:outline-none border-b-2 border-transparent hover:text-orange-600 hover:border-orange-300 transition flex items-center">
-              <FontAwesomeIcon icon={faHeadset} className="mr-2" /> PQRSDF
+              <FaHeadset className="mr-2" /> PQRSDF
             </Tab>
             <Tab className="px-4 py-3 text-sm font-medium cursor-pointer focus:outline-none border-b-2 border-transparent hover:text-orange-600 hover:border-orange-300 transition flex items-center">
-              <FontAwesomeIcon icon={faUsers} className="mr-2" /> Comunidad
+              <FaUsers className="mr-2" /> Comunidad
             </Tab>
             <Tab className="px-4 py-3 text-sm font-medium cursor-pointer focus:outline-none border-b-2 border-transparent hover:text-orange-600 hover:border-orange-300 transition flex items-center">
-              <FontAwesomeIcon icon={faStore} className="mr-2" /> Aliados
+              <FaStore className="mr-2" /> Aliados
             </Tab>
           </TabList>
 
@@ -195,7 +194,7 @@ const MemberArea = () => {
               {/* Información Personal */}
               <div className="lg:col-span-2 bg-gray-50 rounded-lg p-6 shadow-sm">
                 <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                  <FontAwesomeIcon icon={faUserCog} className="text-orange-500 mr-2" /> Información Personal
+                  <FaUserCog className="text-orange-500 mr-2" /> Información Personal
                 </h3>
                 <form className="space-y-4">
                   <div>
@@ -303,7 +302,7 @@ const MemberArea = () => {
                 {/* Seguridad */}
                 <div className="bg-gray-50 rounded-lg p-6 shadow-sm">
                   <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                    <FontAwesomeIcon icon={faShieldAlt} className="text-orange-500 mr-2" /> Seguridad
+                    <FaShieldAlt className="text-orange-500 mr-2" /> Seguridad
                   </h3>
                   <div className="space-y-3">
                     <button className="w-full text-left bg-white hover:bg-gray-100 border border-gray-200 px-4 py-2 rounded-md transition">
@@ -321,7 +320,7 @@ const MemberArea = () => {
                 {/* Preferencias de Rodada */}
                 <div className="bg-gray-50 rounded-lg p-6 shadow-sm">
                   <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                    <FontAwesomeIcon icon={faMotorcycle} className="text-orange-500 mr-2" /> Preferencias de Rodada
+                    <FaMotorcycle className="text-orange-500 mr-2" /> Preferencias de Rodada
                   </h3>
                   <div className="space-y-4">
                     <div>
@@ -421,7 +420,7 @@ const MemberArea = () => {
                       className="bg-gray-100 text-center py-1 cursor-pointer text-sm text-gray-600 hover:bg-gray-200 transition"
                       onClick={() => toggleDropdown(event.id)}
                     >
-                      <FontAwesomeIcon icon={faChevronDown} className={`transition-transform ${dropdownOpen === event.id ? 'transform rotate-180' : ''}`} />
+                      <FaChevronDown className={`transition-transform ${dropdownOpen === event.id ? 'transform rotate-180' : ''}`} />
                     </div>
                   </div>
                 ))}
@@ -540,7 +539,7 @@ const MemberArea = () => {
                 {/* Historial de Puntos */}
                 <div className="bg-white border rounded-lg p-6 shadow-sm">
                   <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                    <FontAwesomeIcon icon={faHistory} className="text-orange-500 mr-2" /> Historial de Puntos
+                    <FaHistory className="text-orange-500 mr-2" /> Historial de Puntos
                   </h3>
                   <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200">
@@ -569,7 +568,7 @@ const MemberArea = () => {
               <div className="space-y-6">
                 <div className="bg-white border rounded-lg p-6 shadow-sm">
                   <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                    <FontAwesomeIcon icon={faTicketAlt} className="text-orange-500 mr-2" /> Recompensas Disponibles
+                    <FaTicketAlt className="text-orange-500 mr-2" /> Recompensas Disponibles
                   </h3>
                   <div className="space-y-4">
                     <div className="border border-gray-200 rounded-lg p-4">
@@ -619,7 +618,7 @@ const MemberArea = () => {
                   <h3 className="text-lg font-semibold text-gray-800 mb-4">Estado de tu Membresía</h3>
                   <div className="border border-gray-200 rounded-lg p-6 text-center">
                     <div className="text-2xl font-bold text-orange-500 mb-2 flex items-center justify-center">
-                      <FontAwesomeIcon icon={faMedal} className="mr-2" /> {userData.membership}
+                      <FaMedal className="mr-2" /> {userData.membership}
                     </div>
                     <div className="text-gray-600 mb-4">
                       Válida hasta: {userData.membershipExpiry}
@@ -664,7 +663,7 @@ const MemberArea = () => {
                   <ul className="space-y-2">
                     {userData.membershipBenefits.map((benefit, index) => (
                       <li key={index} className="flex items-start">
-                        <FontAwesomeIcon icon={faStar} className="text-orange-500 mr-2 mt-1 flex-shrink-0" />
+                        <FaStar className="text-orange-500 mr-2 mt-1 flex-shrink-0" />
                         <span>{benefit}</span>
                       </li>
                     ))}
@@ -863,7 +862,7 @@ const MemberArea = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               <div className="bg-white border rounded-lg p-6 text-center shadow-sm hover:shadow-md transition">
                 <div className="text-orange-500 mb-3">
-                  <FontAwesomeIcon icon={faUsers} size="2x" />
+                  <FaUsers size={32} />
                 </div>
                 <h4 className="font-semibold text-gray-800 mb-2">Grupos Locales</h4>
                 <p className="text-sm text-gray-600 mb-4">Conecta con miembros en tu ciudad</p>
@@ -873,7 +872,7 @@ const MemberArea = () => {
               </div>
               <div className="bg-white border rounded-lg p-6 text-center shadow-sm hover:shadow-md transition">
                 <div className="text-orange-500 mb-3">
-                  <FontAwesomeIcon icon={faMapMarkedAlt} size="2x" />
+                  <FaMapMarkedAlt size={32} />
                 </div>
                 <h4 className="font-semibold text-gray-800 mb-2">Rutas Compartidas</h4>
                 <p className="text-sm text-gray-600 mb-4">Descubre rutas favoritas de la comunidad</p>
@@ -883,7 +882,7 @@ const MemberArea = () => {
               </div>
               <div className="bg-white border rounded-lg p-6 text-center shadow-sm hover:shadow-md transition">
                 <div className="text-orange-500 mb-3">
-                  <FontAwesomeIcon icon={faChartLine} size="2x" />
+                  <FaChartLine size={32} />
                 </div>
                 <h4 className="font-semibold text-gray-800 mb-2">Clasificaciones</h4>
                 <p className="text-sm text-gray-600 mb-4">Top miembros por puntos y participación</p>
@@ -893,7 +892,7 @@ const MemberArea = () => {
               </div>
               <div className="bg-white border rounded-lg p-6 text-center shadow-sm hover:shadow-md transition">
                 <div className="text-orange-500 mb-3">
-                  <FontAwesomeIcon icon={faHistory} size="2x" />
+                  <FaHistory size={32} />
                 </div>
                 <h4 className="font-semibold text-gray-800 mb-2">Archivo Histórico</h4>
                 <p className="text-sm text-gray-600 mb-4">Fotos y memorias de eventos pasados</p>
@@ -962,7 +961,7 @@ const MemberArea = () => {
                   <div className="flex-grow">
                     <h4 className="font-semibold text-gray-800 mb-1">Talleres MotoPro</h4>
                     <div className="flex items-center text-sm text-yellow-600 mb-2">
-                      <FontAwesomeIcon icon={faStar} className="mr-1" /> 15% descuento para miembros BSK
+                      <FaStar className="mr-1" /> 15% descuento para miembros BSK
                     </div>
                     <div className="text-sm text-gray-600 mb-3">
                       Especialistas en motocicletas Harley-Davidson y custom. Servicio premium con garantía.
@@ -994,7 +993,7 @@ const MemberArea = () => {
                   <div className="flex-grow">
                     <h4 className="font-semibold text-gray-800 mb-1">Motopartes Elite</h4>
                     <div className="flex items-center text-sm text-yellow-600 mb-2">
-                      <FontAwesomeIcon icon={faStar} className="mr-1" /> 10% descuento + 50 puntos por compra
+                      <FaStar className="mr-1" /> 10% descuento + 50 puntos por compra
                     </div>
                     <div className="text-sm text-gray-600 mb-3">
                       Todo en repuestos y accesorios para tu moto. Envíos a todo el país.
@@ -1026,7 +1025,7 @@ const MemberArea = () => {
                   <div className="flex-grow">
                     <h4 className="font-semibold text-gray-800 mb-1">Hotel Motero</h4>
                     <div className="flex items-center text-sm text-yellow-600 mb-2">
-                      <FontAwesomeIcon icon={faStar} className="mr-1" /> 20% descuento + estacionamiento seguro
+                      <FaStar className="mr-1" /> 20% descuento + estacionamiento seguro
                     </div>
                     <div className="text-sm text-gray-600 mb-3">
                       Hotel especializado para motociclistas con taller básico y seguridad para tu moto.
@@ -1070,15 +1069,15 @@ const MemberArea = () => {
               <h4 className="font-semibold mb-3">Contactos de Emergencia:</h4>
               <div className="space-y-2">
                 <div className="flex items-center">
-                  <FontAwesomeIcon icon={faShieldAlt} className="mr-2 text-orange-400" />
+                  <FaShieldAlt className="mr-2 text-orange-400" />
                   <span>Asistencia Vial BSK: 018000-123456</span>
                 </div>
                 <div className="flex items-center">
-                  <FontAwesomeIcon icon={faShieldAlt} className="mr-2 text-orange-400" />
+                  <FaShieldAlt className="mr-2 text-orange-400" />
                   <span>Emergencias Médicas: 123</span>
                 </div>
                 <div className="flex items-center">
-                  <FontAwesomeIcon icon={faShieldAlt} className="mr-2 text-orange-400" />
+                  <FaShieldAlt className="mr-2 text-orange-400" />
                   <span>Policía de Carreteras: #767</span>
                 </div>
               </div>
