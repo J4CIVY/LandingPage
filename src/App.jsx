@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import RutaPrivada from './components/RutaPrivada';
 import EventosDashboard from './pages/EventosDashboard';
-import MemberArea from "./pages/MemberArea";
+import MemberArea from './pages/MemberArea'; // Importa el componente MemberArea
 import Login from "./components/auth/Login";
 import Documents from "./pages/Documents";
 import Contact from "./pages/Contact";
@@ -81,18 +81,20 @@ function App() {
             <Route path="/documents" element={<Documents />} />
             <Route path="/login" element={<Login />} />
             <Route path="/cookie-policy" element={<CookiePolicy />} />
+
             {/* Rutas protegidas */}
             <Route path="/admin/eventos" element={
               <RutaPrivada>
                 <EventosDashboard />
               </RutaPrivada>
             } />
-            <Route path="/MemberArea" element={
+
+            {/* Nueva ruta protegida para el área de miembros */}
+            <Route path="/miembros" element={
               <RutaPrivada>
                 <MemberArea />
               </RutaPrivada>
             } />
-
           </Routes>
         </main>
 
@@ -106,4 +108,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; F
