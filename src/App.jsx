@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import RutaPrivada from './components/RutaPrivada';
 import EventosDashboard from './pages/EventosDashboard';
+import MemberArea from "./pages/MemberArea";
 import Login from "./components/auth/Login";
 import Documents from "./pages/Documents";
 import Contact from "./pages/Contact";
@@ -84,6 +85,11 @@ function App() {
             <Route path="/admin/eventos" element={
               <RutaPrivada>
                 <EventosDashboard />
+              </RutaPrivada>
+            } />
+            <Route path="/MemberArea" element={
+              <RutaPrivada>
+                <MemberArea />
               </RutaPrivada>
             } />
 
