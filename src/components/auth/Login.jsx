@@ -27,19 +27,18 @@ const Login = () => {
     }
 
     try {
-      const res = await fetch(`${API_URL}/api/login`, {
-        method: "POST",
+      const response = await fetch(`${API_URL}/auth/login`, {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ correo: email, password }),
+        body: JSON.stringify({ correo: email, password })
       });
-
-      const data = await res.json();
+      const data = await response.json();
 
       if (res.ok) {
-        localStorage.setItem("token", data.token);
-        window.location.href = "/";
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.data.user));
       } else {
         setError(data.mensaje || "Credenciales inválidas.");
       }
@@ -102,9 +101,8 @@ const Login = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold py-2 px-4 rounded transition duration-200 ${
-              isLoading ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+            className={`w-full bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold py-2 px-4 rounded transition duration-200 ${isLoading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
           >
             {isLoading ? "Cargando..." : "Iniciar Sesión"}
           </button>
