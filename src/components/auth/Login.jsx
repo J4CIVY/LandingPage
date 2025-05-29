@@ -6,49 +6,44 @@ import {
 } from "react-icons/md";
 import { Link } from "react-router-dom";
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsLoading(true);
+  setError("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError("");
+  try {
+    const API_URL = import.meta.env.VITE_API_URL || "https://api.bskmt.com";
+    
+    const response = await fetch(`${API_URL}/api/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ 
+        email: email,  // Asegúrate que coincide con lo que espera el backend
+        password: password 
+      }),
+      credentials: 'include' // Necesario para cookies
+    });
 
-    const API_URL = import.meta.env.VITE_API_URL;
-    console.log("VITE_API_URL:", API_URL);
+    const data = await response.json();
 
-    if (!API_URL) {
-      setError("VITE_API_URL no está definido. Verifica tu archivo .env.production.");
-      setIsLoading(false);
-      return;
+    if (!response.ok) {
+      throw new Error(data.message || "Error al iniciar sesión");
     }
 
-    try {
-      const response = await fetch(`${API_URL}/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ correo: email, password })
-      });
-      const data = await response.json();
-
-      if (res.ok) {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.data.user));
-      } else {
-        setError(data.mensaje || "Credenciales inválidas.");
-      }
-    } catch (err) {
-      console.error("Error de conexión:", err);
-      setError("Error de conexión con el servidor.");
-    }
-
+    // Guardar token y redirigir
+    localStorage.setItem("token", data.accessToken);
+    localStorage.setItem("refreshToken", data.refreshToken);
+    window.location.href = "/dashboard";
+    
+  } catch (err) {
+    console.error("Error de login:", err);
+    setError(err.message || "Error al iniciar sesión. Por favor intente nuevamente.");
+  } finally {
     setIsLoading(false);
-  };
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#000031] p-4">
