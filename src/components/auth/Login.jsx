@@ -19,32 +19,37 @@ const Login = () => {
 
     try {
       const API_URL = import.meta.env.VITE_API_URL || "https://api.bskmt.com";
-      
+      console.log("URL de API:", API_URL);
+
       const response = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ 
-          email: email,  // Asegúrate que coincide con lo que espera el backend
-          password: password 
+        body: JSON.stringify({
+          email: email,
+          password: password
         }),
-        credentials: 'include' // Necesario para cookies
+        credentials: 'include'
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error(data.message || "Error al iniciar sesión");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al iniciar sesión");
       }
 
-      // Guardar token y redirigir
+      const data = await response.json();
+      console.log("Respuesta del servidor:", data);
+
+      // Guardar tokens y redirigir
       localStorage.setItem("token", data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken);
+      if (data.refreshToken) {
+        localStorage.setItem("refreshToken", data.refreshToken);
+      }
       window.location.href = "/dashboard";
-      
+
     } catch (err) {
-      console.error("Error de login:", err);
+      console.error("Error en login:", err);
       setError(err.message || "Error al iniciar sesión. Por favor intente nuevamente.");
     } finally {
       setIsLoading(false);
