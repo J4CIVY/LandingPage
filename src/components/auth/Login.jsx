@@ -46,7 +46,7 @@ const Login = () => {
       if (data.refreshToken) {
         localStorage.setItem("refreshToken", data.refreshToken);
       }
-      window.location.href = "/dashboard";
+      window.location.href = "/miembros";
 
     } catch (err) {
       console.error("Error en login:", err);
