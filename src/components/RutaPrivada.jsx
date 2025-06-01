@@ -1,4 +1,4 @@
-import { useAuth } from './components/auth/AuthContext';
+import { useAuth } from './auth/AuthContext';
 import { Navigate, useLocation } from 'react-router-dom';
 import { FaSpinner } from 'react-icons/fa';
 
