@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider } from './context/AuthContext'; // Cambiado a la nueva ubicación
+import { AuthProvider } from './components/auth/AuthContext'; // Cambiado a la nueva ubicación
 import RutaPrivada from './components/RutaPrivada';
 import EventosDashboard from './pages/EventosDashboard';
 import MemberArea from './pages/MemberArea';
