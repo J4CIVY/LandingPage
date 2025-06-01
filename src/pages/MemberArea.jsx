@@ -77,7 +77,7 @@ const MemberArea = () => {
           membershipExpiry: userDataFromApi.membershipExpiry || 'No definida',
           points: userDataFromApi.points,
           avatar: userDataFromApi.avatar || '/default-avatar.jpg',
-          nextEvent: userDataFromApi.upcomingEvents[0]?.name || 'No hay eventos próximos',
+          nextEvent: userDataFromApi.upcomingEvents?.[0]?.name || 'No hay eventos próximos',
           registeredEvents: userDataFromApi.registeredEvents || [],
           upcomingEvents: userDataFromApi.upcomingEvents || [],
           pointsBreakdown: {
@@ -999,13 +999,13 @@ const MemberArea = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <div className="bg-white border rounded-lg p-6 shadow-sm">
                     <h3 className="text-lg font-semibold text-gray-800 mb-4">Radicar nueva PQRSDF</h3>
-                    <form onSubmit={handlePqrsdSubmit} className="space-y-4">
+                    <form onSubmit={handleComplaintSubmit} className="space-y-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
                         <select
                           name="type"
-                          value={newPqrsd.type}
-                          onChange={(e) => setNewPqrsd({ ...newPqrsd, type: e.target.value })}
+                          value={newComplaint.type}
+                          onChange={(e) => setNewComplaint({ ...newComplaint, type: e.target.value })}
                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                         >
                           <option value="Petición">Petición</option>
@@ -1021,8 +1021,8 @@ const MemberArea = () => {
                         <input
                           type="text"
                           name="subject"
-                          value={newPqrsd.subject}
-                          onChange={(e) => setNewPqrsd({ ...newPqrsd, subject: e.target.value })}
+                          value={newComplaint.subject}
+                          onChange={(e) => setNewComplaint({ ...newComplaint, subject: e.target.value })}
                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                           required
                         />
@@ -1031,8 +1031,8 @@ const MemberArea = () => {
                         <label className="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
                         <textarea
                           name="description"
-                          value={newPqrsd.description}
-                          onChange={(e) => setNewPqrsd({ ...newPqrsd, description: e.target.value })}
+                          value={newComplaint.description}
+                          onChange={(e) => setNewComplaint({ ...newComplaint, description: e.target.value })}
                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                           rows="4"
                           required
@@ -1062,7 +1062,7 @@ const MemberArea = () => {
                             </tr>
                           </thead>
                           <tbody className="bg-white divide-y divide-gray-200">
-                            {userData.pqrsd.map(item => (
+                            {userData.complaints.map(item => (
                               <tr key={item.id}>
                                 <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-600">{item.date}</td>
                                 <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-600">{item.type}</td>
