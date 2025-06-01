@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import { 
-  FaUserCog, FaCalendarAlt, FaMotorcycle, 
+import {
+  FaUserCog, FaCalendarAlt, FaMotorcycle,
   FaStar, FaMedal, FaHeadset, FaHistory,
   FaChartLine, FaTicketAlt, FaUsers,
   FaMapMarkedAlt, FaStore, FaShieldAlt,
@@ -10,97 +10,218 @@ import {
   FaExclamationTriangle, FaCheckCircle, FaClock,
   FaBars, FaTimes
 } from 'react-icons/fa';
+import axios from 'axios';
+import { useAuth } from '../components/auth/AuthContext';
 
 const MemberArea = () => {
+  const { user, logout } = useAuth();
   const [activeTab, setActiveTab] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(null);
-  
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const [userData, setUserData] = useState({
-    name: 'Juan Pérez',
-    membership: 'Gold',
-    membershipExpiry: '2023-12-31',
-    points: 1250,
-    avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
-    nextEvent: 'Rodada Aniversario BSK - 15 Octubre',
-    registeredEvents: [
-      { id: 1, name: 'Rodada Nocturna', date: '2023-10-05', status: 'confirmed' },
-      { id: 2, name: 'Taller Mecánica Básica', date: '2023-10-12', status: 'pending' },
-      { id: 3, name: 'Concentración Nacional', date: '2023-11-05', status: 'confirmed' }
-    ],
-    upcomingEvents: [
-      { id: 4, name: 'Rodada de la Luna Llena', date: '2023-11-08' },
-      { id: 5, name: 'Festival Motero', date: '2023-11-20' },
-      { id: 6, name: 'Campaña Solidaria Navideña', date: '2023-12-10' }
-    ],
+    name: '',
+    membership: '',
+    membershipExpiry: '',
+    points: 0,
+    avatar: '/default-avatar.jpg',
+    nextEvent: '',
+    registeredEvents: [],
+    upcomingEvents: [],
     pointsBreakdown: {
-      rides: 800,
-      events: 300,
-      partners: 100,
-      others: 50,
-      history: [
-        { date: '2023-09-15', description: 'Rodada Montaña', points: 200 },
-        { date: '2023-08-20', description: 'Taller Seguridad', points: 100 },
-        { date: '2023-07-10', description: 'Compra en Aliado', points: 50 }
-      ]
+      rides: 0,
+      events: 0,
+      partners: 0,
+      others: 0,
+      history: []
     },
-    membershipBenefits: [
-      'Descuento 20% en talleres',
-      'Acceso a eventos exclusivos',
-      'Asistencia vial gratuita',
-      'Seguro básico de accidentes'
-    ],
-    pqrsd: [
-      { id: 1, type: 'Solicitud', subject: 'Cambio de talla en chaqueta', status: 'En proceso', date: '2023-09-01' },
-      { id: 2, type: 'Felicitación', subject: 'Excelente organización rodada', status: 'Cerrado', date: '2023-08-15' }
-    ]
+    membershipBenefits: [],
+    complaints: []
   });
 
   const [formData, setFormData] = useState({
-    name: userData.name,
-    email: 'juan.perez@example.com',
-    phone: '+57 310 123 4567',
-    emergencyContact: 'María Gómez - +57 315 987 6543',
-    bikeModel: 'Harley-Davidson Street Glide',
-    bikeYear: '2020',
-    bloodType: 'O+',
-    allergies: 'Ninguna'
+    name: '',
+    email: '',
+    phone: '',
+    emergencyContact: '',
+    bikeModel: '',
+    bikeYear: '',
+    bloodType: '',
+    allergies: ''
   });
 
-  const [newPqrsd, setNewPqrsd] = useState({
+  const [newComplaint, setNewComplaint] = useState({
     type: 'Petición',
     subject: '',
     description: ''
   });
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get('/users/me', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+
+        const userDataFromApi = response.data.data.user;
+
+        // Transformar datos del backend al formato esperado por el frontend
+        setUserData({
+          name: userDataFromApi.fullName,
+          membership: userDataFromApi.role,
+          membershipExpiry: userDataFromApi.membershipExpiry || 'No definida',
+          points: userDataFromApi.points,
+          avatar: userDataFromApi.avatar || '/default-avatar.jpg',
+          nextEvent: userDataFromApi.upcomingEvents[0]?.name || 'No hay eventos próximos',
+          registeredEvents: userDataFromApi.registeredEvents || [],
+          upcomingEvents: userDataFromApi.upcomingEvents || [],
+          pointsBreakdown: {
+            rides: userDataFromApi.ridePoints || 0,
+            events: userDataFromApi.eventPoints || 0,
+            partners: userDataFromApi.partnerPoints || 0,
+            others: userDataFromApi.otherPoints || 0,
+            history: userDataFromApi.pointsHistory || []
+          },
+          membershipBenefits: userDataFromApi.membershipBenefits || [
+            'Descuento en talleres',
+            'Acceso a eventos exclusivos',
+            'Asistencia vial básica'
+          ],
+          complaints: userDataFromApi.complaints || []
+        });
+
+        setFormData({
+          name: userDataFromApi.fullName,
+          email: userDataFromApi.email,
+          phone: userDataFromApi.phone,
+          emergencyContact: `${userDataFromApi.emergencyContactName || ''} - ${userDataFromApi.emergencyContactPhone || ''}`,
+          bikeModel: `${userDataFromApi.motorcycleBrand || ''} ${userDataFromApi.motorcycleModel || ''}`,
+          bikeYear: userDataFromApi.motorcycleYear || '',
+          bloodType: `${userDataFromApi.bloodType || ''}${userDataFromApi.rhFactor || ''}`,
+          allergies: userDataFromApi.allergies || 'Ninguna'
+        });
+
+        setLoading(false);
+      } catch (err) {
+        setError(err.response?.data?.message || 'Error al cargar los datos del usuario');
+        setLoading(false);
+      }
+    };
+
+    if (user) {
+      fetchUserData();
+    }
+  }, [user]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handlePqrsdSubmit = (e) => {
+  const handleComplaintSubmit = async (e) => {
     e.preventDefault();
-    const newEntry = {
-      id: userData.pqrsd.length + 1,
-      type: newPqrsd.type,
-      subject: newPqrsd.subject,
-      status: 'Nuevo',
-      date: new Date().toISOString().split('T')[0]
-    };
-    setUserData(prev => ({
-      ...prev,
-      pqrsd: [...prev.pqrsd, newEntry]
-    }));
-    setNewPqrsd({ type: 'Petición', subject: '', description: '' });
-    alert('Tu PQRSDF ha sido registrada con éxito. Nos comunicaremos contigo pronto.');
+    try {
+      const response = await axios.post(`/api/users/${user.documentNumber}/complaints`, {
+        type: newComplaint.type,
+        message: newComplaint.description,
+        subject: newComplaint.subject
+      }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
+      const newEntry = {
+        id: response.data.data.complaint.referenceNumber,
+        type: newComplaint.type,
+        subject: newComplaint.subject,
+        status: 'Pendiente',
+        date: new Date().toISOString().split('T')[0]
+      };
+
+      setUserData(prev => ({
+        ...prev,
+        complaints: [...prev.complaints, newEntry]
+      }));
+
+      setNewComplaint({ type: 'Petición', subject: '', description: '' });
+      alert('Tu PQRSDF ha sido registrada con éxito. Nos comunicaremos contigo pronto.');
+    } catch (err) {
+      alert(err.response?.data?.message || 'Error al enviar la PQRSDF');
+    }
   };
 
-  const handleEventAction = (eventId, action) => {
-    alert(`Acción "${action}" para evento ${eventId} será procesada`);
+  const handleEventAction = async (eventId, action) => {
+    try {
+      let response;
+
+      if (action === 'register') {
+        response = await axios.post(`/api/events/${eventId}/register`, {}, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+      } else if (action === 'cancel') {
+        response = await axios.post(`/api/events/${eventId}/cancel`, {}, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+      }
+
+      if (response) {
+        alert(`Acción "${action}" realizada con éxito`);
+        // Actualizar la lista de eventos
+        const updatedEvents = userData.registeredEvents.map(event => {
+          if (event.id === eventId) {
+            return { ...event, status: action === 'cancel' ? 'Cancelado' : 'Confirmado' };
+          }
+          return event;
+        });
+
+        setUserData(prev => ({ ...prev, registeredEvents: updatedEvents }));
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || `Error al realizar la acción "${action}"`);
+    }
   };
 
-  const handleMembershipAction = (action) => {
-    alert(`Acción "${action}" en membresía será procesada`);
+  const handleMembershipAction = async (action) => {
+    try {
+      let response;
+
+      if (action === 'renew') {
+        response = await axios.post(`/api/users/${user.documentNumber}/renew-membership`, {}, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+      } else if (action === 'upgrade') {
+        response = await axios.post(`/api/users/${user.documentNumber}/upgrade-membership`, {}, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+      }
+
+      if (response) {
+        alert(`Membresía ${action === 'renew' ? 'renovada' : 'actualizada'} con éxito`);
+        // Actualizar datos de membresía
+        setUserData(prev => ({
+          ...prev,
+          membership: response.data.data.user.role,
+          membershipExpiry: response.data.data.user.membershipExpiry || prev.membershipExpiry,
+          membershipBenefits: response.data.data.user.membershipBenefits || prev.membershipBenefits
+        }));
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || `Error al ${action === 'renew' ? 'renovar' : 'actualizar'} la membresía`);
+    }
   };
 
   const toggleDropdown = (id) => {
@@ -108,19 +229,49 @@ const MemberArea = () => {
   };
 
   const statusIcon = (status) => {
-    switch(status) {
-      case 'confirmed':
+    switch (status) {
+      case 'Confirmado':
+      case 'Asistido':
+      case 'Resuelto':
         return <FaCheckCircle className="text-green-500 mr-1" />;
-      case 'pending':
+      case 'Pendiente':
+      case 'En Progreso':
         return <FaClock className="text-yellow-500 mr-1" />;
-      case 'En proceso':
-        return <FaClock className="text-blue-500 mr-1" />;
-      case 'Cerrado':
-        return <FaCheckCircle className="text-gray-500 mr-1" />;
-      default:
+      case 'Cancelado':
         return <FaExclamationTriangle className="text-red-500 mr-1" />;
+      default:
+        return <FaExclamationTriangle className="text-gray-500 mr-1" />;
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Cargando tus datos...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="text-center max-w-md p-6 bg-red-50 rounded-lg">
+          <FaExclamationTriangle className="text-red-500 text-4xl mx-auto mb-4" />
+          <h2 className="text-xl font-semibold text-gray-800 mb-2">Error al cargar los datos</h2>
+          <p className="text-gray-600 mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md transition"
+          >
+            Reintentar
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -128,10 +279,10 @@ const MemberArea = () => {
       <div className="lg:hidden bg-white shadow-sm sticky top-0 z-10">
         <div className="flex justify-between items-center p-4">
           <div className="flex items-center">
-            <img 
-              src={userData.avatar} 
-              alt="Avatar" 
-              className="w-10 h-10 rounded-full border-2 border-orange-500 mr-3" 
+            <img
+              src={userData.avatar}
+              alt="Avatar"
+              className="w-10 h-10 rounded-full border-2 border-orange-500 mr-3"
             />
             <div>
               <h2 className="font-bold text-gray-800 text-sm truncate max-w-[120px]">{userData.name}</h2>
@@ -141,8 +292,8 @@ const MemberArea = () => {
               </div>
             </div>
           </div>
-          
-          <button 
+
+          <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="text-gray-600 focus:outline-none"
           >
@@ -159,10 +310,10 @@ const MemberArea = () => {
               <div className="bg-white h-full w-4/5 max-w-xs p-4 overflow-y-auto">
                 <div className="flex justify-between items-center mb-6">
                   <div className="flex items-center">
-                    <img 
-                      src={userData.avatar} 
-                      alt="Avatar" 
-                      className="w-12 h-12 rounded-full border-2 border-orange-500 mr-3" 
+                    <img
+                      src={userData.avatar}
+                      alt="Avatar"
+                      className="w-12 h-12 rounded-full border-2 border-orange-500 mr-3"
                     />
                     <div>
                       <h2 className="font-bold text-gray-800">{userData.name}</h2>
@@ -172,7 +323,7 @@ const MemberArea = () => {
                       </div>
                     </div>
                   </div>
-                  <button 
+                  <button
                     onClick={() => setMobileMenuOpen(false)}
                     className="text-gray-600 focus:outline-none"
                   >
@@ -187,13 +338,16 @@ const MemberArea = () => {
                   <button className="w-full flex items-center bg-gray-100 text-gray-800 px-4 py-3 rounded-lg">
                     <FaCog className="mr-3" /> Configuración
                   </button>
-                  <button className="w-full flex items-center bg-gray-100 text-gray-800 px-4 py-3 rounded-lg">
+                  <button
+                    onClick={logout}
+                    className="w-full flex items-center bg-gray-100 text-gray-800 px-4 py-3 rounded-lg"
+                  >
                     <FaSignOutAlt className="mr-3" /> Cerrar sesión
                   </button>
                 </div>
 
-                <Tabs 
-                  selectedIndex={activeTab} 
+                <Tabs
+                  selectedIndex={activeTab}
                   onSelect={index => {
                     setActiveTab(index);
                     setMobileMenuOpen(false);
@@ -236,17 +390,19 @@ const MemberArea = () => {
             {/* Header Desktop */}
             <div className="hidden lg:flex p-6 justify-between items-center border-b border-gray-200">
               <div className="flex items-center">
-                <img 
-                  src={userData.avatar} 
-                  alt="Avatar" 
-                  className="w-16 h-16 md:w-20 md:h-20 rounded-full border-4 border-orange-500 mr-4" 
+                <img
+                  src={userData.avatar}
+                  alt="Avatar"
+                  className="w-16 h-16 md:w-20 md:h-20 rounded-full border-4 border-orange-500 mr-4"
                 />
                 <div>
                   <h2 className="text-xl md:text-2xl font-bold text-gray-800">{userData.name}</h2>
                   <div className="flex items-center mt-1">
                     <span className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white text-xs md:text-sm px-3 py-1 rounded-full flex items-center">
                       <FaMedal className="mr-1" /> {userData.membership}
-                      <span className="ml-2 text-white text-opacity-90">Vence: {userData.membershipExpiry}</span>
+                      {userData.membershipExpiry && (
+                        <span className="ml-2 text-white text-opacity-90">Vence: {userData.membershipExpiry}</span>
+                      )}
                     </span>
                   </div>
                   <div className="flex items-center mt-2">
@@ -255,7 +411,7 @@ const MemberArea = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex flex-wrap gap-2">
                 <button className="flex items-center bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-2 rounded-lg text-sm transition">
                   <FaBell className="mr-2" /> Notificaciones
@@ -263,15 +419,18 @@ const MemberArea = () => {
                 <button className="flex items-center bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-2 rounded-lg text-sm transition">
                   <FaCog className="mr-2" /> Configuración
                 </button>
-                <button className="flex items-center bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-2 rounded-lg text-sm transition">
+                <button
+                  onClick={logout}
+                  className="flex items-center bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-2 rounded-lg text-sm transition"
+                >
                   <FaSignOutAlt className="mr-2" /> Cerrar sesión
                 </button>
               </div>
             </div>
 
             {/* Tabs Desktop */}
-            <Tabs 
-              selectedIndex={activeTab} 
+            <Tabs
+              selectedIndex={activeTab}
               onSelect={index => setActiveTab(index)}
               className="hidden lg:block"
             >
@@ -335,7 +494,7 @@ const MemberArea = () => {
                           />
                         </div>
                       </div>
-                      
+
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
@@ -358,7 +517,7 @@ const MemberArea = () => {
                           />
                         </div>
                       </div>
-                      
+
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1">Moto</label>
@@ -381,7 +540,7 @@ const MemberArea = () => {
                           />
                         </div>
                       </div>
-                      
+
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1">Tipo de Sangre</label>
@@ -404,16 +563,16 @@ const MemberArea = () => {
                           />
                         </div>
                       </div>
-                      
-                      <button 
-                        type="button" 
+
+                      <button
+                        type="button"
                         className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md transition"
                       >
                         Guardar Cambios
                       </button>
                     </form>
                   </div>
-                  
+
                   <div className="space-y-6">
                     <div className="bg-gray-50 rounded-lg p-6 shadow-sm">
                       <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
@@ -431,7 +590,7 @@ const MemberArea = () => {
                         </button>
                       </div>
                     </div>
-                    
+
                     <div className="bg-gray-50 rounded-lg p-6 shadow-sm">
                       <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                         <FaMotorcycle className="text-orange-500 mr-2" /> Preferencias de Rodada
@@ -463,8 +622,8 @@ const MemberArea = () => {
                             <option>Solo mis eventos registrados</option>
                           </select>
                         </div>
-                        <button 
-                          type="button" 
+                        <button
+                          type="button"
                           className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md transition"
                         >
                           Guardar Preferencias
@@ -482,39 +641,39 @@ const MemberArea = () => {
                     <h3 className="text-xl font-semibold text-gray-800 mb-4">Mis Eventos Registrados</h3>
                     <div className="space-y-3">
                       {userData.registeredEvents.map(event => (
-                        <div key={event.id} className={`border rounded-lg overflow-hidden ${event.status === 'confirmed' ? 'border-green-200 bg-green-50' : 'border-yellow-200 bg-yellow-50'}`}>
+                        <div key={event.id} className={`border rounded-lg overflow-hidden ${event.status === 'Confirmado' ? 'border-green-200 bg-green-50' : 'border-yellow-200 bg-yellow-50'}`}>
                           <div className="p-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div>
                               <h4 className="font-semibold text-gray-800">{event.name}</h4>
                               <div className="text-sm text-gray-600 mt-1">{event.date}</div>
-                              <div className={`inline-flex items-center mt-2 text-sm px-3 py-1 rounded-full ${event.status === 'confirmed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                              <div className={`inline-flex items-center mt-2 text-sm px-3 py-1 rounded-full ${event.status === 'Confirmado' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
                                 {statusIcon(event.status)}
-                                {event.status === 'confirmed' ? 'Confirmado' : 'Pendiente'}
+                                {event.status}
                               </div>
                             </div>
                             <div className="sm:col-span-2">
                               <div className="flex flex-wrap gap-2 justify-start sm:justify-end">
-                                <button 
+                                <button
                                   onClick={() => handleEventAction(event.id, 'details')}
                                   className="bg-white hover:bg-gray-100 border border-gray-300 px-3 py-1 rounded-md text-sm transition"
                                 >
                                   Detalles
                                 </button>
-                                <button 
+                                <button
                                   onClick={() => handleEventAction(event.id, 'cancel')}
                                   className="bg-white hover:bg-red-50 border border-red-200 text-red-600 px-3 py-1 rounded-md text-sm transition"
                                 >
                                   Cancelar
                                 </button>
-                                {event.status === 'pending' && (
-                                  <button 
+                                {event.status === 'Pendiente' && (
+                                  <button
                                     onClick={() => handleEventAction(event.id, 'confirm')}
                                     className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md text-sm transition"
                                   >
                                     Confirmar
                                   </button>
                                 )}
-                                <button 
+                                <button
                                   onClick={() => handleEventAction(event.id, 'share')}
                                   className="bg-white hover:bg-gray-100 border border-gray-300 px-3 py-1 rounded-md text-sm transition"
                                 >
@@ -531,7 +690,7 @@ const MemberArea = () => {
                               <p className="text-sm text-gray-600 mt-2">Puntos por asistencia: 50</p>
                             </div>
                           )}
-                          <div 
+                          <div
                             className="bg-gray-100 text-center py-1 cursor-pointer text-sm text-gray-600 hover:bg-gray-200 transition"
                             onClick={() => toggleDropdown(event.id)}
                           >
@@ -541,7 +700,7 @@ const MemberArea = () => {
                       ))}
                     </div>
                   </div>
-                  
+
                   <div>
                     <h3 className="text-xl font-semibold text-gray-800 mb-4">Calendario de Eventos</h3>
                     <div className="bg-white border rounded-lg p-4 min-h-64 flex items-center justify-center">
@@ -571,25 +730,25 @@ const MemberArea = () => {
                                 </p>
                               </div>
                               <div className="flex flex-wrap gap-2 sm:justify-end items-start">
-                                <button 
+                                <button
                                   onClick={() => handleEventAction(event.id, 'details')}
                                   className="bg-white hover:bg-gray-100 border border-gray-300 px-3 py-1 rounded-md text-sm transition"
                                 >
                                   Ver Detalles
                                 </button>
-                                <button 
+                                <button
                                   onClick={() => handleEventAction(event.id, 'register')}
                                   className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded-md text-sm transition"
                                 >
                                   Registrar Asistencia
                                 </button>
-                                <button 
+                                <button
                                   onClick={() => handleEventAction(event.id, 'reminder')}
                                   className="bg-white hover:bg-gray-100 border border-gray-300 px-3 py-1 rounded-md text-sm transition"
                                 >
                                   Recordarme
                                 </button>
-                                <button 
+                                <button
                                   onClick={() => handleEventAction(event.id, 'share')}
                                   className="bg-white hover:bg-gray-100 border border-gray-300 px-3 py-1 rounded-md text-sm transition"
                                 >
@@ -602,7 +761,7 @@ const MemberArea = () => {
                       ))}
                     </div>
                   </div>
-                  
+
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <h4 className="font-medium text-gray-800 mb-3">Filtrar por categoría:</h4>
                     <div className="flex flex-wrap gap-2">
@@ -626,7 +785,7 @@ const MemberArea = () => {
                       <div className="text-4xl font-bold">{userData.points}</div>
                       <p className="text-orange-100 mt-2">Solo te faltan 250 puntos para el siguiente nivel</p>
                     </div>
-                    
+
                     <div className="bg-white border rounded-lg p-6 shadow-sm">
                       <h3 className="text-lg font-semibold text-gray-800 mb-4">Desglose de Puntos</h3>
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -652,7 +811,7 @@ const MemberArea = () => {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="bg-white border rounded-lg p-6 shadow-sm">
                       <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                         <FaHistory className="text-orange-500 mr-2" /> Historial de Puntos
@@ -679,7 +838,7 @@ const MemberArea = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="space-y-6">
                     <div className="bg-white border rounded-lg p-6 shadow-sm">
                       <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
@@ -709,7 +868,7 @@ const MemberArea = () => {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="bg-blue-50 border border-blue-100 rounded-lg p-4">
                       <h4 className="font-medium text-blue-800 mb-2">¿Cómo ganar más puntos?</h4>
                       <ul className="text-sm text-blue-700 space-y-1 list-disc list-inside">
@@ -739,27 +898,27 @@ const MemberArea = () => {
                         </div>
                         <div className="mb-4">
                           <div className="w-full bg-gray-200 rounded-full h-2.5">
-                            <div 
-                              className="bg-gradient-to-r from-orange-500 to-yellow-500 h-2.5 rounded-full" 
+                            <div
+                              className="bg-gradient-to-r from-orange-500 to-yellow-500 h-2.5 rounded-full"
                               style={{ width: '75%' }}
                             ></div>
                           </div>
                           <div className="text-sm text-gray-500 mt-1">75% completado hacia el próximo nivel</div>
                         </div>
                         <div className="flex flex-wrap gap-3 justify-center">
-                          <button 
+                          <button
                             onClick={() => handleMembershipAction('renew')}
                             className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md transition"
                           >
                             Renovar Membresía
                           </button>
-                          <button 
+                          <button
                             onClick={() => handleMembershipAction('upgrade')}
                             className="bg-white hover:bg-gray-100 border border-gray-300 px-4 py-2 rounded-md transition"
                           >
                             Mejorar Nivel
                           </button>
-                          <button 
+                          <button
                             onClick={() => handleMembershipAction('cancel')}
                             className="bg-white hover:bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-md transition"
                           >
@@ -768,7 +927,7 @@ const MemberArea = () => {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="bg-white border rounded-lg p-6 shadow-sm">
                       <h3 className="text-lg font-semibold text-gray-800 mb-4">
                         Beneficios de tu Membresía {userData.membership}
@@ -783,7 +942,7 @@ const MemberArea = () => {
                       </ul>
                     </div>
                   </div>
-                  
+
                   <div>
                     <div className="bg-white border rounded-lg p-6 shadow-sm">
                       <h3 className="text-lg font-semibold text-gray-800 mb-4">Comparativa de Niveles de Membresía</h3>
@@ -843,10 +1002,10 @@ const MemberArea = () => {
                     <form onSubmit={handlePqrsdSubmit} className="space-y-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
-                        <select 
-                          name="type" 
+                        <select
+                          name="type"
                           value={newPqrsd.type}
-                          onChange={(e) => setNewPqrsd({...newPqrsd, type: e.target.value})}
+                          onChange={(e) => setNewPqrsd({ ...newPqrsd, type: e.target.value })}
                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                         >
                           <option value="Petición">Petición</option>
@@ -859,35 +1018,35 @@ const MemberArea = () => {
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Asunto</label>
-                        <input 
-                          type="text" 
-                          name="subject" 
+                        <input
+                          type="text"
+                          name="subject"
                           value={newPqrsd.subject}
-                          onChange={(e) => setNewPqrsd({...newPqrsd, subject: e.target.value})}
+                          onChange={(e) => setNewPqrsd({ ...newPqrsd, subject: e.target.value })}
                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                          required 
+                          required
                         />
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
-                        <textarea 
-                          name="description" 
+                        <textarea
+                          name="description"
                           value={newPqrsd.description}
-                          onChange={(e) => setNewPqrsd({...newPqrsd, description: e.target.value})}
+                          onChange={(e) => setNewPqrsd({ ...newPqrsd, description: e.target.value })}
                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                           rows="4"
-                          required 
+                          required
                         ></textarea>
                       </div>
-                      <button 
-                        type="submit" 
+                      <button
+                        type="submit"
                         className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md transition"
                       >
                         Enviar PQRSDF
                       </button>
                     </form>
                   </div>
-                  
+
                   <div>
                     <div className="bg-white border rounded-lg p-6 shadow-sm">
                       <h3 className="text-lg font-semibold text-gray-800 mb-4">Historial de PQRSDF</h3>
@@ -909,11 +1068,10 @@ const MemberArea = () => {
                                 <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-600">{item.type}</td>
                                 <td className="px-3 py-2 text-sm text-gray-600">{item.subject}</td>
                                 <td className="px-3 py-2 whitespace-nowrap">
-                                  <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                                    item.status === 'En proceso' ? 'bg-blue-100 text-blue-800' : 
-                                    item.status === 'Cerrado' ? 'bg-gray-100 text-gray-800' : 
-                                    'bg-green-100 text-green-800'
-                                  }`}>
+                                  <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${item.status === 'En proceso' ? 'bg-blue-100 text-blue-800' :
+                                      item.status === 'Cerrado' ? 'bg-gray-100 text-gray-800' :
+                                        'bg-green-100 text-green-800'
+                                    }`}>
                                     {statusIcon(item.status)}
                                     {item.status}
                                   </span>
@@ -930,7 +1088,7 @@ const MemberArea = () => {
                         </table>
                       </div>
                     </div>
-                    
+
                     <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 mt-4">
                       <h4 className="font-medium text-blue-800 mb-2">Tipos de PQRSDF:</h4>
                       <ul className="text-sm text-blue-700 space-y-1">
@@ -950,7 +1108,7 @@ const MemberArea = () => {
               {activeTab === 6 && (
                 <div>
                   <h3 className="text-xl font-semibold text-gray-800 mb-6">Comunidad BSK</h3>
-                  
+
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
                     <div className="bg-white border rounded-lg p-4 text-center shadow-sm">
                       <div className="text-2xl sm:text-3xl font-bold text-orange-500">1,250</div>
@@ -969,7 +1127,7 @@ const MemberArea = () => {
                       <div className="text-xs sm:text-sm text-gray-600">Años de historia</div>
                     </div>
                   </div>
-                  
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     <div className="bg-white border rounded-lg p-6 text-center shadow-sm hover:shadow-md transition">
                       <div className="text-orange-500 mb-3 mx-auto" style={{ width: '32px', height: '32px' }}>
@@ -1012,7 +1170,7 @@ const MemberArea = () => {
                       </button>
                     </div>
                   </div>
-                  
+
                   <div className="bg-white border rounded-lg p-6 shadow-sm">
                     <h4 className="font-semibold text-gray-800 mb-4">Anuncios del Club</h4>
                     <div className="space-y-4">
@@ -1048,7 +1206,7 @@ const MemberArea = () => {
               {activeTab === 7 && (
                 <div>
                   <h3 className="text-xl font-semibold text-gray-800 mb-6">Aliados Comerciales BSK</h3>
-                  
+
                   <div className="bg-gray-50 p-4 rounded-lg mb-6">
                     <h4 className="font-medium text-gray-800 mb-3">Categorías:</h4>
                     <div className="flex flex-wrap gap-2">
@@ -1060,15 +1218,15 @@ const MemberArea = () => {
                       <button className="bg-white hover:bg-gray-100 border border-gray-300 px-3 py-1 rounded-full text-sm">Restaurantes</button>
                     </div>
                   </div>
-                  
+
                   <div className="space-y-4 mb-8">
                     <div className="bg-white border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
                       <div className="p-4 md:p-6 flex flex-col md:flex-row">
                         <div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6">
-                          <img 
-                            src="https://via.placeholder.com/120" 
-                            alt="Partner Logo" 
-                            className="w-20 h-20 object-contain" 
+                          <img
+                            src="https://via.placeholder.com/120"
+                            alt="Partner Logo"
+                            className="w-20 h-20 object-contain"
                           />
                         </div>
                         <div className="flex-grow">
@@ -1093,14 +1251,14 @@ const MemberArea = () => {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="bg-white border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
                       <div className="p-4 md:p-6 flex flex-col md:flex-row">
                         <div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6">
-                          <img 
-                            src="https://via.placeholder.com/120" 
-                            alt="Partner Logo" 
-                            className="w-20 h-20 object-contain" 
+                          <img
+                            src="https://via.placeholder.com/120"
+                            alt="Partner Logo"
+                            className="w-20 h-20 object-contain"
                           />
                         </div>
                         <div className="flex-grow">
@@ -1125,14 +1283,14 @@ const MemberArea = () => {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="bg-white border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
                       <div className="p-4 md:p-6 flex flex-col md:flex-row">
                         <div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6">
-                          <img 
-                            src="https://via.placeholder.com/120" 
-                            alt="Partner Logo" 
-                            className="w-20 h-20 object-contain" 
+                          <img
+                            src="https://via.placeholder.com/120"
+                            alt="Partner Logo"
+                            className="w-20 h-20 object-contain"
                           />
                         </div>
                         <div className="flex-grow">
@@ -1158,7 +1316,7 @@ const MemberArea = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="bg-blue-50 border border-blue-100 rounded-lg p-6">
                     <h4 className="font-semibold text-blue-800 mb-3">¿Cómo ganar puntos con aliados?</h4>
                     <ol className="text-sm text-blue-700 space-y-2 list-decimal list-inside">
