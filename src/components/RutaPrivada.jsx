@@ -1,10 +1,11 @@
 import { useAuth } from './auth/AuthContext';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { FaSpinner } from 'react-icons/fa';
 
 const RutaPrivada = ({ children, roles }) => {
   const { user, loading, isAuthenticated } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
 
   if (loading) {
     return (
@@ -15,29 +16,20 @@ const RutaPrivada = ({ children, roles }) => {
   }
 
   if (!isAuthenticated) {
-    // Guardamos la ubicación actual para redirigir después del login
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  // Verificación de roles si se especifican
-  if (roles) {
-    const hasRequiredRole = Array.isArray(roles) 
-      ? roles.includes(user?.role)
-      : user?.role === roles;
-
-    if (!hasRequiredRole) {
-      return (
-        <Navigate 
-          to="/no-autorizado" 
-          state={{ 
-            from: location,
-            requiredRole: roles,
-            currentRole: user?.role 
-          }} 
-          replace 
-        />
-      );
-    }
+  if (roles && !roles.includes(user?.role)) {
+    // Redirige a no autorizado si no tiene el rol adecuado
+    navigate('/no-autorizado', { 
+      state: { 
+        from: location,
+        requiredRole: roles,
+        currentRole: user?.role 
+      },
+      replace: true
+    });
+    return null;
   }
 
   return children;
