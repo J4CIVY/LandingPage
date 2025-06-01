@@ -126,7 +126,7 @@ const MemberArea = () => {
   const handleComplaintSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`/api/users/${user.documentNumber}/complaints`, {
+      const response = await axios.post(`/users/${user.documentNumber}/complaints`, {
         type: newComplaint.type,
         message: newComplaint.description,
         subject: newComplaint.subject
@@ -161,13 +161,13 @@ const MemberArea = () => {
       let response;
 
       if (action === 'register') {
-        response = await axios.post(`/api/events/${eventId}/register`, {}, {
+        response = await axios.post(`/events/${eventId}/register`, {}, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
         });
       } else if (action === 'cancel') {
-        response = await axios.post(`/api/events/${eventId}/cancel`, {}, {
+        response = await axios.post(`/events/${eventId}/cancel`, {}, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
@@ -196,13 +196,13 @@ const MemberArea = () => {
       let response;
 
       if (action === 'renew') {
-        response = await axios.post(`/api/users/${user.documentNumber}/renew-membership`, {}, {
+        response = await axios.post(`/users/${user.documentNumber}/renew-membership`, {}, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
         });
       } else if (action === 'upgrade') {
-        response = await axios.post(`/api/users/${user.documentNumber}/upgrade-membership`, {}, {
+        response = await axios.post(`/users/${user.documentNumber}/upgrade-membership`, {}, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
