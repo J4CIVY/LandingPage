@@ -1,8 +1,9 @@
 import { useRef, useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider } from './components/auth/AuthContext'; // Importa el AuthProvider
 import RutaPrivada from './components/RutaPrivada';
 import EventosDashboard from './pages/EventosDashboard';
-import MemberArea from './pages/MemberArea'; // Importa el componente MemberArea
+import MemberArea from './pages/MemberArea';
 import Login from "./components/auth/Login";
 import Documents from "./pages/Documents";
 import Contact from "./pages/Contact";
@@ -45,66 +46,70 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <div className="bg-[#ffffff] min-h-screen flex flex-col">
-        {/* Contenedor fijo para el header */}
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 50,
-          width: '100%'
-        }}>
-          <Header ref={headerRef} />
+    <AuthProvider> {/* Envuelve todo con AuthProvider */}
+      <Router>
+        <div className="bg-[#ffffff] min-h-screen flex flex-col">
+          {/* Contenedor fijo para el header */}
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 50,
+            width: '100%'
+          }}>
+            <Header ref={headerRef} />
+          </div>
+
+          {/* Contenido principal con padding dinámico */}
+          <main
+            style={{
+              paddingTop: `${headerHeight}px`,
+              minHeight: `calc(100vh - ${headerHeight}px)`,
+              position: 'relative',
+              flex: 1
+            }}
+            className="pb-20"
+          >
+            <Routes>
+              {/* Rutas públicas */}
+              <Route path="/" element={<Home />} />
+              <Route path="/events" element={<Events />} />
+              <Route path="/courses" element={<Courses />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/weather" element={<Weather />} />
+              <Route path="/sos" element={<Sos />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/documents" element={<Documents />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/cookie-policy" element={<CookiePolicy />} />
+
+              {/* Rutas protegidas */}
+              <Route path="/admin/eventos" element={
+                <RutaPrivada rolesPermitidos={['admin']}>
+                  <EventosDashboard />
+                </RutaPrivada>
+              } />
+
+              <Route path="/miembros" element={
+                <RutaPrivada rolesPermitidos={['member', 'admin']}>
+                  <MemberArea />
+                </RutaPrivada>
+              } />
+
+              {/* Redirección para rutas no encontradas */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </main>
+
+          {/* Agrega el Footer aquí */}
+          <Footer />
+
+          {/* Banner de Cookies - Se muestra sobre el footer */}
+          <CookieBanner />
         </div>
-
-        {/* Contenido principal con padding dinámico */}
-        <main
-          style={{
-            paddingTop: `${headerHeight}px`,
-            minHeight: `calc(100vh - ${headerHeight}px)`,
-            position: 'relative',
-            flex: 1
-          }}
-          className="pb-20"
-        >
-          <Routes>
-            {/* Rutas públicas */}
-            <Route path="/" element={<Home />} />
-            <Route path="/events" element={<Events />} />
-            <Route path="/courses" element={<Courses />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/weather" element={<Weather />} />
-            <Route path="/sos" element={<Sos />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/documents" element={<Documents />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/cookie-policy" element={<CookiePolicy />} />
-
-            {/* Rutas protegidas */}
-            <Route path="/admin/eventos" element={
-              <RutaPrivada>
-                <EventosDashboard />
-              </RutaPrivada>
-            } />
-
-            {/* Nueva ruta protegida para el área de miembros */}
-            <Route path="/miembros" element={
-              <RutaPrivada>
-                <MemberArea />
-              </RutaPrivada>
-            } />
-          </Routes>
-        </main>
-
-        {/* Agrega el Footer aquí */}
-        <Footer />
-
-        {/* Banner de Cookies - Se muestra sobre el footer */}
-        <CookieBanner />
-      </div>
-    </Router>
+      </Router>
+    </AuthProvider>
   );
 }
 
