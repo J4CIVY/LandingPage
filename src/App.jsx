@@ -84,7 +84,7 @@ function App() {
               <Route path="/no-autorizado" element={<NoAutorizado />} />
 
               {/* Rutas protegidas */}
-              <Route path="/member-area" element={
+              <Route path="/miembros" element={
                 <ProtectedRoute>
                   <MemberArea />
                 </ProtectedRoute>
