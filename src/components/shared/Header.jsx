@@ -55,7 +55,7 @@ const Header = forwardRef((props, ref) => {
               aria-label="Ir a inicio"
             >
               <img
-                src="/Logo_Letras_Motoclub_BSK_Motorcycle_Team_White_192X192.webp"
+                src="/Logo_Letras_BSK_MT_100.webp"
                 alt="Logo Motoclub BSK Motorcycle Team"
                 className="w-[80px] md:w-[100px] h-auto object-contain"
                 width={90}

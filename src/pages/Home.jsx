@@ -75,10 +75,10 @@ const Home = () => {
         title="BSK Motorcycle Team - Comunidad Motera en Bogotá | Pasión por el Motociclismo"
         description="Únete al BSK Motorcycle Team, el motoclub líder en Bogotá. Disfruta de rutas, eventos, talleres y una comunidad apasionada por el motociclismo. Hermandad, aventura y respeto sobre dos ruedas."
         keywords="motoclub bogotá, bsk motorcycle team, comunidad motera, rutas en moto bogotá, eventos motociclismo, club de motos colombia, mototurismo, talleres motociclismo"
-        image="https://www.bskmt.com/images/og-home.jpg"
-        url="https://www.bskmt.com"
+        image="https://bskmt.com/images/og-home.jpg"
+        url="https://bskmt.com"
         type="website"
-        canonical="https://www.bskmt.com"
+        canonical="https://bskmt.com"
       >
         {/* Schema Markup adicional para Motoclub */}
         <script type="application/ld+json">
@@ -87,8 +87,8 @@ const Home = () => {
             "@type": "MotorcycleDealer",
             "name": "BSK Motorcycle Team",
             "description": "Motoclub apasionado por el motociclismo y la comunidad motera en Bogotá, Colombia",
-            "url": "https://www.bskmt.com",
-            "logo": "https://www.bskmt.com/images/logo.png",
+            "url": "https://bskmt.com",
+            "logo": "https://bskmt.com/images/logo.png",
             "address": {
               "@type": "PostalAddress",
               "streetAddress": "Carrera 5 A No. 36 A Sur 28, 110431, Ayacucho, San Cristobal, Bogotá, Bogotá D.C., Colombia",
