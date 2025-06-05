@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from './AuthContext';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
 
 const ProtectedRoute = ({ children }) => {
   const { user, loadingAuth } = useAuth();
