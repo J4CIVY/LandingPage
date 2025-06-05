@@ -13,7 +13,7 @@ import {
 import axios from 'axios';
 import { useAuth } from '../components/auth/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
 
 const MemberArea = () => {
   const { user, logout } = useAuth();
