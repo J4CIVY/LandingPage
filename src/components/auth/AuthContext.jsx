@@ -1,74 +1,98 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loadingAuth, setLoadingAuth] = useState(true);
+  const navigate = useNavigate();
 
-  // Mueve la lógica de navegación fuera del contexto
-  const fetchCurrentUser = async (token) => {
+  const isTokenValid = (token) => {
+    if (!token) return false;
     try {
-      const { data } = await axios.get('/users/me', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      return data.data.user;
-    } catch (error) {
-      localStorage.removeItem('token');
-      return null;
+      const decoded = jwtDecode(token);
+      return decoded.exp > Date.now() / 1000;
+    } catch {
+      return false;
     }
   };
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      const token = localStorage.getItem('token');
-      if (token) {
-        const userData = await fetchCurrentUser(token);
-        setUser(userData);
-      }
-      setLoading(false);
-    };
-
-    checkAuth();
-  }, []);
-
-  const login = async (email, password) => {
+  const login = async (credentials) => {
     try {
-      const { data } = await axios.post('/auth/login', { email, password });
-      const token = data.accessToken || data.token;
-      localStorage.setItem('token', token);
-      const userData = await fetchCurrentUser(token);
-      setUser(userData);
-      return userData;
-    } catch (err) {
-      throw err.response?.data || err;
+      const response = await axios.post('/auth/login', credentials);
+      const { accessToken, refreshToken, data } = response.data;
+      
+      localStorage.setItem('token', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+      
+      setUser(data.user);
+      return data.user;
+    } catch (error) {
+      throw error;
     }
   };
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
     setUser(null);
-    // La redirección se manejará en los componentes
+    navigate('/login');
   };
 
+  const refreshToken = async () => {
+    try {
+      const refreshToken = localStorage.getItem('refreshToken');
+      if (!refreshToken) {
+        logout();
+        return null;
+      }
+
+      const response = await axios.post('/auth/refresh-token', { refreshToken });
+      const { accessToken } = response.data;
+      
+      localStorage.setItem('token', accessToken);
+      return accessToken;
+    } catch (error) {
+      logout();
+      return null;
+    }
+  };
+
+  // Verificar autenticación al cargar
+  useEffect(() => {
+    const verifyAuth = async () => {
+      const token = localStorage.getItem('token');
+      
+      if (token && isTokenValid(token)) {
+        try {
+          const response = await axios.get('/auth/verifyToken', {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          setUser(response.data.user);
+        } catch (error) {
+          if (error.response?.status === 401) {
+            const newToken = await refreshToken();
+            if (newToken) {
+              const response = await axios.get('/auth/verifyToken', {
+                headers: { Authorization: `Bearer ${newToken}` }
+              });
+              setUser(response.data.user);
+            }
+          }
+        }
+      }
+      setLoadingAuth(false);
+    };
+
+    verifyAuth();
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      loading, 
-      login, 
-      logout,
-      isAuthenticated: !!user
-    }}>
-      {children}
+    <AuthContext.Provider value={{ user, loadingAuth, login, logout, refreshToken }}>
+      {!loadingAuth && children}
     </AuthContext.Provider>
   );
-};
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
 };

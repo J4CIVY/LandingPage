@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider } from './components/auth/AuthContext'; // Cambiado a la nueva ubicación
-import RutaPrivada from './components/RutaPrivada';
+import { AuthProvider } from './components/auth/AuthContext';
+import ProtectedRoute from './components/auth/ProtectedRoute';
 import EventosDashboard from './pages/EventosDashboard';
 import MemberArea from './pages/MemberArea';
 import Login from "./components/auth/Login";
@@ -84,16 +84,18 @@ function App() {
               <Route path="/no-autorizado" element={<NoAutorizado />} />
 
               {/* Rutas protegidas */}
-              <Route element={<RutaPrivada roles={['admin']} />}>
-                <Route path="/admin/eventos" element={<EventosDashboard />} />
-              </Route>
+              <Route path="/area-de-miembros" element={
+                <ProtectedRoute>
+                  <MemberArea />
+                </ProtectedRoute>
+              } />
 
-              <Route element={<RutaPrivada roles={['member', 'admin']} />}>
-                <Route path="/miembros" element={<MemberArea />} />
-              </Route>
-
-              {/* Redirección para rutas no encontradas */}
-              <Route path="*" element={<Navigate to="/" replace />} />
+              <Route path="/eventos-dashboard" element={
+                <ProtectedRoute>
+                  <EventosDashboard />
+                </ProtectedRoute>
+              } />
+              
             </Routes>
           </main>
 

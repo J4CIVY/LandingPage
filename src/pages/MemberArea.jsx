@@ -12,14 +12,51 @@ import {
 } from 'react-icons/fa';
 import axios from 'axios';
 import { useAuth } from '../components/auth/AuthContext';
+import { useNavigate, useLocation } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 
 const MemberArea = () => {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [activeTab, setActiveTab] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Configura el interceptor de axios para manejar errores 401
+  useEffect(() => {
+    const interceptor = axios.interceptors.response.use(
+      response => response,
+      error => {
+        if (error.response?.status === 401) {
+          handleSessionExpired();
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    return () => {
+      axios.interceptors.response.eject(interceptor);
+    };
+  }, []);
+
+  const handleSessionExpired = () => {
+    localStorage.removeItem('token');
+    logout();
+    navigate('/login', { state: { from: location, sessionExpired: true } });
+  };
+
+  const isTokenValid = (token) => {
+    if (!token) return false;
+    try {
+      const decoded = jwtDecode(token);
+      return decoded.exp > Date.now() / 1000;
+    } catch {
+      return false;
+    }
+  };
 
   const [userData, setUserData] = useState({
     name: '',
@@ -62,15 +99,24 @@ const MemberArea = () => {
     const fetchUserData = async () => {
       try {
         setLoading(true);
+        setError(null);
+
+        const token = localStorage.getItem('token');
+
+        // Verificación doble del token
+        if (!token || !isTokenValid(token)) {
+          throw new Error('Invalid or expired token');
+        }
+
         const response = await axios.get('/users/me', {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          }
+            Authorization: `Bearer ${token}`
+          },
+          timeout: 10000 // 10 segundos timeout
         });
 
         const userDataFromApi = response.data.data.user;
 
-        // Transformar datos del backend al formato esperado por el frontend
         setUserData({
           name: userDataFromApi.fullName,
           membership: userDataFromApi.role,
@@ -106,17 +152,23 @@ const MemberArea = () => {
           allergies: userDataFromApi.allergies || 'Ninguna'
         });
 
-        setLoading(false);
       } catch (err) {
+        console.error('Error loading user data:', err);
         setError(err.response?.data?.message || 'Error al cargar los datos del usuario');
+        handleSessionExpired();
+      } finally {
         setLoading(false);
       }
     };
 
-    if (user) {
+    // Verificar autenticación antes de cargar datos
+    const token = localStorage.getItem('token');
+    if (!token || !isTokenValid(token)) {
+      handleSessionExpired();
+    } else {
       fetchUserData();
     }
-  }, [user]);
+  }, [user, location]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -126,15 +178,25 @@ const MemberArea = () => {
   const handleComplaintSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`/users/${user.documentNumber}/complaints`, {
-        type: newComplaint.type,
-        message: newComplaint.description,
-        subject: newComplaint.subject
-      }, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+      const token = localStorage.getItem('token');
+      if (!token) {
+        handleSessionExpired();
+        return;
+      }
+
+      const response = await axios.post(
+        `/users/${user.documentNumber}/complaints`,
+        {
+          type: newComplaint.type,
+          message: newComplaint.description,
+          subject: newComplaint.subject
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
         }
-      });
+      );
 
       const newEntry = {
         id: response.data.data.complaint.referenceNumber,
@@ -152,107 +214,113 @@ const MemberArea = () => {
       setNewComplaint({ type: 'Petición', subject: '', description: '' });
       alert('Tu PQRSDF ha sido registrada con éxito. Nos comunicaremos contigo pronto.');
     } catch (err) {
-      alert(err.response?.data?.message || 'Error al enviar la PQRSDF');
+      if (err.response?.status === 401) {
+        handleSessionExpired();
+      } else {
+        alert(err.response?.data?.message || 'Error al enviar la PQRSDF');
+      }
     }
   };
 
   const handleEventAction = async (eventId, action) => {
-  try {
-    let response;
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        handleSessionExpired();
+        return;
+      }
 
-    if (action === 'register') {
-      response = await axios.post(`/events/${eventId}/register`, {}, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-    } else if (action === 'cancel') {
-      response = await axios.post(`/events/${eventId}/cancel`, {}, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-    } else if (action === 'confirm') {
-      // Add missing confirm action
-      response = await axios.post(`/events/${eventId}/confirm`, {}, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-    } else if (action === 'details') {
-      toggleDropdown(eventId);
-      return;
-    } else if (action === 'share') {
-      // Implement share logic or show a message
-      alert('Funcionalidad de compartir próximamente.');
-      return;
-    } else if (action === 'reminder') {
-      // Implement reminder logic or show a message
-      alert('Recordatorio programado.');
-      return;
-    }
+      let response;
 
-    if (response) {
-      alert(`Acción "${action}" realizada con éxito`);
-      // Actualizar la lista de eventos
-      const updatedEvents = userData.registeredEvents.map(event => {
-        if (event.id === eventId) {
-          if (action === 'cancel') {
-            return { ...event, status: 'Cancelado' };
-          } else if (action === 'confirm') {
-            return { ...event, status: 'Confirmado' };
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      };
+
+      if (action === 'register') {
+        response = await axios.post(`/events/${eventId}/register`, {}, config);
+      } else if (action === 'cancel') {
+        response = await axios.post(`/events/${eventId}/cancel`, {}, config);
+      } else if (action === 'confirm') {
+        response = await axios.post(`/events/${eventId}/confirm`, {}, config);
+      } else if (action === 'details') {
+        toggleDropdown(eventId);
+        return;
+      } else if (action === 'share') {
+        alert('Funcionalidad de compartir próximamente.');
+        return;
+      } else if (action === 'reminder') {
+        alert('Recordatorio programado.');
+        return;
+      }
+
+      if (response) {
+        alert(`Acción "${action}" realizada con éxito`);
+        const updatedEvents = userData.registeredEvents.map(event => {
+          if (event.id === eventId) {
+            if (action === 'cancel') {
+              return { ...event, status: 'Cancelado' };
+            } else if (action === 'confirm') {
+              return { ...event, status: 'Confirmado' };
+            }
+            return { ...event };
           }
-          return { ...event };
-        }
-        return event;
-      });
+          return event;
+        });
 
-      setUserData(prev => ({ ...prev, registeredEvents: updatedEvents }));
+        setUserData(prev => ({ ...prev, registeredEvents: updatedEvents }));
+      }
+    } catch (err) {
+      if (err.response?.status === 401) {
+        handleSessionExpired();
+      } else {
+        alert(err.response?.data?.message || `Error al realizar la acción "${action}"`);
+      }
     }
-  } catch (err) {
-    alert(err.response?.data?.message || `Error al realizar la acción "${action}"`);
-  }
-};
+  };
 
-const handleMembershipAction = async (action) => {
-  try {
-    let response;
+  const handleMembershipAction = async (action) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        handleSessionExpired();
+        return;
+      }
 
-    if (action === 'renew') {
-      response = await axios.post(`/users/${user.documentNumber}/renew-membership`, {}, {
+      let response;
+
+      const config = {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${token}`
         }
-      });
-    } else if (action === 'upgrade') {
-      response = await axios.post(`/users/${user.documentNumber}/upgrade-membership`, {}, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-    } else if (action === 'cancel') {
-      // Add missing cancel membership logic
-      response = await axios.post(`/users/${user.documentNumber}/cancel-membership`, {}, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-      });
+      };
+
+      if (action === 'renew') {
+        response = await axios.post(`/users/${user.documentNumber}/renew-membership`, {}, config);
+      } else if (action === 'upgrade') {
+        response = await axios.post(`/users/${user.documentNumber}/upgrade-membership`, {}, config);
+      } else if (action === 'cancel') {
+        response = await axios.post(`/users/${user.documentNumber}/cancel-membership`, {}, config);
+      }
+
+      if (response) {
+        alert(`Membresía ${action === 'renew' ? 'renovada' : action === 'upgrade' ? 'actualizada' : 'cancelada'} con éxito`);
+        setUserData(prev => ({
+          ...prev,
+          membership: response.data.data.user.role,
+          membershipExpiry: response.data.data.user.membershipExpiry || prev.membershipExpiry,
+          membershipBenefits: response.data.data.user.membershipBenefits || prev.membershipBenefits
+        }));
+      }
+    } catch (err) {
+      if (err.response?.status === 401) {
+        handleSessionExpired();
+      } else {
+        alert(err.response?.data?.message || `Error al ${action === 'renew' ? 'renovar' : action === 'upgrade' ? 'actualizar' : 'cancelar'} la membresía`);
+      }
     }
-
-    if (response) {
-      alert(`Membresía ${action === 'renew' ? 'renovada' : action === 'upgrade' ? 'actualizada' : 'cancelada'} con éxito`);
-      // Actualizar datos de membresía
-      setUserData(prev => ({
-        ...prev,
-        membership: response.data.data.user.role,
-        membershipExpiry: response.data.data.user.membershipExpiry || prev.membershipExpiry,
-        membershipBenefits: response.data.data.user.membershipBenefits || prev.membershipBenefits
-      }));
-    }
-  } catch (err) {
-    alert(err.response?.data?.message || `Error al ${action === 'renew' ? 'renovar' : action === 'upgrade' ? 'actualizar' : 'cancelar'} la membresía`);
-  }
-};
+  };
 
   const toggleDropdown = (id) => {
     setDropdownOpen(dropdownOpen === id ? null : id);
@@ -297,6 +365,15 @@ const handleMembershipAction = async (action) => {
             className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md transition"
           >
             Reintentar
+          </button>
+          <button
+            onClick={() => {
+              logout();
+              navigate('/login');
+            }}
+            className="ml-2 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md transition"
+          >
+            Volver al Login
           </button>
         </div>
       </div>
@@ -1099,8 +1176,8 @@ const handleMembershipAction = async (action) => {
                                 <td className="px-3 py-2 text-sm text-gray-600">{item.subject}</td>
                                 <td className="px-3 py-2 whitespace-nowrap">
                                   <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${item.status === 'En proceso' ? 'bg-blue-100 text-blue-800' :
-                                      item.status === 'Cerrado' ? 'bg-gray-100 text-gray-800' :
-                                        'bg-green-100 text-green-800'
+                                    item.status === 'Cerrado' ? 'bg-gray-100 text-gray-800' :
+                                      'bg-green-100 text-green-800'
                                     }`}>
                                     {statusIcon(item.status)}
                                     {item.status}
