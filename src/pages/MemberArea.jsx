@@ -157,72 +157,102 @@ const MemberArea = () => {
   };
 
   const handleEventAction = async (eventId, action) => {
-    try {
-      let response;
+  try {
+    let response;
 
-      if (action === 'register') {
-        response = await axios.post(`/events/${eventId}/register`, {}, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          }
-        });
-      } else if (action === 'cancel') {
-        response = await axios.post(`/events/${eventId}/cancel`, {}, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          }
-        });
-      }
-
-      if (response) {
-        alert(`Acción "${action}" realizada con éxito`);
-        // Actualizar la lista de eventos
-        const updatedEvents = userData.registeredEvents.map(event => {
-          if (event.id === eventId) {
-            return { ...event, status: action === 'cancel' ? 'Cancelado' : 'Confirmado' };
-          }
-          return event;
-        });
-
-        setUserData(prev => ({ ...prev, registeredEvents: updatedEvents }));
-      }
-    } catch (err) {
-      alert(err.response?.data?.message || `Error al realizar la acción "${action}"`);
+    if (action === 'register') {
+      response = await axios.post(`/events/${eventId}/register`, {}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+    } else if (action === 'cancel') {
+      response = await axios.post(`/events/${eventId}/cancel`, {}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+    } else if (action === 'confirm') {
+      // Add missing confirm action
+      response = await axios.post(`/events/${eventId}/confirm`, {}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+    } else if (action === 'details') {
+      toggleDropdown(eventId);
+      return;
+    } else if (action === 'share') {
+      // Implement share logic or show a message
+      alert('Funcionalidad de compartir próximamente.');
+      return;
+    } else if (action === 'reminder') {
+      // Implement reminder logic or show a message
+      alert('Recordatorio programado.');
+      return;
     }
-  };
 
-  const handleMembershipAction = async (action) => {
-    try {
-      let response;
-
-      if (action === 'renew') {
-        response = await axios.post(`/users/${user.documentNumber}/renew-membership`, {}, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
+    if (response) {
+      alert(`Acción "${action}" realizada con éxito`);
+      // Actualizar la lista de eventos
+      const updatedEvents = userData.registeredEvents.map(event => {
+        if (event.id === eventId) {
+          if (action === 'cancel') {
+            return { ...event, status: 'Cancelado' };
+          } else if (action === 'confirm') {
+            return { ...event, status: 'Confirmado' };
           }
-        });
-      } else if (action === 'upgrade') {
-        response = await axios.post(`/users/${user.documentNumber}/upgrade-membership`, {}, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          }
-        });
-      }
+          return { ...event };
+        }
+        return event;
+      });
 
-      if (response) {
-        alert(`Membresía ${action === 'renew' ? 'renovada' : 'actualizada'} con éxito`);
-        // Actualizar datos de membresía
-        setUserData(prev => ({
-          ...prev,
-          membership: response.data.data.user.role,
-          membershipExpiry: response.data.data.user.membershipExpiry || prev.membershipExpiry,
-          membershipBenefits: response.data.data.user.membershipBenefits || prev.membershipBenefits
-        }));
-      }
-    } catch (err) {
-      alert(err.response?.data?.message || `Error al ${action === 'renew' ? 'renovar' : 'actualizar'} la membresía`);
+      setUserData(prev => ({ ...prev, registeredEvents: updatedEvents }));
     }
-  };
+  } catch (err) {
+    alert(err.response?.data?.message || `Error al realizar la acción "${action}"`);
+  }
+};
+
+const handleMembershipAction = async (action) => {
+  try {
+    let response;
+
+    if (action === 'renew') {
+      response = await axios.post(`/users/${user.documentNumber}/renew-membership`, {}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+    } else if (action === 'upgrade') {
+      response = await axios.post(`/users/${user.documentNumber}/upgrade-membership`, {}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+    } else if (action === 'cancel') {
+      // Add missing cancel membership logic
+      response = await axios.post(`/users/${user.documentNumber}/cancel-membership`, {}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+    }
+
+    if (response) {
+      alert(`Membresía ${action === 'renew' ? 'renovada' : action === 'upgrade' ? 'actualizada' : 'cancelada'} con éxito`);
+      // Actualizar datos de membresía
+      setUserData(prev => ({
+        ...prev,
+        membership: response.data.data.user.role,
+        membershipExpiry: response.data.data.user.membershipExpiry || prev.membershipExpiry,
+        membershipBenefits: response.data.data.user.membershipBenefits || prev.membershipBenefits
+      }));
+    }
+  } catch (err) {
+    alert(err.response?.data?.message || `Error al ${action === 'renew' ? 'renovar' : action === 'upgrade' ? 'actualizar' : 'cancelar'} la membresía`);
+  }
+};
 
   const toggleDropdown = (id) => {
     setDropdownOpen(dropdownOpen === id ? null : id);
