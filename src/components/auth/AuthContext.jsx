@@ -1,11 +1,11 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react'; // Added useContext
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
+
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser ] = useState(null);
   const [loadingAuth, setLoadingAuth] = useState(true);
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('token', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
       
-      setUser(data.user);
+      setUser (data.user);
       return data.user;
     } catch (error) {
       throw error;
@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
-    setUser(null);
+    setUser (null);
     navigate('/login');
   };
 
@@ -70,7 +70,7 @@ export const AuthProvider = ({ children }) => {
           const response = await axios.get('/auth/verifyToken', {
             headers: { Authorization: `Bearer ${token}` }
           });
-          setUser(response.data.user);
+          setUser (response.data.user);
         } catch (error) {
           if (error.response?.status === 401) {
             const newToken = await refreshToken();
@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }) => {
               const response = await axios.get('/auth/verifyToken', {
                 headers: { Authorization: `Bearer ${newToken}` }
               });
-              setUser(response.data.user);
+              setUser (response.data.user);
             }
           }
         }
