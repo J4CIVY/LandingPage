@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import {
-  FaUser Cog, FaCalendarAlt, FaMotorcycle,
+  FaUserCog, FaCalendarAlt, FaMotorcycle,
   FaStar, FaMedal, FaHeadset, FaHistory,
   FaChartLine, FaTicketAlt, FaUsers,
   FaMapMarkedAlt, FaStore, FaShieldAlt,
