@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import {
-  FaUserCog, FaCalendarAlt, FaMotorcycle,
+  FaUser Cog, FaCalendarAlt, FaMotorcycle,
   FaStar, FaMedal, FaHeadset, FaHistory,
   FaChartLine, FaTicketAlt, FaUsers,
   FaMapMarkedAlt, FaStore, FaShieldAlt,
@@ -13,7 +13,7 @@ import {
 import axios from 'axios';
 import { useAuth } from '../components/auth/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 const MemberArea = () => {
   const { user, logout } = useAuth();
