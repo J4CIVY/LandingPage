@@ -18,7 +18,7 @@ import Header from "./components/shared/Header";
 import Footer from "./components/shared/Footer";
 import CookieBanner from "./components/shared/CookieBanner";
 import CookiePolicy from "./components/shared/CookiePolicy";
-import NoAutorizado from "./pages/NoAutorizado"; // Nuevo componente añadido
+import NoAutorizado from "./pages/NoAutorizado";
 
 function App() {
   const headerRef = useRef();
@@ -39,34 +39,37 @@ function App() {
       resizeObserver.observe(headerRef.current);
     }
 
+    // Agregar listener para cambios de tamaño de ventana
+    window.addEventListener('resize', updateHeaderHeight);
+
     return () => {
       resizeObserver.disconnect();
+      window.removeEventListener('resize', updateHeaderHeight);
     };
   }, []);
 
   return (
     <Router>
-      <AuthProvider> {/* AuthProvider ahora está dentro de Router */}
+      <AuthProvider>
         <div className="bg-[#ffffff] min-h-screen flex flex-col">
-          {/* Contenedor fijo para el header */}
-          <div style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            zIndex: 50,
-            width: '100%'
-          }}>
-            <Header ref={headerRef} />
-          </div>
+          {/* Header con posicionamiento fijo */}
+          <Header 
+            ref={headerRef} 
+            style={{ 
+              position: 'fixed', 
+              top: 0, 
+              left: 0, 
+              right: 0, 
+              zIndex: 50 
+            }} 
+          />
 
           {/* Contenido principal con padding dinámico */}
           <main
             style={{
               paddingTop: `${headerHeight}px`,
               minHeight: `calc(100vh - ${headerHeight}px)`,
-              position: 'relative',
-              flex: 1
+              position: 'relative'
             }}
             className="pb-20"
           >

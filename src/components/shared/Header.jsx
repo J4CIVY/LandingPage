@@ -43,15 +43,16 @@ const Header = forwardRef((props, ref) => {
     <>
       <header 
         ref={setRefs} 
-        className="fixed w-full z-50 bg-[#000031] shadow-md py-1" // Añadido py-3 para espacio vertical
+        className="w-full bg-[#000031] shadow-md py-1"
+        {...props}
       >
-        <div className="container mx-auto px-4"> {/* Aumentado px-4 a px-5 */}
+        <div className="container mx-auto px-4">
           {/* Contenedor principal */}
-          <div className="flex items-center justify-between h-full"> {/* Cambiado h-16 a h-full */}
+          <div className="flex items-center justify-between h-full">
             {/* Logo alineado a la izquierda */}
             <button
               onClick={() => navigate('/')}
-              className="focus:outline-none ml-3 md:ml-4" // Aumentado ml-2 a ml-3 (md:ml-0 a md:ml-4)
+              className="focus:outline-none ml-3 md:ml-4"
               aria-label="Ir a inicio"
             >
               <img
@@ -84,7 +85,7 @@ const Header = forwardRef((props, ref) => {
 
             {/* Botón de menú hamburguesa (solo móvil) */}
             <button
-              className="md:hidden text-white focus:outline-none mr-3" // Aumentado mr-2 a mr-3
+              className="md:hidden text-white focus:outline-none mr-3"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label="Menú"
             >
@@ -100,11 +101,11 @@ const Header = forwardRef((props, ref) => {
         {isMenuOpen && (
           <div 
             className="md:hidden fixed inset-0 bg-[#000031] z-40 overflow-y-auto"
-            style={{ top: '76px' }} // Ajustado de 64px a 76px por el nuevo padding
+            style={{ top: `${headerRef.current?.offsetHeight || 76}px` }}
           >
-            <div className="container mx-auto px-5 py-8 flex flex-col h-full"> {/* Aumentado px-4 a px-5 */}
+            <div className="container mx-auto px-5 py-8 flex flex-col h-full">
               {/* Items del menú */}
-              <ul className="flex-1 flex flex-col space-y-6 pl-2"> {/* Añadido pl-2 para margen izquierdo */}
+              <ul className="flex-1 flex flex-col space-y-6 pl-2">
                 {navItems.map((item) => (
                   <li key={item.name}>
                     <button
@@ -123,7 +124,7 @@ const Header = forwardRef((props, ref) => {
               </ul>
 
               {/* Sección de emergencia */}
-              <div className="mt-auto pb-8 pl-2"> {/* Añadido pl-2 para margen izquierdo */}
+              <div className="mt-auto pb-8 pl-2">
                 <div className="border-t border-gray-700 pt-6">
                   <h3 className="text-white font-bold mb-4">Asistencia de Emergencia</h3>
                   <p className="text-white text-sm mb-4">
