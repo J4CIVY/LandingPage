@@ -24,6 +24,7 @@ const MemberArea = () => {
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const API_URL = import.meta.env.VITE_API_URL || "https://api.bskmt.com";
 
   // Axios interceptor for 401 errors to handle session expiry
   useEffect(() => {
@@ -104,15 +105,20 @@ const MemberArea = () => {
         const token = localStorage.getItem('token');
 
         if (!token || !isTokenValid(token)) {
-          throw new Error('Invalid or expired token');
+          throw new Error('Token inválido o expirado');
         }
 
-        const response = await axios.get('/users/me', {
+        const response = await axios.get(`${API_URL}/users/me`, {
           headers: {
             Authorization: `Bearer ${token}`
           },
           timeout: 10000
         });
+
+        // Verifica la estructura de la respuesta
+        if (!response.data || !response.data.data?.user) {
+          throw new Error('Estructura de respuesta inesperada');
+        }
 
         const userDataFromApi = response.data.data.user;
 
@@ -152,8 +158,8 @@ const MemberArea = () => {
         });
 
       } catch (err) {
-        console.error('Error loading user data:', err);
-        setError(err.response?.data?.message || 'Error al cargar los datos del usuario');
+        console.error('Error cargando datos del usuario:', err);
+        setError(err.response?.data?.message || err.message || 'Error al cargar los datos del usuario');
         handleSessionExpired();
       } finally {
         setLoading(false);
@@ -173,8 +179,6 @@ const MemberArea = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // Missing onClick handler for saving personal info data
-  // User should implement update API and call here
   const handleSavePersonalInfo = () => {
     alert('Funcionalidad de guardar cambios próximamente.');
   };
@@ -189,7 +193,7 @@ const MemberArea = () => {
       }
 
       const response = await axios.post(
-        `/users/${user.documentNumber}/complaints`,
+        `${API_URL}/users/${user.documentNumber}/complaints`,
         {
           type: newComplaint.type,
           message: newComplaint.description,
@@ -243,11 +247,11 @@ const MemberArea = () => {
       };
 
       if (action === 'register') {
-        response = await axios.post(`/events/${eventId}/register`, {}, config);
+        response = await axios.post(`${API_URL}/events/${eventId}/register`, {}, config);
       } else if (action === 'cancel') {
-        response = await axios.post(`/events/${eventId}/cancel`, {}, config);
+        response = await axios.post(`${API_URL}/events/${eventId}/cancel`, {}, config);
       } else if (action === 'confirm') {
-        response = await axios.post(`/events/${eventId}/confirm`, {}, config);
+        response = await axios.post(`${API_URL}/events/${eventId}/confirm`, {}, config);
       } else if (action === 'details') {
         toggleDropdown(eventId);
         return;
@@ -296,11 +300,11 @@ const MemberArea = () => {
       const config = { headers: { Authorization: `Bearer ${token}` } };
 
       if (action === 'renew') {
-        response = await axios.post(`/users/${user.documentNumber}/renew-membership`, {}, config);
+        response = await axios.post(`${API_URL}/users/${user.documentNumber}/renew-membership`, {}, config);
       } else if (action === 'upgrade') {
-        response = await axios.post(`/users/${user.documentNumber}/upgrade-membership`, {}, config);
+        response = await axios.post(`${API_URL}/users/${user.documentNumber}/upgrade-membership`, {}, config);
       } else if (action === 'cancel') {
-        response = await axios.post(`/users/${user.documentNumber}/cancel-membership`, {}, config);
+        response = await axios.post(`${API_URL}/users/${user.documentNumber}/cancel-membership`, {}, config);
       }
 
       if (response) {
