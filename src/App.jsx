@@ -1,6 +1,6 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef } from 'react';
 import './index.css'
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from './components/auth/AuthContext';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import EventosDashboard from './pages/EventosDashboard';
@@ -22,31 +22,6 @@ import NoAutorizado from "./pages/NoAutorizado";
 
 function App() {
   const headerRef = useRef();
-  const [headerHeight, setHeaderHeight] = useState(0);
-
-  // Actualizar altura del header
-  useEffect(() => {
-    const updateHeaderHeight = () => {
-      if (headerRef.current) {
-        setHeaderHeight(headerRef.current.offsetHeight);
-      }
-    };
-
-    updateHeaderHeight();
-
-    const resizeObserver = new ResizeObserver(updateHeaderHeight);
-    if (headerRef.current) {
-      resizeObserver.observe(headerRef.current);
-    }
-
-    // Agregar listener para cambios de tamaño de ventana
-    window.addEventListener('resize', updateHeaderHeight);
-
-    return () => {
-      resizeObserver.disconnect();
-      window.removeEventListener('resize', updateHeaderHeight);
-    };
-  }, []);
 
   return (
     <Router>
@@ -55,24 +30,11 @@ function App() {
           {/* Header con posicionamiento fijo */}
           <Header 
             ref={headerRef} 
-            style={{ 
-              position: 'fixed', 
-              top: 0, 
-              left: 0, 
-              right: 0, 
-              zIndex: 50 
-            }} 
+            className="fixed top-0 left-0 right-0 z-50"
           />
 
-          {/* Contenido principal con padding dinámico */}
-          <main
-            style={{
-              paddingTop: `${headerHeight}px`,
-              minHeight: `calc(100vh - ${headerHeight}px)`,
-              position: 'relative'
-            }}
-            className="pb-20"
-          >
+          {/* Contenido principal con padding-top fijo basado en la altura del header */}
+          <main className="pt-[76px] min-h-[calc(100vh-76px)] relative pb-20">
             <Routes>
               {/* Rutas públicas */}
               <Route path="/" element={<Home />} />
