@@ -3,19 +3,35 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 const Header = forwardRef((props, ref) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [headerHeight, setHeaderHeight] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
   const headerRef = useRef(null);
 
-  // Combinamos ambas refs
+  // Combinamos ambas refs y actualizamos la altura
   const setRefs = (node) => {
     headerRef.current = node;
+    if (node) {
+      setHeaderHeight(node.offsetHeight);
+    }
     if (typeof ref === 'function') {
       ref(node);
     } else if (ref) {
       ref.current = node;
     }
   };
+
+  // Actualizar altura cuando cambia el tamaño
+  useEffect(() => {
+    const updateHeight = () => {
+      if (headerRef.current) {
+        setHeaderHeight(headerRef.current.offsetHeight);
+      }
+    };
+
+    window.addEventListener('resize', updateHeight);
+    return () => window.removeEventListener('resize', updateHeight);
+  }, []);
 
   // Bloquear scroll cuando el menú está abierto
   useEffect(() => {
@@ -27,7 +43,6 @@ const Header = forwardRef((props, ref) => {
     return () => { document.body.style.overflow = ''; };
   }, [isMenuOpen]);
 
-  // Items del menú
   const navItems = [
     { name: 'Inicio', path: '/' },
     { name: 'Eventos', path: '/events' },
@@ -47,9 +62,7 @@ const Header = forwardRef((props, ref) => {
         {...props}
       >
         <div className="container mx-auto px-4">
-          {/* Contenedor principal */}
           <div className="flex items-center justify-between h-full">
-            {/* Logo alineado a la izquierda */}
             <button
               onClick={() => navigate('/')}
               className="focus:outline-none ml-3 md:ml-4"
@@ -65,7 +78,6 @@ const Header = forwardRef((props, ref) => {
               />
             </button>
 
-            {/* Menú desktop (alineado a la derecha) */}
             <nav className="hidden md:block">
               <ul className="flex space-x-6">
                 {navItems.map((item) => (
@@ -83,7 +95,6 @@ const Header = forwardRef((props, ref) => {
               </ul>
             </nav>
 
-            {/* Botón de menú hamburguesa (solo móvil) */}
             <button
               className="md:hidden text-white focus:outline-none mr-3"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -97,14 +108,16 @@ const Header = forwardRef((props, ref) => {
           </div>
         </div>
 
-        {/* Menú móvil desplegable */}
+        {/* Menú móvil desplegable - Ahora usa headerHeight para posicionarse */}
         {isMenuOpen && (
           <div 
             className="md:hidden fixed inset-0 bg-[#000031] z-40 overflow-y-auto"
-            style={{ top: `${headerRef.current?.offsetHeight || 76}px` }}
+            style={{ 
+              top: `${headerHeight}px`,
+              height: `calc(100vh - ${headerHeight}px)`
+            }}
           >
             <div className="container mx-auto px-5 py-8 flex flex-col h-full">
-              {/* Items del menú */}
               <ul className="flex-1 flex flex-col space-y-6 pl-2">
                 {navItems.map((item) => (
                   <li key={item.name}>
@@ -123,7 +136,6 @@ const Header = forwardRef((props, ref) => {
                 ))}
               </ul>
 
-              {/* Sección de emergencia */}
               <div className="mt-auto pb-8 pl-2">
                 <div className="border-t border-gray-700 pt-6">
                   <h3 className="text-white font-bold mb-4">Asistencia de Emergencia</h3>
