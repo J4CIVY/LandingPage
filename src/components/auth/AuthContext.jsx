@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [loadingAuth, setLoadingAuth] = useState(true);
   const navigate = useNavigate();
 
+  // Verifica si el token es válido
   const isTokenValid = (token) => {
     if (!token) return false;
     try {
@@ -19,22 +20,26 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Login centralizado
   const login = async (credentials) => {
     try {
-      const response = await axios.post('/auth/login', credentials);
-      const { accessToken, refreshToken, data } = response.data;
+      const API_URL = import.meta.env.VITE_API_URL || "https://api.bskmt.com";
+      const response = await axios.post(`${API_URL}/auth/login`, credentials);
       
+      const { accessToken, refreshToken, data } = response.data;
       localStorage.setItem('token', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
       
-      setUser(data.user);
+      setUser(data.user); // Actualiza el estado global
+      navigate('/miembros'); // Redirige SIN recargar
       return data.user;
     } catch (error) {
-      console.error(error);
+      console.error('Login error:', error);
       throw error;
     }
   };
 
+  // Logout
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
@@ -42,6 +47,7 @@ export const AuthProvider = ({ children }) => {
     navigate('/login');
   };
 
+  // Refrescar token
   const refreshToken = async () => {
     try {
       const refreshToken = localStorage.getItem('refreshToken');
@@ -56,12 +62,13 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('token', accessToken);
       return accessToken;
     } catch (error) {
-      console.error(error);
+      console.error('Refresh token error:', error);
       logout();
       return null;
     }
   };
 
+  // Verifica autenticación al cargar
   useEffect(() => {
     const verifyAuth = async () => {
       const token = localStorage.getItem('token');

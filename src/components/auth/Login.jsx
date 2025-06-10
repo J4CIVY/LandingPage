@@ -1,16 +1,15 @@
 import { useState } from "react";
-import {
-  MdOutlineEmail,
-  MdLockOutline,
-  MdOutlineSportsMotorsports
-} from "react-icons/md";
-import { Link } from "react-router-dom";
+import { MdOutlineEmail, MdLockOutline, MdOutlineSportsMotorsports } from "react-icons/md";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,38 +17,10 @@ const Login = () => {
     setError("");
 
     try {
-      const API_URL = import.meta.env.VITE_API_URL || "https://api.bskmt.com";
-      console.log("URL de API:", API_URL);
-
-      const response = await fetch(`${API_URL}/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password
-        }),
-        credentials: 'include'
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Error al iniciar sesión");
-      }
-
-      const data = await response.json();
-      console.log("Respuesta del servidor:", data);
-
-      // Guardar tokens y redirigir
-      localStorage.setItem("token", data.accessToken);
-      if (data.refreshToken) {
-        localStorage.setItem("refreshToken", data.refreshToken);
-      }
-      window.location.href = "/miembros";
-
+      await login({ email, password }); // Usa el método del AuthContext
+      // No necesitas redirigir manualmente, el AuthContext ya lo hace
     } catch (err) {
-      console.error("Error en login:", err);
+      console.error("Login error:", err);
       setError(err.message || "Error al iniciar sesión. Por favor intente nuevamente.");
     } finally {
       setIsLoading(false);
@@ -107,8 +78,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold py-2 px-4 rounded transition duration-200 ${isLoading ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+            className={`w-full bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold py-2 px-4 rounded transition duration-200 ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
           >
             {isLoading ? "Cargando..." : "Iniciar Sesión"}
           </button>
