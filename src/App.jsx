@@ -24,6 +24,7 @@ function App() {
   const headerRef = useRef();
   const [headerHeight, setHeaderHeight] = useState(0);
 
+  // Actualizar altura del header
   useEffect(() => {
     const updateHeaderHeight = () => {
       if (headerRef.current) {
@@ -38,6 +39,7 @@ function App() {
       resizeObserver.observe(headerRef.current);
     }
 
+    // Agregar listener para cambios de tamaño de ventana
     window.addEventListener('resize', updateHeaderHeight);
 
     return () => {
@@ -50,17 +52,19 @@ function App() {
     <Router>
       <AuthProvider>
         <div className="bg-[#ffffff] min-h-screen flex flex-col">
-          <Header
-            ref={headerRef}
-            style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              right: 0,
-              zIndex: 50
-            }}
+          {/* Header con posicionamiento fijo */}
+          <Header 
+            ref={headerRef} 
+            style={{ 
+              position: 'fixed', 
+              top: 0, 
+              left: 0, 
+              right: 0, 
+              zIndex: 50 
+            }} 
           />
 
+          {/* Contenido principal con padding dinámico */}
           <main
             style={{
               paddingTop: `${headerHeight}px`,
