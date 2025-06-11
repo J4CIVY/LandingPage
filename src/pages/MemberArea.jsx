@@ -586,7 +586,7 @@ const MemberArea = () => {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {[
                           { label: 'Nombre Completo', name: 'name', type: 'text' },
-                          { label: 'Email', name: 'email', type: 'email' }
+                          { label: 'Correo', name: 'email', type: 'email' }
                         ].map(({ label, name, type }) => (
                           <div key={name}>
                             <label htmlFor={name} className="block text-sm font-medium text-gray-700 mb-2">{label}</label>
