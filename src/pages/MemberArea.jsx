@@ -407,7 +407,7 @@ const MemberArea = () => {
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="text-slate-950 focus:outline-none focus:ring-2 focus:ring-green-400 rounded"
+            className="text-slate-950 focus:outline-none focus:ring-2 focus:ring-orange-500 rounded"
             aria-label={mobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
             aria-expanded={mobileMenuOpen}
           >
@@ -421,7 +421,7 @@ const MemberArea = () => {
           {/* Sidebar Mobile */}
           {mobileMenuOpen && (
             <div className="lg:hidden fixed inset-0 z-20 bg-gray-900 bg-opacity-75" role="dialog" aria-modal="true">
-              <div className="absolute top-0 left-0 h-full w-4/5 max-w-xs">
+              <div className="absolute top-[76px] left-0 bottom-0 w-4/5 max-w-xs">
                 <div className="bg-white h-full p-4 overflow-y-auto rounded-r-lg shadow-lg">
                   <div className="flex justify-between items-center mb-6">
                     <div className="flex items-center">
