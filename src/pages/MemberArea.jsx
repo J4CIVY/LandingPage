@@ -400,7 +400,7 @@ const MemberArea = () => {
               <h2 className="font-bold text-slate-950 text-sm truncate max-w-[120px]" title={userData.name}>{userData.name}</h2>
               <div className="flex items-center">
                 <FaStar className="text-green-400 mr-1 text-xs" aria-hidden="true" />
-                <span className="font-semibold text-slate-950 text-xs">{userData.points} pts</span>
+                <span className="font-semibold text-slate-900 text-xs">{userData.points} pts</span>
               </div>
             </div>
           </div>
@@ -421,7 +421,7 @@ const MemberArea = () => {
           {/* Sidebar Mobile */}
           {mobileMenuOpen && (
             <div className="lg:hidden fixed inset-0 z-20 bg-gray-900 bg-opacity-75" role="dialog" aria-modal="true">
-              <div className="absolute top-[76px] left-0 bottom-0 w-4/5 max-w-xs">
+              <div className="absolute top-[80px] left-0 bottom-0 w-4/5 max-w-xs">
                 <div className="bg-white h-full p-4 overflow-y-auto rounded-r-lg shadow-lg">
                   <div className="flex justify-between items-center mb-6">
                     <div className="flex items-center">
@@ -434,7 +434,7 @@ const MemberArea = () => {
                         <h2 className="font-bold text-slate-950">{userData.name}</h2>
                         <div className="flex items-center">
                           <FaStar className="text-green-400 mr-1" aria-hidden="true" />
-                          <span className="font-semibold text-slate-950">{userData.points} Puntos</span>
+                          <span className="font-semibold text-slate-900">{userData.points} Puntos</span>
                         </div>
                       </div>
                     </div>
@@ -448,15 +448,15 @@ const MemberArea = () => {
                   </div>
 
                   <div className="space-y-1 mb-6">
-                    <button className="w-full flex items-center bg-gray-100 text-orange-600 px-4 py-3 rounded-lg font-semibold shadow-sm">
+                    <button className="w-full flex items-center bg-gray-100 text-green-400 px-4 py-3 rounded-lg font-semibold shadow-sm">
                       <FaBell className="mr-3" aria-hidden="true" /> Notificaciones
                     </button>
-                    <button className="w-full flex items-center bg-gray-100 text-gray-800 px-4 py-3 rounded-lg font-semibold shadow-sm">
+                    <button className="w-full flex items-center bg-gray-100 text-slate-950 px-4 py-3 rounded-lg font-semibold shadow-sm">
                       <FaCog className="mr-3" aria-hidden="true" /> Configuración
                     </button>
                     <button
                       onClick={logout}
-                      className="w-full flex items-center bg-gray-100 text-gray-800 px-4 py-3 rounded-lg font-semibold shadow-sm"
+                      className="w-full flex items-center bg-gray-100 text-slate-950 px-4 py-3 rounded-lg font-semibold shadow-sm"
                     >
                       <FaSignOutAlt className="mr-3" aria-hidden="true" /> Cerrar sesión
                     </button>
@@ -505,25 +505,25 @@ const MemberArea = () => {
           {/* Main Content */}
           <main className="flex-1 bg-white rounded-lg shadow-sm overflow-hidden lg:ml-4 mt-4 lg:mt-6 p-4 md:p-6">
             {/* Header Desktop */}
-            <header className="hidden lg:flex p-6 justify-between items-center border-b border-gray-200">
+            <header className="hidden lg:flex p-6 justify-between items-center border-b border-slate-900">
               <div className="flex items-center">
                 <img
                   src={userData.avatar}
                   alt="Avatar"
-                  className="w-16 h-16 md:w-20 md:h-20 rounded-full border-4 border-orange-500 mr-4 object-cover"
+                  className="w-16 h-16 md:w-20 md:h-20 rounded-full border-4 border-slate-950 mr-4 object-cover"
                 />
                 <div>
-                  <h2 className="text-3xl font-extrabold text-gray-900 leading-tight">{userData.name}</h2>
+                  <h2 className="text-3xl font-extrabold text-slate-950 leading-tight">{userData.name}</h2>
                   <div className="flex items-center mt-2 space-x-4">
-                    <span className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white text-sm md:text-base px-4 py-1 rounded-full flex items-center shadow-sm font-semibold">
+                    <span className="bg-gradient-to-r from-slate-950 to-green-400 text-white text-sm md:text-base px-4 py-1 rounded-full flex items-center shadow-sm font-semibold">
                       <FaMedal className="mr-2" aria-hidden="true" /> {userData.membership}
                       {userData.membershipExpiry && (
                         <span className="ml-3 text-white text-opacity-90 text-sm md:text-base" title={`Vence: ${userData.membershipExpiry}`}>Vence: {userData.membershipExpiry}</span>
                       )}
                     </span>
-                    <div className="flex items-center text-yellow-500">
+                    <div className="flex items-center text-green-400">
                       <FaStar className="mr-1" aria-hidden="true" />
-                      <span className="font-semibold text-gray-700 text-lg">{userData.points} Puntos</span>
+                      <span className="font-semibold text-slate-900 text-lg">{userData.points} Puntos</span>
                     </div>
                   </div>
                 </div>
