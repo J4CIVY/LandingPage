@@ -421,82 +421,83 @@ const MemberArea = () => {
           {/* Sidebar Mobile */}
           {mobileMenuOpen && (
             <div className="lg:hidden fixed inset-0 z-20 bg-gray-900 bg-opacity-75" role="dialog" aria-modal="true">
-              <div className="bg-white h-full w-4/5 max-w-xs p-4 overflow-y-auto rounded-r-lg shadow-lg pt-[75px]">
-                {/* ^ Aquí añadí pt-[75px] */}
-                <div className="flex justify-between items-center mb-6">
-                  <div className="flex items-center">
-                    <img
-                      src={userData.avatar}
-                      alt="Avatar"
-                      className="w-12 h-12 rounded-full border-2 border-orange-500 mr-3 object-cover"
-                    />
-                    <div>
-                      <h2 className="font-bold text-gray-900">{userData.name}</h2>
-                      <div className="flex items-center">
-                        <FaStar className="text-yellow-500 mr-1" aria-hidden="true" />
-                        <span className="font-semibold text-gray-700">{userData.points} Puntos</span>
+              <div className="absolute top-0 left-0 h-full w-4/5 max-w-xs">
+                <div className="bg-white h-full p-4 overflow-y-auto rounded-r-lg shadow-lg">
+                  <div className="flex justify-between items-center mb-6">
+                    <div className="flex items-center">
+                      <img
+                        src={userData.avatar}
+                        alt="Avatar"
+                        className="w-12 h-12 rounded-full border-2 border-orange-500 mr-3 object-cover"
+                      />
+                      <div>
+                        <h2 className="font-bold text-gray-900">{userData.name}</h2>
+                        <div className="flex items-center">
+                          <FaStar className="text-yellow-500 mr-1" aria-hidden="true" />
+                          <span className="font-semibold text-gray-700">{userData.points} Puntos</span>
+                        </div>
                       </div>
                     </div>
+                    <button
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="text-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500 rounded"
+                      aria-label="Cerrar menú"
+                    >
+                      <FaTimes size={20} />
+                    </button>
                   </div>
-                  <button
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="text-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500 rounded"
-                    aria-label="Cerrar menú"
-                  >
-                    <FaTimes size={20} />
-                  </button>
-                </div>
 
-                <div className="space-y-1 mb-6">
-                  <button className="w-full flex items-center bg-gray-100 text-orange-600 px-4 py-3 rounded-lg font-semibold shadow-sm">
-                    <FaBell className="mr-3" aria-hidden="true" /> Notificaciones
-                  </button>
-                  <button className="w-full flex items-center bg-gray-100 text-gray-800 px-4 py-3 rounded-lg font-semibold shadow-sm">
-                    <FaCog className="mr-3" aria-hidden="true" /> Configuración
-                  </button>
-                  <button
-                    onClick={logout}
-                    className="w-full flex items-center bg-gray-100 text-gray-800 px-4 py-3 rounded-lg font-semibold shadow-sm"
-                  >
-                    <FaSignOutAlt className="mr-3" aria-hidden="true" /> Cerrar sesión
-                  </button>
-                </div>
+                  <div className="space-y-1 mb-6">
+                    <button className="w-full flex items-center bg-gray-100 text-orange-600 px-4 py-3 rounded-lg font-semibold shadow-sm">
+                      <FaBell className="mr-3" aria-hidden="true" /> Notificaciones
+                    </button>
+                    <button className="w-full flex items-center bg-gray-100 text-gray-800 px-4 py-3 rounded-lg font-semibold shadow-sm">
+                      <FaCog className="mr-3" aria-hidden="true" /> Configuración
+                    </button>
+                    <button
+                      onClick={logout}
+                      className="w-full flex items-center bg-gray-100 text-gray-800 px-4 py-3 rounded-lg font-semibold shadow-sm"
+                    >
+                      <FaSignOutAlt className="mr-3" aria-hidden="true" /> Cerrar sesión
+                    </button>
+                  </div>
 
-                <Tabs
-                  selectedIndex={activeTab}
-                  onSelect={index => {
-                    setActiveTab(index);
-                    setMobileMenuOpen(false);
-                  }}
-                  className="mb-6"
-                >
-                  <TabList className="flex flex-col space-y-2" aria-label="Secciones del área de miembro">
-                    <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400">
-                      <FaUserCog className="mr-3" aria-hidden="true" /> Mi Cuenta
-                    </Tab>
-                    <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400">
-                      <FaCalendarAlt className="mr-3" aria-hidden="true" /> Mis Eventos
-                    </Tab>
-                    <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400">
-                      <FaMotorcycle className="mr-3" aria-hidden="true" /> Próximas Rodadas
-                    </Tab>
-                    <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400">
-                      <FaStar className="mr-3" aria-hidden="true" /> Mis Puntos
-                    </Tab>
-                    <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400">
-                      <FaMedal className="mr-3" aria-hidden="true" /> Mi Membresía
-                    </Tab>
-                    <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400">
-                      <FaHeadset className="mr-3" aria-hidden="true" /> PQRSDF
-                    </Tab>
-                    <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400">
-                      <FaUsers className="mr-3" aria-hidden="true" /> Comunidad
-                    </Tab>
-                    <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400">
-                      <FaStore className="mr-3" aria-hidden="true" /> Aliados
-                    </Tab>
-                  </TabList>
-                </Tabs>
+                  <Tabs
+                    selectedIndex={activeTab}
+                    onSelect={index => {
+                      setActiveTab(index);
+                      setMobileMenuOpen(false);
+                    }}
+                    className="mb-6"
+                  >
+                    <TabList className="flex flex-col space-y-2" aria-label="Secciones del área de miembro">
+                      <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400">
+                        <FaUserCog className="mr-3" aria-hidden="true" /> Mi Cuenta
+                      </Tab>
+                      <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400">
+                        <FaCalendarAlt className="mr-3" aria-hidden="true" /> Mis Eventos
+                      </Tab>
+                      <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400">
+                        <FaMotorcycle className="mr-3" aria-hidden="true" /> Próximas Rodadas
+                      </Tab>
+                      <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400">
+                        <FaStar className="mr-3" aria-hidden="true" /> Mis Puntos
+                      </Tab>
+                      <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400">
+                        <FaMedal className="mr-3" aria-hidden="true" /> Mi Membresía
+                      </Tab>
+                      <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400">
+                        <FaHeadset className="mr-3" aria-hidden="true" /> PQRSDF
+                      </Tab>
+                      <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400">
+                        <FaUsers className="mr-3" aria-hidden="true" /> Comunidad
+                      </Tab>
+                      <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400">
+                        <FaStore className="mr-3" aria-hidden="true" /> Aliados
+                      </Tab>
+                    </TabList>
+                  </Tabs>
+                </div>
               </div>
             </div>
           )}
