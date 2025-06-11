@@ -428,13 +428,13 @@ const MemberArea = () => {
                       <img
                         src={userData.avatar}
                         alt="Avatar"
-                        className="w-12 h-12 rounded-full border-2 border-orange-500 mr-3 object-cover"
+                        className="w-12 h-12 rounded-full border-2 border-slate-950 mr-3 object-cover"
                       />
                       <div>
-                        <h2 className="font-bold text-gray-900">{userData.name}</h2>
+                        <h2 className="font-bold text-slate-950">{userData.name}</h2>
                         <div className="flex items-center">
-                          <FaStar className="text-yellow-500 mr-1" aria-hidden="true" />
-                          <span className="font-semibold text-gray-700">{userData.points} Puntos</span>
+                          <FaStar className="text-green-400 mr-1" aria-hidden="true" />
+                          <span className="font-semibold text-slate-950">{userData.points} Puntos</span>
                         </div>
                       </div>
                     </div>
