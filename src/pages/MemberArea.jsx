@@ -440,7 +440,7 @@ const MemberArea = () => {
                     </div>
                     <button
                       onClick={() => setMobileMenuOpen(false)}
-                      className="text-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500 rounded"
+                      className="text-slate-950 focus:outline-none focus:ring-2 focus:ring-orange-500 rounded"
                       aria-label="Cerrar menú"
                     >
                       <FaTimes size={20} />
