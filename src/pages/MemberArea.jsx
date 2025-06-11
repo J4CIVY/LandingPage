@@ -386,7 +386,7 @@ const MemberArea = () => {
   }
 
   return (
-    <div className="bg-white min-h-screen text-gray-700">
+    <div className="bg-white min-h-screen text-slate-950">
       {/* Header Mobile */}
       <div className="lg:hidden bg-white shadow-sm sticky top-0 z-10">
         <div className="flex justify-between items-center p-4 max-w-7xl mx-auto">
@@ -394,13 +394,13 @@ const MemberArea = () => {
             <img
               src={userData.avatar}
               alt="Avatar"
-              className="w-10 h-10 rounded-full border-2 border-orange-500 mr-3 object-cover"
+              className="w-10 h-10 rounded-full border-2 border-slate-950 mr-3 object-cover"
             />
             <div>
-              <h2 className="font-bold text-gray-900 text-sm truncate max-w-[120px]" title={userData.name}>{userData.name}</h2>
+              <h2 className="font-bold text-slate-950 text-sm truncate max-w-[120px]" title={userData.name}>{userData.name}</h2>
               <div className="flex items-center">
-                <FaStar className="text-yellow-500 mr-1 text-xs" aria-hidden="true" />
-                <span className="font-semibold text-gray-700 text-xs">{userData.points} pts</span>
+                <FaStar className="text-green-400 mr-1 text-xs" aria-hidden="true" />
+                <span className="font-semibold text-slate-950 text-xs">{userData.points} pts</span>
               </div>
             </div>
           </div>
