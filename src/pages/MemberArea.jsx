@@ -365,7 +365,7 @@ const MemberArea = () => {
           <p className="text-gray-700 mb-4">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="bg-slate-950 hover:bg-orange-600 text-white px-4 py-2 rounded-md transition focus:outline-none focus:ring-2 focus:ring-slate-950"
+            className="bg-slate-950 hover:bg-green-500 text-white px-4 py-2 rounded-md transition focus:outline-none focus:ring-2 focus:ring-slate-950"
             aria-label="Reintentar carga"
           >
             Reintentar
@@ -565,7 +565,7 @@ const MemberArea = () => {
                 ].map(({ icon: Icon, label }, i) => (
                   <Tab
                     key={label}
-                    className="px-6 py-3 text-base font-semibold cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-400 border-b-2 border-transparent hover:text-orange-600 hover:border-orange-300 transition flex items-center whitespace-nowrap"
+                    className="px-6 py-3 text-base font-semibold cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-400 border-b-2 border-transparent hover:text-green-500 hover:border-orange-300 transition flex items-center whitespace-nowrap"
                   >
                     <Icon className="mr-3" aria-hidden="true" /> {label}
                   </Tab>
@@ -666,7 +666,7 @@ const MemberArea = () => {
                       <button
                         type="button"
                         onClick={handleSavePersonalInfo}
-                        className="bg-slate-950 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold transition focus:outline-none focus:ring-2 focus:ring-orange-400"
+                        className="bg-slate-950 hover:bg-green-500 text-white px-6 py-3 rounded-lg font-semibold transition focus:outline-none focus:ring-2 focus:ring-orange-400"
                         aria-label="Guardar cambios en información personal"
                       >
                         Guardar Cambios
@@ -737,7 +737,7 @@ const MemberArea = () => {
                         </div>
                         <button
                           type="submit"
-                          className="bg-slate-950 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold transition focus:outline-none focus:ring-2 focus:ring-orange-400"
+                          className="bg-slate-950 hover:bg-green-500 text-white px-6 py-3 rounded-lg font-semibold transition focus:outline-none focus:ring-2 focus:ring-orange-400"
                           aria-label="Guardar preferencias de rodada"
                         >
                           Guardar Preferencias
@@ -852,7 +852,7 @@ const MemberArea = () => {
                                 </button>
                                 <button
                                   onClick={() => handleEventAction(event.id, 'register')}
-                                  className="bg-slate-950 hover:bg-orange-600 text-white px-3 py-1 rounded-md text-sm transition"
+                                  className="bg-slate-950 hover:bg-green-500 text-white px-3 py-1 rounded-md text-sm transition"
                                 >
                                   Registrar Asistencia
                                 </button>
@@ -962,21 +962,21 @@ const MemberArea = () => {
                         <div className="border border-gray-200 rounded-lg p-4">
                           <div className="text-slate-950 font-bold text-right">500 pts</div>
                           <h4 className="font-medium text-gray-800 mt-2">Descuento 10% en próximo taller</h4>
-                          <button className="mt-3 w-full bg-slate-950 hover:bg-orange-600 text-white py-1 rounded-md text-sm transition">
+                          <button className="mt-3 w-full bg-slate-950 hover:bg-green-500 text-white py-1 rounded-md text-sm transition">
                             Canjear
                           </button>
                         </div>
                         <div className="border border-gray-200 rounded-lg p-4">
                           <div className="text-slate-950 font-bold text-right">1000 pts</div>
                           <h4 className="font-medium text-gray-800 mt-2">Kit BSK Exclusivo</h4>
-                          <button className="mt-3 w-full bg-slate-950 hover:bg-orange-600 text-white py-1 rounded-md text-sm transition">
+                          <button className="mt-3 w-full bg-slate-950 hover:bg-green-500 text-white py-1 rounded-md text-sm transition">
                             Canjear
                           </button>
                         </div>
                         <div className="border border-gray-200 rounded-lg p-4">
                           <div className="text-slate-950 font-bold text-right">1500 pts</div>
                           <h4 className="font-medium text-gray-800 mt-2">Upgrade de Membresía por 3 meses</h4>
-                          <button className="mt-3 w-full bg-slate-950 hover:bg-orange-600 text-white py-1 rounded-md text-sm transition">
+                          <button className="mt-3 w-full bg-slate-950 hover:bg-green-500 text-white py-1 rounded-md text-sm transition">
                             Canjear
                           </button>
                         </div>
@@ -1022,7 +1022,7 @@ const MemberArea = () => {
                         <div className="flex flex-wrap gap-3 justify-center">
                           <button
                             onClick={() => handleMembershipAction('renew')}
-                            className="bg-slate-950 hover:bg-orange-600 text-white px-4 py-2 rounded-md transition"
+                            className="bg-slate-950 hover:bg-green-500 text-white px-4 py-2 rounded-md transition"
                           >
                             Renovar Membresía
                           </button>
@@ -1154,7 +1154,7 @@ const MemberArea = () => {
                       </div>
                       <button
                         type="submit"
-                        className="bg-slate-950 hover:bg-orange-600 text-white px-4 py-2 rounded-md transition"
+                        className="bg-slate-950 hover:bg-green-500 text-white px-4 py-2 rounded-md transition"
                       >
                         Enviar PQRSDF
                       </button>
@@ -1191,7 +1191,7 @@ const MemberArea = () => {
                                   </span>
                                 </td>
                                 <td className="px-3 py-2 whitespace-nowrap text-sm font-medium">
-                                  <button className="text-orange-600 hover:text-orange-900 mr-2">Detalles</button>
+                                  <button className="text-green-500 hover:text-orange-900 mr-2">Detalles</button>
                                   {item.status === 'En proceso' && (
                                     <button className="text-blue-600 hover:text-blue-900">Seguimiento</button>
                                   )}
@@ -1249,7 +1249,7 @@ const MemberArea = () => {
                       </div>
                       <h4 className="font-semibold text-gray-800 mb-2">Grupos Locales</h4>
                       <p className="text-sm text-gray-600 mb-4">Conecta con miembros en tu ciudad</p>
-                      <button className="bg-slate-950 hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm transition">
+                      <button className="bg-slate-950 hover:bg-green-500 text-white px-4 py-2 rounded-md text-sm transition">
                         Explorar
                       </button>
                     </div>
@@ -1259,7 +1259,7 @@ const MemberArea = () => {
                       </div>
                       <h4 className="font-semibold text-gray-800 mb-2">Rutas Compartidas</h4>
                       <p className="text-sm text-gray-600 mb-4">Descubre rutas favoritas de la comunidad</p>
-                      <button className="bg-slate-950 hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm transition">
+                      <button className="bg-slate-950 hover:bg-green-500 text-white px-4 py-2 rounded-md text-sm transition">
                         Ver Mapa
                       </button>
                     </div>
@@ -1269,7 +1269,7 @@ const MemberArea = () => {
                       </div>
                       <h4 className="font-semibold text-gray-800 mb-2">Clasificaciones</h4>
                       <p className="text-sm text-gray-600 mb-4">Top miembros por puntos y participación</p>
-                      <button className="bg-slate-950 hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm transition">
+                      <button className="bg-slate-950 hover:bg-green-500 text-white px-4 py-2 rounded-md text-sm transition">
                         Ver Ranking
                       </button>
                     </div>
@@ -1279,7 +1279,7 @@ const MemberArea = () => {
                       </div>
                       <h4 className="font-semibold text-gray-800 mb-2">Archivo Histórico</h4>
                       <p className="text-sm text-gray-600 mb-4">Fotos y memorias de eventos pasados</p>
-                      <button className="bg-slate-950 hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm transition">
+                      <button className="bg-slate-950 hover:bg-green-500 text-white px-4 py-2 rounded-md text-sm transition">
                         Explorar
                       </button>
                     </div>
@@ -1294,7 +1294,7 @@ const MemberArea = () => {
                         <div className="text-sm text-gray-600 mb-2">
                           A partir del 1 de noviembre se implementarán nuevos protocolos de seguridad para todas las rodadas oficiales del club.
                         </div>
-                        <button className="text-orange-600 hover:text-orange-800 text-sm font-medium">
+                        <button className="text-green-500 hover:text-orange-800 text-sm font-medium">
                           Leer más
                         </button>
                       </div>
@@ -1304,11 +1304,11 @@ const MemberArea = () => {
                         <div className="text-sm text-gray-600 mb-2">
                           Conoce los candidatos y fechas importantes para las elecciones del consejo directivo del próximo año.
                         </div>
-                        <button className="text-orange-600 hover:text-orange-800 text-sm font-medium">
+                        <button className="text-green-500 hover:text-orange-800 text-sm font-medium">
                           Leer más
                         </button>
                       </div>
-                      <button className="text-orange-600 hover:text-orange-800 text-sm font-medium mt-2">
+                      <button className="text-green-500 hover:text-orange-800 text-sm font-medium mt-2">
                         Ver todos los anuncios
                       </button>
                     </div>
@@ -1359,7 +1359,7 @@ const MemberArea = () => {
                           <button className="bg-white hover:bg-gray-100 border border-gray-300 px-3 py-1 rounded-md text-sm transition">
                             Ver Detalles
                           </button>
-                          <button className="bg-slate-950 hover:bg-orange-600 text-white px-3 py-1 rounded-md text-sm transition">
+                          <button className="bg-slate-950 hover:bg-green-500 text-white px-3 py-1 rounded-md text-sm transition">
                             Obtener Cupón
                           </button>
                         </div>
@@ -1391,7 +1391,7 @@ const MemberArea = () => {
                           <button className="bg-white hover:bg-gray-100 border border-gray-300 px-3 py-1 rounded-md text-sm transition">
                             Ver Detalles
                           </button>
-                          <button className="bg-slate-950 hover:bg-orange-600 text-white px-3 py-1 rounded-md text-sm transition">
+                          <button className="bg-slate-950 hover:bg-green-500 text-white px-3 py-1 rounded-md text-sm transition">
                             Obtener Cupón
                           </button>
                         </div>
@@ -1423,7 +1423,7 @@ const MemberArea = () => {
                           <button className="bg-white hover:bg-gray-100 border border-gray-300 px-3 py-1 rounded-md text-sm transition">
                             Ver Detalles
                           </button>
-                          <button className="bg-slate-950 hover:bg-orange-600 text-white px-3 py-1 rounded-md text-sm transition">
+                          <button className="bg-slate-950 hover:bg-green-500 text-white px-3 py-1 rounded-md text-sm transition">
                             Reservar
                           </button>
                         </div>
