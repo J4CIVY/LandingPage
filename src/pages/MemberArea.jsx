@@ -349,7 +349,7 @@ const MemberArea = () => {
     return (
       <div className="flex justify-center items-center min-h-screen bg-white">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500 mx-auto" role="status" aria-label="Cargando" />
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-slate-950 mx-auto" role="status" aria-label="Cargando" />
           <p className="mt-4 text-gray-600 text-base">Cargando tus datos...</p>
         </div>
       </div>
@@ -365,7 +365,7 @@ const MemberArea = () => {
           <p className="text-gray-700 mb-4">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md transition focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="bg-slate-950 hover:bg-orange-600 text-white px-4 py-2 rounded-md transition focus:outline-none focus:ring-2 focus:ring-slate-950"
             aria-label="Reintentar carga"
           >
             Reintentar
@@ -407,7 +407,7 @@ const MemberArea = () => {
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="text-slate-950 focus:outline-none focus:ring-2 focus:ring-orange-500 rounded"
+            className="text-slate-950 focus:outline-none focus:ring-2 focus:ring-slate-950 rounded"
             aria-label={mobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
             aria-expanded={mobileMenuOpen}
           >
@@ -440,7 +440,7 @@ const MemberArea = () => {
                     </div>
                     <button
                       onClick={() => setMobileMenuOpen(false)}
-                      className="text-slate-950 focus:outline-none focus:ring-2 focus:ring-orange-500 rounded"
+                      className="text-slate-950 focus:outline-none focus:ring-2 focus:ring-slate-950 rounded"
                       aria-label="Cerrar menú"
                     >
                       <FaTimes size={20} />
@@ -580,7 +580,7 @@ const MemberArea = () => {
                 <section aria-labelledby="mi-cuenta-title" className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                   <div className="lg:col-span-2 bg-gray-50 rounded-lg p-6 shadow-sm">
                     <h3 id="mi-cuenta-title" className="text-2xl font-semibold text-gray-900 mb-6 flex items-center">
-                      <FaUserCog className="text-orange-500 mr-3" aria-hidden="true" /> Información Personal
+                      <FaUserCog className="text-slate-950 mr-3" aria-hidden="true" /> Información Personal
                     </h3>
                     <form className="space-y-6" onSubmit={e => e.preventDefault()}>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -596,7 +596,7 @@ const MemberArea = () => {
                               name={name}
                               value={formData[name]}
                               onChange={handleInputChange}
-                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-base"
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-950 text-base"
                               autoComplete="off"
                             />
                           </div>
@@ -616,7 +616,7 @@ const MemberArea = () => {
                               name={name}
                               value={formData[name]}
                               onChange={handleInputChange}
-                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-base"
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-950 text-base"
                               autoComplete="off"
                             />
                           </div>
@@ -636,7 +636,7 @@ const MemberArea = () => {
                               name={name}
                               value={formData[name]}
                               onChange={handleInputChange}
-                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-base"
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-950 text-base"
                               autoComplete="off"
                             />
                           </div>
@@ -656,7 +656,7 @@ const MemberArea = () => {
                               name={name}
                               value={formData[name]}
                               onChange={handleInputChange}
-                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-base"
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-950 text-base"
                               autoComplete="off"
                             />
                           </div>
@@ -666,7 +666,7 @@ const MemberArea = () => {
                       <button
                         type="button"
                         onClick={handleSavePersonalInfo}
-                        className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold transition focus:outline-none focus:ring-2 focus:ring-orange-400"
+                        className="bg-slate-950 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold transition focus:outline-none focus:ring-2 focus:ring-orange-400"
                         aria-label="Guardar cambios en información personal"
                       >
                         Guardar Cambios
@@ -677,16 +677,16 @@ const MemberArea = () => {
                   <aside className="space-y-6">
                     <div className="bg-gray-50 rounded-lg p-6 shadow-sm">
                       <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
-                        <FaShieldAlt className="text-orange-500 mr-3" aria-hidden="true" /> Seguridad
+                        <FaShieldAlt className="text-slate-950 mr-3" aria-hidden="true" /> Seguridad
                       </h3>
                       <div className="space-y-4">
-                        <button className="w-full text-left bg-white hover:bg-gray-100 border border-gray-300 px-4 py-3 rounded-lg font-semibold shadow-sm transition focus:outline-none focus:ring-2 focus:ring-orange-500">
+                        <button className="w-full text-left bg-white hover:bg-gray-100 border border-gray-300 px-4 py-3 rounded-lg font-semibold shadow-sm transition focus:outline-none focus:ring-2 focus:ring-slate-950">
                           Cambiar Contraseña
                         </button>
-                        <button className="w-full text-left bg-white hover:bg-gray-100 border border-gray-300 px-4 py-3 rounded-lg font-semibold shadow-sm transition focus:outline-none focus:ring-2 focus:ring-orange-500">
+                        <button className="w-full text-left bg-white hover:bg-gray-100 border border-gray-300 px-4 py-3 rounded-lg font-semibold shadow-sm transition focus:outline-none focus:ring-2 focus:ring-slate-950">
                           Autenticación en Dos Pasos
                         </button>
-                        <button className="w-full text-left bg-white hover:bg-gray-100 border border-gray-300 px-4 py-3 rounded-lg font-semibold shadow-sm transition focus:outline-none focus:ring-2 focus:ring-orange-500">
+                        <button className="w-full text-left bg-white hover:bg-gray-100 border border-gray-300 px-4 py-3 rounded-lg font-semibold shadow-sm transition focus:outline-none focus:ring-2 focus:ring-slate-950">
                           Dispositivos Conectados
                         </button>
                       </div>
@@ -694,7 +694,7 @@ const MemberArea = () => {
 
                     <div className="bg-gray-50 rounded-lg p-6 shadow-sm">
                       <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
-                        <FaMotorcycle className="text-orange-500 mr-3" aria-hidden="true" /> Preferencias de Rodada
+                        <FaMotorcycle className="text-slate-950 mr-3" aria-hidden="true" /> Preferencias de Rodada
                       </h3>
                       <form className="space-y-6" onSubmit={e => e.preventDefault()}>
                         <div>
@@ -702,7 +702,7 @@ const MemberArea = () => {
                           <select
                             id="rideType"
                             name="rideType"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-base"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-950 text-base"
                           >
                             <option>Carretera</option>
                             <option>Off-Road</option>
@@ -715,7 +715,7 @@ const MemberArea = () => {
                           <select
                             id="difficultyLevel"
                             name="difficultyLevel"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-base"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-950 text-base"
                           >
                             <option>Principiante</option>
                             <option>Intermedio</option>
@@ -728,7 +728,7 @@ const MemberArea = () => {
                           <select
                             id="notificationFrequency"
                             name="notificationFrequency"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-base"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-950 text-base"
                           >
                             <option>Todas las notificaciones</option>
                             <option>Solo eventos importantes</option>
@@ -737,7 +737,7 @@ const MemberArea = () => {
                         </div>
                         <button
                           type="submit"
-                          className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold transition focus:outline-none focus:ring-2 focus:ring-orange-400"
+                          className="bg-slate-950 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold transition focus:outline-none focus:ring-2 focus:ring-orange-400"
                           aria-label="Guardar preferencias de rodada"
                         >
                           Guardar Preferencias
@@ -852,7 +852,7 @@ const MemberArea = () => {
                                 </button>
                                 <button
                                   onClick={() => handleEventAction(event.id, 'register')}
-                                  className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded-md text-sm transition"
+                                  className="bg-slate-950 hover:bg-orange-600 text-white px-3 py-1 rounded-md text-sm transition"
                                 >
                                   Registrar Asistencia
                                 </button>
@@ -879,7 +879,7 @@ const MemberArea = () => {
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <h4 className="font-medium text-gray-800 mb-3">Filtrar por categoría:</h4>
                     <div className="flex flex-wrap gap-2">
-                      <button className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm">Todos</button>
+                      <button className="bg-slate-950 text-white px-3 py-1 rounded-full text-sm">Todos</button>
                       <button className="bg-white hover:bg-gray-100 border border-gray-300 px-3 py-1 rounded-full text-sm">Rodadas</button>
                       <button className="bg-white hover:bg-gray-100 border border-gray-300 px-3 py-1 rounded-full text-sm">Talleres</button>
                       <button className="bg-white hover:bg-gray-100 border border-gray-300 px-3 py-1 rounded-full text-sm">Eventos Sociales</button>
@@ -894,7 +894,7 @@ const MemberArea = () => {
               {activeTab === 3 && (
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                   <div className="lg:col-span-2 space-y-6">
-                    <div className="bg-gradient-to-r from-orange-500 to-yellow-500 rounded-lg p-6 text-white shadow">
+                    <div className="bg-gradient-to-r from-slate-950 to-yellow-500 rounded-lg p-6 text-white shadow">
                       <h3 className="text-xl font-semibold mb-2">Puntos Totales</h3>
                       <div className="text-4xl font-bold">{userData.points}</div>
                       <p className="text-orange-100 mt-2">Solo te faltan 250 puntos para el siguiente nivel</p>
@@ -905,22 +905,22 @@ const MemberArea = () => {
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                         <div className="bg-gray-50 p-4 rounded-lg text-center">
                           <div className="text-gray-600 text-sm">Rodadas</div>
-                          <div className="text-2xl font-bold text-orange-500">{userData.pointsBreakdown.rides}</div>
+                          <div className="text-2xl font-bold text-slate-950">{userData.pointsBreakdown.rides}</div>
                           <div className="text-xs text-gray-500">pts</div>
                         </div>
                         <div className="bg-gray-50 p-4 rounded-lg text-center">
                           <div className="text-gray-600 text-sm">Eventos</div>
-                          <div className="text-2xl font-bold text-orange-500">{userData.pointsBreakdown.events}</div>
+                          <div className="text-2xl font-bold text-slate-950">{userData.pointsBreakdown.events}</div>
                           <div className="text-xs text-gray-500">pts</div>
                         </div>
                         <div className="bg-gray-50 p-4 rounded-lg text-center">
                           <div className="text-gray-600 text-sm">Consumo Aliados</div>
-                          <div className="text-2xl font-bold text-orange-500">{userData.pointsBreakdown.partners}</div>
+                          <div className="text-2xl font-bold text-slate-950">{userData.pointsBreakdown.partners}</div>
                           <div className="text-xs text-gray-500">pts</div>
                         </div>
                         <div className="bg-gray-50 p-4 rounded-lg text-center">
                           <div className="text-gray-600 text-sm">Otros</div>
-                          <div className="text-2xl font-bold text-orange-500">{userData.pointsBreakdown.others}</div>
+                          <div className="text-2xl font-bold text-slate-950">{userData.pointsBreakdown.others}</div>
                           <div className="text-xs text-gray-500">pts</div>
                         </div>
                       </div>
@@ -928,7 +928,7 @@ const MemberArea = () => {
 
                     <div className="bg-white border rounded-lg p-6 shadow-sm">
                       <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                        <FaHistory className="text-orange-500 mr-2" /> Historial de Puntos
+                        <FaHistory className="text-slate-950 mr-2" /> Historial de Puntos
                       </h3>
                       <div className="overflow-x-auto">
                         <table className="min-w-full divide-y divide-gray-200">
@@ -956,27 +956,27 @@ const MemberArea = () => {
                   <div className="space-y-6">
                     <div className="bg-white border rounded-lg p-6 shadow-sm">
                       <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                        <FaTicketAlt className="text-orange-500 mr-2" /> Recompensas Disponibles
+                        <FaTicketAlt className="text-slate-950 mr-2" /> Recompensas Disponibles
                       </h3>
                       <div className="space-y-4">
                         <div className="border border-gray-200 rounded-lg p-4">
-                          <div className="text-orange-500 font-bold text-right">500 pts</div>
+                          <div className="text-slate-950 font-bold text-right">500 pts</div>
                           <h4 className="font-medium text-gray-800 mt-2">Descuento 10% en próximo taller</h4>
-                          <button className="mt-3 w-full bg-orange-500 hover:bg-orange-600 text-white py-1 rounded-md text-sm transition">
+                          <button className="mt-3 w-full bg-slate-950 hover:bg-orange-600 text-white py-1 rounded-md text-sm transition">
                             Canjear
                           </button>
                         </div>
                         <div className="border border-gray-200 rounded-lg p-4">
-                          <div className="text-orange-500 font-bold text-right">1000 pts</div>
+                          <div className="text-slate-950 font-bold text-right">1000 pts</div>
                           <h4 className="font-medium text-gray-800 mt-2">Kit BSK Exclusivo</h4>
-                          <button className="mt-3 w-full bg-orange-500 hover:bg-orange-600 text-white py-1 rounded-md text-sm transition">
+                          <button className="mt-3 w-full bg-slate-950 hover:bg-orange-600 text-white py-1 rounded-md text-sm transition">
                             Canjear
                           </button>
                         </div>
                         <div className="border border-gray-200 rounded-lg p-4">
-                          <div className="text-orange-500 font-bold text-right">1500 pts</div>
+                          <div className="text-slate-950 font-bold text-right">1500 pts</div>
                           <h4 className="font-medium text-gray-800 mt-2">Upgrade de Membresía por 3 meses</h4>
-                          <button className="mt-3 w-full bg-orange-500 hover:bg-orange-600 text-white py-1 rounded-md text-sm transition">
+                          <button className="mt-3 w-full bg-slate-950 hover:bg-orange-600 text-white py-1 rounded-md text-sm transition">
                             Canjear
                           </button>
                         </div>
@@ -1004,7 +1004,7 @@ const MemberArea = () => {
                     <div className="bg-white border rounded-lg p-6 shadow-sm">
                       <h3 className="text-lg font-semibold text-gray-800 mb-4">Estado de tu Membresía</h3>
                       <div className="border border-gray-200 rounded-lg p-6 text-center">
-                        <div className="text-2xl font-bold text-orange-500 mb-2 flex items-center justify-center">
+                        <div className="text-2xl font-bold text-slate-950 mb-2 flex items-center justify-center">
                           <FaMedal className="mr-2" /> {userData.membership}
                         </div>
                         <div className="text-gray-600 mb-4">
@@ -1013,7 +1013,7 @@ const MemberArea = () => {
                         <div className="mb-4">
                           <div className="w-full bg-gray-200 rounded-full h-2.5">
                             <div
-                              className="bg-gradient-to-r from-orange-500 to-yellow-500 h-2.5 rounded-full"
+                              className="bg-gradient-to-r from-slate-950 to-yellow-500 h-2.5 rounded-full"
                               style={{ width: '75%' }}
                             ></div>
                           </div>
@@ -1022,7 +1022,7 @@ const MemberArea = () => {
                         <div className="flex flex-wrap gap-3 justify-center">
                           <button
                             onClick={() => handleMembershipAction('renew')}
-                            className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md transition"
+                            className="bg-slate-950 hover:bg-orange-600 text-white px-4 py-2 rounded-md transition"
                           >
                             Renovar Membresía
                           </button>
@@ -1049,7 +1049,7 @@ const MemberArea = () => {
                       <ul className="space-y-2">
                         {userData.membershipBenefits.map((benefit, index) => (
                           <li key={index} className="flex items-start">
-                            <FaStar className="text-orange-500 mr-2 mt-1 flex-shrink-0" />
+                            <FaStar className="text-slate-950 mr-2 mt-1 flex-shrink-0" />
                             <span>{benefit}</span>
                           </li>
                         ))}
@@ -1120,7 +1120,7 @@ const MemberArea = () => {
                           name="type"
                           value={newComplaint.type}
                           onChange={(e) => setNewComplaint({ ...newComplaint, type: e.target.value })}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-950"
                         >
                           <option value="Petición">Petición</option>
                           <option value="Queja">Queja</option>
@@ -1137,7 +1137,7 @@ const MemberArea = () => {
                           name="subject"
                           value={newComplaint.subject}
                           onChange={(e) => setNewComplaint({ ...newComplaint, subject: e.target.value })}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-950"
                           required
                         />
                       </div>
@@ -1147,14 +1147,14 @@ const MemberArea = () => {
                           name="description"
                           value={newComplaint.description}
                           onChange={(e) => setNewComplaint({ ...newComplaint, description: e.target.value })}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-950"
                           rows="4"
                           required
                         ></textarea>
                       </div>
                       <button
                         type="submit"
-                        className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md transition"
+                        className="bg-slate-950 hover:bg-orange-600 text-white px-4 py-2 rounded-md transition"
                       >
                         Enviar PQRSDF
                       </button>
@@ -1225,61 +1225,61 @@ const MemberArea = () => {
 
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
                     <div className="bg-white border rounded-lg p-4 text-center shadow-sm">
-                      <div className="text-2xl sm:text-3xl font-bold text-orange-500">1,250</div>
+                      <div className="text-2xl sm:text-3xl font-bold text-slate-950">1,250</div>
                       <div className="text-xs sm:text-sm text-gray-600">Miembros Activos</div>
                     </div>
                     <div className="bg-white border rounded-lg p-4 text-center shadow-sm">
-                      <div className="text-2xl sm:text-3xl font-bold text-orange-500">48</div>
+                      <div className="text-2xl sm:text-3xl font-bold text-slate-950">48</div>
                       <div className="text-xs sm:text-sm text-gray-600">Rodadas este año</div>
                     </div>
                     <div className="bg-white border rounded-lg p-4 text-center shadow-sm">
-                      <div className="text-2xl sm:text-3xl font-bold text-orange-500">15</div>
+                      <div className="text-2xl sm:text-3xl font-bold text-slate-950">15</div>
                       <div className="text-xs sm:text-sm text-gray-600">Ciudades</div>
                     </div>
                     <div className="bg-white border rounded-lg p-4 text-center shadow-sm">
-                      <div className="text-2xl sm:text-3xl font-bold text-orange-500">8</div>
+                      <div className="text-2xl sm:text-3xl font-bold text-slate-950">8</div>
                       <div className="text-xs sm:text-sm text-gray-600">Años de historia</div>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     <div className="bg-white border rounded-lg p-6 text-center shadow-sm hover:shadow-md transition">
-                      <div className="text-orange-500 mb-3 mx-auto" style={{ width: '32px', height: '32px' }}>
+                      <div className="text-slate-950 mb-3 mx-auto" style={{ width: '32px', height: '32px' }}>
                         <FaUsers size={32} />
                       </div>
                       <h4 className="font-semibold text-gray-800 mb-2">Grupos Locales</h4>
                       <p className="text-sm text-gray-600 mb-4">Conecta con miembros en tu ciudad</p>
-                      <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm transition">
+                      <button className="bg-slate-950 hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm transition">
                         Explorar
                       </button>
                     </div>
                     <div className="bg-white border rounded-lg p-6 text-center shadow-sm hover:shadow-md transition">
-                      <div className="text-orange-500 mb-3 mx-auto" style={{ width: '32px', height: '32px' }}>
+                      <div className="text-slate-950 mb-3 mx-auto" style={{ width: '32px', height: '32px' }}>
                         <FaMapMarkedAlt size={32} />
                       </div>
                       <h4 className="font-semibold text-gray-800 mb-2">Rutas Compartidas</h4>
                       <p className="text-sm text-gray-600 mb-4">Descubre rutas favoritas de la comunidad</p>
-                      <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm transition">
+                      <button className="bg-slate-950 hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm transition">
                         Ver Mapa
                       </button>
                     </div>
                     <div className="bg-white border rounded-lg p-6 text-center shadow-sm hover:shadow-md transition">
-                      <div className="text-orange-500 mb-3 mx-auto" style={{ width: '32px', height: '32px' }}>
+                      <div className="text-slate-950 mb-3 mx-auto" style={{ width: '32px', height: '32px' }}>
                         <FaChartLine size={32} />
                       </div>
                       <h4 className="font-semibold text-gray-800 mb-2">Clasificaciones</h4>
                       <p className="text-sm text-gray-600 mb-4">Top miembros por puntos y participación</p>
-                      <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm transition">
+                      <button className="bg-slate-950 hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm transition">
                         Ver Ranking
                       </button>
                     </div>
                     <div className="bg-white border rounded-lg p-6 text-center shadow-sm hover:shadow-md transition">
-                      <div className="text-orange-500 mb-3 mx-auto" style={{ width: '32px', height: '32px' }}>
+                      <div className="text-slate-950 mb-3 mx-auto" style={{ width: '32px', height: '32px' }}>
                         <FaHistory size={32} />
                       </div>
                       <h4 className="font-semibold text-gray-800 mb-2">Archivo Histórico</h4>
                       <p className="text-sm text-gray-600 mb-4">Fotos y memorias de eventos pasados</p>
-                      <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm transition">
+                      <button className="bg-slate-950 hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm transition">
                         Explorar
                       </button>
                     </div>
@@ -1324,7 +1324,7 @@ const MemberArea = () => {
                   <div className="bg-gray-50 p-4 rounded-lg mb-6">
                     <h4 className="font-medium text-gray-800 mb-3">Categorías:</h4>
                     <div className="flex flex-wrap gap-2">
-                      <button className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm">Todos</button>
+                      <button className="bg-slate-950 text-white px-3 py-1 rounded-full text-sm">Todos</button>
                       <button className="bg-white hover:bg-gray-100 border border-gray-300 px-3 py-1 rounded-full text-sm">Talleres</button>
                       <button className="bg-white hover:bg-gray-100 border border-gray-300 px-3 py-1 rounded-full text-sm">Accesorios</button>
                       <button className="bg-white hover:bg-gray-100 border border-gray-300 px-3 py-1 rounded-full text-sm">Seguros</button>
@@ -1359,7 +1359,7 @@ const MemberArea = () => {
                           <button className="bg-white hover:bg-gray-100 border border-gray-300 px-3 py-1 rounded-md text-sm transition">
                             Ver Detalles
                           </button>
-                          <button className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded-md text-sm transition">
+                          <button className="bg-slate-950 hover:bg-orange-600 text-white px-3 py-1 rounded-md text-sm transition">
                             Obtener Cupón
                           </button>
                         </div>
@@ -1391,7 +1391,7 @@ const MemberArea = () => {
                           <button className="bg-white hover:bg-gray-100 border border-gray-300 px-3 py-1 rounded-md text-sm transition">
                             Ver Detalles
                           </button>
-                          <button className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded-md text-sm transition">
+                          <button className="bg-slate-950 hover:bg-orange-600 text-white px-3 py-1 rounded-md text-sm transition">
                             Obtener Cupón
                           </button>
                         </div>
@@ -1423,7 +1423,7 @@ const MemberArea = () => {
                           <button className="bg-white hover:bg-gray-100 border border-gray-300 px-3 py-1 rounded-md text-sm transition">
                             Ver Detalles
                           </button>
-                          <button className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded-md text-sm transition">
+                          <button className="bg-slate-950 hover:bg-orange-600 text-white px-3 py-1 rounded-md text-sm transition">
                             Reservar
                           </button>
                         </div>
@@ -1459,15 +1459,15 @@ const MemberArea = () => {
             <h4 className="font-semibold mb-6 text-lg">Contactos de Emergencia:</h4>
             <ul className="space-y-4">
               <li className="flex items-center">
-                <FaShieldAlt className="mr-3 text-orange-500" aria-hidden="true" />
+                <FaShieldAlt className="mr-3 text-slate-950" aria-hidden="true" />
                 <span>Asistencia Vial BSK: 018000-123456</span>
               </li>
               <li className="flex items-center">
-                <FaShieldAlt className="mr-3 text-orange-500" aria-hidden="true" />
+                <FaShieldAlt className="mr-3 text-slate-950" aria-hidden="true" />
                 <span>Emergencias Médicas: 123</span>
               </li>
               <li className="flex items-center">
-                <FaShieldAlt className="mr-3 text-orange-500" aria-hidden="true" />
+                <FaShieldAlt className="mr-3 text-slate-950" aria-hidden="true" />
                 <span>Policía de Carreteras: #767</span>
               </li>
             </ul>
@@ -1477,16 +1477,16 @@ const MemberArea = () => {
             <nav aria-label="Enlaces rápidos">
               <ul className="grid grid-cols-2 gap-4 text-sm">
                 <li>
-                  <a href="#" className="hover:text-orange-500 transition">Reglamento del Club</a>
+                  <a href="#" className="hover:text-slate-950 transition">Reglamento del Club</a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-orange-500 transition">Protocolos de Seguridad</a>
+                  <a href="#" className="hover:text-slate-950 transition">Protocolos de Seguridad</a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-orange-500 transition">Preguntas Frecuentes</a>
+                  <a href="#" className="hover:text-slate-950 transition">Preguntas Frecuentes</a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-orange-500 transition">Manual del Miembro</a>
+                  <a href="#" className="hover:text-slate-950 transition">Manual del Miembro</a>
                 </li>
               </ul>
             </nav>
