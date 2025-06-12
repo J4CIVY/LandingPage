@@ -565,7 +565,7 @@ const MemberArea = () => {
                 ].map(({ icon: Icon, label }, i) => (
                   <Tab
                     key={label}
-                    className="px-6 py-3 text-base font-semibold cursor-pointer focus:outline-none focus:ring-2 focus:ring-red-600 border-b-2 border-transparent hover:text-green-500 hover:border-orange-300 transition flex items-center whitespace-nowrap"
+                    className="px-6 py-3 text-base font-semibold cursor-pointer focus:outline-none focus:ring-2 focus:ring-red-600 border-b-2 border-transparent hover:text-green-500 hover:border-red-500 transition flex items-center whitespace-nowrap"
                   >
                     <Icon className="mr-3" aria-hidden="true" /> {label}
                   </Tab>
@@ -897,7 +897,7 @@ const MemberArea = () => {
                     <div className="bg-gradient-to-r from-slate-950 to-red-500 rounded-lg p-6 text-white shadow">
                       <h3 className="text-xl font-semibold mb-2">Puntos Totales</h3>
                       <div className="text-4xl font-bold">{userData.points}</div>
-                      <p className="text-orange-100 mt-2">Solo te faltan 250 puntos para el siguiente nivel</p>
+                      <p className="text-white mt-2">Solo te faltan 250 puntos para el siguiente nivel</p>
                     </div>
 
                     <div className="bg-white border rounded-lg p-6 shadow-sm">
@@ -1294,7 +1294,7 @@ const MemberArea = () => {
                         <div className="text-sm text-gray-600 mb-2">
                           A partir del 1 de noviembre se implementarán nuevos protocolos de seguridad para todas las rodadas oficiales del club.
                         </div>
-                        <button className="text-green-500 hover:text-orange-800 text-sm font-medium">
+                        <button className="text-green-500 hover:text-red-500 text-sm font-medium">
                           Leer más
                         </button>
                       </div>
@@ -1304,11 +1304,11 @@ const MemberArea = () => {
                         <div className="text-sm text-gray-600 mb-2">
                           Conoce los candidatos y fechas importantes para las elecciones del consejo directivo del próximo año.
                         </div>
-                        <button className="text-green-500 hover:text-orange-800 text-sm font-medium">
+                        <button className="text-green-500 hover:text-red-500 text-sm font-medium">
                           Leer más
                         </button>
                       </div>
-                      <button className="text-green-500 hover:text-orange-800 text-sm font-medium mt-2">
+                      <button className="text-green-500 hover:text-red-500 text-sm font-medium mt-2">
                         Ver todos los anuncios
                       </button>
                     </div>
