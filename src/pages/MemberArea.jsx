@@ -894,7 +894,7 @@ const MemberArea = () => {
               {activeTab === 3 && (
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                   <div className="lg:col-span-2 space-y-6">
-                    <div className="bg-gradient-to-r from-slate-950 to-red-500 rounded-lg p-6 text-white shadow">
+                    <div className="bg-gradient-to-r from-slate-950 to-red-600 rounded-lg p-6 text-white shadow">
                       <h3 className="text-xl font-semibold mb-2">Puntos Totales</h3>
                       <div className="text-4xl font-bold">{userData.points}</div>
                       <p className="text-white mt-2">Solo te faltan 250 puntos para el siguiente nivel</p>
