@@ -471,28 +471,28 @@ const MemberArea = () => {
                     className="mb-6"
                   >
                     <TabList className="flex flex-col space-y-2" aria-label="Secciones del área de miembro">
-                      <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400">
+                      <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-red-600">
                         <FaUserCog className="mr-3" aria-hidden="true" /> Mi Cuenta
                       </Tab>
-                      <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400">
+                      <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-red-600">
                         <FaCalendarAlt className="mr-3" aria-hidden="true" /> Mis Eventos
                       </Tab>
-                      <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400">
+                      <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-red-600">
                         <FaMotorcycle className="mr-3" aria-hidden="true" /> Próximas Rodadas
                       </Tab>
-                      <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400">
+                      <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-red-600">
                         <FaStar className="mr-3" aria-hidden="true" /> Mis Puntos
                       </Tab>
-                      <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400">
+                      <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-red-600">
                         <FaMedal className="mr-3" aria-hidden="true" /> Mi Membresía
                       </Tab>
-                      <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400">
+                      <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-red-600">
                         <FaHeadset className="mr-3" aria-hidden="true" /> PQRSDF
                       </Tab>
-                      <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400">
+                      <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-red-600">
                         <FaUsers className="mr-3" aria-hidden="true" /> Comunidad
                       </Tab>
-                      <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400">
+                      <Tab className="px-4 py-3 text-left flex items-center rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-red-600">
                         <FaStore className="mr-3" aria-hidden="true" /> Aliados
                       </Tab>
                     </TabList>
@@ -530,15 +530,15 @@ const MemberArea = () => {
               </div>
 
               <div className="flex flex-wrap gap-3">
-                <button className="flex items-center bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg text-base font-medium shadow-sm transition focus:outline-none focus:ring-2 focus:ring-orange-400">
+                <button className="flex items-center bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg text-base font-medium shadow-sm transition focus:outline-none focus:ring-2 focus:ring-red-600">
                   <FaBell className="mr-3" aria-hidden="true" /> Notificaciones
                 </button>
-                <button className="flex items-center bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg text-base font-medium shadow-sm transition focus:outline-none focus:ring-2 focus:ring-orange-400">
+                <button className="flex items-center bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg text-base font-medium shadow-sm transition focus:outline-none focus:ring-2 focus:ring-red-600">
                   <FaCog className="mr-3" aria-hidden="true" /> Configuración
                 </button>
                 <button
                   onClick={logout}
-                  className="flex items-center bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg text-base font-medium shadow-sm transition focus:outline-none focus:ring-2 focus:ring-orange-400"
+                  className="flex items-center bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg text-base font-medium shadow-sm transition focus:outline-none focus:ring-2 focus:ring-red-600"
                 >
                   <FaSignOutAlt className="mr-3" aria-hidden="true" /> Cerrar sesión
                 </button>
@@ -565,7 +565,7 @@ const MemberArea = () => {
                 ].map(({ icon: Icon, label }, i) => (
                   <Tab
                     key={label}
-                    className="px-6 py-3 text-base font-semibold cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-400 border-b-2 border-transparent hover:text-green-500 hover:border-orange-300 transition flex items-center whitespace-nowrap"
+                    className="px-6 py-3 text-base font-semibold cursor-pointer focus:outline-none focus:ring-2 focus:ring-red-600 border-b-2 border-transparent hover:text-green-500 hover:border-orange-300 transition flex items-center whitespace-nowrap"
                   >
                     <Icon className="mr-3" aria-hidden="true" /> {label}
                   </Tab>
@@ -666,7 +666,7 @@ const MemberArea = () => {
                       <button
                         type="button"
                         onClick={handleSavePersonalInfo}
-                        className="bg-slate-950 hover:bg-green-500 text-white px-6 py-3 rounded-lg font-semibold transition focus:outline-none focus:ring-2 focus:ring-orange-400"
+                        className="bg-slate-950 hover:bg-green-500 text-white px-6 py-3 rounded-lg font-semibold transition focus:outline-none focus:ring-2 focus:ring-red-600"
                         aria-label="Guardar cambios en información personal"
                       >
                         Guardar Cambios
@@ -737,7 +737,7 @@ const MemberArea = () => {
                         </div>
                         <button
                           type="submit"
-                          className="bg-slate-950 hover:bg-green-500 text-white px-6 py-3 rounded-lg font-semibold transition focus:outline-none focus:ring-2 focus:ring-orange-400"
+                          className="bg-slate-950 hover:bg-green-500 text-white px-6 py-3 rounded-lg font-semibold transition focus:outline-none focus:ring-2 focus:ring-red-600"
                           aria-label="Guardar preferencias de rodada"
                         >
                           Guardar Preferencias
