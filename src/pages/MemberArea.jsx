@@ -1028,13 +1028,13 @@ const MemberArea = () => {
                           </button>
                           <button
                             onClick={() => handleMembershipAction('upgrade')}
-                            className="bg-white hover:bg-gray-100 border border-gray-300 px-4 py-2 rounded-md transition"
+                            className="bg-white hover:bg-slate-50 border border-slate-500 px-4 py-2 rounded-md transition"
                           >
                             Mejorar Nivel
                           </button>
                           <button
                             onClick={() => handleMembershipAction('cancel')}
-                            className="bg-white hover:bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-md transition"
+                            className="bg-white hover:bg-red-50 border border-red-500 text-red-500 px-4 py-2 rounded-md transition"
                           >
                             Cancelar Membresía
                           </button>
