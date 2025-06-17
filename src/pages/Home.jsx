@@ -7,24 +7,22 @@ import {
   FaGlassCheers,
   FaGraduationCap,
   FaShieldAlt,
-  FaCalendarAlt
+  FaCalendarAlt,
+  FaArrowLeft,
+  FaArrowRight
 } from 'react-icons/fa';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import moment from 'moment';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import axios from 'axios';
-
-// Configuración del calendario
-const localizer = momentLocalizer(moment);
+import { format, parseISO, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns';
+import { es } from 'date-fns/locale';
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState('events');
   const [activeGalleryImage, setActiveGalleryImage] = useState(0);
   const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [loadingEvents, setLoadingEvents] = useState(true);
+  const [errorEvents, setErrorEvents] = useState(null);
+  const [currentMonth, setCurrentMonth] = useState(new Date());
 
-  // Datos de ejemplo para otras secciones
+  // Datos de ejemplo para la galería y otros elementos
   const galleryImages = [
     { id: 1, src: '/Banner_Algunos_Miembros_Motoclub_BSK_Motocycle_Team.webp', alt: 'Algunos Miembros De BSK Motorcycle Team' },
     { id: 2, src: '/Banner_Capacitacion_Seguridad_Vial_2025_BSK_Motocycle_Team.webp', alt: 'Capacitacion Seguridad Vial 2025 BSK Motorcycle Team' },
@@ -45,21 +43,21 @@ const Home = () => {
     { id: 2, title: 'Nuevas regulaciones de seguridad', excerpt: 'Los cambios en la normativa que todo motociclista debe conocer...', date: '28 Ago 2023' }
   ];
 
-  // Obtener eventos desde la API
+  // Fetch events from API
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get('https://api.bskmt.com/events');
-        const upcomingEvents = response.data.data.events
-          .filter(event => new Date(event.endDate) > new Date())
-          .sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
-        
-        setEvents(upcomingEvents);
-        setLoading(false);
-      } catch (err) {
-        console.error('Error fetching events:', err);
-        setError('Error al cargar los eventos. Por favor intenta más tarde.');
-        setLoading(false);
+        const response = await fetch('https://api.bskmt.com/events');
+        if (!response.ok) {
+          throw new Error('Error al cargar los eventos');
+        }
+        const data = await response.json();
+        setEvents(data.data.events);
+      } catch (error) {
+        console.error('Error fetching events:', error);
+        setErrorEvents(error.message);
+      } finally {
+        setLoadingEvents(false);
       }
     };
 
@@ -72,48 +70,113 @@ const Home = () => {
       setActiveGalleryImage((prev) =>
         prev === galleryImages.length - 1 ? 0 : prev + 1
       );
-    }, 5000); // Cambia cada 5 segundos (5000 milisegundos)
+    }, 5000);
 
-    return () => clearInterval(interval); // Limpia el intervalo al desmontar
+    return () => clearInterval(interval);
   }, []);
 
-  // Formatear eventos para el calendario
-  const calendarEvents = events.map(event => ({
-    title: event.name,
-    start: new Date(event.startDate),
-    end: new Date(event.endDate),
-    allDay: false,
-    resource: {
-      description: event.description,
-      location: event.location,
-      id: event._id
+  // Funciones para el calendario
+  const nextMonth = () => {
+    setCurrentMonth(addMonths(currentMonth, 1));
+  };
+
+  const prevMonth = () => {
+    setCurrentMonth(subMonths(currentMonth, 1));
+  };
+
+  const renderHeader = () => {
+    return (
+      <div className="flex items-center justify-between mb-4">
+        <button 
+          onClick={prevMonth}
+          className="p-2 rounded-full hover:bg-gray-200 transition"
+        >
+          <FaArrowLeft className="text-[#000031]" />
+        </button>
+        <h3 className="text-xl font-bold text-[#000031]">
+          {format(currentMonth, 'MMMM yyyy', { locale: es })}
+        </h3>
+        <button 
+          onClick={nextMonth}
+          className="p-2 rounded-full hover:bg-gray-200 transition"
+        >
+          <FaArrowRight className="text-[#000031]" />
+        </button>
+      </div>
+    );
+  };
+
+  const renderDays = () => {
+    const days = [];
+    const dateFormat = 'EEEE';
+    const startDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+
+    for (let i = 0; i < 7; i++) {
+      days.push(
+        <div className="text-center font-semibold text-sm py-2" key={i}>
+          {format(new Date(startDate.setDate(i + 1)), dateFormat, { locale: es }).charAt(0).toUpperCase()}
+        </div>
+      );
     }
-  }));
 
-  // Formatear fecha en español
-  const formatDate = (dateString) => {
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString('es-ES', options);
+    return <div className="grid grid-cols-7 mb-2">{days}</div>;
   };
 
-  // Custom styles para el calendario
-  const calendarStyle = {
-    height: '24rem',
-    margin: '0 auto',
-    backgroundColor: 'white',
-    borderRadius: '0.75rem',
-    padding: '1rem'
-  };
+  const renderCells = () => {
+    const monthStart = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+    const monthEnd = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
+    const startDate = new Date(monthStart);
+    startDate.setDate(startDate.getDate() - startDate.getDay());
+    const endDate = new Date(monthEnd);
+    endDate.setDate(endDate.getDate() + (6 - endDate.getDay()));
 
-  // Custom components para el calendario
-  const CustomEvent = ({ event }) => (
-    <div className="p-1">
-      <strong>{event.title}</strong>
-      {event.resource.description && (
-        <p className="text-xs truncate">{event.resource.description}</p>
-      )}
-    </div>
-  );
+    const rows = [];
+    let days = [];
+    let day = startDate;
+    let formattedDate = '';
+
+    while (day <= endDate) {
+      for (let i = 0; i < 7; i++) {
+        formattedDate = format(day, 'd');
+        const cloneDay = new Date(day);
+        const dayEvents = events.filter(event => 
+          isSameDay(parseISO(event.startDate), day)
+        );
+
+        days.push(
+          <div
+            className={`min-h-12 p-1 border border-gray-200 ${
+              !isSameMonth(day, monthStart) ? 'text-gray-400' : 'text-[#000031]'
+            } ${isSameDay(day, new Date()) ? 'bg-[#00FF99] bg-opacity-20' : ''}`}
+            key={day}
+          >
+            <div className="flex flex-col h-full">
+              <span className="text-sm font-medium self-end">{formattedDate}</span>
+              <div className="flex-1 overflow-y-auto">
+                {dayEvents.map(event => (
+                  <div 
+                    key={event._id}
+                    className="text-xs p-1 my-1 rounded bg-[#FF0000] text-white truncate"
+                    title={event.name}
+                  >
+                    {event.name}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+        day = new Date(day.setDate(day.getDate() + 1));
+      }
+      rows.push(
+        <div className="grid grid-cols-7" key={day}>
+          {days}
+        </div>
+      );
+      days = [];
+    }
+    return <div className="mb-4">{rows}</div>;
+  };
 
   return (
     <>
@@ -264,87 +327,97 @@ const Home = () => {
               </button>
             </div>
 
-            {loading ? (
-              <div className="text-center py-12">
-                <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-[#00FF99] border-t-transparent"></div>
-                <p className="mt-4">Cargando eventos...</p>
-              </div>
-            ) : error ? (
-              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
-                <p>{error}</p>
-              </div>
-            ) : activeTab === 'events' ? (
-              <div className="grid md:grid-cols-3 gap-8">
-                {events.map(event => (
-                  <div key={event._id} className="bg-white text-[#000031] rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105">
-                    <div className="relative" style={{ aspectRatio: '16/9' }}>
-                      <img
-                        src={event.image || '/default-event-image.webp'}
-                        alt={event.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="p-6">
-                      <h3 className="text-xl font-bold mb-2">{event.name}</h3>
-                      <p className="text-[#FF0000] font-semibold mb-3">
-                        {formatDate(event.startDate)}
-                        {event.endDate && ` - ${formatDate(event.endDate)}`}
-                      </p>
-                      <p className="text-gray-700 mb-4">{event.description}</p>
-                      {event.location && (
-                        <p className="text-sm text-gray-600 flex items-center">
-                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                          </svg>
-                          {event.location}
-                        </p>
-                      )}
-                      <button className="mt-4 w-full bg-[#000031] hover:bg-[#00FF99] text-white py-2 rounded-full transition duration-300">
-                        Más información
-                      </button>
-                    </div>
+            {activeTab === 'events' ? (
+              <>
+                {loadingEvents ? (
+                  <div className="flex justify-center items-center h-64">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#FF0000]"></div>
                   </div>
-                ))}
-              </div>
+                ) : errorEvents ? (
+                  <div className="text-center py-10">
+                    <p className="text-red-400 mb-4">Error al cargar los eventos: {errorEvents}</p>
+                    <button 
+                      onClick={() => window.location.reload()}
+                      className="bg-[#FF0000] hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                    >
+                      Reintentar
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid md:grid-cols-3 gap-8">
+                    {events.length > 0 ? (
+                      events.map(event => (
+                        <div key={event._id} className="bg-white text-[#000031] rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105">
+                          <div className="relative" style={{ aspectRatio: '16/9' }}>
+                            <img
+                              src={event.mainImage || "/default-event-image.webp"}
+                              alt={event.name}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="p-6">
+                            <h3 className="text-xl font-bold mb-2">{event.name}</h3>
+                            <p className="text-[#FF0000] font-semibold mb-3">
+                              {format(parseISO(event.startDate), "EEEE d 'de' MMMM yyyy", { locale: es })}
+                            </p>
+                            <p className="text-gray-700 mb-4">{event.description}</p>
+                            <p className="text-sm text-gray-600 flex items-center">
+                              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                              </svg>
+                              {event.departureLocation.address}
+                            </p>
+                            <button className="mt-4 w-full bg-[#000031] hover:bg-[#00FF99] text-white py-2 rounded-full transition duration-300">
+                              Más información
+                            </button>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="col-span-3 text-center py-10">
+                        <p className="text-xl">No hay eventos programados en este momento</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </>
             ) : (
               <div className="bg-white rounded-xl p-6 text-[#000031]">
-                <Calendar
-                  localizer={localizer}
-                  events={calendarEvents}
-                  startAccessor="start"
-                  endAccessor="end"
-                  style={calendarStyle}
-                  messages={{
-                    today: 'Hoy',
-                    previous: 'Anterior',
-                    next: 'Siguiente',
-                    month: 'Mes',
-                    week: 'Semana',
-                    day: 'Día',
-                    agenda: 'Agenda',
-                    date: 'Fecha',
-                    time: 'Hora',
-                    event: 'Evento',
-                    noEventsInRange: 'No hay eventos en este rango.'
-                  }}
-                  components={{
-                    event: CustomEvent
-                  }}
-                  views={['month', 'agenda']}
-                  defaultView="month"
-                  popup
-                  onSelectEvent={event => {
-                    setActiveTab('events');
-                    // Scroll al evento seleccionado
-                    setTimeout(() => {
-                      const element = document.getElementById(`event-${event.resource.id}`);
-                      if (element) {
-                        element.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }, 100);
-                  }}
-                />
+                <div className="flex items-center justify-center mb-4">
+                  <FaCalendarAlt className="text-[#FF0000] mr-2" />
+                  <h3 className="text-xl font-bold">Calendario de Eventos</h3>
+                </div>
+                <div className="calendar-container">
+                  {renderHeader()}
+                  {renderDays()}
+                  {renderCells()}
+                </div>
+                <div className="mt-4">
+                  <h4 className="font-semibold mb-2">Eventos este mes:</h4>
+                  {events.filter(event => 
+                    isSameMonth(parseISO(event.startDate), currentMonth)
+                  ).length > 0 ? (
+                    <ul className="space-y-2">
+                      {events
+                        .filter(event => isSameMonth(parseISO(event.startDate), currentMonth))
+                        .sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
+                        .map(event => (
+                          <li key={event._id} className="flex items-start">
+                            <span className="text-[#FF0000] mr-2">•</span>
+                            <div>
+                              <p className="font-medium">{event.name}</p>
+                              <p className="text-sm text-gray-600">
+                                {format(parseISO(event.startDate), "EEEE d 'de' MMMM yyyy", { locale: es })}
+                              </p>
+                            </div>
+                          </li>
+                        ))}
+                    </ul>
+                  ) : (
+                    <p>No hay eventos programados para este mes</p>
+                  )}
+                </div>
               </div>
             )}
           </div>
@@ -642,7 +715,7 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Blog o Noticias - Versión Modificada */}
+        {/* Blog o Noticias */}
         <section className="py-20 px-4 bg-gray-100">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-4xl font-bold text-center text-[#000031] mb-12">
@@ -652,7 +725,6 @@ const Home = () => {
             <div className="grid md:grid-cols-2 gap-8 mb-12">
               {blogPosts.map(post => (
                 <div key={post.id} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                  {/* Contenedor de imagen con relación de aspecto fija */}
                   <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
                     <img
                       src={`/${post.title}.webp`}
@@ -668,7 +740,7 @@ const Home = () => {
                     <button className="text-[#FF0000] font-semibold flex items-center hover:underline">
                       Leer más
                       <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7m0 0l-7 7m7-7H3" />
                       </svg>
                     </button>
                   </div>
