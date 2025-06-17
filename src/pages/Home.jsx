@@ -6,38 +6,25 @@ import {
   FaMoneyBillWave,
   FaGlassCheers,
   FaGraduationCap,
-  FaShieldAlt
+  FaShieldAlt,
+  FaCalendarAlt
 } from 'react-icons/fa';
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import moment from 'moment';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import axios from 'axios';
+
+// Configuración del calendario
+const localizer = momentLocalizer(moment);
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState('events');
   const [activeGalleryImage, setActiveGalleryImage] = useState(0);
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Datos de ejemplo
-  const upcomingEvents = [
-    {
-      id: 1,
-      title: 'Direct To Tocaima 2025',
-      date: 'Sabado 10 Mayo 2025',
-      description: 'Una noche para sentir la carretera, con seguridad y hermanos de rutas. Al final, solo quedan los recuerdos y las ganas de repetirlo.',
-      location: 'EDS Terpel Chusacá (Autopista Sur Vía Soacha-Sibaté, Km 14)'
-    },
-    {
-      id: 2,
-      title: 'Segundo Tinto O Aromatica Mayo 2025',
-      date: 'Sábado 17 de mayo de 2025',
-      description: 'Ven a compartir tu pasión por las motos en un espacio seguro. No importa si ya eres parte de BSK o solo quieres conocernos.',
-      location: 'Glorieta de la Avenida Villavicencio con Autopista Sur'
-    },
-    {
-      id: 3,
-      title: 'Road To Guamal Meta 2025',
-      date: 'Domingo 25 Mayo 2025',
-      description: 'Un viaje donde el destino es tan bueno como el camino. Disfruta la ruta, el agua y la hermandad BSK.',
-      location: 'EDS Primax El Éxito (Autopista Bogotá-Villavicencio, Km 1)'
-    }
-  ];
-
+  // Datos de ejemplo para otras secciones
   const galleryImages = [
     { id: 1, src: '/Banner_Algunos_Miembros_Motoclub_BSK_Motocycle_Team.webp', alt: 'Algunos Miembros De BSK Motorcycle Team' },
     { id: 2, src: '/Banner_Capacitacion_Seguridad_Vial_2025_BSK_Motocycle_Team.webp', alt: 'Capacitacion Seguridad Vial 2025 BSK Motorcycle Team' },
@@ -58,6 +45,27 @@ const Home = () => {
     { id: 2, title: 'Nuevas regulaciones de seguridad', excerpt: 'Los cambios en la normativa que todo motociclista debe conocer...', date: '28 Ago 2023' }
   ];
 
+  // Obtener eventos desde la API
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get('https://bskmt.com/api/events');
+        const upcomingEvents = response.data.data.events
+          .filter(event => new Date(event.endDate) > new Date())
+          .sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+        
+        setEvents(upcomingEvents);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching events:', err);
+        setError('Error al cargar los eventos. Por favor intenta más tarde.');
+        setLoading(false);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
   // Efecto para el carrusel automático
   useEffect(() => {
     const interval = setInterval(() => {
@@ -67,7 +75,45 @@ const Home = () => {
     }, 5000); // Cambia cada 5 segundos (5000 milisegundos)
 
     return () => clearInterval(interval); // Limpia el intervalo al desmontar
-  }, []); // El array vacío asegura que solo se ejecute una vez
+  }, []);
+
+  // Formatear eventos para el calendario
+  const calendarEvents = events.map(event => ({
+    title: event.name,
+    start: new Date(event.startDate),
+    end: new Date(event.endDate),
+    allDay: false,
+    resource: {
+      description: event.description,
+      location: event.location,
+      id: event._id
+    }
+  }));
+
+  // Formatear fecha en español
+  const formatDate = (dateString) => {
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('es-ES', options);
+  };
+
+  // Custom styles para el calendario
+  const calendarStyle = {
+    height: '24rem',
+    margin: '0 auto',
+    backgroundColor: 'white',
+    borderRadius: '0.75rem',
+    padding: '1rem'
+  };
+
+  // Custom components para el calendario
+  const CustomEvent = ({ event }) => (
+    <div className="p-1">
+      <strong>{event.title}</strong>
+      {event.resource.description && (
+        <p className="text-xs truncate">{event.resource.description}</p>
+      )}
+    </div>
+  );
 
   return (
     <>
@@ -218,28 +264,42 @@ const Home = () => {
               </button>
             </div>
 
-            {activeTab === 'events' ? (
+            {loading ? (
+              <div className="text-center py-12">
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-[#00FF99] border-t-transparent"></div>
+                <p className="mt-4">Cargando eventos...</p>
+              </div>
+            ) : error ? (
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+                <p>{error}</p>
+              </div>
+            ) : activeTab === 'events' ? (
               <div className="grid md:grid-cols-3 gap-8">
-                {upcomingEvents.map(event => (
-                  <div key={event.id} className="bg-white text-[#000031] rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105">
+                {events.map(event => (
+                  <div key={event._id} className="bg-white text-[#000031] rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105">
                     <div className="relative" style={{ aspectRatio: '16/9' }}>
                       <img
-                        src={`/${event.title}.webp`}
-                        alt={event.title}
+                        src={event.image || '/default-event-image.webp'}
+                        alt={event.name}
                         className="w-full h-full object-cover"
                       />
                     </div>
                     <div className="p-6">
-                      <h3 className="text-xl font-bold mb-2">{event.title}</h3>
-                      <p className="text-[#FF0000] font-semibold mb-3">{event.date}</p>
-                      <p className="text-gray-700 mb-4">{event.description}</p>
-                      <p className="text-sm text-gray-600 flex items-center">
-                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        {event.location}
+                      <h3 className="text-xl font-bold mb-2">{event.name}</h3>
+                      <p className="text-[#FF0000] font-semibold mb-3">
+                        {formatDate(event.startDate)}
+                        {event.endDate && ` - ${formatDate(event.endDate)}`}
                       </p>
+                      <p className="text-gray-700 mb-4">{event.description}</p>
+                      {event.location && (
+                        <p className="text-sm text-gray-600 flex items-center">
+                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>
+                          {event.location}
+                        </p>
+                      )}
                       <button className="mt-4 w-full bg-[#000031] hover:bg-[#00FF99] text-white py-2 rounded-full transition duration-300">
                         Más información
                       </button>
@@ -249,10 +309,42 @@ const Home = () => {
               </div>
             ) : (
               <div className="bg-white rounded-xl p-6 text-[#000031]">
-                <div className="h-96 flex items-center justify-center">
-                  {/* Aquí iría un componente de calendario interactivo */}
-                  <p className="text-xl">Calendario interactivo de eventos (componente a implementar)</p>
-                </div>
+                <Calendar
+                  localizer={localizer}
+                  events={calendarEvents}
+                  startAccessor="start"
+                  endAccessor="end"
+                  style={calendarStyle}
+                  messages={{
+                    today: 'Hoy',
+                    previous: 'Anterior',
+                    next: 'Siguiente',
+                    month: 'Mes',
+                    week: 'Semana',
+                    day: 'Día',
+                    agenda: 'Agenda',
+                    date: 'Fecha',
+                    time: 'Hora',
+                    event: 'Evento',
+                    noEventsInRange: 'No hay eventos en este rango.'
+                  }}
+                  components={{
+                    event: CustomEvent
+                  }}
+                  views={['month', 'agenda']}
+                  defaultView="month"
+                  popup
+                  onSelectEvent={event => {
+                    setActiveTab('events');
+                    // Scroll al evento seleccionado
+                    setTimeout(() => {
+                      const element = document.getElementById(`event-${event.resource.id}`);
+                      if (element) {
+                        element.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }, 100);
+                  }}
+                />
               </div>
             )}
           </div>
@@ -340,7 +432,7 @@ const Home = () => {
               <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
                 <div className="flex items-center mb-4">
                   <div className="bg-[#000031] text-white p-3 rounded-full mr-4">
-                    <FaTools className="w-6 h-6" /> {/* Icono de herramientas */}
+                    <FaTools className="w-6 h-6" />
                   </div>
                   <h3 className="text-xl font-bold text-[#000031]">Asistencia Técnica</h3>
                 </div>
@@ -368,7 +460,7 @@ const Home = () => {
               <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
                 <div className="flex items-center mb-4">
                   <div className="bg-[#000031] text-white p-3 rounded-full mr-4">
-                    <FaMoneyBillWave className="w-6 h-6" /> {/* Icono de dinero */}
+                    <FaMoneyBillWave className="w-6 h-6" />
                   </div>
                   <h3 className="text-xl font-bold text-[#000031]">Ventajas Económicas</h3>
                 </div>
@@ -396,7 +488,7 @@ const Home = () => {
               <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
                 <div className="flex items-center mb-4">
                   <div className="bg-[#000031] text-white p-3 rounded-full mr-4">
-                    <FaGlassCheers className="w-6 h-6" /> {/* Icono de celebración */}
+                    <FaGlassCheers className="w-6 h-6" />
                   </div>
                   <h3 className="text-xl font-bold text-[#000031]">Actividades Recreativas</h3>
                 </div>
@@ -424,7 +516,7 @@ const Home = () => {
               <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
                 <div className="flex items-center mb-4">
                   <div className="bg-[#000031] text-white p-3 rounded-full mr-4">
-                    <FaGraduationCap className="w-6 h-6" /> {/* Icono de formación */}
+                    <FaGraduationCap className="w-6 h-6" />
                   </div>
                   <h3 className="text-xl font-bold text-[#000031]">Formación</h3>
                 </div>
@@ -452,7 +544,7 @@ const Home = () => {
               <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
                 <div className="flex items-center mb-4">
                   <div className="bg-[#000031] text-white p-3 rounded-full mr-4">
-                    <FaShieldAlt className="w-6 h-6" /> {/* Icono de escudo */}
+                    <FaShieldAlt className="w-6 h-6" />
                   </div>
                   <h3 className="text-xl font-bold text-[#000031]">Seguridad</h3>
                 </div>
@@ -584,7 +676,7 @@ const Home = () => {
               ))}
             </div>
 
-            {/* Preguntas Frecuentes (sin cambios ya que no contiene imágenes) */}
+            {/* Preguntas Frecuentes */}
             <div className="bg-white rounded-xl p-8 shadow-lg">
               <h3 className="text-2xl font-bold text-[#000031] mb-6 text-center">PREGUNTAS FRECUENTES</h3>
               <div className="space-y-4">
