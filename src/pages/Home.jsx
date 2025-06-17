@@ -49,7 +49,7 @@ const Home = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get('https://bskmt.com/api/events');
+        const response = await axios.get('https://api.bskmt.com/events');
         const upcomingEvents = response.data.data.events
           .filter(event => new Date(event.endDate) > new Date())
           .sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
