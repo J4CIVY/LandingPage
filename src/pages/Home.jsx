@@ -45,7 +45,7 @@ const Home = () => {
     { id: 2, title: 'Nuevas regulaciones de seguridad', excerpt: 'Los cambios en la normativa que todo motociclista debe conocer...', date: '28 Ago 2023' }
   ];
 
-  // Preguntas frecuentes
+  // Preguntas frecuentes - Reorganizadas y con 10 nuevas preguntas del Manual Operativo
   const faqQuestions = [
     // Membresías
     {
@@ -233,6 +233,158 @@ const Home = () => {
       q: "¿Puedo postularme para un cargo directivo?",
       a: "Sí, los miembros Pro pueden postularse para cargos directivos cumpliendo los requisitos específicos de cada posición.",
       category: "general"
+    },
+    {
+      q: "¿Qué es el Manual de Ética de BSK Motorcycle Team?",
+      a: "Es el documento que establece los principios, normativas y lineamientos éticos que rigen la conducta de los miembros del club. Define las expectativas de comportamiento y las consecuencias por incumplimiento.",
+      category: "general"
+    },
+    {
+      q: "¿Quién debe cumplir con el Manual de Ética?",
+      a: "Todos los miembros del club, independientemente de su antigüedad, posición jerárquica o roles específicos. También aplica a interacciones con actores externos durante eventos del club.",
+      category: "general"
+    },
+    {
+      q: "¿Cuáles son los valores fundamentales del club según el Manual de Ética?",
+      a: "Respeto y diversidad, integridad, responsabilidad, lealtad y conducta ética en interacciones con otros motociclistas y clubes.",
+      category: "general"
+    },
+    {
+      q: "¿Qué responsabilidades tienen los líderes del club según el código ético?",
+      a: "Los líderes deben actuar como modelos a seguir, encarnando los valores del club y fomentando una cultura ética desde la cúspide hasta la base.",
+      category: "general"
+    },
+    {
+      q: "¿Qué función cumple el Oficial de Cumplimiento Normativo?",
+      a: "Asegura que los miembros comprendan y cumplan con los principios éticos. Sus responsabilidades incluyen educación, asesoramiento, monitoreo e investigación de violaciones éticas.",
+      category: "general"
+    },
+    {
+      q: "¿Cómo se debe interactuar con otros motociclistas según el código ético?",
+      a: "Con respeto y cortesía en la carretera, colaboración con otros clubes, representación ética en eventos y resolución constructiva de conflictos.",
+      category: "general"
+    },
+    {
+      q: "¿Qué derechos tienen los miembros según el Manual de Ética?",
+      a: "Derecho a ser tratado con dignidad, libre expresión de identidad, protección contra acoso, confidencialidad, participación en decisiones y acceso a recursos educativos.",
+      category: "general"
+    },
+    {
+      q: "¿Qué conducta se espera en eventos del club?",
+      a: "Participación activa, respeto y cortesía, cumplimiento de normas, representación positiva del club, apoyo mutuo y resolución constructiva de conflictos.",
+      category: "events"
+    },
+    {
+      q: "¿Qué normas hay sobre vestimenta e insignias del club?",
+      a: "Debe ser adecuada y respetuosa, evitar contenido vulgar, mantener uniformidad en eventos oficiales y usar correctamente las insignias y colores del club.",
+      category: "general"
+    },
+    {
+      q: "¿Qué tipos de infracciones éticas existen?",
+      a: "Se clasifican en leves (advertencias), moderadas (restricciones temporales), sustanciales (medidas disciplinarias severas) y de mayor gravedad (expulsión).",
+      category: "general"
+    },
+    {
+      q: "¿Cómo se reporta una violación al código de ética?",
+      a: "A través del Sistema de Ética y Responsabilidad (SER-BSK) disponible en el sitio web del club, que garantiza confidencialidad y protección contra represalias.",
+      category: "general"
+    },
+    {
+      q: "¿Qué sucede si reporto una violación ética de buena fe?",
+      a: "Tu identidad será protegida y el club no tolerará represalias. El Comité de Ética investigará el caso con confidencialidad.",
+      category: "general"
+    },
+    {
+      q: "¿Puedo reportar anónimamente una violación ética?",
+      a: "Sí, pero se recomienda identificarse para facilitar la investigación. Los reportes anónimos serán evaluados en función de la seriedad y detalles proporcionados.",
+      category: "general"
+    },
+    {
+      q: "¿Qué es una denuncia de mala fe según el código ético?",
+      a: "Cuando se realizan acusaciones falsas o engañosas con intención de causar daño. Estas pueden resultar en medidas disciplinarias para quien las presenta.",
+      category: "general"
+    },
+    {
+      q: "¿Cómo se investigan las violaciones al código de ética?",
+      a: "El Comité de Ética forma un Grupo de Investigación que evalúa pruebas, escucha a las partes involucradas y emite un informe con recomendaciones.",
+      category: "general"
+    },
+    {
+      q: "¿Qué derechos tiene un miembro investigado por violación ética?",
+      a: "Derecho a defensa, presunción de inocencia, revisión imparcial del caso y acceso a la evidencia presentada en su contra.",
+      category: "general"
+    },
+    {
+      q: "¿Qué medidas disciplinarias puede aplicar el club?",
+      a: "Desde advertencias formales hasta suspensión temporal o expulsión, dependiendo de la gravedad de la infracción. También hay procesos de rehabilitación.",
+      category: "general"
+    },
+    {
+      q: "¿Cómo se actualiza el Manual de Ética?",
+      a: "Mediante revisiones periódicas que involucran a los miembros, integrando lecciones aprendidas y adaptándose a necesidades cambiantes del club.",
+      category: "general"
+    },
+    {
+      q: "¿Qué responsabilidad social tiene el club según su código ético?",
+      a: "Participar en iniciativas benéficas, servicio voluntario, sensibilización en causas sociales y colaboración con organizaciones locales.",
+      category: "general"
+    },
+    {
+      q: "¿Cómo se maneja la confidencialidad en procesos éticos?",
+      a: "Toda información se maneja con estricta confidencialidad. Solo se comparte con quienes necesitan conocerla para la investigación y resolución del caso.",
+      category: "general"
+    },
+
+    // Nuevas preguntas basadas en el Manual Operativo Organizacional
+    {
+      q: "¿Cuál es la estructura organizacional de BSK Motorcycle Team?",
+      a: "El club sigue una estructura presidencialista con comités especializados: Auditoría, Ética, Administrativo, Fiscal y Financiero, Legal, Planeación Estratégica, Comunicaciones, Membresía, Capacitación y Tienda/Merchandising.",
+      category: "organization"
+    },
+    {
+      q: "¿Cuáles son las responsabilidades del Presidente del club?",
+      a: "Liderar y representar al club, tomar decisiones estratégicas, coordinar actividades generales, presidir reuniones, manejar relaciones externas y resolver conflictos internos.",
+      category: "organization"
+    },
+    {
+      q: "¿Qué funciones tiene el Comité de Auditoría?",
+      a: "Supervisar auditorías internas para garantizar transparencia en la gestión de recursos, evaluar controles internos y proveer asesoría sobre gestión de riesgos y cumplimiento normativo.",
+      category: "organization"
+    },
+    {
+      q: "¿Cómo se seleccionan los directivos del club?",
+      a: "Mediante un proceso de convocatoria abierta, nominación, presentación de candidaturas, campaña, debates públicos y votación secreta supervisada por un Comité Electoral.",
+      category: "organization"
+    },
+    {
+      q: "¿Cuáles son los requisitos para ser director de un comité?",
+      a: "Ser miembro activo con al menos 5 años de antigüedad, demostrar compromiso, tener experiencia relevante, habilidades de liderazgo y disponibilidad para el cargo.",
+      category: "organization"
+    },
+    {
+      q: "¿Cuánto dura el mandato de los directivos?",
+      a: "Los directores y subdirectores sirven por períodos de 2 años, con posibilidad de reelección o redesignación, sujetos a evaluación anual de desempeño.",
+      category: "organization"
+    },
+    {
+      q: "¿Qué sucede si un directivo no cumple con sus responsabilidades?",
+      a: "Puede ser removido por incumplimiento, violación al código de ética, desempeño insatisfactorio o acciones que perjudiquen al club, mediante votación de la directiva y aprobación de los miembros.",
+      category: "organization"
+    },
+    {
+      q: "¿Cómo se actualiza el Manual Operativo del club?",
+      a: "Se revisa anualmente por un Comité de Revisión que recopila sugerencias de miembros, evalúa cambios y presenta recomendaciones para aprobación por la directiva.",
+      category: "organization"
+    },
+    {
+      q: "¿Qué función tiene el Comité de Capacitación?",
+      a: "Diseñar e implementar programas de formación en seguridad vial, primeros auxilios y mecánica básica de motos para miembros, fomentando una cultura de aprendizaje continuo.",
+      category: "organization"
+    },
+    {
+      q: "¿Cómo se gestiona la comunicación interna en el club?",
+      a: "El Comité de Comunicaciones facilita canales efectivos como boletines informativos, plataformas digitales y reuniones periódicas para mantener informados a todos los miembros.",
+      category: "organization"
     }
   ];
 
@@ -980,6 +1132,12 @@ const Home = () => {
                   onClick={() => setFaqFilter('general')}
                 >
                   General
+                </button>
+                <button 
+                  className={`px-4 py-2 rounded-full text-sm ${faqFilter === 'organization' ? 'bg-[#000031] text-white' : 'bg-gray-200 text-[#000031] hover:bg-gray-300'}`}
+                  onClick={() => setFaqFilter('organization')}
+                >
+                  Organización
                 </button>
               </div>
 
