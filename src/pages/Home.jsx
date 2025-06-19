@@ -21,6 +21,8 @@ const Home = () => {
   const [loadingEvents, setLoadingEvents] = useState(true);
   const [errorEvents, setErrorEvents] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [activeFaq, setActiveFaq] = useState(null);
+  const [faqFilter, setFaqFilter] = useState('all');
 
   // Datos de ejemplo para la galería y otros elementos
   const galleryImages = [
@@ -41,6 +43,197 @@ const Home = () => {
   const blogPosts = [
     { id: 1, title: 'Consejos para viajes largos en moto', excerpt: 'Aprende cómo prepararte para tus aventuras en carretera...', date: '10 Sept 2023' },
     { id: 2, title: 'Nuevas regulaciones de seguridad', excerpt: 'Los cambios en la normativa que todo motociclista debe conocer...', date: '28 Ago 2023' }
+  ];
+
+  // Preguntas frecuentes
+  const faqQuestions = [
+    // Membresías
+    {
+      q: "¿Qué tipos de membresía ofrece el club?",
+      a: "Ofrecemos 5 tipos: Friend (gratuita), Rider ($600,000 anual), Rider Duo (para parejas), Pro ($1,200,000 anual) y Pro Duo. Cada una con beneficios diferentes.",
+      category: "membership"
+    },
+    {
+      q: "¿Cuáles son los requisitos para unirse al club?",
+      a: "Ser mayor de 18 años, tener licencia de motociclista vigente, poseer una moto en buen estado, alinearse con las políticas del club y comprometerse con el código de ética.",
+      category: "membership"
+    },
+    {
+      q: "¿Cómo es el proceso de admisión?",
+      a: "Debes completar un formulario, pasar por una entrevista personal y participar en una rodada de prueba donde evaluaremos tu conducta y habilidades.",
+      category: "membership"
+    },
+    {
+      q: "¿Hay un período de prueba?",
+      a: "Sí, todos los nuevos miembros tienen un período de prueba de 3 meses donde evaluamos su integración al club.",
+      category: "membership"
+    },
+    {
+      q: "¿Puedo cambiar de tipo de membresía?",
+      a: "Sí, puedes actualizar tu membresía en cualquier momento pagando la diferencia proporcional al tiempo restante.",
+      category: "membership"
+    },
+    {
+      q: "¿Qué incluye el kit de bienvenida?",
+      a: "Depende de tu membresía: desde un hoodie y calca para Friend, hasta kit de herramientas avanzado y gorra para Pro. Consulta el manual para detalles completos.",
+      category: "membership"
+    },
+    {
+      q: "¿Cómo renuevo mi membresía?",
+      a: "Recibirás un recordatorio 2 meses antes. Puedes renovar en la web del club actualizando tus datos y realizando el pago correspondiente.",
+      category: "membership"
+    },
+    {
+      q: "¿Hay reembolsos por cancelación?",
+      a: "Solo en los primeros 14 días (reembolso del 95%) o hasta 30 días (50%). Después no hay reembolsos, excepto casos excepcionales evaluados por el comité.",
+      category: "membership"
+    },
+
+    // Eventos
+    {
+      q: "¿Qué tipos de eventos organiza el club?",
+      a: "Rodadas (tours largos y cortos), encuentros locales, actividades sociales, eventos especiales como ferias y talleres de capacitación.",
+      category: "events"
+    },
+    {
+      q: "¿Cómo me inscribo a los eventos?",
+      a: "Para eventos oficiales a través de la web del club. Para no oficiales, sigue las instrucciones de los organizadores una vez aprobados por las directivas.",
+      category: "events"
+    },
+    {
+      q: "¿Qué son los gastos operacionales en las rodadas?",
+      a: "Incluyen alojamiento, entradas a atracciones, asistencias mecánicas, alimentación y actividades. La gasolina no está incluida.",
+      category: "events"
+    },
+    {
+      q: "¿Cómo se calcula mi aporte a gastos operacionales?",
+      a: "Friend paga 100%, Rider 50%, y Pro 0% de los gastos operacionales en eventos.",
+      category: "events"
+    },
+    {
+      q: "¿Puedo organizar un evento no oficial?",
+      a: "Sí, pero debes presentar una solicitud detallada a las directivas para su aprobación y cumplir con todas las normativas del club.",
+      category: "events"
+    },
+    {
+      q: "¿Qué normas de seguridad aplican en los eventos?",
+      a: "Uso obligatorio de equipo de protección, revisión previa de motos, prohibición de alcohol durante rodadas y seguimiento de protocolos de seguridad.",
+      category: "events"
+    },
+
+    // Beneficios
+    {
+      q: "¿Qué beneficios tengo con la membresía Rider?",
+      a: "Asistencia técnica en emergencias, indumentaria exclusiva, descuentos en productos y servicios, acceso a eventos especiales y seguro de responsabilidad civil.",
+      category: "benefits"
+    },
+    {
+      q: "¿Qué ventajas adicionales tiene la membresía Pro?",
+      a: "Además de los beneficios Rider, incluye participación en la dirección del club, asistencia de grúa, indumentaria más exclusiva y mayores descuentos.",
+      category: "benefits"
+    },
+    {
+      q: "¿Cómo funciona la asistencia en carretera?",
+      a: "Friend recibe ayuda remota, Rider asistencia presencial, y Pro además incluye servicio de grúa. Contacta al módulo de emergencias en la web o WhatsApp oficial.",
+      category: "benefits"
+    },
+    {
+      q: "¿Qué descuentos ofrecen en merchandising?",
+      a: "Friend 25%, Rider 50% y Pro 75% en línea regular; 15%, 30% y 50% en línea premium; 5%, 10% y 15% en ediciones limitadas.",
+      category: "benefits"
+    },
+    {
+      q: "¿Qué seguros incluyen las membresías?",
+      a: "Rider, Rider Duo, Pro y Pro Duo incluyen seguro de responsabilidad civil. Otros seguros (todo riesgo, accidentes) son opcionales con costos adicionales.",
+      category: "benefits"
+    },
+    {
+      q: "¿Ofrecen asistencia legal?",
+      a: "Sí, para miembros Rider y Pro en temas de tránsito, seguros y accidentes, disponible 24/7 a través de los canales oficiales del club.",
+      category: "benefits"
+    },
+    {
+      q: "¿Hay beneficios para acompañantes?",
+      a: "Las membresías Duo (Rider Duo y Pro Duo) extienden los beneficios a un acompañante con un costo ajustado para ambos.",
+      category: "benefits"
+    },
+
+    // General
+    {
+      q: "¿Dónde está ubicado el club?",
+      a: "Nuestra sede principal está en Bogotá, Carrera 5 A No. 36 A Sur 28, Ayacucho, San Cristóbal. Teléfono: 3182941684.",
+      category: "general"
+    },
+    {
+      q: "¿Cómo se financia el club?",
+      a: "Con cuotas de membresía, donaciones, patrocinios, venta de productos y eventos. Todos los recursos son auditados por el comité correspondiente.",
+      category: "general"
+    },
+    {
+      q: "¿Quién toma las decisiones en el club?",
+      a: "El presidente tiene la última decisión, asesorado por la Junta de Comités compuesta por los directores de todos los comités del club.",
+      category: "general"
+    },
+    {
+      q: "¿Qué valores promueve el club?",
+      a: "Hermandad, solidaridad, conocimiento, respeto, seguridad y no discriminación por ningún motivo.",
+      category: "general"
+    },
+    {
+      q: "¿Cómo es la estructura organizacional?",
+      a: "Tenemos comités especializados (Administrativo, Fiscal, Legal, Seguridad, Membresía, Ética, etc.) liderados por directivos elegidos.",
+      category: "general"
+    },
+    {
+      q: "¿Qué significa el logo del club?",
+      a: "La calavera representa valentía, el casco seguridad, las gafas visión clara, las llaves habilidades mecánicas y los pistones la potencia. Los colores simbolizan lealtad (azul), pasión (rojo) y crecimiento (verde).",
+      category: "general"
+    },
+    {
+      q: "¿Cómo puedo contactar al club?",
+      a: "Por correo (soporte@bskmt.xyz), web (https://bskmt.xyz), WhatsApp (+573182941684) o visitando nuestra sede en Bogotá.",
+      category: "general"
+    },
+    {
+      q: "¿Hay reuniones periódicas?",
+      a: "Sí, la Junta de Comités se reúne trimestralmente y el Consejo General Administrativo cuando es convocado por el presidente.",
+      category: "general"
+    },
+    {
+      q: "¿Qué hago si tengo un conflicto con otro miembro?",
+      a: "Puedes reportarlo al Comité de Ética a través del sistema SER-BSK en la web, que manejará el caso con confidencialidad.",
+      category: "general"
+    },
+    {
+      q: "¿Cómo se modifican los estatutos?",
+      a: "Las propuestas se presentan por escrito al presidente, son evaluadas por la Junta de Comités y la última decisión la toma el presidente.",
+      category: "general"
+    },
+    {
+      q: "¿Puedo usar los emblemas del club?",
+      a: "Sí, pero bajo las directrices del Comité de Ética y la comisión de identidad visual. Los emblemas están protegidos por derechos de autor.",
+      category: "general"
+    },
+    {
+      q: "¿Qué pasa si incumplo las normas?",
+      a: "El Comité de Ética puede aplicar advertencias, suspensión de beneficios o expulsión, dependiendo de la gravedad de la falta.",
+      category: "general"
+    },
+    {
+      q: "¿Cómo actualizo mis datos de contacto?",
+      a: "Debes actualizarlos semestralmente en la web, app móvil, correo o en persona. Los datos de emergencia antes de cada evento.",
+      category: "general"
+    },
+    {
+      q: "¿Hay representación de los miembros?",
+      a: "Sí, hay un representante elegido por los miembros que lleva sus inquietudes a las reuniones de directiva.",
+      category: "general"
+    },
+    {
+      q: "¿Puedo postularme para un cargo directivo?",
+      a: "Sí, los miembros Pro pueden postularse para cargos directivos cumpliendo los requisitos específicos de cada posición.",
+      category: "general"
+    }
   ];
 
   // Fetch events from API
@@ -176,6 +369,10 @@ const Home = () => {
       days = [];
     }
     return <div className="mb-4">{rows}</div>;
+  };
+
+  const toggleFaq = (index) => {
+    setActiveFaq(activeFaq === index ? null : index);
   };
 
   return (
@@ -748,45 +945,68 @@ const Home = () => {
               ))}
             </div>
 
-            {/* Preguntas Frecuentes */}
+            {/* Preguntas Frecuentes - Versión Mejorada */}
             <div className="bg-white rounded-xl p-8 shadow-lg">
               <h3 className="text-2xl font-bold text-[#000031] mb-6 text-center">PREGUNTAS FRECUENTES</h3>
-              <div className="space-y-4">
-                <div className="border-b border-gray-200 pb-4">
-                  <button className="flex justify-between items-center w-full text-left">
-                    <span className="font-semibold text-[#000031]">¿Cómo puedo unirme al club?</span>
-                    <svg className="w-5 h-5 text-[#FF0000]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  <div className="mt-2 text-gray-700 hidden">
-                    <p>Puedes unirte al club completando el formulario de membresía en nuestra página web y asistiendo a uno de nuestros eventos de bienvenida.</p>
-                  </div>
-                </div>
+              
+              {/* Filtros por categoría */}
+              <div className="flex flex-wrap justify-center gap-2 mb-6">
+                <button 
+                  className={`px-4 py-2 rounded-full text-sm ${faqFilter === 'all' ? 'bg-[#000031] text-white' : 'bg-gray-200 text-[#000031] hover:bg-gray-300'}`}
+                  onClick={() => setFaqFilter('all')}
+                >
+                  Todas
+                </button>
+                <button 
+                  className={`px-4 py-2 rounded-full text-sm ${faqFilter === 'membership' ? 'bg-[#000031] text-white' : 'bg-gray-200 text-[#000031] hover:bg-gray-300'}`}
+                  onClick={() => setFaqFilter('membership')}
+                >
+                  Membresías
+                </button>
+                <button 
+                  className={`px-4 py-2 rounded-full text-sm ${faqFilter === 'events' ? 'bg-[#000031] text-white' : 'bg-gray-200 text-[#000031] hover:bg-gray-300'}`}
+                  onClick={() => setFaqFilter('events')}
+                >
+                  Eventos
+                </button>
+                <button 
+                  className={`px-4 py-2 rounded-full text-sm ${faqFilter === 'benefits' ? 'bg-[#000031] text-white' : 'bg-gray-200 text-[#000031] hover:bg-gray-300'}`}
+                  onClick={() => setFaqFilter('benefits')}
+                >
+                  Beneficios
+                </button>
+                <button 
+                  className={`px-4 py-2 rounded-full text-sm ${faqFilter === 'general' ? 'bg-[#000031] text-white' : 'bg-gray-200 text-[#000031] hover:bg-gray-300'}`}
+                  onClick={() => setFaqFilter('general')}
+                >
+                  General
+                </button>
+              </div>
 
-                <div className="border-b border-gray-200 pb-4">
-                  <button className="flex justify-between items-center w-full text-left">
-                    <span className="font-semibold text-[#000031]">¿Qué requisitos hay para ser miembro?</span>
-                    <svg className="w-5 h-5 text-[#FF0000]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  <div className="mt-2 text-gray-700 hidden">
-                    <p>Los principales requisitos son tener licencia de motociclista vigente, poseer una motocicleta de 250cc o más, y compartir nuestros valores de respeto y seguridad.</p>
+              {/* Sistema de acordeón */}
+              <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2">
+                {faqQuestions.filter(q => faqFilter === 'all' || q.category === faqFilter).map((question, index) => (
+                  <div key={index} className="border-b border-gray-200 pb-3">
+                    <button 
+                      className="flex justify-between items-center w-full text-left py-2"
+                      onClick={() => toggleFaq(index)}
+                    >
+                      <span className="font-semibold text-[#000031] text-sm md:text-base">{question.q}</span>
+                      <svg 
+                        className={`w-5 h-5 text-[#FF0000] transition-transform ${activeFaq === index ? 'rotate-180' : ''}`}
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24" 
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    <div className={`mt-1 text-gray-700 text-sm md:text-base ${activeFaq === index ? 'block' : 'hidden'}`}>
+                      <p>{question.a}</p>
+                    </div>
                   </div>
-                </div>
-
-                <div className="border-b border-gray-200 pb-4">
-                  <button className="flex justify-between items-center w-full text-left">
-                    <span className="font-semibold text-[#000031]">¿Con qué frecuencia organizan eventos?</span>
-                    <svg className="w-5 h-5 text-[#FF0000]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  <div className="mt-2 text-gray-700 hidden">
-                    <p>Organizamos al menos un evento mensual, además de salidas espontáneas y encuentros semanales en nuestro clubhouse.</p>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
