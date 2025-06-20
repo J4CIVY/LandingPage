@@ -35,9 +35,9 @@ const Home = () => {
   ];
 
   const featuredProducts = [
-    { id: 1, name: 'Camiseta BSK', price: 25.99, image: '/Camiseta BSK.webp' },
-    { id: 2, name: 'Hoodie BSK', price: 89.99, image: '/Hoodie BSK.webp' },
-    { id: 3, name: 'Gorra BSK', price: 4.99, image: '/Gorra BSK.webp' }
+    { id: 1, name: 'Camiseta BSK', price: 50000, image: '/Camiseta BSK.webp' },
+    { id: 2, name: 'Hoodie BSK', price: 95000, image: '/Hoodie BSK.webp' },
+    { id: 3, name: 'Gorra BSK', price: 45000, image: '/Gorra BSK.webp' }
   ];
 
   const blogPosts = [
