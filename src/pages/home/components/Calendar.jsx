@@ -10,21 +10,27 @@ import {
   isSameMonth, 
   isSameDay,
   parseISO,
-  addDays
+  addDays,
+  getTimezoneOffset,
+  getDate,
+  getMonth,
+  getYear
 } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
 import { es } from 'date-fns/locale';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
-  // Zona horaria de Colombia (UTC-5)
-  const TIME_ZONE = 'America/Bogota';
-
-  // Convertir fecha UTC a hora de Colombia
-  const toColombiaTime = (date) => {
-    if (!date) return new Date();
-    const dateObj = typeof date === 'string' ? parseISO(date) : new Date(date);
-    return utcToZonedTime(dateObj, TIME_ZONE);
+  // Ajustar fecha UTC a hora local de Colombia (UTC-5)
+  const adjustToColombiaTime = (dateString) => {
+    if (!dateString) return new Date();
+    
+    const date = parseISO(dateString);
+    // Colombia está en UTC-5 (300 minutos)
+    const colombiaOffset = -300;
+    const currentOffset = getTimezoneOffset(date);
+    const diff = currentOffset - colombiaOffset;
+    
+    return new Date(date.getTime() + diff * 60 * 1000);
   };
 
   // Navegación entre meses
@@ -34,6 +40,16 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
 
   const prevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
+  };
+
+  // Comparación de días ajustada para Colombia
+  const isSameDayColombia = (date1, date2) => {
+    const d1 = new Date(date1);
+    const d2 = new Date(date2);
+    
+    return getYear(d1) === getYear(d2) && 
+           getMonth(d1) === getMonth(d2) && 
+           getDate(d1) === getDate(d2);
   };
 
   // Renderizar encabezado
@@ -93,10 +109,10 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
         const formattedDate = format(day, 'd');
         const cloneDay = new Date(day);
         
-        // Filtrar eventos para este día (convertidos a hora Colombia)
+        // Filtrar eventos para este día (ajustados a hora Colombia)
         const dayEvents = events.filter(event => {
-          const eventDate = toColombiaTime(event.startDate);
-          return isSameDay(eventDate, cloneDay);
+          const eventDate = adjustToColombiaTime(event.startDate);
+          return isSameDayColombia(eventDate, cloneDay);
         });
 
         days.push(
