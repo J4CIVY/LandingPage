@@ -10,8 +10,9 @@ import {
   isSameMonth, 
   isSameDay,
   parseISO,
-  utcToZonedTime
+  addDays
 } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 import { es } from 'date-fns/locale';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
