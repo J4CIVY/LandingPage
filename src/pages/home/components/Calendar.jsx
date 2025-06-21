@@ -2,11 +2,10 @@ import React from "react";
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
-  // Funciones para manejar meses
+  // Funciones para manejar meses en UTC
   const addMonths = (date, months) => {
     const newDate = new Date(date);
-    newDate.setMonth(newDate.getMonth() + months);
-    return newDate;
+    return new Date(newDate.setUTCMonth(newDate.getUTCMonth() + months));
   };
 
   const subMonths = (date, months) => {
@@ -23,29 +22,35 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
 
   // Formatear fecha en español
   const formatDateSpanish = (date) => {
-    const options = { month: 'long', year: 'numeric' };
+    const options = { month: 'long', year: 'numeric', timeZone: 'UTC' };
     return date.toLocaleDateString('es-ES', options);
   };
 
-  // Verificar si es el mismo mes
+  // Verificar si es el mismo mes en UTC
   const isSameMonth = (date1, date2) => {
-    return date1.getFullYear() === date2.getFullYear() && 
-           date1.getMonth() === date2.getMonth();
+    return date1.getUTCFullYear() === date2.getUTCFullYear() && 
+           date1.getUTCMonth() === date2.getUTCMonth();
   };
 
-  // Verificar si es el mismo día (versión corregida para UTC)
+  // Verificar si es el mismo día en UTC
   const isSameDay = (date1, date2) => {
-    // Convertir ambas fechas a UTC para evitar problemas de zona horaria
-    const date1UTC = new Date(Date.UTC(date1.getFullYear(), date1.getMonth(), date1.getDate()));
-    const date2UTC = new Date(Date.UTC(date2.getFullYear(), date2.getMonth(), date2.getDate()));
-    
-    return date1UTC.getTime() === date2UTC.getTime();
+    return date1.getUTCFullYear() === date2.getUTCFullYear() && 
+           date1.getUTCMonth() === date2.getUTCMonth() && 
+           date1.getUTCDate() === date2.getUTCDate();
   };
 
-  // Función para parsear fechas ISO correctamente
-  const parseISO = (dateString) => {
+  // Convertir fecha local a UTC sin cambiar la representación visual
+  const toUTCDate = (date) => {
+    return new Date(Date.UTC(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate()
+    ));
+  };
+
+  // Parsear fechas ISO y mantenerlas en UTC
+  const parseEventDate = (dateString) => {
     const date = new Date(dateString);
-    // Ajustar a la fecha correcta considerando UTC
     return new Date(Date.UTC(
       date.getUTCFullYear(),
       date.getUTCMonth(),
@@ -76,7 +81,7 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
   };
 
   const renderDays = () => {
-    const dayNames = ['D', 'L', 'M', 'M', 'J', 'V', 'S']; // Días de la semana en español
+    const dayNames = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
     
     return (
       <div className="grid grid-cols-7 mb-2">
@@ -90,12 +95,24 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
   };
 
   const renderCells = () => {
-    const monthStart = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
-    const monthEnd = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
+    // Trabajar con fechas UTC consistentemente
+    const monthStart = new Date(Date.UTC(
+      currentMonth.getUTCFullYear(), 
+      currentMonth.getUTCMonth(), 
+      1
+    ));
+    
+    const monthEnd = new Date(Date.UTC(
+      currentMonth.getUTCFullYear(), 
+      currentMonth.getUTCMonth() + 1, 
+      0
+    ));
+    
     const startDate = new Date(monthStart);
-    startDate.setDate(startDate.getDate() - startDate.getDay());
+    startDate.setUTCDate(startDate.getUTCDate() - startDate.getUTCDay());
+    
     const endDate = new Date(monthEnd);
-    endDate.setDate(endDate.getDate() + (6 - endDate.getDay()));
+    endDate.setUTCDate(endDate.getUTCDate() + (6 - endDate.getUTCDay()));
 
     const rows = [];
     let days = [];
@@ -105,19 +122,25 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
       for (let i = 0; i < 7; i++) {
         const cloneDay = new Date(day);
         const dayEvents = events.filter(event => {
-          const eventDate = parseISO(event.startDate);
-          return isSameDay(eventDate, day);
+          const eventDate = parseEventDate(event.startDate);
+          return isSameDay(eventDate, cloneDay);
         });
+
+        // Convertir a fecha local solo para visualización
+        const displayDate = new Date(day);
+        displayDate.setMinutes(displayDate.getMinutes() + displayDate.getTimezoneOffset());
 
         days.push(
           <div
             className={`min-h-12 p-1 border border-gray-200 ${
               !isSameMonth(day, monthStart) ? 'text-gray-400' : 'text-[#000031]'
-            } ${isSameDay(day, new Date()) ? 'bg-[#00FF99] bg-opacity-20' : ''}`}
-            key={day.toString()}
+            } ${isSameDay(day, toUTCDate(new Date())) ? 'bg-[#00FF99] bg-opacity-20' : ''}`}
+            key={day.toISOString()}
           >
             <div className="flex flex-col h-full">
-              <span className="text-sm font-medium self-end">{day.getDate()}</span>
+              <span className="text-sm font-medium self-end">
+                {displayDate.getUTCDate()}
+              </span>
               <div className="flex-1 overflow-y-auto">
                 {dayEvents.map(event => (
                   <div 
@@ -132,10 +155,10 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
             </div>
           </div>
         );
-        day.setDate(day.getDate() + 1);
+        day.setUTCDate(day.getUTCDate() + 1);
       }
       rows.push(
-        <div className="grid grid-cols-7" key={day.toString()}>
+        <div className="grid grid-cols-7" key={day.toISOString()}>
           {days}
         </div>
       );
