@@ -33,11 +33,24 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
            date1.getMonth() === date2.getMonth();
   };
 
-  // Verificar si es el mismo día
+  // Verificar si es el mismo día (versión corregida para UTC)
   const isSameDay = (date1, date2) => {
-    return date1.getFullYear() === date2.getFullYear() && 
-           date1.getMonth() === date2.getMonth() && 
-           date1.getDate() === date2.getDate();
+    // Convertir ambas fechas a UTC para evitar problemas de zona horaria
+    const date1UTC = new Date(Date.UTC(date1.getFullYear(), date1.getMonth(), date1.getDate()));
+    const date2UTC = new Date(Date.UTC(date2.getFullYear(), date2.getMonth(), date2.getDate()));
+    
+    return date1UTC.getTime() === date2UTC.getTime();
+  };
+
+  // Función para parsear fechas ISO correctamente
+  const parseISO = (dateString) => {
+    const date = new Date(dateString);
+    // Ajustar a la fecha correcta considerando UTC
+    return new Date(Date.UTC(
+      date.getUTCFullYear(),
+      date.getUTCMonth(),
+      date.getUTCDate()
+    ));
   };
 
   const renderHeader = () => {
@@ -63,7 +76,6 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
   };
 
   const renderDays = () => {
-    const days = [];
     const dayNames = ['D', 'L', 'M', 'M', 'J', 'V', 'S']; // Días de la semana en español
     
     return (
@@ -93,7 +105,7 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
       for (let i = 0; i < 7; i++) {
         const cloneDay = new Date(day);
         const dayEvents = events.filter(event => {
-          const eventDate = new Date(event.startDate);
+          const eventDate = parseISO(event.startDate);
           return isSameDay(eventDate, day);
         });
 
