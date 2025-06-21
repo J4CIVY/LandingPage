@@ -21,42 +21,23 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
     setCurrentMonth(subMonths(currentMonth, 1));
   };
 
-  // Formatear fecha en español (sin ajuste de zona horaria)
+  // Formatear fecha en español
   const formatDateSpanish = (date) => {
-    const monthNames = [
-      'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-      'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
-    ];
-    return `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+    const options = { month: 'long', year: 'numeric' };
+    return date.toLocaleDateString('es-ES', options);
   };
 
-  // Formatear fecha completa para mostrar en lista (DD de MES)
-  const formatFullDateSpanish = (dateString) => {
-    const date = parseISODate(dateString);
-    const monthNames = [
-      'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-      'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
-    ];
-    return `${date.getDate()} de ${monthNames[date.getMonth()]}`;
-  };
-
-  // Comparación de fechas sin considerar zona horaria
+  // Verificar si es el mismo mes
   const isSameMonth = (date1, date2) => {
     return date1.getFullYear() === date2.getFullYear() && 
            date1.getMonth() === date2.getMonth();
   };
 
-  // Comparación de días sin considerar zona horaria
+  // Verificar si es el mismo día
   const isSameDay = (date1, date2) => {
     return date1.getFullYear() === date2.getFullYear() && 
            date1.getMonth() === date2.getMonth() && 
            date1.getDate() === date2.getDate();
-  };
-
-  // Crear fecha desde string ISO sin ajuste de zona horaria
-  const parseISODate = (dateString) => {
-    const [year, month, day] = dateString.split('T')[0].split('-');
-    return new Date(year, month - 1, day);
   };
 
   const renderHeader = () => {
@@ -82,7 +63,8 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
   };
 
   const renderDays = () => {
-    const dayNames = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
+    const days = [];
+    const dayNames = ['D', 'L', 'M', 'M', 'J', 'V', 'S']; // Días de la semana en español
     
     return (
       <div className="grid grid-cols-7 mb-2">
@@ -111,7 +93,7 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
       for (let i = 0; i < 7; i++) {
         const cloneDay = new Date(day);
         const dayEvents = events.filter(event => {
-          const eventDate = parseISODate(event.startDate);
+          const eventDate = new Date(event.startDate);
           return isSameDay(eventDate, day);
         });
 
@@ -129,9 +111,9 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
                   <div 
                     key={event._id}
                     className="text-xs p-1 my-1 rounded bg-[#FF0000] text-white truncate"
-                    title={`${event.name} - ${formatFullDateSpanish(event.startDate)}`}
+                    title={event.name}
                   >
-                    {event.name} - {formatFullDateSpanish(event.startDate)}
+                    {event.name}
                   </div>
                 ))}
               </div>
