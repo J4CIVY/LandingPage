@@ -30,6 +30,16 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
     return `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
   };
 
+  // Formatear fecha completa para mostrar en lista (DD de MES)
+  const formatFullDateSpanish = (dateString) => {
+    const date = parseISODate(dateString);
+    const monthNames = [
+      'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+      'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+    ];
+    return `${date.getDate()} de ${monthNames[date.getMonth()]}`;
+  };
+
   // Comparación de fechas sin considerar zona horaria
   const isSameMonth = (date1, date2) => {
     return date1.getFullYear() === date2.getFullYear() && 
@@ -45,8 +55,8 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
 
   // Crear fecha desde string ISO sin ajuste de zona horaria
   const parseISODate = (dateString) => {
-    const parts = dateString.split('-');
-    return new Date(parts[0], parts[1] - 1, parts[2].substr(0, 2));
+    const [year, month, day] = dateString.split('T')[0].split('-');
+    return new Date(year, month - 1, day);
   };
 
   const renderHeader = () => {
@@ -101,7 +111,6 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
       for (let i = 0; i < 7; i++) {
         const cloneDay = new Date(day);
         const dayEvents = events.filter(event => {
-          // Parseamos la fecha sin ajuste de zona horaria
           const eventDate = parseISODate(event.startDate);
           return isSameDay(eventDate, day);
         });
@@ -120,9 +129,9 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
                   <div 
                     key={event._id}
                     className="text-xs p-1 my-1 rounded bg-[#FF0000] text-white truncate"
-                    title={event.name}
+                    title={`${event.name} - ${formatFullDateSpanish(event.startDate)}`}
                   >
-                    {event.name}
+                    {event.name} - {formatFullDateSpanish(event.startDate)}
                   </div>
                 ))}
               </div>
