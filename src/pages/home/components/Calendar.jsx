@@ -1,15 +1,43 @@
 import React from "react";
-import { format, parseISO, isSameMonth, isSameDay } from 'date-fns';
-import { es } from 'date-fns/locale';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
+  // Funciones para manejar meses
+  const addMonths = (date, months) => {
+    const newDate = new Date(date);
+    newDate.setMonth(newDate.getMonth() + months);
+    return newDate;
+  };
+
+  const subMonths = (date, months) => {
+    return addMonths(date, -months);
+  };
+
   const nextMonth = () => {
     setCurrentMonth(addMonths(currentMonth, 1));
   };
 
   const prevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
+  };
+
+  // Formatear fecha en español
+  const formatDateSpanish = (date) => {
+    const options = { month: 'long', year: 'numeric' };
+    return date.toLocaleDateString('es-ES', options);
+  };
+
+  // Verificar si es el mismo mes
+  const isSameMonth = (date1, date2) => {
+    return date1.getFullYear() === date2.getFullYear() && 
+           date1.getMonth() === date2.getMonth();
+  };
+
+  // Verificar si es el mismo día
+  const isSameDay = (date1, date2) => {
+    return date1.getFullYear() === date2.getFullYear() && 
+           date1.getMonth() === date2.getMonth() && 
+           date1.getDate() === date2.getDate();
   };
 
   const renderHeader = () => {
@@ -22,7 +50,7 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
           <FaArrowLeft className="text-[#000031]" />
         </button>
         <h3 className="text-xl font-bold text-[#000031]">
-          {format(currentMonth, 'MMMM yyyy', { locale: es })}
+          {formatDateSpanish(currentMonth)}
         </h3>
         <button 
           onClick={nextMonth}
@@ -36,18 +64,17 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
 
   const renderDays = () => {
     const days = [];
-    const dateFormat = 'EEEE';
-    const startDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
-
-    for (let i = 0; i < 7; i++) {
-      days.push(
-        <div className="text-center font-semibold text-sm py-2" key={i}>
-          {format(new Date(startDate.setDate(i + 1)), dateFormat, { locale: es }).charAt(0).toUpperCase()}
-        </div>
-      );
-    }
-
-    return <div className="grid grid-cols-7 mb-2">{days}</div>;
+    const dayNames = ['D', 'L', 'M', 'M', 'J', 'V', 'S']; // Días de la semana en español
+    
+    return (
+      <div className="grid grid-cols-7 mb-2">
+        {dayNames.map((day, i) => (
+          <div className="text-center font-semibold text-sm py-2" key={i}>
+            {day}
+          </div>
+        ))}
+      </div>
+    );
   };
 
   const renderCells = () => {
@@ -60,26 +87,25 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
 
     const rows = [];
     let days = [];
-    let day = startDate;
-    let formattedDate = '';
+    let day = new Date(startDate);
 
     while (day <= endDate) {
       for (let i = 0; i < 7; i++) {
-        formattedDate = format(day, 'd');
         const cloneDay = new Date(day);
-        const dayEvents = events.filter(event => 
-          isSameDay(parseISO(event.startDate), day)
-        );
+        const dayEvents = events.filter(event => {
+          const eventDate = new Date(event.startDate);
+          return isSameDay(eventDate, day);
+        });
 
         days.push(
           <div
             className={`min-h-12 p-1 border border-gray-200 ${
               !isSameMonth(day, monthStart) ? 'text-gray-400' : 'text-[#000031]'
             } ${isSameDay(day, new Date()) ? 'bg-[#00FF99] bg-opacity-20' : ''}`}
-            key={day}
+            key={day.toString()}
           >
             <div className="flex flex-col h-full">
-              <span className="text-sm font-medium self-end">{formattedDate}</span>
+              <span className="text-sm font-medium self-end">{day.getDate()}</span>
               <div className="flex-1 overflow-y-auto">
                 {dayEvents.map(event => (
                   <div 
@@ -94,10 +120,10 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
             </div>
           </div>
         );
-        day = new Date(day.setDate(day.getDate() + 1));
+        day.setDate(day.getDate() + 1);
       }
       rows.push(
-        <div className="grid grid-cols-7" key={day}>
+        <div className="grid grid-cols-7" key={day.toString()}>
           {days}
         </div>
       );
