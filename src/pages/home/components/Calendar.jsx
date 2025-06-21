@@ -2,7 +2,24 @@ import React from "react";
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
-  // Funciones para manejar meses
+  // Ajustar fecha a zona horaria de Colombia (UTC-5)
+  const adjustToColombiaTime = (date) => {
+    if (!date) return new Date();
+    
+    // Si es string (como los eventos), parseamos correctamente
+    if (typeof date === 'string') {
+      const utcDate = new Date(date);
+      const colombiaOffset = -5 * 60 * 60 * 1000; // UTC-5 en milisegundos
+      return new Date(utcDate.getTime() + colombiaOffset);
+    }
+    
+    // Si ya es Date, ajustamos
+    const colombiaOffset = -5 * 60; // UTC-5 en minutos
+    const utc = date.getTime() + (date.getTimezoneOffset() * 60000);
+    return new Date(utc + (colombiaOffset * 60000));
+  };
+
+  // Funciones para manejar meses con ajuste de zona horaria
   const addMonths = (date, months) => {
     const newDate = new Date(date);
     newDate.setMonth(newDate.getMonth() + months);
@@ -23,28 +40,23 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
 
   // Formatear fecha en español
   const formatDateSpanish = (date) => {
+    const adjustedDate = adjustToColombiaTime(date);
     const options = { month: 'long', year: 'numeric' };
-    return date.toLocaleDateString('es-ES', options);
+    return adjustedDate.toLocaleDateString('es-ES', options);
   };
 
   // Verificar si es el mismo mes
   const isSameMonth = (date1, date2) => {
-    return date1.getFullYear() === date2.getFullYear() && 
-           date1.getMonth() === date2.getMonth();
-  };
-
-  // Verificar si es el mismo día (ajustado para zona horaria de Colombia)
-  const isSameDay = (date1, date2) => {
-    // Ajustamos ambas fechas a la zona horaria de Colombia
-    const adjustToColombiaTime = (date) => {
-      const colombiaOffset = -5 * 60; // UTC-5 para Colombia
-      const utc = date.getTime() + (date.getTimezoneOffset() * 60000);
-      return new Date(utc + (colombiaOffset * 60000));
-    };
-
     const colDate1 = adjustToColombiaTime(date1);
     const colDate2 = adjustToColombiaTime(date2);
+    return colDate1.getFullYear() === colDate2.getFullYear() && 
+           colDate1.getMonth() === colDate2.getMonth();
+  };
 
+  // Verificar si es el mismo día
+  const isSameDay = (date1, date2) => {
+    const colDate1 = adjustToColombiaTime(date1);
+    const colDate2 = adjustToColombiaTime(date2);
     return colDate1.getFullYear() === colDate2.getFullYear() && 
            colDate1.getMonth() === colDate2.getMonth() && 
            colDate1.getDate() === colDate2.getDate();
@@ -74,7 +86,7 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
 
   const renderDays = () => {
     const days = [];
-    const dayNames = ['D', 'L', 'M', 'M', 'J', 'V', 'S']; // Días de la semana en español
+    const dayNames = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
     
     return (
       <div className="grid grid-cols-7 mb-2">
@@ -88,8 +100,10 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
   };
 
   const renderCells = () => {
-    const monthStart = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
-    const monthEnd = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
+    // Ajustamos las fechas base a Colombia
+    const colCurrentMonth = adjustToColombiaTime(currentMonth);
+    const monthStart = new Date(colCurrentMonth.getFullYear(), colCurrentMonth.getMonth(), 1);
+    const monthEnd = new Date(colCurrentMonth.getFullYear(), colCurrentMonth.getMonth() + 1, 0);
     const startDate = new Date(monthStart);
     startDate.setDate(startDate.getDate() - startDate.getDay());
     const endDate = new Date(monthEnd);
@@ -103,8 +117,8 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
       for (let i = 0; i < 7; i++) {
         const cloneDay = new Date(day);
         const dayEvents = events.filter(event => {
-          const eventDate = new Date(event.startDate);
-          return isSameDay(eventDate, day);
+          const eventDate = adjustToColombiaTime(event.startDate);
+          return isSameDay(eventDate, cloneDay);
         });
 
         days.push(
