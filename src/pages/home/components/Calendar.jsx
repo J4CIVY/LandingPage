@@ -1,39 +1,18 @@
 import React from "react";
-import { 
-  format, 
-  addMonths, 
-  subMonths, 
-  startOfMonth, 
-  endOfMonth, 
-  startOfWeek, 
-  endOfWeek, 
-  isSameMonth, 
-  isSameDay,
-  parseISO,
-  addDays,
-  getTimezoneOffset,
-  getDate,
-  getMonth,
-  getYear
-} from 'date-fns';
-import { es } from 'date-fns/locale';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
-  // Ajustar fecha UTC a hora local de Colombia (UTC-5)
-  const adjustToColombiaTime = (dateString) => {
-    if (!dateString) return new Date();
-    
-    const date = parseISO(dateString);
-    // Colombia está en UTC-5 (300 minutos)
-    const colombiaOffset = -300;
-    const currentOffset = getTimezoneOffset(date);
-    const diff = currentOffset - colombiaOffset;
-    
-    return new Date(date.getTime() + diff * 60 * 1000);
+  // Funciones para manejar meses
+  const addMonths = (date, months) => {
+    const newDate = new Date(date);
+    newDate.setMonth(newDate.getMonth() + months);
+    return newDate;
   };
 
-  // Navegación entre meses
+  const subMonths = (date, months) => {
+    return addMonths(date, -months);
+  };
+
   const nextMonth = () => {
     setCurrentMonth(addMonths(currentMonth, 1));
   };
@@ -42,17 +21,25 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
     setCurrentMonth(subMonths(currentMonth, 1));
   };
 
-  // Comparación de días ajustada para Colombia
-  const isSameDayColombia = (date1, date2) => {
-    const d1 = new Date(date1);
-    const d2 = new Date(date2);
-    
-    return getYear(d1) === getYear(d2) && 
-           getMonth(d1) === getMonth(d2) && 
-           getDate(d1) === getDate(d2);
+  // Formatear fecha en español
+  const formatDateSpanish = (date) => {
+    const options = { month: 'long', year: 'numeric' };
+    return date.toLocaleDateString('es-ES', options);
   };
 
-  // Renderizar encabezado
+  // Verificar si es el mismo mes
+  const isSameMonth = (date1, date2) => {
+    return date1.getFullYear() === date2.getFullYear() && 
+           date1.getMonth() === date2.getMonth();
+  };
+
+  // Verificar si es el mismo día
+  const isSameDay = (date1, date2) => {
+    return date1.getFullYear() === date2.getFullYear() && 
+           date1.getMonth() === date2.getMonth() && 
+           date1.getDate() === date2.getDate();
+  };
+
   const renderHeader = () => {
     return (
       <div className="flex items-center justify-between mb-4">
@@ -63,7 +50,7 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
           <FaArrowLeft className="text-[#000031]" />
         </button>
         <h3 className="text-xl font-bold text-[#000031]">
-          {format(currentMonth, 'MMMM yyyy', { locale: es })}
+          {formatDateSpanish(currentMonth)}
         </h3>
         <button 
           onClick={nextMonth}
@@ -75,44 +62,39 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
     );
   };
 
-  // Renderizar días de la semana
   const renderDays = () => {
     const days = [];
-    const dateFormat = 'EEEE';
-    const startDate = startOfWeek(currentMonth);
-
-    for (let i = 0; i < 7; i++) {
-      const day = addDays(startDate, i);
-      days.push(
-        <div className="text-center font-semibold text-sm py-2" key={i}>
-          {format(day, dateFormat, { locale: es }).charAt(0).toUpperCase()}
-        </div>
-      );
-    }
-
-    return <div className="grid grid-cols-7 mb-2">{days}</div>;
+    const dayNames = ['D', 'L', 'M', 'M', 'J', 'V', 'S']; // Días de la semana en español
+    
+    return (
+      <div className="grid grid-cols-7 mb-2">
+        {dayNames.map((day, i) => (
+          <div className="text-center font-semibold text-sm py-2" key={i}>
+            {day}
+          </div>
+        ))}
+      </div>
+    );
   };
 
-  // Renderizar celdas del calendario
   const renderCells = () => {
-    const monthStart = startOfMonth(currentMonth);
-    const monthEnd = endOfMonth(monthStart);
-    const startDate = startOfWeek(monthStart);
-    const endDate = endOfWeek(monthEnd);
+    const monthStart = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+    const monthEnd = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
+    const startDate = new Date(monthStart);
+    startDate.setDate(startDate.getDate() - startDate.getDay());
+    const endDate = new Date(monthEnd);
+    endDate.setDate(endDate.getDate() + (6 - endDate.getDay()));
 
     const rows = [];
     let days = [];
-    let day = startDate;
+    let day = new Date(startDate);
 
     while (day <= endDate) {
       for (let i = 0; i < 7; i++) {
-        const formattedDate = format(day, 'd');
         const cloneDay = new Date(day);
-        
-        // Filtrar eventos para este día (ajustados a hora Colombia)
         const dayEvents = events.filter(event => {
-          const eventDate = adjustToColombiaTime(event.startDate);
-          return isSameDayColombia(eventDate, cloneDay);
+          const eventDate = new Date(event.startDate);
+          return isSameDay(eventDate, day);
         });
 
         days.push(
@@ -123,7 +105,7 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
             key={day.toString()}
           >
             <div className="flex flex-col h-full">
-              <span className="text-sm font-medium self-end">{formattedDate}</span>
+              <span className="text-sm font-medium self-end">{day.getDate()}</span>
               <div className="flex-1 overflow-y-auto">
                 {dayEvents.map(event => (
                   <div 
@@ -138,7 +120,7 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
             </div>
           </div>
         );
-        day = addDays(day, 1);
+        day.setDate(day.getDate() + 1);
       }
       rows.push(
         <div className="grid grid-cols-7" key={day.toString()}>
