@@ -10,7 +10,7 @@ const StoreSection = () => {
   useEffect(() => {
     const fetchFeaturedProducts = async () => {
       try {
-        const response = await fetch('https://api.bskmt.com/products/featured');
+        const response = await fetch('https://api.bskmt.com/products/');
         if (!response.ok) {
           throw new Error('Error al cargar los productos destacados');
         }
