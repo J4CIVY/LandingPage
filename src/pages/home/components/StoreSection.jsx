@@ -79,7 +79,7 @@ const StoreSection = () => {
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-[#000031] mb-2">{product.name}</h3>
                     <p className="text-2xl font-bold text-[#FF0000] mb-4">
-                      ${product.discountPrice ? product.discountPrice.toFixed(2) : product.price.toFixed(2)}
+                      ${product.discountPrice ? Math.round(product.discountPrice) : Math.round(product.price)}
                     </p>
                     <div className="flex space-x-3">
                       <button className="flex-1 bg-[#000031] hover:bg-[#00FF99] text-white py-2 rounded-full transition duration-300">
