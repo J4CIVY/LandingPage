@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import api from '../components/auth/api';
-import { useCart } from '../../context/CartContext';
+import { useCart } from '../context/CartContext';
 
 const PaymentConfirmation = () => {
   const location = useLocation();
