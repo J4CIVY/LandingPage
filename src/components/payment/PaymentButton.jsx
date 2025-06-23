@@ -1,29 +1,16 @@
 import React, { useContext } from 'react';
-import AuthContext from '../auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import api from '../auth/api';
 
-const PaymentButton = ({ amount, description, items }) => {
-  const { user } = useContext(AuthContext);
+const PaymentButton = ({ amount, description, items, customer, referenceId }) => {
   const navigate = useNavigate();
 
   const handlePayment = async () => {
     try {
-      const customer = {
-        name: user.name,
-        email: user.email,
-        phone: user.phone || '',
-        billing_address: {
-          street1: user.address || '',
-          city: user.city || '',
-          country_code: 'CO'
-        }
-      };
-
       const response = await api.post('/payments/create-payment-intent', {
         amount,
         description,
-        reference_id: `ORD-${Date.now()}`,
+        reference_id: referenceId,
         customer,
         metadata: items.map(item => ({
           key: item.id,
@@ -31,14 +18,20 @@ const PaymentButton = ({ amount, description, items }) => {
         }))
       });
 
-      // Redirigir al checkout de Bold o mostrar formulario de pago
+      // Si hay una URL de redirección (para PSE u otros métodos)
       if (response.data.data.next_action) {
         window.location.href = response.data.data.next_action.redirect_url;
       } else {
-        navigate('/payment-confirmation', { state: { paymentData: response.data.data } });
+        // Para tarjetas de crédito, podrías mostrar un formulario aquí
+        // O redirigir a una página de confirmación
+        navigate('/payment-confirmation', { 
+          state: { 
+            paymentData: response.data.data 
+          } 
+        });
       }
     } catch (error) {
-      console.error('Error al crear pago:', error);
+      console.error('Error al procesar pago:', error);
       alert('Ocurrió un error al procesar el pago');
     }
   };
@@ -46,9 +39,9 @@ const PaymentButton = ({ amount, description, items }) => {
   return (
     <button 
       onClick={handlePayment}
-      className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200"
+      className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-medium"
     >
-      Pagar ahora
+      Confirmar y pagar
     </button>
   );
 };

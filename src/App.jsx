@@ -1,7 +1,8 @@
 import { useRef } from 'react';
-import './index.css'
+import './index.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from './components/auth/AuthContext';
+import { CartProvider } from './context/CartContext';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import EventosDashboard from './pages/EventosDashboard';
 import MemberArea from './pages/MemberArea';
@@ -20,53 +21,69 @@ import CookieBanner from "./components/shared/CookieBanner";
 import CookiePolicy from "./components/shared/CookiePolicy";
 import NoAutorizado from "./pages/NoAutorizado";
 
+// Nuevas páginas del e-commerce
+import ProductListPage from './pages/ProductListPage';
+import ProductDetailPage from './pages/ProductDetailPage';
+import CartPage from './pages/CartPage';
+import CheckoutPage from './pages/CheckoutPage';
+import PaymentConfirmation from './pages/PaymentConfirmation';
+
 function App() {
   const headerRef = useRef();
 
   return (
     <Router>
       <AuthProvider>
-        <div className="bg-[#ffffff] min-h-screen flex flex-col">
-          {/* Header con posicionamiento fijo */}
-          <Header 
-            ref={headerRef} 
-            className="fixed top-0 left-0 right-0 z-50"
-          />
+        <CartProvider>
+          <div className="bg-[#ffffff] min-h-screen flex flex-col">
+            {/* Header con posicionamiento fijo */}
+            <Header 
+              ref={headerRef} 
+              className="fixed top-0 left-0 right-0 z-50"
+            />
 
-          {/* Contenido principal con padding-top fijo basado en la altura del header */}
-          <main className="pt-[76px] min-h-[calc(100vh-76px)] relative pb-20">
-            <Routes>
-              {/* Rutas públicas */}
-              <Route path="/" element={<Home />} />
-              <Route path="/events" element={<Events />} />
-              <Route path="/courses" element={<Courses />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/weather" element={<Weather />} />
-              <Route path="/sos" element={<Sos />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/documents" element={<Documents />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/cookie-policy" element={<CookiePolicy />} />
-              <Route path="/no-autorizado" element={<NoAutorizado />} />
+            {/* Contenido principal con padding-top fijo basado en la altura del header */}
+            <main className="pt-[76px] min-h-[calc(100vh-76px)] relative pb-20">
+              <Routes>
+                {/* Rutas públicas */}
+                <Route path="/" element={<Home />} />
+                <Route path="/events" element={<Events />} />
+                <Route path="/courses" element={<Courses />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/weather" element={<Weather />} />
+                <Route path="/sos" element={<Sos />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/documents" element={<Documents />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/cookie-policy" element={<CookiePolicy />} />
+                <Route path="/no-autorizado" element={<NoAutorizado />} />
 
-              {/* Rutas protegidas */}
-              <Route path="/miembros" element={
-                <ProtectedRoute>
-                  <MemberArea />
-                </ProtectedRoute>
-              } />
+                {/* Nuevas rutas del e-commerce */}
+                <Route path="/products" element={<ProductListPage />} />
+                <Route path="/products/:id" element={<ProductDetailPage />} />
+                <Route path="/cart" element={<CartPage />} />
+                <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="/payment-confirmation" element={<PaymentConfirmation />} />
 
-              <Route path="/eventos-dashboard" element={
-                <ProtectedRoute>
-                  <EventosDashboard />
-                </ProtectedRoute>
-              } />
-            </Routes>
-          </main>
+                {/* Rutas protegidas */}
+                <Route path="/miembros" element={
+                  <ProtectedRoute>
+                    <MemberArea />
+                  </ProtectedRoute>
+                } />
 
-          <Footer />
-          <CookieBanner />
-        </div>
+                <Route path="/eventos-dashboard" element={
+                  <ProtectedRoute>
+                    <EventosDashboard />
+                  </ProtectedRoute>
+                } />
+              </Routes>
+            </main>
+
+            <Footer />
+            <CookieBanner />
+          </div>
+        </CartProvider>
       </AuthProvider>
     </Router>
   );

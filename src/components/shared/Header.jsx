@@ -1,11 +1,15 @@
 import { useState, useEffect, useRef, forwardRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useCart } from '../../context/CartContext';
+import { useAuth } from '../auth/AuthContext';
 
 const Header = forwardRef(({ className = '', ...props }, ref) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const headerRef = useRef(null);
+  const { totalItems } = useCart();
+  const { user, logout } = useAuth();
 
   // Combinamos ambas refs
   const setRefs = (node) => {
@@ -30,6 +34,7 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
   // Items del menú
   const navItems = [
     { name: 'Inicio', path: '/' },
+    { name: 'Tienda', path: '/products' },
     { name: 'Eventos', path: '/events' },
     { name: 'Cursos', path: '/courses' },
     { name: 'Sobre Nosotros', path: '/about' },
@@ -65,8 +70,8 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
           </button>
 
           {/* Menú desktop (alineado a la derecha) */}
-          <nav className="hidden md:block">
-            <ul className="flex space-x-6">
+          <nav className="hidden md:flex items-center">
+            <ul className="flex space-x-6 items-center">
               {navItems.map((item) => (
                 <li key={item.name}>
                   <button
@@ -79,6 +84,54 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
                   </button>
                 </li>
               ))}
+              
+              {/* Icono del carrito para desktop */}
+              <li className="relative">
+                <button
+                  onClick={() => navigate('/cart')}
+                  className="text-white hover:text-[#00FF99] transition-colors"
+                  aria-label="Carrito de compras"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                  {totalItems > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                      {totalItems}
+                    </span>
+                  )}
+                </button>
+              </li>
+              
+              {/* Manejo de sesión para desktop */}
+              <li>
+                {user ? (
+                  <div className="flex items-center space-x-4">
+                    <button
+                      onClick={() => navigate('/miembros')}
+                      className="text-white hover:text-[#00FF99] transition-colors"
+                    >
+                      Mi cuenta
+                    </button>
+                    <button 
+                      onClick={() => {
+                        logout();
+                        navigate('/');
+                      }}
+                      className="text-white hover:text-[#00FF99] transition-colors"
+                    >
+                      Cerrar sesión
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => navigate('/login')}
+                    className="text-white hover:text-[#00FF99] transition-colors"
+                  >
+                    Iniciar sesión
+                  </button>
+                )}
+              </li>
             </ul>
           </nav>
 
@@ -120,6 +173,61 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
                   </button>
                 </li>
               ))}
+              
+              {/* Carrito para móvil */}
+              <li className="flex items-center">
+                <button
+                  onClick={() => {
+                    navigate('/cart');
+                    setIsMenuOpen(false);
+                  }}
+                  className="text-white text-xl font-medium hover:text-[#00FF99] transition-colors flex items-center"
+                >
+                  Carrito
+                  {totalItems > 0 && (
+                    <span className="ml-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                      {totalItems}
+                    </span>
+                  )}
+                </button>
+              </li>
+              
+              {/* Manejo de sesión para móvil */}
+              <li>
+                {user ? (
+                  <div className="flex flex-col space-y-4">
+                    <button
+                      onClick={() => {
+                        navigate('/miembros');
+                        setIsMenuOpen(false);
+                      }}
+                      className="text-white text-xl font-medium hover:text-[#00FF99] transition-colors text-left"
+                    >
+                      Mi cuenta
+                    </button>
+                    <button 
+                      onClick={() => {
+                        logout();
+                        navigate('/');
+                        setIsMenuOpen(false);
+                      }}
+                      className="text-white text-xl font-medium hover:text-[#00FF99] transition-colors text-left"
+                    >
+                      Cerrar sesión
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => {
+                      navigate('/login');
+                      setIsMenuOpen(false);
+                    }}
+                    className="text-white text-xl font-medium hover:text-[#00FF99] transition-colors text-left"
+                  >
+                    Iniciar sesión
+                  </button>
+                )}
+              </li>
             </ul>
 
             {/* Sección de emergencia */}
