@@ -11,7 +11,7 @@ import {
   FaBars, FaTimes
 } from 'react-icons/fa';
 import axios from 'axios';
-import { useAuth } from '../components/auth/AuthContext';
+import { useAuth } from '../context/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 
