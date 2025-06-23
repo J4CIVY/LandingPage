@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCart } from '../../../context/CartContext';
+import { useCart } from '../../context/CartContext';
 
 const ReviewOrder = ({ shippingInfo, paymentMethod, cartItems, subtotal, onSubmit, onBack }) => {
   const shipping = subtotal > 100000 ? 0 : 10000;
