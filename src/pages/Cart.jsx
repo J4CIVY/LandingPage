@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import CartItem from '../components/cart/CartItem';
 import CartSummary from '../components/cart/CartSummary';
 import Layout from '../components/shared/Layout';
-import { useCart } from '../../context/CartContext';
+import { useCart } from '../context/CartContext';
 
 const Cart = () => {
   const { cartItems } = useCart();
