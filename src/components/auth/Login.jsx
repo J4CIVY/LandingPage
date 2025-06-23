@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { MdOutlineEmail, MdLockOutline, MdOutlineSportsMotorsports } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
