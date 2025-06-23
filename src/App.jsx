@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import './index.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { AuthProvider } from './components/auth/AuthContext';
+import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import EventosDashboard from './pages/EventosDashboard';
@@ -20,12 +20,10 @@ import Footer from "./components/shared/Footer";
 import CookieBanner from "./components/shared/CookieBanner";
 import CookiePolicy from "./components/shared/CookiePolicy";
 import NoAutorizado from "./pages/NoAutorizado";
-
-// Nuevas páginas del e-commerce
-import ProductListPage from './pages/ProductListPage';
-import ProductDetailPage from './pages/ProductDetailPage';
-import CartPage from './pages/CartPage';
-import CheckoutPage from './pages/CheckoutPage';
+import ProductListPage from './pages/ProductList';
+import ProductDetailPage from './pages/ProductDetail';
+import CartPage from './pages/Cart';
+import CheckoutPage from './pages/Checkout';
 import PaymentConfirmation from './pages/PaymentConfirmation';
 
 function App() {
