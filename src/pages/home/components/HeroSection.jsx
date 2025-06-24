@@ -1,17 +1,21 @@
 import React from "react";
 
 const HeroSection = () => (
-  <section className="relative h-screen flex items-center justify-center bg-[#000031] overflow-hidden">
+  <section className="relative flex items-center justify-center bg-[#000031] overflow-hidden" style={{ height: 'calc(100vh - 60px)' }}>
     <div className="absolute inset-0 w-full h-full">
-      <img
-        src="/Banner_Home_Motoclub_BSK_Motorcycle_Team.webp"
-        alt="BSK Motorcycle Team"
-        className="w-full h-full object-cover"
-        style={{
-          aspectRatio: '16/9',
-          objectPosition: 'center center'
-        }}
-      />
+      <div className="w-full h-full flex items-center justify-center">
+        <img
+          src="/Banner_Home_Motoclub_BSK_Motorcycle_Team.webp"
+          alt="BSK Motorcycle Team"
+          className="w-full h-auto max-w-none"
+          style={{
+            aspectRatio: '19/9',
+            objectFit: 'cover',
+            minHeight: '100%',
+            minWidth: '100%'
+          }}
+        />
+      </div>
       <div className="absolute inset-0 bg-black opacity-50"></div>
     </div>
 
