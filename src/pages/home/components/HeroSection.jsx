@@ -5,7 +5,7 @@ const HeroSection = () => (
     className="relative w-full flex items-center justify-center bg-[#000031] overflow-hidden"
     style={{
       aspectRatio: '19/9', // Forzar relación de aspecto 19/9
-      maxHeight: '100vh',  // Evitar que sea más alto que la pantalla
+      maxHeight: '120vh',  // Evitar que sea más alto que la pantalla
     }}
   >
     <div className="absolute inset-0 w-full h-full">
