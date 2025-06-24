@@ -39,7 +39,6 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
     { name: 'Cursos', path: '/courses' },
     { name: 'Sobre Nosotros', path: '/about' },
     { name: 'Clima', path: '/weather' },
-    { name: 'SOS', path: '/sos' },
     { name: 'Contacto', path: '/contact' },
     { name: 'Documentos', path: '/documents' },
   ];
