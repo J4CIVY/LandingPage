@@ -22,7 +22,9 @@ const HeroSection = () => (
       <p className="text-xl md:text-2xl text-white mb-8 max-w-2xl mx-auto">
         Libertad sobre dos ruedas - Pasión, Camaradería y Aventura
       </p>
-      <button className="bg-[#FF0000] hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 transform hover:scale-105">
+      <button 
+      onClick={() => navigate('/membership')}
+      className="bg-[#FF0000] hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 transform hover:scale-105">
         ÚNETE AL CLUB
       </button>
     </div>

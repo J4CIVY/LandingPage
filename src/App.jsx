@@ -52,6 +52,7 @@ function App() {
                 <Route path="/sos" element={<Sos />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/documents" element={<Documents />} />
+                <Route path="/memberships" element={<Memberships />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/cookie-policy" element={<CookiePolicy />} />
                 <Route path="/no-autorizado" element={<NoAutorizado />} />
