@@ -7,6 +7,7 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import EventosDashboard from './pages/EventosDashboard';
 import MemberArea from './pages/MemberArea';
 import Login from "./components/auth/Login";
+import Memberships from "./pages/Memberships";
 import Documents from "./pages/Documents";
 import Contact from "./pages/Contact";
 import Sos from "./pages/Sos";
