@@ -3,10 +3,12 @@ import { format, parseISO, isSameMonth, isSameDay } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { FaCalendarAlt } from 'react-icons/fa';
 import Calendar from "./Calendar";
+import EventModal from "./EventModal";
 
 const EventsSection = ({ events, loading, error }) => {
   const [activeTab, setActiveTab] = useState('events');
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   return (
     <section className="py-20 px-4 bg-[#000031] text-white">
@@ -71,7 +73,10 @@ const EventsSection = ({ events, loading, error }) => {
                           </svg>
                           {event.departureLocation.address}
                         </p>
-                        <button className="mt-4 w-full bg-[#000031] hover:bg-[#00FF99] text-white py-2 rounded-full transition duration-300">
+                        <button 
+                          onClick={() => setSelectedEvent(event)}
+                          className="mt-4 w-full bg-[#000031] hover:bg-[#00FF99] text-white py-2 rounded-full transition duration-300"
+                        >
                           Más información
                         </button>
                       </div>
@@ -99,6 +104,14 @@ const EventsSection = ({ events, loading, error }) => {
           </div>
         )}
       </div>
+
+      {/* Modal de evento */}
+      {selectedEvent && (
+        <EventModal 
+          event={selectedEvent} 
+          onClose={() => setSelectedEvent(null)} 
+        />
+      )}
     </section>
   );
 };
