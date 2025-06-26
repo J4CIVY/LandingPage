@@ -1,4 +1,3 @@
-// components/EventModal.jsx
 import React from 'react';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -29,23 +28,40 @@ const EventModal = ({ event, onClose }) => {
     }
   };
 
+  // Detener la propagación del evento de clic
+  const handleModalClick = (e) => {
+    e.stopPropagation();
+  };
+
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto">
+    <div 
+      className="fixed inset-0 z-50 overflow-y-auto"
+      onClick={onClose} // Cierra el modal al hacer clic fuera
+    >
       <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         {/* Fondo oscuro */}
-        <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-          <div className="absolute inset-0 bg-black opacity-75" onClick={onClose}></div>
+        <div 
+          className="fixed inset-0 transition-opacity" 
+          aria-hidden="true"
+        >
+          <div className="absolute inset-0 bg-black opacity-75"></div>
         </div>
 
-        {/* Contenido del modal */}
-        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+        {/* Contenido del modal - Aquí prevenimos la propagación del clic */}
+        <div 
+          className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full"
+          onClick={handleModalClick} // Previene que el clic se propague al fondo
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-headline"
+        >
           <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             {/* Header */}
             <div className="sm:flex sm:items-start">
               <div className="mt-3 text-center sm:mt-0 sm:text-left w-full">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="text-3xl leading-6 font-bold text-gray-900">
+                    <h3 className="text-3xl leading-6 font-bold text-gray-900" id="modal-headline">
                       {event.name}
                     </h3>
                     <div className="mt-2 flex flex-wrap gap-2">
@@ -64,6 +80,7 @@ const EventModal = ({ event, onClose }) => {
                   <button
                     onClick={onClose}
                     className="text-gray-400 hover:text-gray-500 focus:outline-none"
+                    aria-label="Cerrar modal"
                   >
                     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
@@ -71,6 +88,7 @@ const EventModal = ({ event, onClose }) => {
                   </button>
                 </div>
 
+                {/* Resto del contenido del modal permanece igual */}
                 {/* Imagen principal */}
                 <div className="mt-4 rounded-lg overflow-hidden">
                   <img
