@@ -2,39 +2,36 @@ import React from "react";
 
 const HeroSection = () => {
   // Configuración de Cloudinary
-  const cloudName = "dz0peilmu"; // Tu cloud name de Cloudinary
-  const imagePath = "Banner_Landing_Page_BSK_Motorcycle_Team_Julio_o2fcql"; // Nombre de tu imagen en Cloudinary (sin extensión)
+  const cloudName = "dz0peilmu";
+  const imagePath = "Banner_Landing_Page_BSK_Motorcycle_Team_Julio_o2fcql";
   
-  // Parámetros comunes
+  // Parámetros comunes de optimización
   const commonParams = "q_auto:best,c_fill,g_auto";
   
-  // Generación de srcSet para responsive
+  // Tamaños basados en la resolución original (1366×768)
   const srcSetAvif = `
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_avif,w_480/${imagePath} 480w,
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_avif,w_768/${imagePath} 768w,
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_avif,w_1024/${imagePath} 1024w,
-    https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_avif,w_1280/${imagePath} 1280w,
-    https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_avif,w_1920/${imagePath} 1920w
+    https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_avif,w_1366/${imagePath} 1366w
   `;
 
   const srcSetWebp = `
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_webp,w_480/${imagePath} 480w,
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_webp,w_768/${imagePath} 768w,
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_webp,w_1024/${imagePath} 1024w,
-    https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_webp,w_1280/${imagePath} 1280w,
-    https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_webp,w_1920/${imagePath} 1920w
+    https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_webp,w_1366/${imagePath} 1366w
   `;
 
   const srcSetJpg = `
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_480/${imagePath} 480w,
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_768/${imagePath} 768w,
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_1024/${imagePath} 1024w,
-    https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_1280/${imagePath} 1280w,
-    https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_1920/${imagePath} 1920w
+    https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_1366/${imagePath} 1366w
   `;
 
-  // URL de fallback (jpg)
-  const fallbackSrc = `https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_1920/${imagePath}`;
+  // URL de fallback (tamaño original)
+  const fallbackSrc = `https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_1366/${imagePath}`;
 
   return (
     <section className="relative h-screen flex items-center justify-center bg-[#000031] overflow-hidden">
@@ -61,8 +58,8 @@ const HeroSection = () => {
               aspectRatio: '16/9',
               objectPosition: 'center center'
             }}
-            width="1920"
-            height="1080"
+            width="1366"
+            height="768"
             loading="eager"
             fetchpriority="high"
           />
