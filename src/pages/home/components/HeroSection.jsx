@@ -1,9 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
   // Configuración de Cloudinary
   const cloudName = "dz0peilmu";
   const imagePath = "Banner_Landing_Page_BSK_Motorcycle_Team_Julio_o2fcql";
+  
+  // Hook para navegación
+  const navigate = useNavigate();
   
   // Parámetros comunes de optimización
   const commonParams = "q_auto:best,c_fill,g_auto";
@@ -32,6 +36,11 @@ const HeroSection = () => {
 
   // URL de fallback (tamaño original)
   const fallbackSrc = `https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_1366/${imagePath}`;
+
+  // Función para manejar el clic en el botón
+  const handleJoinClick = () => {
+    navigate("/memberships");
+  };
 
   return (
     <section className="relative h-screen flex items-center justify-center bg-[#000031] overflow-hidden">
@@ -74,7 +83,10 @@ const HeroSection = () => {
         <p className="text-xl md:text-2xl text-white mb-8 max-w-2xl mx-auto">
           Libertad sobre dos ruedas - Pasión, Camaradería y Aventura
         </p>
-        <button className="bg-[#FF0000] hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 transform hover:scale-105">
+        <button 
+          onClick={handleJoinClick}
+          className="bg-[#FF0000] hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 transform hover:scale-105"
+        >
           ÚNETE AL CLUB
         </button>
       </div>
