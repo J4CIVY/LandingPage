@@ -46,7 +46,7 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
   return (
     <header 
       ref={setRefs}
-      className={`w-full bg-[#000031] shadow-md py-1 ${className}`}
+      className={`w-full bg-slate-950 shadow-md py-1 ${className}`}
       {...props}
     >
       <div className="container mx-auto px-4">
@@ -75,8 +75,8 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
                 <li key={item.name}>
                   <button
                     onClick={() => navigate(item.path)}
-                    className={`text-white hover:text-[#00FF99] transition-colors ${
-                      location.pathname === item.path ? 'text-[#00FF99] font-bold' : ''
+                    className={`text-white hover:text-green-500 transition-colors ${
+                      location.pathname === item.path ? 'text-green-500 font-bold' : ''
                     }`}
                   >
                     {item.name}
@@ -88,7 +88,7 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
               <li className="relative">
                 <button
                   onClick={() => navigate('/cart')}
-                  className="text-white hover:text-[#00FF99] transition-colors"
+                  className="text-white hover:text-green-500 transition-colors"
                   aria-label="Carrito de compras"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -108,7 +108,7 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
                   <div className="flex items-center space-x-4">
                     <button
                       onClick={() => navigate('/miembros')}
-                      className="text-white hover:text-[#00FF99] transition-colors"
+                      className="text-white hover:text-green-500 transition-colors"
                     >
                       Mi cuenta
                     </button>
@@ -117,7 +117,7 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
                         logout();
                         navigate('/');
                       }}
-                      className="text-white hover:text-[#00FF99] transition-colors"
+                      className="text-white hover:text-green-500 transition-colors"
                     >
                       Cerrar sesión
                     </button>
@@ -125,7 +125,7 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
                 ) : (
                   <button
                     onClick={() => navigate('/login')}
-                    className="text-white hover:text-[#00FF99] transition-colors"
+                    className="text-white hover:text-green-500 transition-colors"
                   >
                     Iniciar sesión
                   </button>
@@ -151,7 +151,7 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
       {/* Menú móvil desplegable */}
       {isMenuOpen && (
         <div 
-          className="md:hidden fixed inset-0 bg-[#000031] z-40 overflow-y-auto"
+          className="md:hidden fixed inset-0 bg-slate-950 z-40 overflow-y-auto"
           style={{ top: '76px' }}
         >
           <div className="container mx-auto px-5 py-8 flex flex-col h-full">
@@ -164,8 +164,8 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
                       navigate(item.path);
                       setIsMenuOpen(false);
                     }}
-                    className={`text-white text-xl font-medium hover:text-[#00FF99] transition-colors ${
-                      location.pathname === item.path ? 'text-[#00FF99] font-bold' : ''
+                    className={`text-white text-xl font-medium hover:text-green-500 transition-colors ${
+                      location.pathname === item.path ? 'text-green-500 font-bold' : ''
                     }`}
                   >
                     {item.name}
@@ -180,7 +180,7 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
                     navigate('/cart');
                     setIsMenuOpen(false);
                   }}
-                  className="text-white text-xl font-medium hover:text-[#00FF99] transition-colors flex items-center"
+                  className="text-white text-xl font-medium hover:text-green-500 transition-colors flex items-center"
                 >
                   Carrito
                   {totalItems > 0 && (
@@ -200,7 +200,7 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
                         navigate('/miembros');
                         setIsMenuOpen(false);
                       }}
-                      className="text-white text-xl font-medium hover:text-[#00FF99] transition-colors text-left"
+                      className="text-white text-xl font-medium hover:text-green-500 transition-colors text-left"
                     >
                       Mi cuenta
                     </button>
@@ -210,7 +210,7 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
                         navigate('/');
                         setIsMenuOpen(false);
                       }}
-                      className="text-white text-xl font-medium hover:text-[#00FF99] transition-colors text-left"
+                      className="text-white text-xl font-medium hover:text-green-500 transition-colors text-left"
                     >
                       Cerrar sesión
                     </button>
@@ -221,7 +221,7 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
                       navigate('/login');
                       setIsMenuOpen(false);
                     }}
-                    className="text-white text-xl font-medium hover:text-[#00FF99] transition-colors text-left"
+                    className="text-white text-xl font-medium hover:text-green-500 transition-colors text-left"
                   >
                     Iniciar sesión
                   </button>
