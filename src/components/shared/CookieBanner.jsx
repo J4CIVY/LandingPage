@@ -101,7 +101,7 @@ const CookieBanner = () => {
             <div className="flex items-center gap-3 flex-wrap justify-center">
               <button 
                 onClick={acceptAll}
-                className="bg-green-500 hover:bg-[#00e68a] text-slate-950 font-bold py-2 px-4 rounded transition-colors duration-200 text-sm md:text-base"
+                className="bg-green-400 hover:bg-[#00e68a] text-slate-950 font-bold py-2 px-4 rounded transition-colors duration-200 text-sm md:text-base"
               >
                 Aceptar todas
               </button>
@@ -156,7 +156,7 @@ const CookieBanner = () => {
                         disabled
                         className="sr-only peer"
                       />
-                      <div className="w-11 h-6 bg-green-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+                      <div className="w-11 h-6 bg-green-400 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
                     </label>
                   </div>
                 </div>
@@ -177,7 +177,7 @@ const CookieBanner = () => {
                         onChange={() => handleSettingChange('performance')}
                         className="sr-only peer"
                       />
-                      <div className={`w-11 h-6 rounded-full peer ${cookieSettings.performance ? 'bg-green-500' : 'bg-gray-200'} peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all`}></div>
+                      <div className={`w-11 h-6 rounded-full peer ${cookieSettings.performance ? 'bg-green-400' : 'bg-gray-200'} peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all`}></div>
                     </label>
                   </div>
                 </div>
@@ -198,7 +198,7 @@ const CookieBanner = () => {
                         onChange={() => handleSettingChange('functional')}
                         className="sr-only peer"
                       />
-                      <div className={`w-11 h-6 rounded-full peer ${cookieSettings.functional ? 'bg-green-500' : 'bg-gray-200'} peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all`}></div>
+                      <div className={`w-11 h-6 rounded-full peer ${cookieSettings.functional ? 'bg-green-400' : 'bg-gray-200'} peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all`}></div>
                     </label>
                   </div>
                 </div>
@@ -219,7 +219,7 @@ const CookieBanner = () => {
                         onChange={() => handleSettingChange('marketing')}
                         className="sr-only peer"
                       />
-                      <div className={`w-11 h-6 rounded-full peer ${cookieSettings.marketing ? 'bg-green-500' : 'bg-gray-200'} peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all`}></div>
+                      <div className={`w-11 h-6 rounded-full peer ${cookieSettings.marketing ? 'bg-green-400' : 'bg-gray-200'} peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all`}></div>
                     </label>
                   </div>
                 </div>
@@ -240,7 +240,7 @@ const CookieBanner = () => {
                         onChange={() => handleSettingChange('social')}
                         className="sr-only peer"
                       />
-                      <div className={`w-11 h-6 rounded-full peer ${cookieSettings.social ? 'bg-green-500' : 'bg-gray-200'} peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all`}></div>
+                      <div className={`w-11 h-6 rounded-full peer ${cookieSettings.social ? 'bg-green-400' : 'bg-gray-200'} peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all`}></div>
                     </label>
                   </div>
                 </div>

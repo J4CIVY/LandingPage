@@ -101,7 +101,7 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
           <div
             className={`min-h-12 p-1 border border-gray-200 ${
               !isSameMonth(day, monthStart) ? 'text-gray-400' : 'text-slate-950'
-            } ${isSameDay(day, new Date()) ? 'bg-[#00FF99] bg-opacity-20' : ''}`}
+            } ${isSameDay(day, new Date()) ? 'bg-green-400 bg-opacity-20' : ''}`}
             key={day.toString()}
           >
             <div className="flex flex-col h-full">

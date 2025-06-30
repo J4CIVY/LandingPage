@@ -14,7 +14,7 @@ const EventsSection = ({ events, loading, error }) => {
     <section className="py-20 px-4 bg-slate-950 text-white">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-4xl font-bold text-center mb-12">
-          PRÓXIMOS <span className="text-[#00FF99]">EVENTOS</span>
+          PRÓXIMOS <span className="text-green-400">EVENTOS</span>
         </h2>
 
         <div className="mb-8 flex justify-center space-x-4">
@@ -75,7 +75,7 @@ const EventsSection = ({ events, loading, error }) => {
                         </p>
                         <button 
                           onClick={() => setSelectedEvent(event)}
-                          className="mt-4 w-full bg-slate-950 hover:bg-[#00FF99] text-white py-2 rounded-full transition duration-300"
+                          className="mt-4 w-full bg-slate-950 hover:bg-green-400 text-white py-2 rounded-full transition duration-300"
                         >
                           Más información
                         </button>

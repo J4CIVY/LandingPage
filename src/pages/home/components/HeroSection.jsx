@@ -78,7 +78,7 @@ const HeroSection = () => {
 
       <div className="relative z-10 text-center px-4">
         <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in">
-          <span className="text-[#00FF99]">BSK</span> MOTORCYCLE TEAM
+          <span className="text-green-400">BSK</span> MOTORCYCLE TEAM
         </h1>
         <p className="text-xl md:text-2xl text-white mb-8 max-w-2xl mx-auto">
           Libertad sobre dos ruedas - Pasión, Camaradería y Aventura

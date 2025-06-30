@@ -21,7 +21,7 @@ const EventModal = ({ event, onClose }) => {
 
   const getDifficultyColor = (difficulty) => {
     switch (difficulty) {
-      case 'low': return 'bg-green-500';
+      case 'low': return 'bg-green-400';
       case 'medium': return 'bg-yellow-500';
       case 'high': return 'bg-red-500';
       default: return 'bg-gray-500';
@@ -269,7 +269,7 @@ const EventModal = ({ event, onClose }) => {
                       <div className="flex space-x-3">
                         <a
                           href="/miembros"
-                          className="px-6 py-3 bg-[#00FF99] hover:bg-green-400 text-slate-950 font-bold rounded-full transition duration-300"
+                          className="px-6 py-3 bg-green-400 hover:bg-green-400 text-slate-950 font-bold rounded-full transition duration-300"
                         >
                           Regístrate ahora
                         </a>

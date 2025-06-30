@@ -82,7 +82,7 @@ const StoreSection = () => {
                       ${product.discountPrice ? Math.round(product.discountPrice) : Math.round(product.price)}
                     </p>
                     <div className="flex space-x-3">
-                      <button className="flex-1 bg-slate-950 hover:bg-[#00FF99] text-white py-2 rounded-full transition duration-300">
+                      <button className="flex-1 bg-slate-950 hover:bg-green-400 text-white py-2 rounded-full transition duration-300">
                         Comprar
                       </button>
                       <button 

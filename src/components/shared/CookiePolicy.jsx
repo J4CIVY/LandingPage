@@ -108,14 +108,14 @@ const CookiePolicy = () => {
       <section className="mb-8">
         <h2 className="text-2xl font-semibold text-slate-950 mb-4">4. Gestión de cookies</h2>
         <p className="mb-4">
-          Puede gestionar sus preferencias de cookies en cualquier momento accediendo al <a href="#configurar-cookies" className="text-green-500">panel de configuración</a> 
+          Puede gestionar sus preferencias de cookies en cualquier momento accediendo al <a href="#configurar-cookies" className="text-green-400">panel de configuración</a> 
           o mediante las opciones de su navegador:
         </p>
         <ul className="list-disc pl-6 mb-4">
-          <li className="mb-2"><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener noreferrer" className="text-green-500">Chrome</a></li>
-          <li className="mb-2"><a href="https://support.mozilla.org/es/kb/habilitar-y-deshabilitar-cookies-sitios-web-rastrear-preferencias" target="_blank" rel="noopener noreferrer" className="text-green-500">Firefox</a></li>
-          <li className="mb-2"><a href="https://support.apple.com/es-es/guide/safari/sfri11471/mac" target="_blank" rel="noopener noreferrer" className="text-green-500">Safari</a></li>
-          <li className="mb-2"><a href="https://support.microsoft.com/es-es/microsoft-edge/eliminar-las-cookies-en-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" target="_blank" rel="noopener noreferrer" className="text-green-500">Edge</a></li>
+          <li className="mb-2"><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener noreferrer" className="text-green-400">Chrome</a></li>
+          <li className="mb-2"><a href="https://support.mozilla.org/es/kb/habilitar-y-deshabilitar-cookies-sitios-web-rastrear-preferencias" target="_blank" rel="noopener noreferrer" className="text-green-400">Firefox</a></li>
+          <li className="mb-2"><a href="https://support.apple.com/es-es/guide/safari/sfri11471/mac" target="_blank" rel="noopener noreferrer" className="text-green-400">Safari</a></li>
+          <li className="mb-2"><a href="https://support.microsoft.com/es-es/microsoft-edge/eliminar-las-cookies-en-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" target="_blank" rel="noopener noreferrer" className="text-green-400">Edge</a></li>
         </ul>
       </section>
 
@@ -130,7 +130,7 @@ const CookiePolicy = () => {
       <section>
         <h2 className="text-2xl font-semibold text-slate-950 mb-4">6. Contacto</h2>
         <p>
-          Para cualquier pregunta sobre nuestra política de cookies, contacte con nuestro Delegado de Protección de Datos en <a href="mailto:privacidad@bskmotorcycleteam.com" className="text-green-500">privacidad@bskmotorcycleteam.com</a>.
+          Para cualquier pregunta sobre nuestra política de cookies, contacte con nuestro Delegado de Protección de Datos en <a href="mailto:privacidad@bskmotorcycleteam.com" className="text-green-400">privacidad@bskmotorcycleteam.com</a>.
         </p>
       </section>
     </div>

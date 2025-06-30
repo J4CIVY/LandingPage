@@ -10,7 +10,7 @@ const BlogSection = () => {
     <section className="py-20 px-4 bg-gray-100">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-4xl font-bold text-center text-slate-950 mb-12">
-          BLOG & <span className="text-[#00FF99]">NOTICIAS</span>
+          BLOG & <span className="text-green-400">NOTICIAS</span>
         </h2>
 
         <div className="grid md:grid-cols-2 gap-8 mb-12">
