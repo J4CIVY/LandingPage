@@ -2,44 +2,88 @@ import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  
+  // Configuración de Cloudinary
+  const cloudName = "dz0peilmu";
+  
+  // URLs optimizadas para cada imagen
+  const logoClub = {
+    avif: `https://res.cloudinary.com/${cloudName}/image/upload/f_avif,q_auto,w_854/Logos_Footer_BSKMT_fqgnap`,
+    webp: `https://res.cloudinary.com/${cloudName}/image/upload/f_webp,q_auto,w_854/Logos_Footer_BSKMT_fqgnap`,
+    jpg: `https://res.cloudinary.com/${cloudName}/image/upload/f_jpg,q_auto,w_854/Logos_Footer_BSKMT_fqgnap`
+  };
+
+  const logoInnpulsa = {
+    avif: `https://res.cloudinary.com/${cloudName}/image/upload/f_avif,q_auto,w_250/Logo_Innpulsa_Colombia_i690rs`,
+    webp: `https://res.cloudinary.com/${cloudName}/image/upload/f_webp,q_auto,w_250/Logo_Innpulsa_Colombia_i690rs`,
+    png: `https://res.cloudinary.com/${cloudName}/image/upload/f_png,q_auto,w_250/Logo_Innpulsa_Colombia_i690rs`
+  };
+
+  const logoSupersociedades = {
+    avif: `https://res.cloudinary.com/${cloudName}/image/upload/f_avif,q_auto,w_250/Logo_Superintendencia_De_Sociedades_g9pims`,
+    webp: `https://res.cloudinary.com/${cloudName}/image/upload/f_webp,q_auto,w_250/Logo_Superintendencia_De_Sociedades_g9pims`,
+    png: `https://res.cloudinary.com/${cloudName}/image/upload/f_png,q_auto,w_250/Logo_Superintendencia_De_Sociedades_g9pims`
+  };
 
   return (
-    <footer className="bg-[#000031] text-gray-500">
+    <footer className="bg-slate-950 text-gray-500">
       {/* Primera Sección - Logo y Lema */}
       <section className="py-8 px-4">
         <div className="max-w-6xl mx-auto flex flex-col items-center justify-center space-y-4">
-          <img 
-            src="/Logos_Footer_Motoclub_BSK_Motorcycle_Team.webp" 
-            alt="Logo BSK Motorcycle Team" 
-            className="h-44 w-auto"
-          />
+          {/* Logo del club optimizado */}
+          <picture>
+            <source srcSet={logoClub.avif} type="image/avif" />
+            <source srcSet={logoClub.webp} type="image/webp" />
+            <img 
+              src={logoClub.jpg} 
+              alt="Logo BSK Motorcycle Team" 
+              className="h-44 w-auto"
+              width="854"
+              height="480"
+              loading="lazy"
+            />
+          </picture>
           <p className="text-base font-light italic text-center">Hermandad, Espíritu y Respeto</p>
         </div>
       </section>
 
       {/* Segunda Sección - Apoyos y Vigilancia */}
-      <section className="py-8 px-4 border-t border-[#000031]">
+      <section className="py-8 px-4 border-t border-slate-950">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
-            {/* Apoyo */}
+            {/* Apoyo - Logo Innpulsa */}
             <div className="flex flex-col items-center space-y-2">
               <h2 className="text-sm font-semibold uppercase tracking-wider">Con El Apoyo De</h2>
-              <img 
-                src="/Logo_Innpulsa_Colombia_SNF.webp" 
-                alt="Logo Innpulsa Colombia" 
-                className="h-12 w-auto"
-              />
+              <picture>
+                <source srcSet={logoInnpulsa.avif} type="image/avif" />
+                <source srcSet={logoInnpulsa.webp} type="image/webp" />
+                <img 
+                  src={logoInnpulsa.png} 
+                  alt="Logo Innpulsa Colombia" 
+                  className="h-12 w-auto"
+                  width="250"
+                  height="100"
+                  loading="lazy"
+                />
+              </picture>
             </div>
 
-            {/* Vigilancia */}
+            {/* Vigilancia - Logo Superintendencia */}
             <div className="flex flex-col items-center space-y-2">
               <h2 className="text-sm font-semibold uppercase tracking-wider">Vigilado Por</h2>
               <div className="flex flex-col sm:flex-row items-center gap-4">
-                <img 
-                  src="/Logo_Supersociedades_SNF.webp" 
-                  alt="Logo Superintendencia de Sociedades" 
-                  className="h-12 w-auto"
-                />
+                <picture>
+                  <source srcSet={logoSupersociedades.avif} type="image/avif" />
+                  <source srcSet={logoSupersociedades.webp} type="image/webp" />
+                  <img 
+                    src={logoSupersociedades.png} 
+                    alt="Logo Superintendencia de Sociedades" 
+                    className="h-12 w-auto"
+                    width="250"
+                    height="100"
+                    loading="lazy"
+                  />
+                </picture>
               </div>
             </div>
           </div>
@@ -47,7 +91,7 @@ const Footer = () => {
       </section>
 
       {/* Tercera Sección - Redes Sociales y Menú Legal */}
-      <section className="py-8 px-4 border-t border-[#000031]">
+      <section className="py-8 px-4 border-t border-slate-950">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             {/* Redes Sociales */}
@@ -104,7 +148,7 @@ const Footer = () => {
       </section>
 
       {/* Cuarta Sección - Copyright */}
-      <section className="py-6 px-4 border-t border-[#000031]">
+      <section className="py-6 px-4 border-t border-slate-950">
         <div className="max-w-6xl mx-auto">
           <div className="text-center text-xs md:text-sm space-y-2">
             <p>
