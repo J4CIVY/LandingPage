@@ -31,8 +31,8 @@ const StoreSection = () => {
     return (
       <section className="py-20 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center text-[#000031] mb-12">
-            TIENDA <span className="text-[#FF0000]">EN LÍNEA</span>
+          <h2 className="text-4xl font-bold text-center text-slate-950 mb-12">
+            TIENDA <span className="text-red-600">EN LÍNEA</span>
           </h2>
           <div className="text-center py-12">
             <p>Cargando productos...</p>
@@ -46,8 +46,8 @@ const StoreSection = () => {
     return (
       <section className="py-20 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center text-[#000031] mb-12">
-            TIENDA <span className="text-[#FF0000]">EN LÍNEA</span>
+          <h2 className="text-4xl font-bold text-center text-slate-950 mb-12">
+            TIENDA <span className="text-red-600">EN LÍNEA</span>
           </h2>
           <div className="text-center py-12 text-red-500">
             <p>Error al cargar los productos: {error}</p>
@@ -60,8 +60,8 @@ const StoreSection = () => {
   return (
     <section className="py-20 px-4 bg-white">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold text-center text-[#000031] mb-12">
-          TIENDA <span className="text-[#FF0000]">EN LÍNEA</span>
+        <h2 className="text-4xl font-bold text-center text-slate-950 mb-12">
+          TIENDA <span className="text-red-600">EN LÍNEA</span>
         </h2>
 
         {featuredProducts.length > 0 ? (
@@ -77,17 +77,17 @@ const StoreSection = () => {
                     />
                   </div>
                   <div className="p-6">
-                    <h3 className="text-xl font-bold text-[#000031] mb-2">{product.name}</h3>
-                    <p className="text-2xl font-bold text-[#FF0000] mb-4">
+                    <h3 className="text-xl font-bold text-slate-950 mb-2">{product.name}</h3>
+                    <p className="text-2xl font-bold text-red-600 mb-4">
                       ${product.discountPrice ? Math.round(product.discountPrice) : Math.round(product.price)}
                     </p>
                     <div className="flex space-x-3">
-                      <button className="flex-1 bg-[#000031] hover:bg-[#00FF99] text-white py-2 rounded-full transition duration-300">
+                      <button className="flex-1 bg-slate-950 hover:bg-[#00FF99] text-white py-2 rounded-full transition duration-300">
                         Comprar
                       </button>
                       <button 
                         onClick={() => navigate(`/${product.slug}`)}
-                        className="flex-1 bg-white border border-[#000031] text-[#000031] py-2 rounded-full hover:bg-gray-100 transition duration-300"
+                        className="flex-1 bg-white border border-slate-950 text-slate-950 py-2 rounded-full hover:bg-gray-100 transition duration-300"
                       >
                         Detalles
                       </button>
@@ -100,7 +100,7 @@ const StoreSection = () => {
             <div className="text-center mt-12">
               <button 
                 onClick={() => navigate('/tienda')}
-                className="bg-[#FF0000] hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-flex items-center"
+                className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-flex items-center"
               >
                 Ver todos los productos
                 <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

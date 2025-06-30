@@ -352,42 +352,42 @@ const FAQSection = () => {
 
   return (
     <div className="bg-white rounded-xl p-8 shadow-lg">
-      <h3 className="text-2xl font-bold text-[#000031] mb-6 text-center">PREGUNTAS FRECUENTES</h3>
+      <h3 className="text-2xl font-bold text-slate-950 mb-6 text-center">PREGUNTAS FRECUENTES</h3>
       
       {/* Filtros por categoría */}
       <div className="flex flex-wrap justify-center gap-2 mb-6">
         <button 
-          className={`px-4 py-2 rounded-full text-sm ${faqFilter === 'all' ? 'bg-[#000031] text-white' : 'bg-gray-200 text-[#000031] hover:bg-gray-300'}`}
+          className={`px-4 py-2 rounded-full text-sm ${faqFilter === 'all' ? 'bg-slate-950 text-white' : 'bg-gray-200 text-slate-950 hover:bg-gray-300'}`}
           onClick={() => setFaqFilter('all')}
         >
           Todas
         </button>
         <button 
-          className={`px-4 py-2 rounded-full text-sm ${faqFilter === 'membership' ? 'bg-[#000031] text-white' : 'bg-gray-200 text-[#000031] hover:bg-gray-300'}`}
+          className={`px-4 py-2 rounded-full text-sm ${faqFilter === 'membership' ? 'bg-slate-950 text-white' : 'bg-gray-200 text-slate-950 hover:bg-gray-300'}`}
           onClick={() => setFaqFilter('membership')}
         >
           Membresías
         </button>
         <button 
-          className={`px-4 py-2 rounded-full text-sm ${faqFilter === 'events' ? 'bg-[#000031] text-white' : 'bg-gray-200 text-[#000031] hover:bg-gray-300'}`}
+          className={`px-4 py-2 rounded-full text-sm ${faqFilter === 'events' ? 'bg-slate-950 text-white' : 'bg-gray-200 text-slate-950 hover:bg-gray-300'}`}
           onClick={() => setFaqFilter('events')}
         >
           Eventos
         </button>
         <button 
-          className={`px-4 py-2 rounded-full text-sm ${faqFilter === 'benefits' ? 'bg-[#000031] text-white' : 'bg-gray-200 text-[#000031] hover:bg-gray-300'}`}
+          className={`px-4 py-2 rounded-full text-sm ${faqFilter === 'benefits' ? 'bg-slate-950 text-white' : 'bg-gray-200 text-slate-950 hover:bg-gray-300'}`}
           onClick={() => setFaqFilter('benefits')}
         >
           Beneficios
         </button>
         <button 
-          className={`px-4 py-2 rounded-full text-sm ${faqFilter === 'general' ? 'bg-[#000031] text-white' : 'bg-gray-200 text-[#000031] hover:bg-gray-300'}`}
+          className={`px-4 py-2 rounded-full text-sm ${faqFilter === 'general' ? 'bg-slate-950 text-white' : 'bg-gray-200 text-slate-950 hover:bg-gray-300'}`}
           onClick={() => setFaqFilter('general')}
         >
           General
         </button>
         <button 
-          className={`px-4 py-2 rounded-full text-sm ${faqFilter === 'organization' ? 'bg-[#000031] text-white' : 'bg-gray-200 text-[#000031] hover:bg-gray-300'}`}
+          className={`px-4 py-2 rounded-full text-sm ${faqFilter === 'organization' ? 'bg-slate-950 text-white' : 'bg-gray-200 text-slate-950 hover:bg-gray-300'}`}
           onClick={() => setFaqFilter('organization')}
         >
           Organización
@@ -402,9 +402,9 @@ const FAQSection = () => {
               className="flex justify-between items-center w-full text-left py-2"
               onClick={() => toggleFaq(index)}
             >
-              <span className="font-semibold text-[#000031] text-sm md:text-base">{question.q}</span>
+              <span className="font-semibold text-slate-950 text-sm md:text-base">{question.q}</span>
               <svg 
-                className={`w-5 h-5 text-[#FF0000] transition-transform ${activeFaq === index ? 'rotate-180' : ''}`}
+                className={`w-5 h-5 text-red-600 transition-transform ${activeFaq === index ? 'rotate-180' : ''}`}
                 fill="none" 
                 stroke="currentColor" 
                 viewBox="0 0 24 24" 

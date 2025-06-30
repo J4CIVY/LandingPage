@@ -9,7 +9,7 @@ const BlogSection = () => {
   return (
     <section className="py-20 px-4 bg-gray-100">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold text-center text-[#000031] mb-12">
+        <h2 className="text-4xl font-bold text-center text-slate-950 mb-12">
           BLOG & <span className="text-[#00FF99]">NOTICIAS</span>
         </h2>
 
@@ -26,9 +26,9 @@ const BlogSection = () => {
               </div>
               <div className="p-6">
                 <p className="text-sm text-gray-500 mb-2">{post.date}</p>
-                <h3 className="text-xl font-bold text-[#000031] mb-3">{post.title}</h3>
+                <h3 className="text-xl font-bold text-slate-950 mb-3">{post.title}</h3>
                 <p className="text-gray-700 mb-4">{post.excerpt}</p>
-                <button className="text-[#FF0000] font-semibold flex items-center hover:underline">
+                <button className="text-red-600 font-semibold flex items-center hover:underline">
                   Leer más
                   <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7m0 0l-7 7m7-7H3" />

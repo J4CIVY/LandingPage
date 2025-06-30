@@ -26,8 +26,8 @@ const GallerySection = () => {
   return (
     <section className="py-20 px-4 bg-white">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold text-center text-[#000031] mb-12">
-          GALERÍA <span className="text-[#FF0000]">MULTIMEDIA</span>
+        <h2 className="text-4xl font-bold text-center text-slate-950 mb-12">
+          GALERÍA <span className="text-red-600">MULTIMEDIA</span>
         </h2>
 
         <div className="relative mb-8 rounded-xl overflow-hidden shadow-xl group" style={{ aspectRatio: '16/9' }}>
@@ -56,7 +56,7 @@ const GallerySection = () => {
               <button
                 key={index}
                 onClick={() => setActiveGalleryImage(index)}
-                className={`w-3 h-3 rounded-full transition-all ${index === activeGalleryImage ? 'bg-[#FF0000] w-6' : 'bg-white bg-opacity-50'}`}
+                className={`w-3 h-3 rounded-full transition-all ${index === activeGalleryImage ? 'bg-red-600 w-6' : 'bg-white bg-opacity-50'}`}
                 aria-label={`Ir a imagen ${index + 1}`}
               />
             ))}

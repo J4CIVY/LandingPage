@@ -258,7 +258,7 @@ const EventModal = ({ event, onClose }) => {
                   )}
 
                   {/* Llamado a la acción */}
-                  <div className="mt-8 bg-[#000031] p-6 rounded-lg">
+                  <div className="mt-8 bg-slate-950 p-6 rounded-lg">
                     <div className="flex flex-col md:flex-row justify-between items-center">
                       <div className="mb-4 md:mb-0">
                         <h4 className="text-xl font-bold text-white">¿Te gustaría participar en este evento?</h4>
@@ -269,13 +269,13 @@ const EventModal = ({ event, onClose }) => {
                       <div className="flex space-x-3">
                         <a
                           href="/miembros"
-                          className="px-6 py-3 bg-[#00FF99] hover:bg-green-400 text-[#000031] font-bold rounded-full transition duration-300"
+                          className="px-6 py-3 bg-[#00FF99] hover:bg-green-400 text-slate-950 font-bold rounded-full transition duration-300"
                         >
                           Regístrate ahora
                         </a>
                         <a
                           href="/memberships"
-                          className="px-6 py-3 bg-white hover:bg-gray-200 text-[#000031] font-bold rounded-full transition duration-300"
+                          className="px-6 py-3 bg-white hover:bg-gray-200 text-slate-950 font-bold rounded-full transition duration-300"
                         >
                           Conoce las membresías
                         </a>

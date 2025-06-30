@@ -47,16 +47,16 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
           onClick={prevMonth}
           className="p-2 rounded-full hover:bg-gray-200 transition"
         >
-          <FaArrowLeft className="text-[#000031]" />
+          <FaArrowLeft className="text-slate-950" />
         </button>
-        <h3 className="text-xl font-bold text-[#000031]">
+        <h3 className="text-xl font-bold text-slate-950">
           {formatDateSpanish(currentMonth)}
         </h3>
         <button 
           onClick={nextMonth}
           className="p-2 rounded-full hover:bg-gray-200 transition"
         >
-          <FaArrowRight className="text-[#000031]" />
+          <FaArrowRight className="text-slate-950" />
         </button>
       </div>
     );
@@ -100,7 +100,7 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
         days.push(
           <div
             className={`min-h-12 p-1 border border-gray-200 ${
-              !isSameMonth(day, monthStart) ? 'text-gray-400' : 'text-[#000031]'
+              !isSameMonth(day, monthStart) ? 'text-gray-400' : 'text-slate-950'
             } ${isSameDay(day, new Date()) ? 'bg-[#00FF99] bg-opacity-20' : ''}`}
             key={day.toString()}
           >
@@ -110,7 +110,7 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
                 {dayEvents.map(event => (
                   <div 
                     key={event._id}
-                    className="text-xs p-1 my-1 rounded bg-[#FF0000] text-white truncate"
+                    className="text-xs p-1 my-1 rounded bg-red-600 text-white truncate"
                     title={event.name}
                   >
                     {event.name}

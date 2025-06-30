@@ -43,7 +43,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative h-screen flex items-center justify-center bg-[#000031] overflow-hidden">
+    <section className="relative h-screen flex items-center justify-center bg-slate-950 overflow-hidden">
       <div className="absolute inset-0 w-full h-full">
         {/* Imagen optimizada con formatos modernos y responsive */}
         <picture>
@@ -85,7 +85,7 @@ const HeroSection = () => {
         </p>
         <button 
           onClick={handleJoinClick}
-          className="bg-[#FF0000] hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 transform hover:scale-105"
+          className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 transform hover:scale-105"
         >
           ÚNETE AL CLUB
         </button>
