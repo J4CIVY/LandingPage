@@ -11,6 +11,14 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
   const { totalItems } = useCart();
   const { user, logout } = useAuth();
 
+  // Configuración de Cloudinary
+  const cloudName = "dz0peilmu";
+  const logoUrl = {
+    avif: `https://res.cloudinary.com/${cloudName}/image/upload/f_avif,q_auto,w_192/BSK_MT_Logo_Letras_White_192_x_192_px_nptwwj`,
+    webp: `https://res.cloudinary.com/${cloudName}/image/upload/f_webp,q_auto,w_192/BSK_MT_Logo_Letras_White_192_x_192_px_nptwwj`,
+    png: `https://res.cloudinary.com/${cloudName}/image/upload/f_png,q_auto,w_192/BSK_MT_Logo_Letras_White_192_x_192_px_nptwwj`
+  };
+
   // Combinamos ambas refs
   const setRefs = (node) => {
     headerRef.current = node;
@@ -58,14 +66,19 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
             className="focus:outline-none ml-3 md:ml-4"
             aria-label="Ir a inicio"
           >
-            <img
-              src="/Logo_Letras_BSK_MT_100.webp"
-              alt="Logo Motoclub BSK Motorcycle Team"
-              className="w-[80px] md:w-[100px] h-auto object-contain"
-              width={90}
-              height={90}
-              loading="lazy"
-            />
+            <picture>
+              <source srcSet={logoUrl.avif} type="image/avif" />
+              <source srcSet={logoUrl.webp} type="image/webp" />
+              <img
+                src={logoUrl.png}
+                alt="Logo Motoclub BSK Motorcycle Team"
+                className="w-[80px] md:w-[100px] h-auto object-contain"
+                width={90}
+                height={90}
+                loading="eager"
+                fetchpriority="high"
+              />
+            </picture>
           </button>
 
           {/* Menú desktop (alineado a la derecha) */}
@@ -222,7 +235,7 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
                       setIsMenuOpen(false);
                     }}
                     className="text-white text-xl font-medium hover:text-green-400 transition-colors text-left"
-                  >
+                    >
                     Iniciar sesión
                   </button>
                 )}
