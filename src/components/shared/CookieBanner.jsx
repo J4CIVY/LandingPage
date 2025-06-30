@@ -89,7 +89,7 @@ const CookieBanner = () => {
     <>
       {/* Banner principal */}
       <div className={`fixed bottom-0 left-0 right-0 z-50 transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-        <div className="bg-[#000031] text-white p-4 shadow-lg">
+        <div className="bg-slate-950 text-white p-4 shadow-lg">
           <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex-1">
               <h3 className="text-lg font-bold mb-1">Política de Cookies</h3>
@@ -101,19 +101,19 @@ const CookieBanner = () => {
             <div className="flex items-center gap-3 flex-wrap justify-center">
               <button 
                 onClick={acceptAll}
-                className="bg-[#00ff99] hover:bg-[#00e68a] text-[#000031] font-bold py-2 px-4 rounded transition-colors duration-200 text-sm md:text-base"
+                className="bg-green-500 hover:bg-[#00e68a] text-slate-950 font-bold py-2 px-4 rounded transition-colors duration-200 text-sm md:text-base"
               >
                 Aceptar todas
               </button>
               <button 
                 onClick={toggleSettings}
-                className="border border-white hover:bg-white hover:text-[#000031] font-bold py-2 px-4 rounded transition-colors duration-200 text-sm md:text-base"
+                className="border border-white hover:bg-white hover:text-slate-950 font-bold py-2 px-4 rounded transition-colors duration-200 text-sm md:text-base"
               >
                 Configurar
               </button>
               <button 
                 onClick={saveSettings}
-                className="bg-transparent hover:bg-white hover:text-[#000031] font-bold py-2 px-4 rounded transition-colors duration-200 text-sm md:text-base"
+                className="bg-transparent hover:bg-white hover:text-slate-950 font-bold py-2 px-4 rounded transition-colors duration-200 text-sm md:text-base"
               >
                 Guardar preferencias
               </button>
@@ -128,7 +128,7 @@ const CookieBanner = () => {
           <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-2xl font-bold text-[#000031]">Configuración de Cookies</h3>
+                <h3 className="text-2xl font-bold text-slate-950">Configuración de Cookies</h3>
                 <button 
                   onClick={toggleSettings}
                   className="text-gray-500 hover:text-gray-700"
@@ -156,7 +156,7 @@ const CookieBanner = () => {
                         disabled
                         className="sr-only peer"
                       />
-                      <div className="w-11 h-6 bg-[#00ff99] rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+                      <div className="w-11 h-6 bg-green-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
                     </label>
                   </div>
                 </div>
@@ -177,7 +177,7 @@ const CookieBanner = () => {
                         onChange={() => handleSettingChange('performance')}
                         className="sr-only peer"
                       />
-                      <div className={`w-11 h-6 rounded-full peer ${cookieSettings.performance ? 'bg-[#00ff99]' : 'bg-gray-200'} peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all`}></div>
+                      <div className={`w-11 h-6 rounded-full peer ${cookieSettings.performance ? 'bg-green-500' : 'bg-gray-200'} peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all`}></div>
                     </label>
                   </div>
                 </div>
@@ -198,7 +198,7 @@ const CookieBanner = () => {
                         onChange={() => handleSettingChange('functional')}
                         className="sr-only peer"
                       />
-                      <div className={`w-11 h-6 rounded-full peer ${cookieSettings.functional ? 'bg-[#00ff99]' : 'bg-gray-200'} peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all`}></div>
+                      <div className={`w-11 h-6 rounded-full peer ${cookieSettings.functional ? 'bg-green-500' : 'bg-gray-200'} peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all`}></div>
                     </label>
                   </div>
                 </div>
@@ -219,7 +219,7 @@ const CookieBanner = () => {
                         onChange={() => handleSettingChange('marketing')}
                         className="sr-only peer"
                       />
-                      <div className={`w-11 h-6 rounded-full peer ${cookieSettings.marketing ? 'bg-[#00ff99]' : 'bg-gray-200'} peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all`}></div>
+                      <div className={`w-11 h-6 rounded-full peer ${cookieSettings.marketing ? 'bg-green-500' : 'bg-gray-200'} peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all`}></div>
                     </label>
                   </div>
                 </div>
@@ -240,7 +240,7 @@ const CookieBanner = () => {
                         onChange={() => handleSettingChange('social')}
                         className="sr-only peer"
                       />
-                      <div className={`w-11 h-6 rounded-full peer ${cookieSettings.social ? 'bg-[#00ff99]' : 'bg-gray-200'} peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all`}></div>
+                      <div className={`w-11 h-6 rounded-full peer ${cookieSettings.social ? 'bg-green-500' : 'bg-gray-200'} peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all`}></div>
                     </label>
                   </div>
                 </div>
@@ -255,7 +255,7 @@ const CookieBanner = () => {
                 </button>
                 <button 
                   onClick={saveSettings}
-                  className="px-4 py-2 bg-[#000031] text-white rounded-md hover:bg-[#000050]"
+                  className="px-4 py-2 bg-slate-950 text-white rounded-md hover:bg-[#000050]"
                 >
                   Guardar configuración
                 </button>

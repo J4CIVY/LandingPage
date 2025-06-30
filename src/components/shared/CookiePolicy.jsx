@@ -3,10 +3,10 @@ import React from 'react';
 const CookiePolicy = () => {
   return (
     <div className="max-w-4xl mx-auto p-6 text-gray-800">
-      <h1 className="text-3xl font-bold text-[#000031] mb-6">Política de Cookies - BSK Motorcycle Team</h1>
+      <h1 className="text-3xl font-bold text-slate-950 mb-6">Política de Cookies - BSK Motorcycle Team</h1>
       
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-[#000031] mb-4">1. ¿Qué son las cookies?</h2>
+        <h2 className="text-2xl font-semibold text-slate-950 mb-4">1. ¿Qué son las cookies?</h2>
         <p className="mb-4">
           Las cookies son pequeños archivos de texto que se almacenan en su dispositivo (ordenador, tablet, smartphone) cuando visita nuestro sitio web. 
           Estas permiten que el sitio web recuerde sus acciones y preferencias (como inicio de sesión, idioma, tamaño de texto y otras preferencias de visualización) 
@@ -15,9 +15,9 @@ const CookiePolicy = () => {
       </section>
 
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-[#000031] mb-4">2. Tipos de cookies que utilizamos</h2>
+        <h2 className="text-2xl font-semibold text-slate-950 mb-4">2. Tipos de cookies que utilizamos</h2>
         
-        <h3 className="text-xl font-medium text-[#000031] mb-2">2.1 Cookies esenciales</h3>
+        <h3 className="text-xl font-medium text-slate-950 mb-2">2.1 Cookies esenciales</h3>
         <p className="mb-4">
           <strong>Finalidad:</strong> Estas cookies son estrictamente necesarias para el funcionamiento básico del sitio web.
           <br />
@@ -26,7 +26,7 @@ const CookiePolicy = () => {
           <strong>Duración:</strong> Sesión o persistentes (hasta 12 meses)
         </p>
         
-        <h3 className="text-xl font-medium text-[#000031] mb-2">2.2 Cookies de rendimiento</h3>
+        <h3 className="text-xl font-medium text-slate-950 mb-2">2.2 Cookies de rendimiento</h3>
         <p className="mb-4">
           <strong>Finalidad:</strong> Mejorar el rendimiento y la experiencia del usuario.
           <br />
@@ -35,7 +35,7 @@ const CookiePolicy = () => {
           <strong>Duración:</strong> Hasta 24 meses
         </p>
         
-        <h3 className="text-xl font-medium text-[#000031] mb-2">2.3 Cookies funcionales</h3>
+        <h3 className="text-xl font-medium text-slate-950 mb-2">2.3 Cookies funcionales</h3>
         <p className="mb-4">
           <strong>Finalidad:</strong> Recordar preferencias y proporcionar funcionalidades mejoradas.
           <br />
@@ -44,7 +44,7 @@ const CookiePolicy = () => {
           <strong>Duración:</strong> Hasta 12 meses
         </p>
         
-        <h3 className="text-xl font-medium text-[#000031] mb-2">2.4 Cookies de marketing</h3>
+        <h3 className="text-xl font-medium text-slate-950] mb-2">2.4 Cookies de marketing</h3>
         <p className="mb-4">
           <strong>Finalidad:</strong> Mostrar publicidad relevante y medir la efectividad de campañas.
           <br />
@@ -53,7 +53,7 @@ const CookiePolicy = () => {
           <strong>Duración:</strong> Hasta 12 meses
         </p>
         
-        <h3 className="text-xl font-medium text-[#000031] mb-2">2.5 Cookies de redes sociales</h3>
+        <h3 className="text-xl font-medium text-slate-950 mb-2">2.5 Cookies de redes sociales</h3>
         <p className="mb-4">
           <strong>Finalidad:</strong> Permitir compartir contenido en redes sociales.
           <br />
@@ -64,11 +64,11 @@ const CookiePolicy = () => {
       </section>
 
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-[#000031] mb-4">3. Listado detallado de cookies</h2>
+        <h2 className="text-2xl font-semibold text-slate-950 mb-4">3. Listado detallado de cookies</h2>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-gray-200">
             <thead>
-              <tr className="bg-[#000031] text-white">
+              <tr className="bg-slate-950 text-white">
                 <th className="py-2 px-4 border">Nombre</th>
                 <th className="py-2 px-4 border">Proveedor</th>
                 <th className="py-2 px-4 border">Finalidad</th>
@@ -106,21 +106,21 @@ const CookiePolicy = () => {
       </section>
 
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-[#000031] mb-4">4. Gestión de cookies</h2>
+        <h2 className="text-2xl font-semibold text-slate-950 mb-4">4. Gestión de cookies</h2>
         <p className="mb-4">
-          Puede gestionar sus preferencias de cookies en cualquier momento accediendo al <a href="#configurar-cookies" className="text-[#00ff99]">panel de configuración</a> 
+          Puede gestionar sus preferencias de cookies en cualquier momento accediendo al <a href="#configurar-cookies" className="text-green-500">panel de configuración</a> 
           o mediante las opciones de su navegador:
         </p>
         <ul className="list-disc pl-6 mb-4">
-          <li className="mb-2"><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener noreferrer" className="text-[#00ff99]">Chrome</a></li>
-          <li className="mb-2"><a href="https://support.mozilla.org/es/kb/habilitar-y-deshabilitar-cookies-sitios-web-rastrear-preferencias" target="_blank" rel="noopener noreferrer" className="text-[#00ff99]">Firefox</a></li>
-          <li className="mb-2"><a href="https://support.apple.com/es-es/guide/safari/sfri11471/mac" target="_blank" rel="noopener noreferrer" className="text-[#00ff99]">Safari</a></li>
-          <li className="mb-2"><a href="https://support.microsoft.com/es-es/microsoft-edge/eliminar-las-cookies-en-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" target="_blank" rel="noopener noreferrer" className="text-[#00ff99]">Edge</a></li>
+          <li className="mb-2"><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener noreferrer" className="text-green-500">Chrome</a></li>
+          <li className="mb-2"><a href="https://support.mozilla.org/es/kb/habilitar-y-deshabilitar-cookies-sitios-web-rastrear-preferencias" target="_blank" rel="noopener noreferrer" className="text-green-500">Firefox</a></li>
+          <li className="mb-2"><a href="https://support.apple.com/es-es/guide/safari/sfri11471/mac" target="_blank" rel="noopener noreferrer" className="text-green-500">Safari</a></li>
+          <li className="mb-2"><a href="https://support.microsoft.com/es-es/microsoft-edge/eliminar-las-cookies-en-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" target="_blank" rel="noopener noreferrer" className="text-green-500">Edge</a></li>
         </ul>
       </section>
 
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold text-[#000031] mb-4">5. Cambios en la política de cookies</h2>
+        <h2 className="text-2xl font-semibold text-slate-950 mb-4">5. Cambios en la política de cookies</h2>
         <p>
           Podemos actualizar esta política periódicamente. Publicaremos cualquier cambio en esta página y, en caso de cambios significativos, 
           le notificaremos mediante un aviso destacado en nuestro sitio web.
@@ -128,9 +128,9 @@ const CookiePolicy = () => {
       </section>
 
       <section>
-        <h2 className="text-2xl font-semibold text-[#000031] mb-4">6. Contacto</h2>
+        <h2 className="text-2xl font-semibold text-slate-950 mb-4">6. Contacto</h2>
         <p>
-          Para cualquier pregunta sobre nuestra política de cookies, contacte con nuestro Delegado de Protección de Datos en <a href="mailto:privacidad@bskmotorcycleteam.com" className="text-[#00ff99]">privacidad@bskmotorcycleteam.com</a>.
+          Para cualquier pregunta sobre nuestra política de cookies, contacte con nuestro Delegado de Protección de Datos en <a href="mailto:privacidad@bskmotorcycleteam.com" className="text-green-500">privacidad@bskmotorcycleteam.com</a>.
         </p>
       </section>
     </div>
