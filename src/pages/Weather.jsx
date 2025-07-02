@@ -4,7 +4,6 @@ import {
   FaRadiation,
   FaExclamationTriangle,
   FaClock,
-  FaMotorcycle,
   FaMapMarkedAlt
 } from "react-icons/fa";
 import { 
@@ -103,7 +102,7 @@ const Weather = () => {
       <section className="bg-slate-950 text-white py-8 px-4">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl md:text-4xl font-bold mb-2 flex items-center">
-            <FaMotorcycle className="mr-2" /> Clima para Motociclistas - Bogotá
+            Clima para Motociclistas - Bogotá Y Medellín
           </h1>
           <p className="text-green-400 flex items-center">
             <FaClock className="mr-1" /> Última actualización: {formatDate(lastUpdated)}
@@ -172,7 +171,7 @@ const Weather = () => {
 
       {/* Nota legal */}
       <div className="max-w-7xl mx-auto px-4 py-6 text-center text-gray-500 text-sm">
-        <p>Los mapas mostrados son propiedad de SIRE (Ideam), Acueducto de Bogotá y SIATA.</p>
+        <p>Los mapas mostrados son propiedad del Instituto Distrital de Gestión de Riesgos y Cambio Climático (IDIGER), y el Sistema de Alerta Temprana de Medellín y el Valle de Aburrá (SIATA).</p>
         <p>BSK Motorcycle Team proporciona este servicio como referencia para sus miembros.</p>
       </div>
     </div>
