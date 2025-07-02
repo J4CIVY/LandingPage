@@ -1,4 +1,17 @@
 import React, { useState } from "react";
+import { 
+  FaFileAlt, 
+  FaCogs, 
+  FaDownload, 
+  FaShieldAlt, 
+  FaClock, 
+  FaExclamationTriangle,
+  FaSearch
+} from "react-icons/fa";
+import { 
+  GiArchiveResearch,
+  GiSettingsKnobs
+} from "react-icons/gi";
 
 const Documents = () => {
   const [activeDoc, setActiveDoc] = useState("statutes");
@@ -67,14 +80,14 @@ const Documents = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#ffffff]">
+    <div className="min-h-screen bg-white">
       
       {/* Hero Section */}
-      <section className="bg-[#000031] text-white py-16 px-4 md:px-20">
+      <section className="bg-slate-950 text-white py-16 px-4 md:px-20">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">Documentos Institucionales</h1>
-          <p className="text-xl md:text-2xl text-[#00ff99]">
-            Marco legal y operativo de BSK Motorcycle Team
+          <p className="text-xl md:text-2xl text-green-400 flex items-center justify-center">
+            <FaFileAlt className="mr-2" /> Marco legal y operativo de BSK Motorcycle Team
           </p>
         </div>
       </section>
@@ -84,13 +97,16 @@ const Documents = () => {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar de navegación */}
           <div className="lg:w-1/4">
-            <div className="bg-[#f8f9fa] rounded-xl shadow-sm p-6 sticky top-4">
+            <div className="bg-gray-100 rounded-xl shadow-sm p-6 sticky top-4">
               {/* Buscador */}
-              <div className="mb-6">
+              <div className="mb-6 relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <FaSearch className="text-gray-400" />
+                </div>
                 <input
                   type="text"
                   placeholder="Buscar documento..."
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-[#00ff99] focus:border-[#00ff99]"
+                  className="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:ring-green-400 focus:border-green-400"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -98,10 +114,8 @@ const Documents = () => {
 
               {/* Categorías */}
               <div className="space-y-1">
-                <h3 className="text-lg font-bold text-[#000031] mb-3 flex items-center">
-                  <svg className="w-5 h-5 mr-2 text-[#00ff99]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
+                <h3 className="text-lg font-bold text-slate-950 mb-3 flex items-center">
+                  <GiArchiveResearch className="w-5 h-5 mr-2 text-green-400" />
                   Documentos Legales
                 </h3>
                 {Object.entries(legalDocuments).map(([key, doc]) => (
@@ -109,7 +123,7 @@ const Documents = () => {
                     key={key}
                     className={`w-full text-left px-4 py-2 rounded-lg transition ${
                       activeDoc === key 
-                        ? "bg-[#000031] text-white" 
+                        ? "bg-slate-950 text-white" 
                         : "text-gray-700 hover:bg-gray-100"
                     }`}
                     onClick={() => setActiveDoc(key)}
@@ -118,11 +132,8 @@ const Documents = () => {
                   </button>
                 ))}
 
-                <h3 className="text-lg font-bold text-[#000031] mt-6 mb-3 flex items-center">
-                  <svg className="w-5 h-5 mr-2 text-[#00ff99]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
+                <h3 className="text-lg font-bold text-slate-950 mt-6 mb-3 flex items-center">
+                  <GiSettingsKnobs className="w-5 h-5 mr-2 text-green-400" />
                   Documentos Operativos
                 </h3>
                 {Object.entries(operationalDocuments).map(([key, doc]) => (
@@ -130,7 +141,7 @@ const Documents = () => {
                     key={key}
                     className={`w-full text-left px-4 py-2 rounded-lg transition ${
                       activeDoc === key 
-                        ? "bg-[#000031] text-white" 
+                        ? "bg-slate-950 text-white" 
                         : "text-gray-700 hover:bg-gray-100"
                     }`}
                     onClick={() => setActiveDoc(key)}
@@ -146,15 +157,15 @@ const Documents = () => {
           <div className="lg:w-3/4">
             <div className="bg-white rounded-xl shadow-lg overflow-hidden">
               {/* Encabezado del documento */}
-              <div className="bg-[#000031] px-6 py-4 flex justify-between items-center">
+              <div className="bg-slate-950 px-6 py-4 flex justify-between items-center">
                 <div>
                   <h2 className="text-2xl font-bold text-white">{filteredDocs[activeDoc]?.title}</h2>
-                  <p className="text-[#00ff99] text-sm">Última actualización: {filteredDocs[activeDoc]?.lastUpdate}</p>
+                  <p className="text-green-400 text-sm flex items-center">
+                    <FaClock className="mr-1" /> Última actualización: {filteredDocs[activeDoc]?.lastUpdate}
+                  </p>
                 </div>
-                <button className="bg-[#00ff99] text-[#000031] font-bold py-2 px-4 rounded-lg hover:bg-opacity-90 transition flex items-center">
-                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                  </svg>
+                <button className="bg-green-400 text-slate-950 font-bold py-2 px-4 rounded-lg hover:bg-opacity-90 transition flex items-center">
+                  <FaDownload className="mr-2" />
                   Descargar PDF
                 </button>
               </div>
@@ -163,20 +174,18 @@ const Documents = () => {
               <div className="p-6 md:p-8">
                 {/* Sello de autenticidad */}
                 <div className="flex justify-center mb-8">
-                  <div className="border-2 border-[#00ff99] rounded-full p-4 inline-flex items-center justify-center">
-                    <svg className="w-12 h-12 text-[#00ff99]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                    </svg>
+                  <div className="border-2 border-green-400 rounded-full p-4 inline-flex items-center justify-center">
+                    <FaShieldAlt className="w-12 h-12 text-green-400" />
                   </div>
                 </div>
 
                 {/* Texto del documento (simulado) */}
                 <div className="prose max-w-none">
                   <p className="text-gray-700 mb-6">
-                    <strong className="text-[#000031]">BSK Motorcycle Team</strong> - Documento institucional de carácter {activeDoc in legalDocuments ? "legal" : "operativo"}.
+                    <strong className="text-slate-950">BSK Motorcycle Team</strong> - Documento institucional de carácter {activeDoc in legalDocuments ? "legal" : "operativo"}.
                   </p>
 
-                  <div className="border-l-4 border-[#00ff99] pl-4 mb-6">
+                  <div className="border-l-4 border-green-400 pl-4 mb-6">
                     <p className="text-gray-600 italic">
                       "Este documento establece los lineamientos oficiales del club y requiere estricto cumplimiento por parte de todos los miembros."
                     </p>
@@ -189,16 +198,16 @@ const Documents = () => {
                   {/* Sección de firmas (para documentos legales) */}
                   {activeDoc in legalDocuments && (
                     <div className="mt-12 pt-6 border-t border-gray-200">
-                      <h3 className="text-lg font-bold text-[#000031] mb-4">Certificación</h3>
+                      <h3 className="text-lg font-bold text-slate-950 mb-4">Certificación</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                           <p className="text-gray-600 mb-2">_________________________</p>
-                          <p className="text-[#000031] font-medium">Presidente</p>
+                          <p className="text-slate-950 font-medium">Presidente</p>
                           <p className="text-sm text-gray-500">BSK Motorcycle Team</p>
                         </div>
                         <div>
                           <p className="text-gray-600 mb-2">_________________________</p>
-                          <p className="text-[#000031] font-medium">Secretario General</p>
+                          <p className="text-slate-950 font-medium">Secretario General</p>
                           <p className="text-sm text-gray-500">BSK Motorcycle Team</p>
                         </div>
                       </div>
@@ -214,9 +223,7 @@ const Documents = () => {
                     Documento válido según acta #{Math.floor(1000 + Math.random() * 9000)}
                   </p>
                   <div className="flex items-center">
-                    <svg className="w-5 h-5 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+                    <FaClock className="w-5 h-5 text-gray-400 mr-2" />
                     <span className="text-sm text-gray-500">Generado el {new Date().toLocaleDateString('es-CO')}</span>
                   </div>
                 </div>
@@ -224,14 +231,12 @@ const Documents = () => {
             </div>
 
             {/* Nota legal */}
-            <div className="mt-6 bg-[#f0f9ff] border border-[#00ff99] rounded-xl p-6">
-              <h3 className="text-xl font-bold text-[#000031] mb-3 flex items-center">
-                <svg className="w-6 h-6 mr-2 text-[#00ff99]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
+            <div className="mt-6 bg-slate-950 border border-green-400 rounded-xl p-6">
+              <h3 className="text-xl font-bold text-white mb-3 flex items-center">
+                <FaExclamationTriangle className="w-6 h-6 mr-2 text-green-400" />
                 Nota Legal
               </h3>
-              <p className="text-gray-700">
+              <p className="text-gray-400">
                 Todos los documentos institucionales de BSK Motorcycle Team están protegidos bajo derechos de autor y 
                 regulados por las leyes colombianas. La reproducción no autorizada está prohibida.
               </p>
