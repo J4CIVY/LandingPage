@@ -28,7 +28,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#000031] p-4">
+    <div className="min-h-screen flex items-center justify-center bg-slate-950 p-4">
       <div className="w-full max-w-md bg-white rounded-lg shadow-md overflow-hidden">
         {/* Header del Login */}
         <div className="bg-[#FF0000] p-4 text-center">
@@ -84,7 +84,7 @@ const Login = () => {
           </button>
 
           <div className="text-center">
-            <Link to="/register" className="text-[#000031] hover:underline">
+            <Link to="/register" className="text-slate-950 hover:underline">
               ¿No tienes cuenta? Regístrate
             </Link>
           </div>
