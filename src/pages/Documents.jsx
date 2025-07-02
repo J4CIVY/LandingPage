@@ -87,7 +87,7 @@ const Documents = () => {
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">Documentos Institucionales</h1>
           <p className="text-xl md:text-2xl text-green-400 flex items-center justify-center">
-            <FaFileAlt className="mr-2" /> Marco legal y operativo de BSK Motorcycle Team
+            Marco legal y operativo de BSK Motorcycle Team
           </p>
         </div>
       </section>
