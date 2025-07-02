@@ -68,10 +68,7 @@ const Courses = () => {
       {/* Hero Section */}
       <section className="bg-slate-950 text-white py-16 px-4 md:px-20">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">Escuela de Motociclismo BSK</h1>
-          <p className="text-xl md:text-2xl text-green-400 mb-8 flex items-center justify-center">
-            <FaMotorcycle className="mr-2" /> "Transformamos pasión en conocimiento y seguridad"
-          </p>
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">Ready To Ride + BSK Motorcycle Team</h1>
           <a
             href="#inscripciones"
             className="inline-flex items-center bg-white text-slate-950 font-bold py-3 px-8 rounded-xl hover:bg-gray-200 transition text-lg"
