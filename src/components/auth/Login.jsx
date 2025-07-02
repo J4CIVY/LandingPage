@@ -31,7 +31,7 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-slate-950 p-4">
       <div className="w-full max-w-md bg-white rounded-lg shadow-md overflow-hidden">
         {/* Header del Login */}
-        <div className="bg-[#FF0000] p-4 text-center">
+        <div className="bg-red-600 p-4 text-center">
           <MdOutlineSportsMotorsports className="inline-block text-4xl text-white" />
           <h2 className="text-2xl font-bold text-white mt-2">BSK MOTORCYCLE TEAM</h2>
           <p className="text-white">Ingresa a tu cuenta</p>
@@ -53,7 +53,7 @@ const Login = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-10 p-2 border rounded focus:ring-2 focus:ring-[#FF0000] focus:border-transparent"
+                className="w-full pl-10 p-2 border rounded focus:ring-2 focus:ring-red-600 focus:border-transparent"
                 placeholder="usuario@bskmt.com"
                 required
               />
@@ -68,7 +68,7 @@ const Login = () => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-10 p-2 border rounded focus:ring-2 focus:ring-[#FF0000] focus:border-transparent"
+                className="w-full pl-10 p-2 border rounded focus:ring-2 focus:ring-red-600 focus:border-transparent"
                 placeholder="••••••••"
                 required
               />
@@ -78,7 +78,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold py-2 px-4 rounded transition duration-200 ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+            className={`w-full bg-red-600 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-200 ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
           >
             {isLoading ? "Cargando..." : "Iniciar Sesión"}
           </button>
