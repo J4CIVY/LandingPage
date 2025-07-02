@@ -630,7 +630,7 @@ const Contact = () => {
             </div>
 
             <div className="bg-slate-950 border border-green-400 rounded-xl p-6">
-              <h3 className="text-xl font-bold text-slate-950 mb-4">Puntos de Atención Adicionales</h3>
+              <h3 className="text-xl font-bold text-white mb-4">Puntos de Atención Adicionales</h3>
               <div className="grid md:grid-cols-3 gap-6">
                 {[
                   {
