@@ -57,13 +57,13 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#ffffff]">
+    <div className="min-h-screen bg-white">
       
       {/* Hero Section */}
-      <section className="bg-[#000031] text-white py-16 px-4 md:px-20">
+      <section className="bg-slate-950 text-white py-16 px-4 md:px-20">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">Contacta a BSK Motorcycle Team</h1>
-          <p className="text-xl md:text-2xl text-[#00ff99]">
+          <p className="text-xl md:text-2xl text-green-400">
             Estamos aquí para ayudarte en lo que necesites
           </p>
         </div>
@@ -82,7 +82,7 @@ const Contact = () => {
               key={tab.id}
               className={`py-4 px-6 font-medium text-sm md:text-base ${
                 activeTab === tab.id 
-                  ? "text-[#00ff99] border-b-2 border-[#00ff99]" 
+                  ? "text-green-400 border-b-2 border-green-400" 
                   : "text-gray-500 hover:text-gray-700"
               }`}
               onClick={() => setActiveTab(tab.id)}
@@ -99,12 +99,12 @@ const Contact = () => {
         {activeTab === "general" && (
           <div className="grid md:grid-cols-2 gap-12">
             <div>
-              <h2 className="text-2xl font-bold text-[#000031] mb-6">Datos de Contacto</h2>
+              <h2 className="text-2xl font-bold text-slate-950 mb-6">Datos de Contacto</h2>
               
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-[#000031] flex items-center">
-                    <svg className="w-5 h-5 mr-2 text-[#00ff99]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <h3 className="text-lg font-semibold text-slate-950 flex items-center">
+                    <svg className="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
@@ -118,8 +118,8 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-[#000031] flex items-center">
-                    <svg className="w-5 h-5 mr-2 text-[#00ff99]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <h3 className="text-lg font-semibold text-slate-950 flex items-center">
+                    <svg className="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
                     Teléfonos
@@ -132,8 +132,8 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-[#000031] flex items-center">
-                    <svg className="w-5 h-5 mr-2 text-[#00ff99]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <h3 className="text-lg font-semibold text-slate-950 flex items-center">
+                    <svg className="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                     Correos Electrónicos
@@ -146,8 +146,8 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-[#000031] flex items-center">
-                    <svg className="w-5 h-5 mr-2 text-[#00ff99]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <h3 className="text-lg font-semibold text-slate-950 flex items-center">
+                    <svg className="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     Horarios de Atención
@@ -163,7 +163,7 @@ const Contact = () => {
             </div>
 
             <div>
-              <h2 className="text-2xl font-bold text-[#000031] mb-6">Formulario de Contacto</h2>
+              <h2 className="text-2xl font-bold text-slate-950 mb-6">Formulario de Contacto</h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700">Nombre completo</label>
@@ -172,7 +172,7 @@ const Contact = () => {
                     id="name"
                     name="name"
                     required
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#00ff99] focus:border-[#00ff99]"
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-400 focus:border-green-400"
                     value={contactForm.name}
                     onChange={handleContactChange}
                   />
@@ -186,7 +186,7 @@ const Contact = () => {
                       id="email"
                       name="email"
                       required
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#00ff99] focus:border-[#00ff99]"
+                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-400 focus:border-green-400"
                       value={contactForm.email}
                       onChange={handleContactChange}
                     />
@@ -197,7 +197,7 @@ const Contact = () => {
                       type="tel"
                       id="phone"
                       name="phone"
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#00ff99] focus:border-[#00ff99]"
+                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-400 focus:border-green-400"
                       value={contactForm.phone}
                       onChange={handleContactChange}
                     />
@@ -210,7 +210,7 @@ const Contact = () => {
                     id="subject"
                     name="subject"
                     required
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#00ff99] focus:border-[#00ff99]"
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-400 focus:border-green-400"
                     value={contactForm.subject}
                     onChange={handleContactChange}
                   >
@@ -229,7 +229,7 @@ const Contact = () => {
                     name="message"
                     rows="4"
                     required
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#00ff99] focus:border-[#00ff99]"
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-400 focus:border-green-400"
                     value={contactForm.message}
                     onChange={handleContactChange}
                   ></textarea>
@@ -238,7 +238,7 @@ const Contact = () => {
                 <div>
                   <button
                     type="submit"
-                    className="w-full bg-[#000031] text-white py-3 px-6 rounded-md hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00ff99] transition"
+                    className="w-full bg-slate-950 text-white py-3 px-6 rounded-md hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-400 transition"
                   >
                     Enviar Mensaje
                   </button>
@@ -272,7 +272,7 @@ const Contact = () => {
                   type="checkbox"
                   id="anonymous"
                   name="anonymous"
-                  className="h-4 w-4 text-[#00ff99] focus:ring-[#00ff99] border-gray-300 rounded"
+                  className="h-4 w-4 text-green-400 focus:ring-green-400 border-gray-300 rounded"
                   checked={anonymousComplaint}
                   onChange={() => setAnonymousComplaint(!anonymousComplaint)}
                 />
@@ -289,7 +289,7 @@ const Contact = () => {
                       type="text"
                       id="complainant-name"
                       name="complainant-name"
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#00ff99] focus:border-[#00ff99]"
+                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-400 focus:border-green-400"
                     />
                   </div>
                   <div>
@@ -298,7 +298,7 @@ const Contact = () => {
                       type="text"
                       id="complainant-contact"
                       name="complainant-contact"
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#00ff99] focus:border-[#00ff99]"
+                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-400 focus:border-green-400"
                     />
                   </div>
                 </div>
@@ -311,7 +311,7 @@ const Contact = () => {
                   id="title"
                   name="title"
                   required
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#00ff99] focus:border-[#00ff99]"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-400 focus:border-green-400"
                   value={complaintForm.title}
                   onChange={handleComplaintChange}
                 />
@@ -324,7 +324,7 @@ const Contact = () => {
                   name="description"
                   rows="6"
                   required
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#00ff99] focus:border-[#00ff99]"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-400 focus:border-green-400"
                   value={complaintForm.description}
                   onChange={handleComplaintChange}
                 ></textarea>
@@ -338,7 +338,7 @@ const Contact = () => {
                     id="location"
                     name="location"
                     required
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#00ff99] focus:border-[#00ff99]"
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-400 focus:border-green-400"
                     value={complaintForm.location}
                     onChange={handleComplaintChange}
                   />
@@ -350,7 +350,7 @@ const Contact = () => {
                     id="date"
                     name="date"
                     required
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#00ff99] focus:border-[#00ff99]"
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-400 focus:border-green-400"
                     value={complaintForm.date}
                     onChange={handleComplaintChange}
                   />
@@ -380,7 +380,7 @@ const Contact = () => {
                     <div className="flex text-sm text-gray-600">
                       <label
                         htmlFor="file-upload"
-                        className="relative cursor-pointer bg-white rounded-md font-medium text-[#00ff99] hover:text-[#00805a] focus-within:outline-none"
+                        className="relative cursor-pointer bg-white rounded-md font-medium text-green-400 hover:text-green-600 focus-within:outline-none"
                       >
                         <span>Subir archivo</span>
                         <input
@@ -410,7 +410,7 @@ const Contact = () => {
                     name="terms"
                     type="checkbox"
                     required
-                    className="focus:ring-[#00ff99] h-4 w-4 text-[#00ff99] border-gray-300 rounded"
+                    className="focus:ring-green-400 h-4 w-4 text-green-400 border-gray-300 rounded"
                   />
                 </div>
                 <div className="ml-3 text-sm">
@@ -470,7 +470,7 @@ const Contact = () => {
                         value={option.value}
                         checked={pqrsdfForm.type === option.value}
                         onChange={handlePqrsdfChange}
-                        className="focus:ring-[#00ff99] h-4 w-4 text-[#00ff99] border-gray-300"
+                        className="focus:ring-green-400 h-4 w-4 text-green-400 border-gray-300"
                       />
                       <label htmlFor={`pqrsdf-${option.value}`} className="ml-2 block text-sm text-gray-700">
                         {option.label}
@@ -488,7 +488,7 @@ const Contact = () => {
                     id="pqrsdf-name"
                     name="name"
                     required
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#00ff99] focus:border-[#00ff99]"
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-400 focus:border-green-400"
                     value={pqrsdfForm.name}
                     onChange={handlePqrsdfChange}
                   />
@@ -500,7 +500,7 @@ const Contact = () => {
                     id="idNumber"
                     name="idNumber"
                     required
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#00ff99] focus:border-[#00ff99]"
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-400 focus:border-green-400"
                     value={pqrsdfForm.idNumber}
                     onChange={handlePqrsdfChange}
                   />
@@ -515,7 +515,7 @@ const Contact = () => {
                     id="pqrsdf-email"
                     name="email"
                     required
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#00ff99] focus:border-[#00ff99]"
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-400 focus:border-green-400"
                     value={pqrsdfForm.email}
                     onChange={handlePqrsdfChange}
                   />
@@ -527,7 +527,7 @@ const Contact = () => {
                     id="pqrsdf-phone"
                     name="phone"
                     required
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#00ff99] focus:border-[#00ff99]"
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-400 focus:border-green-400"
                     value={pqrsdfForm.phone}
                     onChange={handlePqrsdfChange}
                   />
@@ -541,7 +541,7 @@ const Contact = () => {
                   id="pqrsdf-subject"
                   name="subject"
                   required
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#00ff99] focus:border-[#00ff99]"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-400 focus:border-green-400"
                   value={pqrsdfForm.subject}
                   onChange={handlePqrsdfChange}
                 />
@@ -554,7 +554,7 @@ const Contact = () => {
                   name="description"
                   rows="6"
                   required
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-[#00ff99] focus:border-[#00ff99]"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-400 focus:border-green-400"
                   value={pqrsdfForm.description}
                   onChange={handlePqrsdfChange}
                 ></textarea>
@@ -567,7 +567,7 @@ const Contact = () => {
                     name="pqrsdf-terms"
                     type="checkbox"
                     required
-                    className="focus:ring-[#00ff99] h-4 w-4 text-[#00ff99] border-gray-300 rounded"
+                    className="focus:ring-green-400 h-4 w-4 text-green-400 border-gray-300 rounded"
                   />
                 </div>
                 <div className="ml-3 text-sm">
@@ -580,7 +580,7 @@ const Contact = () => {
               <div>
                 <button
                   type="submit"
-                  className="w-full bg-[#000031] text-white py-3 px-6 rounded-md hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00ff99] transition"
+                  className="w-full bg-slate-950 text-white py-3 px-6 rounded-md hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-400 transition"
                 >
                   Enviar PQRSDF
                 </button>
@@ -594,7 +594,7 @@ const Contact = () => {
           <div className="space-y-12">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div>
-                <h3 className="text-xl font-bold text-[#000031] mb-4">Oficina Administrativa</h3>
+                <h3 className="text-xl font-bold text-slate-950 mb-4">Oficina Administrativa</h3>
                 <p className="text-gray-600 mb-4">
                   Carrera 5 A No. 36 A Sur 28<br />
                   CP 110431, Bogotá D.C.<br />
@@ -614,7 +614,7 @@ const Contact = () => {
 
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div className="md:order-2">
-                <h3 className="text-xl font-bold text-[#000031] mb-4">Centro Operativo</h3>
+                <h3 className="text-xl font-bold text-slate-950 mb-4">Centro Operativo</h3>
                 <p className="text-gray-600 mb-4">
                   Carrera 7 No. 40 - 25<br />
                   CP 110431, Bogotá D.C.<br />
@@ -629,28 +629,28 @@ const Contact = () => {
               </div>
             </div>
 
-            <div className="bg-[#f0f9ff] border border-[#00ff99] rounded-xl p-6">
-              <h3 className="text-xl font-bold text-[#000031] mb-4">Puntos de Atención Adicionales</h3>
+            <div className="bg-slate-950 border border-green-400 rounded-xl p-6">
+              <h3 className="text-xl font-bold text-slate-950 mb-4">Puntos de Atención Adicionales</h3>
               <div className="grid md:grid-cols-3 gap-6">
                 {[
                   {
                     name: "Sede Norte",
-                    address: "Calle 127 #15-32",
-                    hours: "Lunes a Viernes 9AM-6PM"
+                    address: "Avenida Calle 127 No. 20 - 85, Bogotá D.C.",
+                    hours: "Lunes a Domingo 24 horas"
                   },
                   {
                     name: "Sede Sur",
-                    address: "Carrera 24 #45-12",
-                    hours: "Lunes a Sábado 8AM-4PM"
+                    address: "Avenida Calle 57 R Sur No. 75 - 21",
+                    hours: "Lunes a Domingo 24 horas"
                   },
                   {
                     name: "Sede Occidente",
-                    address: "Diagonal 68 #24-50",
-                    hours: "Martes a Viernes 10AM-7PM"
+                    address: "Avenida Calle 26 No. 70 - 28",
+                    hours: "Lunes a Domingo 7 AM - 9 PM"
                   }
                 ].map((location, index) => (
                   <div key={index} className="bg-white p-4 rounded-lg shadow-sm">
-                    <h4 className="font-bold text-[#000031]">{location.name}</h4>
+                    <h4 className="font-bold text-slate-950">{location.name}</h4>
                     <p className="text-sm text-gray-600 mt-2">{location.address}</p>
                     <p className="text-sm text-gray-500 mt-1">{location.hours}</p>
                   </div>
