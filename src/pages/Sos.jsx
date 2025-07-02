@@ -1,5 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { FaWhatsapp, FaPhone, FaAmbulance, FaWrench, FaShieldAlt, FaMapMarkerAlt, FaTools, FaUserAlt, FaPaperPlane } from "react-icons/fa";
+import { 
+  FaWhatsapp, 
+  FaPhone, 
+  FaAmbulance, 
+  FaWrench, 
+  FaShieldAlt, 
+  FaMapMarkerAlt, 
+  FaTools, 
+  FaUserAlt, 
+  FaPaperPlane,
+  FaFirstAid,
+  FaUserShield,
+  FaMotorcycle
+} from "react-icons/fa";
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import axios from 'axios';
 
@@ -37,7 +50,22 @@ const Sos = () => {
       services: ["Mecánica general", "Grúa"],
       location: { lat: 4.6719, lng: -74.1089 }
     },
-    // ... más talleres
+    {
+      id: 2,
+      name: "Taller Rápido BSK Sur",
+      address: "Carrera 56 #12-34, Bogotá",
+      phone: "+57 312 5192002",
+      services: ["Cambio de llantas", "Reparación eléctrica"],
+      location: { lat: 4.5719, lng: -74.2089 }
+    },
+    {
+      id: 3,
+      name: "MotoServicio BSK Centro",
+      address: "Avenida 7 #23-45, Bogotá",
+      phone: "+57 312 5192003",
+      services: ["Ajuste de frenos", "Afinamiento"],
+      location: { lat: 4.6119, lng: -74.0789 }
+    }
   ];
 
   // Obtener ubicación del usuario
@@ -98,11 +126,13 @@ const Sos = () => {
     <div className="min-h-screen bg-[#ffffff]">
 
       {/* Hero Section */}
-      <section className="bg-[#000031] text-white py-16 px-4 md:px-20">
+      <section className="bg-slate-950 text-white py-16 px-4 md:px-20">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">SOS BSK</h1>
-          <p className="text-xl md:text-2xl max-w-3xl mx-auto">
-            Asistencia inmediata para miembros del club
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 flex items-center justify-center">
+            <FaMotorcycle className="mr-4" /> SOS BSK
+          </h1>
+          <p className="text-xl md:text-2xl max-w-3xl mx-auto flex items-center justify-center">
+            <FaShieldAlt className="mr-2" /> Asistencia inmediata para miembros del club
           </p>
         </div>
       </section>
@@ -111,24 +141,24 @@ const Sos = () => {
       <div className="max-w-7xl mx-auto px-4 md:px-8 mt-8">
         <div className="flex border-b border-gray-200">
           <button
-            className={`py-4 px-6 font-medium ${activeTab === "emergency" ? "text-[#00ff99] border-b-2 border-[#00ff99]" : "text-gray-500"}`}
+            className={`py-4 px-6 font-medium flex items-center ${activeTab === "emergency" ? "text-green-400 border-b-2 border-green-400" : "text-gray-500"}`}
             onClick={() => setActiveTab("emergency")}
           >
-            <FaAmbulance className="inline mr-2" />
+            <FaAmbulance className="mr-2" />
             Contacto de Emergencia
           </button>
           <button
-            className={`py-4 px-6 font-medium ${activeTab === "form" ? "text-[#00ff99] border-b-2 border-[#00ff99]" : "text-gray-500"}`}
+            className={`py-4 px-6 font-medium flex items-center ${activeTab === "form" ? "text-green-400 border-b-2 border-green-400" : "text-gray-500"}`}
             onClick={() => setActiveTab("form")}
           >
-            <FaPaperPlane className="inline mr-2" />
+            <FaPaperPlane className="mr-2" />
             Formulario de Emergencia
           </button>
           <button
-            className={`py-4 px-6 font-medium ${activeTab === "workshops" ? "text-[#00ff99] border-b-2 border-[#00ff99]" : "text-gray-500"}`}
+            className={`py-4 px-6 font-medium flex items-center ${activeTab === "workshops" ? "text-green-400 border-b-2 border-green-400" : "text-gray-500"}`}
             onClick={() => setActiveTab("workshops")}
           >
-            <FaTools className="inline mr-2" />
+            <FaTools className="mr-2" />
             Talleres Asociados
           </button>
         </div>
@@ -137,16 +167,19 @@ const Sos = () => {
       {/* Emergency Contacts Tab */}
       {activeTab === "emergency" && (
         <div className="py-12 px-4 md:px-8 max-w-7xl mx-auto">
-          <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 mb-8">
-            <p className="font-bold">¡Importante!</p>
-            <p>Usa estos contactos solo para emergencias reales.</p>
+          <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 mb-8 flex items-start">
+            <FaExclamationTriangle className="text-xl mr-2 mt-0.5" />
+            <div>
+              <p className="font-bold">¡Importante!</p>
+              <p>Usa estos contactos solo para emergencias reales.</p>
+            </div>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
                 type: "Mecánica",
-                icon: <FaWrench className="text-3xl text-[#00ff99]" />,
+                icon: <FaWrench className="text-3xl text-green-400" />,
                 description: "Asistencia técnica en carretera",
                 contacts: [
                   {
@@ -162,12 +195,45 @@ const Sos = () => {
                   }
                 ]
               },
-              // ... otros tipos de emergencia
+              {
+                type: "Médica",
+                icon: <FaFirstAid className="text-3xl text-red-400" />,
+                description: "Emergencias médicas y primeros auxilios",
+                contacts: [
+                  {
+                    method: "Línea de emergencia",
+                    icon: <FaAmbulance className="text-xl text-red-500" />,
+                    number: "123"
+                  },
+                  {
+                    method: "Asistencia BSK",
+                    icon: <FaPhone className="text-xl text-blue-500" />,
+                    number: "+57 312 5192001"
+                  }
+                ]
+              },
+              {
+                type: "Seguridad",
+                icon: <FaUserShield className="text-3xl text-blue-400" />,
+                description: "Emergencias de seguridad y protección",
+                contacts: [
+                  {
+                    method: "Policía",
+                    icon: <FaShieldAlt className="text-xl text-blue-500" />,
+                    number: "123"
+                  },
+                  {
+                    method: "Seguridad BSK",
+                    icon: <FaPhone className="text-xl text-blue-500" />,
+                    number: "+57 312 5192002"
+                  }
+                ]
+              }
             ].map((service, index) => (
               <div key={index} className="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
                 <div className="flex items-center mb-4">
                   {service.icon}
-                  <h2 className="text-2xl font-bold text-[#000031] ml-3">{service.type}</h2>
+                  <h2 className="text-2xl font-bold text-slate-950 ml-3">{service.type}</h2>
                 </div>
                 <p className="text-gray-700 mb-6">{service.description}</p>
 
@@ -180,12 +246,18 @@ const Sos = () => {
                       </div>
                       <p className="text-gray-800 mb-3">{contact.number}</p>
                       {contact.link ? (
-                        <a href={contact.link} className="btn-whatsapp">
+                        <a 
+                          href={contact.link} 
+                          className="inline-flex items-center bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
+                        >
                           <FaWhatsapp className="mr-2" />
                           Contactar por WhatsApp
                         </a>
                       ) : (
-                        <a href={`tel:${contact.number.replace(/\s/g, '')}`} className="btn-call">
+                        <a 
+                          href={`tel:${contact.number.replace(/\s/g, '')}`} 
+                          className="inline-flex items-center bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+                        >
                           <FaPhone className="mr-2" />
                           Llamar ahora
                         </a>
@@ -203,41 +275,53 @@ const Sos = () => {
       {activeTab === "form" && (
         <div className="py-12 px-4 md:px-8 max-w-3xl mx-auto">
           <div className="bg-white rounded-xl shadow-md p-6 md:p-8">
-            <h2 className="text-2xl font-bold text-[#000031] mb-6">Formulario de Emergencia</h2>
+            <h2 className="text-2xl font-bold text-slate-950 mb-6 flex items-center">
+              <FaPaperPlane className="mr-2 text-green-400" />
+              Formulario de Emergencia
+            </h2>
 
             <form onSubmit={handleSubmit}>
               <div className="grid md:grid-cols-2 gap-6 mb-6">
                 <div>
-                  <label className="block text-gray-700 mb-2">Nombre Completo</label>
+                  <label className="block text-gray-700 mb-2 flex items-center">
+                    <FaUserAlt className="mr-2 text-gray-500" />
+                    Nombre Completo
+                  </label>
                   <input
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border rounded-lg"
+                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-400 focus:border-green-400"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-700 mb-2">Número de Socio BSK</label>
+                  <label className="block text-gray-700 mb-2 flex items-center">
+                    <FaUserShield className="mr-2 text-gray-500" />
+                    Número de Socio BSK
+                  </label>
                   <input
                     type="text"
                     name="memberId"
                     value={formData.memberId}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border rounded-lg"
+                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-400 focus:border-green-400"
                     required
                   />
                 </div>
               </div>
 
               <div className="mb-6">
-                <label className="block text-gray-700 mb-2">Tipo de Emergencia</label>
+                <label className="block text-gray-700 mb-2 flex items-center">
+                  <FaShieldAlt className="mr-2 text-gray-500" />
+                  Tipo de Emergencia
+                </label>
                 <select
                   name="emergencyType"
                   value={formData.emergencyType}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border rounded-lg"
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-400 focus:border-green-400"
                   required
                 >
                   <option value="mechanical">Mecánica/Asistencia en carretera</option>
@@ -253,21 +337,24 @@ const Sos = () => {
                   name="description"
                   value={formData.description}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border rounded-lg"
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-400 focus:border-green-400"
                   rows="4"
                   required
                 ></textarea>
               </div>
 
               <div className="mb-6">
-                <label className="block text-gray-700 mb-2">Ubicación</label>
+                <label className="block text-gray-700 mb-2 flex items-center">
+                  <FaMapMarkerAlt className="mr-2 text-gray-500" />
+                  Ubicación
+                </label>
                 {userLocation ? (
-                  <div className="flex items-center">
+                  <div className="flex items-center mb-2">
                     <FaMapMarkerAlt className="text-red-500 mr-2" />
-                    <span>Detectada: {userLocation.lat.toFixed(4)}, {userLocation.lng.toFixed(4)}</span>
+                    <span className="text-sm">Detectada: {userLocation.lat.toFixed(4)}, {userLocation.lng.toFixed(4)}</span>
                   </div>
                 ) : (
-                  <p className="text-gray-500">Cargando ubicación...</p>
+                  <p className="text-gray-500 mb-2">Cargando ubicación...</p>
                 )}
                 <input
                   type="text"
@@ -275,14 +362,14 @@ const Sos = () => {
                   value={formData.location}
                   onChange={handleChange}
                   placeholder="Describe tu ubicación (ciudad, dirección, puntos de referencia)"
-                  className="w-full px-4 py-2 border rounded-lg mt-2"
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-400 focus:border-green-400"
                   required
                 />
               </div>
 
               <button
                 type="submit"
-                className="bg-[#000031] text-white font-bold py-3 px-6 rounded-lg hover:bg-opacity-90 transition flex items-center"
+                className="bg-slate-950 text-white font-bold py-3 px-6 rounded-lg hover:bg-opacity-90 transition flex items-center justify-center"
               >
                 <FaPaperPlane className="mr-2" />
                 Enviar Solicitud
@@ -295,10 +382,13 @@ const Sos = () => {
       {/* Workshops Tab */}
       {activeTab === "workshops" && (
         <div className="py-12 px-4 md:px-8 max-w-7xl mx-auto">
-          <h2 className="text-2xl font-bold text-[#000031] mb-6">Talleres Asociados</h2>
+          <h2 className="text-2xl font-bold text-slate-950 mb-6 flex items-center">
+            <FaTools className="mr-2 text-green-400" />
+            Talleres Asociados
+          </h2>
 
           <div className="mb-8 bg-white rounded-xl shadow-md p-6">
-            <h3 className="text-xl font-semibold text-[#000031] mb-4 flex items-center">
+            <h3 className="text-xl font-semibold text-slate-950 mb-4 flex items-center">
               <FaMapMarkerAlt className="text-red-500 mr-2" />
               Talleres más cercanos a tu ubicación
             </h3>
@@ -340,9 +430,9 @@ const Sos = () => {
                       <p>Tel: {selectedWorkshop.phone}</p>
                       <a
                         href={`tel:${selectedWorkshop.phone.replace(/\s/g, '')}`}
-                        className="text-blue-500 hover:underline"
+                        className="text-blue-500 hover:underline flex items-center"
                       >
-                        Llamar ahora
+                        <FaPhone className="mr-1" /> Llamar ahora
                       </a>
                     </div>
                   </InfoWindow>
@@ -355,7 +445,7 @@ const Sos = () => {
             {nearestWorkshops.map((workshop) => (
               <div key={workshop.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-[#000031] mb-2">{workshop.name}</h3>
+                  <h3 className="text-xl font-bold text-slate-950 mb-2">{workshop.name}</h3>
                   <p className="text-gray-600 mb-4 flex items-center">
                     <FaMapMarkerAlt className="mr-2 text-red-500" />
                     {workshop.address}
@@ -365,7 +455,10 @@ const Sos = () => {
                     {workshop.phone}
                   </p>
                   <div className="mb-4">
-                    <h4 className="font-semibold text-gray-700 mb-2">Servicios:</h4>
+                    <h4 className="font-semibold text-gray-700 mb-2 flex items-center">
+                      <FaWrench className="mr-2 text-green-500" />
+                      Servicios:
+                    </h4>
                     <ul className="list-disc pl-5">
                       {workshop.services.map((service, idx) => (
                         <li key={idx} className="text-gray-600">{service}</li>
@@ -375,7 +468,7 @@ const Sos = () => {
                   <div className="flex space-x-3">
                     <a
                       href={`tel:${workshop.phone.replace(/\s/g, '')}`}
-                      className="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center"
+                      className="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-blue-600 transition"
                     >
                       <FaPhone className="mr-2" />
                       Llamar
@@ -384,7 +477,7 @@ const Sos = () => {
                       href={`https://www.google.com/maps/dir/?api=1&destination=${workshop.location.lat},${workshop.location.lng}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-[#000031] text-white px-4 py-2 rounded-lg flex items-center"
+                      className="bg-slate-950 text-white px-4 py-2 rounded-lg flex items-center hover:bg-opacity-90 transition"
                     >
                       <FaMapMarkerAlt className="mr-2" />
                       Cómo llegar
