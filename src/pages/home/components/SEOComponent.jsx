@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 const SEOComponent = ({ 
   title = "BSK Motorcycle Team - Pasión por el Motociclismo", 
   description = "Únete a BSK Motorcycle Team, el motoclub líder en Colombia. Disfruta de rutas, eventos, talleres y una comunidad apasionada por el motociclismo. Hermandad, aventura y respeto sobre dos ruedas.", 
-  image = "https://bskmt.com/images/og-home.jpg",
+  image = "https://res.cloudinary.com/dz0peilmu/image/upload/Logo_BSK_Motorcycle_Team_ggdyrl.png",
   url = "https://bskmt.com",
   keywords = "motoclub en bogotá, motoclub en colombia, bskmt, bsk mt, bsk motorcycle team, comunidad motera, rutas en moto bogotá, eventos motociclismo, club de motos colombia, mototurismo, talleres motociclismo",
   type = "website",
