@@ -152,7 +152,7 @@ const Weather = () => {
           <ul className="grid md:grid-cols-2 gap-4">
             <li className="flex items-start">
               <span className="text-green-400 mr-2">•</span>
-              <span>En lluvia intensa, reduce velocidad y aumenta distancia de frenado</span>
+              <span className="text-white">En lluvia intensa, reduce velocidad y aumenta distancia de frenado</span>
             </li>
             <li className="flex items-start">
               <span className="text-green-400 mr-2">•</span>
