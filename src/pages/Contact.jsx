@@ -58,7 +58,7 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-white">
-
+      
       {/* Hero Section */}
       <section className="bg-slate-950 text-white py-16 px-4 md:px-20">
         <div className="max-w-7xl mx-auto text-center">
@@ -80,10 +80,11 @@ const Contact = () => {
           ].map(tab => (
             <button
               key={tab.id}
-              className={`py-4 px-6 font-medium text-sm md:text-base ${activeTab === tab.id
-                  ? "text-green-400 border-b-2 border-green-400"
+              className={`py-4 px-6 font-medium text-sm md:text-base ${
+                activeTab === tab.id 
+                  ? "text-green-400 border-b-2 border-green-400" 
                   : "text-gray-500 hover:text-gray-700"
-                }`}
+              }`}
               onClick={() => setActiveTab(tab.id)}
             >
               {tab.label}
@@ -99,7 +100,7 @@ const Contact = () => {
           <div className="grid md:grid-cols-2 gap-12">
             <div>
               <h2 className="text-2xl font-bold text-slate-950 mb-6">Datos de Contacto</h2>
-
+              
               <div className="space-y-6">
                 <div>
                   <h3 className="text-lg font-semibold text-slate-950 flex items-center">
@@ -625,6 +626,35 @@ const Contact = () => {
               </div>
               <div className="bg-gray-200 h-64 rounded-lg flex items-center justify-center md:order-1">
                 <span className="text-gray-500">Mapa interactivo aquí</span>
+              </div>
+            </div>
+
+            <div className="bg-slate-950 border border-green-400 rounded-xl p-6">
+              <h3 className="text-xl font-bold text-slate-950 mb-4">Puntos de Atención Adicionales</h3>
+              <div className="grid md:grid-cols-3 gap-6">
+                {[
+                  {
+                    name: "Sede Norte",
+                    address: "Avenida Calle 127 No. 20 - 85, Bogotá D.C.",
+                    hours: "Lunes a Domingo 24 horas"
+                  },
+                  {
+                    name: "Sede Sur",
+                    address: "Avenida Calle 57 R Sur No. 75 - 21, Bogotá D.C.",
+                    hours: "Lunes a Domingo 24 horas"
+                  },
+                  {
+                    name: "Sede Occidente",
+                    address: "Avenida Calle 26 No. 70 - 28, Bogotá D.C.",
+                    hours: "Lunes a Domingo 7 AM - 9 PM"
+                  }
+                ].map((location, index) => (
+                  <div key={index} className="bg-white p-4 rounded-lg shadow-sm">
+                    <h4 className="font-bold text-slate-950">{location.name}</h4>
+                    <p className="text-sm text-gray-600 mt-2">{location.address}</p>
+                    <p className="text-sm text-gray-500 mt-1">{location.hours}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
