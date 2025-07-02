@@ -156,15 +156,15 @@ const Weather = () => {
             </li>
             <li className="flex items-start">
               <span className="text-green-400 mr-2">•</span>
-              <span>Evita zonas marcadas en rojo/naranja en los mapas</span>
+              <span className="text-white">Evita zonas marcadas en rojo/naranja en los mapas</span>
             </li>
             <li className="flex items-start">
               <span className="text-green-400 mr-2">•</span>
-              <span>Usa equipo impermeable y con buena visibilidad</span>
+              <span className="text-white">Usa equipo impermeable y con buena visibilidad</span>
             </li>
             <li className="flex items-start">
               <span className="text-green-400 mr-2">•</span>
-              <span>Precaución con hidroplaneo en vías como Autopista Norte o Calle 80</span>
+              <span className="text-white"> Precaución con hidroplaneo en vías como Autopista Norte o Calle 80</span>
             </li>
           </ul>
         </div>
