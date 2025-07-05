@@ -26,6 +26,9 @@ import ProductDetailPage from './pages/ProductDetail';
 import CartPage from './pages/Cart';
 import CheckoutPage from './pages/Checkout';
 import PaymentConfirmation from './pages/PaymentConfirmation';
+import MembershipInfoPage from './pages/users/MembershipInfoPage';
+import UserRegister from './pages/users/UserRegister';
+import RegistrationSuccess from './pages/users/RegistrationSuccess';
 
 function App() {
   const headerRef = useRef();
@@ -64,6 +67,11 @@ function App() {
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/checkout" element={<CheckoutPage />} />
                 <Route path="/payment-confirmation" element={<PaymentConfirmation />} />
+
+                {/* Nuevas rutas de registro de usuarios */}
+                <Route path="/membership-info" element={<MembershipInfoPage />} />
+                <Route path="/register" element={<UserRegister />} />
+                <Route path="/registration-success" element={<RegistrationSuccess />} />
 
                 {/* Rutas protegidas */}
                 <Route path="/miembros" element={

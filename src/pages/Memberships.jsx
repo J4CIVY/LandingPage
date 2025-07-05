@@ -1,7 +1,40 @@
 import React from 'react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { 
+  FaUsers,
+  FaBolt,
+  FaLock,
+  FaCalendarAlt,
+  FaShieldAlt,
+  FaMoneyBillWave,
+  FaGift,
+  FaCheck,
+  FaEnvelope,
+  FaPhone,
+  FaMapMarkerAlt,
+  FaChevronRight,
+  FaMotorcycle,
+  FaWrench,
+  FaHandsHelping,
+  TbDiscount2,
+  GiMechanicGarage,
+  GiSteeringWheel,
+  GiRoad,
+  GiMotorcycleHelmet
+} from 'react-icons/fa';
+import { 
+  GiMechanicGarage,
+  GiSteeringWheel,
+  GiRoad,
+  GiMotorcycleHelmet
+} from 'react-icons/gi';
+import { 
+  TbDiscount2
+} from 'react-icons/tb';
 
 const Memberships = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -20,7 +53,6 @@ const Memberships = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aquí iría la lógica para enviar el formulario
     console.log('Formulario enviado:', formData);
     alert('Gracias por tu interés. Nos pondremos en contacto contigo pronto.');
     setFormData({
@@ -46,7 +78,8 @@ const Memberships = () => {
         "Calca para moto/casco"
       ],
       buttonText: "Únete Gratis",
-      popular: false
+      popular: false,
+      onClick: () => navigate('/membership-info')
     },
     {
       name: "Rider",
@@ -62,7 +95,8 @@ const Memberships = () => {
         "Parche bordado exclusivo"
       ],
       buttonText: "Hazte Rider",
-      popular: false
+      popular: false,
+      onClick: () => console.log("Rider membership selected")
     },
     {
       name: "Pro",
@@ -79,7 +113,8 @@ const Memberships = () => {
         "Descuento 75% en merchandising"
       ],
       buttonText: "Hazte Pro",
-      popular: true
+      popular: true,
+      onClick: () => console.log("Pro membership selected")
     }
   ];
 
@@ -88,15 +123,17 @@ const Memberships = () => {
       {/* Hero Section */}
       <div className="relative bg-blue-900 text-white py-20">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Únete a BSK Motorcycle Team</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 flex items-center justify-center">
+            <FaMotorcycle className="mr-4" /> Únete a BSK Motorcycle Team
+          </h1>
           <p className="text-xl mb-8 max-w-3xl mx-auto">
             Forma parte de una comunidad apasionada por el motociclismo, donde la hermandad, el espíritu aventurero y el respeto son nuestros pilares fundamentales.
           </p>
           <a 
             href="#memberships" 
-            className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-block"
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-flex items-center"
           >
-            Ver Membresías
+            Ver Membresías <FaChevronRight className="ml-2" />
           </a>
         </div>
       </div>
@@ -109,9 +146,7 @@ const Memberships = () => {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
               <div className="text-blue-600 mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
+                <FaUsers className="h-12 w-12" />
               </div>
               <h3 className="text-xl font-semibold mb-3 text-gray-800">Hermandad</h3>
               <p className="text-gray-600">
@@ -121,9 +156,7 @@ const Memberships = () => {
             
             <div className="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
               <div className="text-blue-600 mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
+                <FaBolt className="h-12 w-12" />
               </div>
               <h3 className="text-xl font-semibold mb-3 text-gray-800">Espíritu Aventurero</h3>
               <p className="text-gray-600">
@@ -133,9 +166,7 @@ const Memberships = () => {
             
             <div className="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
               <div className="text-blue-600 mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
+                <FaLock className="h-12 w-12" />
               </div>
               <h3 className="text-xl font-semibold mb-3 text-gray-800">Respeto y Seguridad</h3>
               <p className="text-gray-600">
@@ -154,9 +185,7 @@ const Memberships = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
               <div className="bg-blue-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
+                <FaCalendarAlt className="h-8 w-8 text-blue-600" />
               </div>
               <h3 className="font-semibold mb-2 text-gray-800">Eventos exclusivos</h3>
               <p className="text-gray-600 text-sm">Participa en rodadas, tours y actividades sociales organizadas por el club.</p>
@@ -164,9 +193,7 @@ const Memberships = () => {
             
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
               <div className="bg-blue-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
+                <FaShieldAlt className="h-8 w-8 text-blue-600" />
               </div>
               <h3 className="font-semibold mb-2 text-gray-800">Asistencia en ruta</h3>
               <p className="text-gray-600 text-sm">Servicio de asistencia técnica y emergencias disponible 24/7 según tu membresía.</p>
@@ -174,9 +201,7 @@ const Memberships = () => {
             
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
               <div className="bg-blue-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+                <TbDiscount2 className="h-8 w-8 text-blue-600" />
               </div>
               <h3 className="font-semibold mb-2 text-gray-800">Descuentos exclusivos</h3>
               <p className="text-gray-600 text-sm">Accede a descuentos en merchandising, talleres y servicios aliados.</p>
@@ -184,9 +209,7 @@ const Memberships = () => {
             
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
               <div className="bg-blue-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                </svg>
+                <FaGift className="h-8 w-8 text-blue-600" />
               </div>
               <h3 className="font-semibold mb-2 text-gray-800">Kit de bienvenida</h3>
               <p className="text-gray-600 text-sm">Recibe un kit con indumentaria y accesorios según tu tipo de membresía.</p>
@@ -204,9 +227,7 @@ const Memberships = () => {
             <div className="space-y-4">
               <div className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
-                  <svg className="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                  </svg>
+                  <FaCheck className="h-6 w-6 text-green-500" />
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-700">Pasión por el motociclismo y alineación con los valores del club</p>
@@ -215,9 +236,7 @@ const Memberships = () => {
               
               <div className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
-                  <svg className="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                  </svg>
+                  <FaCheck className="h-6 w-6 text-green-500" />
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-700">Ser mayor de 18 años</p>
@@ -226,9 +245,7 @@ const Memberships = () => {
               
               <div className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
-                  <svg className="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                  </svg>
+                  <FaCheck className="h-6 w-6 text-green-500" />
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-700">Licencia de conducir motocicletas tipo A1 o A2 vigente</p>
@@ -237,9 +254,7 @@ const Memberships = () => {
               
               <div className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
-                  <svg className="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                  </svg>
+                  <FaCheck className="h-6 w-6 text-green-500" />
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-700">Motocicleta propia en buen estado y debidamente registrada</p>
@@ -248,9 +263,7 @@ const Memberships = () => {
               
               <div className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
-                  <svg className="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                  </svg>
+                  <FaCheck className="h-6 w-6 text-green-500" />
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-700">Compromiso de cumplir con el código de ética del club</p>
@@ -298,18 +311,17 @@ const Memberships = () => {
                   <ul className="space-y-3 mb-8">
                     {plan.features.map((feature, i) => (
                       <li key={i} className="flex items-start">
-                        <svg className="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                        </svg>
+                        <FaCheck className="h-5 w-5 text-green-500 mr-2 mt-0.5" />
                         <span className="text-gray-700">{feature}</span>
                       </li>
                     ))}
                   </ul>
                   
                   <button 
-                    className={`w-full py-3 px-4 rounded-md font-bold text-white ${plan.popular ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-800 hover:bg-gray-700'} transition duration-300`}
+                    className={`w-full py-3 px-4 rounded-md font-bold text-white ${plan.popular ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-800 hover:bg-gray-700'} transition duration-300 flex items-center justify-center`}
+                    onClick={plan.onClick}
                   >
-                    {plan.buttonText}
+                    {plan.buttonText} <FaChevronRight className="ml-2" />
                   </button>
                 </div>
               </div>
@@ -327,7 +339,7 @@ const Memberships = () => {
             <div className="bg-blue-800 p-6 rounded-lg">
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mr-4">
-                  <span className="text-xl font-bold">AM</span>
+                  <GiMotorcycleHelmet className="text-xl text-white" />
                 </div>
                 <div>
                   <h4 className="font-bold">Andrea Martínez</h4>
@@ -340,7 +352,7 @@ const Memberships = () => {
             <div className="bg-blue-800 p-6 rounded-lg">
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mr-4">
-                  <span className="text-xl font-bold">CR</span>
+                  <GiSteeringWheel className="text-xl text-white" />
                 </div>
                 <div>
                   <h4 className="font-bold">Carlos Rodríguez</h4>
@@ -353,7 +365,7 @@ const Memberships = () => {
             <div className="bg-blue-800 p-6 rounded-lg">
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mr-4">
-                  <span className="text-xl font-bold">LS</span>
+                  <GiRoad className="text-xl text-white" />
                 </div>
                 <div>
                   <h4 className="font-bold">Luisa Sánchez</h4>
@@ -408,9 +420,7 @@ const Memberships = () => {
               className="inline-flex items-center text-blue-600 font-semibold hover:text-blue-800"
             >
               Ver más fotos de nuestras actividades
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
+              <FaChevronRight className="h-5 w-5 ml-1" />
             </a>
           </div>
         </div>
@@ -427,24 +437,17 @@ const Memberships = () => {
                 
                 <div className="space-y-4">
                   <div className="flex items-start">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-3 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
+                    <FaEnvelope className="h-6 w-6 mr-3 text-blue-300" />
                     <span>soporte@bskmt.xyz</span>
                   </div>
                   
                   <div className="flex items-start">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-3 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                    </svg>
+                    <FaPhone className="h-6 w-6 mr-3 text-blue-300" />
                     <span>+57 318 294 1684</span>
                   </div>
                   
                   <div className="flex items-start">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-3 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
+                    <FaMapMarkerAlt className="h-6 w-6 mr-3 text-blue-300" />
                     <span>Carrera 5 A No. 36 A Sur 28, Ayacucho, San Cristóbal, Bogotá</span>
                   </div>
                 </div>
@@ -522,9 +525,9 @@ const Memberships = () => {
                   
                   <button 
                     type="submit" 
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-md transition duration-300"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-md transition duration-300 flex items-center justify-center"
                   >
-                    Enviar mensaje
+                    Enviar mensaje <FaPaperPlane className="ml-2" />
                   </button>
                 </form>
               </div>
@@ -540,9 +543,9 @@ const Memberships = () => {
           <p className="text-xl mb-8 max-w-3xl mx-auto">Elige la membresía que mejor se adapte a ti y comienza a vivir experiencias inolvidables sobre dos ruedas.</p>
           <a 
             href="#memberships" 
-            className="bg-white hover:bg-gray-100 text-blue-800 font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-block"
+            className="bg-white hover:bg-gray-100 text-blue-800 font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-flex items-center"
           >
-            Ver Membresías
+            Ver Membresías <FaChevronRight className="ml-2" />
           </a>
         </div>
       </div>
