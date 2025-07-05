@@ -314,7 +314,7 @@ const Memberships = () => {
                   </ul>
                   
                   <button 
-                    className={`w-full py-3 px-4 rounded-md font-bold text-slate-950 ${plan.popular ? 'bg-green-400 hover:bg-green-500' : 'bg-slate-950 hover:bg-slate-900'} transition duration-300 flex items-center justify-center`}
+                    className={`w-full py-3 px-4 rounded-md font-bold text-white ${plan.popular ? 'bg-green-400 hover:bg-green-500' : 'bg-slate-950 hover:bg-slate-900'} transition duration-300 flex items-center justify-center`}
                     onClick={plan.onClick}
                   >
                     {plan.buttonText} <FaChevronRight className="ml-2" />
