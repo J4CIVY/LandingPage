@@ -17,6 +17,7 @@ import {
   FaMotorcycle,
   FaWrench,
   FaHandsHelping,
+  FaPaperPlane
 } from 'react-icons/fa';
 import { 
   GiMechanicGarage,
