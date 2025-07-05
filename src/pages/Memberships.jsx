@@ -196,7 +196,7 @@ const Memberships = () => {
             
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
               <div className="bg-blue-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                <TbDiscount2 className="h-8 w-8 text-blue-600" />
+                <TbDiscount className="h-8 w-8 text-blue-600" />
               </div>
               <h3 className="font-semibold mb-2 text-gray-800">Descuentos exclusivos</h3>
               <p className="text-gray-600 text-sm">Accede a descuentos en merchandising, talleres y servicios aliados.</p>
@@ -334,7 +334,7 @@ const Memberships = () => {
             <div className="bg-blue-800 p-6 rounded-lg">
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mr-4">
-                  <GiMotorcycleHelmet className="text-xl text-white" />
+                  <GiFullMotorcycleHelmet className="text-xl text-white" />
                 </div>
                 <div>
                   <h4 className="font-bold">Andrea Martínez</h4>
