@@ -117,17 +117,17 @@ const Memberships = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Hero Section */}
-      <div className="relative bg-blue-900 text-white py-20">
+      <div className="relative bg-slate-950 text-white py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 flex items-center justify-center">
-            <FaMotorcycle className="mr-4" /> Únete a BSK Motorcycle Team
+            Únete a BSK Motorcycle Team
           </h1>
           <p className="text-xl mb-8 max-w-3xl mx-auto">
             Forma parte de una comunidad apasionada por el motociclismo, donde la hermandad, el espíritu aventurero y el respeto son nuestros pilares fundamentales.
           </p>
           <a 
             href="#memberships" 
-            className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-flex items-center"
+            className="bg-red-600 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-flex items-center"
           >
             Ver Membresías <FaChevronRight className="ml-2" />
           </a>
@@ -141,7 +141,7 @@ const Memberships = () => {
           
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
-              <div className="text-blue-600 mb-4">
+              <div className="text-green-400 mb-4">
                 <FaUsers className="h-12 w-12" />
               </div>
               <h3 className="text-xl font-semibold mb-3 text-gray-800">Hermandad</h3>
@@ -151,7 +151,7 @@ const Memberships = () => {
             </div>
             
             <div className="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
-              <div className="text-blue-600 mb-4">
+              <div className="text-green-400 mb-4">
                 <FaBolt className="h-12 w-12" />
               </div>
               <h3 className="text-xl font-semibold mb-3 text-gray-800">Espíritu Aventurero</h3>
@@ -161,7 +161,7 @@ const Memberships = () => {
             </div>
             
             <div className="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
-              <div className="text-blue-600 mb-4">
+              <div className="text-green-400 mb-4">
                 <FaLock className="h-12 w-12" />
               </div>
               <h3 className="text-xl font-semibold mb-3 text-gray-800">Respeto y Seguridad</h3>
@@ -174,38 +174,38 @@ const Memberships = () => {
       </div>
 
       {/* Membership Benefits */}
-      <div className="py-16 bg-gray-100">
+      <div className="py-16 bg-slate-950">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">Beneficios de ser miembro</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 text-white">Beneficios de ser miembro</h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-              <div className="bg-blue-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                <FaCalendarAlt className="h-8 w-8 text-blue-600" />
+              <div className="bg-slate-950 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+                <FaCalendarAlt className="h-8 w-8 text-green-400" />
               </div>
               <h3 className="font-semibold mb-2 text-gray-800">Eventos exclusivos</h3>
               <p className="text-gray-600 text-sm">Participa en rodadas, tours y actividades sociales organizadas por el club.</p>
             </div>
             
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-              <div className="bg-blue-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                <FaShieldAlt className="h-8 w-8 text-blue-600" />
+              <div className="bg-slate-950 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+                <FaShieldAlt className="h-8 w-8 text-green-400" />
               </div>
               <h3 className="font-semibold mb-2 text-gray-800">Asistencia en ruta</h3>
               <p className="text-gray-600 text-sm">Servicio de asistencia técnica y emergencias disponible 24/7 según tu membresía.</p>
             </div>
             
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-              <div className="bg-blue-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                <TbDiscount className="h-8 w-8 text-blue-600" />
+              <div className="bg-slate-950 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+                <TbDiscount className="h-8 w-8 text-green-400" />
               </div>
               <h3 className="font-semibold mb-2 text-gray-800">Descuentos exclusivos</h3>
               <p className="text-gray-600 text-sm">Accede a descuentos en merchandising, talleres y servicios aliados.</p>
             </div>
             
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-              <div className="bg-blue-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                <FaGift className="h-8 w-8 text-blue-600" />
+              <div className="bg-slate-950 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+                <FaGift className="h-8 w-8 text-green-400" />
               </div>
               <h3 className="font-semibold mb-2 text-gray-800">Kit de bienvenida</h3>
               <p className="text-gray-600 text-sm">Recibe un kit con indumentaria y accesorios según tu tipo de membresía.</p>
@@ -223,7 +223,7 @@ const Memberships = () => {
             <div className="space-y-4">
               <div className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
-                  <FaCheck className="h-6 w-6 text-green-500" />
+                  <FaCheck className="h-6 w-6 text-green-400" />
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-700">Pasión por el motociclismo y alineación con los valores del club</p>
@@ -232,7 +232,7 @@ const Memberships = () => {
               
               <div className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
-                  <FaCheck className="h-6 w-6 text-green-500" />
+                  <FaCheck className="h-6 w-6 text-green-400" />
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-700">Ser mayor de 18 años</p>
@@ -241,7 +241,7 @@ const Memberships = () => {
               
               <div className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
-                  <FaCheck className="h-6 w-6 text-green-500" />
+                  <FaCheck className="h-6 w-6 text-green-400" />
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-700">Licencia de conducir motocicletas tipo A1 o A2 vigente</p>
@@ -250,7 +250,7 @@ const Memberships = () => {
               
               <div className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
-                  <FaCheck className="h-6 w-6 text-green-500" />
+                  <FaCheck className="h-6 w-6 text-green-400" />
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-700">Motocicleta propia en buen estado y debidamente registrada</p>
@@ -259,7 +259,7 @@ const Memberships = () => {
               
               <div className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
-                  <FaCheck className="h-6 w-6 text-green-500" />
+                  <FaCheck className="h-6 w-6 text-green-400" />
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-700">Compromiso de cumplir con el código de ética del club</p>
@@ -267,9 +267,9 @@ const Memberships = () => {
               </div>
             </div>
             
-            <div className="mt-12 bg-blue-50 p-6 rounded-lg border border-blue-200">
-              <h3 className="text-xl font-semibold mb-4 text-blue-800">Proceso de admisión</h3>
-              <ol className="list-decimal list-inside space-y-2 text-gray-700">
+            <div className="mt-12 bg-slate-950 p-6 rounded-lg border border-blue-200">
+              <h3 className="text-xl font-semibold mb-4 text-white">Proceso de admisión</h3>
+              <ol className="list-decimal list-inside space-y-2 text-gray-400">
                 <li>Completar formulario de solicitud</li>
                 <li>Entrevista personal con el Comité de Membresía</li>
                 <li>Participación en rodada de prueba</li>
@@ -282,9 +282,9 @@ const Memberships = () => {
       </div>
 
       {/* Membership Plans */}
-      <div id="memberships" className="py-16 bg-gray-100">
+      <div id="memberships" className="py-16 bg-slate-950">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">Nuestras Membresías</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 text-white">Nuestras Membresías</h2>
           
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {membershipTypes.map((plan, index) => (
@@ -298,23 +298,23 @@ const Memberships = () => {
                   </div>
                 )}
                 <div className="p-6 bg-white">
-                  <h3 className="text-2xl font-bold text-center mb-2 text-gray-800">{plan.name}</h3>
+                  <h3 className="text-2xl font-bold text-center mb-2 text-slate-950">{plan.name}</h3>
                   <div className="text-center mb-6">
-                    <span className="text-3xl font-bold text-blue-600">{plan.price}</span>
+                    <span className="text-3xl font-bold text-green-400">{plan.price}</span>
                     {plan.period && <span className="text-gray-600"> / {plan.period}</span>}
                   </div>
                   
                   <ul className="space-y-3 mb-8">
                     {plan.features.map((feature, i) => (
                       <li key={i} className="flex items-start">
-                        <FaCheck className="h-5 w-5 text-green-500 mr-2 mt-0.5" />
-                        <span className="text-gray-700">{feature}</span>
+                        <FaCheck className="h-5 w-5 text-green-400 mr-2 mt-0.5" />
+                        <span className="text-slate-950">{feature}</span>
                       </li>
                     ))}
                   </ul>
                   
                   <button 
-                    className={`w-full py-3 px-4 rounded-md font-bold text-white ${plan.popular ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-800 hover:bg-gray-700'} transition duration-300 flex items-center justify-center`}
+                    className={`w-full py-3 px-4 rounded-md font-bold text-slate-950 ${plan.popular ? 'bg-green-400 hover:bg-green-500' : 'bg-slate-950 hover:bg-slate-900'} transition duration-300 flex items-center justify-center`}
                     onClick={plan.onClick}
                   >
                     {plan.buttonText} <FaChevronRight className="ml-2" />
