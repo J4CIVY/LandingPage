@@ -290,7 +290,7 @@ const Memberships = () => {
             {membershipTypes.map((plan, index) => (
               <div 
                 key={index} 
-                className={`relative rounded-lg shadow-md overflow-hidden ${plan.popular ? 'border-2 border-blue-500 transform md:-translate-y-4' : 'border border-gray-200'}`}
+                className={`relative rounded-lg shadow-md overflow-hidden ${plan.popular ? 'border-2 border-blue-500 transform md:-translate-y-4' : 'border border-slate-950'}`}
               >
                 {plan.popular && (
                   <div className="absolute top-0 right-0 bg-blue-500 text-white text-xs font-bold px-3 py-1 transform translate-x-2 -translate-y-2 rotate-12">
