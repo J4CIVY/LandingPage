@@ -22,7 +22,7 @@ import {
   GiMechanicGarage,
   GiSteeringWheel,
   GiRoad,
-  GiMotorcycleHelmet
+  GiFullMotorcycleHelmet
 } from 'react-icons/gi';
 import { 
   TbDiscount
