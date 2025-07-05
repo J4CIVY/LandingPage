@@ -17,11 +17,6 @@ import {
   FaMotorcycle,
   FaWrench,
   FaHandsHelping,
-  TbDiscount2,
-  GiMechanicGarage,
-  GiSteeringWheel,
-  GiRoad,
-  GiMotorcycleHelmet
 } from 'react-icons/fa';
 import { 
   GiMechanicGarage,
