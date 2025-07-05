@@ -3,7 +3,7 @@ import { GiSteelwingEmblem } from 'react-icons/gi';
 import { FaCheckCircle, FaEnvelope, FaPhone, FaMotorcycle, FaCalendarAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-const RegistrationSuccess = () => {
+const RegistrationSuccess = ({ userEmail }) => {
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-8 text-center">
@@ -23,7 +23,15 @@ const RegistrationSuccess = () => {
           Bienvenido a la familia <span className="text-red-600 font-bold">BSK Motorcycle Team</span>. Tu registro como miembro <span className="font-semibold">Friend</span> ha sido completado con éxito.
         </p>
         
-        <div className="bg-gray-50 rounded-lg p-6 mb-8 text-left">
+        <div className="mt-6 bg-blue-50 p-4 rounded-lg border border-blue-200">
+          <h3 className="text-lg font-semibold text-blue-800 mb-2">Verifica tu correo electrónico</h3>
+          <p className="text-blue-700">
+            Hemos enviado un correo de confirmación a <span className="font-semibold">{userEmail}</span>. 
+            Revisa tu bandeja de entrada (y la carpeta de spam) para encontrar tu mensaje de bienvenida.
+          </p>
+        </div>
+        
+        <div className="bg-gray-50 rounded-lg p-6 mb-8 text-left mt-6">
           <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b border-gray-200 pb-2">
             Próximos pasos:
           </h2>
