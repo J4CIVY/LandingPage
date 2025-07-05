@@ -88,7 +88,7 @@ const UserRegister = () => {
       <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
         <div className="p-6">
           <div className="flex items-center justify-center mb-6">
-            <GiSteelWing className="text-red-600 text-4xl mr-2" />
+            <GiSteelwingEmblem className="text-red-600 text-4xl mr-2" />
             <h1 className="text-2xl font-bold text-gray-900">Registro de Miembro Friend</h1>
           </div>
 

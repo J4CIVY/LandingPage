@@ -1,5 +1,5 @@
 import React from 'react';
-import { GiSteelWing } from 'react-icons/gi';
+import { GiSteelwingEmblem } from 'react-icons/gi';
 import { FaCheckCircle, FaEnvelope, FaPhone, FaMotorcycle, FaCalendarAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
@@ -8,7 +8,7 @@ const RegistrationSuccess = () => {
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-8 text-center">
         <div className="flex justify-center mb-6">
-          <GiSteelWing className="text-red-600 text-5xl" />
+          <GiSteelwingEmblem className="text-red-600 text-5xl" />
         </div>
         
         <div className="flex justify-center mb-6">

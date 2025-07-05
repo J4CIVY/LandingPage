@@ -9,7 +9,7 @@ const MembershipInfoPage = () => {
       <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6">
         <div className="text-center mb-8">
           <div className="flex justify-center items-center mb-4">
-            <GiSteelWing className="text-red-600 text-5xl" />
+            <GiSteelwingEmblem className="text-red-600 text-5xl" />
           </div>
           <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
             Membresía <span className="text-red-600">Friend</span> de BSK Motorcycle Team
