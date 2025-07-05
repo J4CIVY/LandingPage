@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaUser, FaPhone, FaEnvelope, FaMapMarkerAlt, FaBriefcase, FaHeartbeat, FaMotorcycle, FaShieldAlt, FaLock } from 'react-icons/fa';
-import { GiSteelWing } from 'react-icons/gi';
+import { GiSteelwingEmblem } from 'react-icons/gi';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
