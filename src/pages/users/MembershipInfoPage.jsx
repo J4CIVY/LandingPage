@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaMotorcycle, FaShieldAlt, FaUsers, FaMedal, FaHandsHelping } from 'react-icons/fa';
-import { GiSteelWing } from 'react-icons/gi';
+import { GiSteelwingEmblem } from 'react-icons/gi';
 import { Link } from 'react-router-dom';
 
 const MembershipInfoPage = () => {
