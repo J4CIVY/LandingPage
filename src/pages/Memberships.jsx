@@ -25,7 +25,7 @@ import {
   GiMotorcycleHelmet
 } from 'react-icons/gi';
 import { 
-  TbDiscount2
+  TbDiscount
 } from 'react-icons/tb';
 
 const Memberships = () => {
