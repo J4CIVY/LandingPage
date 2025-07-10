@@ -170,110 +170,116 @@ const MemberArea = () => {
     setEventFilter(prev => ({ ...prev, sort: order }));
   };
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+  const fetchUserData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
 
-        const token = localStorage.getItem('token');
-        if (!token || !isTokenValid(token)) {
-          throw new Error('Token inválido o expirado');
-        }
+      const token = localStorage.getItem('token');
+      if (!token || !isTokenValid(token)) {
+        throw new Error('Token inválido o expirado');
+      }
 
-        const [userResponse, eventsResponse] = await Promise.all([
-          axios.get(`${API_URL}/users/me`, {
-            headers: { Authorization: `Bearer ${token}` },
-            timeout: 10000
-          }),
-          axios.get(`${API_URL}/events`, {
-            headers: { Authorization: `Bearer ${token}` }
-          })
-        ]);
+      const [userResponse, eventsResponse] = await Promise.all([
+        axios.get(`${API_URL}/users/me`, {
+          headers: { Authorization: `Bearer ${token}` },
+          timeout: 10000
+        }),
+        axios.get(`${API_URL}/events`, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+      ]);
 
-        if (!userResponse.data || !userResponse.data.data?.user) {
-          throw new Error('Estructura de respuesta inesperada');
-        }
+      if (!userResponse.data || !userResponse.data.data?.user) {
+        throw new Error('Estructura de respuesta inesperada para usuario');
+      }
 
-        const userDataFromApi = userResponse.data.data.user;
-        const allEvents = eventsResponse.data.data.events || [];
+      // Verificar estructura de eventos
+      if (!eventsResponse.data || !eventsResponse.data.data?.events) {
+        throw new Error('Estructura de respuesta inesperada para eventos');
+      }
 
-        // Procesar eventos para el calendario
-        const calendarEvents = allEvents.map(event => ({
+      const userDataFromApi = userResponse.data.data.user;
+      const allEvents = eventsResponse.data.data.events; // Acceso correcto a los eventos
+
+      // Procesar eventos para RidesTab
+      const upcomingEvents = allEvents
+        .filter(event => isAfter(parseISO(event.startDate), new Date()))
+        .map(event => ({
           id: event._id,
-          title: event.name,
-          date: event.startDate,
+          name: event.name,
+          date: format(parseISO(event.startDate), "PPP", { locale: es }),
           type: event.eventType,
-          location: event.departureLocation.city
+          location: event.departureLocation.city,
+          description: event.description,
+          image: event.mainImage
         }));
 
-        // Procesar eventos para RidesTab
-        const upcomingEvents = allEvents
-          .filter(event => isAfter(parseISO(event.startDate), new Date()))
-          .map(event => ({
-            id: event._id,
-            name: event.name,
-            date: format(parseISO(event.startDate), "PPP", { locale: es }),
-            type: event.eventType,
-            location: event.departureLocation.city,
-            description: event.description,
-            image: event.mainImage
-          }));
+      // Procesar eventos para el calendario
+      const calendarEvents = allEvents.map(event => ({
+        id: event._id,
+        title: event.name,
+        date: event.startDate,
+        type: event.eventType,
+        location: event.departureLocation.city
+      }));
 
-        setUserData({
-          name: userDataFromApi.fullName,
-          membership: userDataFromApi.role,
-          membershipExpiry: userDataFromApi.membershipExpiry || 'No definida',
-          points: userDataFromApi.points,
-          avatar: userDataFromApi.avatar || '/default-avatar.jpg',
-          nextEvent: userDataFromApi.upcomingEvents?.[0]?.name || 'No hay eventos próximos',
-          registeredEvents: userDataFromApi.registeredEvents.map(regEvent => {
-            const fullEvent = allEvents.find(e => e._id === regEvent.eventId);
-            return {
-              ...regEvent,
-              name: fullEvent?.name || 'Evento no disponible',
-              date: fullEvent?.startDate ? format(parseISO(fullEvent.startDate), "PPP", { locale: es }) : 'Fecha no definida',
-              location: fullEvent?.departureLocation?.address || 'Ubicación no definida'
-            };
-          }),
-          upcomingEvents,
-          allEvents,
-          calendarEvents,
-          pointsBreakdown: {
-            rides: userDataFromApi.ridePoints || 0,
-            events: userDataFromApi.eventPoints || 0,
-            partners: userDataFromApi.partnerPoints || 0,
-            others: userDataFromApi.otherPoints || 0,
-            history: userDataFromApi.pointsHistory || []
-          },
-          membershipBenefits: userDataFromApi.membershipBenefits || [
-            'Descuento en talleres',
-            'Acceso a eventos exclusivos',
-            'Asistencia vial básica'
-          ],
-          complaints: userDataFromApi.complaints || []
-        });
+      setUserData(prev => ({
+        ...prev,
+        name: userDataFromApi.fullName,
+        membership: userDataFromApi.role,
+        membershipExpiry: userDataFromApi.membershipExpiry || 'No definida',
+        points: userDataFromApi.points,
+        avatar: userDataFromApi.avatar || '/default-avatar.jpg',
+        nextEvent: userDataFromApi.upcomingEvents?.[0]?.name || 'No hay eventos próximos',
+        registeredEvents: userDataFromApi.registeredEvents.map(regEvent => {
+          const fullEvent = allEvents.find(e => e._id === regEvent.eventId);
+          return {
+            ...regEvent,
+            name: fullEvent?.name || 'Evento no disponible',
+            date: fullEvent?.startDate ? format(parseISO(fullEvent.startDate), "PPP", { locale: es }) : 'Fecha no definida',
+            location: fullEvent?.departureLocation?.address || 'Ubicación no definida'
+          };
+        }),
+        upcomingEvents,
+        allEvents,
+        calendarEvents,
+        pointsBreakdown: {
+          rides: userDataFromApi.ridePoints || 0,
+          events: userDataFromApi.eventPoints || 0,
+          partners: userDataFromApi.partnerPoints || 0,
+          others: userDataFromApi.otherPoints || 0,
+          history: userDataFromApi.pointsHistory || []
+        },
+        membershipBenefits: userDataFromApi.membershipBenefits || [
+          'Descuento en talleres',
+          'Acceso a eventos exclusivos',
+          'Asistencia vial básica'
+        ],
+        complaints: userDataFromApi.complaints || []
+      }));
 
-        setFormData({
-          name: userDataFromApi.fullName,
-          email: userDataFromApi.email,
-          phone: userDataFromApi.phone,
-          emergencyContact: `${userDataFromApi.emergencyContactName || ''} - ${userDataFromApi.emergencyContactPhone || ''}`,
-          bikeModel: `${userDataFromApi.motorcycleBrand || ''} ${userDataFromApi.motorcycleModel || ''}`.trim(),
-          bikeYear: userDataFromApi.motorcycleYear || '',
-          bloodType: `${userDataFromApi.bloodType || ''}${userDataFromApi.rhFactor || ''}`,
-          allergies: userDataFromApi.allergies || 'Ninguna'
-        });
+      setFormData({
+        name: userDataFromApi.fullName,
+        email: userDataFromApi.email,
+        phone: userDataFromApi.phone,
+        emergencyContact: `${userDataFromApi.emergencyContactName || ''} - ${userDataFromApi.emergencyContactPhone || ''}`,
+        bikeModel: `${userDataFromApi.motorcycleBrand || ''} ${userDataFromApi.motorcycleModel || ''}`.trim(),
+        bikeYear: userDataFromApi.motorcycleYear || '',
+        bloodType: `${userDataFromApi.bloodType || ''}${userDataFromApi.rhFactor || ''}`,
+        allergies: userDataFromApi.allergies || 'Ninguna'
+      });
 
-      } catch (err) {
-        console.error('Error cargando datos:', err);
-        setError(err.response?.data?.message || err.message || 'Error al cargar datos');
-        if (err.response?.status === 401) handleSessionExpired();
-      } finally {
-        setLoading(false);
-      }
-    };
+    } catch (err) {
+      console.error('Error cargando datos:', err);
+      setError(err.response?.data?.message || err.message || 'Error al cargar datos');
+      if (err.response?.status === 401) handleSessionExpired();
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token || !isTokenValid(token)) {
       handleSessionExpired();

@@ -10,15 +10,15 @@ const eventTypes = [
   { id: 'Tour', label: 'Viajes', icon: <FaMotorcycle /> }
 ];
 
-const RidesTab = ({ events, eventFilter, handleRidesAction, filterEventsByType, sortEvents }) => {
+const RidesTab = ({ events = [], eventFilter, handleRidesAction, filterEventsByType, sortEvents }) => {
   // Filtrar y ordenar eventos según los parámetros
-  const filteredEvents = events
+  const filteredEvents = Array.isArray(events) ? events
     .filter(event => eventFilter.type === 'all' || event.type === eventFilter.type)
     .sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
       return eventFilter.sort === 'asc' ? dateA - dateB : dateB - dateA;
-    });
+    }) : [];
 
   return (
     <div className="space-y-6">
@@ -62,13 +62,13 @@ const RidesTab = ({ events, eventFilter, handleRidesAction, filterEventsByType, 
         </div>
 
         {/* Lista de eventos */}
-        <div className="space-y-4">
-          {filteredEvents.length === 0 ? (
-            <div className="text-center py-8 text-gray-500">
-              No hay eventos disponibles con los filtros actuales
-            </div>
-          ) : (
-            filteredEvents.map((event) => (
+        {filteredEvents.length === 0 ? (
+          <div className="text-center py-8">
+            <p className="text-gray-500">No hay eventos disponibles</p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {filteredEvents.map((event) => (
               <div key={event.id} className="border border-gray-200 rounded-lg overflow-hidden bg-white hover:shadow-md transition-shadow">
                 <div className="p-5">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -121,9 +121,9 @@ const RidesTab = ({ events, eventFilter, handleRidesAction, filterEventsByType, 
                   </div>
                 </div>
               </div>
-            ))
-          )}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
