@@ -32,6 +32,12 @@ const MemberArea = () => {
   const [error, setError] = useState(null);
   const API_URL = import.meta.env.VITE_API_URL || "https://api.bskmt.com";
 
+  // Nuevo estado para filtros de eventos
+  const [eventFilter, setEventFilter] = useState({
+    type: 'all',
+    sort: 'asc'
+  });
+
   const [userData, setUserData] = useState({
     name: '',
     membership: '',
@@ -104,6 +110,66 @@ const MemberArea = () => {
     }
   };
 
+  // Función para manejar acciones específicas de RidesTab
+  const handleRidesAction = async (eventId, action) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        handleSessionExpired();
+        return;
+      }
+
+      const config = {
+        headers: { Authorization: `Bearer ${token}` }
+      };
+
+      let response;
+      
+      if (action === 'register') {
+        response = await axios.post(`${API_URL}/events/${eventId}/register`, {}, config);
+      } else if (action === 'details') {
+        navigate(`/events/${eventId}`);
+        return;
+      } else if (action === 'reminder') {
+        // Lógica para recordatorio
+        return alert('Recordatorio configurado para este evento');
+      } else if (action === 'share') {
+        // Lógica para compartir
+        return alert('Enlace de evento copiado al portapapeles');
+      }
+
+      if (response) {
+        // Actualizar lista de eventos después de acción
+        const updatedEvents = userData.upcomingEvents.map(event => 
+          event.id === eventId ? { ...event, registered: true } : event
+        );
+        
+        setUserData(prev => ({
+          ...prev,
+          upcomingEvents: updatedEvents
+        }));
+        
+        alert('Acción realizada con éxito');
+      }
+    } catch (err) {
+      if (err.response?.status === 401) {
+        handleSessionExpired();
+      } else {
+        alert(err.response?.data?.message || 'Error al realizar la acción');
+      }
+    }
+  };
+
+  // Función para filtrar eventos por tipo
+  const filterEventsByType = (type) => {
+    setEventFilter(prev => ({ ...prev, type }));
+  };
+
+  // Función para ordenar eventos
+  const sortEvents = (order) => {
+    setEventFilter(prev => ({ ...prev, sort: order }));
+  };
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -141,6 +207,19 @@ const MemberArea = () => {
           location: event.departureLocation.city
         }));
 
+        // Procesar eventos para RidesTab
+        const upcomingEvents = allEvents
+          .filter(event => isAfter(parseISO(event.startDate), new Date()))
+          .map(event => ({
+            id: event._id,
+            name: event.name,
+            date: format(parseISO(event.startDate), "PPP", { locale: es }),
+            type: event.eventType,
+            location: event.departureLocation.city,
+            description: event.description,
+            image: event.mainImage
+          }));
+
         setUserData({
           name: userDataFromApi.fullName,
           membership: userDataFromApi.role,
@@ -157,7 +236,7 @@ const MemberArea = () => {
               location: fullEvent?.departureLocation?.address || 'Ubicación no definida'
             };
           }),
-          upcomingEvents: userDataFromApi.upcomingEvents || [],
+          upcomingEvents,
           allEvents,
           calendarEvents,
           pointsBreakdown: {
@@ -426,8 +505,11 @@ const MemberArea = () => {
               )}
               {activeTab === 2 && (
                 <RidesTab 
-                  userData={userData} 
-                  handleEventAction={handleEventAction} 
+                  events={userData.upcomingEvents}
+                  eventFilter={eventFilter}
+                  handleRidesAction={handleRidesAction}
+                  filterEventsByType={filterEventsByType}
+                  sortEvents={sortEvents}
                 />
               )}
               {activeTab === 3 && (
