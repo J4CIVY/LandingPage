@@ -4,7 +4,8 @@ import 'react-tabs/style/react-tabs.css';
 import {
   FaUserCog, FaCalendarAlt, FaMotorcycle,
   FaStar, FaMedal, FaHeadset, FaUsers,
-  FaStore, FaBell, FaCog, FaSignOutAlt
+  FaStore, FaBell, FaCog, FaSignOutAlt,
+  FaTimes
 } from 'react-icons/fa';
 
 const MobileMenu = ({ userData, activeTab, setActiveTab, setMobileMenuOpen, logout }) => (
