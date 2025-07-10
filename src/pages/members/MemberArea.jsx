@@ -194,11 +194,12 @@ const MemberArea = () => {
         throw new Error('Formato de eventos no válido');
       }
 
-      const allEvents = eventsResponse.data.data.events; // Acceso correcto a los eventos
+      const userDataFromApi = userResponse.data.data.user;
+      const allEvents = eventsResponse.data.data.events;
 
       // Procesar eventos para RidesTab
       const upcomingEvents = allEvents
-        .filter(event => isAfter(parseISO(event.startDate), new Date()))
+        .filter(event => isAfter(parseISO(event.startDate), new Date())
         .map(event => ({
           id: event._id,
           name: event.name,
@@ -209,10 +210,32 @@ const MemberArea = () => {
           image: event.mainImage
         }));
 
+      // Actualiza formData con la información del usuario
+      setFormData({
+        name: userDataFromApi.fullName,
+        email: userDataFromApi.email,
+        phone: userDataFromApi.phone,
+        emergencyContact: `${userDataFromApi.emergencyContact?.name || ''} - ${userDataFromApi.emergencyContact?.phone || ''}`,
+        bikeModel: `${userDataFromApi.motorcycleInfo?.brand || ''} ${userDataFromApi.motorcycleInfo?.model || ''}`.trim(),
+        bikeYear: userDataFromApi.motorcycleInfo?.year || '',
+        bloodType: userDataFromApi.bloodType || '',
+        allergies: userDataFromApi.allergies || 'Ninguna'
+      });
+
       setUserData(prev => ({
         ...prev,
+        name: userDataFromApi.fullName,
+        membership: userDataFromApi.role,
+        points: userDataFromApi.points,
+        avatar: userDataFromApi.avatar || '/default-avatar.jpg',
         upcomingEvents,
-        allEvents
+        allEvents,
+        pointsBreakdown: {
+          rides: userDataFromApi.pointsBreakdown?.rides || 0,
+          events: userDataFromApi.pointsBreakdown?.events || 0,
+          trainings: userDataFromApi.pointsBreakdown?.trainings || 0,
+          others: userDataFromApi.pointsBreakdown?.others || 0
+        }
       }));
 
     } catch (err) {
