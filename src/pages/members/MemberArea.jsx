@@ -3,6 +3,9 @@ import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
+import { format, parseISO, isAfter, isBefore, addMonths, subMonths, isSameMonth, isSameDay } from 'date-fns';
+import { es } from 'date-fns/locale';
+import { FaCheckCircle, FaClock, FaExclamationTriangle, FaCalendarAlt } from 'react-icons/fa';
 import LoadingErrorHandler from './components/LoadingErrorHandler';
 import Header from './components/Header';
 import MobileMenu from './components/MobileMenu';
@@ -38,6 +41,8 @@ const MemberArea = () => {
     nextEvent: '',
     registeredEvents: [],
     upcomingEvents: [],
+    allEvents: [],
+    calendarEvents: [],
     pointsBreakdown: {
       rides: 0,
       events: 0,
@@ -106,23 +111,35 @@ const MemberArea = () => {
         setError(null);
 
         const token = localStorage.getItem('token');
-
         if (!token || !isTokenValid(token)) {
           throw new Error('Token inválido o expirado');
         }
 
-        const response = await axios.get(`${API_URL}/users/me`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          },
-          timeout: 10000
-        });
+        const [userResponse, eventsResponse] = await Promise.all([
+          axios.get(`${API_URL}/users/me`, {
+            headers: { Authorization: `Bearer ${token}` },
+            timeout: 10000
+          }),
+          axios.get(`${API_URL}/events`, {
+            headers: { Authorization: `Bearer ${token}` }
+          })
+        ]);
 
-        if (!response.data || !response.data.data?.user) {
+        if (!userResponse.data || !userResponse.data.data?.user) {
           throw new Error('Estructura de respuesta inesperada');
         }
 
-        const userDataFromApi = response.data.data.user;
+        const userDataFromApi = userResponse.data.data.user;
+        const allEvents = eventsResponse.data.data.events || [];
+
+        // Procesar eventos para el calendario
+        const calendarEvents = allEvents.map(event => ({
+          id: event._id,
+          title: event.name,
+          date: event.startDate,
+          type: event.eventType,
+          location: event.departureLocation.city
+        }));
 
         setUserData({
           name: userDataFromApi.fullName,
@@ -131,8 +148,18 @@ const MemberArea = () => {
           points: userDataFromApi.points,
           avatar: userDataFromApi.avatar || '/default-avatar.jpg',
           nextEvent: userDataFromApi.upcomingEvents?.[0]?.name || 'No hay eventos próximos',
-          registeredEvents: userDataFromApi.registeredEvents || [],
+          registeredEvents: userDataFromApi.registeredEvents.map(regEvent => {
+            const fullEvent = allEvents.find(e => e._id === regEvent.eventId);
+            return {
+              ...regEvent,
+              name: fullEvent?.name || 'Evento no disponible',
+              date: fullEvent?.startDate ? format(parseISO(fullEvent.startDate), "PPP", { locale: es }) : 'Fecha no definida',
+              location: fullEvent?.departureLocation?.address || 'Ubicación no definida'
+            };
+          }),
           upcomingEvents: userDataFromApi.upcomingEvents || [],
+          allEvents,
+          calendarEvents,
           pointsBreakdown: {
             rides: userDataFromApi.ridePoints || 0,
             events: userDataFromApi.eventPoints || 0,
@@ -160,9 +187,9 @@ const MemberArea = () => {
         });
 
       } catch (err) {
-        console.error('Error cargando datos del usuario:', err);
-        setError(err.response?.data?.message || err.message || 'Error al cargar los datos del usuario');
-        handleSessionExpired();
+        console.error('Error cargando datos:', err);
+        setError(err.response?.data?.message || err.message || 'Error al cargar datos');
+        if (err.response?.status === 401) handleSessionExpired();
       } finally {
         setLoading(false);
       }
