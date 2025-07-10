@@ -124,7 +124,7 @@ const MemberArea = () => {
       };
 
       let response;
-      
+
       if (action === 'register') {
         response = await axios.post(`${API_URL}/events/${eventId}/register`, {}, config);
       } else if (action === 'details') {
@@ -140,15 +140,15 @@ const MemberArea = () => {
 
       if (response) {
         // Actualizar lista de eventos después de acción
-        const updatedEvents = userData.upcomingEvents.map(event => 
+        const updatedEvents = userData.upcomingEvents.map(event =>
           event.id === eventId ? { ...event, registered: true } : event
         );
-        
+
         setUserData(prev => ({
           ...prev,
           upcomingEvents: updatedEvents
         }));
-        
+
         alert('Acción realizada con éxito');
       }
     } catch (err) {
@@ -412,19 +412,20 @@ const MemberArea = () => {
 
   return (
     <div className="bg-white min-h-screen text-slate-950">
-      <Header 
-        userData={userData} 
-        mobileMenuOpen={mobileMenuOpen} 
-        setMobileMenuOpen={setMobileMenuOpen} 
+      <Header
+        userData={userData}
+        mobileMenuOpen={mobileMenuOpen}
+        setMobileMenuOpen={setMobileMenuOpen}
+        logout={logout}
       />
 
       {mobileMenuOpen && (
-        <MobileMenu 
-          userData={userData} 
-          activeTab={activeTab} 
-          setActiveTab={setActiveTab} 
-          setMobileMenuOpen={setMobileMenuOpen} 
-          logout={logout} 
+        <MobileMenu
+          userData={userData}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          setMobileMenuOpen={setMobileMenuOpen}
+          logout={logout}
         />
       )}
 
@@ -433,31 +434,31 @@ const MemberArea = () => {
           <Sidebar userData={userData} logout={logout} />
 
           <main className="flex-1 bg-white rounded-lg shadow-sm overflow-hidden lg:ml-4 mt-4 lg:mt-6 p-4 md:p-6">
-            <TabsNavigation 
-              activeTab={activeTab} 
-              setActiveTab={setActiveTab} 
-              userData={userData} 
+            <TabsNavigation
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              userData={userData}
             />
 
             <div className="p-4 md:p-6">
               {activeTab === 0 && (
-                <AccountTab 
-                  formData={formData} 
-                  handleInputChange={handleInputChange} 
-                  handleSavePersonalInfo={handleSavePersonalInfo} 
+                <AccountTab
+                  formData={formData}
+                  handleInputChange={handleInputChange}
+                  handleSavePersonalInfo={handleSavePersonalInfo}
                 />
               )}
               {activeTab === 1 && (
-                <EventsTab 
-                  userData={userData} 
-                  dropdownOpen={dropdownOpen} 
-                  toggleDropdown={toggleDropdown} 
-                  handleEventAction={handleEventAction} 
-                  statusIcon={statusIcon} 
+                <EventsTab
+                  userData={userData}
+                  dropdownOpen={dropdownOpen}
+                  toggleDropdown={toggleDropdown}
+                  handleEventAction={handleEventAction}
+                  statusIcon={statusIcon}
                 />
               )}
               {activeTab === 2 && (
-                <RidesTab 
+                <RidesTab
                   events={userData.upcomingEvents}
                   eventFilter={eventFilter}
                   handleRidesAction={handleRidesAction}
@@ -469,18 +470,18 @@ const MemberArea = () => {
                 <PointsTab userData={userData} />
               )}
               {activeTab === 4 && (
-                <MembershipTab 
-                  userData={userData} 
-                  handleMembershipAction={handleMembershipAction} 
+                <MembershipTab
+                  userData={userData}
+                  handleMembershipAction={handleMembershipAction}
                 />
               )}
               {activeTab === 5 && (
-                <ComplaintsTab 
-                  newComplaint={newComplaint} 
-                  setNewComplaint={setNewComplaint} 
-                  handleComplaintSubmit={handleComplaintSubmit} 
-                  userData={userData} 
-                  statusIcon={statusIcon} 
+                <ComplaintsTab
+                  newComplaint={newComplaint}
+                  setNewComplaint={setNewComplaint}
+                  handleComplaintSubmit={handleComplaintSubmit}
+                  userData={userData}
+                  statusIcon={statusIcon}
                 />
               )}
               {activeTab === 6 && (

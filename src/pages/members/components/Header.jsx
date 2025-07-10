@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaStar, FaMedal, FaBell, FaCog, FaSignOutAlt, FaBars, FaTimes } from 'react-icons/fa';
 
-const Header = ({ userData, mobileMenuOpen, setMobileMenuOpen }) => (
+const Header = ({ userData, mobileMenuOpen, setMobileMenuOpen, logout }) => (
   <>
     {/* Header Mobile */}
     <div className="lg:hidden bg-white shadow-sm sticky top-0 z-10">
