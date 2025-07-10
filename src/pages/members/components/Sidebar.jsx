@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaBell, FaCog, FaSignOutAlt } from 'react-icons/fa';
+import { FaStar, FaBell, FaCog, FaSignOutAlt } from 'react-icons/fa';
 
 const Sidebar = ({ userData, logout }) => (
   <aside className="hidden lg:block w-64 bg-white rounded-lg shadow-sm p-4">

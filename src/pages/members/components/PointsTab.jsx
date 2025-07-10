@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaStar, FaHistory, FaTicketAlt } from 'react-icons/fa';
+import { FaHistory, FaTicketAlt } from 'react-icons/fa';
 
 const PointsTab = ({ userData }) => (
   <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
