@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaStar, FaBell, FaCog, FaSignOutAlt, FaBars, FaTimes } from 'react-icons/fa';
+import { FaStar, FaMedal, FaBell, FaCog, FaSignOutAlt, FaBars, FaTimes } from 'react-icons/fa';
 
 const Header = ({ userData, mobileMenuOpen, setMobileMenuOpen }) => (
   <>
