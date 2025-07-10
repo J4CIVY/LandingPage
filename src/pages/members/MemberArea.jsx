@@ -199,7 +199,7 @@ const MemberArea = () => {
 
       // Procesar eventos para RidesTab
       const upcomingEvents = allEvents
-        .filter(event => isAfter(parseISO(event.startDate), new Date())
+        .filter(event => isAfter(parseISO(event.startDate), new Date()))
         .map(event => ({
           id: event._id,
           name: event.name,
