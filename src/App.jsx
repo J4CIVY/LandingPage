@@ -5,7 +5,7 @@ import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import EventosDashboard from './pages/EventosDashboard';
-import MemberArea from './pages/MemberArea';
+import MemberArea from './pages/members/MemberArea';
 import Login from "./components/auth/Login";
 import Memberships from "./pages/Memberships";
 import Documents from "./pages/Documents";
