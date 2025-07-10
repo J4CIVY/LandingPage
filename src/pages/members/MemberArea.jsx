@@ -182,24 +182,18 @@ const MemberArea = () => {
 
       const [userResponse, eventsResponse] = await Promise.all([
         axios.get(`${API_URL}/users/me`, {
-          headers: { Authorization: `Bearer ${token}` },
-          timeout: 10000
+          headers: { Authorization: `Bearer ${token}` }
         }),
         axios.get(`${API_URL}/events`, {
           headers: { Authorization: `Bearer ${token}` }
         })
       ]);
 
-      if (!userResponse.data || !userResponse.data.data?.user) {
-        throw new Error('Estructura de respuesta inesperada para usuario');
+      // Verifica la estructura de la respuesta de eventos
+      if (!eventsResponse.data?.data?.events) {
+        throw new Error('Formato de eventos no válido');
       }
 
-      // Verificar estructura de eventos
-      if (!eventsResponse.data || !eventsResponse.data.data?.events) {
-        throw new Error('Estructura de respuesta inesperada para eventos');
-      }
-
-      const userDataFromApi = userResponse.data.data.user;
       const allEvents = eventsResponse.data.data.events; // Acceso correcto a los eventos
 
       // Procesar eventos para RidesTab
@@ -215,65 +209,18 @@ const MemberArea = () => {
           image: event.mainImage
         }));
 
-      // Procesar eventos para el calendario
-      const calendarEvents = allEvents.map(event => ({
-        id: event._id,
-        title: event.name,
-        date: event.startDate,
-        type: event.eventType,
-        location: event.departureLocation.city
-      }));
-
       setUserData(prev => ({
         ...prev,
-        name: userDataFromApi.fullName,
-        membership: userDataFromApi.role,
-        membershipExpiry: userDataFromApi.membershipExpiry || 'No definida',
-        points: userDataFromApi.points,
-        avatar: userDataFromApi.avatar || '/default-avatar.jpg',
-        nextEvent: userDataFromApi.upcomingEvents?.[0]?.name || 'No hay eventos próximos',
-        registeredEvents: userDataFromApi.registeredEvents.map(regEvent => {
-          const fullEvent = allEvents.find(e => e._id === regEvent.eventId);
-          return {
-            ...regEvent,
-            name: fullEvent?.name || 'Evento no disponible',
-            date: fullEvent?.startDate ? format(parseISO(fullEvent.startDate), "PPP", { locale: es }) : 'Fecha no definida',
-            location: fullEvent?.departureLocation?.address || 'Ubicación no definida'
-          };
-        }),
         upcomingEvents,
-        allEvents,
-        calendarEvents,
-        pointsBreakdown: {
-          rides: userDataFromApi.ridePoints || 0,
-          events: userDataFromApi.eventPoints || 0,
-          partners: userDataFromApi.partnerPoints || 0,
-          others: userDataFromApi.otherPoints || 0,
-          history: userDataFromApi.pointsHistory || []
-        },
-        membershipBenefits: userDataFromApi.membershipBenefits || [
-          'Descuento en talleres',
-          'Acceso a eventos exclusivos',
-          'Asistencia vial básica'
-        ],
-        complaints: userDataFromApi.complaints || []
+        allEvents
       }));
 
-      setFormData({
-        name: userDataFromApi.fullName,
-        email: userDataFromApi.email,
-        phone: userDataFromApi.phone,
-        emergencyContact: `${userDataFromApi.emergencyContactName || ''} - ${userDataFromApi.emergencyContactPhone || ''}`,
-        bikeModel: `${userDataFromApi.motorcycleBrand || ''} ${userDataFromApi.motorcycleModel || ''}`.trim(),
-        bikeYear: userDataFromApi.motorcycleYear || '',
-        bloodType: `${userDataFromApi.bloodType || ''}${userDataFromApi.rhFactor || ''}`,
-        allergies: userDataFromApi.allergies || 'Ninguna'
-      });
-
     } catch (err) {
-      console.error('Error cargando datos:', err);
+      console.error('Error:', {
+        message: err.message,
+        response: err.response?.data
+      });
       setError(err.response?.data?.message || err.message || 'Error al cargar datos');
-      if (err.response?.status === 401) handleSessionExpired();
     } finally {
       setLoading(false);
     }

@@ -11,14 +11,18 @@ const eventTypes = [
 ];
 
 const RidesTab = ({ events = [], eventFilter, handleRidesAction, filterEventsByType, sortEvents }) => {
-  // Filtrar y ordenar eventos según los parámetros
-  const filteredEvents = Array.isArray(events) ? events
-    .filter(event => eventFilter.type === 'all' || event.type === eventFilter.type)
-    .sort((a, b) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
-      return eventFilter.sort === 'asc' ? dateA - dateB : dateB - dateA;
-    }) : [];
+  // Verifica que events sea un array antes de usar filter/map
+  if (!Array.isArray(events)) {
+    return <div className="text-center py-8 text-red-500">Error: Datos de eventos no válidos</div>;
+  }
+
+  const filteredEvents = events.filter(event => 
+    eventFilter.type === 'all' || event.type === eventFilter.type
+  ).sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    return eventFilter.sort === 'asc' ? dateA - dateB : dateB - dateA;
+  });
 
   return (
     <div className="space-y-6">
