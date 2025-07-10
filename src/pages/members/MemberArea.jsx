@@ -234,7 +234,8 @@ const MemberArea = () => {
           rides: userDataFromApi.pointsBreakdown?.rides || 0,
           events: userDataFromApi.pointsBreakdown?.events || 0,
           trainings: userDataFromApi.pointsBreakdown?.trainings || 0,
-          others: userDataFromApi.pointsBreakdown?.others || 0
+          others: userDataFromApi.pointsBreakdown?.others || 0,
+          history: []
         }
       }));
 

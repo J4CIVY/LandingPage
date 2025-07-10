@@ -24,8 +24,8 @@ const PointsTab = ({ userData }) => (
             <div className="text-xs text-gray-500">pts</div>
           </div>
           <div className="bg-gray-50 p-4 rounded-lg text-center">
-            <div className="text-gray-600 text-sm">Consumo Aliados</div>
-            <div className="text-2xl font-bold text-slate-950">{userData.pointsBreakdown.partners}</div>
+            <div className="text-gray-600 text-sm">Talleres</div>
+            <div className="text-2xl font-bold text-slate-950">{userData.pointsBreakdown.trainings}</div>
             <div className="text-xs text-gray-500">pts</div>
           </div>
           <div className="bg-gray-50 p-4 rounded-lg text-center">
@@ -50,13 +50,21 @@ const PointsTab = ({ userData }) => (
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {userData.pointsBreakdown.history.map((item, index) => (
-                <tr key={index}>
-                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-600">{item.date}</td>
-                  <td className="px-4 py-2 text-sm text-gray-600">{item.description}</td>
-                  <td className="px-4 py-2 whitespace-nowrap text-sm font-medium text-green-600">+{item.points}</td>
+              {userData.pointsBreakdown.history?.length > 0 ? (
+                userData.pointsBreakdown.history.map((item, index) => (
+                  <tr key={index}>
+                    <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-600">{item.date}</td>
+                    <td className="px-4 py-2 text-sm text-gray-600">{item.description}</td>
+                    <td className="px-4 py-2 whitespace-nowrap text-sm font-medium text-green-600">+{item.points}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="3" className="px-4 py-4 text-center text-sm text-gray-500">
+                    No hay historial de puntos disponible
+                  </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
