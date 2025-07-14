@@ -17,13 +17,13 @@ const PaymentConfirmation = () => {
           const referenceId = location.state.paymentData.reference_id;
           const response = await api.get(`/payments/check-payment/${referenceId}`);
           
-          setPaymentData(response.data.data);
-          
-          if (response.data.data.status === 'APPROVED') {
+          if (response.data.data.status === 'PAID' || response.data.data.status === 'APPROVED') {
             setPaymentStatus('approved');
+            setPaymentData(response.data.data);
             clearCart();
-          } else if (response.data.data.status === 'REJECTED') {
+          } else if (response.data.data.status === 'REJECTED' || response.data.data.status === 'FAILED') {
             setPaymentStatus('rejected');
+            setPaymentData(response.data.data);
           } else {
             // Si sigue procesando, verificar de nuevo después de un tiempo
             setTimeout(checkPaymentStatus, 3000);
@@ -31,7 +31,11 @@ const PaymentConfirmation = () => {
         }
       } catch (error) {
         console.error('Error al verificar pago:', error);
-        setPaymentStatus('error');
+        if (error.response?.status === 404) {
+          setPaymentStatus('not_found');
+        } else {
+          setPaymentStatus('error');
+        }
       }
     };
 
@@ -119,6 +123,32 @@ const PaymentConfirmation = () => {
                 className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded"
               >
                 Volver al inicio
+              </button>
+            </div>
+          )}
+
+          {paymentStatus === 'not_found' && (
+            <div className="text-center">
+              <div className="text-yellow-500 text-5xl mb-4">?</div>
+              <h2 className="text-2xl font-bold mb-2">Transacción no encontrada</h2>
+              <p className="mb-4">No pudimos encontrar información sobre tu pago.</p>
+              
+              <div className="bg-yellow-50 p-3 rounded-lg mb-6">
+                <p>Por favor verifica si el pago se completó o contacta a soporte con tu referencia.</p>
+                <p className="mt-2 font-semibold">Referencia: {location.state?.paymentData?.reference_id}</p>
+              </div>
+              
+              <button 
+                onClick={() => navigate('/')}
+                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-3"
+              >
+                Volver al inicio
+              </button>
+              <button 
+                onClick={() => navigate('/checkout')}
+                className="bg-gray-200 hover:bg-gray-300 font-bold py-2 px-6 rounded"
+              >
+                Intentar nuevamente
               </button>
             </div>
           )}
