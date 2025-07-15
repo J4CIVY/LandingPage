@@ -7,10 +7,6 @@ import PaymentForm from '../components/checkout/PaymentForm';
 import ReviewOrder from '../components/checkout/ReviewOrder';
 import axios from 'axios';
 
-// Configuración de la API
-const BOLD_API_URL = 'https://api.online.payments.bold.co/v1';
-const BOLD_API_KEY = 'tu-api-key-aqui'; // Debería estar en variables de entorno
-
 const Checkout = () => {
   const { cartItems, subtotal, clearCart } = useCart();
   const [step, setStep] = useState(1);
@@ -22,11 +18,10 @@ const Checkout = () => {
     country: 'CO',
     phone: '',
     email: '',
-    postalCode: '110111'
+    postalCode: '110111' // Agregado el campo postalCode
   });
   const [paymentMethod, setPaymentMethod] = useState('credit_card');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [paymentError, setPaymentError] = useState(null);
   const navigate = useNavigate();
 
   const handleShippingSubmit = (data) => {
@@ -41,10 +36,7 @@ const Checkout = () => {
 
   const handleOrderSubmit = async () => {
     setIsSubmitting(true);
-    setPaymentError(null);
-    
     try {
-      const referenceId = `ORD-${Date.now()}`;
       const customer = {
         name: `${shippingInfo.firstName} ${shippingInfo.lastName}`,
         email: shippingInfo.email,
@@ -54,100 +46,23 @@ const Checkout = () => {
           city: shippingInfo.city,
           country_code: shippingInfo.country,
           postal_code: shippingInfo.postalCode
-        },
-        shipping_address: {
-          street1: shippingInfo.address,
-          city: shippingInfo.city,
-          country_code: shippingInfo.country,
-          postal_code: shippingInfo.postalCode
         }
       };
 
-      // Crear la intención de pago
-      const paymentIntent = {
-        reference_id: referenceId,
-        amount: {
-          currency: "COP",
-          total_amount: subtotal * 100, // La API espera el valor en centavos
-          tip_amount: 0,
-          taxes: [] // Agregar impuestos si es necesario
-        },
+      const response = await axios.post('/payments/create-payment-intent', {
+        amount: subtotal,
         description: `Compra en BSK MT - ${cartItems.length} productos`,
-        callback_url: `${window.location.origin}/payment-confirmation`, // URL para redirección
-        customer: customer,
-        metadata: {
-          cart_items: JSON.stringify(cartItems.map(item => ({
-            id: item.id,
-            name: item.name,
-            quantity: item.quantity
-          })))
-        }
-      };
+        customer: shippingInfo,
+        reference_id: `ORD-${Date.now()}`
+      });
 
-      const response = await axios.post(
-        `${BOLD_API_URL}/payment-intent`,
-        paymentIntent,
-        {
-          headers: {
-            'Authorization': `x-api-key ${BOLD_API_KEY}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      );
-
-      // Si es tarjeta de crédito, procesar directamente
-      if (paymentMethod === 'credit_card') {
-        const paymentAttempt = {
-          reference_id: referenceId,
-          payer: {
-            person_type: "NATURAL_PERSON",
-            name: customer.name,
-            phone: customer.phone,
-            email: customer.email,
-            document_type: "CEDULA",
-            document_number: "1234567890", // Deberías recolectar este dato
-            billing_address: customer.billing_address
-          },
-          payment_method: {
-            name: "CREDIT_CARD",
-            // Estos datos deberían venir del formulario de pago
-            card_number: "4111111111111111",
-            cardholder_name: customer.name,
-            expiration_month: "12",
-            expiration_year: "2030",
-            installments: 1,
-            cvc: "123"
-          }
-        };
-
-        const paymentResponse = await axios.post(
-          `${BOLD_API_URL}/payment`,
-          paymentAttempt,
-          {
-            headers: {
-              'Authorization': `x-api-key ${BOLD_API_KEY}`,
-              'Content-Type': 'application/json'
-            }
-          }
-        );
-
-        if (paymentResponse.data.next_action) {
-          // Redireccionar si es necesario (para 3DSecure, etc.)
-          window.location.href = paymentResponse.data.next_action.redirect_url;
-          return;
-        }
-      }
-
-      // Redireccionar a confirmación de pago
       navigate('/payment-confirmation', {
         state: { 
           paymentData: {
-            reference_id: referenceId,
-            transaction_id: response.data.transaction_id,
+            reference_id: response.data.data.reference_id,
             amount: subtotal,
             customer,
-            paymentMethod,
-            status: 'PENDING'
+            paymentMethod
           }
         }
       });
@@ -155,11 +70,8 @@ const Checkout = () => {
       // Limpiar carrito después de una compra exitosa
       clearCart();
     } catch (error) {
-      console.error('Error processing payment:', error);
-      const errorMessage = error.response?.data?.message || 
-                          error.message || 
-                          'Ocurrió un error al procesar el pago';
-      setPaymentError(errorMessage);
+      console.error('Error creating payment:', error);
+      alert(`Error al procesar el pago: ${error.response?.data?.message || error.message}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -193,12 +105,6 @@ const Checkout = () => {
           
           {/* Contenido del paso actual */}
           <div className="bg-white rounded-lg shadow-md p-6">
-            {paymentError && (
-              <div className="mb-4 p-4 bg-red-100 text-red-700 rounded">
-                {paymentError}
-              </div>
-            )}
-            
             {step === 1 && (
               <ShippingForm 
                 initialValues={shippingInfo}
