@@ -5,7 +5,7 @@ import Layout from '../components/shared/Layout';
 import ShippingForm from '../components/checkout/ShippingForm';
 import PaymentForm from '../components/checkout/PaymentForm';
 import ReviewOrder from '../components/checkout/ReviewOrder';
-import PaymentButton from '../components/payment/PaymentButton';
+import axios from 'axios';
 
 const Checkout = () => {
   const { cartItems, subtotal, clearCart } = useCart();
@@ -17,9 +17,11 @@ const Checkout = () => {
     city: '',
     country: 'CO',
     phone: '',
-    email: ''
+    email: '',
+    postalCode: '110111' // Agregado el campo postalCode
   });
   const [paymentMethod, setPaymentMethod] = useState('credit_card');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const handleShippingSubmit = (data) => {
@@ -33,30 +35,46 @@ const Checkout = () => {
   };
 
   const handleOrderSubmit = async () => {
-    // Aquí integrarías con Bold Payments
-    const customer = {
-      name: `${shippingInfo.firstName} ${shippingInfo.lastName}`,
-      email: shippingInfo.email,
-      phone: shippingInfo.phone,
-      billing_address: {
-        street1: shippingInfo.address,
-        city: shippingInfo.city,
-        country_code: shippingInfo.country,
-        postal_code: '110111' // Deberías agregar este campo al formulario
-      }
-    };
-
-    // Redirigir a confirmación de pago
-    // En una implementación real, esto se manejaría después de la respuesta de la API
-    navigate('/payment-confirmation', { 
-      state: { 
-        paymentData: {
-          reference_id: `ORD-${Date.now()}`,
-          amount: { total_amount: subtotal },
-          customer
+    setIsSubmitting(true);
+    try {
+      const customer = {
+        name: `${shippingInfo.firstName} ${shippingInfo.lastName}`,
+        email: shippingInfo.email,
+        phone: shippingInfo.phone,
+        billing_address: {
+          street1: shippingInfo.address,
+          city: shippingInfo.city,
+          country_code: shippingInfo.country,
+          postal_code: shippingInfo.postalCode
         }
-      } 
-    });
+      };
+
+      const response = await axios.post('/payments/create-payment-intent', {
+        amount: subtotal,
+        description: `Compra en BSK MT - ${cartItems.length} productos`,
+        customer: shippingInfo,
+        reference_id: `ORD-${Date.now()}`
+      });
+
+      navigate('/payment-confirmation', {
+        state: { 
+          paymentData: {
+            reference_id: response.data.data.reference_id,
+            amount: subtotal,
+            customer,
+            paymentMethod
+          }
+        }
+      });
+      
+      // Limpiar carrito después de una compra exitosa
+      clearCart();
+    } catch (error) {
+      console.error('Error creating payment:', error);
+      alert(`Error al procesar el pago: ${error.response?.data?.message || error.message}`);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -110,6 +128,7 @@ const Checkout = () => {
                 subtotal={subtotal}
                 onSubmit={handleOrderSubmit}
                 onBack={() => setStep(2)}
+                isSubmitting={isSubmitting}
               />
             )}
           </div>
