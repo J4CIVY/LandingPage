@@ -1,12 +1,7 @@
 import { useRef } from 'react';
 import './index.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
-import ProtectedRoute from './components/auth/ProtectedRoute';
-import EventosDashboard from './pages/EventosDashboard';
-import MemberArea from './pages/members/MemberArea';
-import Login from "./components/auth/Login";
 import Memberships from "./pages/Memberships";
 import Documents from "./pages/Documents";
 import Contact from "./pages/Contact";
@@ -20,7 +15,6 @@ import Header from "./components/shared/Header";
 import Footer from "./components/shared/Footer";
 import CookieBanner from "./components/shared/CookieBanner";
 import CookiePolicy from "./components/shared/CookiePolicy";
-import NoAutorizado from "./pages/NoAutorizado";
 import ProductListPage from './pages/ProductList';
 import ProductDetailPage from './pages/ProductDetail';
 import CartPage from './pages/Cart';
@@ -57,34 +51,15 @@ function App() {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/documents" element={<Documents />} />
                 <Route path="/memberships" element={<Memberships />} />
-                <Route path="/login" element={<Login />} />
                 <Route path="/cookie-policy" element={<CookiePolicy />} />
-                <Route path="/no-autorizado" element={<NoAutorizado />} />
-
-                {/* Nuevas rutas del e-commerce */}
                 <Route path="/products" element={<ProductListPage />} />
                 <Route path="/products/:id" element={<ProductDetailPage />} />
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/checkout" element={<CheckoutPage />} />
                 <Route path="/payment-confirmation" element={<PaymentConfirmation />} />
-
-                {/* Nuevas rutas de registro de usuarios */}
                 <Route path="/membership-info" element={<MembershipInfoPage />} />
                 <Route path="/register" element={<UserRegister />} />
                 <Route path="/registration-success" element={<RegistrationSuccess />} />
-
-                {/* Rutas protegidas */}
-                <Route path="/miembros" element={
-                  <ProtectedRoute>
-                    <MemberArea />
-                  </ProtectedRoute>
-                } />
-
-                <Route path="/eventos-dashboard" element={
-                  <ProtectedRoute>
-                    <EventosDashboard />
-                  </ProtectedRoute>
-                } />
               </Routes>
             </main>
 
