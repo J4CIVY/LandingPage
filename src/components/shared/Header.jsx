@@ -8,7 +8,6 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
   const location = useLocation();
   const headerRef = useRef(null);
   const { totalItems } = useCart();
-  const { user, logout } = useAuth();
 
   // Configuración de Cloudinary
   const cloudName = "dz0peilmu";

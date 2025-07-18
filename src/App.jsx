@@ -29,7 +29,6 @@ function App() {
 
   return (
     <Router>
-      <AuthProvider>
         <CartProvider>
           <div className="bg-[#ffffff] min-h-screen flex flex-col">
             {/* Header con posicionamiento fijo */}
@@ -67,7 +66,6 @@ function App() {
             <CookieBanner />
           </div>
         </CartProvider>
-      </AuthProvider>
     </Router>
   );
 }
