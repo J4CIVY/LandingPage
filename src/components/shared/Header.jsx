@@ -112,27 +112,6 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
                   )}
                 </button>
               </li>
-              
-              {/* Manejo de sesión para desktop */}
-              <li>
-                {user ? (
-                  <div className="flex items-center space-x-4">
-                    <button
-                      onClick={() => navigate('/miembros')}
-                      className="text-white hover:text-green-400 transition-colors"
-                    >
-                      Mi cuenta
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    onClick={() => navigate('/login')}
-                    className="text-white hover:text-green-400 transition-colors"
-                  >
-                    Iniciar sesión
-                  </button>
-                )}
-              </li>
             </ul>
           </nav>
 
@@ -191,43 +170,6 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
                     </span>
                   )}
                 </button>
-              </li>
-              
-              {/* Manejo de sesión para móvil */}
-              <li>
-                {user ? (
-                  <div className="flex flex-col space-y-4">
-                    <button
-                      onClick={() => {
-                        navigate('/miembros');
-                        setIsMenuOpen(false);
-                      }}
-                      className="text-white text-xl font-medium hover:text-green-400 transition-colors text-left"
-                    >
-                      Mi cuenta
-                    </button>
-                    <button 
-                      onClick={() => {
-                        logout();
-                        navigate('/');
-                        setIsMenuOpen(false);
-                      }}
-                      className="text-white text-xl font-medium hover:text-green-400 transition-colors text-left"
-                    >
-                      Cerrar sesión
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    onClick={() => {
-                      navigate('/login');
-                      setIsMenuOpen(false);
-                    }}
-                    className="text-white text-xl font-medium hover:text-green-400 transition-colors text-left"
-                    >
-                    Iniciar sesión
-                  </button>
-                )}
               </li>
             </ul>
 
