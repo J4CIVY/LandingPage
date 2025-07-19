@@ -123,15 +123,6 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
                     >
                       Mi cuenta
                     </button>
-                    <button 
-                      onClick={() => {
-                        logout();
-                        navigate('/');
-                      }}
-                      className="text-white hover:text-green-400 transition-colors"
-                    >
-                      Cerrar sesión
-                    </button>
                   </div>
                 ) : (
                   <button
