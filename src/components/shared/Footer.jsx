@@ -2,10 +2,10 @@ import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  
+
   // Configuración de Cloudinary
   const cloudName = "dz0peilmu";
-  
+
   // URLs optimizadas para cada imagen
   const logoClub = {
     avif: `https://res.cloudinary.com/${cloudName}/image/upload/f_avif,q_auto,w_854/Logos_Footer_BSKMT_fqgnap`,
@@ -34,9 +34,9 @@ const Footer = () => {
           <picture>
             <source srcSet={logoClub.avif} type="image/avif" />
             <source srcSet={logoClub.webp} type="image/webp" />
-            <img 
-              src={logoClub.jpg} 
-              alt="Logo BSK Motorcycle Team" 
+            <img
+              src={logoClub.jpg}
+              alt="Logo BSK Motorcycle Team"
               className="h-44 w-auto"
               width="854"
               height="480"
@@ -57,9 +57,9 @@ const Footer = () => {
               <picture>
                 <source srcSet={logoInnpulsa.avif} type="image/avif" />
                 <source srcSet={logoInnpulsa.webp} type="image/webp" />
-                <img 
-                  src={logoInnpulsa.png} 
-                  alt="Logo Innpulsa Colombia" 
+                <img
+                  src={logoInnpulsa.png}
+                  alt="Logo Innpulsa Colombia"
                   className="h-12 w-auto"
                   width="250"
                   height="100"
@@ -75,9 +75,9 @@ const Footer = () => {
                 <picture>
                   <source srcSet={logoSupersociedades.avif} type="image/avif" />
                   <source srcSet={logoSupersociedades.webp} type="image/webp" />
-                  <img 
-                    src={logoSupersociedades.png} 
-                    alt="Logo Superintendencia de Sociedades" 
+                  <img
+                    src={logoSupersociedades.png}
+                    alt="Logo Superintendencia de Sociedades"
                     className="h-12 w-auto"
                     width="250"
                     height="100"
@@ -98,29 +98,29 @@ const Footer = () => {
             <div className="flex flex-col items-center md:items-start space-y-3">
               <p className="text-sm font-medium">Síguenos</p>
               <div className="flex space-x-4">
-                <a 
-                  href="https://facebook.com/bskmotorcycleteam" 
+                <a
+                  href="https://facebook.com/bskmotorcycleteam"
                   aria-label="Facebook BSK Motorcycle Team"
                   className="text-white hover:text-blue-400 transition-colors"
                 >
                   <FaFacebook size={20} />
                 </a>
-                <a 
-                  href="https://instagram.com/bskmotorcycleteam" 
+                <a
+                  href="https://instagram.com/bskmotorcycleteam"
                   aria-label="Instagram BSK Motorcycle Team"
                   className="text-white hover:text-pink-500 transition-colors"
                 >
                   <FaInstagram size={20} />
                 </a>
-                <a 
-                  href="https://twitter.com/bskmotorcycleteam" 
+                <a
+                  href="https://twitter.com/bskmotorcycleteam"
                   aria-label="Twitter BSK Motorcycle Team"
                   className="text-white hover:text-blue-300 transition-colors"
                 >
                   <FaTwitter size={20} />
                 </a>
-                <a 
-                  href="https://youtube.com/bskmotorcycleteam" 
+                <a
+                  href="https://youtube.com/bskmotorcycleteam"
                   aria-label="YouTube BSK Motorcycle Team"
                   className="text-white hover:text-red-500 transition-colors"
                 >
@@ -152,7 +152,7 @@ const Footer = () => {
         <div className="max-w-6xl mx-auto">
           <div className="text-center text-xs md:text-sm space-y-2">
             <p>
-              Copyright © 2022 - {currentYear} Organización Motear S.A.S., OMSAS. Todos los derechos reservados.
+              © {currentYear} BSK Motorcycle Team™ es una marca registrada de Organización Motear S.A.S., OMSAS. Todos los derechos reservados.
             </p>
           </div>
         </div>
