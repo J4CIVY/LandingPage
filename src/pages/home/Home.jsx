@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import SEOComponent from "./components/SEOComponent";
 import HeroSection from "./components/HeroSection";
 import AboutSection from "./components/AboutSection";
@@ -14,19 +15,15 @@ const Home = () => {
   const [loadingEvents, setLoadingEvents] = useState(true);
   const [errorEvents, setErrorEvents] = useState(null);
 
-  // Fetch events from API
+  // Fetch events from API using axios
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch('https://api.bskmt.com/events');
-        if (!response.ok) {
-          throw new Error('Error al cargar los eventos');
-        }
-        const data = await response.json();
-        setEvents(data.data.events);
+        const response = await axios.get('https://api.bskmt.com/events');
+        setEvents(response.data.data.events);
       } catch (error) {
         console.error('Error fetching events:', error);
-        setErrorEvents(error.message);
+        setErrorEvents(error.response?.data?.message || error.message || 'Error al cargar los eventos');
       } finally {
         setLoadingEvents(false);
       }
