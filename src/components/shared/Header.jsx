@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef, forwardRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useCart } from '../../context/CartContext';
 
 const Header = forwardRef(({ className = '', ...props }, ref) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
