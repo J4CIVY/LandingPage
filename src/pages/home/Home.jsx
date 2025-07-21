@@ -15,7 +15,6 @@ const Home = () => {
   const [loadingEvents, setLoadingEvents] = useState(true);
   const [errorEvents, setErrorEvents] = useState(null);
 
-  // Fetch events from API using axios
   useEffect(() => {
     const fetchEvents = async () => {
       try {

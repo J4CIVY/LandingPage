@@ -2,7 +2,6 @@ import React from "react";
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
-  // Funciones para manejar meses
   const addMonths = (date, months) => {
     const newDate = new Date(date);
     newDate.setMonth(newDate.getMonth() + months);
@@ -13,7 +12,7 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
     return addMonths(date, -months);
   };
 
-  const nextMonth = () => {
+ const nextMonth = () => {
     setCurrentMonth(addMonths(currentMonth, 1));
   };
 
@@ -21,19 +20,16 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
     setCurrentMonth(subMonths(currentMonth, 1));
   };
 
-  // Formatear fecha en español
   const formatDateSpanish = (date) => {
     const options = { month: 'long', year: 'numeric' };
     return date.toLocaleDateString('es-ES', options);
   };
 
-  // Verificar si es el mismo mes
   const isSameMonth = (date1, date2) => {
     return date1.getFullYear() === date2.getFullYear() && 
            date1.getMonth() === date2.getMonth();
   };
 
-  // Verificar si es el mismo día
   const isSameDay = (date1, date2) => {
     return date1.getFullYear() === date2.getFullYear() && 
            date1.getMonth() === date2.getMonth() && 
@@ -64,7 +60,7 @@ const Calendar = ({ events, currentMonth, setCurrentMonth }) => {
 
   const renderDays = () => {
     const days = [];
-    const dayNames = ['D', 'L', 'M', 'M', 'J', 'V', 'S']; // Días de la semana en español
+    const dayNames = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
     
     return (
       <div className="grid grid-cols-7 mb-2">

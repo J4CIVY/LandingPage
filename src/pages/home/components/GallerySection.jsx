@@ -12,7 +12,6 @@ const GallerySection = () => {
     { id: 6, src: '/Banner_Tour_Andino_2023_Motoclub_BSK_Motocycle_Team.webp', alt: 'Tour Andino 2023 BSK Motorcycle Team' }
   ];
 
-  // Efecto para el carrusel automático
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveGalleryImage((prev) =>
@@ -31,7 +30,6 @@ const GallerySection = () => {
         </h2>
 
         <div className="relative mb-8 rounded-xl overflow-hidden shadow-xl group" style={{ aspectRatio: '16/9' }}>
-          {/* Imagen principal con transición suave */}
           <div className="relative w-full h-full">
             {galleryImages.map((image, index) => (
               <img
@@ -44,13 +42,11 @@ const GallerySection = () => {
             ))}
           </div>
 
-          {/* Overlay y texto */}
           <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50"></div>
           <div className="absolute bottom-0 left-0 p-6 text-white">
             <p className="text-xl">{galleryImages[activeGalleryImage].alt}</p>
           </div>
 
-          {/* Indicadores de posición (puntos) */}
           <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
             {galleryImages.map((_, index) => (
               <button

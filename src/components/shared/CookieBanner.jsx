@@ -1,4 +1,3 @@
-// components/CookieBanner.jsx
 import React, { useState, useEffect } from 'react';
 
 const CookieBanner = () => {
@@ -24,15 +23,6 @@ const CookieBanner = () => {
     
     if (savedSettings) {
       setCookieSettings(JSON.parse(savedSettings));
-    } else {
-      // Por defecto solo las esenciales activadas
-      setCookieSettings({
-        essential: true,
-        performance: false,
-        functional: false,
-        marketing: false,
-        social: false
-      });
     }
   }, []);
 
@@ -61,14 +51,9 @@ const CookieBanner = () => {
   };
 
   const applyCookieSettings = (settings) => {
-    // Aquí implementarías la lógica para cargar/descargar scripts según las preferencias
     console.log('Aplicando configuración de cookies:', settings);
-    
-    // Ejemplo para Google Analytics:
     if (settings.performance) {
-      // Cargar script de Analytics
-    } else {
-      // Descargar script de Analytics
+      // Load analytics script
     }
   };
 
@@ -87,7 +72,6 @@ const CookieBanner = () => {
 
   return (
     <>
-      {/* Banner principal */}
       <div className={`fixed bottom-0 left-0 right-0 z-50 transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
         <div className="bg-slate-950 text-white p-4 shadow-lg">
           <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
@@ -122,7 +106,6 @@ const CookieBanner = () => {
         </div>
       </div>
 
-      {/* Panel de configuración */}
       {showSettings && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
@@ -140,7 +123,6 @@ const CookieBanner = () => {
               </div>
 
               <div className="space-y-6">
-                {/* Cookies esenciales - siempre activas */}
                 <div className="border-b pb-4">
                   <div className="flex items-center justify-between">
                     <div>
@@ -161,7 +143,6 @@ const CookieBanner = () => {
                   </div>
                 </div>
 
-                {/* Cookies de rendimiento */}
                 <div className="border-b pb-4">
                   <div className="flex items-center justify-between">
                     <div>
@@ -182,7 +163,6 @@ const CookieBanner = () => {
                   </div>
                 </div>
 
-                {/* Cookies funcionales */}
                 <div className="border-b pb-4">
                   <div className="flex items-center justify-between">
                     <div>
@@ -203,7 +183,6 @@ const CookieBanner = () => {
                   </div>
                 </div>
 
-                {/* Cookies de marketing */}
                 <div className="border-b pb-4">
                   <div className="flex items-center justify-between">
                     <div>
@@ -224,7 +203,6 @@ const CookieBanner = () => {
                   </div>
                 </div>
 
-                {/* Cookies de redes sociales */}
                 <div className="border-b pb-4">
                   <div className="flex items-center justify-between">
                     <div>

@@ -44,7 +44,7 @@ const CookiePolicy = () => {
           <strong>Duración:</strong> Hasta 12 meses
         </p>
         
-        <h3 className="text-xl font-medium text-slate-950] mb-2">2.4 Cookies de marketing</h3>
+        <h3 className="text-xl font-medium text-slate-950 mb-2">2.4 Cookies de marketing</h3>
         <p className="mb-4">
           <strong>Finalidad:</strong> Mostrar publicidad relevante y medir la efectividad de campañas.
           <br />
@@ -67,14 +67,6 @@ const CookiePolicy = () => {
         <h2 className="text-2xl font-semibold text-slate-950 mb-4">3. Listado detallado de cookies</h2>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-gray-200">
-            <thead>
-              <tr className="bg-slate-950 text-white">
-                <th className="py-2 px-4 border">Nombre</th>
-                <th className="py-2 px-4 border">Proveedor</th>
-                <th className="py-2 px-4 border">Finalidad</th>
-                <th className="py-2 px-4 border">Caducidad</th>
-              </tr>
-            </thead>
             <tbody>
               <tr>
                 <td className="py-2 px-4 border">session_id</td>

@@ -38,47 +38,47 @@ const RegistrationSuccess = ({ userEmail }) => {
           
           <div className="space-y-4">
             <div className="flex items-start">
-              <div className="flex-shrink-0 mt-1 text-red-600">
-                <FaEnvelope className="text-xl" />
+              <div className="flex-shrink-0 mt-1">
+                <div className="h-5 w-5 rounded-full bg-red-100 flex items-center justify-center">
+                  <div className="h-2 w-2 rounded-full bg-red-600"></div>
+                </div>
               </div>
-              <div className="ml-3">
-                <p className="text-gray-700">
-                  <span className="font-medium">Revisa tu correo electrónico:</span> Hemos enviado un mensaje de confirmación con los detalles de tu membresía y credenciales de acceso.
-                </p>
-              </div>
+              <p className="ml-3 text-gray-700">
+                <span className="font-medium">Revisa tu correo electrónico:</span> Hemos enviado un mensaje de confirmación con los detalles de tu membresía y credenciales de acceso.
+              </p>
             </div>
             
             <div className="flex items-start">
-              <div className="flex-shrink-0 mt-1 text-red-600">
-                <FaPhone className="text-xl" />
+              <div className="flex-shrink-0 mt-1">
+                <div className="h-5 w-5 rounded-full bg-red-100 flex items-center justify-center">
+                  <div className="h-2 w-2 rounded-full bg-red-600"></div>
+                </div>
               </div>
-              <div className="ml-3">
-                <p className="text-gray-700">
-                  <span className="font-medium">Verificación manual:</span> Nuestro equipo verificará tu información en las próximas 24-48 horas. Te contactaremos si necesitamos algún documento adicional.
-                </p>
-              </div>
+              <p className="ml-3 text-gray-700">
+                <span className="font-medium">Verificación manual:</span> Nuestro equipo verificará tu información en las próximas 24-48 horas. Te contactaremos si necesitamos algún documento adicional.
+              </p>
             </div>
             
             <div className="flex items-start">
-              <div className="flex-shrink-0 mt-1 text-red-600">
-                <FaCalendarAlt className="text-xl" />
+              <div className="flex-shrink-0 mt-1">
+                <div className="h-5 w-5 rounded-full bg-red-100 flex items-center justify-center">
+                  <div className="h-2 w-2 rounded-full bg-red-600"></div>
+                </div>
               </div>
-              <div className="ml-3">
-                <p className="text-gray-700">
-                  <span className="font-medium">Activación completa:</span> Tu membresía estará totalmente activa después de la verificación. Recibirás una notificación cuando esto ocurra.
-                </p>
-              </div>
+              <p className="ml-3 text-gray-700">
+                <span className="font-medium">Activación completa:</span> Tu membresía estará totalmente activa después de la verificación. Recibirás una notificación cuando esto ocurra.
+              </p>
             </div>
             
             <div className="flex items-start">
-              <div className="flex-shrink-0 mt-1 text-red-600">
-                <FaMotorcycle className="text-xl" />
+              <div className="flex-shrink-0 mt-1">
+                <div className="h-5 w-5 rounded-full bg-red-100 flex items-center justify-center">
+                  <div className="h-2 w-2 rounded-full bg-red-600"></div>
+                </div>
               </div>
-              <div className="ml-3">
-                <p className="text-gray-700">
-                  <span className="font-medium">Primer evento:</span> Mantente atento a nuestras comunicaciones para participar en tu primera rodada como miembro oficial.
-                </p>
-              </div>
+              <p className="ml-3 text-gray-700">
+                <span className="font-medium">Primer evento:</span> Mantente atento a nuestras comunicaciones para participar en tu primera rodada como miembro oficial.
+              </p>
             </div>
           </div>
         </div>

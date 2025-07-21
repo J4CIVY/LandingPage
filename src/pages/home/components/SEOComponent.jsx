@@ -29,7 +29,6 @@ const SEOComponent = ({
       <meta name="twitter:image" content={image} />
       {canonical && <link rel="canonical" href={canonical} />}
       
-      {/* Schema.org para motoclub */}
       <script type="application/ld+json">
         {JSON.stringify({
           "@context": "https://schema.org",

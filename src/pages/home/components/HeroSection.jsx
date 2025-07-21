@@ -2,17 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
-  // Configuración de Cloudinary
-  const cloudName = "dz0peilmu";
+ const cloudName = "dz0peilmu";
   const imagePath = "Banner_Landing_Page_BSK_Motorcycle_Team_Julio_o2fcql";
   
-  // Hook para navegación
   const navigate = useNavigate();
   
-  // Parámetros comunes de optimización
   const commonParams = "q_auto:best,c_fill,g_auto";
   
-  // Tamaños basados en la resolución original (1366×768)
   const srcSetAvif = `
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_avif,w_480/${imagePath} 480w,
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_avif,w_768/${imagePath} 768w,
@@ -34,10 +30,8 @@ const HeroSection = () => {
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_1366/${imagePath} 1366w
   `;
 
-  // URL de fallback (tamaño original)
   const fallbackSrc = `https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_1366/${imagePath}`;
 
-  // Función para manejar el clic en el botón
   const handleJoinClick = () => {
     navigate("/memberships");
   };
@@ -45,7 +39,6 @@ const HeroSection = () => {
   return (
     <section className="relative h-screen flex items-center justify-center bg-slate-950 overflow-hidden">
       <div className="absolute inset-0 w-full h-full">
-        {/* Imagen optimizada con formatos modernos y responsive */}
         <picture>
           <source 
             srcSet={srcSetAvif} 

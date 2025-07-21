@@ -14,7 +14,7 @@ const MembershipInfoPage = () => {
           <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
             Membresía <span className="text-red-600">Friend</span> de BSK Motorcycle Team
           </h1>
-          <p className="mt-3 text-xl text-gray-500">
+          <p className=" mt-3 text-xl text-gray-500">
             Conoce todo sobre nuestra membresía básica y únete a nuestra comunidad motera
           </p>
         </div>

@@ -5,7 +5,6 @@ import { es } from 'date-fns/locale';
 const EventModal = ({ event, onClose }) => {
   if (!event) return null;
 
-  // Bloquear el scroll del body cuando el modal está abierto
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
@@ -38,13 +37,11 @@ const EventModal = ({ event, onClose }) => {
 
   return (
     <>
-      {/* Fondo oscuro semi-transparente */}
       <div 
         className="fixed inset-0 bg-black bg-opacity-75 z-40"
         onClick={onClose}
       />
 
-      {/* Contenedor del modal */}
       <div 
         className="fixed inset-0 z-50 overflow-y-auto"
         role="dialog"
@@ -52,12 +49,10 @@ const EventModal = ({ event, onClose }) => {
         aria-labelledby="modal-headline"
       >
         <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-          {/* Contenido del modal */}
           <div 
             className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl w-full"
           >
             <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-              {/* Header */}
               <div className="sm:flex sm:items-start">
                 <div className="mt-3 text-center sm:mt-0 sm:text-left w-full">
                   <div className="flex justify-between items-start">
@@ -89,7 +84,6 @@ const EventModal = ({ event, onClose }) => {
                     </button>
                   </div>
 
-                  {/* Imagen principal */}
                   <div className="mt-4 rounded-lg overflow-hidden">
                     <img
                       src={event.mainImage || "/default-event-image.webp"}
@@ -98,9 +92,7 @@ const EventModal = ({ event, onClose }) => {
                     />
                   </div>
 
-                  {/* Grid de información */}
                   <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {/* Columna 1: Información básica */}
                     <div className="col-span-1">
                       <div className="bg-gray-50 p-4 rounded-lg">
                         <h4 className="text-lg font-bold text-gray-800 mb-3">Información del Evento</h4>
@@ -126,7 +118,7 @@ const EventModal = ({ event, onClose }) => {
                           
                           <div>
                             <p className="text-sm font-medium text-gray-500">Duración</p>
-                            <p className="text-sm text-gray-900">{event.durationDays} día(s)</p>
+                            <p className="text-sm text -gray-900">{event.durationDays} día(s)</p>
                           </div>
                           
                           <div>
@@ -148,7 +140,6 @@ const EventModal = ({ event, onClose }) => {
                         </div>
                       </div>
 
-                      {/* Precios */}
                       <div className="bg-gray-50 p-4 rounded-lg mt-4">
                         <h4 className="text-lg font-bold text-gray-800 mb-3">Precios</h4>
                         
@@ -172,7 +163,6 @@ const EventModal = ({ event, onClose }) => {
                       </div>
                     </div>
 
-                    {/* Columna 2: Itinerario y actividades */}
                     <div className="col-span-1">
                       <div className="bg-gray-50 p-4 rounded-lg h-full">
                         <h4 className="text-lg font-bold text-gray-800 mb-3">Itinerario</h4>
@@ -208,7 +198,6 @@ const EventModal = ({ event, onClose }) => {
                       </div>
                     </div>
 
-                    {/* Columna 3: Requisitos y recomendaciones */}
                     <div className="col-span-1">
                       <div className="bg-gray-50 p-4 rounded-lg">
                         <h4 className="text-lg font-bold text-gray-800 mb-3">Incluye</h4>
@@ -249,7 +238,6 @@ const EventModal = ({ event, onClose }) => {
                     </div>
                   </div>
 
-                  {/* Información adicional */}
                   {event.additionalInformation && (
                     <div className="mt-6 bg-blue-50 p-4 rounded-lg border border-blue-100">
                       <h4 className="text-lg font-bold text-blue-800 mb-2">Información adicional</h4>
@@ -257,7 +245,6 @@ const EventModal = ({ event, onClose }) => {
                     </div>
                   )}
 
-                  {/* Llamado a la acción */}
                   <div className="mt-8 bg-slate-950 p-6 rounded-lg">
                     <div className="flex flex-col md:flex-row justify-between items-center">
                       <div className="mb-4 md:mb-0">
@@ -288,11 +275,11 @@ const EventModal = ({ event, onClose }) => {
                 </div>
               </div>
             </div>
+            </div>
           </div>
         </div>
-      </div>
-    </>
-  );
-};
-
-export default EventModal;
+      </>
+    );
+  };
+  
+  export default EventModal;

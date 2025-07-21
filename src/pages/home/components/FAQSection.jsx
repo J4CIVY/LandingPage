@@ -292,58 +292,6 @@ const FAQSection = () => {
       a: "Toda información se maneja con estricta confidencialidad. Solo se comparte con quienes necesitan conocerla para la investigación y resolución del caso.",
       category: "general"
     },
-
-    // Nuevas preguntas basadas en el Manual Operativo Organizacional
-    {
-      q: "¿Cuál es la estructura organizacional de BSK Motorcycle Team?",
-      a: "El club sigue una estructura presidencialista con comités especializados: Auditoría, Ética, Administrativo, Fiscal y Financiero, Legal, Planeación Estratégica, Comunicaciones, Membresía, Capacitación y Tienda/Merchandising.",
-      category: "organization"
-    },
-    {
-      q: "¿Cuáles son las responsabilidades del Presidente del club?",
-      a: "Liderar y representar al club, tomar decisiones estratégicas, coordinar actividades generales, presidir reuniones, manejar relaciones externas y resolver conflictos internos.",
-      category: "organization"
-    },
-    {
-      q: "¿Qué funciones tiene el Comité de Auditoría?",
-      a: "Supervisar auditorías internas para garantizar transparencia en la gestión de recursos, evaluar controles internos y proveer asesoría sobre gestión de riesgos y cumplimiento normativo.",
-      category: "organization"
-    },
-    {
-      q: "¿Cómo se seleccionan los directivos del club?",
-      a: "Mediante un proceso de convocatoria abierta, nominación, presentación de candidaturas, campaña, debates públicos y votación secreta supervisada por un Comité Electoral.",
-      category: "organization"
-    },
-    {
-      q: "¿Cuáles son los requisitos para ser director de un comité?",
-      a: "Ser miembro activo con al menos 5 años de antigüedad, demostrar compromiso, tener experiencia relevante, habilidades de liderazgo y disponibilidad para el cargo.",
-      category: "organization"
-    },
-    {
-      q: "¿Cuánto dura el mandato de los directivos?",
-      a: "Los directores y subdirectores sirven por períodos de 2 años, con posibilidad de reelección o redesignación, sujetos a evaluación anual de desempeño.",
-      category: "organization"
-    },
-    {
-      q: "¿Qué sucede si un directivo no cumple con sus responsabilidades?",
-      a: "Puede ser removido por incumplimiento, violación al código de ética, desempeño insatisfactorio o acciones que perjudiquen al club, mediante votación de la directiva y aprobación de los miembros.",
-      category: "organization"
-    },
-    {
-      q: "¿Cómo se actualiza el Manual Operativo del club?",
-      a: "Se revisa anualmente por un Comité de Revisión que recopila sugerencias de miembros, evalúa cambios y presenta recomendaciones para aprobación por la directiva.",
-      category: "organization"
-    },
-    {
-      q: "¿Qué función tiene el Comité de Capacitación?",
-      a: "Diseñar e implementar programas de formación en seguridad vial, primeros auxilios y mecánica básica de motos para miembros, fomentando una cultura de aprendizaje continuo.",
-      category: "organization"
-    },
-    {
-      q: "¿Cómo se gestiona la comunicación interna en el club?",
-      a: "El Comité de Comunicaciones facilita canales efectivos como boletines informativos, plataformas digitales y reuniones periódicas para mantener informados a todos los miembros.",
-      category: "organization"
-    }
   ];
 
   const toggleFaq = (index) => {
@@ -354,7 +302,6 @@ const FAQSection = () => {
     <div className="bg-white rounded-xl p-8 shadow-lg">
       <h3 className="text-2xl font-bold text-slate-950 mb-6 text-center">PREGUNTAS FRECUENTES</h3>
       
-      {/* Filtros por categoría */}
       <div className="flex flex-wrap justify-center gap-2 mb-6">
         <button 
           className={`px-4 py-2 rounded-full text-sm ${faqFilter === 'all' ? 'bg-slate-950 text-white' : 'bg-gray-200 text-slate-950 hover:bg-gray-300'}`}
@@ -394,7 +341,6 @@ const FAQSection = () => {
         </button>
       </div>
 
-      {/* Sistema de acordeón */}
       <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2">
         {faqQuestions.filter(q => faqFilter === 'all' || q.category === faqFilter).map((question, index) => (
           <div key={index} className="border-b border-gray-200 pb-3">
