@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import api from '../api'; // Import the configured axios instance
+import api from './api'; // Import the configured axios instance
 
 const StoreSection = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
