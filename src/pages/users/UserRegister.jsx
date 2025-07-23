@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaUser, FaPhone, FaEnvelope, FaMapMarkerAlt, FaBriefcase, FaHeartbeat, FaMotorcycle, FaShieldAlt, FaLock } from 'react-icons/fa';
 import { GiSteelwingEmblem } from 'react-icons/gi';
-import api from '../api'; // Import the configured axios instance
+import api from '../../../api/Api'; // Import the configured axios instance
 import { useNavigate } from 'react-router-dom';
 
 const UserRegister = () => {
