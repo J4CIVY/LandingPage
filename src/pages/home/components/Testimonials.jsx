@@ -6,7 +6,8 @@ const Testimonials = () => (
     <div className="grid md:grid-cols-2 gap-8">
       <div className="bg-white p-8 rounded-xl shadow-lg">
         <div className="flex items-center mb-6">
-          <img src="/member1.webp" alt="Miembro" className="w-16 h-16 rounded-full mr-6" />
+          {/* Ensure alt text is descriptive for accessibility */}
+          <img src="/member1.webp" alt="Retrato de Carlos Méndez, miembro del club" className="w-16 h-16 rounded-full mr-6" loading="lazy" />
           <div>
             <h4 className="text-xl font-bold text-slate-950">Carlos Méndez</h4>
             <p className="text-green-400">Miembro desde 2024</p>
@@ -16,7 +17,8 @@ const Testimonials = () => (
       </div>
       <div className="bg-white p-8 rounded-xl shadow-lg">
         <div className="flex items-center mb-6">
-          <img src="/member2.webp" alt="Miembro" className="w-16 h-16 rounded-full mr-6" />
+          {/* Ensure alt text is descriptive for accessibility */}
+          <img src="/member2.webp" alt="Retrato de Laura Torres, miembro del club" className="w-16 h-16 rounded-full mr-6" loading="lazy" />
           <div>
             <h4 className="text-xl font-bold text-slate-950">Laura Torres</h4>
             <p className="text-green-400">Miembro desde 2022</p>

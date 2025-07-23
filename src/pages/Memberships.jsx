@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState, useCallback } from 'react'; // Added useCallback for memoization
 import { useNavigate } from 'react-router-dom';
 import { 
   FaUsers,
@@ -39,26 +38,29 @@ const Memberships = () => {
     membershipType: ''
   });
 
-  const handleChange = (e) => {
+  // Memoized handleChange for form inputs
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
-  };
+  }, []);
 
-  const handleSubmit = (e) => {
+  // Memoized handleSubmit for form submission
+  const handleSubmit = useCallback((e) => {
     e.preventDefault();
     console.log('Formulario enviado:', formData);
     alert('Gracias por tu interés. Nos pondremos en contacto contigo pronto.');
-    setFormData({
+    setFormData({ // Reset form after submission
       name: '',
       email: '',
-      phone: '',
+    // Security: Clear sensitive data like phone number after submission
+      phone: '', 
       message: '',
       membershipType: ''
     });
-  };
+  }, [formData]); // Dependency on formData to ensure latest state is captured
 
   const membershipTypes = [
     {
@@ -92,7 +94,7 @@ const Memberships = () => {
       ],
       buttonText: "Hazte Rider",
       popular: false,
-      onClick: () => console.log("Rider membership selected")
+      onClick: () => console.log("Rider membership selected") // Placeholder for actual navigation/action
     },
     {
       name: "Pro",
@@ -110,7 +112,7 @@ const Memberships = () => {
       ],
       buttonText: "Hazte Pro",
       popular: true,
-      onClick: () => console.log("Pro membership selected")
+      onClick: () => console.log("Pro membership selected") // Placeholder for actual navigation/action
     }
   ];
 
@@ -128,8 +130,9 @@ const Memberships = () => {
           <a 
             href="#memberships" 
             className="bg-red-600 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-flex items-center"
+            aria-label="Ver nuestras opciones de membresía" // Added aria-label for accessibility
           >
-            Ver Membresías <FaChevronRight className="ml-2" />
+            Ver Membresías <FaChevronRight className="ml-2" aria-hidden="true" /> {/* Added aria-hidden */}
           </a>
         </div>
       </div>
@@ -142,7 +145,7 @@ const Memberships = () => {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
               <div className="text-green-400 mb-4">
-                <FaUsers className="h-12 w-12" />
+                <FaUsers className="h-12 w-12" aria-hidden="true" /> {/* Added aria-hidden */}
               </div>
               <h3 className="text-xl font-semibold mb-3 text-gray-800">Hermandad</h3>
               <p className="text-gray-600">
@@ -152,7 +155,7 @@ const Memberships = () => {
             
             <div className="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
               <div className="text-green-400 mb-4">
-                <FaBolt className="h-12 w-12" />
+                <FaBolt className="h-12 w-12" aria-hidden="true" /> {/* Added aria-hidden */}
               </div>
               <h3 className="text-xl font-semibold mb-3 text-gray-800">Espíritu Aventurero</h3>
               <p className="text-gray-600">
@@ -162,7 +165,7 @@ const Memberships = () => {
             
             <div className="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
               <div className="text-green-400 mb-4">
-                <FaLock className="h-12 w-12" />
+                <FaLock className="h-12 w-12" aria-hidden="true" /> {/* Added aria-hidden */}
               </div>
               <h3 className="text-xl font-semibold mb-3 text-gray-800">Respeto y Seguridad</h3>
               <p className="text-gray-600">
@@ -181,7 +184,7 @@ const Memberships = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
               <div className="bg-slate-950 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                <FaCalendarAlt className="h-8 w-8 text-green-400" />
+                <FaCalendarAlt className="h-8 w-8 text-green-400" aria-hidden="true" /> {/* Added aria-hidden */}
               </div>
               <h3 className="font-semibold mb-2 text-gray-800">Eventos exclusivos</h3>
               <p className="text-gray-600 text-sm">Participa en rodadas, tours y actividades sociales organizadas por el club.</p>
@@ -189,7 +192,7 @@ const Memberships = () => {
             
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
               <div className="bg-slate-950 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                <FaShieldAlt className="h-8 w-8 text-green-400" />
+                <FaShieldAlt className="h-8 w-8 text-green-400" aria-hidden="true" /> {/* Added aria-hidden */}
               </div>
               <h3 className="font-semibold mb-2 text-gray-800">Asistencia en ruta</h3>
               <p className="text-gray-600 text-sm">Servicio de asistencia técnica y emergencias disponible 24/7 según tu membresía.</p>
@@ -197,7 +200,7 @@ const Memberships = () => {
             
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
               <div className="bg-slate-950 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                <TbDiscount className="h-8 w-8 text-green-400" />
+                <TbDiscount className="h-8 w-8 text-green-400" aria-hidden="true" /> {/* Added aria-hidden */}
               </div>
               <h3 className="font-semibold mb-2 text-gray-800">Descuentos exclusivos</h3>
               <p className="text-gray-600 text-sm">Accede a descuentos en merchandising, talleres y servicios aliados.</p>
@@ -205,7 +208,7 @@ const Memberships = () => {
             
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
               <div className="bg-slate-950 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                <FaGift className="h-8 w-8 text-green-400" />
+                <FaGift className="h-8 w-8 text-green-400" aria-hidden="true" /> {/* Added aria-hidden */}
               </div>
               <h3 className="font-semibold mb-2 text-gray-800">Kit de bienvenida</h3>
               <p className="text-gray-600 text-sm">Recibe un kit con indumentaria y accesorios según tu tipo de membresía.</p>
@@ -223,7 +226,7 @@ const Memberships = () => {
             <div className="space-y-4">
               <div className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
-                  <FaCheck className="h-6 w-6 text-green-400" />
+                  <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" /> {/* Added aria-hidden */}
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-700">Pasión por el motociclismo y alineación con los valores del club</p>
@@ -232,7 +235,7 @@ const Memberships = () => {
               
               <div className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
-                  <FaCheck className="h-6 w-6 text-green-400" />
+                  <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" /> {/* Added aria-hidden */}
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-700">Ser mayor de 18 años</p>
@@ -241,7 +244,7 @@ const Memberships = () => {
               
               <div className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
-                  <FaCheck className="h-6 w-6 text-green-400" />
+                  <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" /> {/* Added aria-hidden */}
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-700">Licencia de conducir motocicletas tipo A1 o A2 vigente</p>
@@ -250,7 +253,7 @@ const Memberships = () => {
               
               <div className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
-                  <FaCheck className="h-6 w-6 text-green-400" />
+                  <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" /> {/* Added aria-hidden */}
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-700">Motocicleta propia en buen estado y debidamente registrada</p>
@@ -259,7 +262,7 @@ const Memberships = () => {
               
               <div className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
-                  <FaCheck className="h-6 w-6 text-green-400" />
+                  <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" /> {/* Added aria-hidden */}
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-700">Compromiso de cumplir con el código de ética del club</p>
@@ -307,7 +310,7 @@ const Memberships = () => {
                   <ul className="space-y-3 mb-8">
                     {plan.features.map((feature, i) => (
                       <li key={i} className="flex items-start">
-                        <FaCheck className="h-5 w-5 text-green-400 mr-2 mt-0.5" />
+                        <FaCheck className="h-5 w-5 text-green-400 mr-2 mt-0.5" aria-hidden="true" /> {/* Added aria-hidden */}
                         <span className="text-slate-950">{feature}</span>
                       </li>
                     ))}
@@ -316,8 +319,9 @@ const Memberships = () => {
                   <button 
                     className={`w-full py-3 px-4 rounded-md font-bold text-white ${plan.popular ? 'bg-green-400 hover:bg-green-500' : 'bg-slate-950 hover:bg-slate-900'} transition duration-300 flex items-center justify-center`}
                     onClick={plan.onClick}
+                    aria-label={`Seleccionar membresía ${plan.name}`} // Added aria-label for accessibility
                   >
-                    {plan.buttonText} <FaChevronRight className="ml-2" />
+                    {plan.buttonText} <FaChevronRight className="ml-2" aria-hidden="true" /> {/* Added aria-hidden */}
                   </button>
                 </div>
               </div>
@@ -335,7 +339,7 @@ const Memberships = () => {
             <div className="bg-blue-800 p-6 rounded-lg">
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mr-4">
-                  <GiFullMotorcycleHelmet className="text-xl text-white" />
+                  <GiFullMotorcycleHelmet className="text-xl text-white" aria-hidden="true" /> {/* Added aria-hidden */}
                 </div>
                 <div>
                   <h4 className="font-bold">Andrea Martínez</h4>
@@ -348,7 +352,7 @@ const Memberships = () => {
             <div className="bg-blue-800 p-6 rounded-lg">
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mr-4">
-                  <GiSteeringWheel className="text-xl text-white" />
+                  <GiSteeringWheel className="text-xl text-white" aria-hidden="true" /> {/* Added aria-hidden */}
                 </div>
                 <div>
                   <h4 className="font-bold">Carlos Rodríguez</h4>
@@ -361,7 +365,7 @@ const Memberships = () => {
             <div className="bg-blue-800 p-6 rounded-lg">
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mr-4">
-                  <GiRoad className="text-xl text-white" />
+                  <GiRoad className="text-xl text-white" aria-hidden="true" /> {/* Added aria-hidden */}
                 </div>
                 <div>
                   <h4 className="font-bold">Luisa Sánchez</h4>
@@ -383,40 +387,45 @@ const Memberships = () => {
             <div className="aspect-w-16 aspect-h-9">
               <img 
                 src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" 
-                alt="Rodada BSK" 
+                alt="Rodada BSK en carretera" // Descriptive alt text
                 className="w-full h-full object-cover rounded-lg"
+                loading="lazy" // Lazy loading for images
               />
             </div>
             <div className="aspect-w-16 aspect-h-9">
               <img 
                 src="https://images.unsplash.com/photo-1580310614655-644a4b893a6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" 
-                alt="Evento BSK" 
+                alt="Evento de motociclistas BSK" // Descriptive alt text
                 className="w-full h-full object-cover rounded-lg"
+                loading="lazy"
               />
             </div>
             <div className="aspect-w-16 aspect-h-9">
               <img 
                 src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" 
-                alt="Comunidad BSK" 
+                alt="Comunidad BSK reunida" // Descriptive alt text
                 className="w-full h-full object-cover rounded-lg"
+                loading="lazy"
               />
             </div>
             <div className="aspect-w-16 aspect-h-9">
               <img 
                 src="https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" 
-                alt="Aventura BSK" 
+                alt="Aventura en moto con BSK" // Descriptive alt text
                 className="w-full h-full object-cover rounded-lg"
+                loading="lazy"
               />
             </div>
           </div>
           
           <div className="text-center mt-8">
             <a 
-              href="#" 
+              href="#" // Consider a proper link to a gallery page
               className="inline-flex items-center text-blue-600 font-semibold hover:text-blue-800"
+              aria-label="Ver más fotos de nuestras actividades" // Added aria-label for accessibility
             >
               Ver más fotos de nuestras actividades
-              <FaChevronRight className="h-5 w-5 ml-1" />
+              <FaChevronRight className="h-5 w-5 ml-1" aria-hidden="true" /> {/* Added aria-hidden */}
             </a>
           </div>
         </div>
@@ -433,17 +442,17 @@ const Memberships = () => {
                 
                 <div className="space-y-4">
                   <div className="flex items-start">
-                    <FaEnvelope className="h-6 w-6 mr-3 text-blue-300" />
-                    <span>soporte@bskmt.xyz</span>
+                    <FaEnvelope className="h-6 w-6 mr-3 text-blue-300" aria-hidden="true" /> {/* Added aria-hidden */}
+                    <span><a href="mailto:soporte@bskmt.xyz" className="text-blue-300 hover:underline">soporte@bskmt.xyz</a></span>
                   </div>
                   
                   <div className="flex items-start">
-                    <FaPhone className="h-6 w-6 mr-3 text-blue-300" />
-                    <span>+57 318 294 1684</span>
+                    <FaPhone className="h-6 w-6 mr-3 text-blue-300" aria-hidden="true" /> {/* Added aria-hidden */}
+                    <span><a href="tel:+573182941684" className="text-blue-300 hover:underline">+57 318 294 1684</a></span>
                   </div>
                   
                   <div className="flex items-start">
-                    <FaMapMarkerAlt className="h-6 w-6 mr-3 text-blue-300" />
+                    <FaMapMarkerAlt className="h-6 w-6 mr-3 text-blue-300" aria-hidden="true" /> {/* Added aria-hidden */}
                     <span>Carrera 5 A No. 36 A Sur 28, Ayacucho, San Cristóbal, Bogotá</span>
                   </div>
                 </div>
@@ -451,43 +460,46 @@ const Memberships = () => {
               
               <div className="md:w-1/2 p-8 md:p-12">
                 <h3 className="text-2xl font-bold mb-6 text-gray-800">Contáctanos</h3>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} aria-label="Formulario de contacto para membresías">
                   <div className="mb-4">
-                    <label htmlFor="name" className="block text-gray-700 font-medium mb-2">Nombre completo</label>
+                    <label htmlFor="contact-name-membership" className="block text-gray-700 font-medium mb-2">Nombre completo</label>
                     <input 
                       type="text" 
-                      id="name" 
+                      id="contact-name-membership" 
                       name="name" 
                       value={formData.name}
                       onChange={handleChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
                       required 
+                      aria-required="true"
                     />
                   </div>
                   
                   <div className="mb-4">
-                    <label htmlFor="email" className="block text-gray-700 font-medium mb-2">Correo electrónico</label>
+                    <label htmlFor="contact-email-membership" className="block text-gray-700 font-medium mb-2">Correo electrónico</label>
                     <input 
                       type="email" 
-                      id="email" 
+                      id="contact-email-membership" 
                       name="email" 
                       value={formData.email}
                       onChange={handleChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
                       required 
+                      aria-required="true"
                     />
                   </div>
                   
                   <div className="mb-4">
-                    <label htmlFor="phone" className="block text-gray-700 font-medium mb-2">Teléfono</label>
+                    <label htmlFor="contact-phone-membership" className="block text-gray-700 font-medium mb-2">Teléfono</label>
                     <input 
                       type="tel" 
-                      id="phone" 
+                      id="contact-phone-membership" 
                       name="phone" 
                       value={formData.phone}
                       onChange={handleChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
                       required 
+                      aria-required="true"
                     />
                   </div>
                   
@@ -508,9 +520,9 @@ const Memberships = () => {
                   </div>
                   
                   <div className="mb-6">
-                    <label htmlFor="message" className="block text-gray-700 font-medium mb-2">Mensaje</label>
+                    <label htmlFor="contact-message-membership" className="block text-gray-700 font-medium mb-2">Mensaje</label>
                     <textarea 
-                      id="message" 
+                      id="contact-message-membership" 
                       name="message" 
                       rows="4" 
                       value={formData.message}
@@ -523,7 +535,7 @@ const Memberships = () => {
                     type="submit" 
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-md transition duration-300 flex items-center justify-center"
                   >
-                    Enviar mensaje <FaPaperPlane className="ml-2" />
+                    Enviar mensaje <FaPaperPlane className="ml-2" aria-hidden="true" /> {/* Added aria-hidden */}
                   </button>
                 </form>
               </div>
@@ -540,8 +552,9 @@ const Memberships = () => {
           <a 
             href="#memberships" 
             className="bg-white hover:bg-gray-100 text-blue-800 font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-flex items-center"
+            aria-label="Ver nuestras opciones de membresía" // Added aria-label for accessibility
           >
-            Ver Membresías <FaChevronRight className="ml-2" />
+            Ver Membresías <FaChevronRight className="ml-2" aria-hidden="true" /> {/* Added aria-hidden */}
           </a>
         </div>
       </div>

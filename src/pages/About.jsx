@@ -35,11 +35,9 @@ const About = () => {
                 una comunidad donde la camaradería y el respeto fueran los pilares fundamentales.
               </p>
             </div>
-            <div className="bg-gray-800 rounded-lg overflow-hidden h-64 md:h-96">
-              {/* Placeholder para imagen histórica */}
-              <div className="w-full h-full bg-gray-700 flex items-center justify-center">
-                <FaMotorcycle className="text-6xl text-accent" />
-              </div>
+            <div className="bg-gray-800 rounded-lg overflow-hidden h-64 md:h-96 flex items-center justify-center">
+              {/* Placeholder para imagen histórica - Added alt attribute for accessibility */}
+              <FaMotorcycle className="text-6xl text-accent" aria-label="Motocicleta" />
             </div>
           </article>
 
@@ -60,11 +58,9 @@ const About = () => {
                 compromiso con nuestra comunidad.
               </p>
             </div>
-            <div className="order-2 md:order-1 bg-gray-800 rounded-lg overflow-hidden h-64 md:h-96">
-              {/* Placeholder para imagen de crecimiento */}
-              <div className="w-full h-full bg-gray-700 flex items-center justify-center">
-                <FaHandsHelping className="text-6xl text-accent" />
-              </div>
+            <div className="order-2 md:order-1 bg-gray-800 rounded-lg overflow-hidden h-64 md:h-96 flex items-center justify-center">
+              {/* Placeholder para imagen de crecimiento - Added alt attribute for accessibility */}
+              <FaHandsHelping className="text-6xl text-accent" aria-label="Manos ayudando" />
             </div>
           </article>
         </div>
@@ -81,7 +77,7 @@ const About = () => {
             {/* Misión */}
             <article className="bg-primary-dark p-8 rounded-lg shadow-lg">
               <div className="text-accent text-4xl mb-4">
-                <FaMotorcycle />
+                <FaMotorcycle aria-label="Icono de motocicleta" /> {/* Added aria-label for accessibility */}
               </div>
               <h3 className="text-2xl font-semibold mb-4">Misión</h3>
               <p>
@@ -93,7 +89,7 @@ const About = () => {
             {/* Visión */}
             <article className="bg-primary-dark p-8 rounded-lg shadow-lg">
               <div className="text-accent text-4xl mb-4">
-                <FaShieldAlt />
+                <FaShieldAlt aria-label="Icono de escudo" /> {/* Added aria-label for accessibility */}
               </div>
               <h3 className="text-2xl font-semibold mb-4">Visión</h3>
               <p>
@@ -106,7 +102,7 @@ const About = () => {
             {/* Valores */}
             <article className="bg-primary-dark p-8 rounded-lg shadow-lg">
               <div className="text-accent text-4xl mb-4">
-                <FaHandsHelping />
+                <FaHandsHelping aria-label="Icono de manos ayudando" /> {/* Added aria-label for accessibility */}
               </div>
               <h3 className="text-2xl font-semibold mb-4">Valores</h3>
               <ul className="space-y-2">
@@ -203,7 +199,8 @@ const About = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {[1, 2, 3, 4, 5, 6].map((item) => (
               <div key={item} className="aspect-square bg-gray-700 rounded-lg overflow-hidden flex items-center justify-center">
-                <FaMotorcycle className="text-4xl text-accent" />
+                {/* Added alt attribute for accessibility */}
+                <FaMotorcycle className="text-4xl text-accent" aria-label={`Imagen de motocicleta ${item}`} />
               </div>
             ))}
           </div>

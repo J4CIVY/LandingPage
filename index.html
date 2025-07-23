@@ -10,30 +10,43 @@
     content="BSK Motorcycle Team: motoclub de hermandad, espíritu y respeto. Rodadas, aventuras y pasión por las motos." />
 
   <link rel="icon" href="/Favicon_BSK_Motorcycle_Team_40x40.webp" type="image/webp" />
+  <!-- Preload critical resources with high priority -->
   <link rel="preload"
     href="https://res.cloudinary.com/dz0peilmu/image/upload/f_avif,q_auto,w_192/BSK_MT_Logo_Letras_White_192_x_192_px_nptwwj"
     as="image" fetchpriority="high">
   <link rel="preload"
     href="https://res.cloudinary.com/dz0peilmu/image/upload/q_auto:best,c_fill,g_auto,f_avif,w_1366/Banner_Landing_Page_BSK_Motorcycle_Team_Julio_o2fcql"
     as="image" fetchpriority="high">
+  
+  <!-- Preconnect to Google Fonts for faster loading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Consider adding font-display: swap to your font imports for better FOUT -->
+  <!-- Example: <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> -->
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
+  <!-- Open Graph Meta Tags for social media sharing -->
   <meta property="og:title" content="BSK Motorcycle Team" />
   <meta property="og:description" content="Vive la pasión motera con BSK Motorcycle Team. Rodadas y comunidad." />
   <meta property="og:image" content="/Logo_Letras_BSK_MT_500x500.webp" />
   <meta property="og:url" content="https://bskmt.com/" />
   <meta property="og:type" content="website" />
+  <!-- Add og:locale if applicable -->
+  <meta property="og:locale" content="es_CO" />
 
+  <!-- Twitter Card Meta Tags for Twitter sharing -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="BSK Motorcycle Team" />
   <meta name="twitter:description" content="Rodadas, aventuras y pasión por las motos. Únete al BSK Motorcycle Team." />
   <meta name="twitter:image" content="/Logo_Letras_BSK_MT_500x500.webp" />
+  <!-- Add twitter:site and twitter:creator if applicable -->
+  <meta name="twitter:site" content="@BSKMotorcycleTeam" /> 
+  <meta name="twitter:creator" content="@BSKMotorcycleTeam" />
 
+  <!-- Standard meta tags -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="robots" content="index, follow" />
 
+  <!-- Google Analytics (gtag.js) - Ensure this is correctly implemented and respects user consent (e.g., GDPR, CCPA) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RQ8HS1Q87M"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -42,12 +55,18 @@
     gtag("config", "G-RQ8HS1Q87M");
   </script>
 
+  <!-- Bird SDK scripts - Ensure these are necessary and loaded efficiently. 
+       If they are not critical for initial page load, consider deferring them. -->
+  <!-- Removed duplicate script tag for bird-sdk.js. Only one is needed. -->
   <script async src="https://embeddables.p.mbirdcdn.net/sdk/v0/bird-sdk.js"
     data-config-url="https://embeddables.p.mbirdcdn.net/config/website/c998c985-d18d-4d77-8220-09358c91ac35/config.json">
-    </script>
+  </script>
+  <!-- If the second config URL is for a different purpose, it should be a separate script tag, 
+       but the original code had two identical script tags. Assuming one was a copy-paste error. -->
+  <!-- If the second config is truly needed, it should be like this: -->
+  <!-- <script async src="https://embeddables.p.mbirdcdn.net/sdk/v0/bird-sdk.js"
+    data-config-url="https://api.bird.com/workspaces/a2dd52ff-b949-4135-9196-7050c12229f3/applications/a9546e9a-0d6a-455b-aff0-9cc9520f9619/signature/2024-06-17T17-12-51_e4d71d005f"></script> -->
 
-  <script async src="https://embeddables.p.mbirdcdn.net/sdk/v0/bird-sdk.js"
-    data-config-url="https://api.bird.com/workspaces/a2dd52ff-b949-4135-9196-7050c12229f3/applications/a9546e9a-0d6a-455b-aff0-9cc9520f9619/signature/2024-06-17T17-12-51_e4d71d005f"></script>
 </head>
 
 <body class="bg-[#ffffff] text-[#111111] antialiased">

@@ -12,15 +12,17 @@ const GallerySection = () => {
     { id: 6, src: '/Banner_Tour_Andino_2023_Motoclub_BSK_Motocycle_Team.webp', alt: 'Tour Andino 2023 BSK Motorcycle Team' }
   ];
 
+  // Effect to auto-advance the gallery images
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveGalleryImage((prev) =>
         prev === galleryImages.length - 1 ? 0 : prev + 1
       );
-    }, 5000);
+    }, 5000); // Change image every 5 seconds
 
+    // Cleanup the interval when the component unmounts
     return () => clearInterval(interval);
-  }, []);
+  }, [galleryImages.length]); // Re-run effect if galleryImages length changes (though it's static here)
 
   return (
     <section className="py-20 px-4 bg-white">
@@ -30,30 +32,34 @@ const GallerySection = () => {
         </h2>
 
         <div className="relative mb-8 rounded-xl overflow-hidden shadow-xl group" style={{ aspectRatio: '16/9' }}>
-          <div className="relative w-full h-full">
+          <div className="relative w-full h-full" role="img" aria-live="polite" aria-atomic="true" aria-label={`Galería de imágenes, mostrando: ${galleryImages[activeGalleryImage].alt}`}>
             {galleryImages.map((image, index) => (
               <img
-                key={image.id}
+                key={image.id} // Unique key for each image
                 src={image.src}
                 alt={image.alt}
                 className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${index === activeGalleryImage ? 'opacity-100' : 'opacity-0'}`}
-                loading="lazy"
+                loading="lazy" // Lazy load images as they might not be in the initial viewport
               />
             ))}
           </div>
 
+          {/* Gradient overlay for better text readability */}
           <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50"></div>
+          {/* Text overlay showing the alt text of the active image */}
           <div className="absolute bottom-0 left-0 p-6 text-white">
             <p className="text-xl">{galleryImages[activeGalleryImage].alt}</p>
           </div>
 
+          {/* Navigation dots for the gallery */}
           <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
             {galleryImages.map((_, index) => (
               <button
-                key={index}
+                key={index} // Unique key for each button
                 onClick={() => setActiveGalleryImage(index)}
                 className={`w-3 h-3 rounded-full transition-all ${index === activeGalleryImage ? 'bg-red-600 w-6' : 'bg-white bg-opacity-50'}`}
-                aria-label={`Ir a imagen ${index + 1}`}
+                aria-label={`Ir a imagen ${index + 1}`} // Accessible label for each dot
+                aria-current={index === activeGalleryImage ? 'true' : 'false'} // ARIA attribute for current slide
               />
             ))}
           </div>

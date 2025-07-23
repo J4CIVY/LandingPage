@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaUser, FaPhone, FaEnvelope, FaMapMarkerAlt, FaBriefcase, FaHeartbeat, FaMotorcycle, FaShieldAlt, FaLock } from 'react-icons/fa';
 import { GiSteelwingEmblem } from 'react-icons/gi';
-import axios from 'axios';
+import api from '../api'; // Import the configured axios instance
 import { useNavigate } from 'react-router-dom';
 
 const UserRegister = () => {
-  const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm();
+  const { register, handleSubmit, formState: { errors }, watch } = useForm(); // Removed setValue as it was unused
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
@@ -22,33 +22,39 @@ const UserRegister = () => {
       // Calculate age from birthDate
       const birthDate = new Date(data.birthDate);
       const age = new Date().getFullYear() - birthDate.getFullYear();
-      data.age = age;
-
+      
       // Prepare data for API
       const userData = {
         ...data,
-        role: 'Membresia Friend',
-        temporaryPassword: false
+        age: age, // Add calculated age to userData
+        role: 'Membresia Friend', // Ensure role is correctly set
+        temporaryPassword: false // Assuming this means the password provided is final
       };
 
-      const response = await axios.post('https://api.bskmt.com/users', userData);
+      // Use the imported api instance for the request
+      const response = await api.post('/users', userData);
       
       if (response.data.status === 'success') {
-        navigate('/registration-success');
+        // Pass the registered email to the success page
+        navigate('/registration-success', { state: { userEmail: data.email } });
       } else {
+        // Generic error message for unexpected success response structure
         setSubmitError('Error en el registro. Por favor verifica tus datos.');
       }
     } catch (error) {
       console.error('Registration error:', error);
       if (error.response) {
+        // Handle specific API error messages
         if (error.response.data.message.includes('document number')) {
           setSubmitError('El número de documento ya está registrado.');
         } else if (error.response.data.message.includes('email')) {
           setSubmitError('El correo electrónico ya está registrado.');
         } else {
-          setSubmitError('Error en el servidor. Por favor intenta más tarde.');
+          // Fallback for other server-side errors
+          setSubmitError(error.response.data.message || 'Error en el servidor. Por favor intenta más tarde.');
         }
       } else {
+        // Handle network or other client-side errors
         setSubmitError('Error de conexión. Verifica tu conexión a internet.');
       }
     } finally {
@@ -56,8 +62,49 @@ const UserRegister = () => {
     }
   };
 
-  const nextStep = () => {
-    setCurrentStep(prev => Math.min(prev + 1, totalSteps));
+  // Function to advance to the next step, validating current step's fields
+  const handleNextStep = async () => {
+    let isValid = true;
+    // Manually trigger validation for the current step's fields
+    switch (currentStep) {
+      case 1:
+        isValid = await handleSubmit(() => {})(null); // Pass null to prevent actual form submission
+        break;
+      case 2:
+        isValid = await handleSubmit(() => {})(null);
+        break;
+      case 3:
+        // No required fields in step 3, so it's always valid to proceed
+        isValid = true;
+        break;
+      case 4:
+        // No required fields in step 4, always valid
+        isValid = true;
+        break;
+      case 5:
+        // No required fields in step 5, always valid
+        isValid = true;
+        break;
+      case 6:
+        // No required fields in step 6, always valid
+        isValid = true;
+        break;
+      case 7:
+        isValid = await handleSubmit(() => {})(null);
+        break;
+      default:
+        isValid = true;
+    }
+
+    if (isValid) {
+      setCurrentStep(prev => Math.min(prev + 1, totalSteps));
+    } else {
+      // Scroll to the first error if validation fails
+      const firstError = document.querySelector('.border-red-500');
+      if (firstError) {
+        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
   };
 
   const prevStep = () => {
@@ -66,16 +113,18 @@ const UserRegister = () => {
 
   const renderStepIndicator = () => {
     return (
-      <div className="flex justify-center mb-8">
+      <div className="flex justify-center items-center mb-8 space-x-2"> {/* Added space-x-2 for spacing */}
         {Array.from({ length: totalSteps }).map((_, index) => (
           <React.Fragment key={index}>
             <div 
-              className={`w-8 h-8 rounded-full flex items-center justify-center ${currentStep > index + 1 ? 'bg-green-500' : currentStep === index + 1 ? 'bg-red-600' : 'bg-gray-300'} text-white font-medium`}
+              className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-medium text-sm ${currentStep > index + 1 ? 'bg-green-500' : currentStep === index + 1 ? 'bg-red-600' : 'bg-gray-300'}`}
+              aria-current={currentStep === index + 1 ? 'step' : undefined} // ARIA for current step
+              aria-label={`Paso ${index + 1} de ${totalSteps}`}
             >
               {index + 1}
             </div>
             {index < totalSteps - 1 && (
-              <div className={`h-1 w-8 self-center ${currentStep > index + 1 ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+              <div className={`h-1 flex-grow ${currentStep > index + 1 ? 'bg-green-500' : 'bg-gray-300'}`}></div> // Use flex-grow for line
             )}
           </React.Fragment>
         ))}
@@ -88,7 +137,7 @@ const UserRegister = () => {
       <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
         <div className="p-6">
           <div className="flex items-center justify-center mb-6">
-            <GiSteelwingEmblem className="text-red-600 text-4xl mr-2" />
+            <GiSteelwingEmblem className="text-red-600 text-4xl mr-2" aria-hidden="true" />
             <h1 className="text-2xl font-bold text-gray-900">Registro de Miembro Friend</h1>
           </div>
 
@@ -99,18 +148,19 @@ const UserRegister = () => {
             {currentStep === 1 && (
               <div className="space-y-6">
                 <h2 className="text-xl font-semibold text-gray-800 flex items-center">
-                  <FaUser className="mr-2 text-red-600" /> Información Personal
+                  <FaUser className="mr-2 text-red-600" aria-hidden="true" /> Información Personal
                 </h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="documentType" className="block text-sm font-medium text-gray-700 mb-1">
-                      Tipo de Documento *
+                      Tipo de Documento <span className="text-red-500">*</span>
                     </label>
                     <select
                       id="documentType"
                       {...register("documentType", { required: "Campo obligatorio" })}
                       className={`block w-full px-3 py-2 border ${errors.documentType ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                      aria-invalid={errors.documentType ? "true" : "false"}
                     >
                       <option value="">Seleccione...</option>
                       <option value="CC">Cédula de Ciudadanía</option>
@@ -121,13 +171,13 @@ const UserRegister = () => {
                       <option value="OTRO">Otro</option>
                     </select>
                     {errors.documentType && (
-                      <p className="mt-1 text-sm text-red-600">{errors.documentType.message}</p>
+                      <p role="alert" className="mt-1 text-sm text-red-600">{errors.documentType.message}</p>
                     )}
                   </div>
 
                   <div>
                     <label htmlFor="documentNumber" className="block text-sm font-medium text-gray-700 mb-1">
-                      Número de Documento *
+                      Número de Documento <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -140,9 +190,10 @@ const UserRegister = () => {
                         }
                       })}
                       className={`block w-full px-3 py-2 border ${errors.documentNumber ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                      aria-invalid={errors.documentNumber ? "true" : "false"}
                     />
                     {errors.documentNumber && (
-                      <p className="mt-1 text-sm text-red-600">{errors.documentNumber.message}</p>
+                      <p role="alert" className="mt-1 text-sm text-red-600">{errors.documentNumber.message}</p>
                     )}
                   </div>
                 </div>
@@ -150,7 +201,7 @@ const UserRegister = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
-                      Nombres *
+                      Nombres <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -163,15 +214,16 @@ const UserRegister = () => {
                         }
                       })}
                       className={`block w-full px-3 py-2 border ${errors.firstName ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                      aria-invalid={errors.firstName ? "true" : "false"}
                     />
                     {errors.firstName && (
-                      <p className="mt-1 text-sm text-red-600">{errors.firstName.message}</p>
+                      <p role="alert" className="mt-1 text-sm text-red-600">{errors.firstName.message}</p>
                     )}
                   </div>
 
                   <div>
                     <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
-                      Apellidos *
+                      Apellidos <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -184,9 +236,10 @@ const UserRegister = () => {
                         }
                       })}
                       className={`block w-full px-3 py-2 border ${errors.lastName ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                      aria-invalid={errors.lastName ? "true" : "false"}
                     />
                     {errors.lastName && (
-                      <p className="mt-1 text-sm text-red-600">{errors.lastName.message}</p>
+                      <p role="alert" className="mt-1 text-sm text-red-600">{errors.lastName.message}</p>
                     )}
                   </div>
                 </div>
@@ -194,7 +247,7 @@ const UserRegister = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="birthDate" className="block text-sm font-medium text-gray-700 mb-1">
-                      Fecha de Nacimiento *
+                      Fecha de Nacimiento <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="date"
@@ -204,13 +257,18 @@ const UserRegister = () => {
                         validate: value => {
                           const selectedDate = new Date(value);
                           const today = new Date();
+                          // Set hours, minutes, seconds, milliseconds to 0 for accurate date comparison
+                          today.setHours(0, 0, 0, 0); 
+                          selectedDate.setHours(0, 0, 0, 0);
                           return selectedDate < today || "La fecha debe ser en el pasado";
                         }
                       })}
                       className={`block w-full px-3 py-2 border ${errors.birthDate ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                      aria-invalid={errors.birthDate ? "true" : "false"}
+                      max={new Date().toISOString().split('T')[0]} // Prevent selecting future dates
                     />
                     {errors.birthDate && (
-                      <p className="mt-1 text-sm text-red-600">{errors.birthDate.message}</p>
+                      <p role="alert" className="mt-1 text-sm text-red-600">{errors.birthDate.message}</p>
                     )}
                   </div>
 
@@ -244,9 +302,10 @@ const UserRegister = () => {
                       }
                     })}
                     className={`block w-full px-3 py-2 border ${errors.genderIdentity ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                    aria-invalid={errors.genderIdentity ? "true" : "false"}
                   />
                   {errors.genderIdentity && (
-                    <p className="mt-1 text-sm text-red-600">{errors.genderIdentity.message}</p>
+                    <p role="alert" className="mt-1 text-sm text-red-600">{errors.genderIdentity.message}</p>
                   )}
                 </div>
               </div>
@@ -256,13 +315,13 @@ const UserRegister = () => {
             {currentStep === 2 && (
               <div className="space-y-6">
                 <h2 className="text-xl font-semibold text-gray-800 flex items-center">
-                  <FaPhone className="mr-2 text-red-600" /> Información de Contacto
+                  <FaPhone className="mr-2 text-red-600" aria-hidden="true" /> Información de Contacto
                 </h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                      Correo Electrónico *
+                      Correo Electrónico <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="email"
@@ -275,15 +334,16 @@ const UserRegister = () => {
                         }
                       })}
                       className={`block w-full px-3 py-2 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                      aria-invalid={errors.email ? "true" : "false"}
                     />
                     {errors.email && (
-                      <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+                      <p role="alert" className="mt-1 text-sm text-red-600">{errors.email.message}</p>
                     )}
                   </div>
 
                   <div>
                     <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-                      Teléfono Celular *
+                      Teléfono Celular <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="tel"
@@ -292,13 +352,14 @@ const UserRegister = () => {
                         required: "Campo obligatorio",
                         pattern: {
                           value: /^[0-9]{10,15}$/,
-                          message: "Número de teléfono inválido"
+                          message: "Número de teléfono inválido (10-15 dígitos numéricos)"
                         }
                       })}
                       className={`block w-full px-3 py-2 border ${errors.phone ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                      aria-invalid={errors.phone ? "true" : "false"}
                     />
                     {errors.phone && (
-                      <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
+                      <p role="alert" className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
                     )}
                   </div>
                 </div>
@@ -313,20 +374,21 @@ const UserRegister = () => {
                     {...register("whatsapp", { 
                       pattern: {
                         value: /^[0-9]{10,15}$/,
-                        message: "Número de WhatsApp inválido"
+                        message: "Número de WhatsApp inválido (10-15 dígitos numéricos)"
                       }
                     })}
                     className={`block w-full px-3 py-2 border ${errors.whatsapp ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                    aria-invalid={errors.whatsapp ? "true" : "false"}
                   />
                   {errors.whatsapp && (
-                    <p className="mt-1 text-sm text-red-600">{errors.whatsapp.message}</p>
+                    <p role="alert" className="mt-1 text-sm text-red-600">{errors.whatsapp.message}</p>
                   )}
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">
-                      Ciudad *
+                      Ciudad <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -339,9 +401,10 @@ const UserRegister = () => {
                         }
                       })}
                       className={`block w-full px-3 py-2 border ${errors.city ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                      aria-invalid={errors.city ? "true" : "false"}
                     />
                     {errors.city && (
-                      <p className="mt-1 text-sm text-red-600">{errors.city.message}</p>
+                      <p role="alert" className="mt-1 text-sm text-red-600">{errors.city.message}</p>
                     )}
                   </div>
 
@@ -373,9 +436,10 @@ const UserRegister = () => {
                       }
                     })}
                     className={`block w-full px-3 py-2 border ${errors.address ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                    aria-invalid={errors.address ? "true" : "false"}
                   />
                   {errors.address && (
-                    <p className="mt-1 text-sm text-red-600">{errors.address.message}</p>
+                    <p role="alert" className="mt-1 text-sm text-red-600">{errors.address.message}</p>
                   )}
                 </div>
 
@@ -394,9 +458,10 @@ const UserRegister = () => {
                         }
                       })}
                       className={`block w-full px-3 py-2 border ${errors.neighborhood ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                      aria-invalid={errors.neighborhood ? "true" : "false"}
                     />
                     {errors.neighborhood && (
-                      <p className="mt-1 text-sm text-red-600">{errors.neighborhood.message}</p>
+                      <p role="alert" className="mt-1 text-sm text-red-600">{errors.neighborhood.message}</p>
                     )}
                   </div>
 
@@ -419,7 +484,7 @@ const UserRegister = () => {
             {currentStep === 3 && (
               <div className="space-y-6">
                 <h2 className="text-xl font-semibold text-gray-800 flex items-center">
-                  <FaBriefcase className="mr-2 text-red-600" /> Información Profesional
+                  <FaBriefcase className="mr-2 text-red-600" aria-hidden="true" /> Información Profesional
                 </h2>
                 
                 <div>
@@ -436,9 +501,10 @@ const UserRegister = () => {
                       }
                     })}
                     className={`block w-full px-3 py-2 border ${errors.occupation ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                    aria-invalid={errors.occupation ? "true" : "false"}
                   />
                   {errors.occupation && (
-                    <p className="mt-1 text-sm text-red-600">{errors.occupation.message}</p>
+                    <p role="alert" className="mt-1 text-sm text-red-600">{errors.occupation.message}</p>
                   )}
                 </div>
 
@@ -456,9 +522,10 @@ const UserRegister = () => {
                       }
                     })}
                     className={`block w-full px-3 py-2 border ${errors.discipline ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                    aria-invalid={errors.discipline ? "true" : "false"}
                   />
                   {errors.discipline && (
-                    <p className="mt-1 text-sm text-red-600">{errors.discipline.message}</p>
+                    <p role="alert" className="mt-1 text-sm text-red-600">{errors.discipline.message}</p>
                   )}
                 </div>
               </div>
@@ -468,7 +535,7 @@ const UserRegister = () => {
             {currentStep === 4 && (
               <div className="space-y-6">
                 <h2 className="text-xl font-semibold text-gray-800 flex items-center">
-                  <FaHeartbeat className="mr-2 text-red-600" /> Información Médica
+                  <FaHeartbeat className="mr-2 text-red-600" aria-hidden="true" /> Información Médica
                 </h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -519,9 +586,10 @@ const UserRegister = () => {
                     })}
                     rows={3}
                     className={`block w-full px-3 py-2 border ${errors.allergies ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                    aria-invalid={errors.allergies ? "true" : "false"}
                   />
                   {errors.allergies && (
-                    <p className="mt-1 text-sm text-red-600">{errors.allergies.message}</p>
+                    <p role="alert" className="mt-1 text-sm text-red-600">{errors.allergies.message}</p>
                   )}
                 </div>
 
@@ -539,9 +607,10 @@ const UserRegister = () => {
                     })}
                     rows={3}
                     className={`block w-full px-3 py-2 border ${errors.physicalConditions ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                    aria-invalid={errors.physicalConditions ? "true" : "false"}
                   />
                   {errors.physicalConditions && (
-                    <p className="mt-1 text-sm text-red-600">{errors.physicalConditions.message}</p>
+                    <p role="alert" className="mt-1 text-sm text-red-600">{errors.physicalConditions.message}</p>
                   )}
                 </div>
 
@@ -559,9 +628,10 @@ const UserRegister = () => {
                     })}
                     rows={3}
                     className={`block w-full px-3 py-2 border ${errors.medicalTreatments ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                    aria-invalid={errors.medicalTreatments ? "true" : "false"}
                   />
                   {errors.medicalTreatments && (
-                    <p className="mt-1 text-sm text-red-600">{errors.medicalTreatments.message}</p>
+                    <p role="alert" className="mt-1 text-sm text-red-600">{errors.medicalTreatments.message}</p>
                   )}
                 </div>
 
@@ -579,9 +649,10 @@ const UserRegister = () => {
                     })}
                     rows={3}
                     className={`block w-full px-3 py-2 border ${errors.requiredMedications ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                    aria-invalid={errors.requiredMedications ? "true" : "false"}
                   />
                   {errors.requiredMedications && (
-                    <p className="mt-1 text-sm text-red-600">{errors.requiredMedications.message}</p>
+                    <p role="alert" className="mt-1 text-sm text-red-600">{errors.requiredMedications.message}</p>
                   )}
                 </div>
 
@@ -599,9 +670,10 @@ const UserRegister = () => {
                       }
                     })}
                     className={`block w-full px-3 py-2 border ${errors.healthInsurance ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                    aria-invalid={errors.healthInsurance ? "true" : "false"}
                   />
                   {errors.healthInsurance && (
-                    <p className="mt-1 text-sm text-red-600">{errors.healthInsurance.message}</p>
+                    <p role="alert" className="mt-1 text-sm text-red-600">{errors.healthInsurance.message}</p>
                   )}
                 </div>
               </div>
@@ -611,7 +683,7 @@ const UserRegister = () => {
             {currentStep === 5 && (
               <div className="space-y-6">
                 <h2 className="text-xl font-semibold text-gray-800 flex items-center">
-                  <FaShieldAlt className="mr-2 text-red-600" /> Contacto de Emergencia
+                  <FaShieldAlt className="mr-2 text-red-600" aria-hidden="true" /> Contacto de Emergencia
                 </h2>
                 
                 <div>
@@ -628,9 +700,10 @@ const UserRegister = () => {
                       }
                     })}
                     className={`block w-full px-3 py-2 border ${errors.emergencyContactName ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                    aria-invalid={errors.emergencyContactName ? "true" : "false"}
                   />
                   {errors.emergencyContactName && (
-                    <p className="mt-1 text-sm text-red-600">{errors.emergencyContactName.message}</p>
+                    <p role="alert" className="mt-1 text-sm text-red-600">{errors.emergencyContactName.message}</p>
                   )}
                 </div>
 
@@ -649,9 +722,10 @@ const UserRegister = () => {
                         }
                       })}
                       className={`block w-full px-3 py-2 border ${errors.emergencyContactRelationship ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                      aria-invalid={errors.emergencyContactRelationship ? "true" : "false"}
                     />
                     {errors.emergencyContactRelationship && (
-                      <p className="mt-1 text-sm text-red-600">{errors.emergencyContactRelationship.message}</p>
+                      <p role="alert" className="mt-1 text-sm text-red-600">{errors.emergencyContactRelationship.message}</p>
                     )}
                   </div>
 
@@ -665,13 +739,14 @@ const UserRegister = () => {
                       {...register("emergencyContactPhone", { 
                         pattern: {
                           value: /^[0-9]{10,15}$/,
-                          message: "Número de teléfono inválido"
+                          message: "Número de teléfono inválido (10-15 dígitos numéricos)"
                         }
                       })}
                       className={`block w-full px-3 py-2 border ${errors.emergencyContactPhone ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                      aria-invalid={errors.emergencyContactPhone ? "true" : "false"}
                     />
                     {errors.emergencyContactPhone && (
-                      <p className="mt-1 text-sm text-red-600">{errors.emergencyContactPhone.message}</p>
+                      <p role="alert" className="mt-1 text-sm text-red-600">{errors.emergencyContactPhone.message}</p>
                     )}
                   </div>
                 </div>
@@ -690,9 +765,10 @@ const UserRegister = () => {
                       }
                     })}
                     className={`block w-full px-3 py-2 border ${errors.emergencyContactAddress ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                    aria-invalid={errors.emergencyContactAddress ? "true" : "false"}
                   />
                   {errors.emergencyContactAddress && (
-                    <p className="mt-1 text-sm text-red-600">{errors.emergencyContactAddress.message}</p>
+                    <p role="alert" className="mt-1 text-sm text-red-600">{errors.emergencyContactAddress.message}</p>
                   )}
                 </div>
 
@@ -711,9 +787,10 @@ const UserRegister = () => {
                         }
                       })}
                       className={`block w-full px-3 py-2 border ${errors.emergencyContactNeighborhood ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                      aria-invalid={errors.emergencyContactNeighborhood ? "true" : "false"}
                     />
                     {errors.emergencyContactNeighborhood && (
-                      <p className="mt-1 text-sm text-red-600">{errors.emergencyContactNeighborhood.message}</p>
+                      <p role="alert" className="mt-1 text-sm text-red-600">{errors.emergencyContactNeighborhood.message}</p>
                     )}
                   </div>
 
@@ -731,9 +808,10 @@ const UserRegister = () => {
                         }
                       })}
                       className={`block w-full px-3 py-2 border ${errors.emergencyContactCity ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                      aria-invalid={errors.emergencyContactCity ? "true" : "false"}
                     />
                     {errors.emergencyContactCity && (
-                      <p className="mt-1 text-sm text-red-600">{errors.emergencyContactCity.message}</p>
+                      <p role="alert" className="mt-1 text-sm text-red-600">{errors.emergencyContactCity.message}</p>
                     )}
                   </div>
                 </div>
@@ -757,7 +835,7 @@ const UserRegister = () => {
             {currentStep === 6 && (
               <div className="space-y-6">
                 <h2 className="text-xl font-semibold text-gray-800 flex items-center">
-                  <FaMotorcycle className="mr-2 text-red-600" /> Información de la Motocicleta
+                  <FaMotorcycle className="mr-2 text-red-600" aria-hidden="true" /> Información de la Motocicleta
                 </h2>
                 
                 <div>
@@ -774,9 +852,10 @@ const UserRegister = () => {
                       }
                     })}
                     className={`block w-full px-3 py-2 border ${errors.motorcyclePlate ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                    aria-invalid={errors.motorcyclePlate ? "true" : "false"}
                   />
                   {errors.motorcyclePlate && (
-                    <p className="mt-1 text-sm text-red-600">{errors.motorcyclePlate.message}</p>
+                    <p role="alert" className="mt-1 text-sm text-red-600">{errors.motorcyclePlate.message}</p>
                   )}
                 </div>
 
@@ -795,9 +874,10 @@ const UserRegister = () => {
                         }
                       })}
                       className={`block w-full px-3 py-2 border ${errors.motorcycleBrand ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                      aria-invalid={errors.motorcycleBrand ? "true" : "false"}
                     />
                     {errors.motorcycleBrand && (
-                      <p className="mt-1 text-sm text-red-600">{errors.motorcycleBrand.message}</p>
+                      <p role="alert" className="mt-1 text-sm text-red-600">{errors.motorcycleBrand.message}</p>
                     )}
                   </div>
 
@@ -815,9 +895,10 @@ const UserRegister = () => {
                         }
                       })}
                       className={`block w-full px-3 py-2 border ${errors.motorcycleModel ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                      aria-invalid={errors.motorcycleModel ? "true" : "false"}
                     />
                     {errors.motorcycleModel && (
-                      <p className="mt-1 text-sm text-red-600">{errors.motorcycleModel.message}</p>
+                      <p role="alert" className="mt-1 text-sm text-red-600">{errors.motorcycleModel.message}</p>
                     )}
                   </div>
                 </div>
@@ -837,9 +918,10 @@ const UserRegister = () => {
                         }
                       })}
                       className={`block w-full px-3 py-2 border ${errors.motorcycleYear ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                      aria-invalid={errors.motorcycleYear ? "true" : "false"}
                     />
                     {errors.motorcycleYear && (
-                      <p className="mt-1 text-sm text-red-600">{errors.motorcycleYear.message}</p>
+                      <p role="alert" className="mt-1 text-sm text-red-600">{errors.motorcycleYear.message}</p>
                     )}
                   </div>
 
@@ -861,9 +943,10 @@ const UserRegister = () => {
                         }
                       })}
                       className={`block w-full px-3 py-2 border ${errors.motorcycleDisplacement ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                      aria-invalid={errors.motorcycleDisplacement ? "true" : "false"}
                     />
                     {errors.motorcycleDisplacement && (
-                      <p className="mt-1 text-sm text-red-600">{errors.motorcycleDisplacement.message}</p>
+                      <p role="alert" className="mt-1 text-sm text-red-600">{errors.motorcycleDisplacement.message}</p>
                     )}
                   </div>
                 </div>
@@ -874,7 +957,7 @@ const UserRegister = () => {
             {currentStep === 7 && (
               <div className="space-y-6">
                 <h2 className="text-xl font-semibold text-gray-800 flex items-center">
-                  <FaShieldAlt className="mr-2 text-red-600" /> Consentimientos y Términos
+                  <FaShieldAlt className="mr-2 text-red-600" aria-hidden="true" /> Consentimientos y Términos
                 </h2>
                 
                 <div className="bg-gray-50 p-4 rounded-lg">
@@ -887,11 +970,12 @@ const UserRegister = () => {
                           required: "Debes aceptar este consentimiento"
                         })}
                         className="focus:ring-red-500 h-4 w-4 text-red-600 border-gray-300 rounded"
+                        aria-invalid={errors.dataConsent ? "true" : "false"}
                       />
                     </div>
                     <div className="ml-3 text-sm">
                       <label htmlFor="dataConsent" className="font-medium text-gray-700">
-                        Consentimiento de Tratamiento de Datos Personales *
+                        Consentimiento de Tratamiento de Datos Personales <span className="text-red-500">*</span>
                       </label>
                       <p className="text-gray-500">
                         Autorizo a BSK Motorcycle Team para recolectar, almacenar, usar, circular, suprimir y procesar 
@@ -902,7 +986,7 @@ const UserRegister = () => {
                     </div>
                   </div>
                   {errors.dataConsent && (
-                    <p className="mt-1 text-sm text-red-600">{errors.dataConsent.message}</p>
+                    <p role="alert" className="mt-1 text-sm text-red-600">{errors.dataConsent.message}</p>
                   )}
                 </div>
 
@@ -916,11 +1000,12 @@ const UserRegister = () => {
                           required: "Debes aceptar este consentimiento"
                         })}
                         className="focus:ring-red-500 h-4 w-4 text-red-600 border-gray-300 rounded"
+                        aria-invalid={errors.liabilityWaiver ? "true" : "false"}
                       />
                     </div>
                     <div className="ml-3 text-sm">
                       <label htmlFor="liabilityWaiver" className="font-medium text-gray-700">
-                        Exoneración de Responsabilidad *
+                        Exoneración de Responsabilidad <span className="text-red-500">*</span>
                       </label>
                       <p className="text-gray-500">
                         Eximo de responsabilidad a BSK Motorcycle Team, sus directivos y organizadores por cualquier 
@@ -930,7 +1015,7 @@ const UserRegister = () => {
                     </div>
                   </div>
                   {errors.liabilityWaiver && (
-                    <p className="mt-1 text-sm text-red-600">{errors.liabilityWaiver.message}</p>
+                    <p role="alert" className="mt-1 text-sm text-red-600">{errors.liabilityWaiver.message}</p>
                   )}
                 </div>
 
@@ -944,11 +1029,12 @@ const UserRegister = () => {
                           required: "Debes aceptar los términos y condiciones"
                         })}
                         className="focus:ring-red-500 h-4 w-4 text-red-600 border-gray-300 rounded"
+                        aria-invalid={errors.termsAcceptance ? "true" : "false"}
                       />
                     </div>
                     <div className="ml-3 text-sm">
                       <label htmlFor="termsAcceptance" className="font-medium text-gray-700">
-                        Aceptación de Términos y Condiciones *
+                        Aceptación de Términos y Condiciones <span className="text-red-500">*</span>
                       </label>
                       <p className="text-gray-500">
                         Acepto los términos y condiciones de la membresía Friend de BSK Motorcycle Team, incluyendo 
@@ -958,11 +1044,11 @@ const UserRegister = () => {
                     </div>
                   </div>
                   {errors.termsAcceptance && (
-                    <p className="mt-1 text-sm text-red-600">{errors.termsAcceptance.message}</p>
+                    <p role="alert" className="mt-1 text-sm text-red-600">{errors.termsAcceptance.message}</p>
                   )}
                 </div>
 
-                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4" role="alert"> {/* Added role="alert" */}
                   <h3 className="text-lg font-semibold text-yellow-800 mb-2">Importante</h3>
                   <p className="text-yellow-700">
                     Al marcar estas casillas estás aceptando legalmente estos términos. Te recomendamos leer 
@@ -976,12 +1062,12 @@ const UserRegister = () => {
             {currentStep === 8 && (
               <div className="space-y-6">
                 <h2 className="text-xl font-semibold text-gray-800 flex items-center">
-                  <FaLock className="mr-2 text-red-600" /> Crear Contraseña
+                  <FaLock className="mr-2 text-red-600" aria-hidden="true" /> Crear Contraseña
                 </h2>
                 
                 <div>
                   <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                    Contraseña *
+                    Contraseña <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="password"
@@ -991,21 +1077,26 @@ const UserRegister = () => {
                       minLength: {
                         value: 8,
                         message: "Mínimo 8 caracteres"
+                      },
+                      pattern: {
+                        value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                        message: "Debe contener al menos una mayúscula, una minúscula, un número y un carácter especial."
                       }
                     })}
                     className={`block w-full px-3 py-2 border ${errors.password ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                    aria-invalid={errors.password ? "true" : "false"}
                   />
                   {errors.password && (
-                    <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
+                    <p role="alert" className="mt-1 text-sm text-red-600">{errors.password.message}</p>
                   )}
                   <p className="mt-1 text-sm text-gray-500">
-                    La contraseña debe tener al menos 8 caracteres.
+                    La contraseña debe tener al menos 8 caracteres, incluyendo mayúsculas, minúsculas, números y símbolos.
                   </p>
                 </div>
 
                 <div>
                   <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
-                    Confirmar Contraseña *
+                    Confirmar Contraseña <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="password"
@@ -1016,14 +1107,15 @@ const UserRegister = () => {
                         value === watch('password') || "Las contraseñas no coinciden"
                     })}
                     className={`block w-full px-3 py-2 border ${errors.confirmPassword ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}
+                    aria-invalid={errors.confirmPassword ? "true" : "false"}
                   />
                   {errors.confirmPassword && (
-                    <p className="mt-1 text-sm text-red-600">{errors.confirmPassword.message}</p>
+                    <p role="alert" className="mt-1 text-sm text-red-600">{errors.confirmPassword.message}</p>
                   )}
                 </div>
 
                 {submitError && (
-                  <div className="bg-red-50 border-l-4 border-red-500 p-4">
+                  <div role="alert" className="bg-red-50 border-l-4 border-red-500 p-4">
                     <p className="text-red-700">{submitError}</p>
                   </div>
                 )}
@@ -1040,13 +1132,13 @@ const UserRegister = () => {
                   Anterior
                 </button>
               ) : (
-                <div></div>
+                <div></div> // Placeholder to maintain space when "Anterior" button is not visible
               )}
 
               {currentStep < totalSteps ? (
                 <button
                   type="button"
-                  onClick={nextStep}
+                  onClick={handleNextStep} // Use the new handler for validation
                   className="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                 >
                   Siguiente

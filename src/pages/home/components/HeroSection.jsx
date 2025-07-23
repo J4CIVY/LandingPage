@@ -7,30 +7,37 @@ const HeroSection = () => {
   
   const navigate = useNavigate();
   
+  // Common Cloudinary transformation parameters for optimization
   const commonParams = "q_auto:best,c_fill,g_auto";
   
+  // Define responsive image sources for different formats (AVIF, WebP, JPG)
+  // Using a range of widths to cover various screen sizes efficiently
   const srcSetAvif = `
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_avif,w_480/${imagePath} 480w,
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_avif,w_768/${imagePath} 768w,
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_avif,w_1024/${imagePath} 1024w,
-    https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_avif,w_1366/${imagePath} 1366w
+    https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_avif,w_1366/${imagePath} 1366w,
+    https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_avif,w_1920/${imagePath} 1920w
   `;
 
   const srcSetWebp = `
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_webp,w_480/${imagePath} 480w,
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_webp,w_768/${imagePath} 768w,
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_webp,w_1024/${imagePath} 1024w,
-    https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_webp,w_1366/${imagePath} 1366w
+    https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_webp,w_1366/${imagePath} 1366w,
+    https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_webp,w_1920/${imagePath} 1920w
   `;
 
   const srcSetJpg = `
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_480/${imagePath} 480w,
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_768/${imagePath} 768w,
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_1024/${imagePath} 1024w,
-    https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_1366/${imagePath} 1366w
+    https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_1366/${imagePath} 1366w,
+    https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_1920/${imagePath} 1920w
   `;
 
-  const fallbackSrc = `https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_1366/${imagePath}`;
+  // Fallback source for browsers that don't support picture or webp/avif
+  const fallbackSrc = `https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_1920/${imagePath}`;
 
   const handleJoinClick = () => {
     navigate("/memberships");
@@ -40,35 +47,41 @@ const HeroSection = () => {
     <section className="relative h-screen flex items-center justify-center bg-slate-950 overflow-hidden">
       <div className="absolute inset-0 w-full h-full">
         <picture>
+          {/* AVIF source for best compression and quality */}
           <source 
             srcSet={srcSetAvif} 
             type="image/avif"
-            sizes="100vw"
+            sizes="100vw" // Image takes 100% of viewport width
           />
+          {/* WebP source for good compression and broader support */}
           <source 
             srcSet={srcSetWebp} 
             type="image/webp"
             sizes="100vw"
           />
+          {/* Fallback JPG image for maximum compatibility */}
           <img
-            src={fallbackSrc}
-            srcSet={srcSetJpg}
+            src={fallbackSrc} // Default src for browsers that don't support srcset or picture
+            srcSet={srcSetJpg} // JPG srcset for older browsers or as a final fallback
             sizes="100vw"
-            alt="BSK Motorcycle Team"
+            alt="BSK Motorcycle Team - Libertad sobre dos ruedas" // Descriptive alt text for accessibility
             className="w-full h-full object-cover"
+            // Inline style for aspect ratio and object position, can be moved to Tailwind config if used often
             style={{
               aspectRatio: '16/9',
               objectPosition: 'center center'
             }}
-            width="1366"
-            height="768"
-            loading="eager"
-            fetchpriority="high"
+            width="1920" // Explicit width and height for layout shift prevention
+            height="1080"
+            loading="eager" // Eager loading for LCP image
+            fetchpriority="high" // High fetch priority for LCP image
           />
         </picture>
+        {/* Overlay to darken the image and improve text readability */}
         <div className="absolute inset-0 bg-black opacity-50"></div>
       </div>
 
+      {/* Hero content: title, description, and call-to-action button */}
       <div className="relative z-10 text-center px-4">
         <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in">
           <span className="text-green-400">BSK</span> MOTORCYCLE TEAM
@@ -79,6 +92,7 @@ const HeroSection = () => {
         <button 
           onClick={handleJoinClick}
           className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 transform hover:scale-105"
+          aria-label="Únete al club BSK Motorcycle Team" // Accessible label for the button
         >
           ÚNETE AL CLUB
         </button>

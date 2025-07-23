@@ -21,25 +21,25 @@ const BenefitsSection = () => (
         <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
           <div className="flex items-center mb-4">
             <div className="bg-slate-950 text-white p-3 rounded-full mr-4">
-              <FaUsers className="w-6 h-6" />
+              <FaUsers className="w-6 h-6" aria-hidden="true" />
             </div>
             <h3 className="text-xl font-bold text-slate-950">Comunidad</h3>
           </div>
           <ul className="space-y-3">
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span>Pertenencia a comunidad con intereses comunes</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span>Red de apoyo entre motociclistas</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span>Amistades duraderas</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span>Reuniones y encuentros regulares</span>
             </li>
           </ul>
@@ -49,25 +49,25 @@ const BenefitsSection = () => (
         <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
           <div className="flex items-center mb-4">
             <div className="bg-slate-950 text-white p-3 rounded-full mr-4">
-              <FaTools className="w-6 h-6" />
+              <FaTools className="w-6 h-6" aria-hidden="true" />
             </div>
             <h3 className="text-xl font-bold text-slate-950">Asistencia Técnica</h3>
           </div>
           <ul className="space-y-3">
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span>Asistencia mecánica básica entre miembros</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span>Descuentos en servicios mecánicos</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span>Acceso a conocimientos técnicos compartidos</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span>Talleres de mantenimiento y seguridad</span>
             </li>
           </ul>
@@ -77,25 +77,25 @@ const BenefitsSection = () => (
         <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
           <div className="flex items-center mb-4">
             <div className="bg-slate-950 text-white p-3 rounded-full mr-4">
-              <FaMoneyBillWave className="w-6 h-6" />
+              <FaMoneyBillWave className="w-6 h-6" aria-hidden="true" />
             </div>
             <h3 className="text-xl font-bold text-slate-950">Ventajas Económicas</h3>
           </div>
           <ul className="space-y-3">
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span>Descuentos en ropa y accesorios</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span>Convenios con aseguradoras</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span>Beneficios en combustible</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span>Compra colectiva con precios reducidos</span>
             </li>
           </ul>
@@ -105,25 +105,25 @@ const BenefitsSection = () => (
         <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
           <div className="flex items-center mb-4">
             <div className="bg-slate-950 text-white p-3 rounded-full mr-4">
-              <FaGlassCheers className="w-6 h-6" />
+              <FaGlassCheers className="w-6 h-6" aria-hidden="true" />
             </div>
             <h3 className="text-xl font-bold text-slate-950">Actividades Recreativas</h3>
           </div>
           <ul className="space-y-3">
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span>Rutas y viajes grupales</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span>Acceso preferencial a eventos</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span>Celebraciones exclusivas</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span>Sorteos y rifas internas</span>
             </li>
           </ul>
@@ -133,25 +133,25 @@ const BenefitsSection = () => (
         <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
           <div className="flex items-center mb-4">
             <div className="bg-slate-950 text-white p-3 rounded-full mr-4">
-              <FaGraduationCap className="w-6 h-6" />
+              <FaGraduationCap className="w-6 h-6" aria-hidden="true" />
             </div>
             <h3 className="text-xl font-bold text-slate-950">Formación</h3>
           </div>
           <ul className="space-y-3">
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span>Charlas sobre seguridad vial</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span>Conducción defensiva</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span>Capacitación para diferentes terrenos</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span>Charlas de liderazgo y crecimiento</span>
             </li>
           </ul>
@@ -161,25 +161,25 @@ const BenefitsSection = () => (
         <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
           <div className="flex items-center mb-4">
             <div className="bg-slate-950 text-white p-3 rounded-full mr-4">
-              <FaShieldAlt className="w-6 h-6" />
+              <FaShieldAlt className="w-6 h-6" aria-hidden="true" />
             </div>
             <h3 className="text-xl font-bold text-slate-950">Seguridad</h3>
           </div>
           <ul className="space-y-3">
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span>Apoyo en carretera en emergencias</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span>Sistemas de localización en salidas</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span>Protocolos de seguridad para salidas</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span>Red de apoyo en viajes largos</span>
             </li>
           </ul>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { GiSteelwingEmblem } from 'react-icons/gi';
-import { FaCheckCircle, FaEnvelope, FaPhone, FaMotorcycle, FaCalendarAlt } from 'react-icons/fa';
+import { FaCheckCircle } from 'react-icons/fa'; // Removed unused imports
 import { Link } from 'react-router-dom';
 
 const RegistrationSuccess = ({ userEmail }) => {
@@ -8,11 +8,11 @@ const RegistrationSuccess = ({ userEmail }) => {
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-8 text-center">
         <div className="flex justify-center mb-6">
-          <GiSteelwingEmblem className="text-red-600 text-5xl" />
+          <GiSteelwingEmblem className="text-red-600 text-5xl" aria-hidden="true" />
         </div>
         
         <div className="flex justify-center mb-6">
-          <FaCheckCircle className="text-green-500 text-6xl" />
+          <FaCheckCircle className="text-green-500 text-6xl" aria-hidden="true" />
         </div>
         
         <h1 className="text-3xl font-extrabold text-gray-900 mb-4">
@@ -23,10 +23,10 @@ const RegistrationSuccess = ({ userEmail }) => {
           Bienvenido a la familia <span className="text-red-600 font-bold">BSK Motorcycle Team</span>. Tu registro como miembro <span className="font-semibold">Friend</span> ha sido completado con éxito.
         </p>
         
-        <div className="mt-6 bg-blue-50 p-4 rounded-lg border border-blue-200">
+        <div className="mt-6 bg-blue-50 p-4 rounded-lg border border-blue-200" role="alert"> {/* Added role="alert" */}
           <h3 className="text-lg font-semibold text-blue-800 mb-2">Verifica tu correo electrónico</h3>
           <p className="text-blue-700">
-            Hemos enviado un correo de confirmación a <span className="font-semibold">{userEmail}</span>. 
+            Hemos enviado un correo de confirmación a <span className="font-semibold">{userEmail || 'tu dirección de correo'}</span>. 
             Revisa tu bandeja de entrada (y la carpeta de spam) para encontrar tu mensaje de bienvenida.
           </p>
         </div>
@@ -39,7 +39,7 @@ const RegistrationSuccess = ({ userEmail }) => {
           <div className="space-y-4">
             <div className="flex items-start">
               <div className="flex-shrink-0 mt-1">
-                <div className="h-5 w-5 rounded-full bg-red-100 flex items-center justify-center">
+                <div className="h-5 w-5 rounded-full bg-red-100 flex items-center justify-center" aria-hidden="true">
                   <div className="h-2 w-2 rounded-full bg-red-600"></div>
                 </div>
               </div>
@@ -50,7 +50,7 @@ const RegistrationSuccess = ({ userEmail }) => {
             
             <div className="flex items-start">
               <div className="flex-shrink-0 mt-1">
-                <div className="h-5 w-5 rounded-full bg-red-100 flex items-center justify-center">
+                <div className="h-5 w-5 rounded-full bg-red-100 flex items-center justify-center" aria-hidden="true">
                   <div className="h-2 w-2 rounded-full bg-red-600"></div>
                 </div>
               </div>
@@ -61,7 +61,7 @@ const RegistrationSuccess = ({ userEmail }) => {
             
             <div className="flex items-start">
               <div className="flex-shrink-0 mt-1">
-                <div className="h-5 w-5 rounded-full bg-red-100 flex items-center justify-center">
+                <div className="h-5 w-5 rounded-full bg-red-100 flex items-center justify-center" aria-hidden="true">
                   <div className="h-2 w-2 rounded-full bg-red-600"></div>
                 </div>
               </div>
@@ -72,7 +72,7 @@ const RegistrationSuccess = ({ userEmail }) => {
             
             <div className="flex items-start">
               <div className="flex-shrink-0 mt-1">
-                <div className="h-5 w-5 rounded-full bg-red-100 flex items-center justify-center">
+                <div className="h-5 w-5 rounded-full bg-red-100 flex items-center justify-center" aria-hidden="true">
                   <div className="h-2 w-2 rounded-full bg-red-600"></div>
                 </div>
               </div>
@@ -83,7 +83,7 @@ const RegistrationSuccess = ({ userEmail }) => {
           </div>
         </div>
         
-        <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-8 text-left">
+        <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-8 text-left" role="alert"> {/* Added role="alert" */}
           <h3 className="text-lg font-semibold text-blue-800 mb-2">📌 Kit de Bienvenida</h3>
           <p className="text-blue-700">
             Tu kit físico de bienvenida (carnet, parches y manual) será entregado en tu primer evento con nosotros. Para acceder a beneficios digitales inmediatos, inicia sesión en nuestra plataforma.
@@ -94,12 +94,14 @@ const RegistrationSuccess = ({ userEmail }) => {
           <Link
             to="/"
             className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
+            aria-label="Volver al Inicio"
           >
             Volver al Inicio
           </Link>
           <Link
             to="/login"
             className="inline-flex items-center px-6 py-3 border border-red-600 text-base font-medium rounded-md text-red-600 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
+            aria-label="Iniciar Sesión"
           >
             Iniciar Sesión
           </Link>

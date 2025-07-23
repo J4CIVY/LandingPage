@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { format, parseISO, isSameMonth, isSameDay } from 'date-fns';
+import { format, parseISO, isSameMonth, isSameDay } from 'date-fns'; // isSameMonth and isSameDay are not used here, but kept for consistency if needed elsewhere
 import { es } from 'date-fns/locale';
 import { FaCalendarAlt } from 'react-icons/fa';
 import Calendar from "./Calendar";
@@ -9,6 +9,16 @@ const EventsSection = ({ events, loading, error }) => {
   const [activeTab, setActiveTab] = useState('events');
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedEvent, setSelectedEvent] = useState(null);
+
+  // Handler for opening the event modal
+  const handleEventClick = (event) => {
+    setSelectedEvent(event);
+  };
+
+  // Handler for closing the event modal
+  const handleCloseModal = () => {
+    setSelectedEvent(null);
+  };
 
   return (
     <section className="py-20 px-4 bg-slate-950 text-white">
@@ -21,12 +31,14 @@ const EventsSection = ({ events, loading, error }) => {
           <button
             onClick={() => setActiveTab('events')}
             className={`px-6 py-2 rounded-full ${activeTab === 'events' ? 'bg-red-600 text-white' : 'bg-white text-slate-950'}`}
+            aria-pressed={activeTab === 'events'} // ARIA attribute for toggle buttons
           >
             Lista de Eventos
           </button>
           <button
             onClick={() => setActiveTab('calendar')}
             className={`px-6 py-2 rounded-full ${activeTab === 'calendar' ? 'bg-red-600 text-white' : 'bg-white text-slate-950'}`}
+            aria-pressed={activeTab === 'calendar'} // ARIA attribute for toggle buttons
           >
             Calendario
           </button>
@@ -36,7 +48,7 @@ const EventsSection = ({ events, loading, error }) => {
           <>
             {loading ? (
               <div className="flex justify-center items-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-600"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-600" role="status" aria-label="Cargando eventos"></div>
               </div>
             ) : error ? (
               <div className="text-center py-10">
@@ -58,24 +70,27 @@ const EventsSection = ({ events, loading, error }) => {
                           src={event.mainImage || "/default-event-image.webp"}
                           alt={event.name}
                           className="w-full h-full object-cover"
+                          loading="lazy" // Add lazy loading for images
                         />
                       </div>
                       <div className="p-6">
                         <h3 className="text-xl font-bold mb-2">{event.name}</h3>
                         <p className="text-red-600 font-semibold mb-3">
-                          {format(parseISO(event.startDate), "EEEE d 'de' MMMM yyyy", { locale: es })}
+                          {/* Ensure event.startDate is a valid ISO string before parsing */}
+                          {event.startDate ? format(parseISO(event.startDate), "EEEE d 'de' MMMM yyyy", { locale: es }) : 'Fecha no disponible'}
                         </p>
                         <p className="text-gray-700 mb-4">{event.description}</p>
                         <p className="text-sm text-gray-600 flex items-center">
-                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                           </svg>
-                          {event.departureLocation.address}
+                          {event.departureLocation?.address || 'Ubicación no disponible'}
                         </p>
                         <button 
-                          onClick={() => setSelectedEvent(event)}
+                          onClick={() => handleEventClick(event)} // Use the new handler
                           className="mt-4 w-full bg-slate-950 hover:bg-green-400 text-white py-2 rounded-full transition duration-300"
+                          aria-label={`Más información sobre ${event.name}`}
                         >
                           Más información
                         </button>
@@ -93,22 +108,24 @@ const EventsSection = ({ events, loading, error }) => {
         ) : (
           <div className="bg-white rounded-xl p-6 text-slate-950">
             <div className="flex items-center justify-center mb-4">
-              <FaCalendarAlt className="text-red-600 mr-2" />
+              <FaCalendarAlt className="text-red-600 mr-2" aria-hidden="true" />
               <h3 className="text-xl font-bold">Calendario de Eventos</h3>
             </div>
             <Calendar 
               events={events} 
               currentMonth={currentMonth} 
               setCurrentMonth={setCurrentMonth} 
+              onEventClick={handleEventClick} // Pass the handler to Calendar
             />
           </div>
         )}
       </div>
 
+      {/* Render EventModal conditionally */}
       {selectedEvent && (
         <EventModal 
           event={selectedEvent} 
-          onClose={() => setSelectedEvent(null)} 
+          onClose={handleCloseModal} // Pass the close handler
         />
       )}
     </section>

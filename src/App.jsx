@@ -23,36 +23,36 @@ function App() {
 
   return (
     <Router>
-        
-          <div className="bg-[#ffffff] min-h-screen flex flex-col">
-            {/* Header con posicionamiento fijo */}
-            <Header 
-              ref={headerRef} 
-              className="fixed top-0 left-0 right-0 z-50"
-            />
-            {/* Contenido principal con padding-top fijo basado en la altura del header */}
-            <main className="pt-[76px] min-h-[calc(100vh-76px)] relative pb-20">
-              <Routes>
-                {/* Rutas públicas */}
-                <Route path="/" element={<Home />} />
-                <Route path="/events" element={<Events />} />
-                <Route path="/courses" element={<Courses />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/weather" element={<Weather />} />
-                <Route path="/sos" element={<Sos />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/documents" element={<Documents />} />
-                <Route path="/memberships" element={<Memberships />} />
-                <Route path="/cookie-policy" element={<CookiePolicy />} />
-                <Route path="/membership-info" element={<MembershipInfoPage />} />
-                <Route path="/register" element={<UserRegister />} />
-                <Route path="/registration-success" element={<RegistrationSuccess />} />
-              </Routes>
-            </main>
+        {/* Removed unnecessary div wrapping the entire application. The Router should be the top-level component. */}
+        {/* The fixed header needs to be outside the main content area to prevent layout shifts when scrolling. */}
+        <Header 
+          ref={headerRef} 
+          className="fixed top-0 left-0 right-0 z-50"
+        />
+        {/* Main content with padding-top to account for the fixed header. */}
+        {/* The min-h-[calc(100vh-76px)] ensures content takes at least the remaining viewport height. */}
+        {/* pb-20 added to ensure space for the footer if it's not fixed. */}
+        <main className="pt-[76px] min-h-[calc(100vh-76px)] relative pb-20">
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<Home />} />
+            <Route path="/events" element={<Events />} />
+            <Route path="/courses" element={<Courses />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/weather" element={<Weather />} />
+            <Route path="/sos" element={<Sos />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/documents" element={<Documents />} />
+            <Route path="/memberships" element={<Memberships />} />
+            <Route path="/cookie-policy" element={<CookiePolicy />} />
+            <Route path="/membership-info" element={<MembershipInfoPage />} />
+            <Route path="/register" element={<UserRegister />} />
+            <Route path="/registration-success" element={<RegistrationSuccess />} />
+          </Routes>
+        </main>
 
-            <Footer />
-            <CookieBanner />
-          </div>
+        <Footer />
+        <CookieBanner />
     </Router>
   );
 }

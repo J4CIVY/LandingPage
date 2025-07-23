@@ -3,21 +3,25 @@ import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 
 const EventModal = ({ event, onClose }) => {
+  // If event is null, render nothing. This check is important for conditional rendering.
   if (!event) return null;
 
+  // Effect to control body scroll when modal is open/closed
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden'; // Disable scroll on body
     return () => {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = 'auto'; // Re-enable scroll on body when component unmounts
     };
-  }, []);
+  }, []); // Empty dependency array means this effect runs once on mount and cleans up on unmount
 
+  // Helper function to format time strings (e.g., "14:30:00" to "14:30")
   const formatTime = (timeString) => {
     if (!timeString) return '';
     const [hours, minutes] = timeString.split(':');
     return `${hours}:${minutes}`;
   };
 
+  // Helper function to determine difficulty level color
   const getDifficultyColor = (difficulty) => {
     switch (difficulty) {
       case 'low': return 'bg-green-400';
@@ -27,6 +31,7 @@ const EventModal = ({ event, onClose }) => {
     }
   };
 
+  // Helper function to determine event type color
   const getEventTypeColor = (type) => {
     switch (type) {
       case 'Ride': return 'bg-blue-500';
@@ -36,30 +41,37 @@ const EventModal = ({ event, onClose }) => {
   };
 
   return (
-    <>
+    <div>
+      {/* Overlay for the modal, covers the entire screen and handles closing when clicked */}
       <div 
         className="fixed inset-0 bg-black bg-opacity-75 z-40"
-        onClick={onClose}
+        onClick={onClose} // Close modal when overlay is clicked
+        aria-hidden="true" // Hide from accessibility tree as it's just a backdrop
       />
 
+      {/* Modal container */}
       <div 
         className="fixed inset-0 z-50 overflow-y-auto"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="modal-headline"
+        role="dialog" // ARIA role for dialog
+        aria-modal="true" // Indicates that the dialog is modal and blocks interaction with the rest of the page
+        aria-labelledby="modal-headline" // Links to the main title of the modal for accessibility
       >
+        {/* Flex container to center the modal vertically and horizontally */}
         <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+          {/* Actual modal content area */}
           <div 
             className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl w-full"
           >
             <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
               <div className="sm:flex sm:items-start">
                 <div className="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                  {/* Header with event name and close button */}
                   <div className="flex justify-between items-start">
                     <div>
                       <h3 className="text-3xl leading-6 font-bold text-gray-900" id="modal-headline">
                         {event.name}
                       </h3>
+                      {/* Tags for difficulty, event type, and internal type */}
                       <div className="mt-2 flex flex-wrap gap-2">
                         <span className={`px-2 py-1 rounded-full text-xs font-semibold text-white ${getDifficultyColor(event.difficultyLevel)}`}>
                           {event.difficultyLevel === 'low' ? 'Baja' : 
@@ -73,10 +85,11 @@ const EventModal = ({ event, onClose }) => {
                         </span>
                       </div>
                     </div>
+                    {/* Close button */}
                     <button
                       onClick={onClose}
                       className="text-gray-400 hover:text-gray-500 focus:outline-none"
-                      aria-label="Cerrar modal"
+                      aria-label="Cerrar modal" // Accessibility label for the close button
                     >
                       <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
@@ -84,15 +97,19 @@ const EventModal = ({ event, onClose }) => {
                     </button>
                   </div>
 
+                  {/* Event main image */}
                   <div className="mt-4 rounded-lg overflow-hidden">
                     <img
-                      src={event.mainImage || "/default-event-image.webp"}
+                      src={event.mainImage || "/default-event-image.webp"} // Fallback image if mainImage is not provided
                       alt={event.name}
                       className="w-full h-64 object-cover"
+                      loading="lazy" // Lazy load images for performance
                     />
                   </div>
 
+                  {/* Main content grid for event details */}
                   <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* Column 1: Event Information & Pricing */}
                     <div className="col-span-1">
                       <div className="bg-gray-50 p-4 rounded-lg">
                         <h4 className="text-lg font-bold text-gray-800 mb-3">Información del Evento</h4>
@@ -101,6 +118,7 @@ const EventModal = ({ event, onClose }) => {
                           <div>
                             <p className="text-sm font-medium text-gray-500">Fecha</p>
                             <p className="text-sm text-gray-900">
+                              {/* Format start date, and end date if available */}
                               {format(parseISO(event.startDate), "EEEE d 'de' MMMM yyyy", { locale: es })}
                               {event.endDate && ` al ${format(parseISO(event.endDate), "EEEE d 'de' MMMM yyyy", { locale: es })}`}
                             </p>
@@ -118,7 +136,7 @@ const EventModal = ({ event, onClose }) => {
                           
                           <div>
                             <p className="text-sm font-medium text-gray-500">Duración</p>
-                            <p className="text-sm text -gray-900">{event.durationDays} día(s)</p>
+                            <p className="text-sm text-gray-900">{event.durationDays} día(s)</p>
                           </div>
                           
                           <div>
@@ -146,11 +164,13 @@ const EventModal = ({ event, onClose }) => {
                         <div className="space-y-2">
                           <div className="flex justify-between">
                             <span className="text-sm font-medium text-gray-600">Piloto:</span>
-                            <span className="text-sm font-bold text-gray-900">${event.basePriceRider?.toLocaleString() || 'Gratis'}</span>
+                            {/* Display price or 'Gratis' if not available */}
+                            <span className="text-sm font-bold text-gray-900">${event.basePriceRider?.toLocaleString('es-CO') || 'Gratis'}</span>
                           </div>
                           <div className="flex justify-between">
                             <span className="text-sm font-medium text-gray-600">Acompañante:</span>
-                            <span className="text-sm font-bold text-gray-900">${event.basePriceCompanion?.toLocaleString() || 'Gratis'}</span>
+                            {/* Display price or 'Gratis' if not available */}
+                            <span className="text-sm font-bold text-gray-900">${event.basePriceCompanion?.toLocaleString('es-CO') || 'Gratis'}</span>
                           </div>
                         </div>
                         
@@ -163,14 +183,17 @@ const EventModal = ({ event, onClose }) => {
                       </div>
                     </div>
 
+                    {/* Column 2: Itinerary & Activities */}
                     <div className="col-span-1">
                       <div className="bg-gray-50 p-4 rounded-lg h-full">
                         <h4 className="text-lg font-bold text-gray-800 mb-3">Itinerario</h4>
                         
+                        {/* Map through itinerary days */}
                         {event.itinerary?.map((day, dayIndex) => (
                           <div key={dayIndex} className="mb-4">
                             <h5 className="font-semibold text-gray-700 mb-2">Día {day.day}</h5>
                             <div className="space-y-3">
+                              {/* Map through activities for each day */}
                               {day.activities.map((activity, activityIndex) => (
                                 <div key={activityIndex} className="flex">
                                   <div className="flex-shrink-0 w-16 text-sm font-medium text-gray-500">
@@ -185,6 +208,7 @@ const EventModal = ({ event, onClose }) => {
                           </div>
                         ))}
                         
+                        {/* Additional activities if available */}
                         {event.activities && event.activities.length > 0 && (
                           <>
                             <h4 className="text-lg font-bold text-gray-800 mt-6 mb-3">Actividades</h4>
@@ -198,6 +222,7 @@ const EventModal = ({ event, onClose }) => {
                       </div>
                     </div>
 
+                    {/* Column 3: Includes, Requirements, Recommendations, Visits */}
                     <div className="col-span-1">
                       <div className="bg-gray-50 p-4 rounded-lg">
                         <h4 className="text-lg font-bold text-gray-800 mb-3">Incluye</h4>
@@ -238,6 +263,7 @@ const EventModal = ({ event, onClose }) => {
                     </div>
                   </div>
 
+                  {/* Additional Information section */}
                   {event.additionalInformation && (
                     <div className="mt-6 bg-blue-50 p-4 rounded-lg border border-blue-100">
                       <h4 className="text-lg font-bold text-blue-800 mb-2">Información adicional</h4>
@@ -245,6 +271,7 @@ const EventModal = ({ event, onClose }) => {
                     </div>
                   )}
 
+                  {/* Call to action for participation */}
                   <div className="mt-8 bg-slate-950 p-6 rounded-lg">
                     <div className="flex flex-col md:flex-row justify-between items-center">
                       <div className="mb-4 md:mb-0">
@@ -255,7 +282,7 @@ const EventModal = ({ event, onClose }) => {
                       </div>
                       <div className="flex space-x-3">
                         <a
-                          href="/miembros"
+                          href="/register" // Changed to /register as per App.jsx routes
                           className="px-6 py-3 bg-green-400 hover:bg-green-400 text-slate-950 font-bold rounded-full transition duration-300"
                         >
                           Regístrate ahora
@@ -275,10 +302,10 @@ const EventModal = ({ event, onClose }) => {
                 </div>
               </div>
             </div>
-            </div>
           </div>
         </div>
-      </>
+      </div>
+    </div>
     );
   };
   

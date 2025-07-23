@@ -1,4 +1,5 @@
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -102,6 +103,8 @@ const Footer = () => {
                   href="https://facebook.com/bskmotorcycleteam"
                   aria-label="Facebook BSK Motorcycle Team"
                   className="text-white hover:text-blue-400 transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <FaFacebook size={20} />
                 </a>
@@ -109,6 +112,8 @@ const Footer = () => {
                   href="https://instagram.com/bskmotorcycleteam"
                   aria-label="Instagram BSK Motorcycle Team"
                   className="text-white hover:text-pink-500 transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <FaInstagram size={20} />
                 </a>
@@ -116,6 +121,8 @@ const Footer = () => {
                   href="https://twitter.com/bskmotorcycleteam"
                   aria-label="Twitter BSK Motorcycle Team"
                   className="text-white hover:text-blue-300 transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <FaTwitter size={20} />
                 </a>
@@ -123,6 +130,8 @@ const Footer = () => {
                   href="https://youtube.com/bskmotorcycleteam"
                   aria-label="YouTube BSK Motorcycle Team"
                   className="text-white hover:text-red-500 transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <FaYoutube size={20} />
                 </a>
@@ -133,13 +142,16 @@ const Footer = () => {
             <nav aria-label="Menú legal">
               <ul className="flex flex-wrap justify-center gap-4 md:gap-6">
                 <li>
-                  <a href="/condiciones" className="text-sm hover:underline">Condiciones</a>
+                  {/* Use Link component for internal navigation */}
+                  <Link to="/condiciones" className="text-sm hover:underline">Condiciones</Link>
                 </li>
                 <li>
-                  <a href="/privacidad" className="text-sm hover:underline">Privacidad</a>
+                  {/* Use Link component for internal navigation */}
+                  <Link to="/privacidad" className="text-sm hover:underline">Privacidad</Link>
                 </li>
                 <li>
-                  <a href="/mapa-web" className="text-sm hover:underline">Mapa web</a>
+                  {/* Use Link component for internal navigation */}
+                  <Link to="/mapa-web" className="text-sm hover:underline">Mapa web</Link>
                 </li>
               </ul>
             </nav>

@@ -23,15 +23,15 @@ const AboutSection = () => (
           <h3 className="text-2xl font-semibold text-slate-950 mb-4 mt-8">Nuestros Valores</h3>
           <ul className="space-y-3">
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span className="text-gray-700">Hermandad: Somos una familia de motociclistas, unidos por la confianza, la lealtad y el apoyo mutuo dentro y fuera de la carretera.</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span className="text-gray-700">Espíritu: Mantenemos vivo el espíritu aventurero, disfrutando cada ruta con pasión, alegría y la energía que nos impulsa a descubrir nuevos caminos.</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2">✔</span>
+              <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
               <span className="text-gray-700">Respeto: Valoramos y cuidamos a cada miembro y a cada comunidad que visitamos, promoviendo la tolerancia, la responsabilidad y la seguridad en todo momento.</span>
             </li>
           </ul>
@@ -42,6 +42,7 @@ const AboutSection = () => (
             src="/Banner_Tour_Andino_Motoclub_BSK_Motocycle_Team_2023_Carlos.webp"
             alt="Miembros De BSK Motorcycle Team"
             className="w-full h-full object-cover"
+            loading="lazy" // Add lazy loading for images not in the initial viewport
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent opacity-70"></div>
           <div className="absolute bottom-0 left-0 p-6 text-white">

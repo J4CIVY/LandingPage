@@ -67,6 +67,14 @@ const CookiePolicy = () => {
         <h2 className="text-2xl font-semibold text-slate-950 mb-4">3. Listado detallado de cookies</h2>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-gray-200">
+            <thead>
+              <tr>
+                <th className="py-2 px-4 border text-left">Nombre de la Cookie</th>
+                <th className="py-2 px-4 border text-left">Proveedor</th>
+                <th className="py-2 px-4 border text-left">Propósito</th>
+                <th className="py-2 px-4 border text-left">Duración</th>
+              </tr>
+            </thead>
             <tbody>
               <tr>
                 <td className="py-2 px-4 border">session_id</td>

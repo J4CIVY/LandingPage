@@ -32,13 +32,14 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
     } else {
       document.body.classList.remove('overflow-hidden');
     }
+    // Cleanup function to ensure scroll is re-enabled if component unmounts
     return () => document.body.classList.remove('overflow-hidden');
   }, [isMenuOpen]);
 
   // Items del menú
   const navItems = [
     { name: 'Inicio', path: '/' },
-    { name: 'Tienda', path: '/products' },
+    { name: 'Tienda', path: '/products' }, // Assuming /products is the store route
     { name: 'Eventos', path: '/events' },
     { name: 'Cursos', path: '/courses' },
     { name: 'Sobre Nosotros', path: '/about' },
@@ -87,6 +88,7 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
                     className={`text-white hover:text-green-400 transition-colors ${
                       location.pathname === item.path ? 'text-green-400 font-bold' : ''
                     }`}
+                    aria-current={location.pathname === item.path ? 'page' : undefined}
                   >
                     {item.name}
                   </button>
@@ -99,6 +101,7 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
           <button
             className="md:hidden text-white focus:outline-none mr-3"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-expanded={isMenuOpen}
             aria-label="Menú"
           >
             <div className="w-6 flex flex-col items-end">
@@ -113,7 +116,9 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
       {isMenuOpen && (
         <div 
           className="md:hidden fixed inset-0 bg-slate-950 z-40 overflow-y-auto"
-          style={{ top: '76px' }}
+          style={{ top: '76px' }} // Adjust top based on header height
+          role="navigation"
+          aria-label="Menú principal móvil"
         >
           <div className="container mx-auto px-5 py-8 flex flex-col h-full">
             {/* Items del menú */}
@@ -128,6 +133,7 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
                     className={`text-white text-xl font-medium hover:text-green-400 transition-colors ${
                       location.pathname === item.path ? 'text-green-400 font-bold' : ''
                     }`}
+                    aria-current={location.pathname === item.path ? 'page' : undefined}
                   >
                     {item.name}
                   </button>
