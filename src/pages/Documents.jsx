@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react"; // Added useMemo for performance
+import React, { useState, useEffect, useMemo } from "react";
 import { 
   FaFileAlt, 
   FaCogs, 
@@ -14,11 +14,10 @@ import {
 } from "react-icons/gi";
 
 const Documents = () => {
-  const [activeDoc, setActiveDoc] = useState("constitucion"); // Changed initial activeDoc to a valid key
+  const [activeDoc, setActiveDoc] = useState("constitucion");
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Documentos legales organizados por categorías
-  const legalDocuments = useMemo(() => ({ // Memoized to prevent re-creation on every render
+  const legalDocuments = useMemo(() => ({
     constitucion: {
       title: "Estatutos Constitutivos",
       lastUpdate: "15/03/2023",
@@ -52,8 +51,7 @@ const Documents = () => {
     }
   }), []);
 
-  // Documentos operativos
-  const operationalDocuments = useMemo(() => ({ // Memoized to prevent re-creation on every render
+  const operationalDocuments = useMemo(() => ({
     manualMembresias: {
       title: "Manual de Membresías",
       lastUpdate: "05/04/2023",
@@ -73,25 +71,23 @@ const Documents = () => {
     }
   }), []);
 
-  // Combine all documents and filter based on search term
-  const allDocuments = useMemo(() => ({ // Memoized to prevent re-creation on every render
+  const allDocuments = useMemo(() => ({
     ...legalDocuments,
     ...operationalDocuments
   }), [legalDocuments, operationalDocuments]);
 
-  const filteredDocumentKeys = useMemo(() => { // Memoized to prevent re-calculation on every render
+  const filteredDocumentKeys = useMemo(() => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     return Object.keys(allDocuments).filter(key => 
       allDocuments[key].title.toLowerCase().includes(lowerCaseSearchTerm)
     );
   }, [searchTerm, allDocuments]);
 
-  // Ensure activeDoc is always a valid key after filtering or initial load
   useEffect(() => {
     if (!allDocuments[activeDoc] && filteredDocumentKeys.length > 0) {
-      setActiveDoc(filteredDocumentKeys[0]); // Set to the first available document if current is not found
+      setActiveDoc(filteredDocumentKeys[0]);
     } else if (filteredDocumentKeys.length === 0) {
-      setActiveDoc(null); // No documents match the filter
+      setActiveDoc(null);
     }
   }, [activeDoc, filteredDocumentKeys, allDocuments]);
 
@@ -99,7 +95,6 @@ const Documents = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      
       {/* Hero Section */}
       <section className="bg-slate-950 text-white py-16 px-4 md:px-20">
         <div className="max-w-7xl mx-auto text-center">
@@ -110,17 +105,17 @@ const Documents = () => {
         </div>
       </section>
 
-      {/* Contenido principal */}
+      {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Sidebar de navegación */}
+          {/* Sidebar Navigation */}
           <div className="lg:w-1/4">
             <div className="bg-gray-100 rounded-xl shadow-sm p-6 sticky top-4">
-              {/* Buscador */}
+              {/* Search Bar */}
               <div className="mb-6 relative">
-                <label htmlFor="document-search" className="sr-only">Buscar documento</label> {/* Added sr-only label for accessibility */}
+                <label htmlFor="document-search" className="sr-only">Buscar documento</label>
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FaSearch className="text-gray-400" aria-hidden="true" /> {/* Added aria-hidden */}
+                  <FaSearch className="text-gray-400" aria-hidden="true" />
                 </div>
                 <input
                   type="text"
@@ -129,19 +124,19 @@ const Documents = () => {
                   className="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:ring-green-400 focus:border-green-400"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  aria-label="Buscar documento" // Added aria-label for accessibility
+                  aria-label="Buscar documento"
                 />
               </div>
 
-              {/* Categorías */}
-              <nav aria-label="Document Categories"> {/* Added nav for accessibility */}
+              {/* Categories */}
+              <nav aria-label="Document Categories">
                 <div className="space-y-1">
                   <h3 className="text-lg font-bold text-slate-950 mb-3 flex items-center">
                     <GiArchiveResearch className="w-5 h-5 mr-2 text-green-400" aria-hidden="true" />
                     Documentos Legales
                   </h3>
                   {Object.entries(legalDocuments)
-                    .filter(([key]) => filteredDocumentKeys.includes(key)) // Filter based on search
+                    .filter(([key]) => filteredDocumentKeys.includes(key))
                     .map(([key, doc]) => (
                       <button
                         key={key}
@@ -151,7 +146,7 @@ const Documents = () => {
                             : "text-gray-700 hover:bg-gray-100"
                         }`}
                         onClick={() => setActiveDoc(key)}
-                        aria-current={activeDoc === key ? "page" : undefined} // Added aria-current for accessibility
+                        aria-current={activeDoc === key ? "page" : undefined}
                       >
                         {doc.title}
                       </button>
@@ -162,7 +157,7 @@ const Documents = () => {
                     Documentos Operativos
                   </h3>
                   {Object.entries(operationalDocuments)
-                    .filter(([key]) => filteredDocumentKeys.includes(key)) // Filter based on search
+                    .filter(([key]) => filteredDocumentKeys.includes(key))
                     .map(([key, doc]) => (
                       <button
                         key={key}
@@ -172,7 +167,7 @@ const Documents = () => {
                             : "text-gray-700 hover:bg-gray-100"
                         }`}
                         onClick={() => setActiveDoc(key)}
-                        aria-current={activeDoc === key ? "page" : undefined} // Added aria-current for accessibility
+                        aria-current={activeDoc === key ? "page" : undefined}
                       >
                         {doc.title}
                       </button>
@@ -182,11 +177,11 @@ const Documents = () => {
             </div>
           </div>
 
-          {/* Contenido del documento */}
+          {/* Document Content */}
           <div className="lg:w-3/4">
             {currentDoc ? (
               <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-                {/* Encabezado del documento */}
+                {/* Document Header */}
                 <div className="bg-slate-950 px-6 py-4 flex justify-between items-center">
                   <div>
                     <h2 className="text-2xl font-bold text-white">{currentDoc.title}</h2>
@@ -196,23 +191,23 @@ const Documents = () => {
                   </div>
                   <button 
                     className="bg-green-400 text-slate-950 font-bold py-2 px-4 rounded-lg hover:bg-opacity-90 transition flex items-center"
-                    aria-label={`Descargar PDF de ${currentDoc.title}`} // Added aria-label for accessibility
+                    aria-label={`Descargar PDF de ${currentDoc.title}`}
                   >
                     <FaDownload className="mr-2" aria-hidden="true" />
                     Descargar PDF
                   </button>
                 </div>
 
-                {/* Cuerpo del documento */}
+                {/* Document Body */}
                 <div className="p-6 md:p-8">
-                  {/* Sello de autenticidad */}
+                  {/* Authenticity Seal */}
                   <div className="flex justify-center mb-8">
                     <div className="border-2 border-green-400 rounded-full p-4 inline-flex items-center justify-center">
                       <FaShieldAlt className="w-12 h-12 text-green-400" aria-hidden="true" />
                     </div>
                   </div>
 
-                  {/* Texto del documento (simulado) */}
+                  {/* Document Text (simulated) */}
                   <div className="prose max-w-none">
                     <p className="text-gray-700 mb-6">
                       <strong className="text-slate-950">BSK Motorcycle Team</strong> - Documento institucional de carácter {activeDoc in legalDocuments ? "legal" : "operativo"}.
@@ -228,7 +223,7 @@ const Documents = () => {
                       {currentDoc.content}
                     </pre>
 
-                    {/* Sección de firmas (para documentos legales) */}
+                    {/* Signature Section (for legal documents) */}
                     {activeDoc in legalDocuments && (
                       <div className="mt-12 pt-6 border-t border-gray-200">
                         <h3 className="text-lg font-bold text-slate-950 mb-4">Certificación</h3>
@@ -249,7 +244,7 @@ const Documents = () => {
                   </div>
                 </div>
 
-                {/* Pie de documento */}
+                {/* Document Footer */}
                 <div className="bg-gray-50 px-6 py-4 border-t border-gray-200">
                   <div className="flex flex-col md:flex-row justify-between items-center">
                     <p className="text-sm text-gray-500 mb-2 md:mb-0">
@@ -268,7 +263,7 @@ const Documents = () => {
               </div>
             )}
 
-            {/* Nota legal */}
+            {/* Legal Note */}
             <div className="mt-6 bg-slate-950 border border-green-400 rounded-xl p-6">
               <h3 className="text-xl font-bold text-white mb-3 flex items-center">
                 <FaExclamationTriangle className="w-6 h-6 mr-2 text-green-400" aria-hidden="true" />
