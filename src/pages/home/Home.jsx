@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import api from "./home/api"; // Import the configured axios instance
+import api from "./components/api"; // Import the configured axios instance
 import SEOComponent from "./components/SEOComponent";
 import HeroSection from "./components/HeroSection";
 import AboutSection from "./components/AboutSection";
