@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react"; // Added useMemo for performance
+import React, { useState, useEffect, useMemo } from "react"; // Added useMemo for performance
 import { 
   FaFileAlt, 
   FaCogs, 
