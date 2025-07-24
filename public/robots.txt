@@ -4,8 +4,9 @@ Disallow: /dashboard/
 Disallow: /private/
 Disallow: /api/
 Disallow: /config/
-Allow: /images/
-Allow: /static/
-Allow: /
+Disallow: /*?*
+Disallow: /*.json$
+Disallow: /*.js$
+Disallow: /*.map$
+
 Sitemap: https://www.bskmt.com/sitemap.xml
-Sitemap: https://www.bskmt.com/sitemap-news.xml
