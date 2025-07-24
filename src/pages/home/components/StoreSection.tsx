@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import api from '../../../components/api/Api'; // Assuming this path is correct for your project structure
-import { Product } from '../types'; // Import the Product interface
+import api from '../../../components/api/Api';
+import { Product } from '../types';
 
 const StoreSection: React.FC = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
