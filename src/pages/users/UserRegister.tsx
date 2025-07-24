@@ -23,18 +23,6 @@ const generateYears = () => {
 };
 const years = generateYears();
 
-// Mock API for demonstration purposes
-const api = {
-  post: (url: string, data: any) => {
-    console.log('Mock API POST to', url, data);
-    // Simulate a potential error for testing
-    if (data.documentNumber === '12345') {
-        return Promise.reject({ response: { data: { message: 'Error: El número de documento ya está registrado.' } } });
-    }
-    return new Promise(resolve => setTimeout(() => resolve({ data: { status: 'success' } }), 1000));
-  }
-};
-
 const UserRegister: React.FC = () => {
   const { register, handleSubmit, formState: { errors }, watch, trigger } = useForm<FieldValues>({
     mode: 'onTouched',
@@ -128,7 +116,7 @@ const UserRegister: React.FC = () => {
         {stepIcons.map((Icon, index) => (
           <React.Fragment key={index}>
             <div 
-              className={`w-10 h -10 rounded-full flex items-center justify-center text-white font-medium text-lg ${currentStep > index + 1 ? 'bg-green-500' : currentStep === index + 1 ? 'bg-red-600' : 'bg-gray-300'}`}
+              className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium text-lg ${currentStep > index + 1 ? 'bg-green-500' : currentStep === index + 1 ? 'bg-red-600' : 'bg-gray-300'}`}
               aria-current={currentStep === index + 1 ? 'step' : undefined}
               aria-label={`Paso ${index + 1} de ${totalSteps}`}
             >
@@ -163,7 +151,7 @@ const UserRegister: React.FC = () => {
             </div>
           )}
 
-          <form noValidate>
+          <form onSubmit={handleSubmit(onSubmit)}>
             {/* Step 1: Personal Information */}
             {currentStep === 1 && (
               <section className="space-y-6 animate-fadeIn">
@@ -653,8 +641,7 @@ const UserRegister: React.FC = () => {
                 </button>
               ) : (
                 <button 
-                  type="button" 
-                  onClick={handleSubmit(onSubmit)} 
+                  type="submit" 
                   disabled={isSubmitting} 
                   className="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition"
                 >
