@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import api from "../../components/api/Api"; // Assuming this path is correct for your project structure
-import SEOComponent from "../components/SEOComponent";
-import HeroSection from "../components/HeroSection";
-import AboutSection from "../components/AboutSection";
-import EventsSection from "../components/EventsSection";
-import GallerySection from "../components/GallerySection";
-import BenefitsSection from "../components/BenefitsSection";
-import StoreSection from "../components/StoreSection";
-import BlogSection from "../components/BlogSection";
-import FAQSection from "../components/FAQSection";
-import { Event } from '../types'; // Import the Event interface
+import SEOComponent from "./components/SEOComponent";
+import HeroSection from "./components/HeroSection";
+import AboutSection from "./components/AboutSection";
+import EventsSection from "./components/EventsSection";
+import GallerySection from "./components/GallerySection";
+import BenefitsSection from "./components/BenefitsSection";
+import StoreSection from "./components/StoreSection";
+import BlogSection from "./components/BlogSection";
+import FAQSection from "./components/FAQSection";
+import { Event } from './types';
 
 const Home: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
