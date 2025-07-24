@@ -9,6 +9,7 @@ import Weather from "./pages/Weather";
 import About from "./pages/About";
 import Courses from "./pages/Courses";
 import Events from "./pages/Events";
+import Store from "./pages/Store";
 import Home from "./pages/home/Home";
 import Header from "./components/shared/Header";
 import Footer from "./components/shared/Footer";
@@ -36,6 +37,7 @@ function App() {
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Home />} />
+            <Route path="/store" element={<Store />} />
             <Route path="/events" element={<Events />} />
             <Route path="/courses" element={<Courses />} />
             <Route path="/about" element={<About />} />

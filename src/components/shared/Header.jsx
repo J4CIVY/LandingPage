@@ -39,7 +39,7 @@ const Header = forwardRef(({ className = '', ...props }, ref) => {
   // Items del menú
   const navItems = [
     { name: 'Inicio', path: '/' },
-    { name: 'Tienda', path: '/products' }, // Assuming /products is the store route
+    { name: 'Tienda', path: '/store' },
     { name: 'Eventos', path: '/events' },
     { name: 'Cursos', path: '/courses' },
     { name: 'Sobre Nosotros', path: '/about' },
