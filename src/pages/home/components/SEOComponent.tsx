@@ -1,7 +1,31 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 
-const SEOComponent = ({ 
+/**
+ * @interface SEOComponentProps
+ * @property {string} [title] - The title of the page.
+ * @property {string} [description] - The description of the page for SEO.
+ * @property {string} [image] - The URL of the image to be used in social media shares.
+ * @property {string} [url] - The canonical URL of the page.
+ * @property {string} [keywords] - Comma-separated keywords for SEO.
+ * @property {string} [type] - The Open Graph type (e.g., 'website', 'article').
+ * @property {string} [robots] - The robots meta tag content (e.g., 'index, follow').
+ * @property {string} [canonical] - The canonical URL for the page.
+ * @property {React.ReactNode} [children] - React children to be rendered inside Helmet.
+ */
+interface SEOComponentProps {
+  title?: string;
+  description?: string;
+  image?: string;
+  url?: string;
+  keywords?: string;
+  type?: string;
+  robots?: string;
+  canonical?: string;
+  children?: React.ReactNode;
+}
+
+const SEOComponent: React.FC<SEOComponentProps> = ({ 
   title = "BSK Motorcycle Team - Pasión por el Motociclismo", 
   description = "Únete a BSK Motorcycle Team, el motoclub líder en Colombia. Disfruta de rutas, eventos, talleres y una comunidad apasionada por el motociclismo. Hermandad, aventura y respeto sobre dos ruedas.", 
   image = "https://res.cloudinary.com/dz0peilmu/image/upload/v1700000000/Logo_BSK_Motorcycle_Team_ggdyrl.png", // Added a version to the Cloudinary URL for better cache busting

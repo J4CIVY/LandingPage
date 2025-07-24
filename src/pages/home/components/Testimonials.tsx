@@ -1,6 +1,6 @@
 import React from "react";
 
-const Testimonials = () => (
+const Testimonials: React.FC = () => (
   <div className="mt-16">
     <h3 className="text-2xl font-semibold text-slate-950 mb-8 text-center">TESTIMONIOS DE MIEMBROS</h3>
     <div className="grid md:grid-cols-2 gap-8">

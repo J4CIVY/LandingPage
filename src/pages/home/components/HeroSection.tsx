@@ -1,18 +1,18 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const HeroSection = () => {
- const cloudName = "dz0peilmu";
-  const imagePath = "Banner_Landing_Page_BSK_Motorcycle_Team_Julio_o2fcql";
+const HeroSection: React.FC = () => {
+  const cloudName: string = "dz0peilmu";
+  const imagePath: string = "Banner_Landing_Page_BSK_Motorcycle_Team_Julio_o2fcql";
   
   const navigate = useNavigate();
   
   // Common Cloudinary transformation parameters for optimization
-  const commonParams = "q_auto:best,c_fill,g_auto";
+  const commonParams: string = "q_auto:best,c_fill,g_auto";
   
   // Define responsive image sources for different formats (AVIF, WebP, JPG)
   // Using a range of widths to cover various screen sizes efficiently
-  const srcSetAvif = `
+  const srcSetAvif: string = `
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_avif,w_480/${imagePath} 480w,
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_avif,w_768/${imagePath} 768w,
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_avif,w_1024/${imagePath} 1024w,
@@ -20,7 +20,7 @@ const HeroSection = () => {
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_avif,w_1920/${imagePath} 1920w
   `;
 
-  const srcSetWebp = `
+  const srcSetWebp: string = `
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_webp,w_480/${imagePath} 480w,
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_webp,w_768/${imagePath} 768w,
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_webp,w_1024/${imagePath} 1024w,
@@ -28,7 +28,7 @@ const HeroSection = () => {
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_webp,w_1920/${imagePath} 1920w
   `;
 
-  const srcSetJpg = `
+  const srcSetJpg: string = `
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_480/${imagePath} 480w,
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_768/${imagePath} 768w,
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_1024/${imagePath} 1024w,
@@ -37,9 +37,12 @@ const HeroSection = () => {
   `;
 
   // Fallback source for browsers that don't support picture or webp/avif
-  const fallbackSrc = `https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_1920/${imagePath}`;
+  const fallbackSrc: string = `https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_1920/${imagePath}`;
 
-  const handleJoinClick = () => {
+  /**
+   * Handles the click event for the "ÚNETE AL CLUB" button, navigating to the memberships page.
+   */
+  const handleJoinClick = (): void => {
     navigate("/memberships");
   };
 
@@ -74,7 +77,7 @@ const HeroSection = () => {
             width="1920" // Explicit width and height for layout shift prevention
             height="1080"
             loading="eager" // Eager loading for LCP image
-            fetchpriority="high" // High fetch priority for LCP image
+            fetchPriority="high" // High fetch priority for LCP image
           />
         </picture>
         {/* Overlay to darken the image and improve text readability */}

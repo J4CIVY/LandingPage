@@ -1,8 +1,19 @@
 import React, { useEffect } from 'react';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { Event } from '../types'; // Import the Event interface
 
-const EventModal = ({ event, onClose }) => {
+/**
+ * @interface EventModalProps
+ * @property {Event | null} event - The event object to display in the modal. Null if no event is selected.
+ * @property {() => void} onClose - Callback function to close the modal.
+ */
+interface EventModalProps {
+  event: Event | null;
+  onClose: () => void;
+}
+
+const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
   // If event is null, render nothing. This check is important for conditional rendering.
   if (!event) return null;
 
@@ -14,15 +25,23 @@ const EventModal = ({ event, onClose }) => {
     };
   }, []); // Empty dependency array means this effect runs once on mount and cleans up on unmount
 
-  // Helper function to format time strings (e.g., "14:30:00" to "14:30")
-  const formatTime = (timeString) => {
+  /**
+   * Helper function to format time strings (e.g., "14:30:00" to "14:30").
+   * @param {string | undefined} timeString - The time string to format.
+   * @returns {string} The formatted time string, or an empty string if input is undefined.
+   */
+  const formatTime = (timeString: string | undefined): string => {
     if (!timeString) return '';
     const [hours, minutes] = timeString.split(':');
     return `${hours}:${minutes}`;
   };
 
-  // Helper function to determine difficulty level color
-  const getDifficultyColor = (difficulty) => {
+  /**
+   * Helper function to determine difficulty level color.
+   * @param {'low' | 'medium' | 'high'} difficulty - The difficulty level.
+   * @returns {string} Tailwind CSS class for the background color.
+   */
+  const getDifficultyColor = (difficulty: 'low' | 'medium' | 'high'): string => {
     switch (difficulty) {
       case 'low': return 'bg-green-400';
       case 'medium': return 'bg-yellow-500';
@@ -31,8 +50,12 @@ const EventModal = ({ event, onClose }) => {
     }
   };
 
-  // Helper function to determine event type color
-  const getEventTypeColor = (type) => {
+  /**
+   * Helper function to determine event type color.
+   * @param {string} type - The event type.
+   * @returns {string} Tailwind CSS class for the background color.
+   */
+  const getEventTypeColor = (type: string): string => {
     switch (type) {
       case 'Ride': return 'bg-blue-500';
       case 'Meetup': return 'bg-purple-500';

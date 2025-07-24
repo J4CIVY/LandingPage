@@ -1,10 +1,11 @@
 import React, { useState, useMemo } from "react";
+import { FAQQuestion } from '../types'; // Import the FAQQuestion interface
 
-const FAQSection = () => {
-  const [activeFaq, setActiveFaq] = useState(null);
-  const [faqFilter, setFaqFilter] = useState('all');
+const FAQSection: React.FC = () => {
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [faqFilter, setFaqFilter] = useState<'all' | 'membership' | 'events' | 'benefits' | 'general' | 'organization'>('all');
 
-  const faqQuestions = useMemo(() => [
+  const faqQuestions: FAQQuestion[] = useMemo(() => [
     // Membresías
     {
       q: "¿Qué tipos de membresía ofrece el club?",
@@ -294,13 +295,17 @@ const FAQSection = () => {
     },
   ], []); // Memoize faqQuestions to prevent re-creation on every render
 
-  const toggleFaq = (index) => {
+  /**
+   * Toggles the active state of an FAQ item.
+   * @param {number} index - The index of the FAQ item to toggle.
+   */
+  const toggleFaq = (index: number): void => {
     setActiveFaq(activeFaq === index ? null : index);
   };
 
   // Filtered questions based on the active filter
-  const filteredQuestions = useMemo(() => {
-    return faqQuestions.filter(q => faqFilter === 'all' || q.category === faqFilter);
+  const filteredQuestions: FAQQuestion[] = useMemo(() => {
+    return faqQuestions.filter((q: FAQQuestion) => faqFilter === 'all' || q.category === faqFilter);
   }, [faqQuestions, faqFilter]); // Memoize filteredQuestions
 
   return (
@@ -309,7 +314,7 @@ const FAQSection = () => {
       
       <div className="flex flex-wrap justify-center gap-2 mb-6">
         {/* Filter buttons */}
-        {['all', 'membership', 'events', 'benefits', 'general', 'organization'].map(filter => (
+        {['all', 'membership', 'events', 'benefits', 'general', 'organization'].map((filter: 'all' | 'membership' | 'events' | 'benefits' | 'general' | 'organization') => (
           <button 
             key={filter}
             className={`px-4 py-2 rounded-full text-sm ${faqFilter === filter ? 'bg-slate-950 text-white' : 'bg-gray-200 text-slate-950 hover:bg-gray-300'}`}
@@ -328,7 +333,7 @@ const FAQSection = () => {
 
       <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar"> {/* Added custom-scrollbar class */}
         {filteredQuestions.length > 0 ? (
-          filteredQuestions.map((question, index) => (
+          filteredQuestions.map((question: FAQQuestion, index: number) => (
             <div key={index} className="border-b border-gray-200 pb-3">
               <button 
                 className="flex justify-between items-center w-full text-left py-2"

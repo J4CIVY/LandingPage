@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from 'react-router-dom'; // Import Link for internal navigation
+import { BlogPost } from '../types'; // Import the BlogPost interface
 
-const BlogSection = () => {
-  const blogPosts = [
+const BlogSection: React.FC = () => {
+  const blogPosts: BlogPost[] = [
     { id: 1, title: 'Consejos para viajes largos en moto', excerpt: 'Aprende cómo prepararte para tus aventuras en carretera...', date: '10 Sept 2023', image: '/Banner_Consejos_Viajes_Largos_Moto.webp', slug: 'consejos-viajes-largos-moto' },
     { id: 2, title: 'Nuevas regulaciones de seguridad', excerpt: 'Los cambios en la normativa que todo motociclista debe conocer...', date: '28 Ago 2023', image: '/Banner_Regulaciones_Seguridad.webp', slug: 'nuevas-regulaciones-seguridad' }
   ];
@@ -15,7 +16,7 @@ const BlogSection = () => {
         </h2>
 
         <div className="grid md:grid-cols-2 gap-8 mb-12">
-          {blogPosts.map(post => (
+          {blogPosts.map((post: BlogPost) => (
             <div key={post.id} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
               {/* Use Link to make the entire card clickable and navigate to the post */}
               <Link to={`/blog/${post.slug}`} aria-label={`Leer más sobre ${post.title}`}>

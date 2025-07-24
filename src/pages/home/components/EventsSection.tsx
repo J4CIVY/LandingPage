@@ -1,22 +1,41 @@
 import React, { useState } from "react";
-import { format, parseISO, isSameMonth, isSameDay } from 'date-fns'; // isSameMonth and isSameDay are not used here, but kept for consistency if needed elsewhere
+import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { FaCalendarAlt } from 'react-icons/fa';
 import Calendar from "./Calendar";
 import EventModal from "./EventModal";
+import { Event } from '../types'; // Import the Event interface
 
-const EventsSection = ({ events, loading, error }) => {
-  const [activeTab, setActiveTab] = useState('events');
-  const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [selectedEvent, setSelectedEvent] = useState(null);
+/**
+ * @interface EventsSectionProps
+ * @property {Event[]} events - An array of event objects to display.
+ * @property {boolean} loading - Indicates if the events are currently being loaded.
+ * @property {string | null} error - Error message if events failed to load, otherwise null.
+ */
+interface EventsSectionProps {
+  events: Event[];
+  loading: boolean;
+  error: string | null;
+}
 
-  // Handler for opening the event modal
-  const handleEventClick = (event) => {
+const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error }) => {
+  const [activeTab, setActiveTab] = useState<'events' | 'calendar'>('events');
+  const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+
+  /**
+   * Handles the click event on an event card or calendar event, setting the selected event
+   * and opening the event modal.
+   * @param {Event} event - The event object that was clicked.
+   */
+  const handleEventClick = (event: Event): void => {
     setSelectedEvent(event);
   };
 
-  // Handler for closing the event modal
-  const handleCloseModal = () => {
+  /**
+   * Handles the closing of the event modal, resetting the selected event state.
+   */
+  const handleCloseModal = (): void => {
     setSelectedEvent(null);
   };
 
@@ -63,7 +82,7 @@ const EventsSection = ({ events, loading, error }) => {
             ) : (
               <div className="grid md:grid-cols-3 gap-8">
                 {events.length > 0 ? (
-                  events.map(event => (
+                  events.map((event: Event) => (
                     <div key={event._id} className="bg-white text-slate-950 rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105">
                       <div className="relative" style={{ aspectRatio: '16/9' }}>
                         <img

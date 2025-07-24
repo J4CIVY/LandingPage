@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import api from '../../../components/api/Api'; // Import the configured axios instance
+import api from '../../components/api/Api'; // Assuming this path is correct for your project structure
+import { Product } from '../types'; // Import the Product interface
 
-const StoreSection = () => {
-  const [featuredProducts, setFeaturedProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const StoreSection: React.FC = () => {
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchFeaturedProducts = async () => {
+    /**
+     * Fetches featured products from the API.
+     * Sets loading, error, and featuredProducts states based on the API response.
+     */
+    const fetchFeaturedProducts = async (): Promise<void> => {
       try {
         // Use the imported api instance for the request
-        const response = await api.get('/products');
+        const response = await api.get<{ status: string; data: { products: Product[] } }>('/products');
         
         if (response.data.status === 'success' && Array.isArray(response.data.data.products)) {
           // Take only the first 3 products as featured
@@ -20,7 +25,7 @@ const StoreSection = () => {
         } else {
           throw new Error('Formato de respuesta de productos inesperado.');
         }
-      } catch (err) {
+      } catch (err: any) { // Using 'any' for catch error type as it can be various types
         console.error('Error fetching featured products:', err);
         // Provide a more user-friendly error message
         setError(err.response?.data?.message || err.message || 'Error al cargar los productos destacados.');
@@ -78,7 +83,7 @@ const StoreSection = () => {
         {featuredProducts.length > 0 ? (
           <>
             <div className="grid md:grid-cols-3 gap-8">
-              {featuredProducts.map(product => (
+              {featuredProducts.map((product: Product) => (
                 <div key={product._id} className="bg-gray-50 rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105">
                   <div className="relative" style={{ aspectRatio: '1/1' }}>
                     <img
