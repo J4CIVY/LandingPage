@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm, FieldValues } from 'react-hook-form';
 import { FaUser, FaPhone, FaEnvelope, FaMapMarkerAlt, FaBriefcase, FaHeartbeat, FaMotorcycle, FaShieldAlt, FaLock, FaEye } from 'react-icons/fa';
 import { GiSteelwingEmblem } from 'react-icons/gi';
-// import api from '../../components/api/Api'; // Assuming this path is correct
+import api from '../../../components/api/Api';
 import { useNavigate } from 'react-router-dom';
 
 // Mock API for demonstration purposes
