@@ -1,13 +1,17 @@
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
-const Footer = () => {
-  const currentYear = new Date().getFullYear();
+/**
+ * Footer component for the application.
+ * @returns {JSX.Element}
+ */
+const Footer: React.FC = () => {
+  const currentYear: number = new Date().getFullYear();
 
-  // Configuración de Cloudinary
-  const cloudName = "dz0peilmu";
+  // Cloudinary configuration
+  const cloudName: string = "dz0peilmu";
 
-  // URLs optimizadas para cada imagen
+  // Optimized URLs for each image
   const logoClub = {
     avif: `https://res.cloudinary.com/${cloudName}/image/upload/f_avif,q_auto,w_854/Logos_Footer_BSKMT_fqgnap`,
     webp: `https://res.cloudinary.com/${cloudName}/image/upload/f_webp,q_auto,w_854/Logos_Footer_BSKMT_fqgnap`,
@@ -16,7 +20,7 @@ const Footer = () => {
 
   const logoInnpulsa = {
     avif: `https://res.cloudinary.com/${cloudName}/image/upload/f_avif,q_auto,w_250/Logo_Innpulsa_Colombia_i690rs`,
-    webp: `https://res.cloudinary.com/${cloudName}/image/upload/f_webp,q_auto,w_250/Logo_Innpulsa_Colombia_i690rs`,
+    webp: `https://res.com.cloudinary.com/${cloudName}/image/upload/f_webp,q_auto,w_250/Logo_Innpulsa_Colombia_i690rs`,
     png: `https://res.cloudinary.com/${cloudName}/image/upload/f_png,q_auto,w_250/Logo_Innpulsa_Colombia_i690rs`
   };
 
@@ -28,10 +32,10 @@ const Footer = () => {
 
   return (
     <footer className="bg-slate-950 text-gray-500">
-      {/* Primera Sección - Logo y Lema */}
+      {/* First Section - Logo and Motto */}
       <section className="py-8 px-4">
         <div className="max-w-6xl mx-auto flex flex-col items-center justify-center space-y-4">
-          {/* Logo del club optimizado */}
+          {/* Optimized club logo */}
           <picture>
             <source srcSet={logoClub.avif} type="image/avif" />
             <source srcSet={logoClub.webp} type="image/webp" />
@@ -48,11 +52,11 @@ const Footer = () => {
         </div>
       </section>
 
-      {/* Segunda Sección - Apoyos y Vigilancia */}
+      {/* Second Section - Support and Oversight */}
       <section className="py-8 px-4 border-t border-slate-950">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
-            {/* Apoyo - Logo Innpulsa */}
+            {/* Support - Innpulsa Logo */}
             <div className="flex flex-col items-center space-y-2">
               <h2 className="text-sm font-semibold uppercase tracking-wider">Con El Apoyo De</h2>
               <picture>
@@ -69,7 +73,7 @@ const Footer = () => {
               </picture>
             </div>
 
-            {/* Vigilancia - Logo Superintendencia */}
+            {/* Oversight - Superintendence Logo */}
             <div className="flex flex-col items-center space-y-2">
               <h2 className="text-sm font-semibold uppercase tracking-wider">Vigilado Por</h2>
               <div className="flex flex-col sm:flex-row items-center gap-4">
@@ -91,11 +95,11 @@ const Footer = () => {
         </div>
       </section>
 
-      {/* Tercera Sección - Redes Sociales y Menú Legal */}
+      {/* Third Section - Social Media and Legal Menu */}
       <section className="py-8 px-4 border-t border-slate-950">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            {/* Redes Sociales */}
+            {/* Social Media */}
             <div className="flex flex-col items-center md:items-start space-y-3">
               <p className="text-sm font-medium">Síguenos</p>
               <div className="flex space-x-4">
@@ -138,7 +142,7 @@ const Footer = () => {
               </div>
             </div>
 
-            {/* Menú Legal */}
+            {/* Legal Menu */}
             <nav aria-label="Menú legal">
               <ul className="flex flex-wrap justify-center gap-4 md:gap-6">
                 <li>
@@ -159,7 +163,7 @@ const Footer = () => {
         </div>
       </section>
 
-      {/* Cuarta Sección - Copyright */}
+      {/* Fourth Section - Copyright */}
       <section className="py-6 px-4 border-t border-slate-950">
         <div className="max-w-6xl mx-auto">
           <div className="text-center text-xs md:text-sm space-y-2">

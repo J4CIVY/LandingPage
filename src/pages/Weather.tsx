@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react"; // Added useCallback for memoization
+import React, { useState, useEffect, useCallback } from "react";
 import { 
   FaCloudRain,
   FaRadiation,
@@ -11,10 +11,31 @@ import {
   WiRaindrop
 } from "react-icons/wi";
 
-const Weather = () => {
-  const [lastUpdated, setLastUpdated] = useState(new Date());
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768); // This state is declared but not used in rendering logic
-  const [activeTab, setActiveTab] = useState('radar');
+/**
+ * @typedef {Object} TabContent
+ * @property {string} id - Unique identifier for the tab.
+ * @property {string} title - Title displayed on the tab.
+ * @property {JSX.Element} icon - Icon for the tab.
+ * @property {JSX.Element} content - JSX content for the tab panel.
+ * @property {string} source - Source of the data displayed in the tab.
+ */
+interface TabContent {
+  id: string;
+  title: string;
+  icon: JSX.Element;
+  content: JSX.Element;
+  source: string;
+}
+
+/**
+ * Weather component displays weather information for motorcyclists, including precipitation radar and monitoring networks.
+ * It uses iframes to embed external weather services.
+ * @returns {JSX.Element}
+ */
+const Weather: React.FC = () => {
+  const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
+  const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth < 768); // This state is declared but not used in rendering logic
+  const [activeTab, setActiveTab] = useState<string>('radar');
 
   // Effect to update lastUpdated timestamp and handle window resize
   useEffect(() => {
@@ -37,8 +58,13 @@ const Weather = () => {
     };
   }, []); // Empty dependency array means this effect runs once on mount and cleans up on unmount
 
-  // Memoized function to format the date for display
-  const formatDate = useCallback((date) => {
+  /**
+   * Formats a Date object into a time string.
+   * This function is memoized using useCallback.
+   * @param {Date} date - The date object to format.
+   * @returns {string} The formatted time string.
+   */
+  const formatDate = useCallback((date: Date): string => {
     return date.toLocaleTimeString('es-CO', {
       hour: '2-digit',
       minute: '2-digit',
@@ -46,19 +72,23 @@ const Weather = () => {
     });
   }, []); // Empty dependency array means this function is created once
 
-  // Content for the tabs, memoized to prevent re-creation on every render
-  const tabs = useCallback(() => [
+  /**
+   * Defines the content for each tab.
+   * This function is memoized using useCallback.
+   * @returns {TabContent[]} An array of tab content objects.
+   */
+  const tabs = useCallback((): TabContent[] => [
     {
       id: 'radar',
       title: 'Radar de Precipitaciones',
-      icon: <FaRadiation className="w-6 h-6 mr-2" aria-hidden="true" />, // Added aria-hidden
+      icon: <FaRadiation className="w-6 h-6 mr-2" aria-hidden="true" />,
       content: (
         <iframe
           key={`radar-${lastUpdated.getTime()}`} // Key ensures iframe re-renders on update
           src="https://evp.sire.gov.co/radar_animate/inicio.html"
           title="Radar de precipitaciones Animado Bogotá"
           className="w-full h-full"
-          frameBorder="0"
+          frameBorder={0}
           allowFullScreen
           sandbox="allow-scripts allow-same-origin allow-popups allow-forms" // Security: Restrict iframe capabilities
         />
@@ -68,14 +98,14 @@ const Weather = () => {
     {
       id: 'lluvias',
       title: 'Red de Monitoreo de Lluvias',
-      icon: <WiRaindrop className="w-6 h-6 mr-2" aria-hidden="true" />, // Added aria-hidden
+      icon: <WiRaindrop className="w-6 h-6 mr-2" aria-hidden="true" />,
       content: (
         <iframe
           key={`lluvias-${lastUpdated.getTime()}`} // Key ensures iframe re-renders on update
           src="https://app.sab.gov.co/sab/lluvias.htm"
           title="Radar de precipitaciones En Tiempo Real Bogotá"
           className="w-full h-full"
-          frameBorder="0"
+          frameBorder={0}
           allowFullScreen
           sandbox="allow-scripts allow-same-origin allow-popups allow-forms" // Security: Restrict iframe capabilities
         />
@@ -85,14 +115,14 @@ const Weather = () => {
     {
       id: 'siata',
       title: 'Geoportal',
-      icon: <FaMapMarkedAlt className="w-6 h-6 mr-2" aria-hidden="true" />, // Added aria-hidden
+      icon: <FaMapMarkedAlt className="w-6 h-6 mr-2" aria-hidden="true" />,
       content: (
         <iframe
           key={`siata-${lastUpdated.getTime()}`} // Key ensures iframe re-renders on update
           src="https://siata.gov.co/siata_nuevo/"
           title="Sistema de Alerta Temprana de Medellín y el Valle de Aburrá"
           className="w-full h-full"
-          frameBorder="0"
+          frameBorder={0}
           allowFullScreen
           sandbox="allow-scripts allow-same-origin allow-popups allow-forms" // Security: Restrict iframe capabilities
         />
@@ -106,32 +136,32 @@ const Weather = () => {
   return (
     <div className="min-h-screen bg-[#ffffff]">
       
-      {/* Título y última actualización */}
+      {/* Title and last updated */}
       <section className="bg-slate-950 text-white py-8 px-4">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl md:text-4xl font-bold mb-2 flex items-center">
             Clima para Motociclistas - Bogotá Y Medellín
           </h1>
           <p className="text-green-400 flex items-center">
-            <FaClock className="mr-1" aria-hidden="true" /> {/* Added aria-hidden */}
+            <FaClock className="mr-1" aria-hidden="true" />
             Última actualización: {formatDate(lastUpdated)}
           </p>
         </div>
       </section>
 
-      {/* Contenedor de pestañas */}
+      {/* Tabs container */}
       <section className="py-8 px-4 max-w-7xl mx-auto">
-        {/* Navegación de pestañas */}
-        <div className="flex border-b border-gray-200 mb-6 overflow-x-auto" role="tablist"> {/* Added role for accessibility */}
+        {/* Tab navigation */}
+        <div className="flex border-b border-gray-200 mb-6 overflow-x-auto" role="tablist">
           {currentTabs.map(tab => (
             <button
               key={tab.id}
               className={`py-4 px-6 font-medium text-sm flex items-center whitespace-nowrap ${activeTab === tab.id ? 'border-b-2 border-green-400 text-green-400' : 'text-gray-500 hover:text-gray-700'}`}
               onClick={() => setActiveTab(tab.id)}
-              role="tab" // Added role for accessibility
-              aria-selected={activeTab === tab.id} // Added aria-selected for accessibility
-              id={`tab-${tab.id}`} // Added id for accessibility
-              aria-controls={`panel-${tab.id}`} // Added aria-controls for accessibility
+              role="tab"
+              aria-selected={activeTab === tab.id}
+              id={`tab-${tab.id}`}
+              aria-controls={`panel-${tab.id}`}
             >
               {tab.icon}
               {tab.title}
@@ -139,14 +169,14 @@ const Weather = () => {
           ))}
         </div>
 
-        {/* Contenido de la pestaña activa */}
+        {/* Active tab content */}
         {currentTabs.map(tab => (
           <div 
             key={tab.id}
-            role="tabpanel" // Added role for accessibility
-            id={`panel-${tab.id}`} // Added id for accessibility
-            aria-labelledby={`tab-${tab.id}`} // Added aria-labelledby for accessibility
-            hidden={activeTab !== tab.id} // Hide panels that are not active
+            role="tabpanel"
+            id={`panel-${tab.id}`}
+            aria-labelledby={`tab-${tab.id}`}
+            hidden={activeTab !== tab.id}
           >
             {activeTab === tab.id && ( // Only render content if tab is active
               <div className="bg-gray-50 rounded-xl shadow-md overflow-hidden">
@@ -167,34 +197,34 @@ const Weather = () => {
           </div>
         ))}
 
-        {/* Recomendaciones para motociclistas */}
+        {/* Recommendations for motorcyclists */}
         <div className="mt-12 bg-slate-950 border border-green-400 rounded-xl p-6">
           <h3 className="text-2xl font-bold text-white mb-4 flex items-center">
-            <FaExclamationTriangle className="w-6 h-6 mr-2 text-green-400" aria-hidden="true" /> {/* Added aria-hidden */}
+            <FaExclamationTriangle className="w-6 h-6 mr-2 text-green-400" aria-hidden="true" />
             Recomendaciones para Motociclistas
           </h3>
           <ul className="grid md:grid-cols-2 gap-4">
             <li className="flex items-start">
-              <span className="text-green-400 mr-2" aria-hidden="true">•</span> {/* Added aria-hidden */}
+              <span className="text-green-400 mr-2" aria-hidden="true">•</span>
               <span className="text-white">En lluvia intensa, reduce velocidad y aumenta distancia de frenado</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2" aria-hidden="true">•</span> {/* Added aria-hidden */}
+              <span className="text-green-400 mr-2" aria-hidden="true">•</span>
               <span className="text-white">Evita zonas marcadas en rojo/naranja en los mapas</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2" aria-hidden="true">•</span> {/* Added aria-hidden */}
+              <span className="text-green-400 mr-2" aria-hidden="true">•</span>
               <span className="text-white">Usa equipo impermeable y con buena visibilidad</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2" aria-hidden="true">•</span> {/* Added aria-hidden */}
+              <span className="text-green-400 mr-2" aria-hidden="true">•</span>
               <span className="text-white"> Precaución con hidroplaneo en vías como Autopista Norte o Calle 80</span>
             </li>
           </ul>
         </div>
       </section>
 
-      {/* Nota legal */}
+      {/* Legal note */}
       <div className="max-w-7xl mx-auto px-4 py-6 text-center text-gray-500 text-sm">
         <p>Los mapas mostrados son propiedad del Instituto Distrital de Gestión de Riesgos y Cambio Climático (IDIGER), y el Sistema de Alerta Temprana de Medellín y el Valle de Aburrá (SIATA).</p>
         <p>BSK Motorcycle Team proporciona este servicio como referencia para sus miembros.</p>

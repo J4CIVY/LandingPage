@@ -1,11 +1,68 @@
-import React, { useState, useCallback } from "react"; // Added useCallback for memoization
+import React, { useState, useCallback } from "react";
 
-const Contact = () => {
-  const [activeTab, setActiveTab] = useState("general");
-  const [anonymousComplaint, setAnonymousComplaint] = useState(false);
+/**
+ * @typedef {Object} ContactFormState
+ * @property {string} name - Full name of the sender.
+ * @property {string} email - Email address of the sender.
+ * @property {string} phone - Phone number of the sender.
+ * @property {string} subject - Subject of the message.
+ * @property {string} message - Content of the message.
+ */
+interface ContactFormState {
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+}
+
+/**
+ * @typedef {Object} ComplaintFormState
+ * @property {string} title - Title of the complaint.
+ * @property {string} description - Detailed description of the complaint.
+ * @property {string} location - Location where the incident occurred.
+ * @property {string} date - Date of the incident.
+ * @property {File | null} evidence - Optional file evidence.
+ */
+interface ComplaintFormState {
+  title: string;
+  description: string;
+  location: string;
+  date: string;
+  evidence: File | null;
+}
+
+/**
+ * @typedef {Object} PqrsdfFormState
+ * @property {string} type - Type of PQRSDF (peticion, queja, reclamo, sugerencia, denuncia, felicitacion).
+ * @property {string} name - Full name of the applicant.
+ * @property {string} idNumber - Identification number of the applicant.
+ * @property {string} email - Email address of the applicant.
+ * @property {string} phone - Phone number of the applicant.
+ * @property {string} subject - Subject of the PQRSDF.
+ * @property {string} description - Detailed description of the PQRSDF.
+ */
+interface PqrsdfFormState {
+  type: string;
+  name: string;
+  idNumber: string;
+  email: string;
+  phone: string;
+  subject: string;
+  description: string;
+}
+
+/**
+ * Contact component provides various contact forms and location information.
+ * It includes tabs for general inquiries, anonymous complaints, PQRSDF, and locations.
+ * @returns {JSX.Element}
+ */
+const Contact: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<string>("general");
+  const [anonymousComplaint, setAnonymousComplaint] = useState<boolean>(false);
 
   // States for the forms
-  const [contactForm, setContactForm] = useState({
+  const [contactForm, setContactForm] = useState<ContactFormState>({
     name: "",
     email: "",
     phone: "",
@@ -13,7 +70,7 @@ const Contact = () => {
     message: ""
   });
 
-  const [complaintForm, setComplaintForm] = useState({
+  const [complaintForm, setComplaintForm] = useState<ComplaintFormState>({
     title: "",
     description: "",
     location: "",
@@ -21,7 +78,7 @@ const Contact = () => {
     evidence: null // File object
   });
 
-  const [pqrsdfForm, setPqrsdfForm] = useState({
+  const [pqrsdfForm, setPqrsdfForm] = useState<PqrsdfFormState>({
     type: "peticion",
     name: "",
     idNumber: "",
@@ -31,39 +88,53 @@ const Contact = () => {
     description: ""
   });
 
-  // Handlers for form input changes, memoized for performance
-  const handleContactChange = useCallback((e) => {
+  /**
+   * Handles changes in the contact form inputs.
+   * @param {React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>} e - The change event.
+   */
+  const handleContactChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setContactForm(prev => ({ ...prev, [name]: value }));
   }, []);
 
-  const handleComplaintChange = useCallback((e) => {
+  /**
+   * Handles changes in the complaint form inputs.
+   * @param {React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>} e - The change event.
+   */
+  const handleComplaintChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setComplaintForm(prev => ({ ...prev, [name]: value }));
   }, []);
 
-  const handlePqrsdfChange = useCallback((e) => {
+  /**
+   * Handles changes in the PQRSDF form inputs.
+   * @param {React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>} e - The change event.
+   */
+  const handlePqrsdfChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setPqrsdfForm(prev => ({ ...prev, [name]: value }));
   }, []);
 
-  const handleFileUpload = useCallback((e) => {
-    // Security: Validate file type and size on client-side (and always on server-side)
-    const file = e.target.files[0];
+  /**
+   * Handles file uploads for the complaint form, including client-side validation.
+   * @param {React.ChangeEvent<HTMLInputElement>} e - The file input change event.
+   */
+  const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
     if (file) {
       const allowedTypes = ['image/png', 'image/jpeg', 'application/pdf'];
       const maxSize = 10 * 1024 * 1024; // 10MB
 
       if (!allowedTypes.includes(file.type)) {
         alert('Tipo de archivo no permitido. Por favor, sube PNG, JPG o PDF.');
-        e.target.value = null; // Clear the input
+        e.target.value = ''; // Clear the input
         setComplaintForm(prev => ({ ...prev, evidence: null }));
         return;
       }
 
       if (file.size > maxSize) {
         alert('El archivo es demasiado grande. El tamaño máximo permitido es 10MB.');
-        e.target.value = null; // Clear the input
+        e.target.value = ''; // Clear the input
         setComplaintForm(prev => ({ ...prev, evidence: null }));
         return;
       }
@@ -72,12 +143,13 @@ const Contact = () => {
     }
   }, []);
 
-  // Generic submit handler for all forms
-  const handleSubmit = useCallback((e) => {
+  /**
+   * Handles the submission of any form, logs the data, and resets the form.
+   * @param {React.FormEvent<HTMLFormElement>} e - The form submission event.
+   */
+  const handleSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // In a real application, you would send this data to a backend API.
-    // For demonstration, we'll just log and alert.
-    let formDataToSend = {};
+    let formDataToSend: ContactFormState | (ComplaintFormState & { anonymous: boolean }) | PqrsdfFormState = {} as any; // Type assertion for initial empty object
     let formName = "";
 
     switch (activeTab) {
@@ -126,9 +198,9 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* Pestañas de navegación */}
+      {/* Tab navigation */}
       <div className="max-w-7xl mx-auto px-4 md:px-8 mt-8">
-        <div className="flex flex-wrap border-b border-gray-200" role="tablist"> {/* Added role for accessibility */}
+        <div className="flex flex-wrap border-b border-gray-200" role="tablist">
           {[
             { id: "general", label: "Información General" },
             { id: "complaint", label: "Denuncias Anónimas" },
@@ -143,10 +215,10 @@ const Contact = () => {
                   : "text-gray-500 hover:text-gray-700"
               }`}
               onClick={() => setActiveTab(tab.id)}
-              role="tab" // Added role for accessibility
-              aria-selected={activeTab === tab.id} // Added aria-selected for accessibility
-              id={`tab-${tab.id}`} // Added id for accessibility
-              aria-controls={`panel-${tab.id}`} // Added aria-controls for accessibility
+              role="tab"
+              aria-selected={activeTab === tab.id}
+              id={`tab-${tab.id}`}
+              aria-controls={`panel-${tab.id}`}
             >
               {tab.label}
             </button>
@@ -154,7 +226,7 @@ const Contact = () => {
         </div>
       </div>
 
-      {/* Contenido de pestañas */}
+      {/* Tab content */}
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-8">
         {/* Information General Tab Panel */}
         <div 
@@ -172,8 +244,8 @@ const Contact = () => {
                   <div>
                     <h3 className="text-lg font-semibold text-slate-950 flex items-center">
                       <svg className="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                       </svg>
                       Dirección
                     </h3>
@@ -187,7 +259,7 @@ const Contact = () => {
                   <div>
                     <h3 className="text-lg font-semibold text-slate-950 flex items-center">
                       <svg className="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                       </svg>
                       Teléfonos
                     </h3>
@@ -201,7 +273,7 @@ const Contact = () => {
                   <div>
                     <h3 className="text-lg font-semibold text-slate-950 flex items-center">
                       <svg className="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                       </svg>
                       Correos Electrónicos
                     </h3>
@@ -215,7 +287,7 @@ const Contact = () => {
                   <div>
                     <h3 className="text-lg font-semibold text-slate-950 flex items-center">
                       <svg className="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                       Horarios de Atención
                     </h3>
@@ -297,7 +369,7 @@ const Contact = () => {
                     <textarea
                       id="contact-message"
                       name="message"
-                      rows="4"
+                      rows={4}
                       required
                       className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-400 focus:border-green-400"
                       value={contactForm.message}
@@ -333,7 +405,7 @@ const Contact = () => {
                 <div className="flex">
                   <div className="flex-shrink-0">
                     <svg className="h-5 w-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
                   </div>
                   <div className="ml-3">
@@ -401,7 +473,7 @@ const Contact = () => {
                   <textarea
                     id="complaint-description"
                     name="description"
-                    rows="6"
+                    rows={6}
                     required
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-400 focus:border-green-400"
                     value={complaintForm.description}
@@ -454,7 +526,7 @@ const Contact = () => {
                       >
                         <path
                           d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                          strokeWidth="2"
+                          strokeWidth={2}
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
@@ -530,7 +602,7 @@ const Contact = () => {
                 <div className="flex">
                   <div className="flex-shrink-0">
                     <svg className="h-5 w-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
                   <div className="ml-3">
@@ -648,7 +720,7 @@ const Contact = () => {
                   <textarea
                     id="pqrsdf-description"
                     name="description"
-                    rows="6"
+                    rows={6}
                     required
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-400 focus:border-green-400"
                     value={pqrsdfForm.description}

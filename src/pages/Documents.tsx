@@ -13,11 +13,35 @@ import {
   GiSettingsKnobs
 } from "react-icons/gi";
 
-const Documents = () => {
-  const [activeDoc, setActiveDoc] = useState("constitucion");
-  const [searchTerm, setSearchTerm] = useState("");
+/**
+ * @typedef {Object} DocumentContent
+ * @property {string} title - The title of the document.
+ * @property {string} lastUpdate - The last update date of the document.
+ * @property {string} content - The content of the document (simulated).
+ */
+interface DocumentContent {
+  title: string;
+  lastUpdate: string;
+  content: string;
+}
 
-  const legalDocuments = useMemo(() => ({
+/**
+ * @typedef {Object.<string, DocumentContent>} DocumentCollection
+ */
+interface DocumentCollection {
+  [key: string]: DocumentContent;
+}
+
+/**
+ * Documents component displays various institutional documents, categorized into legal and operational.
+ * It includes a search bar and allows users to view and download documents.
+ * @returns {JSX.Element}
+ */
+const Documents: React.FC = () => {
+  const [activeDoc, setActiveDoc] = useState<string | null>("constitucion");
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  const legalDocuments: DocumentCollection = useMemo(() => ({
     constitucion: {
       title: "Estatutos Constitutivos",
       lastUpdate: "15/03/2023",
@@ -51,7 +75,7 @@ const Documents = () => {
     }
   }), []);
 
-  const operationalDocuments = useMemo(() => ({
+  const operationalDocuments: DocumentCollection = useMemo(() => ({
     manualMembresias: {
       title: "Manual de Membresías",
       lastUpdate: "05/04/2023",
@@ -71,12 +95,12 @@ const Documents = () => {
     }
   }), []);
 
-  const allDocuments = useMemo(() => ({
+  const allDocuments: DocumentCollection = useMemo(() => ({
     ...legalDocuments,
     ...operationalDocuments
   }), [legalDocuments, operationalDocuments]);
 
-  const filteredDocumentKeys = useMemo(() => {
+  const filteredDocumentKeys: string[] = useMemo(() => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     return Object.keys(allDocuments).filter(key => 
       allDocuments[key].title.toLowerCase().includes(lowerCaseSearchTerm)
@@ -84,14 +108,14 @@ const Documents = () => {
   }, [searchTerm, allDocuments]);
 
   useEffect(() => {
-    if (!allDocuments[activeDoc] && filteredDocumentKeys.length > 0) {
+    if (activeDoc && !allDocuments[activeDoc] && filteredDocumentKeys.length > 0) {
       setActiveDoc(filteredDocumentKeys[0]);
     } else if (filteredDocumentKeys.length === 0) {
       setActiveDoc(null);
     }
   }, [activeDoc, filteredDocumentKeys, allDocuments]);
 
-  const currentDoc = activeDoc ? allDocuments[activeDoc] : null;
+  const currentDoc: DocumentContent | null = activeDoc ? allDocuments[activeDoc] : null;
 
   return (
     <div className="min-h-screen bg-white">
@@ -123,7 +147,7 @@ const Documents = () => {
                   placeholder="Buscar documento..."
                   className="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:ring-green-400 focus:border-green-400"
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
                   aria-label="Buscar documento"
                 />
               </div>
@@ -210,7 +234,7 @@ const Documents = () => {
                   {/* Document Text (simulated) */}
                   <div className="prose max-w-none">
                     <p className="text-gray-700 mb-6">
-                      <strong className="text-slate-950">BSK Motorcycle Team</strong> - Documento institucional de carácter {activeDoc in legalDocuments ? "legal" : "operativo"}.
+                      <strong className="text-slate-950">BSK Motorcycle Team</strong> - Documento institucional de carácter {activeDoc && (activeDoc in legalDocuments ? "legal" : "operativo")}.
                     </p>
 
                     <div className="border-l-4 border-green-400 pl-4 mb-6">
@@ -224,7 +248,7 @@ const Documents = () => {
                     </pre>
 
                     {/* Signature Section (for legal documents) */}
-                    {activeDoc in legalDocuments && (
+                    {activeDoc && activeDoc in legalDocuments && (
                       <div className="mt-12 pt-6 border-t border-gray-200">
                         <h3 className="text-lg font-bold text-slate-950 mb-4">Certificación</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

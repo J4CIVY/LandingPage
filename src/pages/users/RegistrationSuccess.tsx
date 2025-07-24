@@ -1,9 +1,16 @@
 import React from 'react';
 import { GiSteelwingEmblem } from 'react-icons/gi';
-import { FaCheckCircle } from 'react-icons/fa'; // Removed unused imports
+import { FaCheckCircle } from 'react-icons/fa'; 
 import { Link } from 'react-router-dom';
 
-const RegistrationSuccess = ({ userEmail }) => {
+/**
+ * RegistrationSuccess component displays a success message after user registration.
+ * It includes next steps and contact information.
+ * @param {Object} props - Component props.
+ * @param {string} props.userEmail - The email of the registered user.
+ * @returns {JSX.Element}
+ */
+const RegistrationSuccess: React.FC<{ userEmail: string }> = ({ userEmail }) => {
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-8 text-center">
@@ -23,7 +30,7 @@ const RegistrationSuccess = ({ userEmail }) => {
           Bienvenido a la familia <span className="text-red-600 font-bold">BSK Motorcycle Team</span>. Tu registro como miembro <span className="font-semibold">Friend</span> ha sido completado con éxito.
         </p>
         
-        <div className="mt-6 bg-blue-50 p-4 rounded-lg border border-blue-200" role="alert"> {/* Added role="alert" */}
+        <div className="mt-6 bg-blue-50 p-4 rounded-lg border border-blue-200" role="alert">
           <h3 className="text-lg font-semibold text-blue-800 mb-2">Verifica tu correo electrónico</h3>
           <p className="text-blue-700">
             Hemos enviado un correo de confirmación a <span className="font-semibold">{userEmail || 'tu dirección de correo'}</span>. 
@@ -81,13 +88,6 @@ const RegistrationSuccess = ({ userEmail }) => {
               </p>
             </div>
           </div>
-        </div>
-        
-        <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-8 text-left" role="alert"> {/* Added role="alert" */}
-          <h3 className="text-lg font-semibold text-blue-800 mb-2">📌 Kit de Bienvenida</h3>
-          <p className="text-blue-700">
-            Tu kit físico de bienvenida (carnet, parches y manual) será entregado en tu primer evento con nosotros. Para acceder a beneficios digitales inmediatos, inicia sesión en nuestra plataforma.
-          </p>
         </div>
         
         <div className="flex flex-col sm:flex-row justify-center gap-4">

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'; // Added useCallback for memoization
+import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   FaUsers,
@@ -28,9 +28,50 @@ import {
   TbDiscount
 } from 'react-icons/tb';
 
-const Memberships = () => {
+/**
+ * @typedef {Object} FormDataState
+ * @property {string} name - Name of the contact person.
+ * @property {string} email - Email of the contact person.
+ * @property {string} phone - Phone number of the contact person.
+ * @property {string} message - Message from the contact person.
+ * @property {string} membershipType - Type of membership interested in.
+ */
+interface FormDataState {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+  membershipType: string;
+}
+
+/**
+ * @typedef {Object} MembershipPlan
+ * @property {string} name - Name of the membership plan.
+ * @property {string} price - Price of the membership plan.
+ * @property {string} period - Billing period (e.g., "mensual", "anual").
+ * @property {string[]} features - List of features included in the plan.
+ * @property {string} buttonText - Text for the call-to-action button.
+ * @property {boolean} popular - Indicates if the plan is popular.
+ * @property {() => void} onClick - Function to handle button click.
+ */
+interface MembershipPlan {
+  name: string;
+  price: string;
+  period: string;
+  features: string[];
+  buttonText: string;
+  popular: boolean;
+  onClick: () => void;
+}
+
+/**
+ * Memberships component displays information about different membership plans,
+ * their benefits, requirements, and a contact form.
+ * @returns {JSX.Element}
+ */
+const Memberships: React.FC = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormDataState>({
     name: '',
     email: '',
     phone: '',
@@ -38,8 +79,11 @@ const Memberships = () => {
     membershipType: ''
   });
 
-  // Memoized handleChange for form inputs
-  const handleChange = useCallback((e) => {
+  /**
+   * Handles changes in form inputs.
+   * @param {React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>} e - The change event.
+   */
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -47,8 +91,11 @@ const Memberships = () => {
     }));
   }, []);
 
-  // Memoized handleSubmit for form submission
-  const handleSubmit = useCallback((e) => {
+  /**
+   * Handles form submission, logs data, shows an alert, and resets the form.
+   * @param {React.FormEvent<HTMLFormElement>} e - The form submission event.
+   */
+  const handleSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('Formulario enviado:', formData);
     alert('Gracias por tu interés. Nos pondremos en contacto contigo pronto.');
@@ -62,7 +109,7 @@ const Memberships = () => {
     });
   }, [formData]); // Dependency on formData to ensure latest state is captured
 
-  const membershipTypes = [
+  const membershipTypes: MembershipPlan[] = [
     {
       name: "Friend",
       price: "Gratis",
@@ -130,9 +177,9 @@ const Memberships = () => {
           <a 
             href="#memberships" 
             className="bg-red-600 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-flex items-center"
-            aria-label="Ver nuestras opciones de membresía" // Added aria-label for accessibility
+            aria-label="Ver nuestras opciones de membresía"
           >
-            Ver Membresías <FaChevronRight className="ml-2" aria-hidden="true" /> {/* Added aria-hidden */}
+            Ver Membresías <FaChevronRight className="ml-2" aria-hidden="true" />
           </a>
         </div>
       </div>
@@ -145,7 +192,7 @@ const Memberships = () => {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
               <div className="text-green-400 mb-4">
-                <FaUsers className="h-12 w-12" aria-hidden="true" /> {/* Added aria-hidden */}
+                <FaUsers className="h-12 w-12" aria-hidden="true" />
               </div>
               <h3 className="text-xl font-semibold mb-3 text-gray-800">Hermandad</h3>
               <p className="text-gray-600">
@@ -155,7 +202,7 @@ const Memberships = () => {
             
             <div className="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
               <div className="text-green-400 mb-4">
-                <FaBolt className="h-12 w-12" aria-hidden="true" /> {/* Added aria-hidden */}
+                <FaBolt className="h-12 w-12" aria-hidden="true" />
               </div>
               <h3 className="text-xl font-semibold mb-3 text-gray-800">Espíritu Aventurero</h3>
               <p className="text-gray-600">
@@ -165,7 +212,7 @@ const Memberships = () => {
             
             <div className="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
               <div className="text-green-400 mb-4">
-                <FaLock className="h-12 w-12" aria-hidden="true" /> {/* Added aria-hidden */}
+                <FaLock className="h-12 w-12" aria-hidden="true" />
               </div>
               <h3 className="text-xl font-semibold mb-3 text-gray-800">Respeto y Seguridad</h3>
               <p className="text-gray-600">
@@ -184,7 +231,7 @@ const Memberships = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
               <div className="bg-slate-950 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                <FaCalendarAlt className="h-8 w-8 text-green-400" aria-hidden="true" /> {/* Added aria-hidden */}
+                <FaCalendarAlt className="h-8 w-8 text-green-400" aria-hidden="true" />
               </div>
               <h3 className="font-semibold mb-2 text-gray-800">Eventos exclusivos</h3>
               <p className="text-gray-600 text-sm">Participa en rodadas, tours y actividades sociales organizadas por el club.</p>
@@ -192,7 +239,7 @@ const Memberships = () => {
             
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
               <div className="bg-slate-950 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                <FaShieldAlt className="h-8 w-8 text-green-400" aria-hidden="true" /> {/* Added aria-hidden */}
+                <FaShieldAlt className="h-8 w-8 text-green-400" aria-hidden="true" />
               </div>
               <h3 className="font-semibold mb-2 text-gray-800">Asistencia en ruta</h3>
               <p className="text-gray-600 text-sm">Servicio de asistencia técnica y emergencias disponible 24/7 según tu membresía.</p>
@@ -200,7 +247,7 @@ const Memberships = () => {
             
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
               <div className="bg-slate-950 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                <TbDiscount className="h-8 w-8 text-green-400" aria-hidden="true" /> {/* Added aria-hidden */}
+                <TbDiscount className="h-8 w-8 text-green-400" aria-hidden="true" />
               </div>
               <h3 className="font-semibold mb-2 text-gray-800">Descuentos exclusivos</h3>
               <p className="text-gray-600 text-sm">Accede a descuentos en merchandising, talleres y servicios aliados.</p>
@@ -208,7 +255,7 @@ const Memberships = () => {
             
             <div className="bg-white p-6 rounded-lg shadow-sm text-center">
               <div className="bg-slate-950 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
-                <FaGift className="h-8 w-8 text-green-400" aria-hidden="true" /> {/* Added aria-hidden */}
+                <FaGift className="h-8 w-8 text-green-400" aria-hidden="true" />
               </div>
               <h3 className="font-semibold mb-2 text-gray-800">Kit de bienvenida</h3>
               <p className="text-gray-600 text-sm">Recibe un kit con indumentaria y accesorios según tu tipo de membresía.</p>
@@ -226,7 +273,7 @@ const Memberships = () => {
             <div className="space-y-4">
               <div className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
-                  <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" /> {/* Added aria-hidden */}
+                  <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" />
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-700">Pasión por el motociclismo y alineación con los valores del club</p>
@@ -235,7 +282,7 @@ const Memberships = () => {
               
               <div className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
-                  <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" /> {/* Added aria-hidden */}
+                  <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" />
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-700">Ser mayor de 18 años</p>
@@ -244,7 +291,7 @@ const Memberships = () => {
               
               <div className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
-                  <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" /> {/* Added aria-hidden */}
+                  <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" />
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-700">Licencia de conducir motocicletas tipo A1 o A2 vigente</p>
@@ -253,7 +300,7 @@ const Memberships = () => {
               
               <div className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
-                  <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" /> {/* Added aria-hidden */}
+                  <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" />
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-700">Motocicleta propia en buen estado y debidamente registrada</p>
@@ -262,7 +309,7 @@ const Memberships = () => {
               
               <div className="flex items-start">
                 <div className="flex-shrink-0 mt-1">
-                  <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" /> {/* Added aria-hidden */}
+                  <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" />
                 </div>
                 <div className="ml-3">
                   <p className="text-gray-700">Compromiso de cumplir con el código de ética del club</p>
@@ -310,7 +357,7 @@ const Memberships = () => {
                   <ul className="space-y-3 mb-8">
                     {plan.features.map((feature, i) => (
                       <li key={i} className="flex items-start">
-                        <FaCheck className="h-5 w-5 text-green-400 mr-2 mt-0.5" aria-hidden="true" /> {/* Added aria-hidden */}
+                        <FaCheck className="h-5 w-5 text-green-400 mr-2 mt-0.5" aria-hidden="true" />
                         <span className="text-slate-950">{feature}</span>
                       </li>
                     ))}
@@ -319,9 +366,9 @@ const Memberships = () => {
                   <button 
                     className={`w-full py-3 px-4 rounded-md font-bold text-white ${plan.popular ? 'bg-green-400 hover:bg-green-500' : 'bg-slate-950 hover:bg-slate-900'} transition duration-300 flex items-center justify-center`}
                     onClick={plan.onClick}
-                    aria-label={`Seleccionar membresía ${plan.name}`} // Added aria-label for accessibility
+                    aria-label={`Seleccionar membresía ${plan.name}`}
                   >
-                    {plan.buttonText} <FaChevronRight className="ml-2" aria-hidden="true" /> {/* Added aria-hidden */}
+                    {plan.buttonText} <FaChevronRight className="ml-2" aria-hidden="true" />
                   </button>
                 </div>
               </div>
@@ -339,7 +386,7 @@ const Memberships = () => {
             <div className="bg-blue-800 p-6 rounded-lg">
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mr-4">
-                  <GiFullMotorcycleHelmet className="text-xl text-white" aria-hidden="true" /> {/* Added aria-hidden */}
+                  <GiFullMotorcycleHelmet className="text-xl text-white" aria-hidden="true" />
                 </div>
                 <div>
                   <h4 className="font-bold">Andrea Martínez</h4>
@@ -352,7 +399,7 @@ const Memberships = () => {
             <div className="bg-blue-800 p-6 rounded-lg">
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mr-4">
-                  <GiSteeringWheel className="text-xl text-white" aria-hidden="true" /> {/* Added aria-hidden */}
+                  <GiSteeringWheel className="text-xl text-white" aria-hidden="true" />
                 </div>
                 <div>
                   <h4 className="font-bold">Carlos Rodríguez</h4>
@@ -365,7 +412,7 @@ const Memberships = () => {
             <div className="bg-blue-800 p-6 rounded-lg">
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mr-4">
-                  <GiRoad className="text-xl text-white" aria-hidden="true" /> {/* Added aria-hidden */}
+                  <GiRoad className="text-xl text-white" aria-hidden="true" />
                 </div>
                 <div>
                   <h4 className="font-bold">Luisa Sánchez</h4>
@@ -387,15 +434,15 @@ const Memberships = () => {
             <div className="aspect-w-16 aspect-h-9">
               <img 
                 src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" 
-                alt="Rodada BSK en carretera" // Descriptive alt text
+                alt="Rodada BSK en carretera"
                 className="w-full h-full object-cover rounded-lg"
-                loading="lazy" // Lazy loading for images
+                loading="lazy"
               />
             </div>
             <div className="aspect-w-16 aspect-h-9">
               <img 
                 src="https://images.unsplash.com/photo-1580310614655-644a4b893a6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" 
-                alt="Evento de motociclistas BSK" // Descriptive alt text
+                alt="Evento de motociclistas BSK"
                 className="w-full h-full object-cover rounded-lg"
                 loading="lazy"
               />
@@ -403,7 +450,7 @@ const Memberships = () => {
             <div className="aspect-w-16 aspect-h-9">
               <img 
                 src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" 
-                alt="Comunidad BSK reunida" // Descriptive alt text
+                alt="Comunidad BSK reunida"
                 className="w-full h-full object-cover rounded-lg"
                 loading="lazy"
               />
@@ -411,7 +458,7 @@ const Memberships = () => {
             <div className="aspect-w-16 aspect-h-9">
               <img 
                 src="https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" 
-                alt="Aventura en moto con BSK" // Descriptive alt text
+                alt="Aventura en moto con BSK"
                 className="w-full h-full object-cover rounded-lg"
                 loading="lazy"
               />
@@ -422,10 +469,10 @@ const Memberships = () => {
             <a 
               href="#" // Consider a proper link to a gallery page
               className="inline-flex items-center text-blue-600 font-semibold hover:text-blue-800"
-              aria-label="Ver más fotos de nuestras actividades" // Added aria-label for accessibility
+              aria-label="Ver más fotos de nuestras actividades"
             >
               Ver más fotos de nuestras actividades
-              <FaChevronRight className="h-5 w-5 ml-1" aria-hidden="true" /> {/* Added aria-hidden */}
+              <FaChevronRight className="h-5 w-5 ml-1" aria-hidden="true" />
             </a>
           </div>
         </div>
@@ -442,17 +489,17 @@ const Memberships = () => {
                 
                 <div className="space-y-4">
                   <div className="flex items-start">
-                    <FaEnvelope className="h-6 w-6 mr-3 text-blue-300" aria-hidden="true" /> {/* Added aria-hidden */}
+                    <FaEnvelope className="h-6 w-6 mr-3 text-blue-300" aria-hidden="true" />
                     <span><a href="mailto:soporte@bskmt.xyz" className="text-blue-300 hover:underline">soporte@bskmt.xyz</a></span>
                   </div>
                   
                   <div className="flex items-start">
-                    <FaPhone className="h-6 w-6 mr-3 text-blue-300" aria-hidden="true" /> {/* Added aria-hidden */}
+                    <FaPhone className="h-6 w-6 mr-3 text-blue-300" aria-hidden="true" />
                     <span><a href="tel:+573182941684" className="text-blue-300 hover:underline">+57 318 294 1684</a></span>
                   </div>
                   
                   <div className="flex items-start">
-                    <FaMapMarkerAlt className="h-6 w-6 mr-3 text-blue-300" aria-hidden="true" /> {/* Added aria-hidden */}
+                    <FaMapMarkerAlt className="h-6 w-6 mr-3 text-blue-300" aria-hidden="true" />
                     <span>Carrera 5 A No. 36 A Sur 28, Ayacucho, San Cristóbal, Bogotá</span>
                   </div>
                 </div>
@@ -524,7 +571,7 @@ const Memberships = () => {
                     <textarea 
                       id="contact-message-membership" 
                       name="message" 
-                      rows="4" 
+                      rows={4} 
                       value={formData.message}
                       onChange={handleChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -535,7 +582,7 @@ const Memberships = () => {
                     type="submit" 
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-md transition duration-300 flex items-center justify-center"
                   >
-                    Enviar mensaje <FaPaperPlane className="ml-2" aria-hidden="true" /> {/* Added aria-hidden */}
+                    Enviar mensaje <FaPaperPlane className="ml-2" aria-hidden="true" />
                   </button>
                 </form>
               </div>
@@ -552,9 +599,9 @@ const Memberships = () => {
           <a 
             href="#memberships" 
             className="bg-white hover:bg-gray-100 text-blue-800 font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-flex items-center"
-            aria-label="Ver nuestras opciones de membresía" // Added aria-label for accessibility
+            aria-label="Ver nuestras opciones de membresía"
           >
-            Ver Membresías <FaChevronRight className="ml-2" aria-hidden="true" /> {/* Added aria-hidden */}
+            Ver Membresías <FaChevronRight className="ml-2" aria-hidden="true" />
           </a>
         </div>
       </div>

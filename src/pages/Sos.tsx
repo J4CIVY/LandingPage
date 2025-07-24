@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react"; // Added useCallback for memoization
+import React, { useState, useEffect, useCallback } from "react";
 import { 
   FaWhatsapp, 
   FaPhone, 
@@ -17,39 +17,98 @@ import {
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import axios from 'axios';
 
-const Sos = () => {
-  const [activeTab, setActiveTab] = useState("emergency");
-  const [userLocation, setUserLocation] = useState(null);
-  const [nearestWorkshops, setNearestWorkshops] = useState([]);
-  const [selectedWorkshop, setSelectedWorkshop] = useState(null);
-  const [formData, setFormData] = useState({
+/**
+ * @typedef {Object} LocationCoords
+ * @property {number} lat - Latitude.
+ * @property {number} lng - Longitude.
+ */
+interface LocationCoords {
+  lat: number;
+  lng: number;
+}
+
+/**
+ * @typedef {Object} Workshop
+ * @property {number} id - Unique identifier for the workshop.
+ * @property {string} name - Name of the workshop.
+ * @property {string} address - Address of the workshop.
+ * @property {string} phone - Phone number of the workshop.
+ * @property {string[]} services - List of services offered by the workshop.
+ * @property {LocationCoords} location - Geographic coordinates of the workshop.
+ */
+interface Workshop {
+  id: number;
+  name: string;
+  address: string;
+  phone: string;
+  services: string[];
+  location: LocationCoords;
+}
+
+/**
+ * @typedef {Object} EmergencyFormData
+ * @property {string} name - Full name of the person requesting assistance.
+ * @property {string} memberId - BSK member ID.
+ * @property {string} emergencyType - Type of emergency (e.g., 'mechanical', 'medical').
+ * @property {string} description - Detailed description of the emergency.
+ * @property {string} location - Location of the emergency.
+ */
+interface EmergencyFormData {
+  name: string;
+  memberId: string;
+  emergencyType: string;
+  description: string;
+  location: string;
+}
+
+/**
+ * @typedef {Object} EmergencyApiResponse
+ * @property {string} message - Response message from the API.
+ * @property {boolean} success - Indicates if the request was successful.
+ */
+interface EmergencyApiResponse {
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Sos component provides emergency assistance features for BSK Motorcycle Team members.
+ * It includes emergency contacts, an emergency request form, and a map of associated workshops.
+ * @returns {JSX.Element}
+ */
+const Sos: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<"emergency" | "form" | "workshops">("emergency");
+  const [userLocation, setUserLocation] = useState<LocationCoords | null>(null);
+  const [nearestWorkshops, setNearestWorkshops] = useState<Workshop[]>([]);
+  const [selectedWorkshop, setSelectedWorkshop] = useState<Workshop | null>(null);
+  const [formData, setFormData] = useState<EmergencyFormData>({
     name: "",
     memberId: "",
     emergencyType: "mechanical",
     description: "",
     location: ""
   });
-  const [locationError, setLocationError] = useState(null); // State to handle geolocation errors
+  const [locationError, setLocationError] = useState<string | null>(null); // State to handle geolocation errors
 
   // Google Maps API Key - IMPORTANT: This should be loaded from environment variables
   // and restricted to prevent abuse. For this example, it's hardcoded, but in production,
   // it should be process.env.REACT_APP_GOOGLE_MAPS_API_KEY
-  const GOOGLE_MAPS_API_KEY = "YOUR_GOOGLE_MAPS_API_KEY"; // Replace with actual key from .env
+  const GOOGLE_MAPS_API_KEY: string = "YOUR_GOOGLE_MAPS_API_KEY"; // Replace with actual key from .env
 
   // Map configuration
-  const mapContainerStyle = {
+  const mapContainerStyle: React.CSSProperties = {
     width: '100%',
     height: '400px'
   };
 
   // Default center for the map (Bogotá, Colombia)
-  const defaultCenter = {
+  const defaultCenter: LocationCoords = {
     lat: 4.6243335, // Central point for Bogotá
     lng: -74.063644
   };
 
   // Associated workshops (in production, this would come from an API)
-  const workshops = [
+  const workshops: Workshop[] = [
     {
       id: 1,
       name: "MotoTaller BSK Norte",
@@ -76,8 +135,13 @@ const Sos = () => {
     }
   ];
 
-  // Memoized function to find nearest workshops
-  const findNearestWorkshops = useCallback((lat, lng) => {
+  /**
+   * Finds the nearest workshops based on provided latitude and longitude.
+   * This function is memoized using useCallback.
+   * @param {number} lat - Latitude of the reference point.
+   * @param {number} lng - Longitude of the reference point.
+   */
+  const findNearestWorkshops = useCallback((lat: number, lng: number) => {
     const sorted = [...workshops].sort((a, b) => {
       // Simple Euclidean distance for quick approximation
       const distA = Math.sqrt(Math.pow(a.location.lat - lat, 2) + Math.pow(a.location.lng - lng, 2));
@@ -91,14 +155,14 @@ const Sos = () => {
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
+        (position: GeolocationPosition) => {
           const { latitude, longitude } = position.coords;
           setUserLocation({ lat: latitude, lng: longitude });
           setFormData(prev => ({ ...prev, location: `Lat: ${latitude.toFixed(4)}, Lng: ${longitude.toFixed(4)}` }));
           findNearestWorkshops(latitude, longitude);
           setLocationError(null); // Clear any previous errors
         },
-        (error) => {
+        (error: GeolocationPositionError) => {
           console.error("Error obteniendo ubicación:", error);
           setLocationError("No se pudo obtener tu ubicación. Por favor, ingresa la ubicación manualmente.");
           setUserLocation(defaultCenter); // Fallback to default center
@@ -113,8 +177,12 @@ const Sos = () => {
     }
   }, [findNearestWorkshops, defaultCenter]); // Dependencies for useEffect
 
-  // Memoized handleSubmit for the emergency form
-  const handleSubmit = useCallback(async (e) => {
+  /**
+   * Handles the submission of the emergency form.
+   * This function is memoized using useCallback.
+   * @param {React.FormEvent<HTMLFormElement>} e - The form submission event.
+   */
+  const handleSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Basic client-side validation
     if (!formData.name || !formData.memberId || !formData.description || !formData.location) {
@@ -126,7 +194,7 @@ const Sos = () => {
       // In a real application, replace with your actual API endpoint
       // Security: Ensure your backend API is protected against CSRF, XSS, etc.
       // and validates all incoming data.
-      const response = await axios.post('https://api.bskmotorcycleteam.com/emergencies', formData);
+      const response = await axios.post<EmergencyApiResponse>('https://api.bskmotorcycleteam.com/emergencies', formData);
       console.log('Solicitud enviada con éxito:', response.data);
       alert('Solicitud enviada. Nos contactaremos contigo pronto.');
       setFormData({ // Reset form after successful submission
@@ -136,14 +204,18 @@ const Sos = () => {
         description: "",
         location: userLocation ? `Lat: ${userLocation.lat.toFixed(4)}, Lng: ${userLocation.lng.toFixed(4)}` : ""
       });
-    } catch (error) {
+    } catch (error: any) { // Use 'any' for error type as Axios errors can be complex
       console.error('Error enviando solicitud:', error.response ? error.response.data : error.message);
       alert('Error al enviar la solicitud. Por favor, intenta nuevamente.');
     }
   }, [formData, userLocation]); // Dependencies for handleSubmit
 
-  // Memoized handleChange for form inputs
-  const handleChange = useCallback((e) => {
+  /**
+   * Handles changes in form inputs.
+   * This function is memoized using useCallback.
+   * @param {React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>} e - The change event.
+   */
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -167,38 +239,38 @@ const Sos = () => {
 
       {/* Tabs */}
       <div className="max-w-7xl mx-auto px-4 md:px-8 mt-8">
-        <div className="flex border-b border-gray-200" role="tablist"> {/* Added role for accessibility */}
+        <div className="flex border-b border-gray-200" role="tablist">
           <button
             className={`py-4 px-6 font-medium flex items-center ${activeTab === "emergency" ? "text-green-400 border-b-2 border-green-400" : "text-gray-500"}`}
             onClick={() => setActiveTab("emergency")}
-            role="tab" // Added role for accessibility
-            aria-selected={activeTab === "emergency"} // Added aria-selected for accessibility
-            id="tab-emergency" // Added id for accessibility
-            aria-controls="panel-emergency" // Added aria-controls for accessibility
+            role="tab"
+            aria-selected={activeTab === "emergency"}
+            id="tab-emergency"
+            aria-controls="panel-emergency"
           >
-            <FaAmbulance className="mr-2" aria-hidden="true" /> {/* Added aria-hidden */}
+            <FaAmbulance className="mr-2" aria-hidden="true" />
             Contacto de Emergencia
           </button>
           <button
             className={`py-4 px-6 font-medium flex items-center ${activeTab === "form" ? "text-green-400 border-b-2 border-green-400" : "text-gray-500"}`}
             onClick={() => setActiveTab("form")}
-            role="tab" // Added role for accessibility
-            aria-selected={activeTab === "form"} // Added aria-selected for accessibility
-            id="tab-form" // Added id for accessibility
-            aria-controls="panel-form" // Added aria-controls for accessibility
+            role="tab"
+            aria-selected={activeTab === "form"}
+            id="tab-form"
+            aria-controls="panel-form"
           >
-            <FaPaperPlane className="mr-2" aria-hidden="true" /> {/* Added aria-hidden */}
+            <FaPaperPlane className="mr-2" aria-hidden="true" />
             Formulario de Emergencia
           </button>
           <button
             className={`py-4 px-6 font-medium flex items-center ${activeTab === "workshops" ? "text-green-400 border-b-2 border-green-400" : "text-gray-500"}`}
             onClick={() => setActiveTab("workshops")}
-            role="tab" // Added role for accessibility
-            aria-selected={activeTab === "workshops"} // Added aria-selected for accessibility
-            id="tab-workshops" // Added id for accessibility
-            aria-controls="panel-workshops" // Added aria-controls for accessibility
+            role="tab"
+            aria-selected={activeTab === "workshops"}
+            id="tab-workshops"
+            aria-controls="panel-workshops"
           >
-            <FaTools className="mr-2" aria-hidden="true" /> {/* Added aria-hidden */}
+            <FaTools className="mr-2" aria-hidden="true" />
             Talleres Asociados
           </button>
         </div>
@@ -214,7 +286,7 @@ const Sos = () => {
         {activeTab === "emergency" && (
           <div className="py-12 px-4 md:px-8 max-w-7xl mx-auto">
             <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 mb-8 flex items-start" role="alert">
-              <FaExclamationTriangle className="text-xl mr-2 mt-0.5" aria-hidden="true" /> {/* Added aria-hidden */}
+              <FaExclamationTriangle className="text-xl mr-2 mt-0.5" aria-hidden="true" />
               <div>
                 <p className="font-bold">¡Importante!</p>
                 <p>Usa estos contactos solo para emergencias reales.</p>
@@ -295,9 +367,9 @@ const Sos = () => {
                           <a 
                             href={contact.link} 
                             className="inline-flex items-center bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
-                            target="_blank" // Open in new tab for external links
-                            rel="noopener noreferrer" // Security: Prevent tabnabbing
-                            aria-label={`Contactar por WhatsApp para ${service.type}`} // Added aria-label
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`Contactar por WhatsApp para ${service.type}`}
                           >
                             <FaWhatsapp className="mr-2" aria-hidden="true" />
                             Contactar por WhatsApp
@@ -306,7 +378,7 @@ const Sos = () => {
                           <a 
                             href={`tel:${contact.number.replace(/\s/g, '')}`} 
                             className="inline-flex items-center bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
-                            aria-label={`Llamar a ${service.type} al número ${contact.number}`} // Added aria-label
+                            aria-label={`Llamar a ${service.type} al número ${contact.number}`}
                           >
                             <FaPhone className="mr-2" aria-hidden="true" />
                             Llamar ahora
@@ -333,7 +405,7 @@ const Sos = () => {
           <div className="py-12 px-4 md:px-8 max-w-3xl mx-auto">
             <div className="bg-white rounded-xl shadow-md p-6 md:p-8">
               <h2 className="text-2xl font-bold text-slate-950 mb-6 flex items-center">
-                <FaPaperPlane className="mr-2 text-green-400" aria-hidden="true" /> {/* Added aria-hidden */}
+                <FaPaperPlane className="mr-2 text-green-400" aria-hidden="true" />
                 Formulario de Emergencia
               </h2>
 
@@ -341,7 +413,7 @@ const Sos = () => {
                 <div className="grid md:grid-cols-2 gap-6 mb-6">
                   <div>
                     <label htmlFor="full-name" className="block text-gray-700 mb-2 flex items-center">
-                      <FaUserAlt className="mr-2 text-gray-500" aria-hidden="true" /> {/* Added aria-hidden */}
+                      <FaUserAlt className="mr-2 text-gray-500" aria-hidden="true" />
                       Nombre Completo
                     </label>
                     <input
@@ -357,7 +429,7 @@ const Sos = () => {
                   </div>
                   <div>
                     <label htmlFor="member-id" className="block text-gray-700 mb-2 flex items-center">
-                      <FaUserShield className="mr-2 text-gray-500" aria-hidden="true" /> {/* Added aria-hidden */}
+                      <FaUserShield className="mr-2 text-gray-500" aria-hidden="true" />
                       Número de Socio BSK
                     </label>
                     <input
@@ -375,7 +447,7 @@ const Sos = () => {
 
                 <div className="mb-6">
                   <label htmlFor="emergency-type" className="block text-gray-700 mb-2 flex items-center">
-                    <FaShieldAlt className="mr-2 text-gray-500" aria-hidden="true" /> {/* Added aria-hidden */}
+                    <FaShieldAlt className="mr-2 text-gray-500" aria-hidden="true" />
                     Tipo de Emergencia
                   </label>
                   <select
@@ -402,7 +474,7 @@ const Sos = () => {
                     value={formData.description}
                     onChange={handleChange}
                     className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-400 focus:border-green-400"
-                    rows="4"
+                    rows={4}
                     required
                     aria-required="true"
                   ></textarea>
@@ -410,7 +482,7 @@ const Sos = () => {
 
                 <div className="mb-6">
                   <label htmlFor="location" className="block text-gray-700 mb-2 flex items-center">
-                    <FaMapMarkerAlt className="mr-2 text-gray-500" aria-hidden="true" /> {/* Added aria-hidden */}
+                    <FaMapMarkerAlt className="mr-2 text-gray-500" aria-hidden="true" />
                     Ubicación
                   </label>
                   {userLocation ? (
@@ -440,7 +512,7 @@ const Sos = () => {
                   type="submit"
                   className="bg-slate-950 text-white font-bold py-3 px-6 rounded-lg hover:bg-opacity-90 transition flex items-center justify-center"
                 >
-                  <FaPaperPlane className="mr-2" aria-hidden="true" /> {/* Added aria-hidden */}
+                  <FaPaperPlane className="mr-2" aria-hidden="true" />
                   Enviar Solicitud
                 </button>
               </form>
@@ -459,13 +531,13 @@ const Sos = () => {
         {activeTab === "workshops" && (
           <div className="py-12 px-4 md:px-8 max-w-7xl mx-auto">
             <h2 className="text-2xl font-bold text-slate-950 mb-6 flex items-center">
-              <FaTools className="mr-2 text-green-400" aria-hidden="true" /> {/* Added aria-hidden */}
+              <FaTools className="mr-2 text-green-400" aria-hidden="true" />
               Talleres Asociados
             </h2>
 
             <div className="mb-8 bg-white rounded-xl shadow-md p-6">
               <h3 className="text-xl font-semibold text-slate-950 mb-4 flex items-center">
-                <FaMapMarkerAlt className="text-red-500 mr-2" aria-hidden="true" /> {/* Added aria-hidden */}
+                <FaMapMarkerAlt className="text-red-500 mr-2" aria-hidden="true" />
                 Talleres más cercanos a tu ubicación
               </h3>
 
@@ -484,7 +556,7 @@ const Sos = () => {
                           url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
                           scaledSize: new window.google.maps.Size(32, 32) // Ensure consistent size
                         }}
-                        title="Tu ubicación" // Added title for accessibility
+                        title="Tu ubicación"
                       />
                     )}
 
@@ -497,7 +569,7 @@ const Sos = () => {
                           url: "https://maps.google.com/mapfiles/ms/icons/green-dot.png",
                           scaledSize: new window.google.maps.Size(32, 32) // Ensure consistent size
                         }}
-                        title={workshop.name} // Added title for accessibility
+                        title={workshop.name}
                       />
                     ))}
 
@@ -513,7 +585,7 @@ const Sos = () => {
                           <a
                             href={`tel:${selectedWorkshop.phone.replace(/\s/g, '')}`}
                             className="text-blue-500 hover:underline flex items-center"
-                            aria-label={`Llamar a ${selectedWorkshop.name}`} // Added aria-label
+                            aria-label={`Llamar a ${selectedWorkshop.name}`}
                           >
                             <FaPhone className="mr-1" aria-hidden="true" /> Llamar ahora
                           </a>
@@ -536,16 +608,16 @@ const Sos = () => {
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-slate-950 mb-2">{workshop.name}</h3>
                     <p className="text-gray-600 mb-4 flex items-center">
-                      <FaMapMarkerAlt className="mr-2 text-red-500" aria-hidden="true" /> {/* Added aria-hidden */}
+                      <FaMapMarkerAlt className="mr-2 text-red-500" aria-hidden="true" />
                       {workshop.address}
                     </p>
                     <p className="text-gray-600 mb-4 flex items-center">
-                      <FaPhone className="mr-2 text-blue-500" aria-hidden="true" /> {/* Added aria-hidden */}
+                      <FaPhone className="mr-2 text-blue-500" aria-hidden="true" />
                       {workshop.phone}
                     </p>
                     <div className="mb-4">
                       <h4 className="font-semibold text-gray-700 mb-2 flex items-center">
-                        <FaWrench className="mr-2 text-green-500" aria-hidden="true" /> {/* Added aria-hidden */}
+                        <FaWrench className="mr-2 text-green-500" aria-hidden="true" />
                         Servicios:
                       </h4>
                       <ul className="list-disc pl-5">
@@ -558,7 +630,7 @@ const Sos = () => {
                       <a
                         href={`tel:${workshop.phone.replace(/\s/g, '')}`}
                         className="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-blue-600 transition"
-                        aria-label={`Llamar a ${workshop.name}`} // Added aria-label
+                        aria-label={`Llamar a ${workshop.name}`}
                       >
                         <FaPhone className="mr-2" aria-hidden="true" />
                         Llamar
@@ -568,7 +640,7 @@ const Sos = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="bg-slate-950 text-white px-4 py-2 rounded-lg flex items-center hover:bg-opacity-90 transition"
-                        aria-label={`Cómo llegar a ${workshop.name}`} // Added aria-label
+                        aria-label={`Cómo llegar a ${workshop.name}`}
                       >
                         <FaMapMarkerAlt className="mr-2" aria-hidden="true" />
                         Cómo llegar

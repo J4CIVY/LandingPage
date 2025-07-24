@@ -19,20 +19,15 @@ import MembershipInfoPage from './pages/users/MembershipInfoPage';
 import UserRegister from './pages/users/UserRegister';
 import RegistrationSuccess from './pages/users/RegistrationSuccess';
 
-function App() {
-  const headerRef = useRef();
+function App(): JSX.Element {
+  const headerRef = useRef<HTMLElement>(null);
 
   return (
     <Router>
-        {/* Removed unnecessary div wrapping the entire application. The Router should be the top-level component. */}
-        {/* The fixed header needs to be outside the main content area to prevent layout shifts when scrolling. */}
         <Header 
           ref={headerRef} 
           className="fixed top-0 left-0 right-0 z-50"
         />
-        {/* Main content with padding-top to account for the fixed header. */}
-        {/* The min-h-[calc(100vh-76px)] ensures content takes at least the remaining viewport height. */}
-        {/* pb-20 added to ensure space for the footer if it's not fixed. */}
         <main className="pt-[76px] min-h-[calc(100vh-76px)] relative pb-20">
           <Routes>
             {/* Public Routes */}

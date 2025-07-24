@@ -1,6 +1,10 @@
 import React from 'react';
 
-const CookiePolicy = () => {
+/**
+ * CookiePolicy component displays the detailed cookie policy of BSK Motorcycle Team.
+ * @returns {JSX.Element}
+ */
+const CookiePolicy: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto p-6 text-gray-800">
       <h1 className="text-3xl font-bold text-slate-950 mb-6">Política de Cookies - BSK Motorcycle Team</h1>

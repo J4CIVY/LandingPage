@@ -3,7 +3,12 @@ import { FaMotorcycle, FaShieldAlt, FaUsers, FaMedal, FaHandsHelping } from 'rea
 import { GiSteelwingEmblem } from 'react-icons/gi';
 import { Link } from 'react-router-dom';
 
-const MembershipInfoPage = () => {
+/**
+ * MembershipInfoPage component provides detailed information about the "Friend" membership.
+ * It outlines benefits, duties, and obligations, and includes links for navigation.
+ * @returns {JSX.Element}
+ */
+const MembershipInfoPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6">
@@ -24,7 +29,7 @@ const MembershipInfoPage = () => {
           <p className="text-gray-600 mb-4">
             La Membresía Friend es tu puerta de entrada al mundo BSK Motorcycle Team. Es el nivel básico de membresía diseñado para moteros que quieren ser parte de nuestra comunidad, disfrutar de beneficios exclusivos y crecer con nosotros.
           </p>
-          <div className="bg-red-50 border-l-4 border-red-600 p-4 mb-6" role="alert"> {/* Added role="alert" for important info */}
+          <div className="bg-red-50 border-l-4 border-red-600 p-4 mb-6" role="alert">
             <p className="text-red-800 font-medium">
               "Ser miembro de BSK no es solo tener un carnet, es adoptar un estilo de vida motero con valores, hermandad y pasión por las dos ruedas."
             </p>
@@ -119,7 +124,7 @@ const MembershipInfoPage = () => {
           </div>
         </div>
 
-        <div className="mb-10 bg-yellow-50 border-l-4 border-yellow-400 p-4" role="alert"> {/* Added role="alert" */}
+        <div className="mb-10 bg-yellow-50 border-l-4 border-yellow-400 p-4" role="alert">
           <h3 className="text-lg font-semibold text-yellow-800 mb-2">Importante</h3>
           <p className="text-yellow-700">
             Al registrarte como miembro Friend aceptas cumplir con nuestro código de conducta y reglamento interno. El incumplimiento de estas normas puede resultar en la suspensión o cancelación de tu membresía sin derecho a reembolso.
@@ -128,8 +133,7 @@ const MembershipInfoPage = () => {
 
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-12">
           <Link 
-            to="/" 
-            className="w-full sm:w-auto px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 text-center"
+            to="/" className="w-full sm:w-auto px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 text-center"
             aria-label="Volver al inicio"
           >
             Volver al inicio

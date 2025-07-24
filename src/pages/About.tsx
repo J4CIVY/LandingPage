@@ -1,7 +1,11 @@
 import React from 'react';
 import { FaMotorcycle, FaHandsHelping, FaShieldAlt } from 'react-icons/fa';
 
-const About = () => {
+/**
+ * About component displays information about BSK Motorcycle Team, including its history, mission, vision, and values.
+ * @returns {JSX.Element}
+ */
+const About: React.FC = () => {
   return (
     <main className="min-h-screen bg-primary text-slate-950">
       {/* Hero Section */}
@@ -16,7 +20,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* Historia del Club */}
+      {/* Club History */}
       <section className="py-16 px-4 bg-primary-dark">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
@@ -36,7 +40,7 @@ const About = () => {
               </p>
             </div>
             <div className="bg-gray-800 rounded-lg overflow-hidden h-64 md:h-96 flex items-center justify-center">
-              {/* Placeholder para imagen histórica - Added alt attribute for accessibility */}
+              {/* Placeholder for historical image */}
               <FaMotorcycle className="text-6xl text-accent" aria-label="Motocicleta" />
             </div>
           </article>
@@ -59,14 +63,14 @@ const About = () => {
               </p>
             </div>
             <div className="order-2 md:order-1 bg-gray-800 rounded-lg overflow-hidden h-64 md:h-96 flex items-center justify-center">
-              {/* Placeholder para imagen de crecimiento - Added alt attribute for accessibility */}
+              {/* Placeholder for growth image */}
               <FaHandsHelping className="text-6xl text-accent" aria-label="Manos ayudando" />
             </div>
           </article>
         </div>
       </section>
 
-      {/* Pilares del Club */}
+      {/* Club Pillars */}
       <section className="py-16 px-4 bg-primary">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
@@ -74,10 +78,10 @@ const About = () => {
           </h2>
           
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Misión */}
+            {/* Mission */}
             <article className="bg-primary-dark p-8 rounded-lg shadow-lg">
               <div className="text-accent text-4xl mb-4">
-                <FaMotorcycle aria-label="Icono de motocicleta" /> {/* Added aria-label for accessibility */}
+                <FaMotorcycle aria-label="Icono de motocicleta" />
               </div>
               <h3 className="text-2xl font-semibold mb-4">Misión</h3>
               <p>
@@ -86,10 +90,10 @@ const About = () => {
               </p>
             </article>
 
-            {/* Visión */}
+            {/* Vision */}
             <article className="bg-primary-dark p-8 rounded-lg shadow-lg">
               <div className="text-accent text-4xl mb-4">
-                <FaShieldAlt aria-label="Icono de escudo" /> {/* Added aria-label for accessibility */}
+                <FaShieldAlt aria-label="Icono de escudo" />
               </div>
               <h3 className="text-2xl font-semibold mb-4">Visión</h3>
               <p>
@@ -99,10 +103,10 @@ const About = () => {
               </p>
             </article>
 
-            {/* Valores */}
+            {/* Values */}
             <article className="bg-primary-dark p-8 rounded-lg shadow-lg">
               <div className="text-accent text-4xl mb-4">
-                <FaHandsHelping aria-label="Icono de manos ayudando" /> {/* Added aria-label for accessibility */}
+                <FaHandsHelping aria-label="Icono de manos ayudando" />
               </div>
               <h3 className="text-2xl font-semibold mb-4">Valores</h3>
               <ul className="space-y-2">
@@ -117,7 +121,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* Filosofía y Lema */}
+      {/* Philosophy and Motto */}
       <section className="py-20 px-4 bg-accent text-primary">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-12">
@@ -154,7 +158,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* Testimonios */}
+      {/* Testimonials */}
       <section className="py-16 px-4 bg-primary">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
@@ -189,7 +193,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* Galería */}
+      {/* Gallery */}
       <section className="py-16 px-4 bg-primary-dark">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
