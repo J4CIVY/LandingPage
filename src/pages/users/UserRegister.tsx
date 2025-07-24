@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm, FieldValues } from 'react-hook-form';
 import { FaUser, FaPhone, FaEnvelope, FaMapMarkerAlt, FaBriefcase, FaHeartbeat, FaMotorcycle, FaShieldAlt, FaLock, FaEye, FaVenusMars, FaUserMd, FaExclamationTriangle, FaCheckCircle } from 'react-icons/fa';
 import { GiSteelwingEmblem } from 'react-icons/gi';
-import api from '../../../components/api/Api';
+// import api from '../../../components/api/Api'; // Your actual API import
 import { useNavigate } from 'react-router-dom';
 
 // --- Data for Select Dropdowns (Ideally, move this to a separate file like `data/formOptions.ts`) ---
@@ -128,7 +128,7 @@ const UserRegister: React.FC = () => {
         {stepIcons.map((Icon, index) => (
           <React.Fragment key={index}>
             <div 
-              className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium text-lg ${currentStep > index + 1 ? 'bg-green-500' : currentStep === index + 1 ? 'bg-red-600' : 'bg-gray-300'}`}
+              className={`w-10 h -10 rounded-full flex items-center justify-center text-white font-medium text-lg ${currentStep > index + 1 ? 'bg-green-500' : currentStep === index + 1 ? 'bg-red-600' : 'bg-gray-300'}`}
               aria-current={currentStep === index + 1 ? 'step' : undefined}
               aria-label={`Paso ${index + 1} de ${totalSteps}`}
             >
@@ -163,18 +163,18 @@ const UserRegister: React.FC = () => {
             </div>
           )}
 
-          <form onSubmit={handleSubmit(onSubmit)} noValidate>
+          <form noValidate>
             {/* Step 1: Personal Information */}
             {currentStep === 1 && (
               <section className="space-y-6 animate-fadeIn">
-                <h2 className="text-xl font-semibold text-gray-800 flex items-center"><FaUser className="mr-2 text-red-600" />Información Personal</h2>
+                <h2 className="text-xl font-semibold text-gray-800 flex items-center"><FaUser  className="mr-2 text-red-600" />Información Personal</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Document Type */}
                   <div>
                     <label htmlFor="documentType" className="block text-sm font-medium text-gray-700 mb-1">Tipo de Documento <span className="text-red-500">*</span></label>
                     <select id="documentType" {...register("documentType", { required: "Campo obligatorio" })} className={`block w-full px-3 py-2 border ${errors.documentType ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}>
                       <option value="">Seleccione...</option>
- <option value="CC">Cédula de Ciudadanía</option>
+                      <option value="CC">Cédula de Ciudadanía</option>
                       <option value="CE">Cédula de Extranjería</option>
                       <option value="TI">Tarjeta de Identidad</option>
                       <option value="PA">Pasaporte</option>
@@ -404,7 +404,7 @@ const UserRegister: React.FC = () => {
 
                   {/* Health Insurance */}
                   <div>
-                    <label htmlFor="healthInsurance" className="block text-sm font-medium text-gray-700 mb- 1">Seguro de Salud</label>
+                    <label htmlFor="healthInsurance" className="block text-sm font-medium text-gray-700 mb-1">Seguro de Salud</label>
                     <select id="healthInsurance" {...register("healthInsurance")} className={`block w-full px-3 py-2 border ${errors.healthInsurance ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}>
                       <option value="">Seleccione...</option>
                       {colombianEPS.map((eps) => (
@@ -572,7 +572,7 @@ const UserRegister: React.FC = () => {
                 <div className="flex items-center">
                   <input type="checkbox" id="termsAcceptance" {...register("termsAcceptance", { required: "Debes aceptar los términos y condiciones." })} className={`mr-2 ${errors.termsAcceptance ? 'border-red-500' : 'border-gray-300'}`} />
                   <label htmlFor="termsAcceptance" className="text-sm font-medium text-gray-700">Acepto los términos y condiciones <span className="text-red-500">*</span></label>
-                  {errors.termsAcceptance && <p role="alert" className="mt-1 text-sm text-red-600">{errors.termsAcceptance.message}</p>}
+                  { errors.termsAcceptance && <p role="alert" className="mt-1 text-sm text-red-600">{errors.termsAcceptance.message}</p>}
                 </div>
               </section>
             )}
@@ -653,10 +653,12 @@ const UserRegister: React.FC = () => {
                 </button>
               ) : (
                 <button 
-                  type="submit" 
+                  type="button" 
+                  onClick={handleSubmit(onSubmit)} 
+                  disabled={isSubmitting} 
                   className="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition"
                 >
-                  Registrarse
+                  {isSubmitting ? 'Registrando...' : 'Registrarse'}
                 </button>
               )}
             </div>
