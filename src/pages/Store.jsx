@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react'; // Added useCallback
 import axios from 'axios';
 
 const Store = () => {
@@ -23,26 +23,55 @@ const Store = () => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get('https://api.bskmt.com/products');
-        if (response.data.status === 'success') {
+        // Validate response structure and data before setting state
+        if (response.data && response.data.status === 'success' && Array.isArray(response.data.data.products)) {
           setProducts(response.data.data.products);
-          setFilteredProducts(response.data.data.products);
+          setFilteredProducts(response.data.data.products); // Initialize filtered products with all products
         } else {
-          throw new Error('Failed to fetch products');
+          // More specific error message for API response issues
+          throw new Error('Invalid API response structure or data.');
         }
       } catch (err) {
-        setError(err.message);
+        // Log the full error for debugging, but show a user-friendly message
+        console.error("Failed to fetch products:", err);
+        setError('Failed to load products. Please try again later.');
       } finally {
         setLoading(false);
       }
     };
 
     fetchProducts();
+  }, []); // Empty dependency array means this runs once on mount
+
+  // Memoize generateSlug and formatPrice for performance if they were passed down as props
+  // For internal use, the performance gain is minimal, but good practice for consistency.
+  const generateSlug = useCallback((name) => {
+    return name
+      .toLowerCase()
+      .replace(/[^\w\s-]/gi, '') // Allow hyphens, remove other non-word chars
+      .replace(/\s+/g, '-')
+      .replace(/--+/g, '-'); // Replace multiple hyphens with a single one
+  }, []);
+
+  const formatPrice = useCallback((price) => {
+    // Ensure price is a number before formatting
+    if (typeof price !== 'number') {
+      console.warn('Invalid price type for formatting:', price);
+      return 'N/A'; // Or handle as appropriate
+    }
+    return new Intl.NumberFormat('es-CO', {
+      style: 'currency',
+      currency: 'COP',
+      minimumFractionDigits: 0
+    }).format(price);
   }, []);
 
   // Apply filters whenever search or filters change
-  useEffect(() => {
-    let result = [...products];
-    
+  // Using useCallback to memoize the filter function itself, and then calling it in useEffect
+  // This helps prevent unnecessary re-creations of the filter function on every render
+  const applyFilters = useCallback(() => {
+    let result = [...products]; // Start with the original products array
+
     // Apply search filter
     if (searchTerm) {
       result = result.filter(product => 
@@ -53,13 +82,15 @@ const Store = () => {
     // Apply category filter
     if (categoryFilter !== 'all') {
       result = result.filter(product => 
-        product.category === categoryFilter
+        // Ensure product.category exists before comparing
+        product.category && product.category.toLowerCase() === categoryFilter.toLowerCase()
       );
     }
     
     // Apply availability filter
     if (availabilityFilter !== 'all') {
       result = result.filter(product => 
+        // Ensure product.availability exists before comparing
         availabilityFilter === 'in-stock' ? 
         product.availability === 'in-stock' : 
         product.availability !== 'in-stock'
@@ -68,51 +99,45 @@ const Store = () => {
     
     // Apply price range filter
     result = result.filter(product => 
+      // Ensure product.finalPrice is a number
+      typeof product.finalPrice === 'number' &&
       product.finalPrice >= priceRange[0] && 
       product.finalPrice <= priceRange[1]
     );
     
     setFilteredProducts(result);
-  }, [searchTerm, categoryFilter, availabilityFilter, priceRange, products]);
+  }, [searchTerm, categoryFilter, availabilityFilter, priceRange, products]); // Dependencies for applyFilters
 
-  // Generate slug from product name
-  const generateSlug = (name) => {
-    return name
-      .toLowerCase()
-      .replace(/[^\w\s]/gi, '')
-      .replace(/\s+/g, '-')
-      .replace(/--+/g, '-');
-  };
-
-  // Format price in COP
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat('es-CO', {
-      style: 'currency',
-      currency: 'COP',
-      minimumFractionDigits: 0
-    }).format(price);
-  };
+  useEffect(() => {
+    applyFilters(); // Call the memoized filter function
+  }, [applyFilters]); // Dependency array for useEffect
 
   // Handle modal open
-  const openProductModal = (product) => {
+  const openProductModal = useCallback((product) => {
     setSelectedProduct(product);
     setIsModalOpen(true);
     document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
-  };
+  }, []); // No dependencies, as it only sets state based on passed product
 
   // Handle modal close
-  const closeProductModal = () => {
+  const closeProductModal = useCallback(() => {
     setIsModalOpen(false);
+    setSelectedProduct(null); // Clear selected product when closing modal
     document.body.style.overflow = 'auto'; // Re-enable scrolling
-  };
+  }, []); // No dependencies
 
   // Get unique categories from products
-  const categories = ['all', ...new Set(products.map(product => product.category).filter(Boolean))];
+  // Memoize categories to prevent re-calculation on every render if products don't change
+  const categories = React.useMemo(() => {
+    const uniqueCategories = new Set(products.map(product => product.category).filter(Boolean));
+    return ['all', ...Array.from(uniqueCategories)];
+  }, [products]);
 
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-red-500"></div>
+        <p className="ml-4 text-lg text-gray-700">Loading products...</p> {/* Added loading text */}
       </div>
     );
   }
@@ -122,6 +147,12 @@ const Store = () => {
       <div className="text-center py-10">
         <h2 className="text-2xl font-bold text-red-500 mb-4">Error loading products</h2>
         <p className="text-gray-600">{error}</p>
+        <button 
+          onClick={() => window.location.reload()} // Simple reload to retry fetching
+          className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+        >
+          Retry
+        </button>
       </div>
     );
   }
@@ -149,6 +180,7 @@ const Store = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              aria-label="Search products by name" // Accessibility improvement
             />
           </div>
           
@@ -162,10 +194,11 @@ const Store = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
+              aria-label="Filter products by category" // Accessibility improvement
             >
               {categories.map(category => (
                 <option key={category} value={category}>
-                  {category === 'all' ? 'All Categories' : category}
+                  {category === 'all' ? 'All Categories' : category.charAt(0).toUpperCase() + category.slice(1)} {/* Capitalize category names */}
                 </option>
               ))}
             </select>
@@ -181,6 +214,7 @@ const Store = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
               value={availabilityFilter}
               onChange={(e) => setAvailabilityFilter(e.target.value)}
+              aria-label="Filter products by availability" // Accessibility improvement
             >
               <option value="all">All Products</option>
               <option value="in-stock">In Stock</option>
@@ -201,8 +235,9 @@ const Store = () => {
               max="200000"
               step="10000"
               value={priceRange[0]}
-              onChange={(e) => setPriceRange([parseInt(e.target.value), priceRange[1]])}
+              onChange={(e) => setPriceRange([parseInt(e.target.value, 10), priceRange[1]])} // Use parseInt with radix
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+              aria-label="Minimum price" // Accessibility improvement
             />
             <input
               type="range"
@@ -210,8 +245,9 @@ const Store = () => {
               max="200000"
               step="10000"
               value={priceRange[1]}
-              onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
+              onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value, 10)])} // Use parseInt with radix
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+              aria-label="Maximum price" // Accessibility improvement
             />
           </div>
         </div>
@@ -229,6 +265,7 @@ const Store = () => {
               setPriceRange([0, 200000]);
             }}
             className="mt-4 px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
+            aria-label="Reset all filters" // Accessibility improvement
           >
             Reset Filters
           </button>
@@ -237,21 +274,33 @@ const Store = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredProducts.map((product) => (
             <div 
-              key={product.id}
+              key={product.id} // Ensure product.id is unique and stable
               className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+              role="listitem" // Semantic role for list items
             >
               {/* Product Image */}
               <div 
                 className="h-64 bg-gray-100 relative overflow-hidden cursor-pointer"
                 onClick={() => openProductModal(product)}
+                onKeyPress={(e) => { // Add keyboard accessibility
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    openProductModal(product);
+                  }
+                }}
+                tabIndex="0" // Make div focusable
+                role="button" // Indicate it's an interactive element
+                aria-label={`View details for ${product.name}`} // Accessibility improvement
               >
                 <img
                   src={product.featuredImage}
                   alt={product.name}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                   onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/300x300?text=Product+Image';
+                    // Fallback image for broken links
+                    e.target.src = 'https://via.placeholder.com/300x300?text=Image+Not+Available';
+                    e.target.alt = 'Image not available'; // Update alt text for fallback
                   }}
+                  loading="lazy" // Performance improvement: lazy load images
                 />
                 {product.newProduct && (
                   <div className="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded">
@@ -265,6 +314,14 @@ const Store = () => {
                 <h3 
                   className="font-bold text-lg mb-1 cursor-pointer hover:text-red-500"
                   onClick={() => openProductModal(product)}
+                  onKeyPress={(e) => { // Add keyboard accessibility
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      openProductModal(product);
+                    }
+                  }}
+                  tabIndex="0" // Make h3 focusable
+                  role="button" // Indicate it's an interactive element
+                  aria-label={`View details for ${product.name}`} // Accessibility improvement
                 >
                   {product.name}
                 </h3>
@@ -289,18 +346,21 @@ const Store = () => {
                   <button
                     onClick={() => openProductModal(product)}
                     className="flex-1 py-2 bg-gray-100 text-gray-800 rounded hover:bg-gray-200 transition-colors"
+                    aria-label={`Open details for ${product.name}`} // Accessibility improvement
                   >
                     Details
                   </button>
                   <a
                     href={`https://tienda.bskmt.com/producto/${product.slug || generateSlug(product.name)}`}
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="noopener noreferrer" // Security: Prevent tabnabbing
                     className={`flex-1 py-2 text-center rounded transition-colors ${
                       product.availability === 'in-stock' ?
                       'bg-red-500 text-white hover:bg-red-600' :
                       'bg-gray-300 text-gray-500 cursor-not-allowed'
                     }`}
+                    aria-disabled={product.availability !== 'in-stock'} // Accessibility for disabled state
+                    tabIndex={product.availability !== 'in-stock' ? -1 : 0} // Prevent tabbing if disabled
                   >
                     Buy Now
                   </a>
@@ -313,7 +373,12 @@ const Store = () => {
       
       {/* Product Modal */}
       {isModalOpen && selectedProduct && (
-        <div className="fixed inset-0 z-50 overflow-y-auto">
+        <div 
+          className="fixed inset-0 z-50 overflow-y-auto"
+          role="dialog" // Semantic role for dialog
+          aria-modal="true" // Indicate it's a modal
+          aria-labelledby="product-modal-title" // Link to modal title for accessibility
+        >
           <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             {/* Background overlay */}
             <div 
@@ -336,17 +401,23 @@ const Store = () => {
                         alt={selectedProduct.name}
                         className="w-full h-full object-cover"
                         onError={(e) => {
-                          e.target.src = 'https://via.placeholder.com/600x600?text=Product+Image';
+                          e.target.src = 'https://via.placeholder.com/600x600?text=Image+Not+Available';
+                          e.target.alt = 'Image not available';
                         }}
                       />
                     </div>
                     <div className="grid grid-cols-3 gap-2">
-                      {selectedProduct.gallery && selectedProduct.gallery.slice(0, 3).map((image, index) => (
+                      {/* Ensure gallery exists and is an array before mapping */}
+                      {selectedProduct.gallery && Array.isArray(selectedProduct.gallery) && selectedProduct.gallery.slice(0, 3).map((image, index) => (
                         <div key={index} className="h-24 bg-gray-100 rounded overflow-hidden">
                           <img
                             src={image}
-                            alt={`${selectedProduct.name} ${index + 1}`}
+                            alt={`${selectedProduct.name} thumbnail ${index + 1}`}
                             className="w-full h-full object-cover"
+                            onError={(e) => {
+                              e.target.src = 'https://via.placeholder.com/100x100?text=Thumb';
+                              e.target.alt = 'Thumbnail not available';
+                            }}
                           />
                         </div>
                       ))}
@@ -355,7 +426,7 @@ const Store = () => {
                   
                   {/* Product Details */}
                   <div className="w-full sm:w-1/2">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                    <h3 id="product-modal-title" className="text-2xl font-bold text-gray-900 mb-2">
                       {selectedProduct.name}
                     </h3>
                     <div className="flex items-center mb-4">
@@ -376,7 +447,7 @@ const Store = () => {
                       <p className="text-gray-600">{selectedProduct.longDescription}</p>
                     </div>
                     
-                    {selectedProduct.technicalSpecifications && (
+                    {selectedProduct.technicalSpecifications && Object.keys(selectedProduct.technicalSpecifications).length > 0 && ( // Check if object is not empty
                       <div className="mb-4">
                         <h4 className="font-semibold text-gray-800 mb-1">Technical Specifications</h4>
                         <ul className="text-gray-600">
@@ -390,7 +461,7 @@ const Store = () => {
                       </div>
                     )}
                     
-                    {selectedProduct.features && (
+                    {selectedProduct.features && Array.isArray(selectedProduct.features) && selectedProduct.features.length > 0 && ( // Check if array is not empty
                       <div className="mb-4">
                         <h4 className="font-semibold text-gray-800 mb-1">Features</h4>
                         <ul className="list-disc list-inside text-gray-600">
@@ -405,18 +476,21 @@ const Store = () => {
                       <a
                         href={`https://tienda.bskmt.com/producto/${selectedProduct.slug || generateSlug(selectedProduct.name)}`}
                         target="_blank"
-                        rel="noopener noreferrer"
+                        rel="noopener noreferrer" // Security: Prevent tabnabbing
                         className={`flex-1 py-3 text-center rounded transition-colors ${
                           selectedProduct.availability === 'in-stock' ?
                           'bg-red-500 text-white hover:bg-red-600' :
                           'bg-gray-300 text-gray-500 cursor-not-allowed'
                         }`}
+                        aria-disabled={selectedProduct.availability !== 'in-stock'} // Accessibility for disabled state
+                        tabIndex={selectedProduct.availability !== 'in-stock' ? -1 : 0} // Prevent tabbing if disabled
                       >
                         Buy Now
                       </a>
                       <button
                         onClick={closeProductModal}
                         className="flex-1 py-3 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition-colors"
+                        aria-label="Close product details modal" // Accessibility improvement
                       >
                         Close
                       </button>
