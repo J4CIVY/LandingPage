@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { FaUser , FaPhone, FaEnvelope, FaMapMarkerAlt, FaBriefcase, FaHeartbeat, FaMotorcycle, FaShieldAlt, FaLock } from 'react-icons/fa';
+import { useForm, FieldValues } from 'react-hook-form';
+import { FaUser, FaPhone, FaEnvelope, FaMapMarkerAlt, FaBriefcase, FaHeartbeat, FaMotorcycle, FaShieldAlt, FaLock, FaEye } from 'react-icons/fa';
 import { GiSteelwingEmblem } from 'react-icons/gi';
-import api from '../../components/api/Api'; 
+// import api from '../../components/api/Api'; // Assuming this path is correct
 import { useNavigate } from 'react-router-dom';
+
+// Mock API for demonstration purposes
+const api = {
+  post: (url: string, data: any) => {
+    console.log('Mock API POST to', url, data);
+    return new Promise(resolve => setTimeout(() => resolve({ data: { status: 'success' } }), 1000));
+  }
+};
 
 /**
  * UserRegister component handles the registration of new users.
@@ -11,7 +19,11 @@ import { useNavigate } from 'react-router-dom';
  * @returns {JSX.Element}
  */
 const UserRegister: React.FC = () => {
-  const { register, handleSubmit, formState: { errors }, watch } = useForm(); 
+  // 1. GET `trigger` FROM useForm AND SET A TYPE FOR THE FORM DATA
+  const { register, handleSubmit, formState: { errors }, watch, trigger } = useForm<FieldValues>({
+    mode: 'onTouched' // Validate fields as soon as they are interacted with
+  });
+  
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submitError, setSubmitError] = useState<string>('');
@@ -19,11 +31,23 @@ const UserRegister: React.FC = () => {
 
   const totalSteps: number = 8;
 
+  // 2. DEFINE WHICH FIELDS BELONG TO EACH STEP FOR VALIDATION
+  const stepFields: Record<number, (keyof FieldValues)[]> = {
+    1: ['documentType', 'documentNumber', 'firstName', 'lastName', 'birthDate', 'gender'],
+    2: ['phone', 'email', 'address', 'city', 'country'],
+    3: ['emergencyContactName', 'emergencyContactPhone'],
+    4: ['motorcycleBrand', 'motorcycleModel', 'motorcycleYear', 'licensePlate'],
+    5: ['insuranceCompany', 'policyNumber'],
+    6: ['occupation'],
+    7: ['password', 'confirmPassword'],
+  };
+
   /**
-   * Handles form submission.
+   * Handles final form submission.
    * @param {Object} data - Form data.
    */
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: FieldValues) => {
+    if (isSubmitting) return;
     setIsSubmitting(true);
     setSubmitError('');
     
@@ -31,8 +55,11 @@ const UserRegister: React.FC = () => {
       const birthDate: Date = new Date(data.birthDate);
       const age: number = new Date().getFullYear() - birthDate.getFullYear();
       
+      // Omit confirmation password from submission data
+      const { confirmPassword, ...submissionData } = data;
+
       const userData = {
-        ...data,
+        ...submissionData,
         age: age,
         role: 'Membresia Friend',
         temporaryPassword: false
@@ -44,7 +71,7 @@ const UserRegister: React.FC = () => {
         navigate('/registration-success', { state: { userEmail: data.email } });
       } else {
         setSubmitError('Error en el registro. Por favor verifica tus datos.');
-      }
+       }
     } catch (error) {
       console.error('Registration error:', error);
       if (error.response) {
@@ -64,33 +91,9 @@ const UserRegister: React.FC = () => {
   };
 
   const handleNextStep = async () => {
-    let isValid: boolean = true;
-    switch (currentStep) {
-      case 1:
-        isValid = await handleSubmit(() => {})(null);
-        break;
-      case 2:
-        isValid = await handleSubmit(() => {})(null);
-        break;
-      case 3:
-        isValid = true;
-        break;
-      case 4:
-        isValid = true;
-        break;
-      case 5:
-        isValid = true;
-        break;
-      case 6:
-        isValid = true;
-        break;
-      case 7:
-        isValid = await handleSubmit(() => {})(null);
-        break;
-      default:
-        isValid = true;
-    }
-
+    const fieldsToValidate = stepFields[currentStep];
+    const isValid = await trigger(fieldsToValidate);
+    
     if (isValid) {
       setCurrentStep(prev => Math.min(prev + 1, totalSteps));
     } else {
@@ -341,15 +344,15 @@ const UserRegister: React.FC = () => {
             {currentStep === 3 && (
               <div className="space-y-6">
                 <h2 className="text-xl font-semibold text-gray-800 flex items-center">
-                  <FaCheck className="mr-2 text-red-600" aria-hidden="true" /> Revisa tu Información
+                  <FaEye className="mr-2 text-red-600" aria-hidden="true" /> Revisa tu Información
                 </h2>
                 
                 <div className="bg-gray-100 p-4 rounded-md">
                   <h3 className="font-bold">Información Personal</h3>
-                  <p><strong>Nombre:</strong> {formData.name}</p>
-                  <p><strong>Correo Electrónico:</strong> {formData.email}</p>
-                  <p><strong>Teléfono:</strong> {formData.phone}</p>
-                  <p><strong>Dirección:</strong> {formData.address}</p>
+                  <p><strong>Nombre:</strong> {watch("firstName")} {watch("lastName")}</p>
+                  <p><strong>Correo Electrónico:</strong> {watch("email")}</p>
+                  <p><strong>Teléfono:</strong> {watch("phone")}</p>
+                  <p><strong>Dirección:</strong> {watch("address")}</p>
                 </div>
               </div>
             )}
