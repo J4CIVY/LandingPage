@@ -79,6 +79,7 @@ const AboutSection: React.FC = () => {
                 loading="lazy"
                 width="1366"
                 height="768"
+                crossorigin="anonymous"
               />
             </picture>
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent opacity-70"></div>

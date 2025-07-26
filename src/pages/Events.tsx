@@ -129,9 +129,10 @@ const Events: React.FC = () => {
         <div className="relative h-48">
           <img
             src={event.mainImage || "/default-event-image.webp"}
-            alt={event.name} // Alt text for accessibility
+            alt={event.name}
             className="w-full h-full object-cover"
-            loading="lazy" // Lazy loading for images
+            loading="lazy"
+            crossorigin="anonymous"
           />
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
           <div className="absolute bottom-0 left-0 p-4 text-white">

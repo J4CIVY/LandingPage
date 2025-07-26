@@ -126,7 +126,8 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
                       src={event.mainImage || "/default-event-image.webp"} // Fallback image if mainImage is not provided
                       alt={event.name}
                       className="w-full h-64 object-cover"
-                      loading="lazy" // Lazy load images for performance
+                      loading="lazy"
+                      crossorigin="anonymous"
                     />
                   </div>
 

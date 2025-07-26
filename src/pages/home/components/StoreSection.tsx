@@ -90,7 +90,8 @@ const StoreSection: React.FC = () => {
                       src={product.featuredImage}
                       alt={product.name}
                       className="w-full h-full object-contain p-4 bg-white"
-                      loading="lazy" // Add lazy loading for images
+                      loading="lazy"
+                      crossorigin="anonymous"
                     />
                   </div>
                   <div className="p-6">

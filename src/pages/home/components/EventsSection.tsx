@@ -89,7 +89,8 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
                           src={event.mainImage || "/default-event-image.webp"}
                           alt={event.name}
                           className="w-full h-full object-cover"
-                          loading="lazy" // Add lazy loading for images
+                          loading="lazy"
+                          crossorigin="anonymous"
                         />
                       </div>
                       <div className="p-6">

@@ -368,6 +368,7 @@ const Store: React.FC = () => {
                     e.currentTarget.alt = 'Image not available'; // Update alt text for fallback
                   }}
                   loading="lazy"
+                  crossorigin="anonymous"
                 />
                 {product.newProduct && (
                   <div className="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded">
@@ -467,6 +468,7 @@ const Store: React.FC = () => {
                             e.currentTarget.src = 'https://via.placeholder.com/600x600?text=Image+Not+Available';
                             e.currentTarget.alt = 'Image not available';
                           }}
+                          crossorigin="anonymous"
                         />
                       </div>
                       <div className="grid grid-cols-3 gap-2">
@@ -480,6 +482,7 @@ const Store: React.FC = () => {
                                 e.currentTarget.src = 'https://via.placeholder.com/100x100?text=Thumb';
                                 e.currentTarget.alt = 'Thumbnail not available';
                               }}
+                              crossorigin="anonymous"
                             />
                           </div>
                         ))}

@@ -73,8 +73,9 @@ const HeroSection: React.FC = () => {
             }}
             width="1920" // Explicit width and height for layout shift prevention
             height="1080"
-            loading="eager" // Eager loading for LCP image
-            fetchPriority="high" // High fetch priority for LCP image
+            loading="eager"
+            fetchPriority="high"
+            crossorigin="anonymous"
           />
         </picture>
         {/* Overlay to darken the image and improve text readability */}

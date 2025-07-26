@@ -437,6 +437,7 @@ const Memberships: React.FC = () => {
                 alt="Rodada BSK en carretera"
                 className="w-full h-full object-cover rounded-lg"
                 loading="lazy"
+                crossorigin="anonymous"
               />
             </div>
             <div className="aspect-w-16 aspect-h-9">
@@ -445,6 +446,7 @@ const Memberships: React.FC = () => {
                 alt="Evento de motociclistas BSK"
                 className="w-full h-full object-cover rounded-lg"
                 loading="lazy"
+                crossorigin="anonymous"
               />
             </div>
             <div className="aspect-w-16 aspect-h-9">
@@ -453,6 +455,7 @@ const Memberships: React.FC = () => {
                 alt="Comunidad BSK reunida"
                 className="w-full h-full object-cover rounded-lg"
                 loading="lazy"
+                crossorigin="anonymous"
               />
             </div>
             <div className="aspect-w-16 aspect-h-9">
@@ -461,6 +464,7 @@ const Memberships: React.FC = () => {
                 alt="Aventura en moto con BSK"
                 className="w-full h-full object-cover rounded-lg"
                 loading="lazy"
+                crossorigin="anonymous"
               />
             </div>
           </div>

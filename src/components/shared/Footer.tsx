@@ -46,6 +46,7 @@ const Footer: React.FC = () => {
               width="854"
               height="480"
               loading="lazy"
+              crossorigin="anonymous"
             />
           </picture>
           <p className="text-base font-light italic text-center">Hermandad, Espíritu y Respeto</p>
@@ -69,6 +70,7 @@ const Footer: React.FC = () => {
                   width="250"
                   height="100"
                   loading="lazy"
+                  crossorigin="anonymous"
                 />
               </picture>
             </div>
@@ -87,6 +89,7 @@ const Footer: React.FC = () => {
                     width="250"
                     height="100"
                     loading="lazy"
+                    crossorigin="anonymous"
                   />
                 </picture>
               </div>
