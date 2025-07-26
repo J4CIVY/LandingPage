@@ -88,8 +88,8 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
             aria-label="Ir a inicio"
           >
             <picture>
-              <source srcSet={logoUrl.avif} type="image/avif" crossorigin="anonymous"/>
-              <source srcSet={logoUrl.webp} type="image/webp" crossorigin="anonymous"/>
+              <source srcSet={logoUrl.avif} type="image/avif"/>
+              <source srcSet={logoUrl.webp} type="image/webp"/>
               <img
                 src={logoUrl.png}
                 alt="Logo Motoclub BSK Motorcycle Team"
