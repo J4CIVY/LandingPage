@@ -98,6 +98,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
                 height={90}
                 loading="eager"
                 fetchpriority="high"
+                crossOrigin="anonymous"
               />
             </picture>
           </button>
