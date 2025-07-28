@@ -1,5 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 /**
  * @interface SEOComponentProps
@@ -37,7 +37,7 @@ const SEOComponent: React.FC<SEOComponentProps> = ({
   children
 }) => {
   // Ensure the image URL is absolute and correctly formatted for social media sharing
-  const absoluteImageUrl = new URL(image, url).href;
+  const absoluteImageUrl = image;
 
   return (
     <Helmet>

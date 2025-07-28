@@ -90,7 +90,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
                           alt={event.name}
                           className="w-full h-full object-cover"
                           loading="lazy"
-                          crossorigin="anonymous"
+                          crossOrigin="anonymous"
                         />
                       </div>
                       <div className="p-6">

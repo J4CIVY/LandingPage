@@ -1,6 +1,7 @@
 import React from "react";
 import { FaMotorcycle, FaShieldAlt, FaRocket, FaCheck, FaAward, FaTools, FaRoute, FaPhone, FaCalendarAlt } from "react-icons/fa";
 import { GiSteeringWheel, GiOilDrum, GiMechanicGarage } from "react-icons/gi";
+import SEOComponent from './home/components/SEOComponent';
 
 /**
  * @typedef {Object} Course
@@ -124,7 +125,10 @@ const Courses: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#ffffff]">
-      
+      <SEOComponent
+        title="Cursos de Motociclismo - BSK Motorcycle Team"
+        description="Mejora tus habilidades de motociclismo con nuestros cursos de manejo básico, avanzado, y talleres de mantenimiento. Certificados y diseñados por expertos."
+      />
       {/* Hero Section */}
       <section className="bg-slate-950 text-white py-16 px-4 md:px-20">
         <div className="max-w-7xl mx-auto text-center">

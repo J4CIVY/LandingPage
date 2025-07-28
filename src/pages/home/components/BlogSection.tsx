@@ -76,7 +76,7 @@ const BlogSection: React.FC = () => {
                         loading="lazy"
                         width="1366"
                         height="768"
-                        crossorigin="anonymous"
+                        crossOrigin="anonymous"
                       />
                     </picture>
                   </div>

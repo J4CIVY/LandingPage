@@ -1,9 +1,4 @@
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  role: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import { z } from 'zod';
+import { userSchema } from '@/schemas/userSchema';
+
+export type IFormInput = z.infer<typeof userSchema>;

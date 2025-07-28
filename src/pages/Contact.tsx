@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import SEOComponent from './home/components/SEOComponent';
 
 /**
  * @typedef {Object} ContactFormState
@@ -187,7 +188,10 @@ const Contact: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      
+      <SEOComponent
+        title="Contacto - BSK Motorcycle Team"
+        description="Contacta con BSK Motorcycle Team. Encuentra nuestra información de contacto, envía un mensaje, realiza una denuncia anónima o presenta una PQRSDF."
+      />
       {/* Hero Section */}
       <section className="bg-slate-950 text-white py-16 px-4 md:px-20">
         <div className="max-w-7xl mx-auto text-center">

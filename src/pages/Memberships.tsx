@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import SEOComponent from './home/components/SEOComponent';
 import { 
   FaUsers,
   FaBolt,
@@ -165,6 +166,10 @@ const Memberships: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
+      <SEOComponent
+        title="Membresías - BSK Motorcycle Team"
+        description="Únete a BSK Motorcycle Team. Conoce nuestros planes de membresía, beneficios, y cómo puedes formar parte de nuestra comunidad de motociclistas."
+      />
       {/* Hero Section */}
       <div className="relative bg-slate-950 text-white py-20">
         <div className="container mx-auto px-4 text-center">
@@ -437,7 +442,7 @@ const Memberships: React.FC = () => {
                 alt="Rodada BSK en carretera"
                 className="w-full h-full object-cover rounded-lg"
                 loading="lazy"
-                crossorigin="anonymous"
+                crossOrigin="anonymous"
               />
             </div>
             <div className="aspect-w-16 aspect-h-9">
@@ -446,7 +451,7 @@ const Memberships: React.FC = () => {
                 alt="Evento de motociclistas BSK"
                 className="w-full h-full object-cover rounded-lg"
                 loading="lazy"
-                crossorigin="anonymous"
+                crossOrigin="anonymous"
               />
             </div>
             <div className="aspect-w-16 aspect-h-9">
@@ -455,7 +460,7 @@ const Memberships: React.FC = () => {
                 alt="Comunidad BSK reunida"
                 className="w-full h-full object-cover rounded-lg"
                 loading="lazy"
-                crossorigin="anonymous"
+                crossOrigin="anonymous"
               />
             </div>
             <div className="aspect-w-16 aspect-h-9">
@@ -464,7 +469,7 @@ const Memberships: React.FC = () => {
                 alt="Aventura en moto con BSK"
                 className="w-full h-full object-cover rounded-lg"
                 loading="lazy"
-                crossorigin="anonymous"
+                crossOrigin="anonymous"
               />
             </div>
           </div>

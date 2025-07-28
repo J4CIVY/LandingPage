@@ -12,6 +12,7 @@ import {
   GiArchiveResearch,
   GiSettingsKnobs
 } from "react-icons/gi";
+import SEOComponent from './home/components/SEOComponent';
 
 /**
  * @typedef {Object} DocumentContent
@@ -119,6 +120,10 @@ const Documents: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEOComponent
+        title="Documentos - BSK Motorcycle Team"
+        description="Accede a los documentos institucionales de BSK Motorcycle Team, incluyendo estatutos, códigos de ética, y manuales operativos."
+      />
       {/* Hero Section */}
       <section className="bg-slate-950 text-white py-16 px-4 md:px-20">
         <div className="max-w-7xl mx-auto text-center">

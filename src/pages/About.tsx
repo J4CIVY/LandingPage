@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaMotorcycle, FaHandsHelping, FaShieldAlt } from 'react-icons/fa';
+import SEOComponent from './home/components/SEOComponent';
 
 /**
  * About component displays information about BSK Motorcycle Team, including its history, mission, vision, and values.
@@ -8,6 +9,10 @@ import { FaMotorcycle, FaHandsHelping, FaShieldAlt } from 'react-icons/fa';
 const About: React.FC = () => {
   return (
     <main className="min-h-screen bg-primary text-slate-950">
+      <SEOComponent
+        title="Sobre Nosotros - BSK Motorcycle Team"
+        description="Conoce la historia, misión, visión y valores de BSK Motorcycle Team. Somos más que un motoclub, somos una familia apasionada por el motociclismo en Colombia."
+      />
       {/* Hero Section */}
       <section className="relative py-20 px-4 bg-primary">
         <div className="max-w-6xl mx-auto">

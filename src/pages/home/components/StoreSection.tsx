@@ -91,7 +91,7 @@ const StoreSection: React.FC = () => {
                       alt={product.name}
                       className="w-full h-full object-contain p-4 bg-white"
                       loading="lazy"
-                      crossorigin="anonymous"
+                      crossOrigin="anonymous"
                     />
                   </div>
                   <div className="p-6">

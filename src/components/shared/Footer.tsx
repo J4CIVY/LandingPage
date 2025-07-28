@@ -1,52 +1,25 @@
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link } from 'react-router-dom';
+import { footerImages } from '@/data/images';
 
-/**
- * Footer component for the application.
- * @returns {JSX.Element}
- */
 const Footer: React.FC = () => {
-  const currentYear: number = new Date().getFullYear();
-
-  // Cloudinary configuration
-  const cloudName: string = "dz0peilmu";
-
-  // Optimized URLs for each image
-  const logoClub = {
-    avif: `https://res.cloudinary.com/${cloudName}/image/upload/f_avif,q_auto,w_854/Logos_Footer_BSKMT_fqgnap`,
-    webp: `https://res.cloudinary.com/${cloudName}/image/upload/f_webp,q_auto,w_854/Logos_Footer_BSKMT_fqgnap`,
-    jpg: `https://res.cloudinary.com/${cloudName}/image/upload/f_jpg,q_auto,w_854/Logos_Footer_BSKMT_fqgnap`
-  };
-
-  const logoInnpulsa = {
-    avif: `https://res.cloudinary.com/${cloudName}/image/upload/f_avif,q_auto,w_250/Logo_Innpulsa_Colombia_i690rs`,
-    webp: `https://res.com.cloudinary.com/${cloudName}/image/upload/f_webp,q_auto,w_250/Logo_Innpulsa_Colombia_i690rs`,
-    png: `https://res.cloudinary.com/${cloudName}/image/upload/f_png,q_auto,w_250/Logo_Innpulsa_Colombia_i690rs`
-  };
-
-  const logoSupersociedades = {
-    avif: `https://res.cloudinary.com/${cloudName}/image/upload/f_avif,q_auto,w_250/Logo_Superintendencia_De_Sociedades_g9pims`,
-    webp: `https://res.cloudinary.com/${cloudName}/image/upload/f_webp,q_auto,w_250/Logo_Superintendencia_De_Sociedades_g9pims`,
-    png: `https://res.cloudinary.com/${cloudName}/image/upload/f_png,q_auto,w_250/Logo_Superintendencia_De_Sociedades_g9pims`
-  };
+  const currentYear = new Date().getFullYear();
 
   return (
     <footer className="bg-slate-950 text-gray-500">
       {/* First Section - Logo and Motto */}
       <section className="py-8 px-4">
         <div className="max-w-6xl mx-auto flex flex-col items-center justify-center space-y-4">
-          {/* Optimized club logo */}
           <picture>
-            <source srcSet={logoClub.avif} type="image/avif" />
-            <source srcSet={logoClub.webp} type="image/webp" />
+            <source srcSet={footerImages.logoClub.avif} type="image/avif" />
+            <source srcSet={footerImages.logoClub.webp} type="image/webp" />
             <img
-              src={logoClub.jpg}
+              src={footerImages.logoClub.jpg}
               alt="Logo BSK Motorcycle Team"
               className="h-44 w-auto"
               width="854"
               height="480"
               loading="lazy"
-              crossorigin="anonymous"
             />
           </picture>
           <p className="text-base font-light italic text-center">Hermandad, Espíritu y Respeto</p>
@@ -61,16 +34,15 @@ const Footer: React.FC = () => {
             <div className="flex flex-col items-center space-y-2">
               <h2 className="text-sm font-semibold uppercase tracking-wider">Con El Apoyo De</h2>
               <picture>
-                <source srcSet={logoInnpulsa.avif} type="image/avif" />
-                <source srcSet={logoInnpulsa.webp} type="image/webp" />
+                <source srcSet={footerImages.logoInnpulsa.avif} type="image/avif" />
+                <source srcSet={footerImages.logoInnpulsa.webp} type="image/webp" />
                 <img
-                  src={logoInnpulsa.png}
+                  src={footerImages.logoInnpulsa.png}
                   alt="Logo Innpulsa Colombia"
                   className="h-12 w-auto"
                   width="250"
                   height="100"
                   loading="lazy"
-                  crossorigin="anonymous"
                 />
               </picture>
             </div>
@@ -80,16 +52,15 @@ const Footer: React.FC = () => {
               <h2 className="text-sm font-semibold uppercase tracking-wider">Vigilado Por</h2>
               <div className="flex flex-col sm:flex-row items-center gap-4">
                 <picture>
-                  <source srcSet={logoSupersociedades.avif} type="image/avif" />
-                  <source srcSet={logoSupersociedades.webp} type="image/webp" />
+                  <source srcSet={footerImages.logoSupersociedades.avif} type="image/avif" />
+                  <source srcSet={footerImages.logoSupersociedades.webp} type="image/webp" />
                   <img
-                    src={logoSupersociedades.png}
+                    src={footerImages.logoSupersociedades.png}
                     alt="Logo Superintendencia de Sociedades"
                     className="h-12 w-auto"
                     width="250"
                     height="100"
                     loading="lazy"
-                    crossorigin="anonymous"
                   />
                 </picture>
               </div>
@@ -109,38 +80,42 @@ const Footer: React.FC = () => {
                 <a
                   href="https://facebook.com/bskmotorcycleteam"
                   aria-label="Facebook BSK Motorcycle Team"
-                  className="text-white hover:text-blue-400 transition-colors"
+                  className="text-white hover:text-blue-400 transition-colors flex items-center gap-2"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <FaFacebook size={20} />
+                  <span className="sr-only">Facebook</span>
                 </a>
                 <a
                   href="https://instagram.com/bskmotorcycleteam"
                   aria-label="Instagram BSK Motorcycle Team"
-                  className="text-white hover:text-pink-500 transition-colors"
+                  className="text-white hover:text-pink-500 transition-colors flex items-center gap-2"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <FaInstagram size={20} />
+                  <span className="sr-only">Instagram</span>
                 </a>
                 <a
                   href="https://twitter.com/bskmotorcycleteam"
                   aria-label="Twitter BSK Motorcycle Team"
-                  className="text-white hover:text-blue-300 transition-colors"
+                  className="text-white hover:text-blue-300 transition-colors flex items-center gap-2"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <FaTwitter size={20} />
+                  <span className="sr-only">Twitter</span>
                 </a>
                 <a
                   href="https://youtube.com/bskmotorcycleteam"
                   aria-label="YouTube BSK Motorcycle Team"
-                  className="text-white hover:text-red-500 transition-colors"
+                  className="text-white hover:text-red-500 transition-colors flex items-center gap-2"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <FaYoutube size={20} />
+                  <span className="sr-only">YouTube</span>
                 </a>
               </div>
             </div>
@@ -149,16 +124,13 @@ const Footer: React.FC = () => {
             <nav aria-label="Menú legal">
               <ul className="flex flex-wrap justify-center gap-4 md:gap-6">
                 <li>
-                  {/* Use Link component for internal navigation */}
-                  <Link to="/condiciones" className="text-sm hover:underline">Condiciones</Link>
+                  <Link to="/documents" className="text-sm hover:underline">Condiciones</Link>
                 </li>
                 <li>
-                  {/* Use Link component for internal navigation */}
-                  <Link to="/privacidad" className="text-sm hover:underline">Privacidad</Link>
+                  <Link to="/documents" className="text-sm hover:underline">Privacidad</Link>
                 </li>
                 <li>
-                  {/* Use Link component for internal navigation */}
-                  <Link to="/mapa-web" className="text-sm hover:underline">Mapa web</Link>
+                  <Link to="/documents" className="text-sm hover:underline">Mapa web</Link>
                 </li>
               </ul>
             </nav>

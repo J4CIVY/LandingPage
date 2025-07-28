@@ -16,6 +16,7 @@ import {
 } from "react-icons/fa";
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import axios from 'axios';
+import SEOComponent from './home/components/SEOComponent';
 
 /**
  * @typedef {Object} LocationCoords
@@ -224,7 +225,10 @@ const Sos: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#ffffff]">
-
+      <SEOComponent
+        title="SOS Asistencia - BSK Motorcycle Team"
+        description="Servicio de asistencia en carretera para miembros de BSK Motorcycle Team. Contactos de emergencia, formulario de solicitud y mapa de talleres."
+      />
       {/* Hero Section */}
       <section className="bg-slate-950 text-white py-16 px-4 md:px-20">
         <div className="max-w-7xl mx-auto text-center">

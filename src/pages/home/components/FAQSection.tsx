@@ -314,11 +314,11 @@ const FAQSection: React.FC = () => {
       
       <div className="flex flex-wrap justify-center gap-2 mb-6">
         {/* Filter buttons */}
-        {['all', 'membership', 'events', 'benefits', 'general', 'organization'].map((filter: 'all' | 'membership' | 'events' | 'benefits' | 'general' | 'organization') => (
-          <button 
+        {['all', 'membership', 'events', 'benefits', 'general', 'organization'].map((filter) => (
+          <button
             key={filter}
             className={`px-4 py-2 rounded-full text-sm ${faqFilter === filter ? 'bg-slate-950 text-white' : 'bg-gray-200 text-slate-950 hover:bg-gray-300'}`}
-            onClick={() => setFaqFilter(filter)}
+            onClick={() => setFaqFilter(filter as 'all' | 'membership' | 'events' | 'benefits' | 'general' | 'organization')}
             aria-pressed={faqFilter === filter} // ARIA attribute for toggle buttons
           >
             {filter === 'all' && 'Todas'}

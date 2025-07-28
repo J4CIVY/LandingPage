@@ -62,7 +62,7 @@ const Testimonials: React.FC = () => {
                 loading="lazy" 
                 width="125"
                 height="125"
-                crossorigin="anonymous"
+                crossOrigin="anonymous"
               />
             </picture>
             <div>
@@ -87,7 +87,7 @@ const Testimonials: React.FC = () => {
                 loading="lazy" 
                 width="125"
                 height="125"
-                crossorigin="anonymous"
+                crossOrigin="anonymous"
               />
             </picture>
             <div>

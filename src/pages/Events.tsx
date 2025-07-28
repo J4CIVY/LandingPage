@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { format, parseISO, isAfter, isBefore } from "date-fns";
 import { es } from "date-fns/locale";
+import SEOComponent from './home/components/SEOComponent';
 
 /**
  * @typedef {Object} EventLocation
@@ -132,7 +133,7 @@ const Events: React.FC = () => {
             alt={event.name}
             className="w-full h-full object-cover"
             loading="lazy"
-            crossorigin="anonymous"
+            crossOrigin="anonymous"
           />
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
           <div className="absolute bottom-0 left-0 p-4 text-white">
@@ -172,6 +173,10 @@ const Events: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <SEOComponent
+        title="Eventos - BSK Motorcycle Team"
+        description="Consulta nuestro calendario de eventos. Participa en rodadas, encuentros, y actividades de la comunidad BSK Motorcycle Team."
+      />
       <section className="py-16 px-4 max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">

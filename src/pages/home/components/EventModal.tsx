@@ -127,7 +127,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
                       alt={event.name}
                       className="w-full h-64 object-cover"
                       loading="lazy"
-                      crossorigin="anonymous"
+                      crossOrigin="anonymous"
                     />
                   </div>
 

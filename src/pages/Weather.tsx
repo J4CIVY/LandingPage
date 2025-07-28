@@ -10,6 +10,7 @@ import {
   WiDaySunny, // Not used, can be removed if not intended for future use
   WiRaindrop
 } from "react-icons/wi";
+import SEOComponent from './home/components/SEOComponent';
 
 /**
  * @typedef {Object} TabContent
@@ -135,7 +136,10 @@ const Weather: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#ffffff]">
-      
+      <SEOComponent
+        title="Clima para Motociclistas - BSK Motorcycle Team"
+        description="Consulta el clima en tiempo real para Bogotá y Medellín. Radar de precipitaciones y redes de monitoreo para planificar tus rutas de forma segura."
+      />
       {/* Title and last updated */}
       <section className="bg-slate-950 text-white py-8 px-4">
         <div className="max-w-7xl mx-auto">

@@ -52,14 +52,12 @@ const HeroSection: React.FC = () => {
             srcSet={srcSetAvif} 
             type="image/avif"
             sizes="100vw" // Image takes 100% of viewport width
-            crossorigin="anonymous"
           />
           {/* WebP source for good compression and broader support */}
           <source 
             srcSet={srcSetWebp} 
             type="image/webp"
             sizes="100vw"
-            crossorigin="anonymous"
           />
           {/* Fallback JPG image for maximum compatibility */}
           <img
@@ -77,7 +75,7 @@ const HeroSection: React.FC = () => {
             height="1080"
             loading="eager"
             fetchPriority="high"
-            crossorigin="anonymous"
+            crossOrigin="anonymous"
           />
         </picture>
         {/* Overlay to darken the image and improve text readability */}

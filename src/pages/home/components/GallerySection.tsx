@@ -97,7 +97,7 @@ const GallerySection: React.FC = () => {
                   loading={index <= 1 ? 'eager' : 'lazy'} // Carga las primeras 2 imágenes inmediatamente
                   width="1366"
                   height="768"
-                  crossorigin="anonymous"
+                  crossOrigin="anonymous"
                 />
               </picture>
             ))}

@@ -1,38 +1,12 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
+import { CookieSettings } from '@/types/cookies';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
 
-/**
- * @typedef {Object} CookieSettings
- * @property {boolean} essential - Essential cookies.
- * @property {boolean} performance - Performance cookies.
- * @property {boolean} functional - Functional cookies.
- * @property {boolean} marketing - Marketing cookies.
- * @property {boolean} social - Social media cookies.
- */
-interface CookieSettings {
-  essential: boolean;
-  performance: boolean;
-  functional: boolean;
-  marketing: boolean;
-  social: boolean;
-}
-
-/**
- * Augment the Window interface to include custom properties.
- */
-declare global {
-  interface Window {
-    googleAnalyticsLoaded: boolean;
-  }
-}
-
-/**
- * CookieBanner component displays a banner for cookie consent and settings.
- * @returns {JSX.Element | null}
- */
 const CookieBanner: React.FC = () => {
   const [showBanner, setShowBanner] = useState<boolean>(false);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [showSettings, setShowSettings] = useState<boolean>(false);
+  const settingsRef = useFocusTrap<HTMLDivElement>(showSettings);
   const [cookieSettings, setCookieSettings] = useState<CookieSettings>(() => {
     const savedSettings = localStorage.getItem('cookieSettings');
     return savedSettings ? JSON.parse(savedSettings) : {
@@ -44,47 +18,29 @@ const CookieBanner: React.FC = () => {
     };
   });
 
-  /**
-   * Applies the current cookie settings.
-   * This function is memoized using useCallback.
-   * @param {CookieSettings} settings - The cookie settings to apply.
-   */
-  const applyCookieSettings = useCallback((settings: CookieSettings) => {
-    console.log('Aplicando configuración de cookies:', settings);
-    // Logic to load analytics scripts, etc.
+  const applyCookieSettings = (settings: CookieSettings) => {
+    console.log('Applying cookie settings:', settings);
     if (settings.performance && !window.googleAnalyticsLoaded) {
-      // Simulate script loading
-      console.log('Cargando script de Google Analytics...');
-      window.googleAnalyticsLoaded = true; // Prevent double loading
+      console.log('Loading Google Analytics script...');
+      window.googleAnalyticsLoaded = true;
     }
-    // You could trigger events or update a global context here
-  }, []);
+  };
 
   useEffect(() => {
     const savedConsent = localStorage.getItem('cookieConsent');
-    
     if (savedConsent !== 'accepted') {
       setShowBanner(true);
-      // Small delay to allow DOM to update before opacity transition
       setTimeout(() => setIsVisible(true), 100);
     } else {
-      // If already accepted, apply saved settings immediately
       applyCookieSettings(cookieSettings);
     }
-  }, [applyCookieSettings, cookieSettings]); // Dependencies added
+  }, [cookieSettings]);
 
-  /**
-   * Hides the cookie banner with a transition.
-   */
   const hideBanner = (): void => {
     setIsVisible(false);
-    // Wait for opacity transition to finish before hiding the banner completely
     setTimeout(() => setShowBanner(false), 300);
   };
 
-  /**
-   * Accepts all cookie categories and hides the banner.
-   */
   const acceptAll = (): void => {
     const allAccepted: CookieSettings = {
       essential: true,
@@ -100,9 +56,6 @@ const CookieBanner: React.FC = () => {
     hideBanner();
   };
 
-  /**
-   * Saves the current cookie settings and hides the banner.
-   */
   const saveSettings = (): void => {
     localStorage.setItem('cookieConsent', 'accepted');
     localStorage.setItem('cookieSettings', JSON.stringify(cookieSettings));
@@ -110,17 +63,10 @@ const CookieBanner: React.FC = () => {
     hideBanner();
   };
 
-  /**
-   * Toggles the visibility of the cookie settings panel.
-   */
   const toggleSettings = (): void => {
     setShowSettings(prev => !prev);
   };
 
-  /**
-   * Handles the change of a specific cookie setting.
-   * @param {keyof CookieSettings} type - The type of cookie setting to change.
-   */
   const handleSettingChange = (type: keyof CookieSettings): void => {
     setCookieSettings(prev => ({
       ...prev,
@@ -157,13 +103,6 @@ const CookieBanner: React.FC = () => {
               >
                 Configurar
               </button>
-              <button 
-                onClick={saveSettings}
-                className="bg-transparent hover:bg-white hover:text-slate-950 font-bold py-2 px-4 rounded transition-colors duration-200 text-sm md:text-base"
-                aria-label="Guardar preferencias de cookies"
-              >
-                Guardar preferencias
-              </button>
             </div>
           </div>
         </div>
@@ -175,6 +114,8 @@ const CookieBanner: React.FC = () => {
           role="dialog"
           aria-modal="true"
           aria-labelledby="cookie-settings-title"
+          ref={settingsRef}
+          tabIndex={-1}
         >
           <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
@@ -192,7 +133,6 @@ const CookieBanner: React.FC = () => {
               </div>
 
               <div className="space-y-6">
-                {/* Essential Cookies */}
                 <div className="border-b pb-4">
                   <div className="flex items-center justify-between">
                     <div>
@@ -213,7 +153,6 @@ const CookieBanner: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Performance Cookies */}
                 <div className="border-b pb-4">
                   <div className="flex items-center justify-between">
                     <div>
@@ -234,7 +173,6 @@ const CookieBanner: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Functional Cookies */}
                 <div className="border-b pb-4">
                   <div className="flex items-center justify-between">
                     <div>
@@ -255,7 +193,6 @@ const CookieBanner: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Marketing Cookies */}
                 <div className="border-b pb-4">
                   <div className="flex items-center justify-between">
                     <div>
@@ -276,7 +213,6 @@ const CookieBanner: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Social Cookies */}
                 <div className="border-b pb-4">
                   <div className="flex items-center justify-between">
                     <div>
