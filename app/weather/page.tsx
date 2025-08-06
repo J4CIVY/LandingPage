@@ -37,7 +37,8 @@ interface TabContent {
  */
 const Weather: React.FC = () => {
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
-  const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth < 768); // This state is declared but not used in rendering logic
+  const [isMobile, setIsMobile] = useState<boolean>(false); // Inicializa como false
+
   const [activeTab, setActiveTab] = useState<string>('radar');
 
   // Effect to update lastUpdated timestamp and handle window resize
@@ -52,12 +53,18 @@ const Weather: React.FC = () => {
       setIsMobile(window.innerWidth < 768);
     };
 
-    window.addEventListener('resize', handleResize);
+    // Solo agregar el listener si estamos en el cliente
+    if (typeof window !== 'undefined') {
+      handleResize(); // Llama a la función para establecer el estado inicial
+      window.addEventListener('resize', handleResize);
+    }
     
     // Cleanup function for useEffect
     return () => {
       clearInterval(interval);
-      window.removeEventListener('resize', handleResize);
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', handleResize);
+      }
     };
   }, []); // Empty dependency array means this effect runs once on mount and cleans up on unmount
 
@@ -224,7 +231,7 @@ const Weather: React.FC = () => {
             </li>
             <li className="flex items-start">
               <span className="text-green-400 mr-2" aria-hidden="true">•</span>
-              <span className="text-white"> Precaución con hidroplaneo en vías como Autopista Norte o Calle 80</span>
+              <span className="text-white">Precaución con hidroplaneo en vías como Autopista Norte o Calle 80</span>
             </li>
           </ul>
         </div>
