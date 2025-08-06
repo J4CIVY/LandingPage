@@ -6,7 +6,9 @@ Disallow: /api/
 Disallow: /config/
 Disallow: /*?*
 Disallow: /*.json$
-Disallow: /*.js$
 Disallow: /*.map$
+
+# Allow JavaScript files for proper site functionality and SEO
+Allow: /*.js$
 
 Sitemap: https://www.bskmt.com/sitemap.xml
