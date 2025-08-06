@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from "react";
-import { FAQQuestion } from '@/types/index.d.ts'; // Import the FAQQuestion interface
+import { FAQQuestion } from '@/types'; // Import the FAQQuestion interface
 
 const FAQSection: React.FC = () => {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);

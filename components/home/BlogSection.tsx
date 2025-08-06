@@ -2,7 +2,8 @@
 
 import React from "react";
 import Link from 'next/link';
-import { BlogPost } from '@/types/index.d.ts';
+import type { BlogPost } from '@/types/index.d.ts';
+
 import Image from "next/image";
 
 const BlogSection: React.FC = () => {
