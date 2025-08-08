@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { userSchema, type UserSchema } from '../../schemas/userSchema';
 import { FaUser, FaPhone, FaEnvelope, FaMapMarkerAlt, FaBriefcase, FaHeartbeat, FaMotorcycle, FaShieldAlt, FaLock, FaEye, FaEyeSlash, FaVenusMars, FaUserMd, FaExclamationTriangle, FaCheckCircle } from 'react-icons/fa';
 import { GiSteelwingEmblem } from 'react-icons/gi';
-import api from '../../components/api/Api';
+import http from '../../http/client';
 import { useRouter } from 'next/navigation';
 import FormError from '../../components/shared/FormError';
 import {
@@ -67,7 +67,8 @@ const UserRegister: React.FC = () => {
         temporaryPassword: false
       };
 
-      const response = await api.post('/users', userData);
+  // Submit through public signup endpoint (API key flow when no JWT)
+  const response = await http.post('/auth/signup', userData);
       
       if (response.data.status === 'success') {
         router.push('/registration-success');
