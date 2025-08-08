@@ -52,15 +52,31 @@ function bufferToHex(buf: ArrayBuffer): string {
   return hex;
 }
 
-function isApiKeyAllowedPath(url?: string, baseURL?: string): boolean {
-  if (!url) return false;
+function resolvePathname(url?: string, baseURL?: string): string {
+  const base = baseURL || BASE_URL;
+  let basePath = '/';
   try {
-    const u = new URL(url, baseURL || BASE_URL);
-    return apiKeyRoutes.some((p) => p === u.pathname);
+    basePath = new URL(base).pathname.replace(/\/$/, '') || '/';
   } catch {
-    // If URL parsing fails, fallback: treat input as a pathname
-    return apiKeyRoutes.some((p) => p === url);
+    basePath = '/';
   }
+
+  const u = url || '';
+  // Absolute URL
+  if (/^https?:\/\//i.test(u)) {
+    try { return new URL(u).pathname; } catch { return u; }
+  }
+  // Leading slash -> axios concatenates base path + url
+  if (u.startsWith('/')) {
+    return (basePath + u).replace(/\/+/g, '/');
+  }
+  // Relative path
+  return (basePath + '/' + u).replace(/\/+/g, '/');
+}
+
+function isApiKeyAllowedPath(url?: string, baseURL?: string): boolean {
+  const pathname = resolvePathname(url, baseURL);
+  return apiKeyRoutes.some((p) => pathname === p || pathname.endsWith(p));
 }
 
 async function maybeSign(
