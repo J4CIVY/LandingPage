@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "BSK Motorcycle Team",
-  description: "Sitio web oficial del BSK Motorcycle Team",
+  description: "Sitio web oficial de BSK Motorcycle Team",
 };
 
 export default function RootLayout({
