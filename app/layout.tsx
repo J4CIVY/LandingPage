@@ -18,7 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es-co"> 
+    <html lang="es-co">
+      <link rel="preconnect" href="https://api.bskmt.com" crossOrigin="anonymous" />
       <body className={inter.className}>
         <Header className="fixed top-0 left-0 right-0 z-50" />
         <main className="pt-[76px] min-h-[calc(100vh-76px)] relative pb-20">
