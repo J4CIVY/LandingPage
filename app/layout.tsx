@@ -18,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
+    <html lang="es-co">
       <body className={inter.className}>
         <Header className="fixed top-0 left-0 right-0 z-50" />
         <main className="pt-[76px] min-h-[calc(100vh-76px)] relative pb-20">
