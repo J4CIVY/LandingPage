@@ -38,7 +38,6 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-full">
-          <link rel="preconnect" href="https://api.bskmt.com" crossOrigin="anonymous" />
           <Link href="/" className="focus:outline-none ml-3 md:ml-4" aria-label="Ir a inicio">
             <picture>
               <source srcSet={logoUrl.avif} type="image/avif" />
