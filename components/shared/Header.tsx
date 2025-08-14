@@ -31,17 +31,18 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
   }, [isMenuOpen]);
 
   return (
-    <header 
+    <header
       ref={ref}
       className={`w-full bg-slate-950 shadow-md py-1 ${className}`}
       {...props}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-full">
+          <link rel="preconnect" href="https://api.bskmt.com" crossOrigin="anonymous" />
           <Link href="/" className="focus:outline-none ml-3 md:ml-4" aria-label="Ir a inicio">
             <picture>
-              <source srcSet={logoUrl.avif} type="image/avif"/>
-              <source srcSet={logoUrl.webp} type="image/webp"/>
+              <source srcSet={logoUrl.avif} type="image/avif" />
+              <source srcSet={logoUrl.webp} type="image/webp" />
               <Image
                 src={logoUrl.png}
                 alt="Logo Motoclub BSK Motorcycle Team"
@@ -59,9 +60,8 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
                 <li key={item.name}>
                   <Link
                     href={item.path}
-                    className={`text-white hover:text-green-400 transition-colors ${
-                      pathname === item.path ? 'text-green-400 font-bold' : ''
-                    }`}
+                    className={`text-white hover:text-green-400 transition-colors ${pathname === item.path ? 'text-green-400 font-bold' : ''
+                      }`}
                     aria-current={pathname === item.path ? 'page' : undefined}
                   >
                     {item.name}
@@ -86,7 +86,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
       </div>
 
       {isMenuOpen && (
-        <div 
+        <div
           className="md:hidden fixed inset-x-0 top-[76px] bg-slate-950 z-40 overflow-y-auto"
           role="navigation"
           aria-label="Menú principal móvil"
@@ -98,9 +98,8 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
                   <Link
                     href={item.path}
                     onClick={() => setIsMenuOpen(false)}
-                    className={`text-white text-xl font-medium hover:text-green-400 transition-colors ${
-                      pathname === item.path ? 'text-green-400 font-bold' : ''
-                    }`}
+                    className={`text-white text-xl font-medium hover:text-green-400 transition-colors ${pathname === item.path ? 'text-green-400 font-bold' : ''
+                      }`}
                     aria-current={pathname === item.path ? 'page' : undefined}
                   >
                     {item.name}
