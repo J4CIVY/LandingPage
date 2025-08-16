@@ -75,7 +75,6 @@ const HeroSection: React.FC = () => {
             width={1920} // Explicit width and height for layout shift prevention
             height={1080}
             priority
-            fetchPriority="high"
           />
         </picture>
         {/* Overlay to darken the image and improve text readability */}
