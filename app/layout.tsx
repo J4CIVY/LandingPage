@@ -19,7 +19,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es-co">
-      <link rel="preconnect" href="https://api.bskmt.com" crossOrigin="anonymous" />
+      <head>
+        <link rel="preconnect" href="https://api.bskmt.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
+      </head>
       <body className={inter.className}>
         <Header className="fixed top-0 left-0 right-0 z-50" />
         <main className="pt-[76px] min-h-[calc(100vh-76px)] relative pb-20">
