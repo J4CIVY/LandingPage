@@ -90,12 +90,23 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
 
       {isMenuOpen && (
         <div
-          className="md:hidden fixed inset-x-0 top-0 h-screen bg-slate-950 z-40 overflow-y-auto"
+          className="md:hidden fixed inset-0 top-[63px] bg-slate-950 z-40 overflow-y-auto"
           role="navigation"
           aria-label="Menú principal móvil"
         >
-          <div className="container mx-auto px-5 py-8 flex flex-col h-full">
-            <ul className="flex-1 flex flex-col space-y-6 pl-2">
+          <div className="container mx-auto px-5 py-8 flex flex-col h-full relative">
+            <button
+              className="absolute top-5 right-5 text-white focus:outline-none z-50"
+              onClick={() => setIsMenuOpen(false)}
+              aria-label="Cerrar menú"
+            >
+              <div className="w-8 h-8 flex items-center justify-center">
+                <span className="block h-0.5 w-8 bg-white rounded-full rotate-45 absolute"></span>
+                <span className="block h-0.5 w-8 bg-white rounded-full -rotate-45 absolute"></span>
+              </div>
+            </button>
+
+            <ul className="flex-1 flex flex-col space-y-6 pl-2 pt-16">
               {navItems.map((item) => (
                 <li key={item.name}>
                   <Link
@@ -111,7 +122,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
               ))}
             </ul>
 
-            <div className="mt-auto pb-8 pl-2">
+            <div className="mt-auto pb-4 pl-2">
               <div className="border-t border-gray-700 pt-6">
                 <h3 className="text-white font-bold mb-4">Asistencia de Emergencia</h3>
                 <p className="text-white text-sm mb-4">
@@ -120,7 +131,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
                 <Link
                   href="/sos"
                   onClick={() => setIsMenuOpen(false)}
-                  className="w-full bg-red-600 text-white font-bold py-3 px-4 rounded hover:bg-red-700 transition-colors mb-4 text-center"
+                  className="w-full bg-red-600 text-white font-bold py-3 px-4 rounded hover:bg-red-700 transition-colors mb-4 text-center block"
                 >
                   Botón SOS
                 </Link>
@@ -130,9 +141,9 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
                   <p>Email: emergencias@bskmt.com</p>
                 </div>
               </div>
-            </div>
-            <div className="border-t border-gray-700 pt-6">
-              <ThemeChanger />
+              <div className="border-t border-gray-700 pt-6 mt-6">
+                <ThemeChanger />
+              </div>
             </div>
           </div>
         </div>
