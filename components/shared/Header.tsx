@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { navItems } from '@/data/navigation';
 import Image from 'next/image';
+import { ThemeChanger } from './ThemeChanger';
 
 interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
   className?: string;
@@ -67,6 +68,9 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
                   </Link>
                 </li>
               ))}
+              <li>
+                <ThemeChanger />
+              </li>
             </ul>
           </nav>
 
