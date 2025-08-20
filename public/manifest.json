@@ -1,0 +1,21 @@
+{
+  "name": "BSK Motorcycle Team",
+  "short_name": "BSK MT",
+  "description": "Sitio web oficial de BSK Motorcycle Team",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/Logo_Letras_Motoclub_BSK_Motorcycle_Team_Blue_192X192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/Logo_Letras_Motoclub_BSK_Motorcycle_Team_White_500X500.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

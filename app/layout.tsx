@@ -22,6 +22,9 @@ export default function RootLayout({
   return (
     <html lang="es-co" suppressHydrationWarning>
       <head>
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/icon.png" />
+        <meta name="theme-color" content="#000000" />
         <link rel="preconnect" href="https://api.bskmt.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
       </head>
