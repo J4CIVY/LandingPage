@@ -25,7 +25,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://api.bskmt.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
       </head>
-      <body className={`${inter.className} bg-white dark:bg-slate-950 text-black dark:text-white`}>
+      <body className={`${inter.className}`}>
         <ThemeProvider>
           <Header className="fixed top-0 left-0 right-0 z-50" />
           <main className="pt-[63px] min-h-[calc(86vh-63px)] relative pb-20">
