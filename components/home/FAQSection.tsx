@@ -311,15 +311,15 @@ const FAQSection: React.FC = () => {
   }, [faqQuestions, faqFilter]); // Memoize filteredQuestions
 
   return (
-    <div className="bg-white rounded-xl p-8 shadow-lg">
-      <h3 className="text-2xl font-bold text-slate-950 mb-6 text-center">PREGUNTAS FRECUENTES</h3>
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-8 shadow-lg">
+      <h3 className="text-2xl font-bold text-slate-950 dark:text-white mb-6 text-center">PREGUNTAS FRECUENTES</h3>
       
       <div className="flex flex-wrap justify-center gap-2 mb-6">
         {/* Filter buttons */}
         {['all', 'membership', 'events', 'benefits', 'general', 'organization'].map((filter) => (
           <button
             key={filter}
-            className={`px-4 py-2 rounded-full text-sm ${faqFilter === filter ? 'bg-slate-950 text-white' : 'bg-gray-200 text-slate-950 hover:bg-gray-300'}`}
+            className={`px-4 py-2 rounded-full text-sm ${faqFilter === filter ? 'bg-slate-950 text-white dark:bg-blue-600' : 'bg-gray-200 text-slate-950 hover:bg-gray-300 dark:bg-slate-700 dark:text-gray-300 dark:hover:bg-slate-600'}`}
             onClick={() => setFaqFilter(filter as 'all' | 'membership' | 'events' | 'benefits' | 'general' | 'organization')}
             aria-pressed={faqFilter === filter} // ARIA attribute for toggle buttons
           >
@@ -336,7 +336,7 @@ const FAQSection: React.FC = () => {
       <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar"> {/* Added custom-scrollbar class */}
         {filteredQuestions.length > 0 ? (
           filteredQuestions.map((question: FAQQuestion, index: number) => (
-            <div key={index} className="border-b border-gray-200 pb-3">
+            <div key={index} className="border-b border-gray-200 dark:border-gray-700 pb-3">
               <button 
                 className="flex justify-between items-center w-full text-left py-2"
                 onClick={() => toggleFaq(index)}
@@ -344,30 +344,28 @@ const FAQSection: React.FC = () => {
                 aria-controls={`faq-answer-${index}`} // Links button to its answer
                 id={`faq-question-${index}`} // Unique ID for the question button
               >
-                <span className="font-semibold text-slate-950 text-sm md:text-base">{question.q}</span>
+                <span className="font-semibold text-slate-950 dark:text-white text-sm md:text-base">{question.q}</span>
                 <svg 
                   className={`w-5 h-5 text-red-600 transition-transform ${activeFaq === index ? 'rotate-180' : ''}`}
                   fill="none" 
                   stroke="currentColor" 
-                  viewBox="0 0 24 24" 
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true" // Icon is decorative
+                  viewBox="0 0 24 24"
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
               <div 
-                id={`faq-answer-${index}`} // Unique ID for the answer content
-                role="region" // ARIA role for expandable content
+                id={`faq-answer-${index}`}
+                className={`overflow-hidden transition-all duration-300 ease-in-out ${activeFaq === index ? 'max-h-screen' : 'max-h-0'}`}
+                role="region" // ARIA role for the answer panel
                 aria-labelledby={`faq-question-${index}`} // Links answer to its question
-                className={`mt-1 text-gray-700 text-sm md:text-base ${activeFaq === index ? 'block' : 'hidden'}`}
               >
-                <p>{question.a}</p>
+                <p className="pt-2 text-gray-700 dark:text-gray-300 text-sm md:text-base">{question.a}</p>
               </div>
             </div>
           ))
         ) : (
-          <p className="text-center text-gray-500">No se encontraron preguntas para esta categoría.</p>
+          <p className="text-center text-gray-500 dark:text-gray-400">No se encontraron preguntas en esta categoría.</p>
         )}
       </div>
     </div>

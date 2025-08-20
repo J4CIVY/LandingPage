@@ -76,9 +76,9 @@ const GallerySection: React.FC = () => {
   }, [galleryImages.length]);
 
   return (
-    <section className="py-20 px-4 bg-white">
+    <section className="py-20 px-4 bg-white dark:bg-slate-900">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold text-center text-slate-950 mb-12">
+        <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
           GALERÍA <span className="text-red-600">MULTIMEDIA</span>
         </h2>
 
@@ -109,18 +109,18 @@ const GallerySection: React.FC = () => {
           <div className="absolute bottom-0 left-0 p-6 text-white">
             <p className="text-xl">{galleryImages[activeGalleryImage].alt}</p>
           </div>
+        </div>
 
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-            {galleryImages.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setActiveGalleryImage(index)}
-                className={`w-3 h-3 rounded-full transition-all ${index === activeGalleryImage ? 'bg-red-600 w-6' : 'bg-white bg-opacity-50'}`}
-                aria-label={`Ir a imagen ${index + 1}`}
-                aria-current={index === activeGalleryImage ? 'true' : 'false'}
-              />
-            ))}
-          </div>
+        <div className="flex justify-center space-x-2">
+          {galleryImages.map((_, index) => (
+            <button
+              key={`dot-${index}`}
+              className={`w-3 h-3 rounded-full transition-colors ${index === activeGalleryImage ? 'bg-red-600' : 'bg-gray-300 dark:bg-gray-600 hover:bg-red-400'}`}
+              onClick={() => setActiveGalleryImage(index)}
+              aria-label={`Ir a la imagen ${index + 1}`}
+              aria-current={index === activeGalleryImage}
+            />
+          ))}
         </div>
       </div>
     </section>

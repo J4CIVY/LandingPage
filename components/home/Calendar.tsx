@@ -53,20 +53,20 @@ const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMon
       <div className="flex items-center justify-between mb-4">
         <button 
           onClick={goToPrevMonth}
-          className="p-2 rounded-full hover:bg-gray-200 transition"
+          className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition"
           aria-label="Mes anterior"
         >
-          <FaArrowLeft className="text-slate-950" />
+          <FaArrowLeft className="text-slate-950 dark:text-white" />
         </button>
-        <h3 className="text-xl font-bold text-slate-950 capitalize">
+        <h3 className="text-xl font-bold text-slate-950 dark:text-white capitalize">
           {formatDateSpanish(currentMonth)}
         </h3>
         <button 
           onClick={goToNextMonth}
-          className="p-2 rounded-full hover:bg-gray-200 transition"
+          className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition"
           aria-label="Mes siguiente"
         >
-          <FaArrowRight className="text-slate-950" />
+          <FaArrowRight className="text-slate-950 dark:text-white" />
         </button>
       </div>
     );
@@ -82,7 +82,7 @@ const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMon
     return (
       <div className="grid grid-cols-7 mb-2">
         {dayNames.map((day, i) => (
-          <div className="text-center font-semibold text-sm py-2" key={i}>
+          <div className="text-center font-semibold text-sm py-2 dark:text-gray-300" key={i}>
             {day}
           </div>
         ))}
@@ -116,9 +116,9 @@ const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMon
 
         days.push(
           <div
-            className={`min-h-24 p-1 border border-gray-200 flex flex-col ${
-              !isSameMonth(currentDay, monthStart) ? 'text-gray-400 bg-gray-50' : 'text-slate-950 bg-white'
-            } ${isSameDay(currentDay, new Date()) ? 'bg-green-400 bg-opacity-20' : ''}`}
+            className={`min-h-24 p-1 border border-gray-200 dark:border-gray-700 flex flex-col ${
+              !isSameMonth(currentDay, monthStart) ? 'text-gray-400 bg-gray-50 dark:bg-slate-800 dark:text-gray-500' : 'text-slate-950 bg-white dark:bg-slate-900 dark:text-white'
+            } ${isSameDay(currentDay, new Date()) ? 'bg-green-400 bg-opacity-20 dark:bg-green-400/30' : ''}`}
             key={currentDay.toISOString()} // Use ISO string for unique and stable key
           >
             <span className="text-sm font-medium self-end">{format(currentDay, 'd')}</span>
@@ -146,7 +146,7 @@ const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMon
       );
       days = []; // Reset days array for the next week
     }
-    return <div className="mb-4 border-t border-l border-gray-200">{rows}</div>; // Added top and left border for grid
+    return <div className="mb-4 border-t border-l border-gray-200 dark:border-gray-700">{rows}</div>; // Added top and left border for grid
   };
 
   return (

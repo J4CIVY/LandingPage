@@ -42,9 +42,9 @@ const StoreSection: React.FC = () => {
 
   if (loading) {
     return (
-      <section className="py-20 px-4 bg-white">
+      <section className="py-20 px-4 bg-white dark:bg-slate-900">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center text-slate-950 mb-12">
+          <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
             TIENDA <span className="text-red-600">EN LÍNEA</span>
           </h2>
           <div className="flex justify-center items-center h-64">
@@ -57,9 +57,9 @@ const StoreSection: React.FC = () => {
 
   if (error) {
     return (
-      <section className="py-20 px-4 bg-white">
+      <section className="py-20 px-4 bg-white dark:bg-slate-900">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center text-slate-950 mb-12">
+          <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
             TIENDA <span className="text-red-600">EN LÍNEA</span>
           </h2>
           <div className="text-center py-12 text-red-500">
@@ -77,9 +77,9 @@ const StoreSection: React.FC = () => {
   }
 
   return (
-    <section className="py-20 px-4 bg-white">
+    <section className="py-20 px-4 bg-white dark:bg-slate-900">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold text-center text-slate-950 mb-12">
+        <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
           TIENDA <span className="text-red-600">EN LÍNEA</span>
         </h2>
 
@@ -87,25 +87,25 @@ const StoreSection: React.FC = () => {
           <>
             <div className="grid md:grid-cols-3 gap-8">
               {featuredProducts.map((product: any) => (
-                <div key={product._id} className="bg-gray-50 rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105">
+                <div key={product._id} className="bg-gray-50 dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105">
                   <div className="relative" style={{ aspectRatio: '1/1' }}>
                     <Image
                       src={product.featuredImage}
                       alt={product.name}
-                      className="w-full h-full object-contain p-4 bg-white"
+                      className="w-full h-full object-contain p-4 bg-white dark:bg-gray-200"
                       loading="lazy"
                       layout="fill"
                     />
                   </div>
                   <div className="p-6">
-                    <h3 className="text-xl font-bold text-slate-950 mb-2">{product.name}</h3>
+                    <h3 className="text-xl font-bold text-slate-950 dark:text-white mb-2">{product.name}</h3>
                     <p className="text-2xl font-bold text-red-600 mb-4">
                       {/* Use toLocaleString for currency formatting */}
                       ${product.discountPrice ? product.discountPrice.toLocaleString('es-CO') : product.price.toLocaleString('es-CO')}
                     </p>
                     <div className="flex space-x-3">
                       <button 
-                        className="flex-1 bg-slate-950 hover:bg-green-400 text-white py-2 rounded-full transition duration-300"
+                        className="flex-1 bg-slate-950 hover:bg-green-400 text-white dark:bg-blue-600 dark:hover:bg-blue-700 py-2 rounded-full transition duration-300"
                         // In a real app, this would add to cart or link to a purchase page
                         onClick={() => alert(`Comprar ${product.name}`)}
                       >
@@ -113,7 +113,7 @@ const StoreSection: React.FC = () => {
                       </button>
                       <button 
                         onClick={() => router.push(`/products/${product.slug}`)} // Assuming a product detail route like /products/:slug
-                        className="flex-1 bg-white border border-slate-950 text-slate-950 py-2 rounded-full hover:bg-gray-100 transition duration-300"
+                        className="flex-1 bg-white border border-slate-950 text-slate-950 dark:bg-slate-700 dark:text-white dark:border-slate-600 dark:hover:bg-slate-600 py-2 rounded-full hover:bg-gray-100 transition duration-300"
                       >
                         Detalles
                       </button>
@@ -137,7 +137,7 @@ const StoreSection: React.FC = () => {
           </>
         ) : (
           <div className="text-center py-12">
-            <p>No hay productos destacados disponibles en este momento.</p>
+            <p className="dark:text-gray-300">No hay productos destacados disponibles en este momento.</p>
           </div>
         )}
       </div>

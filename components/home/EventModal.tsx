@@ -86,15 +86,15 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
         <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           {/* Actual modal content area */}
           <div 
-            className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl w-full"
+            className="inline-block align-bottom bg-white dark:bg-slate-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl w-full"
           >
-            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+            <div className="bg-white dark:bg-slate-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
               <div className="sm:flex sm:items-start">
                 <div className="mt-3 text-center sm:mt-0 sm:text-left w-full">
                   {/* Header with event name and close button */}
                   <div className="flex justify-between items-start">
                     <div>
-                      <h3 className="text-3xl leading-6 font-bold text-gray-900" id="modal-headline">
+                      <h3 className="text-3xl leading-6 font-bold text-gray-900 dark:text-white" id="modal-headline">
                         {event.name}
                       </h3>
                       {/* Tags for difficulty, event type, and internal type */}
@@ -114,7 +114,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
                     {/* Close button */}
                     <button
                       onClick={onClose}
-                      className="text-gray-400 hover:text-gray-500 focus:outline-none"
+                      className="text-gray-400 hover:text-gray-500 dark:text-gray-400 dark:hover:text-white focus:outline-none"
                       aria-label="Cerrar modal" // Accessibility label for the close button
                     >
                       <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -139,13 +139,13 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
                   <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
                     {/* Column 1: Event Information & Pricing */}
                     <div className="col-span-1">
-                      <div className="bg-gray-50 p-4 rounded-lg">
-                        <h4 className="text-lg font-bold text-gray-800 mb-3">Información del Evento</h4>
+                      <div className="bg-gray-50 dark:bg-slate-700 p-4 rounded-lg">
+                        <h4 className="text-lg font-bold text-gray-800 dark:text-white mb-3">Información del Evento</h4>
                         
                         <div className="space-y-3">
                           <div>
-                            <p className="text-sm font-medium text-gray-500">Fecha</p>
-                            <p className="text-sm text-gray-900">
+                            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Fecha</p>
+                            <p className="text-sm text-gray-900 dark:text-gray-300">
                               {/* Format start date, and end date if available */}
                               {format(parseISO(event.startDate), "EEEE d 'de' MMMM yyyy", { locale: es })}
                               {(event as any).endDate && ` al ${format(parseISO((event as any).endDate), "EEEE d 'de' MMMM yyyy", { locale: es })}`}
@@ -153,59 +153,59 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
                           </div>
                           
                           <div>
-                            <p className="text-sm font-medium text-gray-500">Hora de encuentro</p>
-                            <p className="text-sm text-gray-900">{formatTime((event as any).meetupTime)}</p>
+                            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Hora de encuentro</p>
+                            <p className="text-sm text-gray-900 dark:text-gray-300">{formatTime((event as any).meetupTime)}</p>
                           </div>
                           
                           <div>
-                            <p className="text-sm font-medium text-gray-500">Hora de salida</p>
-                            <p className="text-sm text-gray-900">{formatTime((event as any).departureTime)}</p>
+                            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Hora de salida</p>
+                            <p className="text-sm text-gray-900 dark:text-gray-300">{formatTime((event as any).departureTime)}</p>
                           </div>
                           
                           <div>
-                            <p className="text-sm font-medium text-gray-500">Duración</p>
-                            <p className="text-sm text-gray-900">{(event as any).durationDays} día(s)</p>
+                            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Duración</p>
+                            <p className="text-sm text-gray-900 dark:text-gray-300">{(event as any).durationDays} día(s)</p>
                           </div>
                           
                           <div>
-                            <p className="text-sm font-medium text-gray-500">Lugar de encuentro</p>
-                            <p className="text-sm text-gray-900">{event.departureLocation?.address}, {event.departureLocation?.city}</p>
+                            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Lugar de encuentro</p>
+                            <p className="text-sm text-gray-900 dark:text-gray-300">{event.departureLocation?.address}, {event.departureLocation?.city}</p>
                           </div>
                           
                           {(event as any).stayLocation && (
                             <div>
-                              <p className="text-sm font-medium text-gray-500">Lugar de estadía</p>
-                              <p className="text-sm text-gray-900">{(event as any).stayLocation.address}, {(event as any).stayLocation.city}</p>
+                              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Lugar de estadía</p>
+                              <p className="text-sm text-gray-900 dark:text-gray-300">{(event as any).stayLocation.address}, {(event as any).stayLocation.city}</p>
                             </div>
                           )}
                           
                           <div>
-                            <p className="text-sm font-medium text-gray-500">Cupos disponibles</p>
-                            <p className="text-sm text-gray-900">{(event as any).remainingSpots} de {(event as any).maxParticipants}</p>
+                            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Cupos disponibles</p>
+                            <p className="text-sm text-gray-900 dark:text-gray-300">{(event as any).remainingSpots} de {(event as any).maxParticipants}</p>
                           </div>
                         </div>
                       </div>
 
-                      <div className="bg-gray-50 p-4 rounded-lg mt-4">
-                        <h4 className="text-lg font-bold text-gray-800 mb-3">Precios</h4>
+                      <div className="bg-gray-50 dark:bg-slate-700 p-4 rounded-lg mt-4">
+                        <h4 className="text-lg font-bold text-gray-800 dark:text-white mb-3">Precios</h4>
                         
                         <div className="space-y-2">
                           <div className="flex justify-between">
-                            <span className="text-sm font-medium text-gray-600">Piloto:</span>
+                            <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Piloto:</span>
                             {/* Display price or 'Gratis' if not available */}
-                            <span className="text-sm font-bold text-gray-900">${(event as any).basePriceRider?.toLocaleString('es-CO') || 'Gratis'}</span>
+                            <span className="text-sm font-bold text-gray-900 dark:text-gray-300">${(event as any).basePriceRider?.toLocaleString('es-CO') || 'Gratis'}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-sm font-medium text-gray-600">Acompañante:</span>
+                            <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Acompañante:</span>
                             {/* Display price or 'Gratis' if not available */}
-                            <span className="text-sm font-bold text-gray-900">${(event as any).basePriceCompanion?.toLocaleString('es-CO') || 'Gratis'}</span>
+                            <span className="text-sm font-bold text-gray-900 dark:text-gray-300">${(event as any).basePriceCompanion?.toLocaleString('es-CO') || 'Gratis'}</span>
                           </div>
                         </div>
                         
-                        <div className="mt-3 p-3 bg-yellow-50 rounded border border-yellow-100">
-                          <p className="text-xs text-yellow-800">
+                        <div className="mt-3 p-3 bg-yellow-50 dark:bg-yellow-900/50 rounded border border-yellow-100 dark:border-yellow-800/50">
+                          <p className="text-xs text-yellow-800 dark:text-yellow-300">
                             * Los miembros del club obtienen descuentos según su membresía. 
-                            <a href="/memberships" className="text-yellow-600 hover:underline ml-1">Ver membresías</a>
+                            <a href="/memberships" className="text-yellow-600 dark:text-yellow-400 hover:underline ml-1">Ver membresías</a>
                           </p>
                         </div>
                       </div>
@@ -213,21 +213,21 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
 
                     {/* Column 2: Itinerary & Activities */}
                     <div className="col-span-1">
-                      <div className="bg-gray-50 p-4 rounded-lg h-full">
-                        <h4 className="text-lg font-bold text-gray-800 mb-3">Itinerario</h4>
+                      <div className="bg-gray-50 dark:bg-slate-700 p-4 rounded-lg h-full">
+                        <h4 className="text-lg font-bold text-gray-800 dark:text-white mb-3">Itinerario</h4>
                         
                         {/* Map through itinerary days */}
                         {(event as any).itinerary?.map((day: any, dayIndex: number) => (
                           <div key={dayIndex} className="mb-4">
-                            <h5 className="font-semibold text-gray-700 mb-2">Día {day.day}</h5>
+                            <h5 className="font-semibold text-gray-700 dark:text-gray-300 mb-2">Día {day.day}</h5>
                             <div className="space-y-3">
                               {/* Map through activities for each day */}
                               {day.activities.map((activity: any, activityIndex: number) => (
                                 <div key={activityIndex} className="flex">
-                                  <div className="flex-shrink-0 w-16 text-sm font-medium text-gray-500">
+                                  <div className="flex-shrink-0 w-16 text-sm font-medium text-gray-500 dark:text-gray-400">
                                     {activity.time}
                                   </div>
-                                  <div className="ml-2 text-sm text-gray-700">
+                                  <div className="ml-2 text-sm text-gray-700 dark:text-gray-300">
                                     {activity.description}
                                   </div>
                                 </div>
@@ -239,8 +239,8 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
                         {/* Additional activities if available */}
                         {(event as any).activities && (event as any).activities.length > 0 && (
                           <>
-                            <h4 className="text-lg font-bold text-gray-800 mt-6 mb-3">Actividades</h4>
-                            <ul className="list-disc list-inside space-y-1 text-sm text-gray-700">
+                            <h4 className="text-lg font-bold text-gray-800 dark:text-white mt-6 mb-3">Actividades</h4>
+                            <ul className="list-disc list-inside space-y-1 text-sm text-gray-700 dark:text-gray-300">
                               {(event as any).activities.map((activity: string, index: number) => (
                                 <li key={index}>{activity}</li>
                               ))}
@@ -252,26 +252,26 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
 
                     {/* Column 3: Includes, Requirements, Recommendations, Visits */}
                     <div className="col-span-1">
-                      <div className="bg-gray-50 p-4 rounded-lg">
-                        <h4 className="text-lg font-bold text-gray-800 mb-3">Incluye</h4>
-                        <ul className="list-disc list-inside space-y-1 text-sm text-gray-700 mb-6">
+                      <div className="bg-gray-50 dark:bg-slate-700 p-4 rounded-lg">
+                        <h4 className="text-lg font-bold text-gray-800 dark:text-white mb-3">Incluye</h4>
+                        <ul className="list-disc list-inside space-y-1 text-sm text-gray-700 dark:text-gray-300 mb-6">
                           {(event as any).includes?.map((item: any, index: number) => (
                             <li key={index}>
                               <span className="font-medium">{item.item}</span>
-                              {item.detail && <span className="block text-gray-600">{item.detail}</span>}
+                              {item.detail && <span className="block text-gray-600 dark:text-gray-400">{item.detail}</span>}
                             </li>
                           ))}
                         </ul>
                         
-                        <h4 className="text-lg font-bold text-gray-800 mb-3">Requisitos</h4>
-                        <ul className="list-disc list-inside space-y-1 text-sm text-gray-700 mb-6">
+                        <h4 className="text-lg font-bold text-gray-800 dark:text-white mb-3">Requisitos</h4>
+                        <ul className="list-disc list-inside space-y-1 text-sm text-gray-700 dark:text-gray-300 mb-6">
                           {(event as any).requirements?.map((req: string, index: number) => (
                             <li key={index}>{req}</li>
                           ))}
                         </ul>
                         
-                        <h4 className="text-lg font-bold text-gray-800 mb-3">Recomendaciones</h4>
-                        <ul className="list-disc list-inside space-y-1 text-sm text-gray-700 mb-6">
+                        <h4 className="text-lg font-bold text-gray-800 dark:text-white mb-3">Recomendaciones</h4>
+                        <ul className="list-disc list-inside space-y-1 text-sm text-gray-700 dark:text-gray-300 mb-6">
                           {(event as any).recommendations?.map((rec: string, index: number) => (
                             <li key={index}>{rec}</li>
                           ))}
@@ -279,8 +279,8 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
                         
                         {(event as any).visits && (event as any).visits.length > 0 && (
                           <>
-                            <h4 className="text-lg font-bold text-gray-800 mb-3">Lugares a visitar</h4>
-                            <ul className="list-disc list-inside space-y-1 text-sm text-gray-700">
+                            <h4 className="text-lg font-bold text-gray-800 dark:text-white mb-3">Lugares a visitar</h4>
+                            <ul className="list-disc list-inside space-y-1 text-sm text-gray-700 dark:text-gray-300">
                               {(event as any).visits.map((visit: string, index: number) => (
                                 <li key={index}>{visit}</li>
                               ))}
@@ -293,37 +293,37 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
 
                   {/* Additional Information section */}
                   {(event as any).additionalInformation && (
-                    <div className="mt-6 bg-blue-50 p-4 rounded-lg border border-blue-100">
-                      <h4 className="text-lg font-bold text-blue-800 mb-2">Información adicional</h4>
-                      <p className="text-sm text-blue-700 whitespace-pre-line">{(event as any).additionalInformation}</p>
+                    <div className="mt-6 bg-blue-50 dark:bg-blue-900/50 p-4 rounded-lg border border-blue-100 dark:border-blue-800/50">
+                      <h4 className="text-lg font-bold text-blue-800 dark:text-blue-300 mb-2">Información adicional</h4>
+                      <p className="text-sm text-blue-700 dark:text-blue-300 whitespace-pre-line">{(event as any).additionalInformation}</p>
                     </div>
                   )}
 
                   {/* Call to action for participation */}
-                  <div className="mt-8 bg-slate-950 p-6 rounded-lg">
+                  <div className="mt-8 bg-slate-950 dark:bg-slate-900 p-6 rounded-lg">
                     <div className="flex flex-col md:flex-row justify-between items-center">
                       <div className="mb-4 md:mb-0">
                         <h4 className="text-xl font-bold text-white">¿Te gustaría participar en este evento?</h4>
-                        <p className="text-gray-300 mt-1">
+                        <p className="text-gray-300 dark:text-gray-400 mt-1">
                           Regístrate ahora y únete a la comunidad BSK Motorcycle Team
                         </p>
                       </div>
                       <div className="flex space-x-3">
                         <a
                           href="/register" // Changed to /register as per App.jsx routes
-                          className="px-6 py-3 bg-green-400 hover:bg-green-400 text-slate-950 font-bold rounded-full transition duration-300"
+                          className="px-6 py-3 bg-green-400 hover:bg-green-500 text-slate-950 font-bold rounded-full transition duration-300"
                         >
                           Regístrate ahora
                         </a>
                         <a
                           href="/memberships"
-                          className="px-6 py-3 bg-white hover:bg-gray-200 text-slate-950 font-bold rounded-full transition duration-300"
+                          className="px-6 py-3 bg-white hover:bg-gray-200 text-slate-950 dark:bg-gray-300 dark:hover:bg-gray-400 font-bold rounded-full transition duration-300"
                         >
                           Conoce las membresías
                         </a>
                       </div>
                     </div>
-                    <div className="mt-4 text-center text-gray-300 text-sm">
+                    <div className="mt-4 text-center text-gray-300 dark:text-gray-400 text-sm">
                       <p>Los miembros registrados obtienen puntos por participación que pueden canjear por beneficios exclusivos.</p>
                     </div>
                   </div>
