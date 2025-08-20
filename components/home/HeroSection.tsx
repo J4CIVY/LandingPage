@@ -3,6 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import AnimatedSection from "../shared/AnimatedSection";
 
 const HeroSection: React.FC = () => {
   const cloudName: string = "dz0peilmu";
@@ -47,7 +48,7 @@ const HeroSection: React.FC = () => {
   };
 
   return (
-    <section className="relative h-screen flex items-center justify-center bg-slate-950 overflow-hidden">
+    <AnimatedSection className="relative h-screen flex items-center justify-center bg-slate-950 overflow-hidden">
       <div className="absolute inset-0 w-full h-full">
         <picture>
           {/* AVIF source for best compression and quality */}
@@ -97,7 +98,7 @@ const HeroSection: React.FC = () => {
           ÚNETE AL CLUB
         </button>
       </div>
-    </section>
+    </AnimatedSection>
   );
 };
 
