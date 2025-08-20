@@ -25,7 +25,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <Header className="fixed top-0 left-0 right-0 z-50" />
-        <main className="pt-[65px] min-h-[calc(87vh-65px)] relative pb-20">
+        <main className="pt-[64px] min-h-[calc(86vh-64px)] relative pb-20">
           {children}
         </main>
         <Footer />
