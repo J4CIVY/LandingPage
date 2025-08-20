@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 const GallerySection: React.FC = () => {
   const [activeGalleryImage, setActiveGalleryImage] = useState<number>(0);
@@ -85,23 +86,22 @@ const GallerySection: React.FC = () => {
         <div className="relative mb-8 rounded-xl overflow-hidden shadow-xl group" style={{ aspectRatio: '16/9' }}>
           <div className="relative w-full h-full" role="img" aria-live="polite" aria-atomic="true" aria-label={`Galería de imágenes, mostrando: ${galleryImages[activeGalleryImage].alt}`}>
             {galleryImages.map((image, index) => (
-              <picture
-                key={`picture-${index}`}
+              <div
+                key={`image-container-${index}`}
                 className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${index === activeGalleryImage ? 'opacity-100' : 'opacity-0'}`}
+                style={{ backfaceVisibility: 'hidden' }}
               >
-                <source type="image/avif" srcSet={image.avif} sizes="(max-width: 768px) 683px, (max-width: 1024px) 1024px, 1366px" />
-                <source type="image/webp" srcSet={image.webp} sizes="(max-width: 768px) 683px, (max-width: 1024px) 1024px, 1366px" />
-                <source type="image/jpeg" srcSet={image.jpg} sizes="(max-width: 768px) 683px, (max-width: 1024px) 1024px, 1366px" />
-                <Image
-                  src={image.fallback}
+                <LazyLoadImage
                   alt={image.alt}
-                  className="w-full h-full object-cover"
-                  loading={index <= 1 ? 'eager' : 'lazy'} // Carga las primeras 2 imágenes inmediatamente
+                  src={image.fallback}
+                  srcSet={`${image.jpg}, ${image.webp}, ${image.avif}`}
+                  sizes="(max-width: 768px) 683px, (max-width: 1024px) 1024px, 1366px"
+                  effect="blur"
                   width={1366}
                   height={768}
-                  priority={index <=1}
+                  className="w-full h-full object-cover"
                 />
-              </picture>
+              </div>
             ))}
           </div>
 

@@ -8,6 +8,10 @@ const withPWA = withPWAInit({
 
 const nextConfig = {
   reactStrictMode: true,
+  swcMinify: true,
+  compiler: {
+    styledComponents: true,
+  },
   images: {
     remotePatterns: [
       {
@@ -23,6 +27,10 @@ const nextConfig = {
         pathname: '/**',
       }
     ],
+  },
+  experimental: {
+    modern: true,
+    optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
   },
 };
 
