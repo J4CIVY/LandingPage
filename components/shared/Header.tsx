@@ -124,8 +124,8 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
                 >
                   Botón SOS
                 </Link>
-                <div className="text-white text-sm">
-                  <p className="mt-4">Contacto de emergencia:</p>
+                <div className="text-white text-sm" pt-4>
+                  <p>Contacto de emergencia:</p>
                   <p>Teléfono: +57 312 519 2000</p>
                   <p>Email: emergencias@bskmt.com</p>
                 </div>
