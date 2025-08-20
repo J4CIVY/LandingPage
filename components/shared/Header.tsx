@@ -107,9 +107,6 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
                   >
                     {item.name}
                   </Link>
-                  <div className="border-b border-gray-700 pb-4">
-                    <ThemeChanger />
-                  </div>
                 </li>
               ))}
             </ul>
@@ -133,6 +130,9 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
                   <p>Email: emergencias@bskmt.com</p>
                 </div>
               </div>
+            </div>
+            <div className="border-t border-gray-700 pt-6">
+              <ThemeChanger />
             </div>
           </div>
         </div>
