@@ -1,8 +1,7 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState } from 'react'
-import { ThemeProvider as NextThemesProvider, useTheme as useNextTheme } from 'next-themes'
-import type { ThemeProviderProps } from 'next-themes/dist/types'
+import { ThemeProvider as NextThemesProvider, useTheme as useNextTheme, type ThemeProviderProps } from 'next-themes'
 
 type ThemeContextType = {
   theme: string | undefined
