@@ -8,7 +8,6 @@ const withPWA = withPWAInit({
 
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   compiler: {
     styledComponents: true,
   },
@@ -29,7 +28,6 @@ const nextConfig = {
     ],
   },
   experimental: {
-    modern: true,
     optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
   },
 };
