@@ -46,8 +46,8 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
                 src={logoUrl.png}
                 alt="Logo Motoclub BSK Motorcycle Team"
                 className="w-[80px] md:w-[80px] h-auto object-contain"
-                width={80}
-                height={80}
+                width={60}
+                height={60}
                 priority
               />
             </picture>
