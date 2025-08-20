@@ -107,6 +107,9 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
                   >
                     {item.name}
                   </Link>
+                  <div className="border-b border-gray-700 pb-4">
+                    <ThemeChanger />
+                  </div>
                 </li>
               ))}
             </ul>
