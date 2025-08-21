@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import "./globals.css";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import CookieBanner from "@/components/shared/CookieBanner";
-import CustomCss from "@/components/shared/CustomCss";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,7 +30,6 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} bg-white dark:bg-slate-950 text-black dark:text-white`}>
         <ThemeProvider>
-          <CustomCss />
           <Header className="fixed top-0 left-0 right-0 z-50" />
           <main className="pt-[63px] min-h-[calc(86vh-63px)] relative pb-20">
             {children}
