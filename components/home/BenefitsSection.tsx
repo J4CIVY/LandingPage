@@ -10,20 +10,20 @@ import {
 import Testimonials from "./Testimonials";
 
 const BenefitsSection: React.FC = () => (
-  <section className="py-20 px-4 bg-gray-100">
+  <section className="py-20 px-4 bg-gray-100 dark:bg-slate-900">
     <div className="max-w-6xl mx-auto">
-      <h2 className="text-4xl font-bold text-center text-slate-950 mb-12">
+      <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
         BENEFICIOS DE <span className="text-green-400">SER MIEMBRO</span>
       </h2>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Beneficios Sociales */}
-        <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300">
           <div className="flex items-center mb-4">
-            <div className="bg-slate-950 text-white p-3 rounded-full mr-4">
+            <div className="bg-slate-950 dark:bg-slate-700 text-white p-3 rounded-full mr-4">
               <FaUsers className="w-6 h-6" aria-hidden="true" />
             </div>
-            <h3 className="text-xl font-bold text-slate-950">Comunidad</h3>
+            <h3 className="text-xl font-bold text-slate-950 dark:text-white">Comunidad</h3>
           </div>
           <ul className="space-y-3">
             <li className="flex items-start">
@@ -46,12 +46,12 @@ const BenefitsSection: React.FC = () => (
         </div>
 
         {/* Beneficios Técnicos */}
-        <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300">
           <div className="flex items-center mb-4">
-            <div className="bg-slate-950 text-white p-3 rounded-full mr-4">
+            <div className="bg-slate-950 dark:bg-slate-700 text-white p-3 rounded-full mr-4">
               <FaTools className="w-6 h-6" aria-hidden="true" />
             </div>
-            <h3 className="text-xl font-bold text-slate-950">Asistencia Técnica</h3>
+            <h3 className="text-xl font-bold text-slate-950 dark:text-white">Asistencia Técnica</h3>
           </div>
           <ul className="space-y-3">
             <li className="flex items-start">
@@ -74,12 +74,12 @@ const BenefitsSection: React.FC = () => (
         </div>
 
         {/* Beneficios Económicos */}
-        <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300">
           <div className="flex items-center mb-4">
-            <div className="bg-slate-950 text-white p-3 rounded-full mr-4">
+            <div className="bg-slate-950 dark:bg-slate-700 text-white p-3 rounded-full mr-4">
               <FaMoneyBillWave className="w-6 h-6" aria-hidden="true" />
             </div>
-            <h3 className="text-xl font-bold text-slate-950">Ventajas Económicas</h3>
+            <h3 className="text-xl font-bold text-slate-950 dark:text-white">Ventajas Económicas</h3>
           </div>
           <ul className="space-y-3">
             <li className="flex items-start">
@@ -102,12 +102,12 @@ const BenefitsSection: React.FC = () => (
         </div>
 
         {/* Beneficios Recreativos */}
-        <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300">
           <div className="flex items-center mb-4">
-            <div className="bg-slate-950 text-white p-3 rounded-full mr-4">
+            <div className="bg-slate-950 dark:bg-slate-700 text-white p-3 rounded-full mr-4">
               <FaGlassCheers className="w-6 h-6" aria-hidden="true" />
             </div>
-            <h3 className="text-xl font-bold text-slate-950">Actividades Recreativas</h3>
+            <h3 className="text-xl font-bold text-slate-950 dark:text-white">Actividades Recreativas</h3>
           </div>
           <ul className="space-y-3">
             <li className="flex items-start">
@@ -130,12 +130,12 @@ const BenefitsSection: React.FC = () => (
         </div>
 
         {/* Beneficios Formativos */}
-        <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300">
           <div className="flex items-center mb-4">
-            <div className="bg-slate-950 text-white p-3 rounded-full mr-4">
+            <div className="bg-slate-950 dark:bg-slate-700 text-white p-3 rounded-full mr-4">
               <FaGraduationCap className="w-6 h-6" aria-hidden="true" />
             </div>
-            <h3 className="text-xl font-bold text-slate-950">Formación</h3>
+            <h3 className="text-xl font-bold text-slate-950 dark:text-white">Formación</h3>
           </div>
           <ul className="space-y-3">
             <li className="flex items-start">
@@ -158,12 +158,12 @@ const BenefitsSection: React.FC = () => (
         </div>
 
         {/* Beneficios de Seguridad */}
-        <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300">
           <div className="flex items-center mb-4">
-            <div className="bg-slate-950 text-white p-3 rounded-full mr-4">
+            <div className="bg-slate-950 dark:bg-slate-700 text-white p-3 rounded-full mr-4">
               <FaShieldAlt className="w-6 h-6" aria-hidden="true" />
             </div>
-            <h3 className="text-xl font-bold text-slate-950">Seguridad</h3>
+            <h3 className="text-xl font-bold text-slate-950 dark:text-white">Seguridad</h3>
           </div>
           <ul className="space-y-3">
             <li className="flex items-start">

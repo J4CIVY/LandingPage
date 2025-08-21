@@ -55,9 +55,9 @@ const BlogSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-20 px-4 bg-gray-100">
+    <section className="py-20 px-4 bg-gray-100 dark:bg-slate-900">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold text-center text-slate-950 mb-12">
+        <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
           BLOG & <span className="text-green-400">NOTICIAS</span>
         </h2>
 
@@ -66,7 +66,7 @@ const BlogSection: React.FC = () => {
             const imageSources = generateImageSources(post.image);
             
             return (
-              <div key={post.id} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+              <div key={post.id} className="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
                 <Link href={`/blog/${post.slug}`} aria-label={`Leer más sobre ${post.title}`}>
                   <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
                     <picture>
@@ -84,9 +84,9 @@ const BlogSection: React.FC = () => {
                     </picture>
                   </div>
                   <div className="p-6">
-                    <p className="text-sm text-gray-500 mb-2">{post.date}</p>
-                    <h3 className="text-xl font-bold text-slate-950 mb-3">{post.title}</h3>
-                    <p className="text-gray-700 mb-4">{post.excerpt}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{post.date}</p>
+                    <h3 className="text-xl font-bold text-slate-950 dark:text-white mb-3">{post.title}</h3>
+                    <p className="text-gray-700 dark:text-gray-300 mb-4">{post.excerpt}</p>
                     <div className="text-red-600 font-semibold flex items-center hover:underline">
                       Leer más
                       <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -103,7 +103,7 @@ const BlogSection: React.FC = () => {
         <div className="text-center">
           <Link 
             href="/blog" 
-            className="inline-block bg-slate-950 text-white font-bold py-3 px-6 rounded-full hover:bg-green-400 hover:text-slate-950 transition-colors"
+            className="inline-block bg-slate-950 text-white font-bold py-3 px-6 rounded-full hover:bg-green-400 hover:text-slate-950 transition-colors dark:bg-green-400 dark:text-slate-950 dark:hover:bg-white"
           >
             Ver todas las noticias
           </Link>

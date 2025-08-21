@@ -46,10 +46,10 @@ const Testimonials: React.FC = () => {
 
   return (
     <div className="mt-16">
-      <h3 className="text-2xl font-semibold text-slate-950 mb-8 text-center">TESTIMONIOS DE MIEMBROS</h3>
+      <h3 className="text-2xl font-semibold text-slate-950 dark:text-white mb-8 text-center">TESTIMONIOS DE MIEMBROS</h3>
       <div className="grid md:grid-cols-2 gap-8">
         {/* Primer testimonio */}
-        <div className="bg-white p-8 rounded-xl shadow-lg">
+        <div className="bg-white dark:bg-slate-800 p-8 rounded-xl shadow-lg">
           <div className="flex items-center mb-6">
             <picture>
               <source type="image/avif" srcSet={srcSetAvif1} />
