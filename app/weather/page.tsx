@@ -144,13 +144,13 @@ const Weather: React.FC = () => {
   const currentTabs = tabs(); // Call the memoized function to get the tabs array
 
   return (
-    <div className="min-h-screen bg-[#ffffff]">
+    <div className="min-h-screen bg-gray-100 dark:bg-slate-950">
       <SEOComponent
         title="Clima para Motociclistas - BSK Motorcycle Team"
         description="Consulta el clima en tiempo real para Bogotá y Medellín. Radar de precipitaciones y redes de monitoreo para planificar tus rutas de forma segura."
       />
       {/* Title and last updated */}
-      <section className="bg-slate-950 text-white py-8 px-4">
+      <section className="bg-white dark:bg-slate-950 text-slate-950 dark:text-white py-8 px-4">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl md:text-4xl font-bold mb-2 flex items-center">
             Clima para Motociclistas - Bogotá Y Medellín
@@ -192,8 +192,8 @@ const Weather: React.FC = () => {
             hidden={activeTab !== tab.id}
           >
             {activeTab === tab.id && ( // Only render content if tab is active
-              <div className="bg-gray-50 rounded-xl shadow-md overflow-hidden">
-                <div className="bg-slate-950 text-white p-4">
+              <div className="bg-gray-50 dark:bg-slate-800 rounded-xl shadow-md overflow-hidden">
+                <div className="bg-white dark:bg-slate-950 text-slate-950 dark:text-white p-4">
                   <h2 className="text-xl font-bold flex items-center">
                     {tab.icon}
                     {tab.title}
@@ -211,27 +211,27 @@ const Weather: React.FC = () => {
         ))}
 
         {/* Recommendations for motorcyclists */}
-        <div className="mt-12 bg-slate-950 border border-green-400 rounded-xl p-6">
-          <h3 className="text-2xl font-bold text-white mb-4 flex items-center">
+        <div className="mt-12 bg-white dark:bg-slate-950 border border-green-400 rounded-xl p-6">
+          <h3 className="text-2xl font-bold text-slate-950 dark:text-white mb-4 flex items-center">
             <FaExclamationTriangle className="w-6 h-6 mr-2 text-green-400" aria-hidden="true" />
             Recomendaciones para Motociclistas
           </h3>
           <ul className="grid md:grid-cols-2 gap-4">
             <li className="flex items-start">
               <span className="text-green-400 mr-2" aria-hidden="true">•</span>
-              <span className="text-white">En lluvia intensa, reduce velocidad y aumenta distancia de frenado</span>
+              <span className="text-slate-950 dark:text-white">En lluvia intensa, reduce velocidad y aumenta distancia de frenado</span>
             </li>
             <li className="flex items-start">
               <span className="text-green-400 mr-2" aria-hidden="true">•</span>
-              <span className="text-white">Evita zonas marcadas en rojo/naranja en los mapas</span>
+              <span className="text-slate-950 dark:text-white">Evita zonas marcadas en rojo/naranja en los mapas</span>
             </li>
             <li className="flex items-start">
               <span className="text-green-400 mr-2" aria-hidden="true">•</span>
-              <span className="text-white">Usa equipo impermeable y con buena visibilidad</span>
+              <span className="text-slate-950 dark:text-white">Usa equipo impermeable y con buena visibilidad</span>
             </li>
             <li className="flex items-start">
               <span className="text-green-400 mr-2" aria-hidden="true">•</span>
-              <span className="text-white">Precaución con hidroplaneo en vías como Autopista Norte o Calle 80</span>
+              <span className="text-slate-950 dark:text-white">Precaución con hidroplaneo en vías como Autopista Norte o Calle 80</span>
             </li>
           </ul>
         </div>

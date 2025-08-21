@@ -127,7 +127,7 @@ const Documents: React.FC = () => {
         description="Accede a los documentos institucionales de BSK Motorcycle Team, incluyendo estatutos, códigos de ética, y manuales operativos."
       />
       {/* Hero Section */}
-      <section className="bg-slate-950 text-white py-16 px-4 md:px-20">
+      <section className="bg-white dark:bg-slate-950 text-slate-950 dark:text-white py-16 px-4 md:px-20">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">Documentos Institucionales</h1>
           <p className="text-xl md:text-2xl text-green-400 flex items-center justify-center">
@@ -173,8 +173,8 @@ const Documents: React.FC = () => {
                         key={key}
                         className={`w-full text-left px-4 py-2 rounded-lg transition ${
                           activeDoc === key 
-                            ? "bg-slate-950 text-white" 
-                            : "text-gray-700 hover:bg-gray-100"
+                            ? "bg-slate-950 text-white dark:bg-green-500 dark:text-slate-950" 
+                            : "text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-slate-700"
                         }`}
                         onClick={() => setActiveDoc(key)}
                         aria-current={activeDoc === key ? "page" : undefined}
@@ -194,8 +194,8 @@ const Documents: React.FC = () => {
                         key={key}
                         className={`w-full text-left px-4 py-2 rounded-lg transition ${
                           activeDoc === key 
-                            ? "bg-slate-950 text-white" 
-                            : "text-gray-700 hover:bg-gray-100"
+                            ? "bg-slate-950 text-white dark:bg-green-500 dark:text-slate-950" 
+                            : "text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-slate-700"
                         }`}
                         onClick={() => setActiveDoc(key)}
                         aria-current={activeDoc === key ? "page" : undefined}
@@ -211,9 +211,9 @@ const Documents: React.FC = () => {
           {/* Document Content */}
           <div className="lg:w-3/4">
             {currentDoc ? (
-              <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+              <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden">
                 {/* Document Header */}
-                <div className="bg-slate-950 px-6 py-4 flex justify-between items-center">
+                <div className="bg-slate-950 dark:bg-slate-900 px-6 py-4 flex justify-between items-center">
                   <div>
                     <h2 className="text-2xl font-bold text-white">{currentDoc.title}</h2>
                     <p className="text-green-400 text-sm flex items-center">
@@ -289,14 +289,14 @@ const Documents: React.FC = () => {
                 </div>
               </div>
             ) : (
-              <div className="bg-white rounded-xl shadow-lg p-8 text-center text-gray-600">
+              <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-8 text-center text-gray-600 dark:text-gray-300">
                 <p>No se encontró el documento o no hay documentos que coincidan con la búsqueda.</p>
               </div>
             )}
 
             {/* Legal Note */}
-            <div className="mt-6 bg-slate-950 border border-green-400 rounded-xl p-6">
-              <h3 className="text-xl font-bold text-white mb-3 flex items-center">
+            <div className="mt-6 bg-white dark:bg-slate-950 border border-green-400 rounded-xl p-6">
+              <h3 className="text-xl font-bold text-slate-950 dark:text-white mb-3 flex items-center">
                 <FaExclamationTriangle className="w-6 h-6 mr-2 text-green-400" aria-hidden="true" />
                 Nota Legal
               </h3>

@@ -129,7 +129,7 @@ const Events: React.FC = () => {
     const eventDate = parseISO(event.startDate);
     
     return (
-      <div key={event._id} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+      <div key={event._id} className="bg-white dark:bg-slate-800 text-slate-950 dark:text-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
         <div className="relative h-48">
           <Image
             src={event.mainImage || "/default-event-image.webp"}
@@ -163,7 +163,7 @@ const Events: React.FC = () => {
               {event.eventType === 'Ride' ? 'Rodada' : 'Evento'}
             </span>
             <button 
-              className="bg-[#000031] hover:bg-[#00FF99] text-white py-2 px-4 rounded-lg transition"
+              className="bg-slate-950 hover:bg-green-500 text-white dark:bg-green-500 dark:hover:bg-green-600 py-2 px-4 rounded-lg transition"
               aria-label={`Ver detalles de ${event.name}`}
             >
               Ver detalles
@@ -198,8 +198,8 @@ const Events: React.FC = () => {
               onClick={() => setActiveTab("upcoming")}
               className={`px-6 py-2 rounded-l-full border ${
                 activeTab === "upcoming"
-                  ? "bg-[#000031] text-white border-[#000031]"
-                  : "bg-white text-[#000031] border-gray-300 hover:bg-gray-100"
+                  ? "bg-slate-950 text-white border-slate-950 dark:bg-green-500 dark:border-green-500"
+                  : "bg-white text-slate-950 border-gray-300 hover:bg-gray-100 dark:bg-slate-700 dark:text-white dark:border-slate-600 dark:hover:bg-slate-600"
               } transition`}
               role="tab"
               aria-selected={activeTab === "upcoming"}
@@ -212,8 +212,8 @@ const Events: React.FC = () => {
               onClick={() => setActiveTab("past")}
               className={`px-6 py-2 rounded-r-full border ${
                 activeTab === "past"
-                  ? "bg-[#000031] text-white border-[#000031]"
-                  : "bg-white text-[#000031] border-gray-300 hover:bg-gray-100"
+                  ? "bg-slate-950 text-white border-slate-950 dark:bg-green-500 dark:border-green-500"
+                  : "bg-white text-slate-950 border-gray-300 hover:bg-gray-100 dark:bg-slate-700 dark:text-white dark:border-slate-600 dark:hover:bg-slate-600"
               } transition`}
               role="tab"
               aria-selected={activeTab === "past"}
@@ -289,7 +289,7 @@ const Events: React.FC = () => {
               <p className="text-red-500 mb-4">{error}</p>
               <button
                 onClick={fetchEvents}
-                className="bg-[#FF0000] hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg"
+                className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg"
               >
                 Reintentar
               </button>

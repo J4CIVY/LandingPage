@@ -130,12 +130,12 @@ const Contact: React.FC = () => {
   }, [activeTab, contactForm, complaintForm, pqrsdfForm, anonymousComplaint]);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gray-100 dark:bg-slate-950">
       <SEOComponent
         title="Contacto - BSK Motorcycle Team"
         description="Contacta con BSK Motorcycle Team. Encuentra nuestra información de contacto, envía un mensaje, realiza una denuncia anónima o presenta una PQRSDF."
       />
-      <section className="bg-slate-950 text-white py-16 px-4 md:px-20">
+      <section className="bg-white dark:bg-slate-950 text-slate-950 dark:text-white py-16 px-4 md:px-20">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">Contacta a BSK Motorcycle Team</h1>
           <p className="text-xl md:text-2xl text-green-400">

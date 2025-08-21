@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Theme</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
+</head>
+<body class="bg-white dark:bg-slate-950 text-slate-950 dark:text-white">
+    <div class="p-8">
+        <h1 class="text-2xl font-bold mb-4">Test de Tema</h1>
+        <div class="bg-gray-100 dark:bg-slate-800 p-4 rounded">
+            <p>Este texto debería cambiar de color según el tema</p>
+            <button onclick="toggleTheme()" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
+                Toggle Theme
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+        }
+    </script>
+</body>
+</html>

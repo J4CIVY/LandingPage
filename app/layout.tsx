@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html lang="es" suppressHydrationWarning className="">
       <head>
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/icon.png" />
@@ -28,12 +28,11 @@ export default function RootLayout({
         <link rel="preconnect" href="https://api.bskmt.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
       </head>
-      <body>
+      <body className="bg-white dark:bg-slate-950 text-slate-950 dark:text-white">
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="light"
           enableSystem
-          disableTransitionOnChange
         >
           <Header />
           <main>{children}</main>

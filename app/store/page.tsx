@@ -210,11 +210,11 @@ const Store: React.FC = () => {
       </div>
 
       {/* Search and Filters */}
-      <div className="bg-white p-6 rounded-lg shadow-md mb-8">
+      <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md mb-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* Search */}
           <div className="md:col-span-2">
-            <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="search" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Search Products
             </label>
             <input
@@ -319,7 +319,7 @@ const Store: React.FC = () => {
           {filteredProducts.map((product) => (
             <div
               key={product.id}
-              className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+              className="bg-white dark:bg-slate-800 text-slate-950 dark:text-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
               role="listitem"
             >
               {/* Product Image */}

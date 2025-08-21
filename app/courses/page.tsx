@@ -126,18 +126,18 @@ const Courses: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#ffffff]">
+    <div className="min-h-screen bg-gray-100 dark:bg-slate-950">
       <SEOComponent
         title="Cursos de Motociclismo - BSK Motorcycle Team"
         description="Mejora tus habilidades de motociclismo con nuestros cursos de manejo básico, avanzado, y talleres de mantenimiento. Certificados y diseñados por expertos."
       />
       {/* Hero Section */}
-      <section className="bg-slate-950 text-white py-16 px-4 md:px-20">
+      <section className="bg-white dark:bg-slate-950 text-slate-950 dark:text-white py-16 px-4 md:px-20">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">Ready To Ride + BSK Motorcycle Team</h1>
           <a
             href="#inscripciones"
-            className="inline-flex items-center bg-white text-slate-950 font-bold py-3 px-8 rounded-xl hover:bg-gray-200 transition text-lg"
+            className="inline-flex items-center bg-slate-950 dark:bg-white text-white dark:text-slate-950 font-bold py-3 px-8 rounded-xl hover:bg-gray-800 dark:hover:bg-gray-200 transition text-lg"
             aria-label="Inscríbete ahora en nuestros cursos"
           >
             <FaCalendarAlt className="mr-2" aria-hidden="true" />
@@ -157,7 +157,7 @@ const Courses: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {courses.map((course) => (
-            <div key={course.id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow border border-gray-100">
+            <div key={course.id} className="bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow border border-gray-100 dark:border-slate-700">
               <div className="h-48 bg-slate-950 flex items-center justify-center">
                 {course.icon}
               </div>
