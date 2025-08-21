@@ -42,7 +42,7 @@ const StoreSection: React.FC = () => {
 
   if (loading) {
     return (
-      <section className="py-20 px-4 bg-white dark:bg-slate-900">
+      <section className="py-20 px-4 bg-gray-100 dark:bg-slate-900">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
             TIENDA <span className="text-red-600">EN LÍNEA</span>
@@ -57,7 +57,7 @@ const StoreSection: React.FC = () => {
 
   if (error) {
     return (
-      <section className="py-20 px-4 bg-white dark:bg-slate-900">
+      <section className="py-20 px-4 bg-gray-100 dark:bg-slate-900">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
             TIENDA <span className="text-red-600">EN LÍNEA</span>
@@ -77,7 +77,7 @@ const StoreSection: React.FC = () => {
   }
 
   return (
-    <section className="py-20 px-4 bg-white dark:bg-slate-900">
+    <section className="py-20 px-4 bg-gray-100 dark:bg-slate-900">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
           TIENDA <span className="text-red-600">EN LÍNEA</span>
@@ -87,7 +87,7 @@ const StoreSection: React.FC = () => {
           <>
             <div className="grid md:grid-cols-3 gap-8">
               {featuredProducts.map((product: any) => (
-                <div key={product._id} className="bg-gray-50 dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105">
+                <div key={product._id} className="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105">
                   <div className="relative" style={{ aspectRatio: '1/1' }}>
                     <Image
                       src={product.featuredImage}
@@ -105,7 +105,7 @@ const StoreSection: React.FC = () => {
                     </p>
                     <div className="flex space-x-3">
                       <button 
-                        className="flex-1 bg-slate-950 hover:bg-green-400 text-white dark:bg-blue-600 dark:hover:bg-blue-700 py-2 rounded-full transition duration-300"
+                        className="flex-1 bg-slate-950 hover:bg-green-400 text-white dark:bg-red-600 dark:hover:bg-red-700 py-2 rounded-full transition duration-300"
                         // In a real app, this would add to cart or link to a purchase page
                         onClick={() => alert(`Comprar ${product.name}`)}
                       >

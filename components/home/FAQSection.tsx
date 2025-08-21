@@ -311,7 +311,7 @@ const FAQSection: React.FC = () => {
   }, [faqQuestions, faqFilter]); // Memoize filteredQuestions
 
   return (
-    <div className="bg-white dark:bg-slate-800 rounded-xl p-8 shadow-lg">
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-8 shadow-lg text-slate-900 dark:text-white">
       <h3 className="text-2xl font-bold text-slate-950 dark:text-white mb-6 text-center">PREGUNTAS FRECUENTES</h3>
       
       <div className="flex flex-wrap justify-center gap-2 mb-6">
@@ -319,7 +319,7 @@ const FAQSection: React.FC = () => {
         {['all', 'membership', 'events', 'benefits', 'general', 'organization'].map((filter) => (
           <button
             key={filter}
-            className={`px-4 py-2 rounded-full text-sm ${faqFilter === filter ? 'bg-slate-950 text-white dark:bg-blue-600' : 'bg-gray-200 text-slate-950 hover:bg-gray-300 dark:bg-slate-700 dark:text-gray-300 dark:hover:bg-slate-600'}`}
+            className={`px-4 py-2 rounded-full text-sm ${faqFilter === filter ? 'bg-slate-950 text-white dark:bg-red-600' : 'bg-gray-200 text-slate-950 hover:bg-gray-300 dark:bg-slate-700 dark:text-gray-300 dark:hover:bg-slate-600'}`}
             onClick={() => setFaqFilter(filter as 'all' | 'membership' | 'events' | 'benefits' | 'general' | 'organization')}
             aria-pressed={faqFilter === filter} // ARIA attribute for toggle buttons
           >

@@ -43,7 +43,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
   };
 
   return (
-    <section className="py-20 px-4 bg-slate-950 text-white">
+    <section className="py-20 px-4 bg-gray-100 dark:bg-slate-950 text-slate-900 dark:text-white">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-4xl font-bold text-center mb-12">
           PRÓXIMOS <span className="text-green-400">EVENTOS</span>
@@ -52,14 +52,14 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
         <div className="mb-8 flex justify-center space-x-4">
           <button
             onClick={() => setActiveTab('events')}
-            className={`px-6 py-2 rounded-full ${activeTab === 'events' ? 'bg-red-600 text-white' : 'bg-white text-slate-950'}`}
+            className={`px-6 py-2 rounded-full ${activeTab === 'events' ? 'bg-red-600 text-white' : 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white'}`}
             aria-pressed={activeTab === 'events'} // ARIA attribute for toggle buttons
           >
             Lista de Eventos
           </button>
           <button
             onClick={() => setActiveTab('calendar')}
-            className={`px-6 py-2 rounded-full ${activeTab === 'calendar' ? 'bg-red-600 text-white' : 'bg-white text-slate-950'}`}
+            className={`px-6 py-2 rounded-full ${activeTab === 'calendar' ? 'bg-red-600 text-white' : 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white'}`}
             aria-pressed={activeTab === 'calendar'} // ARIA attribute for toggle buttons
           >
             Calendario
@@ -86,7 +86,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
               <div className="grid md:grid-cols-3 gap-8">
                 {events.length > 0 ? (
                   events.map((event: any) => (
-                    <div key={event._id} className="bg-white text-slate-950 rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105">
+                    <div key={event._id} className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105">
                       <div className="relative" style={{ aspectRatio: '16/9' }}>
                         <Image
                           src={event.mainImage || "/default-event-image.webp"}
@@ -102,8 +102,8 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
                           {/* Ensure event.startDate is a valid ISO string before parsing */}
                           {event.startDate ? format(parseISO(event.startDate), "EEEE d 'de' MMMM yyyy", { locale: es }) : 'Fecha no disponible'}
                         </p>
-                        <p className="text-gray-700 mb-4">{event.description}</p>
-                        <p className="text-sm text-gray-600 flex items-center">
+                        <p className="text-gray-700 dark:text-gray-300 mb-4">{event.description}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center">
                           <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -112,7 +112,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
                         </p>
                         <button 
                           onClick={() => handleEventClick(event)} // Use the new handler
-                          className="mt-4 w-full bg-slate-950 hover:bg-green-400 text-white py-2 rounded-full transition duration-300"
+                          className="mt-4 w-full bg-slate-950 hover:bg-green-400 text-white dark:bg-red-600 dark:hover:bg-red-700 py-2 rounded-full transition duration-300"
                           aria-label={`Más información sobre ${event.name}`}
                         >
                           Más información
@@ -129,7 +129,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
             )}
           </>
         ) : (
-          <div className="bg-white rounded-xl p-6 text-slate-950">
+          <div className="bg-white dark:bg-slate-800 rounded-xl p-6 text-slate-900 dark:text-white">
             <div className="flex items-center justify-center mb-4">
               <FaCalendarAlt className="text-red-600 mr-2" aria-hidden="true" />
               <h3 className="text-xl font-bold">Calendario de Eventos</h3>

@@ -48,7 +48,7 @@ const HeroSection: React.FC = () => {
   };
 
   return (
-    <section className="relative h-screen flex items-center justify-center bg-slate-950 overflow-hidden">
+    <section className="relative h-screen flex items-center justify-center bg-gray-100 dark:bg-slate-950 overflow-hidden">
       <div className="absolute inset-0 w-full h-full">
         <picture>
           {/* AVIF source for best compression and quality */}
@@ -79,15 +79,15 @@ const HeroSection: React.FC = () => {
           />
         </picture>
         {/* Overlay to darken the image and improve text readability */}
-        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="absolute inset-0 bg-black opacity-50 dark:opacity-60"></div>
       </div>
 
       {/* Hero content: title, description, and call-to-action button */}
       <div className="relative z-10 text-center px-4">
-        <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
+        <h1 className="text-5xl md:text-7xl font-bold text-white dark:text-white mb-6">
           <span className="text-green-400">BSK</span> MOTORCYCLE TEAM
         </h1>
-        <p className="text-xl md:text-2xl text-white mb-8 max-w-2xl mx-auto">
+        <p className="text-xl md:text-2xl text-white dark:text-gray-200 mb-8 max-w-2xl mx-auto">
           Libertad sobre dos ruedas - Pasión, Camaradería y Aventura
         </p>
         <button 
