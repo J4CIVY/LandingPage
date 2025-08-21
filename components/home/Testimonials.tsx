@@ -73,7 +73,7 @@ const Testimonials: React.FC = () => {
         </div>
 
         {/* Segundo testimonio */}
-        <div className="bg-white p-8 rounded-xl shadow-lg">
+        <div className="bg-white dark:bg-slate-800 p-8 rounded-xl shadow-lg">
           <div className="flex items-center mb-6">
             <picture>
               <source type="image/avif" srcSet={srcSetAvif2} />
@@ -89,11 +89,11 @@ const Testimonials: React.FC = () => {
               />
             </picture>
             <div>
-              <h4 className="text-xl font-bold text-slate-950">Laura Torres</h4>
+              <h4 className="text-xl font-bold text-slate-950 dark:text-white">Laura Torres</h4>
               <p className="text-green-400">Miembro desde 2022</p>
             </div>
           </div>
-          <p className="text-gray-700 italic">"Los descuentos en repuestos y talleres ya han cubierto el costo de mi membresía varias veces. Además, la comunidad es increíble, he hecho amigos para toda la vida."</p>
+          <p className="text-gray-700 dark:text-gray-300 italic">"Los descuentos en repuestos y talleres ya han cubierto el costo de mi membresía varias veces. Además, la comunidad es increíble, he hecho amigos para toda la vida."</p>
         </div>
       </div>
     </div>

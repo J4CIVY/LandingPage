@@ -11,13 +11,13 @@ import Image from 'next/image';
  */
 const About: React.FC = () => {
   return (
-    <main className="min-h-screen bg-primary text-slate-950">
+    <main className="min-h-screen bg-gray-100 dark:bg-slate-950 text-slate-950 dark:text-white">
       <SEOComponent
         title="Sobre Nosotros - BSK Motorcycle Team"
         description="Conoce la historia, misión, visión y valores de BSK Motorcycle Team. Somos más que un motoclub, somos una familia apasionada por el motociclismo en Colombia."
       />
       {/* Hero Section */}
-      <section className="relative py-20 px-4 bg-primary">
+      <section className="relative py-20 px-4 bg-gray-100 dark:bg-slate-950">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 text-center">
             Sobre <span className="text-accent">BSK Motorcycle Team</span>
@@ -29,7 +29,7 @@ const About: React.FC = () => {
       </section>
 
       {/* Club History */}
-      <section className="py-16 px-4 bg-primary-dark">
+      <section className="py-16 px-4 bg-white dark:bg-slate-900">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
             Nuestra <span className="text-accent">Historia</span>
@@ -79,7 +79,7 @@ const About: React.FC = () => {
       </section>
 
       {/* Club Pillars */}
-      <section className="py-16 px-4 bg-primary">
+      <section className="py-16 px-4 bg-gray-100 dark:bg-slate-950">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
             Nuestros <span className="text-accent">Pilares</span>
@@ -87,7 +87,7 @@ const About: React.FC = () => {
           
           <div className="grid md:grid-cols-3 gap-8">
             {/* Mission */}
-            <article className="bg-primary-dark p-8 rounded-lg shadow-lg">
+            <article className="bg-white dark:bg-slate-800 p-8 rounded-lg shadow-lg">
               <div className="text-accent text-4xl mb-4">
                 <FaMotorcycle aria-label="Icono de motocicleta" />
               </div>
@@ -99,7 +99,7 @@ const About: React.FC = () => {
             </article>
 
             {/* Vision */}
-            <article className="bg-primary-dark p-8 rounded-lg shadow-lg">
+            <article className="bg-white dark:bg-slate-800 p-8 rounded-lg shadow-lg">
               <div className="text-accent text-4xl mb-4">
                 <FaShieldAlt aria-label="Icono de escudo" />
               </div>
@@ -112,7 +112,7 @@ const About: React.FC = () => {
             </article>
 
             {/* Values */}
-            <article className="bg-primary-dark p-8 rounded-lg shadow-lg">
+            <article className="bg-white dark:bg-slate-800 p-8 rounded-lg shadow-lg">
               <div className="text-accent text-4xl mb-4">
                 <FaHandsHelping aria-label="Icono de manos ayudando" />
               </div>
@@ -130,10 +130,10 @@ const About: React.FC = () => {
       </section>
 
       {/* Philosophy and Motto */}
-      <section className="py-20 px-4 bg-accent text-primary">
+      <section className="py-20 px-4 bg-accent text-slate-950 dark:text-white">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-12">
-            Nuestra <span className="text-secondary">Filosofía</span>
+            Nuestra <span className="text-white">Filosofía</span>
           </h2>
           
           <div className="grid md:grid-cols-3 gap-8 mb-12">
@@ -167,14 +167,14 @@ const About: React.FC = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="py-16 px-4 bg-primary">
+      <section className="py-16 px-4 bg-gray-100 dark:bg-slate-950">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
             Voces de <span className="text-accent">BSK</span>
           </h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <article className="bg-white text-primary p-6 rounded-lg shadow-lg">
+            <article className="bg-white dark:bg-slate-800 text-slate-950 dark:text-white p-6 rounded-lg shadow-lg">
               <p className="italic mb-4">
                 "Unirme a BSK fue la mejor decisión que pude tomar. No solo he hecho amigos para toda la vida, 
                 sino que he aprendido a ser un motociclista más seguro y responsable."
@@ -182,7 +182,7 @@ const About: React.FC = () => {
               <p className="font-semibold">- Carlos, miembro desde 2022</p>
             </article>
 
-            <article className="bg-white text-primary p-6 rounded-lg shadow-lg">
+            <article className="bg-white dark:bg-slate-800 text-slate-950 dark:text-white p-6 rounded-lg shadow-lg">
               <p className="italic mb-4">
                 "Los eventos benéficos que organizamos me llenan de orgullo. Demostramos que los motociclistas 
                 podemos ser una fuerza positiva en la comunidad."
@@ -190,7 +190,7 @@ const About: React.FC = () => {
               <p className="font-semibold">- Ana, miembro desde 2022</p>
             </article>
 
-            <article className="bg-white text-primary p-6 rounded-lg shadow-lg md:col-span-2 lg:col-span-1">
+            <article className="bg-white dark:bg-slate-800 text-slate-950 dark:text-white p-6 rounded-lg shadow-lg md:col-span-2 lg:col-span-1">
               <p className="italic mb-4">
                 "Como mujer motociclista, encontré en BSK un espacio de respeto e igualdad. Aquí lo único que 
                 importa es la pasión por las motos."
@@ -202,7 +202,7 @@ const About: React.FC = () => {
       </section>
 
       {/* Gallery */}
-      <section className="py-16 px-4 bg-primary-dark">
+      <section className="py-16 px-4 bg-white dark:bg-slate-900">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
             Nuestros <span className="text-accent">Momentos</span>
@@ -220,7 +220,7 @@ const About: React.FC = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-20 px-4 bg-primary">
+      <section className="py-20 px-4 bg-gray-100 dark:bg-slate-950">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             ¿Listo para unirte a la <span className="text-accent">familia BSK</span>?
@@ -229,7 +229,7 @@ const About: React.FC = () => {
             Descubre la emoción de formar parte de un club donde la pasión por las motos va de la mano con la amistad y el respeto.
           </p>
           <button 
-            className="bg-accent text-primary font-bold py-3 px-8 rounded-full text-lg hover:bg-accent-dark transition-colors"
+            className="bg-accent text-slate-950 dark:text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-accent-dark transition-colors"
             aria-label="Únete a BSK Motorcycle Team"
           >
             Únete a BSK Motorcycle Team

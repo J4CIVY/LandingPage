@@ -34,7 +34,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
   return (
     <header
       ref={ref}
-      className={`w-full bg-slate-950 shadow-md py-1 ${className}`}
+      className={`w-full bg-white dark:bg-slate-950 shadow-md py-1 ${className}`}
       {...props}
     >
       <div className="container mx-auto px-4">
@@ -60,7 +60,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
                 <li key={item.name}>
                   <Link
                     href={item.path}
-                    className={`text-white hover:text-green-400 transition-colors ${pathname === item.path ? 'text-green-400 font-bold' : ''
+                    className={`text-slate-950 dark:text-white hover:text-green-400 transition-colors ${pathname === item.path ? 'text-green-400 font-bold' : ''
                       }`}
                     aria-current={pathname === item.path ? 'page' : undefined}
                   >
@@ -75,14 +75,14 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
           </nav>
 
           <button
-            className="md:hidden text-white focus:outline-none mr-3"
+            className="md:hidden text-slate-950 dark:text-white focus:outline-none mr-3"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-expanded={isMenuOpen}
             aria-label="Menú"
           >
             <div className="w-6 flex flex-col items-end">
-              <span className={`block h-0.5 w-6 bg-white rounded-full transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-1.5' : 'mb-1.5'}`}></span>
-              <span className={`block h-0.5 bg-white rounded-full transition-all duration-300 ${isMenuOpen ? 'w-6 -rotate-45' : 'w-4'}`}></span>
+              <span className={`block h-0.5 w-6 bg-slate-950 dark:bg-white rounded-full transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-1.5' : 'mb-1.5'}`}></span>
+              <span className={`block h-0.5 bg-slate-950 dark:bg-white rounded-full transition-all duration-300 ${isMenuOpen ? 'w-6 -rotate-45' : 'w-4'}`}></span>
             </div>
           </button>
         </div>
@@ -90,7 +90,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
 
       {isMenuOpen && (
         <div
-          className="md:hidden fixed inset-x-0 top-[63px] bottom-0 bg-slate-950 z-40 overflow-y-auto"
+          className="md:hidden fixed inset-x-0 top-[63px] bottom-0 bg-white dark:bg-slate-950 z-40 overflow-y-auto"
           role="navigation"
           aria-label="Menú principal móvil"
         >
@@ -101,7 +101,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
                   <Link
                     href={item.path}
                     onClick={() => setIsMenuOpen(false)}
-                    className={`text-white text-xl font-medium hover:text-green-400 transition-colors ${pathname === item.path ? 'text-green-400 font-bold' : ''
+                    className={`text-slate-950 dark:text-white text-xl font-medium hover:text-green-400 transition-colors ${pathname === item.path ? 'text-green-400 font-bold' : ''
                       }`}
                     aria-current={pathname === item.path ? 'page' : undefined}
                   >
@@ -112,9 +112,9 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
             </ul>
 
             <div className="pl-2">
-              <div className="border-t border-gray-700 pt-6">
-                <h3 className="text-white font-bold mb-4">Asistencia de Emergencia</h3>
-                <p className="text-white text-sm mb-4">
+              <div className="border-t border-gray-300 dark:border-gray-700 pt-6">
+                <h3 className="text-slate-950 dark:text-white font-bold mb-4">Asistencia de Emergencia</h3>
+                <p className="text-slate-950 dark:text-white text-sm mb-4">
                   Solicitar Asistencia Técnica O De Emergencias
                 </p>
                 <Link
@@ -124,13 +124,13 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
                 >
                   Botón SOS
                 </Link>
-                <div className="text-white text-sm pt-4">
+                <div className="text-slate-950 dark:text-white text-sm pt-4">
                   <p>Contacto de emergencia:</p>
                   <p>Teléfono: +57 312 519 2000</p>
                   <p>Email: emergencias@bskmt.com</p>
                 </div>
               </div>
-              <div className="border-t border-gray-700 pt-6 mt-6">
+              <div className="border-t border-gray-300 dark:border-gray-700 pt-6 mt-6">
                 <ThemeChanger />
               </div>
             </div>

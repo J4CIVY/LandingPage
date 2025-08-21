@@ -22,7 +22,7 @@ const Home: React.FC = () => {
         title="BSK Motorcycle Team - Club de Motociclistas en Colombia"
         description="Únete a BSK Motorcycle Team, una comunidad de apasionados por las motos en Colombia. Participa en eventos, rutas y disfruta de beneficios exclusivos."
       />
-      <div className="min-h-screen bg-[#ffffff]">
+      <div className="min-h-screen bg-gray-100 dark:bg-slate-950">
         <HeroSection />
         <Suspense fallback={<div>Loading...</div>}>
           <section>

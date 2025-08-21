@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-slate-950 text-gray-500">
+    <footer className="bg-white dark:bg-slate-950 text-slate-950 dark:text-gray-500">
       {/* First Section - Logo and Motto */}
       <section className="py-8 px-4">
         <div className="max-w-6xl mx-auto flex flex-col items-center justify-center space-y-4">
