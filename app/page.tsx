@@ -4,7 +4,6 @@ import React, { Suspense } from "react";
 import { useEvents } from "@/hooks/useEvents";
 import SEOComponent from "@/components/home/SEOComponent";
 import HeroSection from "@/components/home/HeroSection";
-import AnimatedSection from "@/components/shared/AnimatedSection";
 
 const AboutSection = React.lazy(() => import("@/components/home/AboutSection"));
 const EventsSection = React.lazy(() => import("@/components/home/EventsSection"));
@@ -26,31 +25,31 @@ const Home: React.FC = () => {
       <div className="min-h-screen bg-[#ffffff]">
         <HeroSection />
         <Suspense fallback={<div>Loading...</div>}>
-          <AnimatedSection>
+          <section>
             <AboutSection />
-          </AnimatedSection>
-          <AnimatedSection>
+          </section>
+          <section>
             <EventsSection 
               events={events} 
               loading={loading} 
               error={error} 
             />
-          </AnimatedSection>
-          <AnimatedSection>
+          </section>
+          <section>
             <GallerySection />
-          </AnimatedSection>
-          <AnimatedSection>
+          </section>
+          <section>
             <BenefitsSection />
-          </AnimatedSection>
-          <AnimatedSection>
+          </section>
+          <section>
             <StoreSection />
-          </AnimatedSection>
-          <AnimatedSection>
+          </section>
+          <section>
             <BlogSection />
-          </AnimatedSection>
-          <AnimatedSection>
+          </section>
+          <section>
             <FAQSection />
-          </AnimatedSection>
+          </section>
         </Suspense>
       </div>
     </>

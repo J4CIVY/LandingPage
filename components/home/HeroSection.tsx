@@ -3,7 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import AnimatedSection from "../shared/AnimatedSection";
+
 
 const HeroSection: React.FC = () => {
   const cloudName: string = "dz0peilmu";
@@ -48,7 +48,7 @@ const HeroSection: React.FC = () => {
   };
 
   return (
-    <AnimatedSection className="relative h-screen flex items-center justify-center bg-slate-950 overflow-hidden">
+    <section className="relative h-screen flex items-center justify-center bg-slate-950 overflow-hidden">
       <div className="absolute inset-0 w-full h-full">
         <picture>
           {/* AVIF source for best compression and quality */}
@@ -84,7 +84,7 @@ const HeroSection: React.FC = () => {
 
       {/* Hero content: title, description, and call-to-action button */}
       <div className="relative z-10 text-center px-4">
-        <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in">
+        <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
           <span className="text-green-400">BSK</span> MOTORCYCLE TEAM
         </h1>
         <p className="text-xl md:text-2xl text-white mb-8 max-w-2xl mx-auto">
@@ -92,13 +92,13 @@ const HeroSection: React.FC = () => {
         </p>
         <button 
           onClick={handleJoinClick}
-          className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 transform hover:scale-105"
+          className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-lg"
           aria-label="Únete al club BSK Motorcycle Team" // Accessible label for the button
         >
           ÚNETE AL CLUB
         </button>
       </div>
-    </AnimatedSection>
+    </section>
   );
 };
 
