@@ -32,7 +32,7 @@ const AboutSection: React.FC = () => {
   const fallbackSrc: string = `https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_1366/${imagePath}`;
 
   return (
-    <section className="py-20 px-4 bg-white dark:bg-slate-900">
+    <section className="py-20 px-4 bg-white dark:bg-slate-950">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
           SOBRE <span className="text-red-600">NOSOTROS</span>
@@ -95,3 +95,4 @@ const AboutSection: React.FC = () => {
 };
 
 export default AboutSection;
+
