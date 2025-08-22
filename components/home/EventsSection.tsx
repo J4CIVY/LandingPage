@@ -52,7 +52,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
         <div className="mb-8 flex justify-center space-x-4">
           <button
             onClick={() => setActiveTab('events')}
-            className={`px-6 py-2 rounded-full ${activeTab === 'events' ? 'bg-red-600 text-white' : 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white'}`}
+            className={`px-6 py-2 rounded-full ${activeTab === 'events' ? 'bg-red-600 text-white' : 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white'}`}
             aria-pressed={activeTab === 'events'} // ARIA attribute for toggle buttons
           >
             Lista de Eventos
