@@ -46,9 +46,9 @@ const BenefitsSection: React.FC = () => (
         </div>
 
         {/* Beneficios Técnicos */}
-        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300">
+        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300">
           <div className="flex items-center mb-4">
-            <div className="bg-slate-950 dark:bg-slate-700 text-white p-3 rounded-full mr-4">
+            <div className="bg-slate-950 dark:bg-slate-800 text-white p-3 rounded-full mr-4">
               <FaTools className="w-6 h-6" aria-hidden="true" />
             </div>
             <h3 className="text-xl font-bold text-slate-950 dark:text-white">Asistencia Técnica</h3>
@@ -74,9 +74,9 @@ const BenefitsSection: React.FC = () => (
         </div>
 
         {/* Beneficios Económicos */}
-        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300">
+        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300">
           <div className="flex items-center mb-4">
-            <div className="bg-slate-950 dark:bg-slate-700 text-white p-3 rounded-full mr-4">
+            <div className="bg-slate-950 dark:bg-slate-800 text-white p-3 rounded-full mr-4">
               <FaMoneyBillWave className="w-6 h-6" aria-hidden="true" />
             </div>
             <h3 className="text-xl font-bold text-slate-950 dark:text-white">Ventajas Económicas</h3>
@@ -102,9 +102,9 @@ const BenefitsSection: React.FC = () => (
         </div>
 
         {/* Beneficios Recreativos */}
-        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300">
+        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300">
           <div className="flex items-center mb-4">
-            <div className="bg-slate-950 dark:bg-slate-700 text-white p-3 rounded-full mr-4">
+            <div className="bg-slate-950 dark:bg-slate-800 text-white p-3 rounded-full mr-4">
               <FaGlassCheers className="w-6 h-6" aria-hidden="true" />
             </div>
             <h3 className="text-xl font-bold text-slate-950 dark:text-white">Actividades Recreativas</h3>
@@ -130,9 +130,9 @@ const BenefitsSection: React.FC = () => (
         </div>
 
         {/* Beneficios Formativos */}
-        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300">
+        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300">
           <div className="flex items-center mb-4">
-            <div className="bg-slate-950 dark:bg-slate-700 text-white p-3 rounded-full mr-4">
+            <div className="bg-slate-950 dark:bg-slate-800 text-white p-3 rounded-full mr-4">
               <FaGraduationCap className="w-6 h-6" aria-hidden="true" />
             </div>
             <h3 className="text-xl font-bold text-slate-950 dark:text-white">Formación</h3>
@@ -158,9 +158,9 @@ const BenefitsSection: React.FC = () => (
         </div>
 
         {/* Beneficios de Seguridad */}
-        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300">
+        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300">
           <div className="flex items-center mb-4">
-            <div className="bg-slate-950 dark:bg-slate-700 text-white p-3 rounded-full mr-4">
+            <div className="bg-slate-950 dark:bg-slate-800 text-white p-3 rounded-full mr-4">
               <FaShieldAlt className="w-6 h-6" aria-hidden="true" />
             </div>
             <h3 className="text-xl font-bold text-slate-950 dark:text-white">Seguridad</h3>
@@ -192,5 +192,6 @@ const BenefitsSection: React.FC = () => (
 );
 
 export default BenefitsSection;
+
 
 
