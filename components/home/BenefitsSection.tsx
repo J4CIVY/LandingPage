@@ -18,9 +18,9 @@ const BenefitsSection: React.FC = () => (
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Beneficios Sociales */}
-        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300">
+        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300">
           <div className="flex items-center mb-4">
-            <div className="bg-slate-950 dark:bg-slate-700 text-white p-3 rounded-full mr-4">
+            <div className="bg-slate-950 dark:bg-slate-800 text-white p-3 rounded-full mr-4">
               <FaUsers className="w-6 h-6" aria-hidden="true" />
             </div>
             <h3 className="text-xl font-bold text-slate-950 dark:text-white">Comunidad</h3>
@@ -192,4 +192,5 @@ const BenefitsSection: React.FC = () => (
 );
 
 export default BenefitsSection;
+
 
