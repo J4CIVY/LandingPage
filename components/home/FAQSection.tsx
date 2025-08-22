@@ -319,7 +319,7 @@ const FAQSection: React.FC = () => {
         {['all', 'membership', 'events', 'benefits', 'general', 'organization'].map((filter) => (
           <button
             key={filter}
-            className={`px-4 py-2 rounded-full text-sm ${faqFilter === filter ? 'bg-slate-950 text-white dark:bg-red-600' : 'bg-gray-200 text-slate-950 hover:bg-gray-300 dark:bg-slate-700 dark:text-gray-300 dark:hover:bg-slate-600'}`}
+            className={`px-4 py-2 rounded-full text-sm ${faqFilter === filter ? 'bg-slate-950 text-white dark:bg-red-600' : 'bg-gray-200 text-slate-950 hover:bg-gray-300 dark:bg-slate-900 dark:text-gray-300 dark:hover:bg-slate-800'}`}
             onClick={() => setFaqFilter(filter as 'all' | 'membership' | 'events' | 'benefits' | 'general' | 'organization')}
             aria-pressed={faqFilter === filter} // ARIA attribute for toggle buttons
           >
