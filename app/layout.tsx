@@ -35,7 +35,7 @@ export default function RootLayout({
           enableSystem
         >
           <Header />
-          <main>{children}</main>
+          <main className="pt-16">{children}</main>
           <Footer />
           <CookieBanner />
         </ThemeProvider>

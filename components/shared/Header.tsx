@@ -34,7 +34,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
   return (
     <header
       ref={ref}
-      className={`w-full bg-white dark:bg-slate-950 shadow-md py-1 ${className}`}
+      className={`fixed top-0 left-0 right-0 w-full bg-white dark:bg-slate-950 shadow-md py-1 z-50 ${className}`}
       {...props}
     >
       <div className="container mx-auto px-4">
@@ -90,7 +90,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
 
       {isMenuOpen && (
         <div
-          className="md:hidden fixed inset-x-0 top-[63px] bottom-0 bg-white dark:bg-slate-950 z-40 overflow-y-auto"
+          className="md:hidden fixed inset-x-0 top-16 bottom-0 bg-white dark:bg-slate-950 z-40 overflow-y-auto"
           role="navigation"
           aria-label="Menú principal móvil"
         >
