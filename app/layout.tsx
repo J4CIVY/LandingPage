@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import CookieBanner from "@/components/shared/CookieBanner";
+import DynamicThemeColor from "@/components/shared/DynamicThemeColor";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +25,6 @@ export default function RootLayout({
       <head>
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/icon.png" />
-        <meta name="theme-color" content="#000000" />
         <link rel="preconnect" href="https://api.bskmt.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
       </head>
@@ -34,6 +34,7 @@ export default function RootLayout({
           defaultTheme="light"
           enableSystem
         >
+          <DynamicThemeColor />
           <Header />
           <main className="pt-16">{children}</main>
           <Footer />
