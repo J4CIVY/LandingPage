@@ -38,17 +38,17 @@ const Footer: React.FC = () => {
               loading="lazy"
             />
           </picture>
-          <p className="text-base font-light italic text-center">Hermandad, Espíritu y Respeto</p>
+          <p className="text-base font-light italic text-center text-slate-900 dark:text-white">Hermandad, Espíritu y Respeto</p>
         </div>
       </section>
 
       {/* Second Section - Support and Oversight */}
-      <section className="py-8 px-4 border-t border-slate-950">
+      <section className="py-8 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
             {/* Support - Innpulsa Logo */}
             <div className="flex flex-col items-center space-y-2">
-              <h2 className="text-sm font-semibold uppercase tracking-wider">Con El Apoyo De</h2>
+              <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-950 dark:text-white">Con El Apoyo De</h2>
               {/* Logo Innpulsa para modo claro */}
               <picture className="block dark:hidden">
                 <source srcSet={footerImages.logoInnpulsaLight.avif} type="image/avif" />
@@ -80,7 +80,7 @@ const Footer: React.FC = () => {
 
             {/* Oversight - Superintendence Logo */}
             <div className="flex flex-col items-center space-y-2">
-              <h2 className="text-sm font-semibold uppercase tracking-wider">Vigilado Por</h2>
+              <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-950 dark:text-white">Vigilado Por</h2>
               <div className="flex flex-col sm:flex-row items-center gap-4">
                 {/* Logo Superintendencia para modo claro */}
                 <picture className="block dark:hidden">
@@ -116,17 +116,17 @@ const Footer: React.FC = () => {
       </section>
 
       {/* Third Section - Social Media and Legal Menu */}
-      <section className="py-8 px-4 border-t border-slate-950">
+      <section className="py-8 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             {/* Social Media */}
             <div className="flex flex-col items-center md:items-start space-y-3">
-              <p className="text-sm font-medium">Síguenos</p>
+              <p className="text-sm font-medium text-slate-950 dark:text-white">Síguenos</p>
               <div className="flex space-x-4">
                 <a
                   href="https://facebook.com/bskmotorcycleteam"
                   aria-label="Facebook BSK Motorcycle Team"
-                  className="text-white hover:text-blue-400 transition-colors flex items-center gap-2"
+                  className="text-slate-950 dark:text-white hover:text-blue-400 transition-colors flex items-center gap-2"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -136,7 +136,7 @@ const Footer: React.FC = () => {
                 <a
                   href="https://instagram.com/bskmotorcycleteam"
                   aria-label="Instagram BSK Motorcycle Team"
-                  className="text-white hover:text-pink-500 transition-colors flex items-center gap-2"
+                  className="text-slate-950 dark:text-white hover:text-blue-400 transition-colors flex items-center gap-2"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -146,7 +146,7 @@ const Footer: React.FC = () => {
                 <a
                   href="https://twitter.com/bskmotorcycleteam"
                   aria-label="Twitter BSK Motorcycle Team"
-                  className="text-white hover:text-blue-300 transition-colors flex items-center gap-2"
+                  className="text-slate-950 dark:text-white hover:text-blue-400 transition-colors flex items-center gap-2"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -156,7 +156,7 @@ const Footer: React.FC = () => {
                 <a
                   href="https://youtube.com/bskmotorcycleteam"
                   aria-label="YouTube BSK Motorcycle Team"
-                  className="text-white hover:text-red-500 transition-colors flex items-center gap-2"
+                  className="text-slate-950 dark:text-white hover:text-blue-400 transition-colors flex items-center gap-2"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -170,13 +170,13 @@ const Footer: React.FC = () => {
             <nav aria-label="Menú legal">
               <ul className="flex flex-wrap justify-center gap-4 md:gap-6">
                 <li>
-                  <Link href="/documents" className="text-sm hover:underline">Condiciones</Link>
+                  <Link href="/documents" className="text-sm hover:underline text-slate-900 dark:text-white">Condiciones</Link>
                 </li>
                 <li>
-                  <Link href="/documents" className="text-sm hover:underline">Privacidad</Link>
+                  <Link href="/documents" className="text-sm hover:underline text-slate-900 dark:text-white">Privacidad</Link>
                 </li>
                 <li>
-                  <Link href="/documents" className="text-sm hover:underline">Mapa web</Link>
+                  <Link href="/documents" className="text-sm hover:underline text-slate-900 dark:text-white">Mapa web</Link>
                 </li>
               </ul>
             </nav>
@@ -185,9 +185,9 @@ const Footer: React.FC = () => {
       </section>
 
       {/* Fourth Section - Copyright */}
-      <section className="py-6 px-4 border-t border-slate-950">
+      <section className="py-6 px-4">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center text-xs md:text-sm space-y-2">
+          <div className="text-center text-xs md:text-sm space-y-2 text-slate-900 dark:text-white">
             <p>
               © {currentYear} BSK Motorcycle Team™ es una marca registrada de Organización Motear S.A.S., OMSAS. Todos los derechos reservados.
             </p>
