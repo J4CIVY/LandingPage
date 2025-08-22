@@ -66,7 +66,7 @@ const BlogSection: React.FC = () => {
             const imageSources = generateImageSources(post.image);
             
             return (
-              <div key={post.id} className="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+              <div key={post.id} className="bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
                 <Link href={`/blog/${post.slug}`} aria-label={`Leer más sobre ${post.title}`}>
                   <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
                     <picture>
