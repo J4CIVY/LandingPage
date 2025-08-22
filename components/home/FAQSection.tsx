@@ -311,7 +311,7 @@ const FAQSection: React.FC = () => {
   }, [faqQuestions, faqFilter]); // Memoize filteredQuestions
 
   return (
-    <div className="bg-white dark:bg-slate-800 rounded-xl p-8 shadow-lg text-slate-900 dark:text-white">
+    <div className="bg-white dark:bg-slate-950 rounded-xl p-8 shadow-lg text-slate-950 dark:text-white">
       <h3 className="text-2xl font-bold text-slate-950 dark:text-white mb-6 text-center">PREGUNTAS FRECUENTES</h3>
       
       <div className="flex flex-wrap justify-center gap-2 mb-6">
@@ -373,3 +373,4 @@ const FAQSection: React.FC = () => {
 };
 
 export default FAQSection;
+
