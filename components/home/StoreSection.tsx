@@ -42,7 +42,7 @@ const StoreSection: React.FC = () => {
 
   if (loading) {
     return (
-      <section className="py-20 px-4 bg-gray-100 dark:bg-slate-900">
+      <section className="py-20 px-4 bg-white dark:bg-slate-950">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
             TIENDA <span className="text-red-600">EN LÍNEA</span>
@@ -57,7 +57,7 @@ const StoreSection: React.FC = () => {
 
   if (error) {
     return (
-      <section className="py-20 px-4 bg-gray-100 dark:bg-slate-900">
+      <section className="py-20 px-4 bg-white dark:bg-slate-950">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
             TIENDA <span className="text-red-600">EN LÍNEA</span>
@@ -146,5 +146,6 @@ const StoreSection: React.FC = () => {
 };
 
 export default StoreSection;
+
 
 
