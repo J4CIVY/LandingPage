@@ -11,11 +11,26 @@ const Footer: React.FC = () => {
       {/* First Section - Logo and Motto */}
       <section className="py-8 px-4">
         <div className="max-w-6xl mx-auto flex flex-col items-center justify-center space-y-4">
-          <picture>
-            <source srcSet={footerImages.logoClub.avif} type="image/avif" />
-            <source srcSet={footerImages.logoClub.webp} type="image/webp" />
+          {/* Logo del Club para modo claro */}
+          <picture className="block dark:hidden">
+            <source srcSet={footerImages.logoClubLight.avif} type="image/avif" />
+            <source srcSet={footerImages.logoClubLight.webp} type="image/webp" />
             <Image
-              src={footerImages.logoClub.jpg}
+              src={footerImages.logoClubLight.jpg}
+              alt="Logo BSK Motorcycle Team"
+              className="h-44 w-auto"
+              width="854"
+              height="480"
+              loading="lazy"
+            />
+          </picture>
+
+          {/* Logo del Club para modo oscuro */}
+          <picture className="hidden dark:block">
+            <source srcSet={footerImages.logoClubDark.avif} type="image/avif" />
+            <source srcSet={footerImages.logoClubDark.webp} type="image/webp" />
+            <Image
+              src={footerImages.logoClubDark.jpg}
               alt="Logo BSK Motorcycle Team"
               className="h-44 w-auto"
               width="854"
@@ -34,11 +49,26 @@ const Footer: React.FC = () => {
             {/* Support - Innpulsa Logo */}
             <div className="flex flex-col items-center space-y-2">
               <h2 className="text-sm font-semibold uppercase tracking-wider">Con El Apoyo De</h2>
-              <picture>
-                <source srcSet={footerImages.logoInnpulsa.avif} type="image/avif" />
-                <source srcSet={footerImages.logoInnpulsa.webp} type="image/webp" />
+              {/* Logo Innpulsa para modo claro */}
+              <picture className="block dark:hidden">
+                <source srcSet={footerImages.logoInnpulsaLight.avif} type="image/avif" />
+                <source srcSet={footerImages.logoInnpulsaLight.webp} type="image/webp" />
                 <Image
-                  src={footerImages.logoInnpulsa.png}
+                  src={footerImages.logoInnpulsaLight.png}
+                  alt="Logo Innpulsa Colombia"
+                  className="h-12 w-auto"
+                  width="250"
+                  height="100"
+                  loading="lazy"
+                />
+              </picture>
+
+              {/* Logo Innpulsa para modo oscuro */}
+              <picture className="hidden dark:block">
+                <source srcSet={footerImages.logoInnpulsaDark.avif} type="image/avif" />
+                <source srcSet={footerImages.logoInnpulsaDark.webp} type="image/webp" />
+                <Image
+                  src={footerImages.logoInnpulsaDark.png}
                   alt="Logo Innpulsa Colombia"
                   className="h-12 w-auto"
                   width="250"
@@ -52,11 +82,26 @@ const Footer: React.FC = () => {
             <div className="flex flex-col items-center space-y-2">
               <h2 className="text-sm font-semibold uppercase tracking-wider">Vigilado Por</h2>
               <div className="flex flex-col sm:flex-row items-center gap-4">
-                <picture>
-                  <source srcSet={footerImages.logoSupersociedades.avif} type="image/avif" />
-                  <source srcSet={footerImages.logoSupersociedades.webp} type="image/webp" />
+                {/* Logo Superintendencia para modo claro */}
+                <picture className="block dark:hidden">
+                  <source srcSet={footerImages.logoSupersociedadesLight.avif} type="image/avif" />
+                  <source srcSet={footerImages.logoSupersociedadesLight.webp} type="image/webp" />
                   <Image
-                    src={footerImages.logoSupersociedades.png}
+                    src={footerImages.logoSupersociedadesLight.png}
+                    alt="Logo Superintendencia de Sociedades"
+                    className="h-12 w-auto"
+                    width="250"
+                    height="100"
+                    loading="lazy"
+                  />
+                </picture>
+
+                {/* Logo Superintendencia para modo oscuro */}
+                <picture className="hidden dark:block">
+                  <source srcSet={footerImages.logoSupersociedadesDark.avif} type="image/avif" />
+                  <source srcSet={footerImages.logoSupersociedadesDark.webp} type="image/webp" />
+                  <Image
+                    src={footerImages.logoSupersociedadesDark.png}
                     alt="Logo Superintendencia de Sociedades"
                     className="h-12 w-auto"
                     width="250"

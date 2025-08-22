@@ -16,10 +16,19 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
   const pathname = usePathname();
 
   const cloudName = "dz0peilmu";
-  const logoUrl = {
+  
+  // Logo blanco para modo oscuro
+  const logoWhiteUrl = {
     avif: `https://res.cloudinary.com/${cloudName}/image/upload/f_avif,q_auto,w_192/BSK_MT_Logo_Letras_White_192_x_192_px_nptwwj`,
     webp: `https://res.cloudinary.com/${cloudName}/image/upload/f_webp,q_auto,w_192/BSK_MT_Logo_Letras_White_192_x_192_px_nptwwj`,
     png: `https://res.cloudinary.com/${cloudName}/image/upload/f_png,q_auto,w_192/BSK_MT_Logo_Letras_White_192_x_192_px_nptwwj`
+  };
+
+  // Logo azul para modo claro
+  const logoBlueUrl = {
+    avif: `https://res.cloudinary.com/${cloudName}/image/upload/f_avif,q_auto,w_192/BSK_MT_Logo_Letras_Blue_192_x_192_px`,
+    webp: `https://res.cloudinary.com/${cloudName}/image/upload/f_webp,q_auto,w_192/BSK_MT_Logo_Letras_Blue_192_x_192_px`,
+    png: `https://res.cloudinary.com/${cloudName}/image/upload/f_png,q_auto,w_192/BSK_MT_Logo_Letras_Blue_192_x_192_px`
   };
 
   useEffect(() => {
@@ -40,11 +49,26 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-full">
           <Link href="/" className="focus:outline-none ml-3 md:ml-4" aria-label="Ir a inicio">
-            <picture>
-              <source srcSet={logoUrl.avif} type="image/avif" />
-              <source srcSet={logoUrl.webp} type="image/webp" />
+            {/* Logo para modo claro (azul) */}
+            <picture className="block dark:hidden">
+              <source srcSet={logoBlueUrl.avif} type="image/avif" />
+              <source srcSet={logoBlueUrl.webp} type="image/webp" />
               <Image
-                src={logoUrl.png}
+                src={logoBlueUrl.png}
+                alt="Logo Motoclub BSK Motorcycle Team"
+                className="w-[55px] md:w-[55px] h-auto object-contain"
+                width={55}
+                height={55}
+                priority
+              />
+            </picture>
+            
+            {/* Logo para modo oscuro (blanco) */}
+            <picture className="hidden dark:block">
+              <source srcSet={logoWhiteUrl.avif} type="image/avif" />
+              <source srcSet={logoWhiteUrl.webp} type="image/webp" />
+              <Image
+                src={logoWhiteUrl.png}
                 alt="Logo Motoclub BSK Motorcycle Team"
                 className="w-[55px] md:w-[55px] h-auto object-contain"
                 width={55}
