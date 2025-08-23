@@ -167,7 +167,7 @@ const About: React.FC = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="py-16 px-4 bg-gray-100 dark:bg-slate-950">
+      <section className="py-16 px-4 bg-white dark:bg-slate-950">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-slate-950 dark:text-white">
             Voces de <span className="text-accent">BSK</span>
