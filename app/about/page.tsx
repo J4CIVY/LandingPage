@@ -82,7 +82,7 @@ const About: React.FC = () => {
       <section className="py-16 px-4 bg-white dark:bg-slate-950">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-slate-950 dark:text-white">
-            Nuestros <span className="text-accent">Pilares</span>
+            Nuestros <span className="text-red-600 dark:text-red-600">Pilares</span>
           </h2>
           
           <div className="grid md:grid-cols-3 gap-8">
