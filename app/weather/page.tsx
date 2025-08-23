@@ -144,7 +144,7 @@ const Weather: React.FC = () => {
   const currentTabs = tabs(); // Call the memoized function to get the tabs array
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <SEOComponent
         title="Clima para Motociclistas - BSK Motorcycle Team"
         description="Consulta el clima en tiempo real para Bogotá y Medellín. Radar de precipitaciones y redes de monitoreo para planificar tus rutas de forma segura."
@@ -165,11 +165,11 @@ const Weather: React.FC = () => {
       {/* Tabs container */}
       <section className="py-8 px-4 max-w-7xl mx-auto">
         {/* Tab navigation */}
-        <div className="flex border-b border-gray-200 mb-6 overflow-x-auto" role="tablist">
+        <div className="flex border-b border-gray-200 dark:border-slate-600 mb-6 overflow-x-auto" role="tablist">
           {currentTabs.map(tab => (
             <button
               key={tab.id}
-              className={`py-4 px-6 font-medium text-sm flex items-center whitespace-nowrap ${activeTab === tab.id ? 'border-b-2 border-green-400 text-green-400' : 'text-gray-500 hover:text-gray-700'}`}
+              className={`py-4 px-6 font-medium text-sm flex items-center whitespace-nowrap ${activeTab === tab.id ? 'border-b-2 border-green-400 text-green-400' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}
               onClick={() => setActiveTab(tab.id)}
               role="tab"
               aria-selected={activeTab === tab.id}
@@ -193,12 +193,12 @@ const Weather: React.FC = () => {
           >
             {activeTab === tab.id && ( // Only render content if tab is active
               <div className="bg-gray-50 dark:bg-slate-800 rounded-xl shadow-md overflow-hidden">
-                <div className="bg-white dark:bg-slate-950 text-slate-950 dark:text-white p-4">
+                <div className="bg-white dark:bg-slate-900 text-slate-950 dark:text-white p-4">
                   <h2 className="text-xl font-bold flex items-center">
                     {tab.icon}
                     {tab.title}
                   </h2>
-                  <p className="text-sm text-gray-300">
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
                     {tab.source}
                   </p>
                 </div>
@@ -211,7 +211,7 @@ const Weather: React.FC = () => {
         ))}
 
         {/* Recommendations for motorcyclists */}
-        <div className="mt-12 bg-white dark:bg-slate-950 border border-green-400 rounded-xl p-6">
+        <div className="mt-12 bg-white dark:bg-slate-900 border border-green-400 dark:border-green-500 rounded-xl p-6">
           <h3 className="text-2xl font-bold text-slate-950 dark:text-white mb-4 flex items-center">
             <FaExclamationTriangle className="w-6 h-6 mr-2 text-green-400" aria-hidden="true" />
             Recomendaciones para Motociclistas
@@ -238,7 +238,7 @@ const Weather: React.FC = () => {
       </section>
 
       {/* Legal note */}
-      <div className="max-w-7xl mx-auto px-4 py-6 text-center text-gray-500 text-sm">
+      <div className="max-w-7xl mx-auto px-4 py-6 text-center text-gray-500 dark:text-gray-400 text-sm">
         <p>Los mapas mostrados son propiedad del Instituto Distrital de Gestión de Riesgos y Cambio Climático (IDIGER), y el Sistema de Alerta Temprana de Medellín y el Valle de Aburrá (SIATA).</p>
         <p>BSK Motorcycle Team proporciona este servicio como referencia para sus miembros.</p>
       </div>

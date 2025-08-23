@@ -121,7 +121,7 @@ const Documents: React.FC = () => {
   const currentDoc: DocumentContent | null = activeDoc ? allDocuments[activeDoc] : null;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <SEOComponent
         title="Documentos - BSK Motorcycle Team"
         description="Accede a los documentos institucionales de BSK Motorcycle Team, incluyendo estatutos, códigos de ética, y manuales operativos."
@@ -141,18 +141,18 @@ const Documents: React.FC = () => {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar Navigation */}
           <div className="lg:w-1/4">
-            <div className="bg-gray-100 rounded-xl shadow-sm p-6 sticky top-4">
+            <div className="bg-gray-100 dark:bg-slate-800 rounded-xl shadow-sm p-6 sticky top-4">
               {/* Search Bar */}
               <div className="mb-6 relative">
                 <label htmlFor="document-search" className="sr-only">Buscar documento</label>
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FaSearch className="text-gray-400" aria-hidden="true" />
+                  <FaSearch className="text-gray-400 dark:text-gray-500" aria-hidden="true" />
                 </div>
                 <input
                   type="text"
                   id="document-search"
                   placeholder="Buscar documento..."
-                  className="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:ring-green-400 focus:border-green-400"
+                  className="w-full pl-10 px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-green-400 focus:border-green-400 bg-white dark:bg-slate-700 text-slate-950 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                   value={searchTerm}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
                   aria-label="Buscar documento"
@@ -162,7 +162,7 @@ const Documents: React.FC = () => {
               {/* Categories */}
               <nav aria-label="Document Categories">
                 <div className="space-y-1">
-                  <h3 className="text-lg font-bold text-slate-950 mb-3 flex items-center">
+                  <h3 className="text-lg font-bold text-slate-950 dark:text-white mb-3 flex items-center">
                     <GiArchiveResearch className="w-5 h-5 mr-2 text-green-400" aria-hidden="true" />
                     Documentos Legales
                   </h3>
@@ -174,7 +174,7 @@ const Documents: React.FC = () => {
                         className={`w-full text-left px-4 py-2 rounded-lg transition ${
                           activeDoc === key 
                             ? "bg-slate-950 text-white dark:bg-green-500 dark:text-slate-950" 
-                            : "text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-slate-700"
+                            : "text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700"
                         }`}
                         onClick={() => setActiveDoc(key)}
                         aria-current={activeDoc === key ? "page" : undefined}
@@ -183,7 +183,7 @@ const Documents: React.FC = () => {
                       </button>
                     ))}
 
-                  <h3 className="text-lg font-bold text-slate-950 mt-6 mb-3 flex items-center">
+                  <h3 className="text-lg font-bold text-slate-950 dark:text-white mt-6 mb-3 flex items-center">
                     <GiSettingsKnobs className="w-5 h-5 mr-2 text-green-400" aria-hidden="true" />
                     Documentos Operativos
                   </h3>
@@ -195,7 +195,7 @@ const Documents: React.FC = () => {
                         className={`w-full text-left px-4 py-2 rounded-lg transition ${
                           activeDoc === key 
                             ? "bg-slate-950 text-white dark:bg-green-500 dark:text-slate-950" 
-                            : "text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-slate-700"
+                            : "text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700"
                         }`}
                         onClick={() => setActiveDoc(key)}
                         aria-current={activeDoc === key ? "page" : undefined}
@@ -240,34 +240,34 @@ const Documents: React.FC = () => {
 
                   {/* Document Text (simulated) */}
                   <div className="prose max-w-none">
-                    <p className="text-gray-700 mb-6">
-                      <strong className="text-slate-950">BSK Motorcycle Team</strong> - Documento institucional de carácter {activeDoc && (activeDoc in legalDocuments ? "legal" : "operativo")}.
+                    <p className="text-gray-700 dark:text-gray-300 mb-6">
+                      <strong className="text-slate-950 dark:text-white">BSK Motorcycle Team</strong> - Documento institucional de carácter {activeDoc && (activeDoc in legalDocuments ? "legal" : "operativo")}.
                     </p>
 
                     <div className="border-l-4 border-green-400 pl-4 mb-6">
-                      <p className="text-gray-600 italic">
+                      <p className="text-gray-600 dark:text-gray-400 italic">
                         "Este documento establece los lineamientos oficiales del club y requiere estricto cumplimiento por parte de todos los miembros."
                       </p>
                     </div>
 
-                    <pre className="bg-gray-50 p-4 rounded-lg overflow-x-auto text-sm md:text-base">
+                    <pre className="bg-gray-50 dark:bg-slate-700 p-4 rounded-lg overflow-x-auto text-sm md:text-base text-slate-950 dark:text-white">
                       {currentDoc.content}
                     </pre>
 
                     {/* Signature Section (for legal documents) */}
                     {activeDoc && activeDoc in legalDocuments && (
-                      <div className="mt-12 pt-6 border-t border-gray-200">
-                        <h3 className="text-lg font-bold text-slate-950 mb-4">Certificación</h3>
+                      <div className="mt-12 pt-6 border-t border-gray-200 dark:border-slate-600">
+                        <h3 className="text-lg font-bold text-slate-950 dark:text-white mb-4">Certificación</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                           <div>
-                            <p className="text-gray-600 mb-2">_________________________</p>
-                            <p className="text-slate-950 font-medium">Presidente</p>
-                            <p className="text-sm text-gray-500">BSK Motorcycle Team</p>
+                            <p className="text-gray-600 dark:text-gray-400 mb-2">_________________________</p>
+                            <p className="text-slate-950 dark:text-white font-medium">Presidente</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">BSK Motorcycle Team</p>
                           </div>
                           <div>
-                            <p className="text-gray-600 mb-2">_________________________</p>
-                            <p className="text-slate-950 font-medium">Secretario General</p>
-                            <p className="text-sm text-gray-500">BSK Motorcycle Team</p>
+                            <p className="text-gray-600 dark:text-gray-400 mb-2">_________________________</p>
+                            <p className="text-slate-950 dark:text-white font-medium">Secretario General</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">BSK Motorcycle Team</p>
                           </div>
                         </div>
                       </div>
@@ -276,14 +276,14 @@ const Documents: React.FC = () => {
                 </div>
 
                 {/* Document Footer */}
-                <div className="bg-gray-50 px-6 py-4 border-t border-gray-200">
+                <div className="bg-gray-50 dark:bg-slate-700 px-6 py-4 border-t border-gray-200 dark:border-slate-600">
                   <div className="flex flex-col md:flex-row justify-between items-center">
-                    <p className="text-sm text-gray-500 mb-2 md:mb-0">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-2 md:mb-0">
                       Documento válido según acta #{Math.floor(1000 + Math.random() * 9000)}
                     </p>
                     <div className="flex items-center">
-                      <FaClock className="w-5 h-5 text-gray-400 mr-2" aria-hidden="true" />
-                      <span className="text-sm text-gray-500">Generado el {new Date().toLocaleDateString('es-CO')}</span>
+                      <FaClock className="w-5 h-5 text-gray-400 dark:text-gray-500 mr-2" aria-hidden="true" />
+                      <span className="text-sm text-gray-500 dark:text-gray-400">Generado el {new Date().toLocaleDateString('es-CO')}</span>
                     </div>
                   </div>
                 </div>
@@ -295,12 +295,12 @@ const Documents: React.FC = () => {
             )}
 
             {/* Legal Note */}
-            <div className="mt-6 bg-white dark:bg-slate-950 border border-green-400 rounded-xl p-6">
+            <div className="mt-6 bg-white dark:bg-slate-900 border border-green-400 dark:border-green-500 rounded-xl p-6">
               <h3 className="text-xl font-bold text-slate-950 dark:text-white mb-3 flex items-center">
                 <FaExclamationTriangle className="w-6 h-6 mr-2 text-green-400" aria-hidden="true" />
                 Nota Legal
               </h3>
-              <p className="text-gray-400">
+              <p className="text-gray-600 dark:text-gray-400">
                 Todos los documentos institucionales de BSK Motorcycle Team están protegidos bajo derechos de autor y 
                 regulados por las leyes colombianas. La reproducción no autorizada está prohibida.
               </p>
