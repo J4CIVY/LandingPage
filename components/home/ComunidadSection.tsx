@@ -7,7 +7,7 @@ const ComunidadSection: React.FC = () => {
     <section className="py-20 px-4 bg-slate-950 dark:bg-slate-white text-white dark:text-slate-950">
       <div className="max-w-6xl mx-auto text-center">
         <h2 className="text-4xl md:text-5xl font-bold mb-8">
-          <span className="text-green-400">39 Miembros</span>, <span className="text-slate-950 dark:text-white">Miles de Kilómetros,</span> <span className="text-red-600">Una Sola Pasión</span>
+          <span className="text-green-400">39 Miembros</span>, <span className="text-slate-950 dark:text-white">Miles de Kilómetros,</span>, <span className="text-red-600">Una Sola Pasión</span>
         </h2>
         
         <div className="grid md:grid-cols-3 gap-8 mt-16">
