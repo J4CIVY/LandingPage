@@ -80,6 +80,23 @@ const CookieBanner: React.FC = () => {
     setShowSettings(prev => !prev);
   };
 
+  // Handle ESC key to close settings modal
+  useEffect(() => {
+    const handleEscKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && showSettings) {
+        setShowSettings(false);
+      }
+    };
+
+    if (showSettings) {
+      document.addEventListener('keydown', handleEscKey);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscKey);
+    };
+  }, [showSettings]);
+
   const handleSettingChange = (type: keyof CookieSettings): void => {
     setCookieSettings(prev => ({
       ...prev,

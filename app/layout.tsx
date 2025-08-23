@@ -139,7 +139,7 @@ export default function RootLayout({
             <PWAManager />
             <DynamicThemeColor />
             <Header />
-            <main id="main-content" className="pt-16">{children}</main>
+            <main id="main-content" className="pt-16" tabIndex={-1}>{children}</main>
             <Footer />
             <CookieBanner />
             <ScrollToTop />

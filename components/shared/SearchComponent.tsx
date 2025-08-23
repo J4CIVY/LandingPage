@@ -115,7 +115,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
   };
 
   return (
-    <div ref={searchRef} className="relative">
+    <div ref={searchRef} className="relative" role="search" aria-label="Buscar en el sitio">
       <form onSubmit={handleSubmit} className="relative">
         <div className="relative">
           <input

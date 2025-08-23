@@ -45,6 +45,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
     <header
       ref={ref}
       className={`fixed top-0 left-0 right-0 w-full bg-white dark:bg-slate-950 shadow-md py-1 z-50 ${className}`}
+      role="banner"
       {...props}
     >
       <div className="container mx-auto px-4">
@@ -56,7 +57,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
               <source srcSet={logoBlueUrl.webp} type="image/webp" />
               <Image
                 src={logoBlueUrl.png}
-                alt="Logo Motoclub BSK Motorcycle Team"
+                alt="Logo BSK Motorcycle Team - Motoclub líder en Colombia"
                 className="w-[55px] md:w-[55px] h-auto object-contain"
                 width={55}
                 height={55}
@@ -70,7 +71,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
               <source srcSet={logoWhiteUrl.webp} type="image/webp" />
               <Image
                 src={logoWhiteUrl.png}
-                alt="Logo Motoclub BSK Motorcycle Team"
+                alt="Logo BSK Motorcycle Team - Motoclub líder en Colombia"
                 className="w-[55px] md:w-[55px] h-auto object-contain"
                 width={55}
                 height={55}
@@ -79,7 +80,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
             </picture>
           </Link>
 
-          <nav id="navigation" className="hidden md:flex items-center space-x-6">
+          <nav id="navigation" className="hidden md:flex items-center space-x-6" role="navigation" aria-label="Navegación principal">
             <SearchComponent />
             <ul className="flex space-x-6 items-center">
               {navItems.map((item) => (

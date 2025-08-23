@@ -11,7 +11,10 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "analyze": "cross-env ANALYZE=true next build",
-    "bundle-analyzer": "npx @next/bundle-analyzer"
+    "bundle-analyzer": "npx @next/bundle-analyzer",
+    "a11y:audit": "npm run build && npm run a11y:lighthouse",
+    "a11y:lighthouse": "lhci autorun --config=lighthouserc.json",
+    "a11y:dev": "npm run dev & sleep 5 && npm run a11y:lighthouse"
   },
   "dependencies": {
     "@ducanh2912/next-pwa": "^10.2.9",

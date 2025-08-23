@@ -6,11 +6,11 @@
 }
 
 .text-gray-500 {
-  @apply text-gray-600;
+  @apply text-gray-700;
 }
 
 .text-gray-400 {
-  @apply text-gray-500;
+  @apply text-gray-600;
 }
 
 /* Hover states con mejor contraste */

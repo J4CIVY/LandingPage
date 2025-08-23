@@ -23,10 +23,21 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
   // Effect to control body scroll when modal is open/closed
   useEffect(() => {
     document.body.style.overflow = 'hidden'; // Disable scroll on body
+    
+    // Handle ESC key to close modal
+    const handleEscKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscKey);
+    
     return () => {
       document.body.style.overflow = 'auto'; // Re-enable scroll on body when component unmounts
+      document.removeEventListener('keydown', handleEscKey);
     };
-  }, []); // Empty dependency array means this effect runs once on mount and cleans up on unmount
+  }, [onClose]); // Added onClose to dependency array
 
   /**
    * Helper function to format time strings (e.g., "14:30:00" to "14:30").

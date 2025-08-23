@@ -66,7 +66,7 @@ const HeroSection: React.FC = () => {
           {/* Fallback JPG image for maximum compatibility */}
           <Image
             src={fallbackSrc} // Default src for browsers that don't support srcset or picture
-            alt="BSK Motorcycle Team - Libertad sobre dos ruedas" // Descriptive alt text for accessibility
+            alt="BSK Motorcycle Team - Miembros del motoclub disfrutando la libertad sobre dos ruedas en paisaje colombiano" // Descriptive alt text for accessibility
             className="w-full h-full object-cover"
             // Inline style for aspect ratio and object position, can be moved to Tailwind config if used often
             style={{

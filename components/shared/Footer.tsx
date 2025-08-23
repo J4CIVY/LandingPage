@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-white dark:bg-slate-950 text-slate-950 dark:text-gray-500">
+    <footer className="bg-white dark:bg-slate-950 text-slate-950 dark:text-gray-500" role="contentinfo">
       {/* First Section - Logo and Motto */}
       <section className="py-8 px-4">
         <div className="max-w-6xl mx-auto flex flex-col items-center justify-center space-y-4">
@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
             <source srcSet={footerImages.logoClubLight.webp} type="image/webp" />
             <Image
               src={footerImages.logoClubLight.jpg}
-              alt="Logo BSK Motorcycle Team"
+              alt="Logo BSK Motorcycle Team - Motoclub de hermandad, espíritu y respeto"
               className="h-44 w-auto"
               width="854"
               height="480"
@@ -31,7 +31,7 @@ const Footer: React.FC = () => {
             <source srcSet={footerImages.logoClubDark.webp} type="image/webp" />
             <Image
               src={footerImages.logoClubDark.jpg}
-              alt="Logo BSK Motorcycle Team"
+              alt="Logo BSK Motorcycle Team - Motoclub de hermandad, espíritu y respeto"
               className="h-44 w-auto"
               width="854"
               height="480"

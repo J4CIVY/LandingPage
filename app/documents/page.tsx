@@ -138,13 +138,13 @@ const Documents: React.FC = () => {
           <div className="lg:w-1/4">
             <div className="bg-gray-100 dark:bg-slate-800 rounded-xl shadow-sm p-6 sticky top-4">
               {/* Search Bar */}
-              <div className="mb-6 relative">
+              <div className="mb-6 relative" role="search" aria-label="Buscar documentos">
                 <label htmlFor="document-search" className="sr-only">Buscar documento</label>
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <FaSearch className="text-gray-400 dark:text-gray-500" aria-hidden="true" />
                 </div>
                 <input
-                  type="text"
+                  type="search"
                   id="document-search"
                   placeholder="Buscar documento..."
                   className="w-full pl-10 px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-green-400 focus:border-green-400 bg-white dark:bg-slate-700 text-slate-950 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
