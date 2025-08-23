@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { navItems } from '@/data/navigation';
 import Image from 'next/image';
 import { ThemeChanger } from './ThemeChanger';
+import SearchComponent from './SearchComponent';
 
 interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
   className?: string;
@@ -78,13 +79,14 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
             </picture>
           </Link>
 
-          <nav className="hidden md:flex items-center">
+          <nav id="navigation" className="hidden md:flex items-center space-x-6">
+            <SearchComponent />
             <ul className="flex space-x-6 items-center">
               {navItems.map((item) => (
                 <li key={item.name}>
                   <Link
                     href={item.path}
-                    className={`text-slate-950 dark:text-white hover:text-green-400 transition-colors ${pathname === item.path ? 'text-green-400 font-bold' : ''
+                    className={`text-slate-950 dark:text-white hover:text-green-400 transition-colors focus-enhanced ${pathname === item.path ? 'text-green-400 font-bold' : ''
                       }`}
                     aria-current={pathname === item.path ? 'page' : undefined}
                   >

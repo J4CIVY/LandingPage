@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import api from '@/components/api/Api';
 import { Product } from '@/types/products';
 import Image from "next/image";
+import { SkeletonProduct } from '../shared/SkeletonLoaders';
 
 const StoreSection: React.FC = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
@@ -47,8 +48,10 @@ const StoreSection: React.FC = () => {
           <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
             TIENDA <span className="text-red-600">EN LÍNEA</span>
           </h2>
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-600" role="status" aria-label="Cargando productos"></div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <SkeletonProduct key={index} />
+            ))}
           </div>
         </div>
       </section>

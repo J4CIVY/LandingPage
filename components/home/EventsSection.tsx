@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import { SkeletonEvent } from '../shared/SkeletonLoaders';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { FaCalendarAlt } from 'react-icons/fa';
@@ -69,8 +70,10 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
         {activeTab === 'events' ? (
           <>
             {loading ? (
-              <div className="flex justify-center items-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-600" role="status" aria-label="Cargando eventos"></div>
+              <div className="grid md:grid-cols-3 gap-8">
+                {Array.from({ length: 6 }).map((_, index) => (
+                  <SkeletonEvent key={index} />
+                ))}
               </div>
             ) : error ? (
               <div className="text-center py-10">

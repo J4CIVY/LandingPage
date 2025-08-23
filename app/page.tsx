@@ -1,6 +1,7 @@
 import React from "react";
 import HeroSection from "@/components/home/HeroSection";
 import HomeContent from "@/components/home/HomeContent";
+import HomeWithAnalytics from "@/components/home/HomeWithAnalytics";
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -30,6 +31,7 @@ export const metadata: Metadata = {
   },
 };
 
+// Componente base sin analytics
 const Home: React.FC = () => {
   return (
     <>
@@ -39,4 +41,5 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+// Exportar componente con analytics solo en producción
+export default process.env.NODE_ENV === 'production' ? HomeWithAnalytics : Home;

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userSchema, type UserSchema } from '../../schemas/userSchema';
@@ -18,11 +18,13 @@ import {
   motorcycleBrands,
   generateYears,
 } from '../../data/formOptions';
+import { useBeforeUnload } from '../../hooks/useConfirmation';
+import { useSuccessToast, useErrorToast, useInfoToast } from '../../components/shared/ToastProvider';
 
 const years = generateYears();
 
 const UserRegister: React.FC = () => {
-  const { register, handleSubmit, formState: { errors }, watch, trigger } = useForm<UserSchema>({
+  const { register, handleSubmit, formState: { errors }, watch, trigger, setValue } = useForm<UserSchema>({
     resolver: zodResolver(userSchema),
     mode: 'onTouched',
     defaultValues: {
@@ -36,6 +38,9 @@ const UserRegister: React.FC = () => {
   const [submitError, setSubmitError] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const router = useRouter();
+  const successToast = useSuccessToast();
+  const errorToast = useErrorToast();
+  const infoToast = useInfoToast();
 
   const totalSteps: number = 8;
 
@@ -48,6 +53,65 @@ const UserRegister: React.FC = () => {
     ['motorcyclePlate', 'motorcycleBrand', 'motorcycleModel', 'motorcycleYear', 'motorcycleDisplacement'],
     ['password', 'confirmPassword', 'dataConsent', 'liabilityWaiver', 'termsAcceptance'],
   ];
+
+  const allFormData = watch();
+  
+  // Detectar si el formulario tiene cambios
+  const hasFormChanges = Object.values(allFormData).some(value => 
+    value !== undefined && value !== '' && value !== false
+  );
+
+  // Confirmar antes de salir si hay cambios no guardados
+  useBeforeUnload({ 
+    enabled: hasFormChanges && !isSubmitting,
+    message: '¿Estás seguro de que quieres salir? Se perderán los cambios no guardados.'
+  });
+
+  // Auto-save form data to localStorage
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (Object.keys(allFormData).length > 0 && (allFormData.firstName || allFormData.email || allFormData.documentNumber)) {
+        localStorage.setItem('bskmt-registration-draft', JSON.stringify({
+          data: allFormData,
+          step: currentStep,
+          timestamp: Date.now()
+        }));
+      }
+    }, 2000); // Debounce de 2 segundos
+
+    return () => clearTimeout(timeoutId);
+  }, [allFormData, currentStep]);
+
+  // Load saved data on component mount
+  useEffect(() => {
+    const savedData = localStorage.getItem('bskmt-registration-draft');
+    if (savedData) {
+      try {
+        const { data, step, timestamp } = JSON.parse(savedData);
+        // Solo cargar si es menos de 24 horas
+        if (Date.now() - timestamp < 24 * 60 * 60 * 1000) {
+          const shouldRestore = confirm(
+            '¿Deseas continuar con un registro guardado anteriormente?'
+          );
+          if (shouldRestore) {
+            Object.keys(data).forEach(key => {
+              if (data[key] && data[key] !== '') {
+                setValue(key as any, data[key]);
+              }
+            });
+            setCurrentStep(step);
+          } else {
+            localStorage.removeItem('bskmt-registration-draft');
+          }
+        } else {
+          localStorage.removeItem('bskmt-registration-draft');
+        }
+      } catch (error) {
+        console.error('Error loading saved registration data:', error);
+        localStorage.removeItem('bskmt-registration-draft');
+      }
+    }
+  }, [setValue]);
 
   const onSubmit = async (data: UserSchema) => {
     if (isSubmitting) return;
@@ -71,16 +135,27 @@ const UserRegister: React.FC = () => {
   const response = await http.post('/auth/signup', userData);
       
       if (response.data.status === 'success') {
-        router.push('/registration-success');
+        // Limpiar draft guardado al completar registro exitosamente
+        localStorage.removeItem('bskmt-registration-draft');
+        successToast('¡Registro exitoso!', 'Tu cuenta ha sido creada correctamente. Te estamos redirigiendo...');
+        
+        setTimeout(() => {
+          router.push('/registration-success');
+        }, 2000);
       } else {
+        errorToast('Error en el registro', 'Por favor verifica tus datos e intenta nuevamente.');
         setSubmitError('Error en el registro. Por favor verifica tus datos.');
       }
     } catch (error: any) {
       console.error('Registration error:', error);
       if (error.response) {
-        setSubmitError(error.response.data.message || 'Error en el servidor. Por favor intenta más tarde.');
+        const errorMessage = error.response.data.message || 'Error en el servidor. Por favor intenta más tarde.';
+        setSubmitError(errorMessage);
+        errorToast('Error en el registro', errorMessage);
       } else {
-        setSubmitError('Error de conexión. Verifica tu conexión a internet.');
+        const connectionError = 'Error de conexión. Verifica tu conexión a internet.';
+        setSubmitError(connectionError);
+        errorToast('Error de conexión', connectionError);
       }
       // Go to the step with the error if possible
       const errorMessage = error.response?.data?.message || '';
@@ -97,6 +172,7 @@ const UserRegister: React.FC = () => {
     
     if (isValid) {
       setCurrentStep(prev => Math.min(prev + 1, totalSteps));
+      infoToast('¡Progreso guardado!', 'Tus datos han sido guardados automáticamente. Puedes continuar cuando gustes.');
     } else {
       const firstError = document.querySelector('.border-red-500');
       if (firstError) {
@@ -130,8 +206,6 @@ const UserRegister: React.FC = () => {
       </div>
     );
   };
-
-  const allFormData = watch();
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">

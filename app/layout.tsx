@@ -6,6 +6,7 @@ import Footer from "@/components/shared/Footer";
 import CookieBanner from "@/components/shared/CookieBanner";
 import DynamicThemeColor from "@/components/shared/DynamicThemeColor";
 import StructuredData from "@/components/shared/StructuredData";
+import ScrollToTop from "@/components/shared/ScrollToTop";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -58,11 +59,13 @@ export const metadata: Metadata = {
     canonical: "https://bskmt.com",
   },
   verification: {
-    google: "your-google-verification-code", // Agregar cuando esté disponible
+    google: "05957975579128883654",
   },
 };
 
 import { ThemeProvider } from '@/providers/ThemeProvider'
+import { ToastProvider } from '@/components/shared/ToastProvider'
+import { PWAManager } from '@/components/pwa/ServiceWorkerManager'
 
 export default function RootLayout({
   children,
@@ -76,8 +79,41 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icon.png" />
         <link rel="preconnect" href="https://api.bskmt.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
+        
+        {/* Optimizaciones para móviles */}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
+        <meta name="format-detection" content="telephone=yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="BSK MT" />
+        
+        {/* Preload critical CSS */}
+        <link rel="preload" href="/favicon.ico" as="image" type="image/x-icon" />
+        
+        {/* Optimización viewport height para mobile */}
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            :root {
+              --vh: 1vh;
+            }
+            @supports (-webkit-touch-callout: none) {
+              :root {
+                --vh: calc(100vh - env(safe-area-inset-bottom));
+              }
+            }
+          `
+        }} />
       </head>
       <body className="bg-white dark:bg-slate-950 text-slate-950 dark:text-white">
+        {/* Skip links para accesibilidad */}
+        <a href="#main-content" className="skip-link">
+          Saltar al contenido principal
+        </a>
+        <a href="#navigation" className="skip-link">
+          Saltar a navegación
+        </a>
+        
         <StructuredData type="organization" data={{}} />
         <StructuredData type="localBusiness" data={{}} />
         <ThemeProvider
@@ -85,11 +121,15 @@ export default function RootLayout({
           defaultTheme="light"
           enableSystem
         >
-          <DynamicThemeColor />
-          <Header />
-          <main className="pt-16">{children}</main>
-          <Footer />
-          <CookieBanner />
+          <ToastProvider>
+            <PWAManager />
+            <DynamicThemeColor />
+            <Header />
+            <main id="main-content" className="pt-16">{children}</main>
+            <Footer />
+            <CookieBanner />
+            <ScrollToTop />
+          </ToastProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -170,13 +170,13 @@ const Footer: React.FC = () => {
             <nav aria-label="Menú legal">
               <ul className="flex flex-wrap justify-center gap-4 md:gap-6">
                 <li>
-                  <Link href="/documents" className="text-sm hover:underline text-slate-900 dark:text-white">Condiciones</Link>
+                  <Link href="/documents#terms-conditions" className="text-sm hover:underline text-slate-900 dark:text-white">Condiciones</Link>
                 </li>
                 <li>
-                  <Link href="/documents" className="text-sm hover:underline text-slate-900 dark:text-white">Privacidad</Link>
+                  <Link href="/documents#privacy-policy" className="text-sm hover:underline text-slate-900 dark:text-white">Privacidad</Link>
                 </li>
                 <li>
-                  <Link href="/documents" className="text-sm hover:underline text-slate-900 dark:text-white">Mapa web</Link>
+                  <Link href="/sitemap.xml" className="text-sm hover:underline text-slate-900 dark:text-white" target="_blank" rel="noopener">Mapa web</Link>
                 </li>
               </ul>
             </nav>

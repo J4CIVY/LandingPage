@@ -29,6 +29,7 @@
     "react-lazy-load-image-component": "^1.6.3",
     "react-tabs": "^6.1.0",
     "sharp": "^0.34.3",
+    "web-vitals": "^5.1.0",
     "zod": "^4.0.15"
   },
   "devDependencies": {

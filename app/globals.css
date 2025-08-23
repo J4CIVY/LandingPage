@@ -2,3 +2,133 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Mejoras de accesibilidad para contraste de colores */
+@layer utilities {
+  /* Skip links para navegación por teclado */
+  .skip-link {
+    @apply absolute -top-10 left-4 bg-slate-950 text-white px-4 py-2 rounded z-50;
+    @apply focus:top-4 transition-all;
+  }
+  
+  /* Estados de focus mejorados */
+  .focus-enhanced {
+    @apply focus:outline-none focus:ring-4 focus:ring-green-500/50;
+  }
+  
+  /* Texto con mejor contraste */
+  .text-contrast-low {
+    @apply text-gray-700 dark:text-gray-200;
+  }
+  
+  .text-contrast-medium {
+    @apply text-gray-800 dark:text-gray-100;
+  }
+  
+  /* Animaciones para toasts */
+  .animate-slide-in-right {
+    animation: slideInRight 0.3s ease-out;
+  }
+  
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+}
+
+/* Performance optimizations for mobile devices */
+@media (max-width: 768px) {
+  /* Optimizar animaciones en móviles para dispositivos de baja potencia */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.15s !important;
+    transition-duration: 0.15s !important;
+  }
+  
+  /* Habilitar animaciones completas solo para elementos específicos */
+  .mobile-animate,
+  .toast-animation,
+  .skeleton-animate {
+    animation-duration: revert !important;
+    transition-duration: revert !important;
+  }
+  
+  /* Optimizar scroll en móviles */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Respeta las preferencias de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .skeleton-pulse {
+    animation: none;
+    opacity: 0.7;
+  }
+}
+
+/* Optimizaciones touch para móviles */
+@media (pointer: coarse) {
+  /* Aumentar área de toque para botones pequeños */
+  button,
+  a,
+  input,
+  textarea,
+  select {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Mejorar respuesta táctil */
+  button,
+  a {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    touch-action: manipulation;
+  }
+  
+  /* Optimizar formularios para touch */
+  input,
+  textarea,
+  select {
+    font-size: 16px; /* Prevenir zoom en iOS */
+  }
+}
+
+/* Optimizaciones de viewport para móviles */
+@supports (-webkit-touch-callout: none) {
+  .min-h-screen {
+    min-height: calc(100vh - env(safe-area-inset-bottom));
+    min-height: calc(var(--vh, 1vh) * 100);
+  }
+}
+
+/* Optimizaciones de tipografía para móviles */
+@media (max-width: 640px) {
+  body {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  h1 { font-size: 1.75rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+  h4 { font-size: 1.125rem; }
+  h5 { font-size: 1rem; }
+  h6 { font-size: 0.875rem; }
+}

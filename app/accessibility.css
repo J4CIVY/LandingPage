@@ -1,0 +1,61 @@
+/* Mejoras de accesibilidad para contraste de colores */
+
+/* Reemplazos de colores con mejor contraste para WCAG AA */
+.text-gray-600 {
+  @apply text-gray-700;
+}
+
+.text-gray-500 {
+  @apply text-gray-600;
+}
+
+.text-gray-400 {
+  @apply text-gray-500;
+}
+
+/* Hover states con mejor contraste */
+.hover\:text-gray-700:hover {
+  @apply text-gray-800;
+}
+
+.hover\:text-gray-600:hover {
+  @apply text-gray-700;
+}
+
+/* Estados de focus mejorados */
+.focus\:ring-green-400:focus {
+  @apply ring-4 ring-green-500/50;
+}
+
+/* Texto en modo oscuro con mejor contraste */
+.dark .text-gray-400 {
+  @apply text-gray-300;
+}
+
+.dark .text-gray-500 {
+  @apply text-gray-300;
+}
+
+.dark .text-gray-600 {
+  @apply text-gray-200;
+}
+
+/* Enlaces con mejor contraste */
+.text-blue-600 {
+  @apply text-blue-700;
+}
+
+.hover\:text-blue-700:hover {
+  @apply text-blue-800;
+}
+
+/* Botones con estados más visibles */
+.bg-gray-300:disabled {
+  @apply bg-gray-400 cursor-not-allowed;
+}
+
+/* Skip links para navegación por teclado */
+.skip-link {
+  @apply absolute -top-10 left-4 bg-slate-950 text-white px-4 py-2 rounded;
+  @apply focus:top-4 focus:z-50 transition-all;
+}
