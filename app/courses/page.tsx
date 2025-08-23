@@ -126,7 +126,7 @@ const Courses: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <SEOComponent
         title="Cursos de Motociclismo - BSK Motorcycle Team"
         description="Mejora tus habilidades de motociclismo con nuestros cursos de manejo básico, avanzado, y talleres de mantenimiento. Certificados y diseñados por expertos."
@@ -147,10 +147,10 @@ const Courses: React.FC = () => {
       </section>
 
       {/* Featured Courses */}
-      <section className="py-16 px-4 md:px-8 max-w-7xl mx-auto">
+      <section className="py-16 px-4 md:px-8 max-w-7xl mx-auto bg-gray-white dark:bg-slate-950">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-slate-950 mb-4">Nuestros Cursos</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <h2 className="text-3xl font-bold text-slate-950 dark:text-white mb-4">Nuestros Cursos</h2>
+          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Programas diseñados por expertos para todos los niveles
           </p>
         </div>
@@ -158,26 +158,26 @@ const Courses: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {courses.map((course) => (
             <div key={course.id} className="bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow border border-gray-100 dark:border-slate-700">
-              <div className="h-48 bg-slate-950 flex items-center justify-center">
+              <div className="h-48 bg-slate-950 dark:bg-slate-900 flex items-center justify-center">
                 {course.icon}
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold text-slate-950 mb-2">{course.title}</h3>
-                <p className="text-gray-600 mb-4">{course.description}</p>
+                <h3 className="text-xl font-bold text-slate-950 dark:text-white mb-2">{course.title}</h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-4">{course.description}</p>
                 <div className="flex justify-between items-center mb-4">
-                  <span className="text-sm font-medium text-gray-500">{course.duration}</span>
-                  <span className="text-lg font-bold text-slate-950">{course.price}</span>
+                  <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{course.duration}</span>
+                  <span className="text-lg font-bold text-slate-950 dark:text-white">{course.price}</span>
                 </div>
                 <ul className="space-y-2">
                   {course.includes.map((item, index) => (
                     <li key={index} className="flex items-start">
                       <FaCheck className="w-5 h-5 text-green-400 mr-2 mt-0.5" aria-hidden="true" />
-                      <span className="text-gray-700">{item}</span>
+                      <span className="text-gray-700 dark:text-gray-300">{item}</span>
                     </li>
                   ))}
                 </ul>
                 <button 
-                  className="mt-6 w-full bg-slate-950 text-white py-2 px-4 rounded-lg hover:bg-opacity-90 transition"
+                  className="mt-6 w-full bg-slate-950 dark:bg-green-500 text-white dark:text-white py-2 px-4 rounded-lg hover:bg-opacity-90 dark:hover:bg-green-600 transition"
                   aria-label={`Más información sobre ${course.title}`}
                 >
                   Más Información
@@ -189,17 +189,17 @@ const Courses: React.FC = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="bg-gray-50 py-16 px-4 md:px-20">
+      <section className="bg-gray-white dark:bg-slate-950 py-16 px-4 md:px-20">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-slate-950 mb-12 text-center">Testimonios de Alumnos</h2>
+          <h2 className="text-3xl font-bold text-slate-950 dark:text-white mb-12 text-center">Testimonios de Alumnos</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-white p-6 rounded-xl shadow-md">
+              <div key={index} className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-md border border-gray-100 dark:border-slate-700">
                 {testimonial.icon}
-                <p className="text-gray-600 italic mb-6">"{testimonial.quote}"</p>
+                <p className="text-gray-600 dark:text-gray-300 italic mb-6">"{testimonial.quote}"</p>
                 <div>
-                  <h4 className="font-bold text-slate-950">{testimonial.name}</h4>
-                  <p className="text-sm text-gray-500">{testimonial.role}</p>
+                  <h4 className="font-bold text-slate-950 dark:text-white">{testimonial.name}</h4>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{testimonial.role}</p>
                 </div>
               </div>
             ))}
@@ -208,7 +208,7 @@ const Courses: React.FC = () => {
       </section>
 
       {/* CTA Enrollment */}
-      <section className="bg-slate-950 text-white py-16 px-4 text-center">
+      <section className="bg-slate-950 dark:bg-slate-950 text-white py-16 px-4 text-center">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">¿Listo para mejorar tus habilidades?</h2>
           <p className="text-xl text-green-400 mb-8 flex items-center justify-center">
@@ -218,7 +218,7 @@ const Courses: React.FC = () => {
           <div className="flex flex-col md:flex-row justify-center gap-4">
             <a
               href="#inscripciones"
-              className="flex items-center justify-center bg-green-400 text-slate-950 font-bold py-3 px-8 rounded-xl hover:bg-opacity-90 transition text-lg"
+              className="flex items-center justify-center bg-green-400 text-slate-950 font-bold py-3 px-8 rounded-xl hover:bg-green-500 transition text-lg"
               aria-label="Inscríbete hoy en nuestros cursos"
             >
               <FaCalendarAlt className="mr-2" aria-hidden="true" />
@@ -237,7 +237,7 @@ const Courses: React.FC = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-gray-400 py-8 px-4">
+      <footer className="bg-gray-900 dark:bg-slate-950 text-gray-400 dark:text-gray-500 py-8 px-4 border-t border-gray-700 dark:border-slate-800">
         <div className="max-w-7xl mx-auto text-center">
           <p>© {new Date().getFullYear()} BSK Motorcycle Team - Escuela de Motociclismo</p>
           <p className="mt-2 text-sm">Todos los derechos reservados | Certificados por la Federación Colombiana de Motociclismo</p>
