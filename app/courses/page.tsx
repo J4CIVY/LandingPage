@@ -235,14 +235,6 @@ const Courses: React.FC = () => {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 dark:bg-slate-950 text-gray-400 dark:text-gray-500 py-8 px-4 border-t border-gray-700 dark:border-slate-800">
-        <div className="max-w-7xl mx-auto text-center">
-          <p>© {new Date().getFullYear()} BSK Motorcycle Team - Escuela de Motociclismo</p>
-          <p className="mt-2 text-sm">Todos los derechos reservados | Certificados por la Federación Colombiana de Motociclismo</p>
-        </div>
-      </footer>
     </div>
   );
 };
