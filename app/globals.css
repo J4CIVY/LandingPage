@@ -156,15 +156,26 @@
   contain: layout;
 }
 
-/* Smooth scroll mejorado */
+/* Smooth scroll mejorado - solo para links internos */
 html {
+  scroll-behavior: auto; /* Default auto para mejor control */
+}
+
+/* Smooth scroll solo para navegación interna */
+html.smooth-scroll {
   scroll-behavior: smooth;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
+  html,
+  html.smooth-scroll {
     scroll-behavior: auto;
   }
+}
+
+/* Clase específica para scroll to top button */
+.scroll-to-top-active {
+  scroll-behavior: auto !important;
 }
 
 /* Fix para intersection observer flickering */
