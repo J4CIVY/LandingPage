@@ -103,7 +103,6 @@ export default function RootLayout({
         
         {/* Preload critical CSS */}
         <link rel="preload" href="/favicon.ico" as="image" type="image/x-icon" />
-        <link rel="preload" as="style" href="/_next/static/css/app.css" />
         
         {/* Optimización viewport height para mobile */}
         <style dangerouslySetInnerHTML={{

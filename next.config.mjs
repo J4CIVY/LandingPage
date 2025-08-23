@@ -13,6 +13,7 @@ const bundleAnalyzer = withBundleAnalyzer({
 
 const nextConfig = {
   reactStrictMode: true,
+  poweredByHeader: false, // Remover header X-Powered-By
   compiler: {
     styledComponents: true,
     removeConsole: process.env.NODE_ENV === "production",
@@ -38,6 +39,22 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
   },
+  // Configuración de rewrites para manejo correcto de assets
+  async rewrites() {
+    return [
+      {
+        source: '/_next/static/css/:path*',
+        destination: '/_next/static/css/:path*',
+        has: [
+          {
+            type: 'header',
+            key: 'accept',
+            value: '.*text/css.*',
+          },
+        ],
+      },
+    ];
+  },
   headers: async () => {
     return [
       {
@@ -58,7 +75,33 @@ const nextConfig = {
         ],
       },
       {
-        source: '/(.*)\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2)',
+        source: '/(.*)\\.(css)',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'text/css; charset=utf-8',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/(.*)\\.(js)',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/javascript; charset=utf-8',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/(.*)\\.(ico|png|jpg|jpeg|gif|svg|woff|woff2)',
         headers: [
           {
             key: 'Cache-Control',
