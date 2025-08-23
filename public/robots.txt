@@ -7,8 +7,9 @@ Disallow: /config/
 Disallow: /*?*
 Disallow: /*.json$
 Disallow: /*.map$
+Disallow: /registration-success
 
 # Allow JavaScript files for proper site functionality and SEO
 Allow: /*.js$
 
-Sitemap: https://www.bskmt.com/sitemap.xml
+Sitemap: https://bskmt.com/sitemap.xml

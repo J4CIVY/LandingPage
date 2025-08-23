@@ -1,9 +1,35 @@
-'use client';
-
 import React from 'react';
 import { FaMotorcycle, FaHandsHelping, FaShieldAlt } from 'react-icons/fa';
-import SEOComponent from '@/components/home/SEOComponent';
 import Image from 'next/image';
+import type { Metadata } from 'next';
+import Breadcrumbs from '@/components/shared/Breadcrumbs';
+
+export const metadata: Metadata = {
+  title: "Sobre Nosotros - Historia y Valores",
+  description: "Conoce la historia, misión, visión y valores de BSK Motorcycle Team. Somos más que un motoclub, somos una familia apasionada por el motociclismo en Colombia desde 2022.",
+  keywords: ["historia BSK Motorcycle Team", "valores motoclub", "misión BSK", "visión motociclismo", "fundación BSK 2022", "hermandad motera"],
+  openGraph: {
+    title: "Sobre Nosotros - BSK Motorcycle Team",
+    description: "Conoce la historia, misión, visión y valores de BSK Motorcycle Team. Somos más que un motoclub, somos una familia apasionada por el motociclismo en Colombia.",
+    url: "https://bskmt.com/about",
+    images: [
+      {
+        url: "https://res.cloudinary.com/dz0peilmu/image/upload/v1700000000/BSK_About_Team_Photo.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Equipo BSK Motorcycle Team - Historia y valores",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sobre Nosotros - BSK Motorcycle Team",
+    description: "Conoce la historia, misión, visión y valores de BSK Motorcycle Team. Somos más que un motoclub, somos una familia apasionada por el motociclismo.",
+  },
+  alternates: {
+    canonical: "https://bskmt.com/about",
+  },
+};
 
 /**
  * About component displays information about BSK Motorcycle Team, including its history, mission, vision, and values.
@@ -12,10 +38,7 @@ import Image from 'next/image';
 const About: React.FC = () => {
   return (
     <main className="min-h-screen bg-gray-100 dark:bg-slate-950 text-slate-950 dark:text-white">
-      <SEOComponent
-        title="Sobre Nosotros - BSK Motorcycle Team"
-        description="Conoce la historia, misión, visión y valores de BSK Motorcycle Team. Somos más que un motoclub, somos una familia apasionada por el motociclismo en Colombia."
-      />
+      <Breadcrumbs items={[{ label: "Sobre Nosotros" }]} />
       {/* Hero Section */}
       <section className="relative py-20 px-4 bg-white dark:bg-slate-950">
         <div className="max-w-6xl mx-auto">

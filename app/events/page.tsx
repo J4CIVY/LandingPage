@@ -3,7 +3,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { format, parseISO, isAfter, isBefore } from "date-fns";
 import { es } from "date-fns/locale";
-import SEOComponent from '@/components/home/SEOComponent';
 import api from "@/components/api/Api";
 import Image from "next/image";
 
@@ -176,10 +175,6 @@ const Events: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
-      <SEOComponent
-        title="Eventos - BSK Motorcycle Team"
-        description="Consulta nuestro calendario de eventos. Participa en rodadas, encuentros, y actividades de la comunidad BSK Motorcycle Team."
-      />
       <section className="py-16 px-4 max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">

@@ -1,57 +1,40 @@
-'use client';
-
-import React, { Suspense } from "react";
-import { useEvents } from "@/hooks/useEvents";
-import SEOComponent from "@/components/home/SEOComponent";
+import React from "react";
 import HeroSection from "@/components/home/HeroSection";
+import HomeContent from "@/components/home/HomeContent";
+import type { Metadata } from 'next';
 
-const AboutSection = React.lazy(() => import("@/components/home/AboutSection"));
-const EventsSection = React.lazy(() => import("@/components/home/EventsSection"));
-const GallerySection = React.lazy(() => import("@/components/home/GallerySection"));
-const BenefitsSection = React.lazy(() => import("@/components/home/BenefitsSection"));
-const StoreSection = React.lazy(() => import("@/components/home/StoreSection"));
-const BlogSection = React.lazy(() => import("@/components/home/BlogSection"));
-const FAQSection = React.lazy(() => import("@/components/home/FAQSection"));
+export const metadata: Metadata = {
+  title: "Inicio - Pasión por el Motociclismo",
+  description: "Únete a BSK Motorcycle Team, una comunidad de apasionados por las motos en Colombia. Participa en eventos, rutas y disfruta de beneficios exclusivos para miembros.",
+  keywords: ["BSK Motorcycle Team", "motoclub Colombia", "comunidad motera", "eventos motociclismo", "rutas en moto", "club de motociclistas", "Bogotá motos"],
+  openGraph: {
+    title: "BSK Motorcycle Team - Club de Motociclistas en Colombia",
+    description: "Únete a BSK Motorcycle Team, una comunidad de apasionados por las motos en Colombia. Participa en eventos, rutas y disfruta de beneficios exclusivos.",
+    url: "https://bskmt.com",
+    images: [
+      {
+        url: "https://res.cloudinary.com/dz0peilmu/image/upload/v1700000000/Banner_Landing_Page_BSK_Motorcycle_Team_Julio_o2fcql.jpg",
+        width: 1200,
+        height: 630,
+        alt: "BSK Motorcycle Team - Libertad sobre dos ruedas",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BSK Motorcycle Team - Club de Motociclistas en Colombia",
+    description: "Únete a BSK Motorcycle Team, una comunidad de apasionados por las motos en Colombia. Participa en eventos, rutas y disfruta de beneficios exclusivos.",
+  },
+  alternates: {
+    canonical: "https://bskmt.com",
+  },
+};
 
 const Home: React.FC = () => {
-  const { events, loading, error } = useEvents();
-
   return (
     <>
-      <SEOComponent
-        title="BSK Motorcycle Team - Club de Motociclistas en Colombia"
-        description="Únete a BSK Motorcycle Team, una comunidad de apasionados por las motos en Colombia. Participa en eventos, rutas y disfruta de beneficios exclusivos."
-      />
-      <div className="min-h-screen bg-white dark:bg-slate-950">
-        <HeroSection />
-        <Suspense fallback={<div>Loading...</div>}>
-          <section>
-            <AboutSection />
-          </section>
-          <section>
-            <EventsSection 
-              events={events} 
-              loading={loading} 
-              error={error} 
-            />
-          </section>
-          <section>
-            <GallerySection />
-          </section>
-          <section>
-            <BenefitsSection />
-          </section>
-          <section>
-            <StoreSection />
-          </section>
-          <section>
-            <BlogSection />
-          </section>
-          <section>
-            <FAQSection />
-          </section>
-        </Suspense>
-      </div>
+      <HeroSection />
+      <HomeContent />
     </>
   );
 };
