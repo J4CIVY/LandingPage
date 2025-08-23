@@ -12,9 +12,12 @@ import Testimonials from "./Testimonials";
 const BenefitsSection: React.FC = () => (
   <section className="py-20 px-4 bg-white dark:bg-slate-950">
     <div className="max-w-6xl mx-auto">
-      <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
+      <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-4">
         BENEFICIOS DE <span className="text-green-400">SER MIEMBRO</span>
       </h2>
+      <p className="text-center text-gray-600 dark:text-gray-400 mb-12 max-w-3xl mx-auto">
+        Más que beneficios, es el respaldo de una comunidad que te acompaña en cada kilómetro
+      </p>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Beneficios Sociales */}
@@ -56,19 +59,19 @@ const BenefitsSection: React.FC = () => (
           <ul className="space-y-3">
             <li className="flex items-start">
               <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
-              <span>Asistencia mecánica básica entre miembros</span>
+              <span>Ayuda inmediata en carretera entre miembros</span>
             </li>
             <li className="flex items-start">
               <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
-              <span>Descuentos en servicios mecánicos</span>
+              <span>Hasta 30% de descuento en talleres afiliados</span>
             </li>
             <li className="flex items-start">
               <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
-              <span>Acceso a conocimientos técnicos compartidos</span>
+              <span>Conocimiento compartido de mecánica básica</span>
             </li>
             <li className="flex items-start">
               <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
-              <span>Talleres de mantenimiento y seguridad</span>
+              <span>Talleres gratuitos de mantenimiento</span>
             </li>
           </ul>
         </div>
@@ -79,24 +82,24 @@ const BenefitsSection: React.FC = () => (
             <div className="bg-slate-950 dark:bg-slate-800 text-white p-3 rounded-full mr-4">
               <FaMoneyBillWave className="w-6 h-6" aria-hidden="true" />
             </div>
-            <h3 className="text-xl font-bold text-slate-950 dark:text-white">Ventajas Económicas</h3>
+            <h3 className="text-xl font-bold text-slate-950 dark:text-white">Ahorros Reales</h3>
           </div>
           <ul className="space-y-3">
             <li className="flex items-start">
               <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
-              <span>Descuentos en ropa y accesorios</span>
+              <span>Hasta 75% descuento en merchandising oficial</span>
             </li>
             <li className="flex items-start">
               <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
-              <span>Convenios con aseguradoras</span>
+              <span>Tarifas preferenciales en seguros</span>
             </li>
             <li className="flex items-start">
               <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
-              <span>Beneficios en combustible</span>
+              <span>Descuentos en estaciones de servicio</span>
             </li>
             <li className="flex items-start">
               <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
-              <span>Compra colectiva con precios reducidos</span>
+              <span>Compras grupales con precios especiales</span>
             </li>
           </ul>
         </div>
@@ -107,24 +110,24 @@ const BenefitsSection: React.FC = () => (
             <div className="bg-slate-950 dark:bg-slate-800 text-white p-3 rounded-full mr-4">
               <FaGlassCheers className="w-6 h-6" aria-hidden="true" />
             </div>
-            <h3 className="text-xl font-bold text-slate-950 dark:text-white">Actividades Recreativas</h3>
+            <h3 className="text-xl font-bold text-slate-950 dark:text-white">Aventuras Inolvidables</h3>
           </div>
           <ul className="space-y-3">
             <li className="flex items-start">
               <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
-              <span>Rutas y viajes grupales</span>
+              <span>Rutas por toda Colombia con otros miembros</span>
             </li>
             <li className="flex items-start">
               <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
-              <span>Acceso preferencial a eventos</span>
+              <span>Acceso prioritario a tours especiales</span>
             </li>
             <li className="flex items-start">
               <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
-              <span>Celebraciones exclusivas</span>
+              <span>Eventos exclusivos para miembros</span>
             </li>
             <li className="flex items-start">
               <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
-              <span>Sorteos y rifas internas</span>
+              <span>Sorteos mensuales de productos</span>
             </li>
           </ul>
         </div>
@@ -135,16 +138,16 @@ const BenefitsSection: React.FC = () => (
             <div className="bg-slate-950 dark:bg-slate-800 text-white p-3 rounded-full mr-4">
               <FaGraduationCap className="w-6 h-6" aria-hidden="true" />
             </div>
-            <h3 className="text-xl font-bold text-slate-950 dark:text-white">Formación</h3>
+            <h3 className="text-xl font-bold text-slate-950 dark:text-white">Formación Especializada</h3>
           </div>
           <ul className="space-y-3">
             <li className="flex items-start">
               <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
-              <span>Charlas sobre seguridad vial</span>
+              <span>Curso de manejo defensivo certificado</span>
             </li>
             <li className="flex items-start">
               <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
-              <span>Conducción defensiva</span>
+              <span>Técnicas de conducción avanzada</span>
             </li>
             <li className="flex items-start">
               <span className="text-green-400 mr-2" aria-hidden="true">✔</span>

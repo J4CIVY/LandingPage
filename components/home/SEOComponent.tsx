@@ -29,7 +29,7 @@ interface SEOComponentProps {
 
 const SEOComponent: React.FC<SEOComponentProps> = ({ 
   title = "BSK Motorcycle Team - Pasión por el Motociclismo", 
-  description = "Únete a BSK Motorcycle Team, el motoclub líder en Colombia. Disfruta de rutas, eventos, talleres y una comunidad apasionada por el motociclismo. Hermandad, aventura y respeto sobre dos ruedas.", 
+  description = "Únete a BSK Motorcycle Team, el motoclub líder en Colombia. Disfruta de rutas, eventos, talleres y una comunidad apasionada por el motociclismo. Comunidad, aventura y respeto sobre dos ruedas.", 
   image = "https://res.cloudinary.com/dz0peilmu/image/upload/v1700000000/Logo_BSK_Motorcycle_Team_ggdyrl.png", // Added a version to the Cloudinary URL for better cache busting
   url = "https://bskmt.com",
   keywords = "motoclub en bogotá, motoclub en colombia, bskmt, bsk mt, bsk motorcycle team, comunidad motera, rutas en moto bogotá, eventos motociclismo, club de motos colombia, mototurismo, talleres motociclismo",

@@ -42,20 +42,20 @@ const AboutSection: React.FC = () => {
           <div>
             <h3 className="text-2xl font-semibold text-slate-950 dark:text-white mb-4">Nuestra Historia</h3>
             <p className="text-gray-700 dark:text-gray-300 mb-6">
-              BSK Motorcycle Team nació en 2022 en Bogotá, Colombia, como el sueño de un grupo de motociclistas apasionados por la aventura, la hermandad y el respeto. Desde su fundación, el club se ha caracterizado por organizar rodadas, tours y eventos de formación para fortalecer las habilidades de conducción de sus miembros.
+              BSK Motorcycle Team nació en 2022 en Bogotá, Colombia, donde la comunidad se vive sobre dos ruedas. Desde nuestra fundación, nos une la pasión por el motociclismo, el espíritu aventurero y el respeto mutuo, creando una familia que trasciende las rutas.
             </p>
             <p className="text-gray-700 dark:text-gray-300 mb-6">
-              En su primer año, el club consolidó rutas como el Tour Andino, el Tour de la Tatacoa y el Tour de Navidad, estableciendo así una tradición de recorrer los caminos de Colombia con un espíritu de camaradería. Posteriormente, se creó una estructura organizacional sólida, respaldada por la empresa Organización Motear SAS (OMSAS), y se estableció una filosofía basada en hermandad, espíritu aventurero y respeto mutuo.
+              En nuestro primer año consolidamos rutas emblemáticas como el Tour Andino, el Tour de la Tatacoa y el Tour de Navidad, estableciendo una tradición de recorrer Colombia con camaradería. Hoy somos 39 miembros activos unidos por algo más grande que nosotros mismos.
             </p>
             <p className="text-gray-700 dark:text-gray-300 mb-6">
-              A lo largo de su historia, BSK ha crecido en membresías, actividades y beneficios, manteniéndose fiel a su misión de crear un espacio seguro y divertido para amantes de la motocicleta, con visión de ser un referente en el motociclismo turístico y formativo en Colombia.
+              Respaldados por Organización Motear SAS (OMSAS), mantenemos nuestra misión de crear un espacio donde cada motociclista encuentra no solo aventura, sino una segunda familia sobre ruedas.
             </p>
 
             <h3 className="text-2xl font-semibold text-slate-950 dark:text-white mb-4 mt-8">Nuestros Valores</h3>
             <ul className="space-y-3">
               <li className="flex items-start">
                 <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
-                <span className="text-gray-700 dark:text-gray-300">Hermandad: Somos una familia de motociclistas, unidos por la confianza, la lealtad y el apoyo mutuo dentro y fuera de la carretera.</span>
+                <span className="text-gray-700 dark:text-gray-300">Comunidad: Somos una familia de motociclistas, unidos por la confianza, la lealtad y el apoyo mutuo dentro y fuera de la carretera.</span>
               </li>
               <li className="flex items-start">
                 <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
@@ -84,7 +84,7 @@ const AboutSection: React.FC = () => {
             </picture>
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent opacity-70"></div>
             <div className="absolute bottom-0 left-0 p-6 text-white">
-              <p className="text-xl italic">"No es solo un club, es una familia sobre ruedas."</p>
+              <p className="text-xl italic">"Más que rutas, creamos recuerdos. Desde el primer día, eres parte de algo más grande."</p>
               <p className="mt-2 font-semibold">- Carlos M., Miembro desde 2022</p>
             </div>
           </div>

@@ -11,42 +11,42 @@ const FAQSection: React.FC = () => {
     // Membresías
     {
       q: "¿Qué tipos de membresía ofrece el club?",
-      a: "Ofrecemos 5 tipos: Friend (gratuita), Rider ($600,000 anual), Rider Duo (para parejas), Pro ($1,200,000 anual) y Pro Duo. Cada una con beneficios diferentes.",
+      a: "Ofrecemos 3 tipos: Amigo (gratuita), Piloto ($600,000 anual), y Profesional ($1,200,000 anual). Cada una con beneficios diferentes según tu nivel de compromiso con la comunidad.",
       category: "membership"
     },
     {
-      q: "¿Cuáles son los requisitos para unirse al club?",
-      a: "Ser mayor de 18 años, tener licencia de motociclista vigente, poseer una moto en buen estado, alinearse con las políticas del club y comprometerse con el código de ética.",
+      q: "¿Cuáles son los requisitos para unirse a la comunidad?",
+      a: "Ser mayor de 18 años, tener licencia de motociclista vigente, poseer una moto en buen estado, alinearse con nuestros valores de comunidad, espíritu y respeto, y comprometerse con nuestro código de ética.",
       category: "membership"
     },
     {
       q: "¿Cómo es el proceso de admisión?",
-      a: "Debes completar un formulario, pasar por una entrevista personal y participar en una rodada de prueba donde evaluaremos tu conducta y habilidades.",
+      a: "Completas un formulario, pasas por una charla personal con la directiva y participas en una rodada de integración donde conocerás a tus futuros compañeros y evaluaremos la química grupal.",
       category: "membership"
     },
     {
       q: "¿Hay un período de prueba?",
-      a: "Sí, todos los nuevos miembros tienen un período de prueba de 3 meses donde evaluamos su integración al club.",
+      a: "Sí, todos los nuevos miembros tienen un período de integración de 3 meses donde tanto tú como nosotros evaluamos si hay buena química y afinidad con la comunidad.",
       category: "membership"
     },
     {
       q: "¿Puedo cambiar de tipo de membresía?",
-      a: "Sí, puedes actualizar tu membresía en cualquier momento pagando la diferencia proporcional al tiempo restante.",
+      a: "Por supuesto. Puedes evolucionar en tu membresía en cualquier momento pagando la diferencia proporcional. Muchos miembros comienzan como Amigos y luego se vuelven Profesionales.",
       category: "membership"
     },
     {
       q: "¿Qué incluye el kit de bienvenida?",
-      a: "Depende de tu membresía: desde un hoodie y calca para Friend, hasta kit de herramientas avanzado y gorra para Pro. Consulta el manual para detalles completos.",
+      a: "Depende de tu membresía: desde hoodie y calca para Amigo, hasta kit de herramientas avanzado y gorra para Profesional. Todos reciben nuestra bienvenida oficial a la comunidad.",
       category: "membership"
     },
     {
       q: "¿Cómo renuevo mi membresía?",
-      a: "Recibirás un recordatorio 2 meses antes. Puedes renovar en la web del club actualizando tus datos y realizando el pago correspondiente.",
+      a: "Te contactamos 2 meses antes del vencimiento. Puedes renovar fácilmente a través de nuestra web actualizando tus datos y realizando el pago. ¡Queremos que sigas siendo parte de la familia!",
       category: "membership"
     },
     {
       q: "¿Hay reembolsos por cancelación?",
-      a: "Solo en los primeros 14 días (reembolso del 95%) o hasta 30 días (50%). Después no hay reembolsos, excepto casos excepcionales evaluados por el comité.",
+      a: "Entendemos que las circunstancias cambian. Ofrecemos reembolso del 95% en los primeros 14 días, y del 50% hasta 30 días. Después evaluamos cada caso de manera personal.",
       category: "membership"
     },
 
@@ -68,34 +68,34 @@ const FAQSection: React.FC = () => {
     },
     {
       q: "¿Cómo se calcula mi aporte a gastos operacionales?",
-      a: "Friend paga 100%, Rider 50%, y Pro 0% de los gastos operacionales en eventos.",
+      a: "Los miembros Amigo cubren el costo completo de alojamiento y actividades, los Piloto pagan solo la mitad, y los Profesionales disfrutan de eventos sin costo adicional.",
       category: "events"
     },
     {
-      q: "¿Puedo organizar un evento no oficial?",
-      a: "Sí, pero debes presentar una solicitud detallada a las directivas para su aprobación y cumplir con todas las normativas del club.",
+      q: "¿Puedo organizar una rodada con los miembros?",
+      a: "¡Por supuesto! Presentas tu idea a la directiva con detalles de ruta, fechas y logística. Nos encanta que los miembros tomen iniciativa para crear nuevas aventuras.",
       category: "events"
     },
     {
-      q: "¿Qué normas de seguridad aplican en los eventos?",
-      a: "Uso obligatorio de equipo de protección, revisión previa de motos, prohibición de alcohol durante rodadas y seguimiento de protocolos de seguridad.",
+      q: "¿Qué normas de seguridad aplican en nuestras rodadas?",
+      a: "Equipo de protección obligatorio, revisión previa del fierro, cero alcohol durante rodadas y seguimiento estricto de nuestros protocolos de comunidad segura.",
       category: "events"
     },
     {
-      q: "¿Qué conducta se espera en eventos del club?",
-      a: "Participación activa, respeto y cortesía, cumplimiento de normas, representación positiva del club, apoyo mutuo y resolución constructiva de conflictos.",
+      q: "¿Qué se espera de un miembro en eventos?",
+      a: "Participación con buena energía, respeto hacia todos, apoyo mutuo en la ruta, y representar con orgullo los valores de BSK dondequiera que vayamos.",
       category: "events"
     },
 
     // Beneficios
     {
-      q: "¿Qué beneficios tengo con la membresía Rider?",
-      a: "Asistencia técnica en emergencias, indumentaria exclusiva, descuentos en productos y servicios, acceso a eventos especiales y seguro de responsabilidad civil.",
+      q: "¿Qué beneficios tengo con la membresía Piloto?",
+      a: "Asistencia técnica cuando la necesites, indumentaria exclusiva de miembro, hasta 50% de descuento en productos y servicios, eventos especiales y seguro de responsabilidad civil.",
       category: "benefits"
     },
     {
-      q: "¿Qué ventajas adicionales tiene la membresía Pro?",
-      a: "Además de los beneficios Rider, incluye participación en la dirección del club, asistencia de grúa, indumentaria más exclusiva y mayores descuentos.",
+      q: "¿Qué ventajas adicionales tiene la membresía Profesional?",
+      a: "Además de todo lo de Piloto, tienes voz en las decisiones del club, asistencia de grúa incluida, indumentaria premium y hasta 75% de descuento en todo.",
       category: "benefits"
     },
     {
@@ -142,7 +142,7 @@ const FAQSection: React.FC = () => {
     },
     {
       q: "¿Qué valores promueve el club?",
-      a: "Hermandad, solidaridad, conocimiento, respeto, seguridad y no discriminación por ningún motivo.",
+      a: "Comunidad, solidaridad, conocimiento, respeto, seguridad y no discriminación por ningún motivo.",
       category: "general"
     },
     {

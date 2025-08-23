@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     default: "BSK Motorcycle Team - Motoclub Líder en Colombia",
     template: "%s | BSK Motorcycle Team"
   },
-  description: "Únete a BSK Motorcycle Team, el motoclub líder en Colombia. Disfruta de rutas, eventos, talleres y una comunidad apasionada por el motociclismo. Hermandad, aventura y respeto sobre dos ruedas.",
+  description: "Únete a BSK Motorcycle Team, donde la comunidad se vive sobre dos ruedas. Disfruta de rutas, eventos, talleres y una comunidad unida por la pasión, el espíritu aventurero y el respeto mutuo.",
   keywords: ["motoclub en bogotá", "motoclub en colombia", "bskmt", "bsk mt", "bsk motorcycle team", "comunidad motera", "rutas en moto bogotá", "eventos motociclismo", "club de motos colombia", "mototurismo", "talleres motociclismo"],
   authors: [{ name: "BSK Motorcycle Team" }],
   creator: "BSK Motorcycle Team",
@@ -42,8 +42,8 @@ export const metadata: Metadata = {
     locale: "es_CO",
     url: "https://bskmt.com",
     siteName: "BSK Motorcycle Team",
-    title: "BSK Motorcycle Team - Motoclub Líder en Colombia",
-    description: "Únete a BSK Motorcycle Team, el motoclub líder en Colombia. Disfruta de rutas, eventos, talleres y una comunidad apasionada por el motociclismo.",
+    title: "BSK Motorcycle Team - Comunidad sobre dos ruedas",
+    description: "Únete a BSK Motorcycle Team, donde la comunidad se vive sobre dos ruedas. Disfruta de rutas, eventos, talleres y una comunidad unida por la pasión, el espíritu aventurero y el respeto mutuo.",
     images: [
       {
         url: "https://res.cloudinary.com/dz0peilmu/image/upload/v1700000000/Logo_BSK_Motorcycle_Team_ggdyrl.png",
@@ -57,8 +57,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@bskmotorcycleteam",
     creator: "@bskmotorcycleteam",
-    title: "BSK Motorcycle Team - Motoclub Líder en Colombia",
-    description: "Únete a BSK Motorcycle Team, el motoclub líder en Colombia. Disfruta de rutas, eventos, talleres y una comunidad apasionada por el motociclismo.",
+    title: "BSK Motorcycle Team - Comunidad sobre dos ruedas",
+    description: "Únete a BSK Motorcycle Team, donde la comunidad se vive sobre dos ruedas. Disfruta de rutas, eventos, talleres y una comunidad unida por la pasión, el espíritu aventurero y el respeto mutuo.",
     images: ["https://res.cloudinary.com/dz0peilmu/image/upload/v1700000000/Logo_BSK_Motorcycle_Team_ggdyrl.png"],
   },
   alternates: {

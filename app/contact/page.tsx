@@ -133,13 +133,13 @@ const Contact: React.FC = () => {
     <div className="min-h-screen bg-white dark:bg-slate-950">
       <SEOComponent
         title="Contacto - BSK Motorcycle Team"
-        description="Contacta con BSK Motorcycle Team. Encuentra nuestra información de contacto, envía un mensaje, realiza una denuncia anónima o presenta una PQRSDF."
+        description="Contacta con la comunidad BSK. Únete a nuestra familia sobre ruedas, encuentra información de contacto, envía un mensaje o conoce cómo podemos ayudarte en tu aventura motera."
       />
       <section className="bg-white dark:bg-slate-950 text-slate-950 dark:text-white py-16 px-4 md:px-20">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">Contacta a BSK Motorcycle Team</h1>
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">Contacta a la Comunidad BSK</h1>
           <p className="text-xl md:text-2xl text-green-400">
-            Estamos aquí para ayudarte en lo que necesites
+            Estamos aquí para recibirte en nuestra familia sobre ruedas
           </p>
         </div>
       </section>

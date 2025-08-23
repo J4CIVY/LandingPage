@@ -33,7 +33,7 @@ const MembershipInfoPage: React.FC = () => {
           </p>
           <div className="bg-red-50 border-l-4 border-red-600 p-4 mb-6" role="alert">
             <p className="text-red-800 font-medium">
-              "Ser miembro de BSK no es solo tener un carnet, es adoptar un estilo de vida motero con valores, hermandad y pasión por las dos ruedas."
+              "Ser miembro de BSK no es solo tener un carnet, es adoptar un estilo de vida motero con valores, comunidad y pasión por las dos ruedas."
             </p>
           </div>
         </div>

@@ -82,27 +82,27 @@ const Memberships: React.FC = () => {
 
   const membershipTypes: MembershipPlan[] = [
     {
-      name: "Friend",
+      name: "Amigo",
       price: "Gratis",
       period: "",
       features: [
         "Participación en eventos generales",
         "Acceso a contenido exclusivo",
         "Asistencia remota 24/7",
-        "Descuento 25% en merchandising regular",
+        "Descuento 25% en merchandising oficial",
         "Hoodie oficial del club",
         "Calca para moto/casco"
       ],
-      buttonText: "Únete Gratis",
+      buttonText: "Comienza Tu Aventura",
       popular: false,
       onClick: () => router.push('/membership-info')
     },
     {
-      name: "Rider",
+      name: "Piloto",
       price: "$50,000",
       period: "mensual o $600,000 anual",
       features: [
-        "Todo lo de Friend +",
+        "Todo lo de Amigo +",
         "Asistencia técnica presencial",
         "Seguro de responsabilidad civil",
         "Acceso a eventos especiales",
@@ -110,16 +110,16 @@ const Memberships: React.FC = () => {
         "Descuento 50% en merchandising",
         "Parche bordado exclusivo"
       ],
-      buttonText: "Hazte Rider",
+      buttonText: "Únete como Piloto",
       popular: false,
-      onClick: () => console.log("Rider membership selected")
+      onClick: () => console.log("Piloto membership selected")
     },
     {
-      name: "Pro",
+      name: "Profesional",
       price: "$1,200,000",
       period: "anual",
       features: [
-        "Todo lo de Rider +",
+        "Todo lo de Piloto +",
         "Asistencia de grúa incluida",
         "Acceso prioritario a eventos",
         "Kit de herramientas avanzado",
@@ -128,9 +128,9 @@ const Memberships: React.FC = () => {
         "Derecho a voz en reuniones",
         "Descuento 75% en merchandising"
       ],
-      buttonText: "Hazte Pro",
+      buttonText: "Únete a la Comunidad",
       popular: true,
-      onClick: () => console.log("Pro membership selected")
+      onClick: () => console.log("Profesional membership selected")
     }
   ];
 
@@ -146,7 +146,7 @@ const Memberships: React.FC = () => {
             Únete a BSK Motorcycle Team
           </h1>
           <p className="text-xl mb-8 max-w-3xl mx-auto">
-            Forma parte de una comunidad apasionada por el motociclismo, donde la hermandad, el espíritu aventurero y el respeto son nuestros pilares fundamentales.
+            Donde la comunidad se vive sobre dos ruedas. Forma parte de una familia que comparte la pasión por el motociclismo, el espíritu aventurero y el respeto mutuo en cada ruta por Colombia.
           </p>
           <a 
             href="#memberships" 
@@ -167,7 +167,7 @@ const Memberships: React.FC = () => {
               <div className="text-green-400 mb-4">
                 <FaUsers className="h-12 w-12" aria-hidden="true" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-800">Hermandad</h3>
+              <h3 className="text-xl font-semibold mb-3 text-gray-800">Comunidad</h3>
               <p className="text-gray-600">
                 En BSK creemos en la camaradería y la unidad como base de todo lo que hacemos. Te sentirás parte de una gran familia motera.
               </p>
@@ -375,7 +375,7 @@ const Memberships: React.FC = () => {
                   <p className="text-blue-200 text-sm">Miembro Rider desde 2022</p>
                 </div>
               </div>
-              <p className="italic">"La hermandad que se vive aquí es real. No solo es un club de motos, es una familia que se apoya en las buenas y en las malas."</p>
+              <p className="italic">"La comunidad que se vive aquí es real. No solo es un club de motos, es una familia que se apoya en las buenas y en las malas."</p>
             </div>
             
             <div className="bg-blue-800 p-6 rounded-lg">

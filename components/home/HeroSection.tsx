@@ -87,15 +87,15 @@ const HeroSection: React.FC = () => {
         <h1 className="text-5xl md:text-7xl font-bold text-white dark:text-white mb-6">
           <span className="text-green-400">BSK</span> MOTORCYCLE TEAM
         </h1>
-        <p className="text-xl md:text-2xl text-white dark:text-gray-200 mb-8 max-w-2xl mx-auto">
-          Libertad sobre dos ruedas - Pasión, Camaradería y Aventura
+        <p className="text-xl md:text-2xl text-white dark:text-gray-200 mb-8 max-w-3xl mx-auto">
+          Donde la comunidad se vive sobre dos ruedas. Pasión por el motociclismo, espíritu aventurero y respeto mutuo nos une en cada ruta por Colombia.
         </p>
         <button 
           onClick={handleJoinClick}
           className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-lg"
-          aria-label="Únete al club BSK Motorcycle Team" // Accessible label for the button
+          aria-label="Únete a la comunidad BSK Motorcycle Team"
         >
-          ÚNETE AL CLUB
+          ÚNETE A LA COMUNIDAD
         </button>
       </div>
     </section>

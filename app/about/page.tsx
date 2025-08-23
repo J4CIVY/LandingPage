@@ -7,7 +7,7 @@ import Breadcrumbs from '@/components/shared/Breadcrumbs';
 export const metadata: Metadata = {
   title: "Sobre Nosotros - Historia y Valores",
   description: "Conoce la historia, misión, visión y valores de BSK Motorcycle Team. Somos más que un motoclub, somos una familia apasionada por el motociclismo en Colombia desde 2022.",
-  keywords: ["historia BSK Motorcycle Team", "valores motoclub", "misión BSK", "visión motociclismo", "fundación BSK 2022", "hermandad motera"],
+  keywords: ["historia BSK Motorcycle Team", "valores motoclub", "misión BSK", "visión motociclismo", "fundación BSK 2022", "comunidad motera"],
   openGraph: {
     title: "Sobre Nosotros - BSK Motorcycle Team",
     description: "Conoce la historia, misión, visión y valores de BSK Motorcycle Team. Somos más que un motoclub, somos una familia apasionada por el motociclismo en Colombia.",
@@ -46,7 +46,7 @@ const About: React.FC = () => {
             Sobre <span className="text-accent">BSK Motorcycle Team</span>
           </h1>
           <p className="text-xl text-center max-w-3xl mx-auto text-gray-600 dark:text-gray-400">
-            Más que un club, una familia sobre ruedas. Conoce nuestra historia, valores y lo que nos hace únicos.
+            Donde la comunidad se vive sobre dos ruedas. Conoce nuestra historia, valores y lo que nos hace una familia unida por la pasión, el espíritu aventurero y el respeto mutuo.
           </p>
         </div>
       </section>
@@ -116,8 +116,9 @@ const About: React.FC = () => {
               </div>
               <h3 className="text-2xl font-semibold mb-4 text-slate-950 dark:text-white">Misión</h3>
               <p className="text-gray-700 dark:text-gray-300">
-                Promover el motociclismo seguro y responsable, fomentando la camaradería entre nuestros miembros 
-                y contribuyendo positivamente a nuestra comunidad a través de eventos benéficos y actividades sociales.
+                Ser la familia que cada motero necesita. Promovemos el motociclismo seguro y responsable, 
+                fomentando la comunidad entre nuestros miembros y contribuyendo positivamente a nuestra 
+                comunidad a través de eventos benéficos y aventuras que crean recuerdos para toda la vida.
               </p>
             </article>
 
@@ -128,9 +129,9 @@ const About: React.FC = () => {
               </div>
               <h3 className="text-2xl font-semibold mb-4 text-slate-950 dark:text-white">Visión</h3>
               <p className="text-gray-700 dark:text-gray-300">
-                Ser reconocidos como el club de motociclistas más respetado de Bogotá, Colombia, Amedrica y el mundo, 
-                conocido por nuestros altos estándares éticos, nuestro compromiso con la seguridad vial y nuestro 
-                espíritu de comunidad.
+                Ser reconocidos como la comunidad de motociclistas más respetada de Colombia, 
+                conocida por nuestros valores de comunidad, espíritu aventurero y respeto mutuo. 
+                Donde cada ruta se convierte en una aventura y cada miembro encuentra su segunda familia.
               </p>
             </article>
 
@@ -141,11 +142,11 @@ const About: React.FC = () => {
               </div>
               <h3 className="text-2xl font-semibold mb-4 text-slate-950 dark:text-white">Valores</h3>
               <ul className="space-y-2 text-gray-700 dark:text-gray-300">
-                <li>• Respeto por la vida y las normas viales</li>
-                <li>• Camaradería y apoyo mutuo</li>
-                <li>• Responsabilidad social</li>
-                <li>• Pasión por el motociclismo</li>
-                <li>• Integridad en todas nuestras acciones</li>
+                <li>• Comunidad: Una familia unida sobre ruedas</li>
+                <li>• Espíritu aventurero: Cada ruta es una nueva historia</li>
+                <li>• Respeto mutuo: Cuidamos de cada miembro</li>
+                <li>• Pasión por el motociclismo responsable</li>
+                <li>• Integridad en todas nuestras aventuras</li>
               </ul>
             </article>
           </div>
@@ -161,7 +162,7 @@ const About: React.FC = () => {
           
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             <div>
-              <h3 className="text-2xl font-bold mb-4">Hermandad</h3>
+              <h3 className="text-2xl font-bold mb-4">Comunidad</h3>
               <p>
                 En BSK Motorcycle Team no somos solo compañeros de ruta, somos familia. Apoyamos a nuestros miembros 
                 en las buenas y en las malas, dentro y fuera de la carretera.

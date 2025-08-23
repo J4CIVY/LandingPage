@@ -5,26 +5,26 @@ import HomeWithAnalytics from "@/components/home/HomeWithAnalytics";
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Inicio - Pasión por el Motociclismo",
-  description: "Únete a BSK Motorcycle Team, una comunidad de apasionados por las motos en Colombia. Participa en eventos, rutas y disfruta de beneficios exclusivos para miembros.",
+  title: "Inicio - BSK Motorcycle Team",
+  description: "Únete a BSK Motorcycle Team, donde la comunidad se vive sobre dos ruedas. Pasión por el motociclismo, espíritu aventurero y respeto mutuo nos une en cada ruta por Colombia.",
   keywords: ["BSK Motorcycle Team", "motoclub Colombia", "comunidad motera", "eventos motociclismo", "rutas en moto", "club de motociclistas", "Bogotá motos"],
   openGraph: {
-    title: "BSK Motorcycle Team - Club de Motociclistas en Colombia",
-    description: "Únete a BSK Motorcycle Team, una comunidad de apasionados por las motos en Colombia. Participa en eventos, rutas y disfruta de beneficios exclusivos.",
+    title: "BSK Motorcycle Team - Comunidad sobre dos ruedas",
+    description: "Únete a BSK Motorcycle Team, donde la comunidad se vive sobre dos ruedas. Pasión por el motociclismo, espíritu aventurero y respeto mutuo nos une.",
     url: "https://bskmt.com",
     images: [
       {
         url: "https://res.cloudinary.com/dz0peilmu/image/upload/v1700000000/Banner_Landing_Page_BSK_Motorcycle_Team_Julio_o2fcql.jpg",
         width: 1200,
         height: 630,
-        alt: "BSK Motorcycle Team - Libertad sobre dos ruedas",
+        alt: "BSK Motorcycle Team - Comunidad sobre dos ruedas",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "BSK Motorcycle Team - Club de Motociclistas en Colombia",
-    description: "Únete a BSK Motorcycle Team, una comunidad de apasionados por las motos en Colombia. Participa en eventos, rutas y disfruta de beneficios exclusivos.",
+    title: "BSK Motorcycle Team - Comunidad sobre dos ruedas",
+    description: "Únete a BSK Motorcycle Team, donde la comunidad se vive sobre dos ruedas. Pasión por el motociclismo, espíritu aventurero y respeto mutuo nos une.",
   },
   alternates: {
     canonical: "https://bskmt.com",

@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
             <source srcSet={footerImages.logoClubLight.webp} type="image/webp" />
             <Image
               src={footerImages.logoClubLight.jpg}
-              alt="Logo BSK Motorcycle Team - Motoclub de hermandad, espíritu y respeto"
+              alt="Logo BSK Motorcycle Team - Motoclub de comunidad, espíritu y respeto"
               className="h-44 w-auto"
               width="854"
               height="480"
@@ -31,14 +31,14 @@ const Footer: React.FC = () => {
             <source srcSet={footerImages.logoClubDark.webp} type="image/webp" />
             <Image
               src={footerImages.logoClubDark.jpg}
-              alt="Logo BSK Motorcycle Team - Motoclub de hermandad, espíritu y respeto"
+              alt="Logo BSK Motorcycle Team - Motoclub de comunidad, espíritu y respeto"
               className="h-44 w-auto"
               width="854"
               height="480"
               loading="lazy"
             />
           </picture>
-          <p className="text-base font-light italic text-center text-slate-900 dark:text-white">Hermandad, Espíritu y Respeto</p>
+          <p className="text-base font-light italic text-center text-slate-900 dark:text-white">Donde la comunidad se vive sobre dos ruedas</p>
         </div>
       </section>
 

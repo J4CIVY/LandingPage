@@ -48,56 +48,56 @@ const Courses: React.FC = () => {
   const courses: Course[] = [
     {
       id: 1,
-      title: "Curso Básico de Manejo",
-      description: "Aprende los fundamentos del manejo seguro en motocicleta",
+      title: "Curso Básico de Pilotaje",
+      description: "Aprende los fundamentos para manejar tu fierro con seguridad",
       duration: "8 horas",
       price: "$250.000",
       includes: [
         "Técnicas básicas de frenado",
-        "Control de balanceo",
-        "Manejo en curvas",
+        "Control de balanceo y estabilidad",
+        "Manejo seguro en curvas",
         "Certificado de participación"
       ],
       icon: <GiSteeringWheel className="w-20 h-20 text-green-400" aria-hidden="true" />
     },
     {
       id: 2,
-      title: "Manejo Defensivo Avanzado",
-      description: "Técnicas profesionales para situaciones de riesgo",
+      title: "Pilotaje Defensivo Avanzado",
+      description: "Técnicas profesionales para situaciones de riesgo en carretera",
       duration: "12 horas",
       price: "$380.000",
       includes: [
         "Frenado de emergencia",
         "Esquivado de obstáculos",
-        "Manejo en mojado",
+        "Manejo en vía mojada",
         "Certificación internacional"
       ],
       icon: <FaShieldAlt className="w-20 h-20 text-green-400" aria-hidden="true" />
     },
     {
       id: 3,
-      title: "Taller de Mantenimiento Básico",
-      description: "Aprende a hacer mantenimiento preventivo a tu moto",
+      title: "Taller de Mantenimiento del Fierro",
+      description: "Aprende a cuidar tu moto como un verdadero motero",
       duration: "6 horas",
       price: "$180.000",
       includes: [
         "Cambio de aceite y filtros",
-        "Ajuste de cadena",
-        "Revisión de frenos",
-        "Kit de herramientas básico"
+        "Ajuste y lubricación de cadena",
+        "Revisión completa de frenos",
+        "Kit de herramientas básico incluido"
       ],
       icon: <GiMechanicGarage className="w-20 h-20 text-green-400" aria-hidden="true" />
     },
     {
       id: 4,
-      title: "Rutas Grupales Seguras",
-      description: "Aprende las técnicas para viajar en grupo",
+      title: "Rodadas Grupales Seguras",
+      description: "Aprende las técnicas para rodar en comunidad",
       duration: "1 día completo",
       price: "$150.000",
       includes: [
-        "Comunicación entre motociclistas",
-        "Formaciones seguras",
-        "Señales manuales",
+        "Comunicación entre miembros en ruta",
+        "Formaciones seguras de grupo",
+        "Señales manuales estandarizadas",
         "Guía de ruta incluido"
       ],
       icon: <FaRoute className="w-20 h-20 text-green-400" aria-hidden="true" />
