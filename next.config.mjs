@@ -1,15 +1,21 @@
 /** @type {import('next').NextConfig} */
 import withPWAInit from "@ducanh2912/next-pwa";
+import withBundleAnalyzer from '@next/bundle-analyzer';
 
 const withPWA = withPWAInit({
   dest: "public",
   disable: process.env.NODE_ENV === "development",
 });
 
+const bundleAnalyzer = withBundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+});
+
 const nextConfig = {
   reactStrictMode: true,
   compiler: {
     styledComponents: true,
+    removeConsole: process.env.NODE_ENV === "production",
   },
   images: {
     remotePatterns: [
@@ -26,10 +32,43 @@ const nextConfig = {
         pathname: '/**',
       }
     ],
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 86400, // 24 hours
   },
   experimental: {
     optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
   },
+  headers: async () => {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+        ],
+      },
+      {
+        source: '/(.*)\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
+  },
+  compress: true,
 };
 
-export default withPWA(nextConfig);
+export default bundleAnalyzer(withPWA(nextConfig));

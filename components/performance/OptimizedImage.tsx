@@ -1,12 +1,13 @@
 /**
  * Componente de imagen optimizada para performance móvil
  * Maneja lazy loading, responsive images y optimización de formatos
+ * Versión mejorada con mejor gestión de errores y fallbacks
  */
 
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useIntersectionObserver } from './LazyComponents';
 
 interface OptimizedImageProps {
@@ -23,7 +24,25 @@ interface OptimizedImageProps {
   objectFit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
   lazy?: boolean;
   responsive?: boolean;
+  fallbackSrc?: string;
+  onLoadingComplete?: () => void;
+  onError?: () => void;
 }
+
+// Generar blur data URL base64 simple
+const generateBlurDataURL = (width: number, height: number): string => {
+  return `data:image/svg+xml;base64,${Buffer.from(
+    `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g">
+          <stop stop-color="#f3f4f6" offset="0%"/>
+          <stop stop-color="#e5e7eb" offset="100%"/>
+        </linearGradient>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#g)"/>
+    </svg>`
+  ).toString('base64')}`;
+};
 
 export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   src,
@@ -34,14 +53,18 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   priority = false,
   sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw',
   quality = 75,
-  placeholder = 'empty',
+  placeholder = 'blur',
   blurDataURL,
   objectFit = 'cover',
   lazy = true,
   responsive = true,
+  fallbackSrc,
+  onLoadingComplete,
+  onError,
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [currentSrc, setCurrentSrc] = useState(src);
   const [setRef, isIntersecting] = useIntersectionObserver({
     threshold: 0.1,
     rootMargin: '50px',
@@ -50,60 +73,72 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   // Solo cargar la imagen cuando esté visible si lazy loading está habilitado
   const shouldLoad = !lazy || priority || isIntersecting;
 
-  // Generar placeholder blur dinámico
-  const generateBlurDataURL = (w: number, h: number) => {
-    const canvas = document.createElement('canvas');
-    canvas.width = w;
-    canvas.height = h;
-    const ctx = canvas.getContext('2d');
-    if (ctx) {
-      ctx.fillStyle = '#e5e7eb';
-      ctx.fillRect(0, 0, w, h);
-    }
-    return canvas.toDataURL();
-  };
+  // Generar blur placeholder automáticamente si no se proporciona
+  const effectiveBlurDataURL = blurDataURL || generateBlurDataURL(width, height);
 
+  const handleLoadingComplete = useCallback(() => {
+    setIsLoaded(true);
+    onLoadingComplete?.();
+  }, [onLoadingComplete]);
+
+  const handleError = useCallback(() => {
+    if (fallbackSrc && currentSrc !== fallbackSrc) {
+      setCurrentSrc(fallbackSrc);
+    } else {
+      setHasError(true);
+      onError?.();
+    }
+  }, [currentSrc, fallbackSrc, onError]);
+
+  // Propiedades comunes para el componente Image
   const commonProps = {
     alt,
-    className: `${className} transition-opacity duration-300 ${
-      isLoaded ? 'opacity-100' : 'opacity-0'
-    }`,
-    onLoad: () => setIsLoaded(true),
-    onError: () => setHasError(true),
-    quality,
-    placeholder: placeholder as 'blur' | 'empty',
-    blurDataURL: blurDataURL || (placeholder === 'blur' ? generateBlurDataURL(width, height) : undefined),
-    style: { objectFit },
+    className: `${className} ${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`,
     priority,
+    quality,
+    placeholder,
+    blurDataURL: effectiveBlurDataURL,
+    style: {
+      objectFit,
+    },
+    onLoad: handleLoadingComplete,
+    onError: handleError,
   };
 
+  // Si hay error y no hay fallback, mostrar placeholder
   if (hasError) {
     return (
       <div 
+        ref={setRef}
         className={`${className} bg-gray-200 dark:bg-gray-700 flex items-center justify-center`}
         style={{ width, height }}
-        ref={setRef}
+        aria-label={`Error cargando imagen: ${alt}`}
       >
-        <span className="text-gray-500 text-sm">Error al cargar imagen</span>
+        <svg className="w-8 h-8 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+          <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
+        </svg>
       </div>
     );
   }
 
+  // Si no debe cargar aún (lazy loading), mostrar placeholder
   if (!shouldLoad) {
     return (
       <div 
+        ref={setRef}
         className={`${className} bg-gray-200 dark:bg-gray-700 animate-pulse`}
         style={{ width, height }}
-        ref={setRef}
+        aria-label={`Cargando imagen: ${alt}`}
       />
     );
   }
 
+  // Renderizar imagen responsiva
   if (responsive) {
     return (
-      <div ref={setRef} className="relative">
+      <div ref={setRef} className="relative overflow-hidden">
         <Image
-          src={src}
+          src={currentSrc}
           fill
           sizes={sizes}
           {...commonProps}
@@ -112,10 +147,11 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
     );
   }
 
+  // Renderizar imagen con dimensiones fijas
   return (
     <div ref={setRef}>
       <Image
-        src={src}
+        src={currentSrc}
         width={width}
         height={height}
         sizes={sizes}

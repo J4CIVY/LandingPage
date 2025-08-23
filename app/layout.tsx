@@ -8,7 +8,13 @@ import DynamicThemeColor from "@/components/shared/DynamicThemeColor";
 import StructuredData from "@/components/shared/StructuredData";
 import ScrollToTop from "@/components/shared/ScrollToTop";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ 
+  subsets: ["latin"],
+  display: 'swap',
+  preload: true,
+  fallback: ['system-ui', 'arial'],
+  adjustFontFallback: true,
+});
 
 export const metadata: Metadata = {
   title: {
@@ -66,6 +72,7 @@ export const metadata: Metadata = {
 import { ThemeProvider } from '@/providers/ThemeProvider'
 import { ToastProvider } from '@/components/shared/ToastProvider'
 import { PWAManager } from '@/components/pwa/ServiceWorkerManager'
+import { StrategicPreloader, BSK_CRITICAL_RESOURCES } from '@/components/performance/StrategicPreloader'
 
 export default function RootLayout({
   children,
@@ -80,6 +87,12 @@ export default function RootLayout({
         <link rel="preconnect" href="https://api.bskmt.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
         
+        {/* Preload de recursos críticos */}
+        <link rel="preload" href="/Logo_Letras_BSK_MT_500x500.webp" as="image" />
+        <link rel="preload" href="https://res.cloudinary.com/dz0peilmu/image/upload/q_auto:best,c_fill,g_auto,f_webp,w_1366/Banner_Landing_Page_BSK_Motorcycle_Team_Julio_o2fcql" as="image" />
+        <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+        
         {/* Optimizaciones para móviles */}
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
         <meta name="format-detection" content="telephone=yes" />
@@ -90,6 +103,7 @@ export default function RootLayout({
         
         {/* Preload critical CSS */}
         <link rel="preload" href="/favicon.ico" as="image" type="image/x-icon" />
+        <link rel="preload" as="style" href="/_next/static/css/app.css" />
         
         {/* Optimización viewport height para mobile */}
         <style dangerouslySetInnerHTML={{
@@ -122,6 +136,7 @@ export default function RootLayout({
           enableSystem
         >
           <ToastProvider>
+            <StrategicPreloader resources={BSK_CRITICAL_RESOURCES} />
             <PWAManager />
             <DynamicThemeColor />
             <Header />

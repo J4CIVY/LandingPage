@@ -3,6 +3,26 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Critical CSS inlined - optimización para LCP */
+@layer base {
+  html {
+    scroll-behavior: auto; /* Default auto para mejor control */
+  }
+  
+  body {
+    font-family: Inter, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Preconnect fallback fonts */
+  @font-face {
+    font-family: 'Inter-fallback';
+    src: local('Arial'), local('Helvetica'), local('system-ui');
+    font-display: swap;
+  }
+}
+
 /* Mejoras de accesibilidad para contraste de colores */
 @layer utilities {
   /* Skip links para navegación por teclado */
@@ -25,7 +45,7 @@
     @apply text-gray-800 dark:text-gray-100;
   }
   
-  /* Animaciones para toasts */
+  /* Animaciones optimizadas */
   .animate-slide-in-right {
     animation: slideInRight 0.3s ease-out;
   }
@@ -39,6 +59,28 @@
       transform: translateX(0);
       opacity: 1;
     }
+  }
+  
+  /* Utilidades para evitar saltos de layout */
+  .prevent-layout-shift {
+    contain: layout style;
+  }
+
+  .stable-height {
+    min-height: 200px;
+    contain: layout;
+  }
+
+  /* Optimización de lazy loading */
+  .lazy-container {
+    contain: layout style paint;
+    min-height: 200px;
+  }
+
+  /* Fix para intersection observer flickering */
+  .intersection-stable {
+    will-change: transform;
+    transform: translateZ(0);
   }
 }
 

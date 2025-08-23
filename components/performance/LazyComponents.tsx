@@ -5,17 +5,84 @@
 
 'use client';
 
-import { lazy, Suspense, ComponentType, useState, useEffect } from 'react';
+import { lazy, Suspense, ComponentType, useState, useEffect, Component, ReactNode } from 'react';
 import { SkeletonCard, SkeletonEvent, SkeletonProduct, SkeletonText } from '../shared/SkeletonLoaders';
+
+// ErrorBoundary simple para lazy components
+class ErrorBoundary extends Component<
+  { children: ReactNode; onError: () => void },
+  { hasError: boolean }
+> {
+  constructor(props: { children: ReactNode; onError: () => void }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch() {
+    this.props.onError();
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return null;
+    }
+    return this.props.children;
+  }
+}
 
 // Wrapper para componentes lazy con skeleton mejorado
 export function withLazyLoading<T extends Record<string, any>>(
   importFunc: () => Promise<{ default: ComponentType<T> }>,
-  SkeletonComponent: ComponentType = SkeletonCard
+  SkeletonComponent: ComponentType = SkeletonCard,
+  options: {
+    preload?: boolean;
+    timeout?: number;
+    retryCount?: number;
+  } = {}
 ) {
   const LazyComponent = lazy(importFunc);
   
-  return function LazyWrapper(props: T) {    
+  return function LazyWrapper(props: T) {
+    const [retryCount, setRetryCount] = useState(0);
+    const [hasError, setHasError] = useState(false);
+    
+    // Preload en hover si está habilitado
+    useEffect(() => {
+      if (options.preload) {
+        const timer = setTimeout(() => {
+          importFunc().catch(console.warn);
+        }, 100);
+        return () => clearTimeout(timer);
+      }
+    }, []);
+
+    const handleRetry = () => {
+      if (retryCount < (options.retryCount || 3)) {
+        setRetryCount(prev => prev + 1);
+        setHasError(false);
+      }
+    };
+
+    if (hasError) {
+      return (
+        <div className="text-center p-4">
+          <p className="text-red-500 mb-2">Error cargando componente</p>
+          {retryCount < (options.retryCount || 3) && (
+            <button 
+              onClick={handleRetry}
+              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+              Reintentar
+            </button>
+          )}
+        </div>
+      );
+    }
+    
     return (
       <div className="lazy-container prevent-layout-shift">
         <Suspense 
@@ -25,7 +92,9 @@ export function withLazyLoading<T extends Record<string, any>>(
             </div>
           }
         >
-          <LazyComponent {...(props as any)} />
+          <ErrorBoundary onError={() => setHasError(true)}>
+            <LazyComponent {...(props as any)} key={retryCount} />
+          </ErrorBoundary>
         </Suspense>
       </div>
     );
