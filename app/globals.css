@@ -52,12 +52,25 @@
     transition-duration: 0.15s !important;
   }
   
+  /* Deshabilitar animaciones complejas que causan parpadeo */
+  .animate-pulse {
+    animation: none !important;
+    opacity: 0.7;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    background-size: 200% 100%;
+  }
+  
   /* Habilitar animaciones completas solo para elementos específicos */
   .mobile-animate,
-  .toast-animation,
-  .skeleton-animate {
+  .toast-animation {
     animation-duration: revert !important;
     transition-duration: revert !important;
+  }
+  
+  /* Suavizar transiciones para evitar saltos */
+  section {
+    transform: translateZ(0); /* Habilitar aceleración hardware */
+    backface-visibility: hidden;
   }
   
   /* Optimizar scroll en móviles */
@@ -131,4 +144,37 @@
   h4 { font-size: 1.125rem; }
   h5 { font-size: 1rem; }
   h6 { font-size: 0.875rem; }
+}
+
+/* Utilidades para evitar saltos de layout */
+.prevent-layout-shift {
+  contain: layout style;
+}
+
+.stable-height {
+  min-height: 200px;
+  contain: layout;
+}
+
+/* Smooth scroll mejorado */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Fix para intersection observer flickering */
+.intersection-stable {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Mejorar rendimiento de lazy loading */
+.lazy-container {
+  contain: layout style paint;
+  min-height: 200px;
 }

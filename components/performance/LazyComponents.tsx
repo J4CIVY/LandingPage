@@ -8,18 +8,26 @@
 import { lazy, Suspense, ComponentType, useState, useEffect } from 'react';
 import { SkeletonCard, SkeletonEvent, SkeletonProduct, SkeletonText } from '../shared/SkeletonLoaders';
 
-// Wrapper para componentes lazy con skeleton
+// Wrapper para componentes lazy con skeleton mejorado
 export function withLazyLoading<T extends Record<string, any>>(
   importFunc: () => Promise<{ default: ComponentType<T> }>,
   SkeletonComponent: ComponentType = SkeletonCard
 ) {
   const LazyComponent = lazy(importFunc);
   
-  return function LazyWrapper(props: T) {
+  return function LazyWrapper(props: T) {    
     return (
-      <Suspense fallback={<SkeletonComponent />}>
-        <LazyComponent {...(props as any)} />
-      </Suspense>
+      <div className="lazy-container prevent-layout-shift">
+        <Suspense 
+          fallback={
+            <div className="stable-height">
+              <SkeletonComponent />
+            </div>
+          }
+        >
+          <LazyComponent {...(props as any)} />
+        </Suspense>
+      </div>
     );
   };
 }
