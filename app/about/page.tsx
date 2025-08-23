@@ -130,7 +130,7 @@ const About: React.FC = () => {
       </section>
 
       {/* Philosophy and Motto */}
-      <section className="py-20 px-4 bg-accent text-slate-950">
+      <section className="py-20 px-4 bg-white dark:bg-slate-950">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-12">
             Nuestra <span className="text-white dark:text-slate-950">Filosofía</span>
