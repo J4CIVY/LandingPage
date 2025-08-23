@@ -53,7 +53,7 @@ describe('http client header injection', () => {
     expect(seen.headers.Authorization).toBeUndefined();
   });
 
-  it('adds x-api-key for allowlisted route when no JWT', async () => {
+  it('does not add x-api-key when PUBLIC_API_KEY is empty', async () => {
     const { createHttpClient } = await loadClient();
 
     let seen: any = null;
@@ -63,12 +63,11 @@ describe('http client header injection', () => {
 
     await http.post('/auth/signup', { email: 'a@b.com' });
 
-    expect(seen.headers['x-api-key']).toBe('test-public-key');
+    expect(seen.headers['x-api-key']).toBeUndefined();
     expect(seen.headers.Authorization).toBeUndefined();
   });
 
-  it('adds timestamp and signature when HMAC enabled', async () => {
-    process.env.NEXT_PUBLIC_USE_HMAC = 'true';
+  it('does not add timestamp and signature when HMAC is disabled', async () => {
     const { createHttpClient } = await loadClient();
 
     let seen: any = null;
@@ -78,8 +77,8 @@ describe('http client header injection', () => {
 
     await http.post('/auth/signup', { email: 'a@b.com' });
 
-    expect(typeof seen.headers['x-request-timestamp']).toBe('string');
-    expect(seen.headers['x-signature']).toMatch(/^[a-f0-9]{64}$/);
+    expect(seen.headers['x-request-timestamp']).toBeUndefined();
+    expect(seen.headers['x-signature']).toBeUndefined();
   });
 
   it('prefers JWT Authorization over API key', async () => {
