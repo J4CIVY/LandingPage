@@ -129,7 +129,7 @@ const Events: React.FC = () => {
     const eventDate = parseISO(event.startDate);
     
     return (
-      <div key={event._id} className="bg-white dark:bg-slate-800 text-slate-950 dark:text-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+      <div key={event._id} className="bg-white dark:bg-slate-950 text-slate-950 dark:text-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
         <div className="relative h-48">
           <Image
             src={event.mainImage || "/default-event-image.webp"}
@@ -138,8 +138,8 @@ const Events: React.FC = () => {
             loading="lazy"
             layout="fill"
           />
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
-          <div className="absolute bottom-0 left-0 p-4 text-white">
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black dark:from-black to-transparent opacity-60 dark:opacity-30"></div>
+          <div className="absolute bottom-0 left-0 p-4 text-white dark:text-gray-400">
             <p className="text-sm font-medium">
               {format(eventDate, "PPPP", { locale: es })}
             </p>
@@ -147,8 +147,8 @@ const Events: React.FC = () => {
         </div>
         
         <div className="p-6">
-          <h3 className="text-xl font-bold text-[#000031] mb-2">{event.name}</h3>
-          <div className="flex items-center text-sm text-gray-600 mb-3">
+          <h3 className="text-xl font-bold text-slate-950 dark:text-white mb-2">{event.name}</h3>
+          <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-3">
             <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -156,10 +156,10 @@ const Events: React.FC = () => {
             {event.departureLocation?.address} {/* Added optional chaining */}
           </div>
           
-          <p className="text-gray-700 mb-4 line-clamp-3">{event.description}</p>
+          <p className="text-gray-700 dark:text-gray-300 mb-4 line-clamp-3">{event.description}</p>
           
           <div className="flex justify-between items-center">
-            <span className="text-sm font-medium text-[#00FF99]">
+            <span className="text-sm font-medium text-green-500 dark:text-green-400">
               {event.eventType === 'Ride' ? 'Rodada' : 'Evento'}
             </span>
             <button 
@@ -175,7 +175,7 @@ const Events: React.FC = () => {
   }, []); // Empty dependency array means this function is created once
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <SEOComponent
         title="Eventos - BSK Motorcycle Team"
         description="Consulta nuestro calendario de eventos. Participa en rodadas, encuentros, y actividades de la comunidad BSK Motorcycle Team."
@@ -183,10 +183,10 @@ const Events: React.FC = () => {
       <section className="py-16 px-4 max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-[#000031] mb-4">
+          <h1 className="text-4xl font-bold text-slate-950 dark:text-white mb-4">
             Eventos BSK Motorcycle Team
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Descubre nuestras próximas aventuras y revive los mejores momentos
           </p>
         </div>
@@ -235,7 +235,7 @@ const Events: React.FC = () => {
               placeholder="Buscar por nombre..."
               value={searchTerm}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#000031] focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-slate-950 dark:focus:ring-green-500 focus:border-transparent bg-white dark:bg-slate-800 text-slate-950 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
               aria-label="Buscar por nombre de evento"
             />
           </div>
@@ -246,7 +246,7 @@ const Events: React.FC = () => {
               id="filter-location"
               value={filterLocation}
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFilterLocation(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#000031] focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-slate-950 dark:focus:ring-green-500 focus:border-transparent bg-white dark:bg-slate-800 text-slate-950 dark:text-white"
               aria-label="Filtrar por ubicación"
             >
               {locations.map((location) => (
@@ -263,7 +263,7 @@ const Events: React.FC = () => {
               id="sort-order"
               value={sortOrder}
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSortOrder(e.target.value as "asc" | "desc")}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#000031] focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-slate-950 dark:focus:ring-green-500 focus:border-transparent bg-white dark:bg-slate-800 text-slate-950 dark:text-white"
               aria-label="Ordenar eventos"
             >
               <option value="asc">Más cercanos primero</option>
@@ -280,23 +280,23 @@ const Events: React.FC = () => {
         >
           {loading ? (
             <div className="flex justify-center items-center h-64" aria-live="polite">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#FF0000]" role="status">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-slate-950 dark:border-green-500" role="status">
                 <span className="sr-only">Cargando eventos...</span>
               </div>
             </div>
           ) : error ? (
             <div className="text-center py-10" role="alert">
-              <p className="text-red-500 mb-4">{error}</p>
+              <p className="text-red-500 dark:text-red-400 mb-4">{error}</p>
               <button
                 onClick={fetchEvents}
-                className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg"
+                className="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 text-white font-bold py-2 px-6 rounded-lg transition"
               >
                 Reintentar
               </button>
             </div>
           ) : filteredEvents.length === 0 ? (
             <div className="text-center py-10">
-              <p className="text-gray-500 text-lg">
+              <p className="text-gray-500 dark:text-gray-400 text-lg">
                 No se encontraron eventos con los filtros aplicados
               </p>
             </div>
