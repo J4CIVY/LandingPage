@@ -17,7 +17,10 @@ export const useEvents = () => {
           throw new Error('Unexpected event response format.');
         }
       } catch (err: any) {
-        console.error('Error fetching events:', err);
+        // Log error only in development
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Error fetching events:', err);
+        }
         setError(err.response?.data?.message || err.message || 'Error loading events');
       } finally {
         setLoading(false);

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { userSchema, type UserSchema } from '../../schemas/userSchema';
+import { compatibleUserSchema as userSchema, type CompatibleUserSchema as FormUserSchema } from '../../schemas/compatibleUserSchema';
 import { FaUser, FaPhone, FaEnvelope, FaMapMarkerAlt, FaBriefcase, FaHeartbeat, FaMotorcycle, FaShieldAlt, FaLock, FaEye, FaEyeSlash, FaVenusMars, FaUserMd, FaExclamationTriangle, FaCheckCircle } from 'react-icons/fa';
 import { GiSteelwingEmblem } from 'react-icons/gi';
 import http from '../../http/client';
@@ -24,7 +24,7 @@ import { useSuccessToast, useErrorToast, useInfoToast } from '../../components/s
 const years = generateYears();
 
 const UserRegister: React.FC = () => {
-  const { register, handleSubmit, formState: { errors }, watch, trigger, setValue } = useForm<UserSchema>({
+  const { register, handleSubmit, formState: { errors }, watch, trigger, setValue } = useForm<FormUserSchema>({
     resolver: zodResolver(userSchema),
     mode: 'onTouched',
     defaultValues: {
@@ -44,7 +44,7 @@ const UserRegister: React.FC = () => {
 
   const totalSteps: number = 8;
 
-  const stepFields: (keyof UserSchema)[][] = [
+  const stepFields: (keyof FormUserSchema)[][] = [
     ['documentType', 'documentNumber', 'firstName', 'lastName', 'birthDate', 'birthPlace'],
     ['phone', 'whatsapp', 'email', 'address', 'neighborhood', 'city', 'country', 'postalCode'],
     ['binaryGender', 'genderIdentity', 'occupation', 'discipline'],
@@ -113,7 +113,7 @@ const UserRegister: React.FC = () => {
     }
   }, [setValue]);
 
-  const onSubmit = async (data: UserSchema) => {
+  const onSubmit = async (data: FormUserSchema) => {
     if (isSubmitting) return;
     setIsSubmitting(true);
     setSubmitError('');

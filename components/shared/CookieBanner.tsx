@@ -39,8 +39,14 @@ const CookieBanner: React.FC = () => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const savedConsent = localStorage.getItem('cookieConsent');
-      if (savedConsent !== 'accepted') {
+      // Check cookie consent from secure cookie
+      const cookies = document.cookie.split(';');
+      const consentCookie = cookies.find(cookie => 
+        cookie.trim().startsWith('cookieConsent=')
+      );
+      const hasConsent = consentCookie?.includes('accepted');
+
+      if (!hasConsent) {
         setShowBanner(true);
         setTimeout(() => setIsVisible(true), 100);
       } else {
@@ -63,15 +69,32 @@ const CookieBanner: React.FC = () => {
       social: true
     };
     
-    localStorage.setItem('cookieConsent', 'accepted');
+    // Set secure cookie
+    document.cookie = `cookieConsent=accepted; path=/; max-age=${365 * 24 * 60 * 60}; secure; samesite=strict`;
+    
     localStorage.setItem('cookieSettings', JSON.stringify(allAccepted));
+    localStorage.setItem('cookieConsentTimestamp', new Date().toISOString());
+    
     applyCookieSettings(allAccepted);
     hideBanner();
   };
 
   const saveSettings = (): void => {
-    localStorage.setItem('cookieConsent', 'accepted');
+    // Set secure cookie settings
+    const secureSettings = {
+      secure: true,
+      sameSite: 'strict' as const,
+      httpOnly: false, // Client-side accessible for settings
+      maxAge: 365 * 24 * 60 * 60, // 1 year
+    };
+
+    // Use a more secure approach for storing consent
+    document.cookie = `cookieConsent=accepted; path=/; max-age=${secureSettings.maxAge}; secure; samesite=strict`;
+    
+    // Store settings in localStorage (non-sensitive data only)
     localStorage.setItem('cookieSettings', JSON.stringify(cookieSettings));
+    localStorage.setItem('cookieConsentTimestamp', new Date().toISOString());
+    
     applyCookieSettings(cookieSettings);
     hideBanner();
   };

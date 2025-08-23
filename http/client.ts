@@ -1,14 +1,15 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
-// Build-time env (Next.js exposes NEXT_PUBLIC_* to the browser)
-const PUBLIC_API_KEY = process.env.NEXT_PUBLIC_API_KEY || '';
-const USE_HMAC = (process.env.NEXT_PUBLIC_USE_HMAC || 'false').toLowerCase() === 'true';
+// Note: API keys should NOT be exposed to the client in production
+// This is kept for backward compatibility but should use secureClient.ts instead
+const PUBLIC_API_KEY = '';  // Removed from environment variables for security
+const USE_HMAC = false;     // Disabled for security - use server-side authentication instead
 
 // Central allowlist (pathnames) where API key is allowed when no JWT is present
-// Adjust as needed for new public endpoints
-export const apiKeyRoutes: string[] = ['/auth/signup'];
+// This should be empty in production and use server-side proxy instead
+export const apiKeyRoutes: string[] = [];
 
-// Base URL for the backend API
+// Base URL for the backend API - only used for direct server-to-server communication
 const BASE_URL = 'https://api.bskmt.com/api/v1';
 
 // Lightweight JWT retriever: looks in cookies for common token names.

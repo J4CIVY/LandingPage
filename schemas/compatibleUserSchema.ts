@@ -1,0 +1,48 @@
+import { z } from 'zod';
+
+// Simplified schema for backward compatibility while maintaining security
+export const compatibleUserSchema = z.object({
+  documentType: z.string().min(1, "Campo obligatorio"),
+  documentNumber: z.string().min(1, "Campo obligatorio").regex(/^[0-9]+$/, "Solo números permitidos"),
+  firstName: z.string().min(1, "Campo obligatorio").max(50, "Máximo 50 caracteres"),
+  lastName: z.string().min(1, "Campo obligatorio").max(50, "Máximo 50 caracteres"),
+  birthDate: z.string().min(1, "Campo obligatorio"),
+  birthPlace: z.string().min(1, "Campo obligatorio"),
+  phone: z.string().min(1, "Campo obligatorio"),
+  whatsapp: z.string().optional(),
+  email: z.string().min(1, "Campo obligatorio").email("Correo electrónico no válido"),
+  address: z.string().min(1, "Campo obligatorio"),
+  neighborhood: z.string().optional(),
+  city: z.string().min(1, "Campo obligatorio"),
+  country: z.string().min(1, "Campo obligatorio"),
+  postalCode: z.string().optional(),
+  binaryGender: z.string().min(1, "Campo obligatorio"),
+  genderIdentity: z.string().optional(),
+  occupation: z.string().optional(),
+  discipline: z.string().optional(),
+  bloodType: z.string().optional(),
+  rhFactor: z.string().optional(),
+  allergies: z.string().optional(),
+  healthInsurance: z.string().optional(),
+  emergencyContactName: z.string().min(1, "Campo obligatorio"),
+  emergencyContactRelationship: z.string().min(1, "Campo obligatorio"),
+  emergencyContactPhone: z.string().min(1, "Campo obligatorio"),
+  emergencyContactNeighborhood: z.string().optional(),
+  emergencyContactCity: z.string().min(1, "Campo obligatorio"),
+  emergencyContactCountry: z.string().min(1, "Campo obligatorio"),
+  motorcyclePlate: z.string().min(1, "Campo obligatorio"),
+  motorcycleBrand: z.string().min(1, "Campo obligatorio"),
+  motorcycleModel: z.string().min(1, "Campo obligatorio"),
+  motorcycleYear: z.string().min(1, "Campo obligatorio"),
+  motorcycleDisplacement: z.string().min(1, "Campo obligatorio"),
+  password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres"),
+  confirmPassword: z.string(),
+  dataConsent: z.boolean().refine(val => val === true, "Debes aceptar el tratamiento de datos"),
+  liabilityWaiver: z.boolean().refine(val => val === true, "Debes aceptar la exención de responsabilidad"),
+  termsAcceptance: z.boolean().refine(val => val === true, "Debes aceptar los términos y condiciones"),
+}).refine(data => data.password === data.confirmPassword, {
+  message: "Las contraseñas no coinciden",
+  path: ["confirmPassword"],
+});
+
+export type CompatibleUserSchema = z.infer<typeof compatibleUserSchema>;

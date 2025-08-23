@@ -4,12 +4,32 @@ Disallow: /dashboard/
 Disallow: /private/
 Disallow: /api/
 Disallow: /config/
+Disallow: /_next/
 Disallow: /*?*
 Disallow: /*.json$
 Disallow: /*.map$
 Disallow: /registration-success
+Disallow: /test/
+Disallow: /.env*
+Disallow: /node_modules/
+
+# Security - Block common attack paths
+Disallow: /wp-admin/
+Disallow: /wp-content/
+Disallow: /wp-includes/
+Disallow: /phpMyAdmin/
+Disallow: /phpmyadmin/
+Disallow: /.git/
+Disallow: /.env
+Disallow: /backup/
+Disallow: /backups/
 
 # Allow JavaScript files for proper site functionality and SEO
 Allow: /*.js$
+
+# Allow specific static assets
+Allow: /favicon.ico
+Allow: /robots.txt
+Allow: /sitemap.xml
 
 Sitemap: https://bskmt.com/sitemap.xml
