@@ -3,6 +3,7 @@
 import React, { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import SEOComponent from '@/components/home/SEOComponent';
+import { AnimatedHeading, AnimatedParagraph } from '@/components/animations/AnimatedText';
 import { 
   FaUsers,
   FaBolt,
