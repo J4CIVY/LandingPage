@@ -1,16 +1,13 @@
 User-agent: *
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /private/
 Disallow: /api/
+Disallow: /config/
 Disallow: /_next/
-Allow: /_next/static/
-
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-Sitemap: https://bskmt.com/sitemap.xml
-
+Disallow: /*?*
+Disallow: /*.json$
+Disallow: /*.map$
 Disallow: /registration-success
 Disallow: /test/
 Disallow: /.env*

@@ -17,6 +17,7 @@ const eslintConfig = [
       // TypeScript rules
       "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/no-unused-vars": "error",
+      "@typescript-eslint/prefer-const": "error",
       "@typescript-eslint/no-empty-interface": "error",
       
       // React rules
