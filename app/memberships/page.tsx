@@ -143,12 +143,21 @@ const Memberships: React.FC = () => {
       />
       <div className="relative bg-slate-950 text-white py-20">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 flex items-center justify-center">
+          <AnimatedHeading 
+            level={1} 
+            animationType="fadeIn" 
+            delay={200}
+            className="text-4xl md:text-5xl font-bold mb-6 flex items-center justify-center"
+          >
             Únete a BSK Motorcycle Team
-          </h1>
-          <p className="text-xl mb-8 max-w-3xl mx-auto">
+          </AnimatedHeading>
+          <AnimatedParagraph 
+            animationType="slideUp" 
+            delay={400}
+            className="text-xl mb-8 max-w-3xl mx-auto"
+          >
             Donde la comunidad se vive sobre dos ruedas. Forma parte de una familia que comparte la pasión por el motociclismo, el espíritu aventurero y el respeto mutuo en cada ruta por Colombia.
-          </p>
+          </AnimatedParagraph>
           <a 
             href="#memberships" 
             className="bg-red-600 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-flex items-center"
@@ -161,7 +170,14 @@ const Memberships: React.FC = () => {
 
       <div className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">¿Por qué elegir BSK Motorcycle Team?</h2>
+          <AnimatedHeading 
+            level={2} 
+            animationType="fadeIn" 
+            delay={200}
+            className="text-3xl font-bold text-center mb-12 text-gray-800"
+          >
+            ¿Por qué elegir BSK Motorcycle Team?
+          </AnimatedHeading>
           
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
