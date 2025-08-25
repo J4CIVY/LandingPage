@@ -5,6 +5,7 @@ import { format, parseISO, isAfter, isBefore } from "date-fns";
 import { es } from "date-fns/locale";
 import api from "@/components/api/Api";
 import Image from "next/image";
+import { AnimatedHeading, AnimatedParagraph } from "@/components/animations/AnimatedText";
 
 /**
  * @typedef {Object} EventLocation
@@ -178,12 +179,22 @@ const Events: React.FC = () => {
       <section className="py-16 px-4 max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-slate-950 dark:text-white mb-4">
+          <AnimatedHeading 
+            level={1}
+            animationType="slideUp"
+            delay={200}
+            className="text-4xl font-bold text-slate-950 dark:text-white mb-4"
+          >
             Eventos BSK Motorcycle Team
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          </AnimatedHeading>
+          
+          <AnimatedParagraph 
+            animationType="fadeIn"
+            delay={500}
+            className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto"
+          >
             Descubre nuestras próximas aventuras y revive los mejores momentos
-          </p>
+          </AnimatedParagraph>
         </div>
 
         {/* Tabs */}

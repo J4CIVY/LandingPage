@@ -3,6 +3,8 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useScrollToSection } from "@/hooks/useScroll";
+import { AnimatedHeading, AnimatedParagraph } from "@/components/animations/AnimatedText";
 
 
 const HeroSection: React.FC = () => {
@@ -10,6 +12,7 @@ const HeroSection: React.FC = () => {
   const imagePath: string = "Banner_Landing_Page_BSK_Motorcycle_Team_Julio_o2fcql";
   
   const router = useRouter();
+  const { scrollToSection, isScrolling } = useScrollToSection();
   
   // Common Cloudinary transformation parameters for optimization
   const commonParams: string = "q_auto:best,c_fill,g_auto";
@@ -51,32 +54,11 @@ const HeroSection: React.FC = () => {
    * Handles the scroll to next section functionality
    */
   const handleScrollToNext = (): void => {
-    // Intentar encontrar la sección About específicamente
-    const aboutSection = document.querySelector('[data-section="about"]');
-    
-    if (aboutSection) {
-      aboutSection.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start',
-        inline: 'nearest'
-      });
-    } else {
-      // Fallback: buscar la primera sección después del hero
-      const nextSection = document.querySelector('#about-section, .hero + section, main section:first-child');
-      
-      if (nextSection) {
-        nextSection.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
-        });
-      } else {
-        // Fallback final: scroll down by viewport height
-        window.scrollTo({
-          top: window.innerHeight - 80, // Considerar altura del header
-          behavior: 'smooth'
-        });
-      }
-    }
+    // Usar el hook personalizado para scroll suave
+    scrollToSection('#about-section, [data-section="about"]', {
+      offset: 80, // Altura del header
+      behavior: 'smooth'
+    });
     
     // Analytics opcional (si tienes configurado)
     if (typeof window !== 'undefined' && (window as any).gtag) {
@@ -125,13 +107,23 @@ const HeroSection: React.FC = () => {
       {/* Hero content: title, description, and call-to-action button */}
       <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
         <header>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white dark:text-white mb-6 leading-tight">
+          <AnimatedHeading 
+            level={1}
+            animationType="slideUp"
+            delay={300}
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white dark:text-white mb-6 leading-tight"
+          >
             <span className="text-green-400">BSK</span> MOTORCYCLE TEAM
-          </h1>
-          <p className="text-lg sm:text-xl md:text-2xl text-white dark:text-gray-100 mb-8 max-w-3xl mx-auto leading-relaxed">
+          </AnimatedHeading>
+          
+          <AnimatedParagraph 
+            animationType="fadeIn"
+            delay={600}
+            className="text-lg sm:text-xl md:text-2xl text-white dark:text-gray-100 mb-8 max-w-3xl mx-auto leading-relaxed"
+          >
             Únete al <strong className="text-green-400">motoclub líder en Colombia</strong>, donde la comunidad se vive sobre dos ruedas. 
             Pasión motociclista, rutas épicas, eventos emocionantes y hermandad verdadera.
-          </p>
+          </AnimatedParagraph>
         </header>
         
         {/* Call to action buttons */}
@@ -181,11 +173,16 @@ const HeroSection: React.FC = () => {
           {/* Botón de scroll principal */}
           <button
             onClick={handleScrollToNext}
-            className="group focus-enhanced p-4 rounded-full bg-black/30 backdrop-blur-md hover:bg-green-500/30 border border-white/20 hover:border-green-400/50 transition-all duration-500 touch-target transform hover:scale-110 animate-float"
+            disabled={isScrolling}
+            className={`group focus-enhanced p-4 rounded-full bg-black/30 backdrop-blur-md hover:bg-green-500/30 border border-white/20 hover:border-green-400/50 transition-all duration-500 touch-target transform hover:scale-110 animate-float ${
+              isScrolling ? 'opacity-75 scale-95 cursor-not-allowed' : 'hover:scale-110'
+            }`}
             aria-label="Desplázate hacia abajo para conocer más sobre BSK Motorcycle Team"
           >
             <svg 
-              className="w-5 h-5 text-white group-hover:text-green-400 transition-all duration-300 animate-scroll-indicator" 
+              className={`w-5 h-5 text-white group-hover:text-green-400 transition-all duration-300 ${
+                isScrolling ? 'animate-spin' : 'animate-scroll-indicator'
+              }`}
               fill="none" 
               stroke="currentColor" 
               viewBox="0 0 24 24" 

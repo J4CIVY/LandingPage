@@ -2,6 +2,7 @@
 
 import React, { useState, useCallback } from "react";
 import SEOComponent from '@/components/home/SEOComponent';
+import { AnimatedHeading, AnimatedParagraph } from '@/components/animations/AnimatedText';
 
 interface ContactFormState {
   name: string;
@@ -137,10 +138,21 @@ const Contact: React.FC = () => {
       />
       <section className="bg-white dark:bg-slate-950 text-slate-950 dark:text-white py-16 px-4 md:px-20">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">Contacta a la Comunidad BSK</h1>
-          <p className="text-xl md:text-2xl text-green-400">
+          <AnimatedHeading 
+            level={1} 
+            animationType="fadeIn" 
+            delay={200}
+            className="text-4xl md:text-6xl font-bold mb-6"
+          >
+            Contacta a la Comunidad BSK
+          </AnimatedHeading>
+          <AnimatedParagraph 
+            animationType="slideUp" 
+            delay={400}
+            className="text-xl md:text-2xl text-green-400"
+          >
             Estamos aquí para recibirte en nuestra familia sobre ruedas
-          </p>
+          </AnimatedParagraph>
         </div>
       </section>
 
@@ -176,40 +188,98 @@ const Contact: React.FC = () => {
           {activeTab === "general" && (
             <div className="grid md:grid-cols-2 gap-12">
               <div>
-                <h2 className="text-2xl font-bold text-slate-950 dark:text-white mb-6">Datos de Contacto</h2>
+                <AnimatedHeading 
+                  level={2} 
+                  animationType="slideInLeft" 
+                  delay={200}
+                  className="text-2xl font-bold text-slate-950 dark:text-white mb-6"
+                >
+                  Datos de Contacto
+                </AnimatedHeading>
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-lg font-semibold text-slate-950 dark:text-white flex items-center">
+                    <AnimatedHeading 
+                      level={3} 
+                      animationType="slideInLeft" 
+                      delay={400}
+                      className="text-lg font-semibold text-slate-950 dark:text-white flex items-center"
+                    >
                       <svg className="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                       Dirección
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400 mt-2">Carrera 5 A No. 36 A Sur 28<br />CP 110431, Bogotá D.C.<br />Colombia</p>
+                    </AnimatedHeading>
+                    <AnimatedParagraph 
+                      animationType="fadeIn" 
+                      delay={500}
+                      className="text-gray-600 dark:text-gray-400 mt-2"
+                    >
+                      Carrera 5 A No. 36 A Sur 28<br />CP 110431, Bogotá D.C.<br />Colombia
+                    </AnimatedParagraph>
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-slate-950 dark:text-white flex items-center">
+                    <AnimatedHeading 
+                      level={3} 
+                      animationType="slideInLeft" 
+                      delay={600}
+                      className="text-lg font-semibold text-slate-950 dark:text-white flex items-center"
+                    >
                       <svg className="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
                       Teléfonos
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400 mt-2"><strong>Administrativo:</strong> <a href="tel:+573125192000" className="text-blue-600 dark:text-blue-400 hover:underline">312 5192000</a><br /><strong>Operativo (24/7):</strong> <a href="tel:+573125192000" className="text-blue-600 dark:text-blue-400 hover:underline">312 5192000</a><br /><strong>WhatsApp:</strong> <a href="https://wa.me/573125192000" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">312 5192000</a></p>
+                    </AnimatedHeading>
+                    <AnimatedParagraph 
+                      animationType="fadeIn" 
+                      delay={700}
+                      className="text-gray-600 dark:text-gray-400 mt-2"
+                    >
+                      <strong>Administrativo:</strong> <a href="tel:+573125192000" className="text-blue-600 dark:text-blue-400 hover:underline">312 5192000</a><br /><strong>Operativo (24/7):</strong> <a href="tel:+573125192000" className="text-blue-600 dark:text-blue-400 hover:underline">312 5192000</a><br /><strong>WhatsApp:</strong> <a href="https://wa.me/573125192000" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">312 5192000</a>
+                    </AnimatedParagraph>
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-slate-950 dark:text-white flex items-center">
+                    <AnimatedHeading 
+                      level={3} 
+                      animationType="slideInLeft" 
+                      delay={800}
+                      className="text-lg font-semibold text-slate-950 dark:text-white flex items-center"
+                    >
                       <svg className="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                       Correos Electrónicos
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400 mt-2"><strong>Institucional:</strong> <a href="mailto:contacto@bskmt.xyz" className="text-blue-600 dark:text-blue-400 hover:underline">contacto@bskmt.xyz</a><br /><strong>Notificaciones judiciales:</strong> <a href="mailto:notificacionesjudiciales@bskmt.xyz" className="text-blue-600 dark:text-blue-400 hover:underline">notificacionesjudiciales@bskmt.xyz</a><br /><strong>Correspondencia:</strong> <a href="mailto:correspondencia@bskmt.xyz" className="text-blue-600 dark:text-blue-400 hover:underline">correspondencia@bskmt.xyz</a></p>
+                    </AnimatedHeading>
+                    <AnimatedParagraph 
+                      animationType="fadeIn" 
+                      delay={900}
+                      className="text-gray-600 dark:text-gray-400 mt-2"
+                    >
+                      <strong>Institucional:</strong> <a href="mailto:contacto@bskmt.xyz" className="text-blue-600 dark:text-blue-400 hover:underline">contacto@bskmt.xyz</a><br /><strong>Notificaciones judiciales:</strong> <a href="mailto:notificacionesjudiciales@bskmt.xyz" className="text-blue-600 dark:text-blue-400 hover:underline">notificacionesjudiciales@bskmt.xyz</a><br /><strong>Correspondencia:</strong> <a href="mailto:correspondencia@bskmt.xyz" className="text-blue-600 dark:text-blue-400 hover:underline">correspondencia@bskmt.xyz</a>
+                    </AnimatedParagraph>
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-slate-950 dark:text-white flex items-center">
+                    <AnimatedHeading 
+                      level={3} 
+                      animationType="slideInLeft" 
+                      delay={1000}
+                      className="text-lg font-semibold text-slate-950 dark:text-white flex items-center"
+                    >
                       <svg className="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                       Horarios de Atención
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400 mt-2"><strong>Administrativo:</strong><br />Lunes a Viernes: 8:00 AM - 5:00 PM<br />Sábados: 8:00 AM - 1:00 PM<br /><strong>Operativo:</strong> 24/7 todos los días</p>
+                    </AnimatedHeading>
+                    <AnimatedParagraph 
+                      animationType="fadeIn" 
+                      delay={1100}
+                      className="text-gray-600 dark:text-gray-400 mt-2"
+                    >
+                      <strong>Administrativo:</strong><br />Lunes a Viernes: 8:00 AM - 5:00 PM<br />Sábados: 8:00 AM - 1:00 PM<br /><strong>Operativo:</strong> 24/7 todos los días
+                    </AnimatedParagraph>
                   </div>
                 </div>
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-slate-950 dark:text-white mb-6">Formulario de Contacto</h2>
+                <AnimatedHeading 
+                  level={2} 
+                  animationType="slideInRight" 
+                  delay={200}
+                  className="text-2xl font-bold text-slate-950 dark:text-white mb-6"
+                >
+                  Formulario de Contacto
+                </AnimatedHeading>
                 <form onSubmit={handleSubmit} className="space-y-6" aria-label="Formulario de Contacto General">
                   <div>
                     <label htmlFor="contact-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Nombre completo</label>
@@ -408,11 +478,31 @@ const Contact: React.FC = () => {
         <div role="tabpanel" id="panel-locations" aria-labelledby="tab-locations" hidden={activeTab !== "locations"}>
           {activeTab === "locations" && (
             <div className="max-w-7xl mx-auto">
-              <h2 className="text-2xl font-bold text-slate-950 dark:text-white mb-6">Nuestras Sedes</h2>
+              <AnimatedHeading 
+                level={2} 
+                animationType="fadeIn" 
+                delay={200}
+                className="text-2xl font-bold text-slate-950 dark:text-white mb-6"
+              >
+                Nuestras Sedes
+              </AnimatedHeading>
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
-                  <h3 className="text-xl font-semibold text-slate-950 dark:text-white mb-4">Sede Principal Bogotá</h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-4">Carrera 5 A No. 36 A Sur 28<br />Bogotá D.C., Colombia</p>
+                  <AnimatedHeading 
+                    level={3} 
+                    animationType="slideInLeft" 
+                    delay={400}
+                    className="text-xl font-semibold text-slate-950 dark:text-white mb-4"
+                  >
+                    Sede Principal Bogotá
+                  </AnimatedHeading>
+                  <AnimatedParagraph 
+                    animationType="fadeIn" 
+                    delay={600}
+                    className="text-gray-600 dark:text-gray-400 mb-4"
+                  >
+                    Carrera 5 A No. 36 A Sur 28<br />Bogotá D.C., Colombia
+                  </AnimatedParagraph>
                   <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden">
                     <iframe
                       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3977.026942599596!2d-74.1210588852382!3d4.590179996663901!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f99a0f0f0f0f1%3A0x0!2zNMKwMzUnMjQuNiJOIDc0wrAwNycxNS44Ilc!5e0!3m2!1ses!2sco!4v1620000000000!5m2!1ses!2sco"
