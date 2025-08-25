@@ -73,7 +73,7 @@ export default function HomeContent() {
       <SlowConnectionIndicator />
       
       {/* Sección About - Evitar parpadeo */}
-      <section data-section="about" className="stable-height intersection-stable">
+      <section id="about-section" data-section="about" className="stable-height intersection-stable">
         {aboutLoaded || !shouldLazyLoad ? (
           <Suspense fallback={<SkeletonCard className="h-96" />}>
             <AboutSection />

@@ -47,6 +47,46 @@ const HeroSection: React.FC = () => {
     router.push("/memberships");
   };
 
+  /**
+   * Handles the scroll to next section functionality
+   */
+  const handleScrollToNext = (): void => {
+    // Intentar encontrar la sección About específicamente
+    const aboutSection = document.querySelector('[data-section="about"]');
+    
+    if (aboutSection) {
+      aboutSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest'
+      });
+    } else {
+      // Fallback: buscar la primera sección después del hero
+      const nextSection = document.querySelector('#about-section, .hero + section, main section:first-child');
+      
+      if (nextSection) {
+        nextSection.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      } else {
+        // Fallback final: scroll down by viewport height
+        window.scrollTo({
+          top: window.innerHeight - 80, // Considerar altura del header
+          behavior: 'smooth'
+        });
+      }
+    }
+    
+    // Analytics opcional (si tienes configurado)
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'scroll_to_next_section', {
+        event_category: 'engagement',
+        event_label: 'hero_scroll_arrow'
+      });
+    }
+  };
+
   return (
     <section className="relative h-screen flex items-center justify-center bg-gray-100 dark:bg-slate-950 overflow-hidden" role="banner" aria-label="Sección principal de BSK Motorcycle Team">
       <div className="absolute inset-0 w-full h-full">
@@ -128,14 +168,42 @@ const HeroSection: React.FC = () => {
             <div className="text-sm text-gray-200">Años de Experiencia</div>
           </div>
         </div>
+      </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-          <div className="animate-bounce">
-            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+      {/* Scroll indicator - Posicionado fuera del contenedor principal */}
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-30">
+        <div className="flex flex-col items-center space-y-2">
+          {/* Texto indicativo */}
+          <span className="text-white/80 text-xs font-medium tracking-wider uppercase animate-pulse">
+            Descubre más
+          </span>
+          
+          {/* Botón de scroll principal */}
+          <button
+            onClick={handleScrollToNext}
+            className="group focus-enhanced p-4 rounded-full bg-black/30 backdrop-blur-md hover:bg-green-500/30 border border-white/20 hover:border-green-400/50 transition-all duration-500 touch-target transform hover:scale-110 animate-float"
+            aria-label="Desplázate hacia abajo para conocer más sobre BSK Motorcycle Team"
+          >
+            <svg 
+              className="w-5 h-5 text-white group-hover:text-green-400 transition-all duration-300 animate-scroll-indicator" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24" 
+              xmlns="http://www.w3.org/2000/svg" 
+              aria-hidden="true"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2.5} 
+                d="M19 14l-7 7m0 0l-7-7m7 7V3" 
+              />
             </svg>
-            <span className="sr-only">Desplázate hacia abajo para ver más contenido</span>
+          </button>
+
+          {/* Línea indicadora animada */}
+          <div className="w-0.5 h-12 bg-gradient-to-b from-white/60 via-white/30 to-transparent relative overflow-hidden">
+            <div className="absolute top-0 w-full h-4 bg-gradient-to-b from-green-400/80 to-transparent animate-pulse"></div>
           </div>
         </div>
       </div>
