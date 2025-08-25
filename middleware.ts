@@ -3,12 +3,88 @@ import { NextRequest, NextResponse } from 'next/server'
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const response = NextResponse.next()
+  const userAgent = request.headers.get('user-agent') || ''
 
-  // Security headers for all responses
+  // Enhanced security headers for all responses
   response.headers.set('X-Content-Type-Options', 'nosniff')
   response.headers.set('X-Frame-Options', 'DENY')
   response.headers.set('X-XSS-Protection', '1; mode=block')
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
+  response.headers.set('X-DNS-Prefetch-Control', 'on')
+  response.headers.set('X-Download-Options', 'noopen')
+  response.headers.set('X-Permitted-Cross-Domain-Policies', 'none')
+
+  // HSTS for production
+  if (process.env.NODE_ENV === 'production') {
+    response.headers.set(
+      'Strict-Transport-Security',
+      'max-age=31536000; includeSubDomains; preload'
+    )
+  }
+
+  // Block malicious requests
+  const suspiciousPatterns = [
+    /sqlmap/i,
+    /nikto/i,
+    /nmap/i,
+    /acunetix/i,
+    /w3af/i,
+    /burp/i,
+    /python-requests/i,
+    /curl/i,
+    /wget/i,
+  ]
+  
+  // Allow legitimate bots
+  const legitimateBots = [
+    /googlebot/i,
+    /bingbot/i,
+    /slurp/i,
+    /duckduckbot/i,
+    /facebookexternalhit/i,
+    /twitterbot/i,
+    /linkedinbot/i,
+    /whatsapp/i,
+  ]
+  
+  const isSuspicious = suspiciousPatterns.some(pattern => pattern.test(userAgent))
+  const isLegitimate = legitimateBots.some(pattern => pattern.test(userAgent))
+  
+  if (isSuspicious && !isLegitimate) {
+    return new NextResponse('Forbidden', { status: 403 })
+  }
+
+  // Block requests with suspicious query parameters
+  const url = request.nextUrl
+  const suspiciousQueries = [
+    'script',
+    'javascript',
+    'vbscript',
+    'onload',
+    'onerror',
+    'eval',
+    'expression',
+    'union',
+    'select',
+    'insert',
+    'update',
+    'delete',
+    'drop',
+    'create',
+    'alter',
+    '../',
+    './',
+    'etc/passwd',
+    'cmd.exe',
+    'powershell',
+  ]
+  
+  for (const [key, value] of url.searchParams) {
+    const queryString = `${key}=${value}`.toLowerCase()
+    if (suspiciousQueries.some(pattern => queryString.includes(pattern))) {
+      return new NextResponse('Bad Request', { status: 400 })
+    }
+  }
 
   // Rate limiting headers
   response.headers.set('X-RateLimit-Limit', '100')

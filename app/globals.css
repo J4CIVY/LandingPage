@@ -27,22 +27,93 @@
 @layer utilities {
   /* Skip links para navegación por teclado */
   .skip-link {
-    @apply absolute -top-10 left-4 bg-slate-950 text-white px-4 py-2 rounded z-50;
-    @apply focus:top-4 transition-all;
+    @apply absolute -top-12 left-4 bg-slate-950 text-white px-6 py-3 rounded-md z-[9999];
+    @apply focus:top-4 transition-all duration-200;
+    @apply font-semibold text-sm;
+    @apply shadow-lg border-2 border-white;
   }
   
-  /* Estados de focus mejorados */
+  .skip-link:focus {
+    @apply ring-4 ring-white/75;
+  }
+  
+  /* Estados de focus mejorados para WCAG 2.1 AA */
   .focus-enhanced {
     @apply focus:outline-none focus:ring-4 focus:ring-green-500/50;
+    @apply focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-slate-950;
   }
   
-  /* Texto con mejor contraste */
+  /* Focus visible solo para navegación por teclado */
+  .focus-visible-only {
+    @apply focus:outline-none focus-visible:ring-4 focus-visible:ring-green-500/50;
+    @apply focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-950;
+  }
+  
+  /* Estados de focus para botones */
+  .btn-focus {
+    @apply focus:outline-none focus:ring-4 focus:ring-green-500/50;
+    @apply focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-slate-950;
+    @apply focus:scale-105 transition-all duration-200;
+  }
+  
+  /* Estados de focus para enlaces */
+  .link-focus {
+    @apply focus:outline-none focus:ring-2 focus:ring-green-400/70;
+    @apply focus:ring-offset-1 focus:ring-offset-white dark:focus:ring-offset-slate-950;
+    @apply focus:underline focus:decoration-2 focus:decoration-green-400;
+  }
+  
+  /* Texto con mejor contraste WCAG AA */
+  .text-contrast-aa {
+    @apply text-gray-800 dark:text-gray-100;
+  }
+  
   .text-contrast-low {
     @apply text-gray-700 dark:text-gray-200;
   }
   
   .text-contrast-medium {
     @apply text-gray-800 dark:text-gray-100;
+  }
+  
+  .text-contrast-high {
+    @apply text-gray-900 dark:text-gray-50;
+  }
+  
+  /* Estados de hover mejorados */
+  .hover-enhanced {
+    @apply transition-all duration-200 ease-in-out;
+    @apply hover:scale-105 hover:shadow-lg;
+  }
+  
+  /* Indicadores de estado para lectores de pantalla */
+  .sr-only {
+    @apply absolute w-px h-px p-0 -m-px overflow-hidden;
+    @apply whitespace-nowrap border-0;
+    clip: rect(0, 0, 0, 0);
+  }
+  
+  .sr-only-focusable:focus {
+    @apply static w-auto h-auto p-2 m-0 overflow-visible;
+    @apply whitespace-normal;
+    clip: auto;
+  }
+  
+  /* Área de toque mínima para móviles (44px WCAG) */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+  
+  /* Estados de carga accesibles */
+  .loading-state {
+    @apply opacity-70 pointer-events-none;
+    @apply relative;
+  }
+  
+  .loading-state::after {
+    content: '';
+    @apply absolute inset-0 bg-transparent;
+    @apply animate-pulse;
   }
   
   /* Animaciones optimizadas */

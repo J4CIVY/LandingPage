@@ -1,21 +1,108 @@
 {
-  "name": "BSK Motorcycle Team",
+  "name": "BSK Motorcycle Team - Motoclub Líder en Colombia",
   "short_name": "BSK MT",
-  "description": "Sitio web oficial de BSK Motorcycle Team",
+  "description": "Sitio web oficial de BSK Motorcycle Team - El motoclub líder en Colombia. Únete a nuestra comunidad unida por la pasión motociclista.",
   "start_url": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#000000",
-  "theme_color": "#000000",
+  "theme_color": "#22c55e",
+  "categories": ["sports", "social", "lifestyle"],
+  "lang": "es-CO",
+  "dir": "ltr",
+  "scope": "/",
+  "id": "bsk-motorcycle-team",
+  "screenshots": [
+    {
+      "src": "/screenshots/desktop-screenshot.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Vista desktop de BSK Motorcycle Team"
+    },
+    {
+      "src": "/screenshots/mobile-screenshot.png", 
+      "sizes": "375x667",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Vista móvil de BSK Motorcycle Team"
+    }
+  ],
   "icons": [
+    {
+      "src": "/Favicon_BSK_Motorcycle_Team_40x40.webp",
+      "sizes": "40x40",
+      "type": "image/webp",
+      "purpose": "favicon"
+    },
+    {
+      "src": "/Logo_Letras_Motoclub_BSK_Motorcycle_Team_Blue_192X192.webp",
+      "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    },
     {
       "src": "/Logo_Letras_Motoclub_BSK_Motorcycle_Team_Blue_192X192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/Logo_Letras_Motoclub_BSK_Motorcycle_Team_White_192X192.webp",
+      "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "maskable"
     },
     {
       "src": "/Logo_Letras_Motoclub_BSK_Motorcycle_Team_White_500X500.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "sizes": "512x512", 
+      "type": "image/png",
+      "purpose": "any"
     }
-  ]
+  ],
+  "shortcuts": [
+    {
+      "name": "Eventos",
+      "short_name": "Eventos",
+      "description": "Ver próximos eventos y rutas del motoclub",
+      "url": "/events",
+      "icons": [
+        {
+          "src": "/Logo_Letras_Motoclub_BSK_Motorcycle_Team_Blue_192X192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Tienda",
+      "short_name": "Store",
+      "description": "Productos oficiales BSK Motorcycle Team",
+      "url": "/store",
+      "icons": [
+        {
+          "src": "/Logo_Letras_Motoclub_BSK_Motorcycle_Team_Blue_192X192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Membresías",
+      "short_name": "Únete",
+      "description": "Hazte miembro de BSK Motorcycle Team",
+      "url": "/memberships",
+      "icons": [
+        {
+          "src": "/Logo_Letras_Motoclub_BSK_Motorcycle_Team_Blue_192X192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://bskmt.com/manifest.json"
+    }
+  ],
+  "prefer_related_applications": false
 }

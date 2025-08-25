@@ -50,15 +50,15 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-full">
-          <Link href="/" className="focus:outline-none ml-3 md:ml-4" aria-label="Ir a inicio">
+          <Link href="/" className="focus-enhanced ml-3 md:ml-4" aria-label="BSK Motorcycle Team - Ir a la página de inicio">
             {/* Logo para modo claro (azul) */}
             <picture className="block dark:hidden">
               <source srcSet={logoBlueUrl.avif} type="image/avif" />
               <source srcSet={logoBlueUrl.webp} type="image/webp" />
               <Image
                 src={logoBlueUrl.png}
-                alt="Logo BSK Motorcycle Team - Motoclub líder en Colombia"
-                className="w-[55px] md:w-[55px] h-auto object-contain"
+                alt="Logo BSK Motorcycle Team - Motoclub líder en Colombia con comunidad unida por la pasión motociclista"
+                className="w-[55px] md:w-[55px] h-auto object-contain transition-transform hover:scale-105"
                 width={55}
                 height={55}
                 priority
@@ -71,8 +71,8 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
               <source srcSet={logoWhiteUrl.webp} type="image/webp" />
               <Image
                 src={logoWhiteUrl.png}
-                alt="Logo BSK Motorcycle Team - Motoclub líder en Colombia"
-                className="w-[55px] md:w-[55px] h-auto object-contain"
+                alt="Logo BSK Motorcycle Team - Motoclub líder en Colombia con comunidad unida por la pasión motociclista"
+                className="w-[55px] md:w-[55px] h-auto object-contain transition-transform hover:scale-105"
                 width={55}
                 height={55}
                 priority
@@ -87,7 +87,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
                 <li key={item.name}>
                   <Link
                     href={item.path}
-                    className={`text-slate-950 dark:text-white hover:text-green-400 transition-colors focus-enhanced ${pathname === item.path ? 'text-green-400 font-bold' : ''
+                    className={`text-slate-950 dark:text-white hover:text-green-400 transition-colors focus-enhanced touch-target ${pathname === item.path ? 'text-green-400 font-bold' : ''
                       }`}
                     aria-current={pathname === item.path ? 'page' : undefined}
                   >

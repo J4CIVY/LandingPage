@@ -88,19 +88,32 @@ const nextConfig = {
             key: 'Content-Security-Policy',
             value: `
               default-src 'self';
-              script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://maps.googleapis.com https://static.cloudflareinsights.com;
+              script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://maps.googleapis.com https://static.cloudflareinsights.com https://connect.facebook.net https://www.facebook.com;
               style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-              img-src 'self' data: https: blob:;
+              img-src 'self' data: https: blob: https://res.cloudinary.com https://images.unsplash.com https://www.facebook.com https://platform-lookaside.fbsbx.com;
               font-src 'self' https://fonts.gstatic.com;
-              connect-src 'self' https://api.bskmt.com https://www.google-analytics.com https://maps.googleapis.com https://res.cloudinary.com https://cloudflareinsights.com;
-              media-src 'self' https: data:;
+              connect-src 'self' https://api.bskmt.com https://www.google-analytics.com https://maps.googleapis.com https://res.cloudinary.com https://cloudflareinsights.com https://www.facebook.com https://graph.facebook.com;
+              media-src 'self' https: data: blob:;
               object-src 'none';
-              frame-src 'self' https://www.google.com https://maps.google.com;
+              frame-src 'self' https://www.google.com https://maps.google.com https://www.facebook.com https://web.facebook.com;
               base-uri 'self';
-              form-action 'self';
+              form-action 'self' https://api.bskmt.com;
               frame-ancestors 'none';
               upgrade-insecure-requests;
+              block-all-mixed-content;
             `.replace(/\s+/g, ' ').trim(),
+          },
+          {
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on',
+          },
+          {
+            key: 'X-Download-Options',
+            value: 'noopen',
+          },
+          {
+            key: 'X-Permitted-Cross-Domain-Policies',
+            value: 'none',
           },
         ],
       },

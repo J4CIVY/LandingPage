@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface StructuredDataProps {
-  type: 'organization' | 'event' | 'product' | 'article' | 'localBusiness';
+  type: 'organization' | 'event' | 'product' | 'article' | 'localBusiness' | 'website' | 'motorcycleClub';
   data: any;
 }
 
@@ -16,16 +16,20 @@ const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
           "@type": "Organization",
           "@id": "https://bskmt.com/#organization",
           "name": "BSK Motorcycle Team",
-          "alternateName": "BSK MT",
-          "description": "Motoclub apasionado por el motociclismo y la comunidad motera en Bogotá, Colombia",
+          "alternateName": ["BSK MT", "BSKMT"],
+          "description": "Motoclub líder en Colombia, apasionado por el motociclismo y la comunidad motera en Bogotá. Unidos por la pasión, el espíritu aventurero y el respeto mutuo.",
           "url": "https://bskmt.com",
           "logo": {
             "@type": "ImageObject",
             "url": "https://res.cloudinary.com/dz0peilmu/image/upload/v1700000000/Logo_BSK_Motorcycle_Team_ggdyrl.png",
             "width": 500,
-            "height": 500
+            "height": 500,
+            "caption": "Logo oficial de BSK Motorcycle Team"
           },
-          "image": "https://res.cloudinary.com/dz0peilmu/image/upload/v1700000000/Banner_Landing_Page_BSK_Motorcycle_Team_Julio_o2fcql.jpg",
+          "image": [
+            "https://res.cloudinary.com/dz0peilmu/image/upload/v1700000000/Banner_Landing_Page_BSK_Motorcycle_Team_Julio_o2fcql.jpg",
+            "https://res.cloudinary.com/dz0peilmu/image/upload/v1700000000/Logo_BSK_Motorcycle_Team_ggdyrl.png"
+          ],
           "address": {
             "@type": "PostalAddress",
             "streetAddress": "Carrera 5 A No. 36 A Sur 28",
@@ -39,13 +43,16 @@ const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
             "latitude": "4.562477",
             "longitude": "-74.101509"
           },
-          "contactPoint": {
+          "contactPoint": [{
             "@type": "ContactPoint",
             "telephone": "+573125192000",
             "contactType": "customer service",
-            "availableLanguage": "Spanish"
-          },
+            "availableLanguage": ["Spanish", "es"],
+            "areaServed": "CO"
+          }],
           "foundingDate": "2022",
+          "keywords": "motoclub, motociclismo, comunidad motera, Bogotá, Colombia, rutas en moto, eventos motociclismo",
+          "knowsAbout": ["Motociclismo", "Seguridad Vial", "Turismo en Moto", "Mantenimiento de Motocicletas"],
           "memberOf": {
             "@type": "Organization",
             "name": "Comunidad Motera Colombiana"
@@ -56,7 +63,90 @@ const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
             "https://www.youtube.com/@BSKMotorcycleTeam",
             "https://twitter.com/bskmotorcycleteam"
           ],
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Servicios BSK Motorcycle Team",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Membresías del Motoclub",
+                  "description": "Membresías exclusivas para ser parte de la comunidad BSK MT"
+                }
+              },
+              {
+                "@type": "Offer", 
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Eventos y Rutas",
+                  "description": "Eventos motociclísticos y rutas organizadas por Colombia"
+                }
+              }
+            ]
+          },
           ...data
+        };
+
+      case 'motorcycleClub':
+        return {
+          "@context": baseContext,
+          "@type": ["Organization", "SportsOrganization"],
+          "@id": "https://bskmt.com/#motorcycleclub",
+          "name": "BSK Motorcycle Team",
+          "alternateName": "BSK MT",
+          "description": "Motoclub líder en Colombia dedicado a promover la cultura motociclística, la seguridad vial y la hermandad entre moteros",
+          "url": "https://bskmt.com",
+          "sport": "Motociclismo",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://res.cloudinary.com/dz0peilmu/image/upload/v1700000000/Logo_BSK_Motorcycle_Team_ggdyrl.png"
+          },
+          "location": {
+            "@type": "Place",
+            "name": "Bogotá, Colombia",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Bogotá",
+              "addressCountry": "CO"
+            }
+          },
+          "foundingDate": "2022",
+          "memberOf": {
+            "@type": "Organization",
+            "name": "Federación Motociclística Colombiana"
+          }
+        };
+
+      case 'website':
+        return {
+          "@context": baseContext,
+          "@type": "WebSite",
+          "@id": "https://bskmt.com/#website",
+          "name": "BSK Motorcycle Team",
+          "alternateName": "BSK MT Website",
+          "description": "Sitio web oficial de BSK Motorcycle Team - Motoclub líder en Colombia",
+          "url": "https://bskmt.com",
+          "inLanguage": "es-CO",
+          "isPartOf": {
+            "@type": "Organization",
+            "@id": "https://bskmt.com/#organization"
+          },
+          "about": {
+            "@type": "Organization",
+            "@id": "https://bskmt.com/#organization"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "@id": "https://bskmt.com/#organization"
+          },
+          "potentialAction": [
+            {
+              "@type": "SearchAction",
+              "target": "https://bskmt.com/search?q={search_term_string}",
+              "query-input": "required name=search_term_string"
+            }
+          ]
         };
 
       case 'event':
