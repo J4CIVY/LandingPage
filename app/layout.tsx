@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/shared/Header";
@@ -17,6 +17,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://bskmt.com"),
   title: {
     default: "BSK Motorcycle Team - Motoclub Líder en Colombia",
     template: "%s | BSK Motorcycle Team"
@@ -37,6 +38,9 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  verification: {
+    google: "your-google-verification-code", // Reemplazar con el código real
+  },
   openGraph: {
     type: "website",
     locale: "es_CO",
@@ -49,24 +53,28 @@ export const metadata: Metadata = {
         url: "https://res.cloudinary.com/dz0peilmu/image/upload/v1700000000/Logo_BSK_Motorcycle_Team_ggdyrl.png",
         width: 1200,
         height: 630,
-        alt: "BSK Motorcycle Team - Logo oficial del motoclub",
+        alt: "Logo de BSK Motorcycle Team sobre un fondo oscuro",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    site: "@bskmotorcycleteam",
-    creator: "@bskmotorcycleteam",
     title: "BSK Motorcycle Team - Comunidad sobre dos ruedas",
     description: "Únete a BSK Motorcycle Team, donde la comunidad se vive sobre dos ruedas. Disfruta de rutas, eventos, talleres y una comunidad unida por la pasión, el espíritu aventurero y el respeto mutuo.",
     images: ["https://res.cloudinary.com/dz0peilmu/image/upload/v1700000000/Logo_BSK_Motorcycle_Team_ggdyrl.png"],
+    creator: "@BSKMT_Oficial", // Reemplazar con el usuario real de Twitter
   },
-  alternates: {
-    canonical: "https://bskmt.com",
-  },
-  verification: {
-    google: "05957975579128883654",
-  },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 import { ThemeProvider } from '@/providers/ThemeProvider'
