@@ -19,7 +19,6 @@ import {
   useDeviceInfo 
 } from "@/components/performance/MobileOptimizations";
 
-const AboutSection = React.lazy(() => import("@/components/home/AboutSection"));
 const HermandadSection = React.lazy(() => import("@/components/home/HermandadSection"));
 
 export default function HomeContent() {
@@ -40,7 +39,7 @@ export default function HomeContent() {
         </Suspense>
       </section>
 
-      {/* Sección Events - Siempre cargar inmediatamente */}
+      {/* Sección Events */}
       <section className="lazy-container intersection-stable">
         <LazyEventsSection 
           events={events} 
@@ -49,7 +48,7 @@ export default function HomeContent() {
         />
       </section>
 
-      {/* Sección Gallery - Cargar inmediatamente sin lazy observer */}
+      {/* Sección Gallery */}
       <section className="lazy-container intersection-stable">
         <LazyGallerySection />
       </section>
@@ -68,19 +67,17 @@ export default function HomeContent() {
         </Suspense>
       </section>
 
-      {/* Sección Store - Cargar inmediatamente */}
-      {(!isMobile || shouldPreloadImages) && (
-        <section className="lazy-container intersection-stable">
-          <LazyStoreSection />
-        </section>
-      )}
+      {/* Sección Store */}
+      <section className="lazy-container intersection-stable">
+        <LazyStoreSection />
+      </section>
 
-      {/* Sección Blog - Cargar inmediatamente */}
+      {/* Sección Blog */}
       <section className="lazy-container intersection-stable">
         <LazyBlogSection />
       </section>
 
-      {/* Sección FAQ - Cargar inmediatamente */}
+      {/* Sección FAQ */}
       <section className="lazy-container intersection-stable">
         <LazyFAQSection />
       </section>
