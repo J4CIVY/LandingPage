@@ -122,11 +122,6 @@ export const LazyBlogSection = withLazyLoading(
   SkeletonCard
 );
 
-export const LazyTestimonials = withLazyLoading(
-  () => import('../home/Testimonials'),
-  SkeletonText
-);
-
 export const LazyStoreSection = withLazyLoading(
   () => import('../home/StoreSection'),
   SkeletonProduct
@@ -181,9 +176,9 @@ export function useIntersectionObserver(
 
 export default {
   LazyGallerySection,
+  LazyFAQSection,
   LazyEventsSection,
   LazyBlogSection,
-  LazyTestimonials,
   LazyStoreSection,
   withLazyLoading,
   useIsMobile,

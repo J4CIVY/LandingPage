@@ -6,7 +6,6 @@ import {
   LazyGallerySection, 
   LazyEventsSection, 
   LazyBlogSection, 
-  LazyTestimonials, 
   LazyStoreSection,
   LazyFAQSection
 } from "@/components/performance/LazyComponents";
@@ -20,7 +19,6 @@ import {
 
 const AboutSection = React.lazy(() => import("@/components/home/AboutSection"));
 const BenefitsSection = React.lazy(() => import("@/components/home/BenefitsSection"));
-const FAQSection = React.lazy(() => import("@/components/home/FAQSection"));
 const ComunidadSection = React.lazy(() => import("@/components/home/ComunidadSection"));
 const HermandadSection = React.lazy(() => import("@/components/home/HermandadSection"));
 
@@ -117,13 +115,6 @@ export default function HomeContent() {
         </Suspense>
       </section>
 
-      {/* Sección Comunidad - Nueva sección emocional */}
-      <section className="lazy-container intersection-stable">
-        <Suspense fallback={<SkeletonCard className="h-64" />}>
-          <ComunidadSection />
-        </Suspense>
-      </section>
-
       {/* Sección Store - Cargar inmediatamente */}
       {(!isMobile || shouldPreloadImages) && (
         <section className="lazy-container intersection-stable">
@@ -136,7 +127,7 @@ export default function HomeContent() {
         <LazyBlogSection />
       </section>
 
-      {/* Sección FAQ - Evitar parpadeo */}
+      {/* Sección FAQ - Cargar inmediatamente */}
       <section className="lazy-container intersection-stable">
         <LazyFAQSection />
       </section>
