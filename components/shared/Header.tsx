@@ -44,7 +44,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
   return (
     <header
       ref={ref}
-      className={`fixed top-0 left-0 right-0 w-full bg-white dark:bg-slate-950 shadow-md z-50 ${className}`}
+      className={`fixed top-0 left-0 right-0 w-full bg-white dark:bg-slate-950 shadow-md py-1 z-50 ${className}`}
       role="banner"
       {...props}
     >
