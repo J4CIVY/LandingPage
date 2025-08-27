@@ -3,6 +3,7 @@
 import React, { Suspense, useState, useEffect } from "react";
 import { useEvents } from "@/hooks/useEvents";
 import { 
+  LazyAboutSection,
   LazyGallerySection,
   LazyBenefitsSection,
   LazyFAQSection,
@@ -19,8 +20,6 @@ import {
 } from "@/components/performance/MobileOptimizations";
 
 const AboutSection = React.lazy(() => import("@/components/home/AboutSection"));
-const BenefitsSection = React.lazy(() => import("@/components/home/BenefitsSection"));
-const ComunidadSection = React.lazy(() => import("@/components/home/ComunidadSection"));
 const HermandadSection = React.lazy(() => import("@/components/home/HermandadSection"));
 
 export default function HomeContent() {
@@ -28,60 +27,17 @@ export default function HomeContent() {
   const { shouldLazyLoad, shouldPreloadImages } = useAdaptiveLoading();
   const { isMobile } = useDeviceInfo();
 
-  // Estados para evitar parpadeo - una vez cargado, no volver a ocultar
-  const [aboutLoaded, setAboutLoaded] = useState(false);
-  const [benefitsLoaded, setBenefitsLoaded] = useState(false);
-  const [faqLoaded, setFaqLoaded] = useState(false);
-
-  // Hook simplificado para detectar cuando secciones entran en viewport
-  useEffect(() => {
-    const options = {
-      threshold: 0.1,
-      rootMargin: '100px', // Aumentamos el margen para carga anticipada
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const sectionId = entry.target.getAttribute('data-section');
-          
-          switch (sectionId) {
-            case 'about':
-              setAboutLoaded(true);
-              break;
-            case 'benefits':
-              setBenefitsLoaded(true);
-              break;
-            case 'faq':
-              setFaqLoaded(true);
-              break;
-          }
-        }
-      });
-    }, options);
-
-    // Observar secciones después del montaje
-    const sections = document.querySelectorAll('[data-section]');
-    sections.forEach(section => observer.observe(section));
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
       {/* Indicadores de estado de conexión */}
       <OfflineIndicator />
       <SlowConnectionIndicator />
       
-      {/* Sección About - Evitar parpadeo */}
-      <section id="about-section" data-section="about" className="stable-height intersection-stable">
-        {aboutLoaded || !shouldLazyLoad ? (
-          <Suspense fallback={<SkeletonCard className="h-96" />}>
-            <AboutSection />
-          </Suspense>
-        ) : (
-          <SkeletonCard className="h-96" />
-        )}
+      {/* Sección About */}
+      <section className="lazy-container intersection-stable">
+        <Suspense fallback={<SkeletonCard className="h-64" />}>
+          <LazyAboutSection />
+        </Suspense>
       </section>
 
       {/* Sección Events - Siempre cargar inmediatamente */}
@@ -98,7 +54,7 @@ export default function HomeContent() {
         <LazyGallerySection />
       </section>
 
-      {/* Sección Benefits - Evitar parpadeo */}
+      {/* Sección Benefits */}
       <section className="lazy-container intersection-stable">
         <Suspense fallback={<SkeletonCard className="h-64" />}>
           <LazyBenefitsSection />

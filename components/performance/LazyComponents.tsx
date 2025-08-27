@@ -102,6 +102,11 @@ export function withLazyLoading<T extends Record<string, any>>(
 }
 
 // Componentes lazy específicos para secciones pesadas
+export const LazyAboutSection = withLazyLoading(
+  () => import('../home/AboutSection'),
+  SkeletonCard
+);
+
 export const LazyGallerySection = withLazyLoading(
   () => import('../home/GallerySection'),
   SkeletonCard
