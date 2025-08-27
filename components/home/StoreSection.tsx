@@ -8,7 +8,6 @@ import Image from "next/image";
 import { SkeletonProduct } from '../shared/SkeletonLoaders';
 import { AnimatedHeading, AnimatedText } from "@/components/animations/AnimatedText";
 import { AnimatedButton } from "@/components/animations/AnimatedButton";
-import StoreDebug from "@/components/debug/StoreDebug";
 
 const StoreSection: React.FC = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
@@ -100,9 +99,7 @@ const StoreSection: React.FC = () => {
   }
 
   return (
-    <>
-      <StoreDebug />
-      <section className="py-20 px-4 bg-white dark:bg-slate-950">
+    <section className="py-20 px-4 bg-white dark:bg-slate-950">
       <div className="max-w-6xl mx-auto">
         <AnimatedHeading 
           level={2}
@@ -193,8 +190,10 @@ const StoreSection: React.FC = () => {
         )}
       </div>
     </section>
-    </>
   );
 };
 
 export default StoreSection;
+
+
+

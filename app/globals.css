@@ -362,3 +362,15 @@ html.smooth-scroll {
 .scroll-to-top-active {
   scroll-behavior: auto !important;
 }
+
+/* Fix para intersection observer flickering */
+.intersection-stable {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Mejorar rendimiento de lazy loading */
+.lazy-container {
+  contain: layout style paint;
+  min-height: 200px;
+}

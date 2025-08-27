@@ -113,7 +113,7 @@ export const LazyGallerySection = withLazyLoading(
 );
 
 export const LazyBenefitsSection = withLazyLoading(
-  () => import('../home/BenefitsSection'),
+  () => import('../home/GallerySection'),
   SkeletonCard
 );
 

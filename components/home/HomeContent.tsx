@@ -68,9 +68,11 @@ export default function HomeContent() {
       </section>
 
       {/* Sección Store */}
-      <section className="lazy-container intersection-stable">
-        <LazyStoreSection />
-      </section>
+      {(!isMobile || shouldPreloadImages) && (
+        <section className="lazy-container intersection-stable">
+          <LazyStoreSection />
+        </section>
+      )}
 
       {/* Sección Blog */}
       <section className="lazy-container intersection-stable">
