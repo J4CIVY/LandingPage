@@ -9,6 +9,7 @@ import Calendar from "./Calendar";
 import EventModal from "./EventModal";
 import { Event } from '@/types/events'; // Import the Event interface
 import Image from "next/image";
+import { AnimatedHeading, AnimatedText } from "@/components/animations/AnimatedText";
 
 /**
  * @interface EventsSectionProps
@@ -46,11 +47,20 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
   return (
     <section className="py-20 px-4 bg-white dark:bg-slate-950 text-slate-900 dark:text-white">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold text-center mb-12">
+        <AnimatedHeading 
+          level={2}
+          animationType="slideUp"
+          delay={100}
+          className="text-4xl font-bold text-center mb-12"
+        >
           PRÓXIMOS <span className="text-green-400">EVENTOS</span>
-        </h2>
+        </AnimatedHeading>
 
-        <div className="mb-8 flex justify-center space-x-4">
+        <AnimatedText
+          animationType="fadeIn"
+          delay={200}
+          className="mb-8 flex justify-center space-x-4"
+        >
           <button
             onClick={() => setActiveTab('events')}
             className={`px-6 py-2 rounded-full ${activeTab === 'events' ? 'bg-red-600 text-white' : 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white'}`}
@@ -65,7 +75,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
           >
             Calendario
           </button>
-        </div>
+        </AnimatedText>
 
         {activeTab === 'events' ? (
           <>
@@ -76,7 +86,11 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
                 ))}
               </div>
             ) : error ? (
-              <div className="text-center py-10">
+              <AnimatedText
+                animationType="slideUp"
+                delay={300}
+                className="text-center py-10"
+              >
                 <p className="text-red-400 mb-4">Error al cargar los eventos: {error}</p>
                 <button 
                   onClick={() => window.location.reload()}
@@ -84,12 +98,17 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
                 >
                   Reintentar
                 </button>
-              </div>
+              </AnimatedText>
             ) : (
               <div className="grid md:grid-cols-3 gap-8">
                 {events.length > 0 ? (
-                  events.map((event: any) => (
-                    <div key={event._id} className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105">
+                  events.map((event: any, index: number) => (
+                    <AnimatedText
+                      key={event._id}
+                      animationType="slideUp"
+                      delay={300 + (index * 100)}
+                      className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105"
+                    >
                       <div className="relative" style={{ aspectRatio: '16/9' }}>
                         <Image
                           src={event.mainImage || "/default-event-image.webp"}
@@ -121,18 +140,26 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
                           Más información
                         </button>
                       </div>
-                    </div>
+                    </AnimatedText>
                   ))
                 ) : (
-                  <div className="col-span-3 text-center py-10">
+                  <AnimatedText
+                    animationType="fadeIn"
+                    delay={300}
+                    className="col-span-3 text-center py-10"
+                  >
                     <p className="text-xl">No hay eventos programados en este momento</p>
-                  </div>
+                  </AnimatedText>
                 )}
               </div>
             )}
           </>
         ) : (
-          <div className="bg-white dark:bg-slate-800 rounded-xl p-6 text-slate-900 dark:text-white">
+          <AnimatedText
+            animationType="slideUp"
+            delay={300}
+            className="bg-white dark:bg-slate-800 rounded-xl p-6 text-slate-900 dark:text-white"
+          >
             <div className="flex items-center justify-center mb-4">
               <FaCalendarAlt className="text-red-600 mr-2" aria-hidden="true" />
               <h3 className="text-xl font-bold">Calendario de Eventos</h3>
@@ -143,7 +170,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
               setCurrentMonth={setCurrentMonth} 
               onEventClick={handleEventClick} // Pass the handler to Calendar
             />
-          </div>
+          </AnimatedText>
         )}
       </div>
 

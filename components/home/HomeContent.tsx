@@ -7,7 +7,8 @@ import {
   LazyEventsSection, 
   LazyBlogSection, 
   LazyTestimonials, 
-  LazyStoreSection
+  LazyStoreSection,
+  LazyFAQSection
 } from "@/components/performance/LazyComponents";
 import { SkeletonCard, SkeletonEvent, SkeletonText } from "@/components/shared/SkeletonLoaders";
 import { 
@@ -128,22 +129,9 @@ export default function HomeContent() {
       </section>
 
       {/* Sección FAQ - Evitar parpadeo */}
-      <section data-section="faq" className="stable-height intersection-stable">
-        {faqLoaded || !shouldLazyLoad ? (
-          <Suspense fallback={<SkeletonText className="h-48" />}>
-            <FAQSection />
-          </Suspense>
-        ) : (
-          <SkeletonText className="h-48" />
-        )}
+      <section className="lazy-container intersection-stable">
+        <LazyFAQSection />
       </section>
-
-      {/* Testimonials - Solo para desktop */}
-      {!isMobile && (
-        <section className="lazy-container intersection-stable">
-          <LazyTestimonials />
-        </section>
-      )}
     </div>
   );
 }

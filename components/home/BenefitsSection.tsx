@@ -7,21 +7,35 @@ import {
   FaGraduationCap,
   FaShieldAlt
 } from 'react-icons/fa';
+import { AnimatedHeading, AnimatedParagraph, AnimatedText } from "@/components/animations/AnimatedText";
 import Testimonials from "./Testimonials";
 
 const BenefitsSection: React.FC = () => (
   <section className="py-20 px-4 bg-white dark:bg-slate-950">
     <div className="max-w-6xl mx-auto">
-      <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-4">
+      <AnimatedHeading 
+        level={2}
+        animationType="slideUp"
+        delay={100}
+        className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-4"
+      >
         BENEFICIOS DE <span className="text-green-400">SER MIEMBRO</span>
-      </h2>
-      <p className="text-center text-gray-600 dark:text-gray-400 mb-12 max-w-3xl mx-auto">
+      </AnimatedHeading>
+      <AnimatedParagraph 
+        animationType="fadeIn"
+        delay={300}
+        className="text-center text-gray-600 dark:text-gray-400 mb-12 max-w-3xl mx-auto"
+      >
         Más que beneficios, es el respaldo de una comunidad que te acompaña en cada kilómetro
-      </p>
+      </AnimatedParagraph>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Beneficios Sociales */}
-        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300">
+        <AnimatedText
+          animationType="slideUp"
+          delay={400}
+          className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300"
+        >
           <div className="flex items-center mb-4">
             <div className="bg-slate-950 dark:bg-slate-800 text-white p-3 rounded-full mr-4">
               <FaUsers className="w-6 h-6" aria-hidden="true" />
@@ -46,10 +60,14 @@ const BenefitsSection: React.FC = () => (
               <span>Reuniones y encuentros regulares</span>
             </li>
           </ul>
-        </div>
+        </AnimatedText>
 
         {/* Beneficios Técnicos */}
-        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300">
+        <AnimatedText
+          animationType="slideUp"
+          delay={550}
+          className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300"
+        >
           <div className="flex items-center mb-4">
             <div className="bg-slate-950 dark:bg-slate-800 text-white p-3 rounded-full mr-4">
               <FaTools className="w-6 h-6" aria-hidden="true" />
@@ -74,10 +92,14 @@ const BenefitsSection: React.FC = () => (
               <span>Talleres gratuitos de mantenimiento</span>
             </li>
           </ul>
-        </div>
+        </AnimatedText>
 
         {/* Beneficios Económicos */}
-        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300">
+        <AnimatedText
+          animationType="slideUp"
+          delay={700}
+          className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300"
+        >
           <div className="flex items-center mb-4">
             <div className="bg-slate-950 dark:bg-slate-800 text-white p-3 rounded-full mr-4">
               <FaMoneyBillWave className="w-6 h-6" aria-hidden="true" />
@@ -102,10 +124,14 @@ const BenefitsSection: React.FC = () => (
               <span>Compras grupales con precios especiales</span>
             </li>
           </ul>
-        </div>
+        </AnimatedText>
 
         {/* Beneficios Recreativos */}
-        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300">
+        <AnimatedText
+          animationType="slideUp"
+          delay={850}
+          className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300"
+        >
           <div className="flex items-center mb-4">
             <div className="bg-slate-950 dark:bg-slate-800 text-white p-3 rounded-full mr-4">
               <FaGlassCheers className="w-6 h-6" aria-hidden="true" />
@@ -130,10 +156,14 @@ const BenefitsSection: React.FC = () => (
               <span>Sorteos mensuales de productos</span>
             </li>
           </ul>
-        </div>
+        </AnimatedText>
 
         {/* Beneficios Formativos */}
-        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300">
+        <AnimatedText
+          animationType="slideUp"
+          delay={1000}
+          className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300"
+        >
           <div className="flex items-center mb-4">
             <div className="bg-slate-950 dark:bg-slate-800 text-white p-3 rounded-full mr-4">
               <FaGraduationCap className="w-6 h-6" aria-hidden="true" />
@@ -158,10 +188,14 @@ const BenefitsSection: React.FC = () => (
               <span>Charlas de liderazgo y crecimiento</span>
             </li>
           </ul>
-        </div>
+        </AnimatedText>
 
         {/* Beneficios de Seguridad */}
-        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300">
+        <AnimatedText
+          animationType="slideUp"
+          delay={1150}
+          className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow text-gray-700 dark:text-gray-300"
+        >
           <div className="flex items-center mb-4">
             <div className="bg-slate-950 dark:bg-slate-800 text-white p-3 rounded-full mr-4">
               <FaShieldAlt className="w-6 h-6" aria-hidden="true" />
@@ -186,7 +220,7 @@ const BenefitsSection: React.FC = () => (
               <span>Red de apoyo en viajes largos</span>
             </li>
           </ul>
-        </div>
+        </AnimatedText>
       </div>
 
       <Testimonials />

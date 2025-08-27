@@ -107,6 +107,11 @@ export const LazyGallerySection = withLazyLoading(
   SkeletonCard
 );
 
+export const LazyFAQSection = withLazyLoading(
+  () => import('../home/FAQSection'),
+  SkeletonCard
+);
+
 export const LazyEventsSection = withLazyLoading(
   () => import('../home/EventsSection'),
   SkeletonEvent

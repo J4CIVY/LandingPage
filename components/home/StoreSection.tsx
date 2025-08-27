@@ -6,6 +6,7 @@ import api from '@/components/api/Api';
 import { Product } from '@/types/products';
 import Image from "next/image";
 import { SkeletonProduct } from '../shared/SkeletonLoaders';
+import { AnimatedHeading, AnimatedText } from "@/components/animations/AnimatedText";
 
 const StoreSection: React.FC = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
@@ -45,9 +46,14 @@ const StoreSection: React.FC = () => {
     return (
       <section className="py-20 px-4 bg-white dark:bg-slate-950">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
+          <AnimatedHeading 
+            level={2}
+            animationType="slideUp"
+            delay={100}
+            className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12"
+          >
             TIENDA <span className="text-red-600">EN LÍNEA</span>
-          </h2>
+          </AnimatedHeading>
           <div className="grid md:grid-cols-3 gap-8">
             {Array.from({ length: 3 }).map((_, index) => (
               <SkeletonProduct key={index} />
@@ -62,10 +68,19 @@ const StoreSection: React.FC = () => {
     return (
       <section className="py-20 px-4 bg-white dark:bg-slate-950">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
+          <AnimatedHeading 
+            level={2}
+            animationType="slideUp"
+            delay={100}
+            className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12"
+          >
             TIENDA <span className="text-red-600">EN LÍNEA</span>
-          </h2>
-          <div className="text-center py-12 text-red-500">
+          </AnimatedHeading>
+          <AnimatedText
+            animationType="slideUp"
+            delay={200}
+            className="text-center py-12 text-red-500"
+          >
             <p>Error al cargar los productos: {error}</p>
             <button 
               onClick={() => window.location.reload()}
@@ -73,7 +88,7 @@ const StoreSection: React.FC = () => {
             >
               Reintentar
             </button>
-          </div>
+          </AnimatedText>
         </div>
       </section>
     );
@@ -82,15 +97,25 @@ const StoreSection: React.FC = () => {
   return (
     <section className="py-20 px-4 bg-white dark:bg-slate-950">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
+        <AnimatedHeading 
+          level={2}
+          animationType="slideUp"
+          delay={100}
+          className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12"
+        >
           TIENDA <span className="text-red-600">EN LÍNEA</span>
-        </h2>
+        </AnimatedHeading>
 
         {featuredProducts.length > 0 ? (
           <>
             <div className="grid md:grid-cols-3 gap-8">
-              {featuredProducts.map((product: any) => (
-                <div key={product._id} className="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105">
+              {featuredProducts.map((product: any, index: number) => (
+                <AnimatedText
+                  key={product._id}
+                  animationType="slideUp"
+                  delay={200 + (index * 150)}
+                  className="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105"
+                >
                   <div className="relative" style={{ aspectRatio: '1/1' }}>
                     <Image
                       src={product.featuredImage}
@@ -122,11 +147,15 @@ const StoreSection: React.FC = () => {
                       </button>
                     </div>
                   </div>
-                </div>
+                </AnimatedText>
               ))}
             </div>
 
-            <div className="text-center mt-12">
+            <AnimatedText
+              animationType="fadeIn"
+              delay={650}
+              className="text-center mt-12"
+            >
               <button 
                 onClick={() => router.push('/products')} // Assuming /products is the main store page
                 className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-flex items-center"
@@ -136,12 +165,16 @@ const StoreSection: React.FC = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
               </button>
-            </div>
+            </AnimatedText>
           </>
         ) : (
-          <div className="text-center py-12">
+          <AnimatedText
+            animationType="fadeIn"
+            delay={200}
+            className="text-center py-12"
+          >
             <p className="dark:text-gray-300">No hay productos destacados disponibles en este momento.</p>
-          </div>
+          </AnimatedText>
         )}
       </div>
     </section>

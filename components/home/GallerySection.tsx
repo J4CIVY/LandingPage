@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import { AnimatedHeading, AnimatedText } from "@/components/animations/AnimatedText";
 
 const GallerySection: React.FC = () => {
   const [activeGalleryImage, setActiveGalleryImage] = useState<number>(0);
@@ -79,11 +80,21 @@ const GallerySection: React.FC = () => {
   return (
     <section className="py-20 px-4 bg-white dark:bg-slate-950">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
+        <AnimatedHeading 
+          level={2}
+          animationType="slideUp"
+          delay={100}
+          className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12"
+        >
           GALERÍA <span className="text-red-600">MULTIMEDIA</span>
-        </h2>
+        </AnimatedHeading>
 
-        <div className="relative mb-8 rounded-xl overflow-hidden shadow-xl group" style={{ aspectRatio: '16/9' }}>
+        <AnimatedText
+          animationType="scaleIn"
+          delay={200}
+          className="relative mb-8 rounded-xl overflow-hidden shadow-xl group"
+          style={{ aspectRatio: '16/9' }}
+        >
           <div className="relative w-full h-full" role="img" aria-live="polite" aria-atomic="true" aria-label={`Galería de imágenes, mostrando: ${galleryImages[activeGalleryImage].alt}`}>
             {galleryImages.map((image, index) => (
               <div
@@ -109,9 +120,13 @@ const GallerySection: React.FC = () => {
           <div className="absolute bottom-0 left-0 p-6 text-white">
             <p className="text-xl">{galleryImages[activeGalleryImage].alt}</p>
           </div>
-        </div>
+        </AnimatedText>
 
-        <div className="flex justify-center space-x-2">
+        <AnimatedText
+          animationType="fadeIn"
+          delay={400}
+          className="flex justify-center space-x-2"
+        >
           {galleryImages.map((_, index) => (
             <button
               key={`dot-${index}`}
@@ -121,7 +136,7 @@ const GallerySection: React.FC = () => {
               aria-current={index === activeGalleryImage}
             />
           ))}
-        </div>
+        </AnimatedText>
       </div>
     </section>
   );

@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import { FAQQuestion } from '@/types'; // Import the FAQQuestion interface
+import { AnimatedHeading, AnimatedText } from "@/components/animations/AnimatedText";
 
 const FAQSection: React.FC = () => {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -311,10 +312,25 @@ const FAQSection: React.FC = () => {
   }, [faqQuestions, faqFilter]); // Memoize filteredQuestions
 
   return (
-    <div className="bg-white dark:bg-slate-950 rounded-xl p-8 shadow-lg text-slate-950 dark:text-white">
-      <h3 className="text-2xl font-bold text-slate-950 dark:text-white mb-6 text-center">PREGUNTAS FRECUENTES</h3>
+    <AnimatedText
+      animationType="slideUp"
+      delay={100}
+      className="bg-white dark:bg-slate-950 rounded-xl p-8 shadow-lg text-slate-950 dark:text-white"
+    >
+      <AnimatedHeading 
+        level={3}
+        animationType="fadeIn"
+        delay={200}
+        className="text-2xl font-bold text-slate-950 dark:text-white mb-6 text-center"
+      >
+        PREGUNTAS FRECUENTES
+      </AnimatedHeading>
       
-      <div className="flex flex-wrap justify-center gap-2 mb-6">
+      <AnimatedText
+        animationType="fadeIn"
+        delay={300}
+        className="flex flex-wrap justify-center gap-2 mb-6"
+      >
         {/* Filter buttons */}
         {['all', 'membership', 'events', 'benefits', 'general', 'organization'].map((filter) => (
           <button
@@ -331,9 +347,13 @@ const FAQSection: React.FC = () => {
             {filter === 'organization' && 'Organización'}
           </button>
         ))}
-      </div>
+      </AnimatedText>
 
-      <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar"> {/* Added custom-scrollbar class */}
+      <AnimatedText
+        animationType="fadeIn"
+        delay={400}
+        className="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar"
+      >
         {filteredQuestions.length > 0 ? (
           filteredQuestions.map((question: FAQQuestion, index: number) => (
             <div key={index} className="border-b border-gray-200 dark:border-gray-700 pb-3">
@@ -367,8 +387,8 @@ const FAQSection: React.FC = () => {
         ) : (
           <p className="text-center text-gray-500 dark:text-gray-400">No se encontraron preguntas en esta categoría.</p>
         )}
-      </div>
-    </div>
+      </AnimatedText>
+    </AnimatedText>
   );
 };
 
