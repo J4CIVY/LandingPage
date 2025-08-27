@@ -14,6 +14,7 @@ import {
   GiArchiveResearch,
   GiSettingsKnobs
 } from "react-icons/gi";
+import { AnimatedHeading, AnimatedParagraph } from '@/components/animations/AnimatedText';
 
 /**
  * @typedef {Object} DocumentContent
@@ -124,10 +125,21 @@ const Documents: React.FC = () => {
       {/* Hero Section */}
       <section className="bg-white dark:bg-slate-950 text-slate-950 dark:text-white py-16 px-4 md:px-20">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">Documentos Institucionales</h1>
-          <p className="text-xl md:text-2xl text-green-400 flex items-center justify-center">
+          <AnimatedHeading 
+            level={1} 
+            animationType="fadeIn" 
+            delay={200}
+            className="text-4xl md:text-6xl font-bold mb-6"
+          >
+            Documentos Institucionales
+          </AnimatedHeading>
+          <AnimatedParagraph 
+            animationType="slideUp" 
+            delay={400}
+            className="text-xl md:text-2xl text-green-400 flex items-center justify-center"
+          >
             Marco legal y operativo de BSK Motorcycle Team
-          </p>
+          </AnimatedParagraph>
         </div>
       </section>
 

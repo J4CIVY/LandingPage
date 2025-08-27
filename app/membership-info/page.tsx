@@ -4,6 +4,7 @@ import React from 'react';
 import { FaMotorcycle, FaShieldAlt, FaUsers, FaMedal, FaHandsHelping } from 'react-icons/fa';
 import { GiSteelwingEmblem } from 'react-icons/gi';
 import Link from 'next/link';
+import { AnimatedHeading, AnimatedParagraph } from '@/components/animations/AnimatedText';
 
 /**
  * MembershipInfoPage component provides detailed information about the "Friend" membership.
@@ -18,12 +19,21 @@ const MembershipInfoPage: React.FC = () => {
           <div className="flex justify-center items-center mb-4">
             <GiSteelwingEmblem className="text-red-600 text-5xl" aria-hidden="true" />
           </div>
-          <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+          <AnimatedHeading 
+            level={1} 
+            animationType="fadeIn" 
+            delay={200}
+            className="text-3xl font-extrabold text-gray-900 sm:text-4xl"
+          >
             Membresía <span className="text-red-600">Friend</span> de BSK Motorcycle Team
-          </h1>
-          <p className=" mt-3 text-xl text-gray-500">
+          </AnimatedHeading>
+          <AnimatedParagraph 
+            animationType="slideUp" 
+            delay={400}
+            className="mt-3 text-xl text-gray-500"
+          >
             Conoce todo sobre nuestra membresía básica y únete a nuestra comunidad motera
-          </p>
+          </AnimatedParagraph>
         </div>
 
         <div className="mb-10">

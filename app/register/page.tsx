@@ -20,6 +20,7 @@ import {
 } from '../../data/formOptions';
 import { useBeforeUnload } from '../../hooks/useConfirmation';
 import { useSuccessToast, useErrorToast, useInfoToast } from '../../components/shared/ToastProvider';
+import { AnimatedHeading } from '@/components/animations/AnimatedText';
 
 const years = generateYears();
 
@@ -213,7 +214,14 @@ const UserRegister: React.FC = () => {
         <div className="p-8">
           <div className="flex items-center justify-center mb-6">
             <GiSteelwingEmblem className="text-red-600 text-5xl mr-3" aria-hidden="true" />
-            <h1 className="text-3xl font-bold text-gray-900">Registro de Miembro</h1>
+            <AnimatedHeading 
+              level={1} 
+              animationType="fadeIn" 
+              delay={200}
+              className="text-3xl font-bold text-gray-900"
+            >
+              Registro de Miembro
+            </AnimatedHeading>
           </div>
 
           {renderStepIndicator()}

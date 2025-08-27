@@ -279,7 +279,41 @@ html.smooth-scroll {
   scroll-behavior: smooth;
 }
 
+/* Animaciones de texto suaves y naturales */
+@layer components {
+  .text-animation-container {
+    /* Estado inicial para evitar flash de contenido sin animar */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, opacity;
+  }
+
+  .text-animation-container.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Curvas de easing más suaves y naturales */
+  .ease-smooth {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .ease-gentle {
+    transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  .ease-natural {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .text-animation-container {
+    transition: opacity 0.3s ease;
+    transform: none !important;
+  }
+  
   html,
   html.smooth-scroll {
     scroll-behavior: auto;

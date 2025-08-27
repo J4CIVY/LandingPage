@@ -46,11 +46,12 @@ AnimatedText.displayName = 'AnimatedText';
 
 // Componentes específicos para diferentes tipos de texto
 export const AnimatedHeading = forwardRef<HTMLHeadingElement, Omit<AnimatedTextProps, 'as'> & { level?: 1 | 2 | 3 | 4 | 5 | 6 }>(
-  ({ level = 2, animationType = 'slideUp', ...props }, ref) => (
+  ({ level = 2, animationType = 'fadeIn', delay = 0, ...props }, ref) => (
     <AnimatedText
       ref={ref}
       as={`h${level}` as any}
       animationType={animationType}
+      delay={delay}
       {...props}
     />
   )
@@ -59,11 +60,12 @@ export const AnimatedHeading = forwardRef<HTMLHeadingElement, Omit<AnimatedTextP
 AnimatedHeading.displayName = 'AnimatedHeading';
 
 export const AnimatedParagraph = forwardRef<HTMLParagraphElement, Omit<AnimatedTextProps, 'as'>>(
-  ({ animationType = 'fadeIn', ...props }, ref) => (
+  ({ animationType = 'fadeIn', delay = 0, ...props }, ref) => (
     <AnimatedText
       ref={ref}
       as="p"
       animationType={animationType}
+      delay={delay}
       {...props}
     />
   )

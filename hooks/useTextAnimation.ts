@@ -12,8 +12,8 @@ interface UseTextAnimationOptions {
 
 export const useTextAnimation = (options: UseTextAnimationOptions = {}) => {
   const {
-    threshold = 0.1,
-    rootMargin = '0px 0px -10% 0px',
+    threshold = 0.2,
+    rootMargin = '0px 0px -5% 0px',
     triggerOnce = true,
     delay = 0,
     animationType = 'fadeIn'
@@ -52,38 +52,39 @@ export const useTextAnimation = (options: UseTextAnimationOptions = {}) => {
   }, [threshold, rootMargin, triggerOnce, delay, hasAnimated]);
 
   const getAnimationClasses = () => {
-    const baseClasses = 'transition-all duration-700 ease-out';
+    // Transición más suave con easing personalizado y respeto a prefers-reduced-motion
+    const baseClasses = 'transition-all duration-1000 ease-natural gpu-accelerated';
     
     if (!isVisible) {
       switch (animationType) {
         case 'fadeIn':
-          return `${baseClasses} opacity-0`;
+          return `${baseClasses} opacity-0 transform`;
         case 'slideUp':
-          return `${baseClasses} opacity-0 translate-y-8`;
+          return `${baseClasses} opacity-0 translate-y-4 transform`;
         case 'slideInLeft':
-          return `${baseClasses} opacity-0 -translate-x-8`;
+          return `${baseClasses} opacity-0 -translate-x-4 transform`;
         case 'slideInRight':
-          return `${baseClasses} opacity-0 translate-x-8`;
+          return `${baseClasses} opacity-0 translate-x-4 transform`;
         case 'scaleIn':
-          return `${baseClasses} opacity-0 scale-95`;
+          return `${baseClasses} opacity-0 scale-98 transform`;
         default:
-          return `${baseClasses} opacity-0`;
+          return `${baseClasses} opacity-0 transform`;
       }
     }
 
     switch (animationType) {
       case 'fadeIn':
-        return `${baseClasses} opacity-100`;
+        return `${baseClasses} opacity-100 transform`;
       case 'slideUp':
-        return `${baseClasses} opacity-100 translate-y-0`;
+        return `${baseClasses} opacity-100 translate-y-0 transform`;
       case 'slideInLeft':
-        return `${baseClasses} opacity-100 translate-x-0`;
+        return `${baseClasses} opacity-100 translate-x-0 transform`;
       case 'slideInRight':
-        return `${baseClasses} opacity-100 translate-x-0`;
+        return `${baseClasses} opacity-100 translate-x-0 transform`;
       case 'scaleIn':
-        return `${baseClasses} opacity-100 scale-100`;
+        return `${baseClasses} opacity-100 scale-100 transform`;
       default:
-        return `${baseClasses} opacity-100`;
+        return `${baseClasses} opacity-100 transform`;
     }
   };
 
