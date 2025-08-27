@@ -5,6 +5,7 @@ import Link from 'next/link';
 import type { BlogPost } from '@/types/index.d.ts';
 import Image from "next/image";
 import { AnimatedHeading, AnimatedText } from "@/components/animations/AnimatedText";
+import { AnimatedButton } from "@/components/animations/AnimatedButton";
 
 const BlogSection: React.FC = () => {
   const cloudName: string = "dz0peilmu";
@@ -115,12 +116,16 @@ const BlogSection: React.FC = () => {
           delay={500}
           className="text-center"
         >
-          <Link 
-            href="/blog" 
-            className="inline-block bg-slate-950 text-white font-bold py-3 px-6 rounded-full hover:bg-green-400 hover:text-slate-950 transition-colors dark:bg-green-400 dark:text-slate-950 dark:hover:bg-white"
+          <AnimatedButton
+            as="a"
+            href="/blog"
+            animationType="scaleIn"
+            delay={600}
+            variant="primary"
+            className="inline-block py-3 px-6 rounded-full"
           >
             Ver todas las noticias
-          </Link>
+          </AnimatedButton>
         </AnimatedText>
       </div>
     </section>

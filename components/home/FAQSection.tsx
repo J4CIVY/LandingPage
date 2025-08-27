@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from "react";
 import { FAQQuestion } from '@/types'; // Import the FAQQuestion interface
 import { AnimatedHeading, AnimatedText } from "@/components/animations/AnimatedText";
+import { AnimatedButton } from "@/components/animations/AnimatedButton";
 
 const FAQSection: React.FC = () => {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -332,11 +333,13 @@ const FAQSection: React.FC = () => {
         className="flex flex-wrap justify-center gap-2 mb-6"
       >
         {/* Filter buttons */}
-        {['all', 'membership', 'events', 'benefits', 'general', 'organization'].map((filter) => (
-          <button
+        {['all', 'membership', 'events', 'benefits', 'general', 'organization'].map((filter, index) => (
+          <AnimatedButton
             key={filter}
-            className={`px-4 py-2 rounded-full text-sm ${faqFilter === filter ? 'bg-slate-950 text-white dark:bg-red-600' : 'bg-gray-200 text-slate-950 hover:bg-gray-300 dark:bg-slate-900 dark:text-gray-300 dark:hover:bg-slate-800'}`}
             onClick={() => setFaqFilter(filter as 'all' | 'membership' | 'events' | 'benefits' | 'general' | 'organization')}
+            animationType="scaleIn"
+            delay={350 + (index * 50)}
+            className={`px-4 py-2 rounded-full text-sm ${faqFilter === filter ? 'bg-slate-950 text-white dark:bg-red-600' : 'bg-gray-200 text-slate-950 hover:bg-gray-300 dark:bg-slate-900 dark:text-gray-300 dark:hover:bg-slate-800'}`}
             aria-pressed={faqFilter === filter} // ARIA attribute for toggle buttons
           >
             {filter === 'all' && 'Todas'}
@@ -345,7 +348,7 @@ const FAQSection: React.FC = () => {
             {filter === 'benefits' && 'Beneficios'}
             {filter === 'general' && 'General'}
             {filter === 'organization' && 'Organización'}
-          </button>
+          </AnimatedButton>
         ))}
       </AnimatedText>
 

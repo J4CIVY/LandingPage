@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { AnimatedHeading, AnimatedText } from "@/components/animations/AnimatedText";
+import { AnimatedButton } from "@/components/animations/AnimatedButton";
 
 const GallerySection: React.FC = () => {
   const [activeGalleryImage, setActiveGalleryImage] = useState<number>(0);
@@ -128,13 +129,17 @@ const GallerySection: React.FC = () => {
           className="flex justify-center space-x-2"
         >
           {galleryImages.map((_, index) => (
-            <button
+            <AnimatedButton
               key={`dot-${index}`}
-              className={`w-3 h-3 rounded-full transition-colors ${index === activeGalleryImage ? 'bg-red-600' : 'bg-gray-300 dark:bg-gray-600 hover:bg-red-400'}`}
               onClick={() => setActiveGalleryImage(index)}
+              animationType="scaleIn"
+              delay={450 + (index * 50)}
+              className={`w-3 h-3 rounded-full transition-colors ${index === activeGalleryImage ? 'bg-red-600' : 'bg-gray-300 dark:bg-gray-600 hover:bg-red-400'}`}
               aria-label={`Ir a la imagen ${index + 1}`}
               aria-current={index === activeGalleryImage}
-            />
+            >
+              <span className="sr-only">Imagen {index + 1}</span>
+            </AnimatedButton>
           ))}
         </AnimatedText>
       </div>

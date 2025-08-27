@@ -4,6 +4,7 @@ import React, { Suspense, useState, useEffect } from "react";
 import { useEvents } from "@/hooks/useEvents";
 import { 
   LazyGallerySection,
+  LazyBenefitsSection,
   LazyFAQSection,
   LazyEventsSection, 
   LazyBlogSection, 
@@ -98,14 +99,10 @@ export default function HomeContent() {
       </section>
 
       {/* Sección Benefits - Evitar parpadeo */}
-      <section data-section="benefits" className="stable-height intersection-stable">
-        {benefitsLoaded || !shouldLazyLoad ? (
-          <Suspense fallback={<SkeletonCard className="h-64" />}>
-            <BenefitsSection />
-          </Suspense>
-        ) : (
-          <SkeletonCard className="h-64" />
-        )}
+      <section className="lazy-container intersection-stable">
+        <Suspense fallback={<SkeletonCard className="h-64" />}>
+          <LazyBenefitsSection />
+        </Suspense>
       </section>
 
       {/* Sección Hermandad */}

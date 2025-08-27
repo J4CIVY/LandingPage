@@ -10,6 +10,7 @@ import EventModal from "./EventModal";
 import { Event } from '@/types/events'; // Import the Event interface
 import Image from "next/image";
 import { AnimatedHeading, AnimatedText } from "@/components/animations/AnimatedText";
+import { AnimatedButton } from "@/components/animations/AnimatedButton";
 
 /**
  * @interface EventsSectionProps
@@ -61,20 +62,24 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
           delay={200}
           className="mb-8 flex justify-center space-x-4"
         >
-          <button
+          <AnimatedButton
             onClick={() => setActiveTab('events')}
+            animationType="scaleIn"
+            delay={250}
             className={`px-6 py-2 rounded-full ${activeTab === 'events' ? 'bg-red-600 text-white' : 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white'}`}
             aria-pressed={activeTab === 'events'} // ARIA attribute for toggle buttons
           >
             Lista de Eventos
-          </button>
-          <button
+          </AnimatedButton>
+          <AnimatedButton
             onClick={() => setActiveTab('calendar')}
+            animationType="scaleIn"
+            delay={300}
             className={`px-6 py-2 rounded-full ${activeTab === 'calendar' ? 'bg-red-600 text-white' : 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white'}`}
             aria-pressed={activeTab === 'calendar'} // ARIA attribute for toggle buttons
           >
             Calendario
-          </button>
+          </AnimatedButton>
         </AnimatedText>
 
         {activeTab === 'events' ? (
@@ -92,12 +97,15 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
                 className="text-center py-10"
               >
                 <p className="text-red-400 mb-4">Error al cargar los eventos: {error}</p>
-                <button 
+                <AnimatedButton 
                   onClick={() => window.location.reload()}
-                  className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                  animationType="scaleIn"
+                  delay={100}
+                  variant="secondary"
+                  className="py-2 px-4"
                 >
                   Reintentar
-                </button>
+                </AnimatedButton>
               </AnimatedText>
             ) : (
               <div className="grid md:grid-cols-3 gap-8">
@@ -132,13 +140,16 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
                           </svg>
                           {event.departureLocation?.address || 'Ubicación no disponible'}
                         </p>
-                        <button 
-                          onClick={() => handleEventClick(event)} // Use the new handler
-                          className="mt-4 w-full bg-slate-950 hover:bg-green-400 text-white dark:bg-red-600 dark:hover:bg-red-700 py-2 rounded-full transition duration-300"
+                        <AnimatedButton 
+                          onClick={() => handleEventClick(event)}
+                          animationType="scaleIn"
+                          delay={500 + (index * 100)}
+                          variant="primary"
+                          className="mt-4 w-full py-2 rounded-full"
                           aria-label={`Más información sobre ${event.name}`}
                         >
                           Más información
-                        </button>
+                        </AnimatedButton>
                       </div>
                     </AnimatedText>
                   ))

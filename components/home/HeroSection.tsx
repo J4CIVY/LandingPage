@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useScrollToSection } from "@/hooks/useScroll";
 import { AnimatedHeading, AnimatedParagraph } from "@/components/animations/AnimatedText";
+import { AnimatedPrimaryButton, AnimatedOutlineButton, AnimatedGhostButton } from "@/components/animations/AnimatedButton";
 
 
 const HeroSection: React.FC = () => {
@@ -128,21 +129,25 @@ const HeroSection: React.FC = () => {
         
         {/* Call to action buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <button 
+          <AnimatedPrimaryButton 
             onClick={handleJoinClick}
-            className="btn-focus bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl touch-target"
+            animationType="scaleIn"
+            delay={900}
+            className="text-lg"
             aria-label="Únete a BSK Motorcycle Team - Accede a membresías exclusivas del motoclub"
           >
             🏍️ ÚNETE AL CLUB
-          </button>
+          </AnimatedPrimaryButton>
           
-          <button
+          <AnimatedOutlineButton
             onClick={() => router.push("/events")}
-            className="btn-focus bg-transparent border-2 border-white hover:bg-white hover:text-black text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 touch-target"
+            animationType="scaleIn"
+            delay={1050}
+            className="text-lg"
             aria-label="Descubre nuestros eventos motociclísticos y rutas por Colombia"
           >
             📅 VER EVENTOS
-          </button>
+          </AnimatedOutlineButton>
         </div>
 
         {/* Indicadores adicionales */}
@@ -171,16 +176,18 @@ const HeroSection: React.FC = () => {
           </span>
           
           {/* Botón de scroll principal */}
-          <button
+          <AnimatedGhostButton
             onClick={handleScrollToNext}
             disabled={isScrolling}
-            className={`group focus-enhanced p-4 rounded-full bg-black/30 backdrop-blur-md hover:bg-green-500/30 border border-white/20 hover:border-green-400/50 transition-all duration-500 touch-target transform hover:scale-110 animate-float ${
-              isScrolling ? 'opacity-75 scale-95 cursor-not-allowed' : 'hover:scale-110'
+            animationType="fadeIn"
+            delay={1200}
+            className={`p-4 rounded-full ${
+              isScrolling ? 'opacity-75 scale-95 cursor-not-allowed' : ''
             }`}
             aria-label="Desplázate hacia abajo para conocer más sobre BSK Motorcycle Team"
           >
             <svg 
-              className={`w-5 h-5 text-white group-hover:text-green-400 transition-all duration-300 ${
+              className={`w-5 h-5 transition-all duration-300 ${
                 isScrolling ? 'animate-spin' : 'animate-scroll-indicator'
               }`}
               fill="none" 
@@ -196,7 +203,7 @@ const HeroSection: React.FC = () => {
                 d="M19 14l-7 7m0 0l-7-7m7 7V3" 
               />
             </svg>
-          </button>
+          </AnimatedGhostButton>
 
           {/* Línea indicadora animada */}
           <div className="w-0.5 h-12 bg-gradient-to-b from-white/60 via-white/30 to-transparent relative overflow-hidden">

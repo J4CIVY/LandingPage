@@ -107,6 +107,11 @@ export const LazyGallerySection = withLazyLoading(
   SkeletonCard
 );
 
+export const LazyBenefitsSection = withLazyLoading(
+  () => import('../home/GallerySection'),
+  SkeletonCard
+);
+
 export const LazyFAQSection = withLazyLoading(
   () => import('../home/FAQSection'),
   SkeletonCard
@@ -176,6 +181,7 @@ export function useIntersectionObserver(
 
 export default {
   LazyGallerySection,
+  LazyBenefitsSection,
   LazyFAQSection,
   LazyEventsSection,
   LazyBlogSection,

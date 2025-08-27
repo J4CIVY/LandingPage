@@ -7,6 +7,7 @@ import { Product } from '@/types/products';
 import Image from "next/image";
 import { SkeletonProduct } from '../shared/SkeletonLoaders';
 import { AnimatedHeading, AnimatedText } from "@/components/animations/AnimatedText";
+import { AnimatedButton } from "@/components/animations/AnimatedButton";
 
 const StoreSection: React.FC = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
@@ -82,12 +83,15 @@ const StoreSection: React.FC = () => {
             className="text-center py-12 text-red-500"
           >
             <p>Error al cargar los productos: {error}</p>
-            <button 
+            <AnimatedButton 
               onClick={() => window.location.reload()}
-              className="mt-4 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+              animationType="scaleIn"
+              delay={100}
+              variant="secondary"
+              className="mt-4 py-2 px-4"
             >
               Reintentar
-            </button>
+            </AnimatedButton>
           </AnimatedText>
         </div>
       </section>
@@ -132,19 +136,24 @@ const StoreSection: React.FC = () => {
                       ${product.discountPrice ? product.discountPrice.toLocaleString('es-CO') : product.price.toLocaleString('es-CO')}
                     </p>
                     <div className="flex space-x-3">
-                      <button 
-                        className="flex-1 bg-slate-950 hover:bg-green-400 text-white dark:bg-red-600 dark:hover:bg-red-700 py-2 rounded-full transition duration-300"
-                        // In a real app, this would add to cart or link to a purchase page
+                      <AnimatedButton 
                         onClick={() => alert(`Comprar ${product.name}`)}
+                        animationType="scaleIn"
+                        delay={400 + (index * 150)}
+                        variant="primary"
+                        className="flex-1 py-2 rounded-full"
                       >
                         Comprar
-                      </button>
-                      <button 
-                        onClick={() => router.push(`/products/${product.slug}`)} // Assuming a product detail route like /products/:slug
-                        className="flex-1 bg-white border border-slate-950 text-slate-950 dark:bg-slate-700 dark:text-white dark:border-slate-600 dark:hover:bg-slate-600 py-2 rounded-full hover:bg-gray-100 transition duration-300"
+                      </AnimatedButton>
+                      <AnimatedButton 
+                        onClick={() => router.push(`/products/${product.slug}`)}
+                        animationType="scaleIn"
+                        delay={450 + (index * 150)}
+                        variant="outline"
+                        className="flex-1 bg-white border border-slate-950 text-slate-950 dark:bg-slate-700 dark:text-white dark:border-slate-600 dark:hover:bg-slate-600 py-2 rounded-full hover:bg-gray-100"
                       >
                         Detalles
-                      </button>
+                      </AnimatedButton>
                     </div>
                   </div>
                 </AnimatedText>
@@ -156,15 +165,18 @@ const StoreSection: React.FC = () => {
               delay={650}
               className="text-center mt-12"
             >
-              <button 
-                onClick={() => router.push('/products')} // Assuming /products is the main store page
-                className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-flex items-center"
+              <AnimatedButton 
+                onClick={() => router.push('/products')}
+                animationType="scaleIn"
+                delay={700}
+                variant="secondary"
+                className="py-3 px-8 rounded-full text-lg inline-flex items-center"
               >
                 Ver todos los productos
                 <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
-              </button>
+              </AnimatedButton>
             </AnimatedText>
           </>
         ) : (
