@@ -3,11 +3,11 @@
 import React, { Suspense, useState, useEffect } from "react";
 import { useEvents } from "@/hooks/useEvents";
 import { 
-  LazyGallerySection, 
+  LazyGallerySection,
+  LazyFAQSection,
   LazyEventsSection, 
   LazyBlogSection, 
-  LazyStoreSection,
-  LazyFAQSection
+  LazyStoreSection
 } from "@/components/performance/LazyComponents";
 import { SkeletonCard, SkeletonEvent, SkeletonText } from "@/components/shared/SkeletonLoaders";
 import { 
