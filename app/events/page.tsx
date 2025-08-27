@@ -5,8 +5,6 @@ import { format, parseISO, isAfter, isBefore } from "date-fns";
 import { es } from "date-fns/locale";
 import api from "@/components/api/Api";
 import Image from "next/image";
-import { AnimatedHeading, AnimatedParagraph } from "@/components/animations/AnimatedText";
-
 /**
  * @typedef {Object} EventLocation
  * @property {string} address - The full address of the event location.
@@ -179,22 +177,13 @@ const Events: React.FC = () => {
       <section className="py-16 px-4 max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <AnimatedHeading 
-            level={1}
-            animationType="slideUp"
-            delay={200}
-            className="text-4xl font-bold text-slate-950 dark:text-white mb-4"
-          >
+          <h1 className="text-4xl font-bold text-slate-950 dark:text-white mb-4">
             Eventos BSK Motorcycle Team
-          </AnimatedHeading>
+          </h1>
           
-          <AnimatedParagraph 
-            animationType="fadeIn"
-            delay={500}
-            className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto"
-          >
+          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Descubre nuestras próximas aventuras y revive los mejores momentos
-          </AnimatedParagraph>
+          </p>
         </div>
 
         {/* Tabs */}
@@ -202,7 +191,7 @@ const Events: React.FC = () => {
           <div className="inline-flex rounded-md shadow-sm" role="tablist">
             <button
               onClick={() => setActiveTab("upcoming")}
-              className={`px-6 py-2 rounded-l-full border ${
+              className={`px-6 py-2 rounded-l-full border transition-colors ${
                 activeTab === "upcoming"
                   ? "bg-slate-950 text-white border-slate-950 dark:bg-green-500 dark:border-green-500"
                   : "bg-white text-slate-950 border-gray-300 hover:bg-gray-100 dark:bg-slate-700 dark:text-white dark:border-slate-600 dark:hover:bg-slate-600"
@@ -216,7 +205,7 @@ const Events: React.FC = () => {
             </button>
             <button
               onClick={() => setActiveTab("past")}
-              className={`px-6 py-2 rounded-r-full border ${
+              className={`px-6 py-2 rounded-r-full border transition-colors ${
                 activeTab === "past"
                   ? "bg-slate-950 text-white border-slate-950 dark:bg-green-500 dark:border-green-500"
                   : "bg-white text-slate-950 border-gray-300 hover:bg-gray-100 dark:bg-slate-700 dark:text-white dark:border-slate-600 dark:hover:bg-slate-600"

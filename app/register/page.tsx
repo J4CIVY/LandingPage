@@ -20,8 +20,6 @@ import {
 } from '../../data/formOptions';
 import { useBeforeUnload } from '../../hooks/useConfirmation';
 import { useSuccessToast, useErrorToast, useInfoToast } from '../../components/shared/ToastProvider';
-import { AnimatedHeading } from '@/components/animations/AnimatedText';
-
 const years = generateYears();
 
 const UserRegister: React.FC = () => {
@@ -214,14 +212,9 @@ const UserRegister: React.FC = () => {
         <div className="p-8">
           <div className="flex items-center justify-center mb-6">
             <GiSteelwingEmblem className="text-red-600 text-5xl mr-3" aria-hidden="true" />
-            <AnimatedHeading 
-              level={1} 
-              animationType="fadeIn" 
-              delay={200}
-              className="text-3xl font-bold text-gray-900"
-            >
+            <h1 className="text-3xl font-bold text-gray-900">
               Registro de Miembro
-            </AnimatedHeading>
+            </h1>
           </div>
 
           {renderStepIndicator()}
@@ -236,7 +229,7 @@ const UserRegister: React.FC = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             {/* Step 1: Personal Information */}
             {currentStep === 1 && (
-              <section className="space-y-6 animate-fadeIn">
+              <section className="space-y-6 ">
                 <h2 className="text-xl font-semibold text-gray-800 flex items-center"><FaUser  className="mr-2 text-red-600" />Información Personal</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Document Type */}
@@ -303,7 +296,7 @@ const UserRegister: React.FC = () => {
 
             {/* Step 2: Contact Information */}
             {currentStep === 2 && (
-              <section className="space-y-6 animate-fadeIn">
+              <section className="space-y-6 ">
                 <h2 className="text-xl font-semibold text-gray-800 flex items-center"><FaPhone className="mr-2 text-red-600" />Información de Contacto</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Phone */}
@@ -378,7 +371,7 @@ const UserRegister: React.FC = () => {
 
             {/* Step 3: Professional & Gender Details */}
             {currentStep === 3 && (
-              <section className="space-y-6 animate-fadeIn">
+              <section className="space-y-6 ">
                 <h2 className="text-xl font-semibold text-gray-800 flex items-center"><FaVenusMars className="mr-2 text-red-600" />Detalles Profesionales y de Género</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Binary Gender */}
@@ -436,7 +429,7 @@ const UserRegister: React.FC = () => {
 
             {/* Step 4: Medical Information */}
             {currentStep === 4 && (
-              <section className="space-y-6 animate-fadeIn">
+              <section className="space-y-6 ">
                 <h2 className="text-xl font-semibold text-gray-800 flex items-center"><FaHeartbeat className="mr-2 text-red-600" />Información Médica</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Blood Type */}
@@ -489,7 +482,7 @@ const UserRegister: React.FC = () => {
 
             {/* Step 5: Emergency Contact */}
             {currentStep === 5 && (
-              <section className="space-y-6 animate-fadeIn">
+              <section className="space-y-6 ">
                 <h2 className="text-xl font-semibold text-gray-800 flex items-center"><FaExclamationTriangle className="mr-2 text-red-600" />Contacto de Emergencia</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Emergency Contact Name */}
@@ -548,7 +541,7 @@ const UserRegister: React.FC = () => {
 
             {/* Step 6: Motorcycle Details */}
             {currentStep === 6 && (
-              <section className="space-y-6 animate-fadeIn">
+              <section className="space-y-6 ">
                 <h2 className="text-xl font-semibold text-gray-800 flex items-center"><FaMotorcycle className="mr-2 text-red-600" />Detalles de la Motocicleta</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Motorcycle Plate */}
@@ -603,7 +596,7 @@ const UserRegister: React.FC = () => {
 
             {/* Step 7: Security and Consents */}
             {currentStep === 7 && (
-              <section className="space-y-6 animate-fadeIn">
+              <section className="space-y-6 ">
                 <h2 className="text-xl font-semibold text-gray-800 flex items-center"><FaLock className="mr-2 text-red-600" />Seguridad y Consentimientos</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Password */}
@@ -614,7 +607,7 @@ const UserRegister: React.FC = () => {
                     <input type={showPassword ? "text" : "password"} id="password" {...register("password")}
                            className={`block w-full px-3 py-2 border ${errors.password ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`}/>
                     <button type="button" onClick={() => setShowPassword(!showPassword)}
-                            className="absolute inset-y-0 right-0 top-6 pr-3 flex items-center text-sm leading-5">
+                            className="absolute inset-y-0 right-0 top-6 pr-3 flex items-center text-sm leading-5 transition-colors">
                       {showPassword ? <FaEyeSlash/> : <FaEye/>}
                     </button>
                     <FormError error={errors.password}/>
@@ -669,7 +662,7 @@ const UserRegister: React.FC = () => {
 
             {/* Step 8: Confirmation */}
             {currentStep === 8 && (
-              <section className="space-y-6 animate-fadeIn">
+              <section className="space-y-6 ">
                 <h2 className="text-xl font-semibold text-gray-800 flex items-center"><FaCheckCircle
                   className="mr-2 text-red-600"/>Confirmación</h2>
                 <div className="bg-gray-100 p-6 rounded-lg">

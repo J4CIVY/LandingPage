@@ -3,8 +3,6 @@ import { FaMotorcycle, FaHandsHelping, FaShieldAlt } from 'react-icons/fa';
 import Image from 'next/image';
 import type { Metadata } from 'next';
 import Breadcrumbs from '@/components/shared/Breadcrumbs';
-import { AnimatedHeading, AnimatedParagraph } from '@/components/animations/AnimatedText';
-
 export const metadata: Metadata = {
   title: "Sobre Nosotros - Historia y Valores",
   description: "Conoce la historia, misión, visión y valores de BSK Motorcycle Team. Somos más que un motoclub, somos una familia apasionada por el motociclismo en Colombia desde 2022.",
@@ -43,65 +41,36 @@ const About: React.FC = () => {
       {/* Hero Section */}
       <section className="relative py-20 px-4 bg-white dark:bg-slate-950">
         <div className="max-w-6xl mx-auto">
-          <AnimatedHeading 
-            level={1}
-            animationType="slideUp"
-            delay={200}
-            className="text-4xl md:text-6xl font-bold mb-6 text-center text-slate-950 dark:text-white"
-          >
-            Sobre <span className="text-accent">BSK Motorcycle Team</span>
-          </AnimatedHeading>
-          
-          <AnimatedParagraph 
-            animationType="fadeIn"
-            delay={500}
-            className="text-xl text-center max-w-3xl mx-auto text-gray-600 dark:text-gray-400"
-          >
+              <h1 className="text-4xl md:text-6xl font-bold mb-6 text-center text-slate-950 dark:text-white">
+                Sobre <span className="text-accent">BSK Motorcycle Team</span>
+              </h1>          <p className="text-xl text-center max-w-3xl mx-auto text-gray-600 dark:text-gray-400">
             Donde la comunidad se vive sobre dos ruedas. Conoce nuestra historia, valores y lo que nos hace una familia unida por la pasión, el espíritu aventurero y el respeto mutuo.
-          </AnimatedParagraph>
+          </p>
         </div>
       </section>
 
       {/* Club History */}
       <section className="py-16 px-4 bg-white dark:bg-slate-900">
         <div className="max-w-6xl mx-auto">
-          <AnimatedHeading 
-            level={2}
-            animationType="slideUp"
-            delay={200}
-            className="text-3xl md:text-4xl font-bold mb-12 text-center text-slate-950 dark:text-white"
-          >
+          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-slate-950 dark:text-white">
             Nuestra <span className="text-accent">Historia</span>
-          </AnimatedHeading>
+          </h2>
           
           <article className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <AnimatedHeading 
-                level={3}
-                animationType="slideInLeft"
-                delay={300}
-                className="text-2xl font-semibold mb-4 text-slate-950 dark:text-white"
-              >
+              <h3 className="text-2xl font-semibold mb-4 text-slate-950 dark:text-white">
                 Los Comienzos
-              </AnimatedHeading>
+              </h3>
               
-              <AnimatedParagraph 
-                animationType="fadeIn"
-                delay={500}
-                className="mb-6 text-gray-700 dark:text-gray-300"
-              >
+              <p className="mb-6 text-gray-700 dark:text-gray-300">
                 BSK Motorcycle Team nació en 2022 de la pasión compartida por un grupo de amigos amantes de las motos. 
                 Lo que comenzó como salidas casuales los fines de semana, pronto se convirtió en un movimiento organizado.
-              </AnimatedParagraph>
+              </p>
               
-              <AnimatedParagraph 
-                animationType="fadeIn"
-                delay={700}
-                className="mb-6 text-gray-700 dark:text-gray-300"
-              >
+              <p className="mb-6 text-gray-700 dark:text-gray-300">
                 En 2022, oficializamos nuestro club con el objetivo de promover el motociclismo responsable y crear 
                 una comunidad donde la camaradería y el respeto fueran los pilares fundamentales.
-              </AnimatedParagraph>
+              </p>
             </div>
             <div className="bg-gray-800 dark:bg-slate-700 rounded-lg overflow-hidden h-64 md:h-96 flex items-center justify-center">
               {/* Placeholder for historical image */}
@@ -111,27 +80,18 @@ const About: React.FC = () => {
 
           <article className="mt-16 grid md:grid-cols-2 gap-12 items-center">
             <div className="order-1 md:order-2">
-              <AnimatedHeading 
-                level={3}
-                animationType="slideInRight"
-                delay={300}
-                className="text-2xl font-semibold mb-4 text-slate-950 dark:text-white"
-              >
+              <h3 className="text-2xl font-semibold mb-4 text-slate-950 dark:text-white">
                 Crecimiento y Reconocimiento
-              </AnimatedHeading>
+              </h3>
               
-              <AnimatedParagraph 
-                animationType="fadeIn"
-                delay={500}
-                className="mb-6 text-gray-700 dark:text-gray-300"
-              >
+              <p className="mb-6 text-gray-700 dark:text-gray-300">
                 Al finalizar el primer año, BSK ya contaba con 17 miembros activos y habíamos organizado varios eventos 
                 entre ellos el Tour Andino, Tour De Los LLanos, Tour Navideño, Road To Villeta, Road To Guamal, 
                 Road To Girardot, We Come And Go Tocaima, We Come And Go Choachi, We Come And Go La Calera, Direct To F2R, 
                 adicionalmente realizamos algunos eventos benéficos, recaudando fondos para causas locales y realizamos 
                 algunas capacitaciones en seguridad vial y y tecnicas de manejo. Estos fueron los primeros de muchos eventos 
                 que marcarían nuestro compromiso con la comunidad.
-              </AnimatedParagraph>
+              </p>
               <p className="text-gray-700 dark:text-gray-300">
                 Hoy, contamos con exactamente 39 miembros activos en Bogotá y cundinamarca, y algo mas de 150 seguidores y 
                 seguimos creciendo manteniendo nuestros valores originales: pasión por las motos, respeto por la vida y 

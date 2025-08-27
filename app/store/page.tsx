@@ -5,7 +5,7 @@ import SEOComponent from '@/components/home/SEOComponent';
 import { Product } from '@/types/products';
 import api from '@/components/api/Api';
 import Image from 'next/image';
-import { AnimatedHeading, AnimatedParagraph } from '@/components/animations/AnimatedText';
+
 
 /**
  * @typedef {Object} ProductsApiResponse
@@ -206,21 +206,12 @@ const Store: React.FC = () => {
       />
       {/* Header */}
       <div className="text-center mb-12">
-        <AnimatedHeading 
-          level={1} 
-          animationType="fadeIn" 
-          delay={200}
-          className="text-4xl font-bold text-gray-900 mb-2"
-        >
+        <h1 className="text-4xl font-bold text-gray-900 mb-2">
           BSK MT Store
-        </AnimatedHeading>
-        <AnimatedParagraph 
-          animationType="slideUp" 
-          delay={400}
-          className="text-lg text-gray-600"
-        >
+        </h1>
+        <p className="text-lg text-gray-600">
           Official merchandise for motorcycle enthusiasts
-        </AnimatedParagraph>
+        </p>
       </div>
 
       {/* Search and Filters */}

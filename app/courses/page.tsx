@@ -4,8 +4,6 @@ import React from "react";
 import { FaMotorcycle, FaShieldAlt, FaRocket, FaCheck, FaAward, FaTools, FaRoute, FaPhone, FaCalendarAlt } from "react-icons/fa";
 import { GiSteeringWheel, GiOilDrum, GiMechanicGarage } from "react-icons/gi";
 import SEOComponent from '@/components/home/SEOComponent';
-import { AnimatedHeading, AnimatedParagraph } from '@/components/animations/AnimatedText';
-
 /**
  * @typedef {Object} Course
  * @property {number} id - Unique identifier for the course.
@@ -135,14 +133,9 @@ const Courses: React.FC = () => {
       {/* Hero Section */}
       <section className="bg-white dark:bg-slate-950 text-slate-950 dark:text-white py-16 px-4 md:px-20">
         <div className="max-w-7xl mx-auto text-center">
-          <AnimatedHeading 
-            level={1} 
-            animationType="fadeIn" 
-            delay={200}
-            className="text-4xl md:text-6xl font-bold mb-6"
-          >
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">
             Ready To Ride + BSK Motorcycle Team
-          </AnimatedHeading>
+          </h1>
           <a
             href="#inscripciones"
             className="inline-flex items-center bg-slate-950 dark:bg-white text-white dark:text-slate-950 font-bold py-3 px-8 rounded-xl hover:bg-gray-800 dark:hover:bg-gray-200 transition text-lg"
@@ -157,21 +150,12 @@ const Courses: React.FC = () => {
       {/* Featured Courses */}
       <section className="py-16 px-4 md:px-8 max-w-7xl mx-auto bg-gray-white dark:bg-slate-950">
         <div className="text-center mb-16">
-          <AnimatedHeading 
-            level={2} 
-            animationType="fadeIn" 
-            delay={200}
-            className="text-3xl font-bold text-slate-950 dark:text-white mb-4"
-          >
+          <h2 className="text-3xl font-bold text-slate-950 dark:text-white mb-4">
             Nuestros Cursos
-          </AnimatedHeading>
-          <AnimatedParagraph 
-            animationType="slideUp" 
-            delay={400}
-            className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto"
-          >
+          </h2>
+          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Programas diseñados por expertos para todos los niveles
-          </AnimatedParagraph>
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
