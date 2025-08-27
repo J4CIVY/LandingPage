@@ -3,9 +3,6 @@
 import React, { useState, useEffect } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { AnimatedHeading, AnimatedText } from "@/components/animations/AnimatedText";
-import { AnimatedButton } from "@/components/animations/AnimatedButton";
-
 const GallerySection: React.FC = () => {
   const [activeGalleryImage, setActiveGalleryImage] = useState<number>(0);
   const cloudName: string = "dz0peilmu";
@@ -81,21 +78,11 @@ const GallerySection: React.FC = () => {
   return (
     <section className="py-20 px-4 bg-white dark:bg-slate-950">
       <div className="max-w-6xl mx-auto">
-        <AnimatedHeading 
-          level={2}
-          animationType="slideUp"
-          delay={100}
-          className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12"
-        >
+        <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
           GALERÍA <span className="text-red-600">MULTIMEDIA</span>
-        </AnimatedHeading>
+        </h2>
 
-        <AnimatedText
-          animationType="scaleIn"
-          delay={200}
-          className="relative mb-8 rounded-xl overflow-hidden shadow-xl group"
-          style={{ aspectRatio: '16/9' }}
-        >
+        <div className="relative mb-8 rounded-xl overflow-hidden shadow-xl group">
           <div className="relative w-full h-full" role="img" aria-live="polite" aria-atomic="true" aria-label={`Galería de imágenes, mostrando: ${galleryImages[activeGalleryImage].alt}`}>
             {galleryImages.map((image, index) => (
               <div
@@ -121,27 +108,22 @@ const GallerySection: React.FC = () => {
           <div className="absolute bottom-0 left-0 p-6 text-white">
             <p className="text-xl">{galleryImages[activeGalleryImage].alt}</p>
           </div>
-        </AnimatedText>
+        </div>
 
-        <AnimatedText
-          animationType="fadeIn"
-          delay={400}
-          className="flex justify-center space-x-2"
-        >
+        <div className="flex justify-center space-x-2">
           {galleryImages.map((_, index) => (
-            <AnimatedButton
+            <button
               key={`dot-${index}`}
               onClick={() => setActiveGalleryImage(index)}
-              animationType="scaleIn"
-              delay={450 + (index * 50)}
+              
               className={`w-3 h-3 rounded-full transition-colors ${index === activeGalleryImage ? 'bg-red-600' : 'bg-gray-300 dark:bg-gray-600 hover:bg-red-400'}`}
               aria-label={`Ir a la imagen ${index + 1}`}
               aria-current={index === activeGalleryImage}
             >
               <span className="sr-only">Imagen {index + 1}</span>
-            </AnimatedButton>
+            </button>
           ))}
-        </AnimatedText>
+        </div>
       </div>
     </section>
   );

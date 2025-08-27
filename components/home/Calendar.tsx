@@ -5,7 +5,6 @@ import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addMonths, subMonths, isSameMonth, isSameDay, addDays } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Event } from '@/types/events';
-import { AnimatedButton } from "@/components/animations/AnimatedButton"; // Import the Event interface
 
 /**
  * @interface CalendarProps
@@ -52,29 +51,23 @@ const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMon
   const renderHeader = (): JSX.Element => {
     return (
       <div className="flex items-center justify-between mb-4">
-        <AnimatedButton 
+        <button 
           onClick={goToPrevMonth}
-          animationType="scaleIn"
-          delay={100}
-          variant="ghost"
-          className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700"
+          className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"
           aria-label="Mes anterior"
         >
           <FaArrowLeft className="text-slate-950 dark:text-white" />
-        </AnimatedButton>
+        </button>
         <h3 className="text-xl font-bold text-slate-950 dark:text-white capitalize">
           {formatDateSpanish(currentMonth)}
         </h3>
-        <AnimatedButton 
+        <button 
           onClick={goToNextMonth}
-          animationType="scaleIn"
-          delay={150}
-          variant="ghost"
-          className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700"
+          className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"
           aria-label="Mes siguiente"
         >
           <FaArrowRight className="text-slate-950 dark:text-white" />
-        </AnimatedButton>
+        </button>
       </div>
     );
   };

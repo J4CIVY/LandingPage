@@ -4,8 +4,6 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useScrollToSection } from "@/hooks/useScroll";
-import { AnimatedHeading, AnimatedParagraph } from "@/components/animations/AnimatedText";
-import { AnimatedPrimaryButton, AnimatedOutlineButton, AnimatedGhostButton } from "@/components/animations/AnimatedButton";
 
 
 const HeroSection: React.FC = () => {
@@ -71,7 +69,7 @@ const HeroSection: React.FC = () => {
   };
 
   return (
-    <section className="relative h-screen flex items-center justify-center bg-gray-100 dark:bg-slate-950 overflow-hidden" role="banner" aria-label="Sección principal de BSK Motorcycle Team">
+    <section className="relative h-screen flex items-center justify-center bg-white dark:bg-slate-950 overflow-hidden" role="banner" aria-label="Sección principal de BSK Motorcycle Team">
       <div className="absolute inset-0 w-full h-full">
         <picture>
           {/* AVIF source for best compression and quality */}
@@ -108,46 +106,33 @@ const HeroSection: React.FC = () => {
       {/* Hero content: title, description, and call-to-action button */}
       <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
         <header>
-          <AnimatedHeading 
-            level={1}
-            animationType="slideUp"
-            delay={300}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white dark:text-white mb-6 leading-tight"
-          >
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white dark:text-white mb-6 leading-tight">
             <span className="text-green-400">BSK</span> MOTORCYCLE TEAM
-          </AnimatedHeading>
+          </h1>
           
-          <AnimatedParagraph 
-            animationType="fadeIn"
-            delay={600}
-            className="text-lg sm:text-xl md:text-2xl text-white dark:text-gray-100 mb-8 max-w-3xl mx-auto leading-relaxed"
-          >
+          <p className="text-lg sm:text-xl md:text-2xl text-white dark:text-gray-100 mb-8 max-w-3xl mx-auto leading-relaxed">
             Únete al <strong className="text-green-400">motoclub líder en Colombia</strong>, donde la comunidad se vive sobre dos ruedas. 
             Pasión motociclista, rutas épicas, eventos emocionantes y hermandad verdadera.
-          </AnimatedParagraph>
+          </p>
         </header>
         
         {/* Call to action buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <AnimatedPrimaryButton 
+          <button 
             onClick={handleJoinClick}
-            animationType="scaleIn"
-            delay={900}
-            className="text-lg"
+            className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-full font-bold text-lg transition-colors"
             aria-label="Únete a BSK Motorcycle Team - Accede a membresías exclusivas del motoclub"
           >
             🏍️ ÚNETE AL CLUB
-          </AnimatedPrimaryButton>
+          </button>
           
-          <AnimatedOutlineButton
+          <button
             onClick={() => router.push("/events")}
-            animationType="scaleIn"
-            delay={1050}
-            className="text-lg"
+            className="border-2 border-white text-white hover:bg-white hover:text-slate-950 px-8 py-4 rounded-full font-bold text-lg transition-colors"
             aria-label="Descubre nuestros eventos motociclísticos y rutas por Colombia"
           >
             📅 VER EVENTOS
-          </AnimatedOutlineButton>
+          </button>
         </div>
 
         {/* Indicadores adicionales */}
@@ -171,24 +156,22 @@ const HeroSection: React.FC = () => {
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-30">
         <div className="flex flex-col items-center space-y-2">
           {/* Texto indicativo */}
-          <span className="text-white/80 text-xs font-medium tracking-wider uppercase animate-pulse">
+          <span className="text-white/80 text-xs font-medium tracking-wider uppercase">
             Descubre más
           </span>
           
           {/* Botón de scroll principal */}
-          <AnimatedGhostButton
+          <button
             onClick={handleScrollToNext}
             disabled={isScrolling}
-            animationType="fadeIn"
-            delay={1200}
-            className={`p-4 rounded-full ${
+            className={`p-4 rounded-full text-white/80 hover:text-white transition-colors ${
               isScrolling ? 'opacity-75 scale-95 cursor-not-allowed' : ''
             }`}
             aria-label="Desplázate hacia abajo para conocer más sobre BSK Motorcycle Team"
           >
             <svg 
               className={`w-5 h-5 transition-all duration-300 ${
-                isScrolling ? 'animate-spin' : 'animate-scroll-indicator'
+                isScrolling ? 'animate-spin' : ''
               }`}
               fill="none" 
               stroke="currentColor" 
@@ -203,11 +186,11 @@ const HeroSection: React.FC = () => {
                 d="M19 14l-7 7m0 0l-7-7m7 7V3" 
               />
             </svg>
-          </AnimatedGhostButton>
+          </button>
 
-          {/* Línea indicadora animada */}
+          {/* Línea indicadora */}
           <div className="w-0.5 h-12 bg-gradient-to-b from-white/60 via-white/30 to-transparent relative overflow-hidden">
-            <div className="absolute top-0 w-full h-4 bg-gradient-to-b from-green-400/80 to-transparent animate-pulse"></div>
+            <div className="absolute top-0 w-full h-4 bg-gradient-to-b from-green-400/80 to-transparent"></div>
           </div>
         </div>
       </div>

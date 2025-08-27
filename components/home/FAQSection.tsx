@@ -2,9 +2,6 @@
 
 import React, { useState, useMemo } from "react";
 import { FAQQuestion } from '@/types'; // Import the FAQQuestion interface
-import { AnimatedHeading, AnimatedText } from "@/components/animations/AnimatedText";
-import { AnimatedButton } from "@/components/animations/AnimatedButton";
-
 const FAQSection: React.FC = () => {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [faqFilter, setFaqFilter] = useState<'all' | 'membership' | 'events' | 'benefits' | 'general' | 'organization'>('all');
@@ -313,33 +310,18 @@ const FAQSection: React.FC = () => {
   }, [faqQuestions, faqFilter]); // Memoize filteredQuestions
 
   return (
-    <AnimatedText
-      animationType="slideUp"
-      delay={100}
-      className="bg-white dark:bg-slate-950 rounded-xl p-8 shadow-lg text-slate-950 dark:text-white"
-    >
-      <AnimatedHeading 
-        level={3}
-        animationType="fadeIn"
-        delay={200}
-        className="text-2xl font-bold text-slate-950 dark:text-white mb-6 text-center"
-      >
+    <div className="bg-white dark:bg-slate-950 rounded-xl p-8 shadow-lg text-slate-950 dark:text-white">
+      <h3 className="text-2xl font-bold text-slate-950 dark:text-white mb-6 text-center">
         PREGUNTAS FRECUENTES
-      </AnimatedHeading>
+      </h3>
       
-      <AnimatedText
-        animationType="fadeIn"
-        delay={300}
-        className="flex flex-wrap justify-center gap-2 mb-6"
-      >
+      <div className="flex flex-wrap justify-center gap-2 mb-6">
         {/* Filter buttons */}
         {['all', 'membership', 'events', 'benefits', 'general', 'organization'].map((filter, index) => (
-          <AnimatedButton
+          <button
             key={filter}
             onClick={() => setFaqFilter(filter as 'all' | 'membership' | 'events' | 'benefits' | 'general' | 'organization')}
-            animationType="scaleIn"
-            delay={350 + (index * 50)}
-            className={`px-4 py-2 rounded-full text-sm ${faqFilter === filter ? 'bg-slate-950 text-white dark:bg-red-600' : 'bg-gray-200 text-slate-950 hover:bg-gray-300 dark:bg-slate-900 dark:text-gray-300 dark:hover:bg-slate-800'}`}
+            className={`px-4 py-2 rounded-full text-sm transition-colors ${faqFilter === filter ? 'bg-slate-950 text-white dark:bg-red-600' : 'bg-gray-200 text-slate-950 hover:bg-gray-300 dark:bg-slate-900 dark:text-gray-300 dark:hover:bg-slate-800'}`}
             aria-pressed={faqFilter === filter} // ARIA attribute for toggle buttons
           >
             {filter === 'all' && 'Todas'}
@@ -348,15 +330,11 @@ const FAQSection: React.FC = () => {
             {filter === 'benefits' && 'Beneficios'}
             {filter === 'general' && 'General'}
             {filter === 'organization' && 'Organización'}
-          </AnimatedButton>
+          </button>
         ))}
-      </AnimatedText>
+      </div>
 
-      <AnimatedText
-        animationType="fadeIn"
-        delay={400}
-        className="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar"
-      >
+      <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
         {filteredQuestions.length > 0 ? (
           filteredQuestions.map((question: FAQQuestion, index: number) => (
             <div key={index} className="border-b border-gray-200 dark:border-gray-700 pb-3">
@@ -390,8 +368,8 @@ const FAQSection: React.FC = () => {
         ) : (
           <p className="text-center text-gray-500 dark:text-gray-400">No se encontraron preguntas en esta categoría.</p>
         )}
-      </AnimatedText>
-    </AnimatedText>
+      </div>
+    </div>
   );
 };
 

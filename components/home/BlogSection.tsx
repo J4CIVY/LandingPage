@@ -4,8 +4,6 @@ import React from "react";
 import Link from 'next/link';
 import type { BlogPost } from '@/types/index.d.ts';
 import Image from "next/image";
-import { AnimatedHeading, AnimatedText } from "@/components/animations/AnimatedText";
-import { AnimatedButton } from "@/components/animations/AnimatedButton";
 
 const BlogSection: React.FC = () => {
   const cloudName: string = "dz0peilmu";
@@ -58,24 +56,17 @@ const BlogSection: React.FC = () => {
   return (
     <section className="py-20 px-4 bg-white dark:bg-slate-950">
       <div className="max-w-6xl mx-auto">
-        <AnimatedHeading 
-          level={2}
-          animationType="slideUp"
-          delay={100}
-          className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12"
-        >
+        <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
           BLOG & <span className="text-green-400">NOTICIAS</span>
-        </AnimatedHeading>
+        </h2>
 
         <div className="grid md:grid-cols-2 gap-8 mb-12">
           {blogPosts.map((post: BlogPost, index: number) => {
             const imageSources = generateImageSources(post.image);
             
             return (
-              <AnimatedText
+              <div
                 key={post.id}
-                animationType="slideUp"
-                delay={200 + (index * 150)}
                 className="bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
               >
                 <Link href={`/blog/${post.slug}`} aria-label={`Leer más sobre ${post.title}`}>
@@ -106,27 +97,19 @@ const BlogSection: React.FC = () => {
                     </div>
                   </div>
                 </Link>
-              </AnimatedText>
+              </div>
             );
           })}
         </div>
 
-        <AnimatedText
-          animationType="fadeIn"
-          delay={500}
-          className="text-center"
-        >
-          <AnimatedButton
-            as="a"
+        <div className="text-center">
+          <a
             href="/blog"
-            animationType="scaleIn"
-            delay={600}
-            variant="primary"
-            className="inline-block py-3 px-6 rounded-full"
+            className="bg-red-600 hover:bg-red-700 text-white inline-block py-3 px-6 rounded-full transition-colors"
           >
             Ver todas las noticias
-          </AnimatedButton>
-        </AnimatedText>
+          </a>
+        </div>
       </div>
     </section>
   );
