@@ -13,7 +13,7 @@ const HermandadSection: React.FC = () => {
           delay={100}
           className="text-4xl md:text-5xl font-bold mb-8 text-gray-900 dark:text-white"
         >
-          <span className="text-green-400 dark:text-green-400">39 Miembros</span>, <span className="text-green-400 dark:text-green-400">Miles de Kilómetros</span>, <span className="text-red-600 dark:text-red-600">Una Sola Pasión</span>
+          <span className="text-green-400 dark:text-green-400">39 Miembros</span>, <span className="text-green-400 dark:text-white">cientos de Kilómetros</span>, <span className="text-red-600 dark:text-red-600">Una Sola Pasión</span>
         </AnimatedHeading>
         
         <div className="grid md:grid-cols-3 gap-8 mt-16">
