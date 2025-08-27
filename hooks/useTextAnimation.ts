@@ -66,7 +66,7 @@ export const useTextAnimation = (options: UseTextAnimationOptions = {}) => {
         case 'slideInRight':
           return `${baseClasses} opacity-0 translate-x-4 transform`;
         case 'scaleIn':
-          return `${baseClasses} opacity-0 scale-98 transform`;
+          return `${baseClasses} opacity-0 scale-95 transform`;
         default:
           return `${baseClasses} opacity-0 transform`;
       }

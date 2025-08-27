@@ -26,3 +26,5 @@ export const ThemeChanger = () => {
     </button>
   )
 }
+
+export default ThemeChanger

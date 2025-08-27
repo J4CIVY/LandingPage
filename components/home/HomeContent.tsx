@@ -22,6 +22,7 @@ const AboutSection = React.lazy(() => import("@/components/home/AboutSection"));
 const BenefitsSection = React.lazy(() => import("@/components/home/BenefitsSection"));
 const FAQSection = React.lazy(() => import("@/components/home/FAQSection"));
 const ComunidadSection = React.lazy(() => import("@/components/home/ComunidadSection"));
+const HermandadSection = React.lazy(() => import("@/components/home/HermandadSection"));
 
 export default function HomeContent() {
   const { events, loading, error } = useEvents();
@@ -107,6 +108,13 @@ export default function HomeContent() {
         ) : (
           <SkeletonCard className="h-64" />
         )}
+      </section>
+
+      {/* Sección Hermandad */}
+      <section className="lazy-container intersection-stable">
+        <Suspense fallback={<SkeletonCard className="h-64" />}>
+          <HermandadSection />
+        </Suspense>
       </section>
 
       {/* Sección Comunidad - Nueva sección emocional */}
