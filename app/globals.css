@@ -3,10 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Critical CSS inlined - optimización para LCP */
 @layer base {
   html {
-    scroll-behavior: auto; /* Default auto para mejor control */
+    scroll-behavior: auto;
   }
   
   body {
@@ -15,7 +14,6 @@
     -moz-osx-font-smoothing: grayscale;
   }
   
-  /* Preconnect fallback fonts */
   @font-face {
     font-family: 'Inter-fallback';
     src: local('Arial'), local('Helvetica'), local('system-ui');
@@ -23,7 +21,6 @@
   }
 }
 
-/* Mejoras de accesibilidad para contraste de colores */
 @layer utilities {
   /* Skip links para navegación por teclado */
   .skip-link {
@@ -43,115 +40,16 @@
     @apply focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-slate-950;
   }
   
-  /* Focus visible solo para navegación por teclado */
-  .focus-visible-only {
-    @apply focus:outline-none focus-visible:ring-4 focus-visible:ring-green-500/50;
-    @apply focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-950;
-  }
-
-  /* Animaciones de botones mejoradas */
-  .btn-bounce {
-    @apply transition-all duration-200 ease-out;
-    @apply hover:scale-105 active:scale-95;
-    @apply transform-gpu;
-  }
-
-  .btn-glow {
-    @apply shadow-lg hover:shadow-xl;
-    @apply transition-shadow duration-300 ease-out;
-  }
-
-  .btn-glow:hover {
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 
-                0 0 20px rgba(34, 197, 94, 0.3);
-  }
-
-  .btn-glow:focus {
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 
-                0 0 20px rgba(34, 197, 94, 0.5);
-  }
-
-  /* Animación de pulso suave para botones importantes */
-  .btn-pulse {
-    animation: pulse-soft 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse-soft {
-    0%, 100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 0.9;
-      transform: scale(1.02);
-    }
-  }
-  
-  /* Estados de focus para botones */
-  .btn-focus {
-    @apply focus:outline-none focus:ring-4 focus:ring-green-500/50;
-    @apply focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-slate-950;
-    @apply focus:scale-105 transition-all duration-200;
-  }
-  
-  /* Estados de focus para enlaces */
-  .link-focus {
-    @apply focus:outline-none focus:ring-2 focus:ring-green-400/70;
-    @apply focus:ring-offset-1 focus:ring-offset-white dark:focus:ring-offset-slate-950;
-    @apply focus:underline focus:decoration-2 focus:decoration-green-400;
-  }
-  
-  /* Texto con mejor contraste WCAG AA */
-  .text-contrast-aa {
-    @apply text-gray-800 dark:text-gray-100;
-  }
-  
-  .text-contrast-low {
-    @apply text-gray-700 dark:text-gray-200;
-  }
-  
-  .text-contrast-medium {
-    @apply text-gray-800 dark:text-gray-100;
-  }
-  
-  .text-contrast-high {
-    @apply text-gray-900 dark:text-gray-50;
-  }
-  
-  /* Estados de hover mejorados */
-  .hover-enhanced {
-    @apply transition-all duration-200 ease-in-out;
-    @apply hover:scale-105 hover:shadow-lg;
-  }
-  
-  /* Indicadores de estado para lectores de pantalla */
-  .sr-only {
-    @apply absolute w-px h-px p-0 -m-px overflow-hidden;
-    @apply whitespace-nowrap border-0;
-    clip: rect(0, 0, 0, 0);
-  }
-  
-  .sr-only-focusable:focus {
-    @apply static w-auto h-auto p-2 m-0 overflow-visible;
-    @apply whitespace-normal;
-    clip: auto;
-  }
-  
   /* Área de toque mínima para móviles (44px WCAG) */
   .touch-target {
     @apply min-h-[44px] min-w-[44px];
   }
   
-  /* Estados de carga accesibles */
-  .loading-state {
-    @apply opacity-70 pointer-events-none;
-    @apply relative;
-  }
-  
-  .loading-state::after {
-    content: '';
-    @apply absolute inset-0 bg-transparent;
-    @apply animate-pulse;
+  /* Estados de carga accesibles - usado en componentes loading */
+  .sr-only {
+    @apply absolute w-px h-px p-0 -m-px overflow-hidden;
+    @apply whitespace-nowrap border-0;
+    clip: rect(0, 0, 0, 0);
   }
   
   /* Animaciones optimizadas */
@@ -192,10 +90,8 @@
     transform: translateZ(0);
   }
 }
-
-/* Performance optimizations for mobile devices */
+/* Optimizaciones de rendimiento para móviles */
 @media (max-width: 768px) {
-  /* Optimizar animaciones en móviles para dispositivos de baja potencia */
   *,
   *::before,
   *::after {
@@ -203,28 +99,11 @@
     transition-duration: 0.15s !important;
   }
   
-  /* Deshabilitar animaciones complejas que causan parpadeo */
-  .animate-pulse {
-    animation: none !important;
-    opacity: 0.7;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-    background-size: 200% 100%;
-  }
-  
-  /* Habilitar animaciones completas solo para elementos específicos */
-  .mobile-animate,
-  .toast-animation {
-    animation-duration: revert !important;
-    transition-duration: revert !important;
-  }
-  
-  /* Suavizar transiciones para evitar saltos */
   section {
-    transform: translateZ(0); /* Habilitar aceleración hardware */
+    transform: translateZ(0);
     backface-visibility: hidden;
   }
   
-  /* Optimizar scroll en móviles */
   * {
     -webkit-overflow-scrolling: touch;
   }
@@ -240,16 +119,10 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  
-  .skeleton-pulse {
-    animation: none;
-    opacity: 0.7;
-  }
 }
 
 /* Optimizaciones touch para móviles */
 @media (pointer: coarse) {
-  /* Aumentar área de toque para botones pequeños */
   button,
   a,
   input,
@@ -259,18 +132,16 @@
     min-width: 44px;
   }
   
-  /* Mejorar respuesta táctil */
   button,
   a {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
     touch-action: manipulation;
   }
   
-  /* Optimizar formularios para touch */
   input,
   textarea,
   select {
-    font-size: 16px; /* Prevenir zoom en iOS */
+    font-size: 16px;
   }
 }
 
@@ -297,80 +168,8 @@
   h6 { font-size: 0.875rem; }
 }
 
-/* Utilidades para evitar saltos de layout */
-.prevent-layout-shift {
-  contain: layout style;
-}
-
-.stable-height {
-  min-height: 200px;
-  contain: layout;
-}
-
-/* Smooth scroll mejorado - solo para links internos */
-html {
-  scroll-behavior: auto; /* Default auto para mejor control */
-}
-
-/* Smooth scroll solo para navegación interna */
-html.smooth-scroll {
-  scroll-behavior: smooth;
-}
-
-/* Animaciones de texto suaves y naturales */
 @layer components {
-  .text-animation-container {
-    /* Estado inicial para evitar flash de contenido sin animar */
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform, opacity;
-  }
-
-  .text-animation-container.animate-in {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Curvas de easing más suaves y naturales */
-  .ease-smooth {
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .ease-gentle {
-    transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
-  }
-
   .ease-natural {
     transition-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
   }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .text-animation-container {
-    transition: opacity 0.3s ease;
-    transform: none !important;
-  }
-  
-  html,
-  html.smooth-scroll {
-    scroll-behavior: auto;
-  }
-}
-
-/* Clase específica para scroll to top button */
-.scroll-to-top-active {
-  scroll-behavior: auto !important;
-}
-
-/* Fix para intersection observer flickering */
-.intersection-stable {
-  will-change: transform;
-  transform: translateZ(0);
-}
-
-/* Mejorar rendimiento de lazy loading */
-.lazy-container {
-  contain: layout style paint;
-  min-height: 200px;
 }
