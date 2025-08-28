@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
             {/* Support - Innpulsa Logo */}
             <div className="flex flex-col items-center space-y-2">
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-950 dark:text-white">Con El Apoyo De</h2>
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-950 dark:text-white">Con El Apoyo De</h3>
               {/* Logo Innpulsa para modo claro */}
               <picture className="block dark:hidden">
                 <source srcSet={footerImages.logoInnpulsaLight.avif} type="image/avif" />
@@ -80,7 +80,7 @@ const Footer: React.FC = () => {
 
             {/* Oversight - Superintendence Logo */}
             <div className="flex flex-col items-center space-y-2">
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-950 dark:text-white">Vigilado Por</h2>
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-950 dark:text-white">Vigilado Por</h3>
               <div className="flex flex-col sm:flex-row items-center gap-4">
                 {/* Logo Superintendencia para modo claro */}
                 <picture className="block dark:hidden">
