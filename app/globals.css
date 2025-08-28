@@ -24,14 +24,14 @@
 @layer utilities {
   /* Skip links para navegación por teclado */
   .skip-link {
-    @apply absolute -top-12 left-4 bg-green-500 text-white px-6 py-3 rounded-md z-[9999];
+    @apply absolute -top-12 left-4 bg-slate-950 text-white px-6 py-3 rounded-md z-[9999];
     @apply focus:top-4 transition-all duration-200;
     @apply font-semibold text-sm;
     @apply shadow-lg border-2 border-white;
   }
   
   .skip-link:focus {
-    @apply ring-4 ring-white/75;
+    @apply ring-4 ring-white;
   }
   
   /* Estados de focus mejorados para WCAG 2.1 AA */
