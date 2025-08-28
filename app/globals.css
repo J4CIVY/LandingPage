@@ -24,7 +24,7 @@
 @layer utilities {
   /* Skip links para navegación por teclado */
   .skip-link {
-    @apply absolute -top-12 left-4 bg-slate-950 text-white px-6 py-3 rounded-md z-[9999];
+    @apply absolute -top-12 left-4 bg-green-500 text-white px-6 py-3 rounded-md z-[9999];
     @apply focus:top-4 transition-all duration-200;
     @apply font-semibold text-sm;
     @apply shadow-lg border-2 border-white;
@@ -134,7 +134,7 @@
   
   button,
   a {
-    -webkit-tap-highlight-color: rgb(255, 0, 0);
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
     touch-action: manipulation;
   }
   
