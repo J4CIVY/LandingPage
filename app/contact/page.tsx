@@ -205,7 +205,7 @@ const Contact: React.FC = () => {
                       Correos Electrónicos
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400 mt-2">
-                      <strong>Institucional:</strong> <a href="mailto:contacto@bskmt.xyz" className="text-blue-600 dark:text-blue-400 hover:underline">contacto@bskmt.xyz</a><br /><strong>Notificaciones judiciales:</strong> <a href="mailto:notificacionesjudiciales@bskmt.xyz" className="text-blue-600 dark:text-blue-400 hover:underline">notificacionesjudiciales@bskmt.xyz</a><br /><strong>Correspondencia:</strong> <a href="mailto:correspondencia@bskmt.xyz" className="text-blue-600 dark:text-blue-400 hover:underline">correspondencia@bskmt.xyz</a>
+                      <strong>Institucional:</strong> <a href="mailto:contacto@bskmt.com" className="text-blue-600 dark:text-blue-400 hover:underline">contacto@bskmt.com</a><br /><strong>Notificaciones judiciales:</strong> <a href="mailto:notificacionesjudiciales@bskmt.com" className="text-blue-600 dark:text-blue-400 hover:underline">notificacionesjudiciales@bskmt.com</a><br /><strong>Correspondencia:</strong> <a href="mailto:correspondencia@bskmt.com" className="text-blue-600 dark:text-blue-400 hover:underline">correspondencia@bskmt.com</a>
                     </p>
                   </div>
                   <div>
