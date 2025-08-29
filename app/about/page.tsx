@@ -2,7 +2,6 @@ import React from 'react';
 import { FaMotorcycle, FaHandsHelping, FaShieldAlt } from 'react-icons/fa';
 import Image from 'next/image';
 import type { Metadata } from 'next';
-import Breadcrumbs from '@/components/shared/Breadcrumbs';
 export const metadata: Metadata = {
   title: "Sobre Nosotros - Historia y Valores",
   description: "Conoce la historia, misión, visión y valores de BSK Motorcycle Team. Somos más que un motoclub, somos una familia apasionada por el motociclismo en Colombia desde 2022.",
@@ -37,13 +36,13 @@ export const metadata: Metadata = {
 const About: React.FC = () => {
   return (
     <main className="min-h-screen bg-gray-100 dark:bg-slate-950 text-slate-950 dark:text-white">
-      <Breadcrumbs items={[{ label: "Sobre Nosotros" }]} />
       {/* Hero Section */}
       <section className="relative py-20 px-4 bg-white dark:bg-slate-950">
         <div className="max-w-6xl mx-auto">
-              <h1 className="text-4xl md:text-6xl font-bold mb-6 text-center text-slate-950 dark:text-white">
-                Sobre <span className="text-accent">BSK Motorcycle Team</span>
-              </h1>          <p className="text-xl text-center max-w-3xl mx-auto text-gray-600 dark:text-gray-400">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-center text-slate-950 dark:text-white">
+            Sobre <span className="text-accent">BSK Motorcycle Team</span>
+          </h1>          
+          <p className="text-xl text-center max-w-3xl mx-auto text-gray-600 dark:text-gray-400">
             Donde la comunidad se vive sobre dos ruedas. Conoce nuestra historia, valores y lo que nos hace una familia unida por la pasión, el espíritu aventurero y el respeto mutuo.
           </p>
         </div>
@@ -55,20 +54,20 @@ const About: React.FC = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-slate-950 dark:text-white">
             Nuestra <span className="text-accent">Historia</span>
           </h2>
-          
+
           <article className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h3 className="text-2xl font-semibold mb-4 text-slate-950 dark:text-white">
                 Los Comienzos
               </h3>
-              
+
               <p className="mb-6 text-gray-700 dark:text-gray-300">
-                BSK Motorcycle Team nació en 2022 de la pasión compartida por un grupo de amigos amantes de las motos. 
+                BSK Motorcycle Team nació en 2022 de la pasión compartida por un grupo de amigos amantes de las motos.
                 Lo que comenzó como salidas casuales los fines de semana, pronto se convirtió en un movimiento organizado.
               </p>
-              
+
               <p className="mb-6 text-gray-700 dark:text-gray-300">
-                En 2022, oficializamos nuestro club con el objetivo de promover el motociclismo responsable y crear 
+                En 2022, oficializamos nuestro club con el objetivo de promover el motociclismo responsable y crear
                 una comunidad donde la camaradería y el respeto fueran los pilares fundamentales.
               </p>
             </div>
@@ -83,18 +82,18 @@ const About: React.FC = () => {
               <h3 className="text-2xl font-semibold mb-4 text-slate-950 dark:text-white">
                 Crecimiento y Reconocimiento
               </h3>
-              
+
               <p className="mb-6 text-gray-700 dark:text-gray-300">
-                Al finalizar el primer año, BSK ya contaba con 17 miembros activos y habíamos organizado varios eventos 
-                entre ellos el Tour Andino, Tour De Los LLanos, Tour Navideño, Road To Villeta, Road To Guamal, 
-                Road To Girardot, We Come And Go Tocaima, We Come And Go Choachi, We Come And Go La Calera, Direct To F2R, 
-                adicionalmente realizamos algunos eventos benéficos, recaudando fondos para causas locales y realizamos 
-                algunas capacitaciones en seguridad vial y y tecnicas de manejo. Estos fueron los primeros de muchos eventos 
+                Al finalizar el primer año, BSK ya contaba con 17 miembros activos y habíamos organizado varios eventos
+                entre ellos el Tour Andino, Tour De Los LLanos, Tour Navideño, Road To Villeta, Road To Guamal,
+                Road To Girardot, We Come And Go Tocaima, We Come And Go Choachi, We Come And Go La Calera, Direct To F2R,
+                adicionalmente realizamos algunos eventos benéficos, recaudando fondos para causas locales y realizamos
+                algunas capacitaciones en seguridad vial y y tecnicas de manejo. Estos fueron los primeros de muchos eventos
                 que marcarían nuestro compromiso con la comunidad.
               </p>
               <p className="text-gray-700 dark:text-gray-300">
-                Hoy, contamos con exactamente 39 miembros activos en Bogotá y cundinamarca, y algo mas de 150 seguidores y 
-                seguimos creciendo manteniendo nuestros valores originales: pasión por las motos, respeto por la vida y 
+                Hoy, contamos con exactamente 39 miembros activos en Bogotá y cundinamarca, y algo mas de 150 seguidores y
+                seguimos creciendo manteniendo nuestros valores originales: pasión por las motos, respeto por la vida y
                 compromiso con nuestra comunidad.
               </p>
             </div>
@@ -112,7 +111,7 @@ const About: React.FC = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-slate-950 dark:text-white">
             Nuestros <span className="text-red-600 dark:text-red-600">Pilares</span>
           </h2>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             {/* Mission */}
             <article className="bg-white dark:bg-slate-800 p-8 rounded-lg shadow-lg">
@@ -121,8 +120,8 @@ const About: React.FC = () => {
               </div>
               <h3 className="text-2xl font-semibold mb-4 text-slate-950 dark:text-white">Misión</h3>
               <p className="text-gray-700 dark:text-gray-300">
-                Ser la familia que cada motero necesita. Promovemos el motociclismo seguro y responsable, 
-                fomentando la comunidad entre nuestros miembros y contribuyendo positivamente a nuestra 
+                Ser la familia que cada motero necesita. Promovemos el motociclismo seguro y responsable,
+                fomentando la comunidad entre nuestros miembros y contribuyendo positivamente a nuestra
                 comunidad a través de eventos benéficos y aventuras que crean recuerdos para toda la vida.
               </p>
             </article>
@@ -134,8 +133,8 @@ const About: React.FC = () => {
               </div>
               <h3 className="text-2xl font-semibold mb-4 text-slate-950 dark:text-white">Visión</h3>
               <p className="text-gray-700 dark:text-gray-300">
-                Ser reconocidos como la comunidad de motociclistas más respetada de Colombia, 
-                conocida por nuestros valores de comunidad, espíritu aventurero y respeto mutuo. 
+                Ser reconocidos como la comunidad de motociclistas más respetada de Colombia,
+                conocida por nuestros valores de comunidad, espíritu aventurero y respeto mutuo.
                 Donde cada ruta se convierte en una aventura y cada miembro encuentra su segunda familia.
               </p>
             </article>
@@ -164,26 +163,26 @@ const About: React.FC = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-slate-950 dark:text-white">
             Nuestra <span className="text-green-500 dark:text-green-500">Filosofía</span>
           </h2>
-          
+
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             <div>
               <h3 className="text-2xl font-bold mb-4">Comunidad</h3>
               <p>
-                En BSK Motorcycle Team no somos solo compañeros de ruta, somos familia. Apoyamos a nuestros miembros 
+                En BSK Motorcycle Team no somos solo compañeros de ruta, somos familia. Apoyamos a nuestros miembros
                 en las buenas y en las malas, dentro y fuera de la carretera.
               </p>
             </div>
             <div>
               <h3 className="text-2xl font-bold mb-4">Espíritu</h3>
               <p>
-                Vivimos con pasión y determinación. Cada viaje es una aventura y cada miembro aporta su energía única 
+                Vivimos con pasión y determinación. Cada viaje es una aventura y cada miembro aporta su energía única
                 al grupo.
               </p>
             </div>
             <div>
               <h3 className="text-2xl font-bold mb-4">Respeto</h3>
               <p>
-                Respeto por la vida, por las normas, por nuestros compañeros y por todos los usuarios de la vía. 
+                Respeto por la vida, por las normas, por nuestros compañeros y por todos los usuarios de la vía.
                 Este es nuestro valor fundamental.
               </p>
             </div>
@@ -201,11 +200,11 @@ const About: React.FC = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-slate-950 dark:text-white">
             Voces de <span className="text-accent">BSK</span>
           </h2>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <article className="bg-white dark:bg-slate-800 text-slate-950 dark:text-white p-6 rounded-lg shadow-lg border border-gray-100 dark:border-slate-700">
               <p className="italic mb-4 text-gray-700 dark:text-gray-300">
-                "Unirme a BSK fue la mejor decisión que pude tomar. No solo he hecho amigos para toda la vida, 
+                "Unirme a BSK fue la mejor decisión que pude tomar. No solo he hecho amigos para toda la vida,
                 sino que he aprendido a ser un motociclista más seguro y responsable."
               </p>
               <p className="font-semibold text-slate-950 dark:text-white">- Carlos, miembro desde 2022</p>
@@ -213,7 +212,7 @@ const About: React.FC = () => {
 
             <article className="bg-white dark:bg-slate-800 text-slate-950 dark:text-white p-6 rounded-lg shadow-lg border border-gray-100 dark:border-slate-700">
               <p className="italic mb-4 text-gray-700 dark:text-gray-300">
-                "Los eventos benéficos que organizamos me llenan de orgullo. Demostramos que los motociclistas 
+                "Los eventos benéficos que organizamos me llenan de orgullo. Demostramos que los motociclistas
                 podemos ser una fuerza positiva en la comunidad."
               </p>
               <p className="font-semibold text-slate-950 dark:text-white">- Ana, miembro desde 2022</p>
@@ -221,7 +220,7 @@ const About: React.FC = () => {
 
             <article className="bg-white dark:bg-slate-800 text-slate-950 dark:text-white p-6 rounded-lg shadow-lg border border-gray-100 dark:border-slate-700 md:col-span-2 lg:col-span-1">
               <p className="italic mb-4 text-gray-700 dark:text-gray-300">
-                "Como mujer motociclista, encontré en BSK un espacio de respeto e igualdad. Aquí lo único que 
+                "Como mujer motociclista, encontré en BSK un espacio de respeto e igualdad. Aquí lo único que
                 importa es la pasión por las motos."
               </p>
               <p className="font-semibold text-slate-950 dark:text-white">- Laura, miembro desde 2024</p>
@@ -236,7 +235,7 @@ const About: React.FC = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-slate-950 dark:text-white">
             Nuestros <span className="text-accent">Momentos</span>
           </h2>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {[1, 2, 3, 4, 5, 6].map((item) => (
               <div key={item} className="aspect-square bg-gray-700 dark:bg-slate-600 rounded-lg overflow-hidden flex items-center justify-center">
@@ -257,7 +256,7 @@ const About: React.FC = () => {
           <p className="text-xl mb-8 max-w-2xl mx-auto text-gray-600 dark:text-gray-400">
             Descubre la emoción de formar parte de un club donde la pasión por las motos va de la mano con la amistad y el respeto.
           </p>
-          <button 
+          <button
             className="bg-accent text-slate-950 font-bold py-3 px-8 rounded-full text-lg hover:bg-accent-dark transition-colors"
             aria-label="Únete a BSK Motorcycle Team"
           >
