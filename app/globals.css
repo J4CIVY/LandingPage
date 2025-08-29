@@ -24,7 +24,7 @@
 @layer utilities {
   /* Skip links para navegación por teclado */
   .skip-link {
-    @apply absolute left-4 bg-slate-950 text-white px-6 py-3 rounded-md z-[9999];
+    @apply absolute left-4 bg-slate-950 text-white px-6 py-3 rounded-md z-[100];
     @apply font-semibold text-sm;
     @apply shadow-lg border-2 border-white;
     @apply opacity-0 pointer-events-none;

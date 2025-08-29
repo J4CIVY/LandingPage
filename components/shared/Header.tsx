@@ -46,11 +46,6 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
       ref={ref}
       className={`fixed top-0 left-0 right-0 w-full bg-white dark:bg-slate-950 py-1 z-50 shadow-sm border-b border-gray-200/50 dark:border-gray-800/50 ${className}`}
       role="banner"
-      style={{ 
-        transform: 'translateZ(0)',
-        backfaceVisibility: 'hidden',
-        contain: 'layout style paint'
-      }}
       {...props}
     >
       <div className="container mx-auto px-4">
@@ -122,7 +117,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
 
       {isMenuOpen && (
         <div
-          className="md:hidden fixed inset-x-0 top-16 bottom-0 bg-white dark:bg-slate-950 z-40 overflow-y-auto"
+          className="md:hidden fixed inset-x-0 top-16 bottom-0 bg-white dark:bg-slate-950 z-[60] overflow-y-auto"
           role="navigation"
           aria-label="Menú principal móvil"
         >
