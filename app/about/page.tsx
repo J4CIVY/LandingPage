@@ -101,7 +101,7 @@ const About: React.FC = () => {
             </div>
           </article>
 
-          <article className="grid md:grid-cols-2 gap-12 items-center">
+          <article className="mt-16 grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h3 className="text-2xl font-semibold mb-4 text-slate-950 dark:text-white">
                 BSK Motorcycle Team Hoy
