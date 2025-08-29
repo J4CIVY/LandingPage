@@ -239,7 +239,7 @@ const About: React.FC = () => {
       <section className="py-16 px-4 bg-white dark:bg-slate-950">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-slate-950 dark:text-white">
-            Voces de <span className="text-accent">BSK</span>
+            Voces de <span className="text-red-600 dark:text-red-600">BSK</span>
           </h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -271,10 +271,10 @@ const About: React.FC = () => {
       </section>
 
       {/* Gallery */}
-      <section className="py-16 px-4 bg-white dark:bg-slate-900">
+      <section className="py-16 px-4 bg-white dark:bg-slate-950">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-slate-950 dark:text-white">
-            Nuestros <span className="text-accent">Momentos</span>
+            Nuestros <span className="text-green-600 dark:text-green-600">Momentos</span>
           </h2>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
