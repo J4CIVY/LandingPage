@@ -202,7 +202,7 @@ const About: React.FC = () => {
       <section className="py-20 px-4 bg-white dark:bg-slate-950">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-slate-950 dark:text-white">
-            Nuestra <span className="text-green-500 dark:text-green-500">Filosofía</span>
+            Nuestra <span className="text-green-600 dark:text-green-600">Filosofía</span>
           </h2>
 
           <div className="grid md:grid-cols-3 gap-8 mb-12">
