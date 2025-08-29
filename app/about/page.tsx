@@ -41,7 +41,7 @@ const About: React.FC = () => {
         <div className="max-w-6xl mx-auto">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 text-center text-slate-950 dark:text-white">
             Sobre <span className="text-accent">BSK Motorcycle Team</span>
-          </h1>          
+          </h1>
           <p className="text-xl text-center max-w-3xl mx-auto text-gray-600 dark:text-gray-400">
             Donde la comunidad se vive sobre dos ruedas. Conoce nuestra historia, valores y lo que nos hace una familia unida por la pasión, el espíritu aventurero y el respeto mutuo.
           </p>
@@ -49,7 +49,7 @@ const About: React.FC = () => {
       </section>
 
       {/* Club History */}
-      <section className="py-16 px-4 bg-white dark:bg-slate-900">
+      <section className="py-16 px-4 bg-white dark:bg-slate-950">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-slate-950 dark:text-white">
             Nuestra <span className="text-accent">Historia</span>
@@ -62,13 +62,11 @@ const About: React.FC = () => {
               </h3>
 
               <p className="mb-6 text-gray-700 dark:text-gray-300">
-                BSK Motorcycle Team nació en 2022 de la pasión compartida por un grupo de amigos amantes de las motos.
-                Lo que comenzó como salidas casuales los fines de semana, pronto se convirtió en un movimiento organizado.
+                BSK Motorcycle Team nació en 2022, fruto de la pasión de un pequeño grupo de amigos que compartían un mismo lenguaje: el rugir de sus motocicletas. Lo que empezó como simples rodadas de fin de semana por las montañas que rodean Bogotá, pronto se convirtió en un movimiento organizado que atraía a más y más riders con un mismo deseo: vivir la aventura sobre dos ruedas de forma responsable, libre y en comunidad.
               </p>
 
               <p className="mb-6 text-gray-700 dark:text-gray-300">
-                En 2022, oficializamos nuestro club con el objetivo de promover el motociclismo responsable y crear
-                una comunidad donde la camaradería y el respeto fueran los pilares fundamentales.
+                Ese mismo año, decidimos dar un paso más grande. Oficializamos nuestro club bajo el nombre de BSK Motorcycle Team, con un propósito claro: construir una hermandad de motociclistas que combinara fraternidad, disciplina y respeto por la vida y la carretera.
               </p>
             </div>
             <div className="bg-gray-800 dark:bg-slate-700 rounded-lg overflow-hidden h-64 md:h-96 flex items-center justify-center">
@@ -84,17 +82,59 @@ const About: React.FC = () => {
               </h3>
 
               <p className="mb-6 text-gray-700 dark:text-gray-300">
-                Al finalizar el primer año, BSK ya contaba con 17 miembros activos y habíamos organizado varios eventos
-                entre ellos el Tour Andino, Tour De Los LLanos, Tour Navideño, Road To Villeta, Road To Guamal,
-                Road To Girardot, We Come And Go Tocaima, We Come And Go Choachi, We Come And Go La Calera, Direct To F2R,
-                adicionalmente realizamos algunos eventos benéficos, recaudando fondos para causas locales y realizamos
-                algunas capacitaciones en seguridad vial y y tecnicas de manejo. Estos fueron los primeros de muchos eventos
-                que marcarían nuestro compromiso con la comunidad.
+                El entusiasmo y la energía nos impulsaron rápido. En el primer año ya éramos 17 miembros activos y comenzamos a organizar rutas y experiencias inolvidables:
+                <ol>
+                  <li>Tour Andino</li>
+                  <li>Tour de Los Llanos</li>
+                  <li>Road To Girardot</li>
+                  <li>We Come And Go La Calera</li>
+                  <li>Direct To F2R</li>
+                </ol>
               </p>
               <p className="text-gray-700 dark:text-gray-300">
-                Hoy, contamos con exactamente 39 miembros activos en Bogotá y cundinamarca, y algo mas de 150 seguidores y
-                seguimos creciendo manteniendo nuestros valores originales: pasión por las motos, respeto por la vida y
-                compromiso con nuestra comunidad.
+                No solo rodábamos: también aportamos a la sociedad con eventos benéficos para recaudar fondos destinados a causas locales, y realizamos nuestras primeras capacitaciones en seguridad vial y técnicas de manejo, sentando las bases de lo que más adelante serían nuestros programas de formación para motociclistas.
+              </p>
+            </div>
+            <div className="order-2 md:order-1 bg-gray-800 dark:bg-slate-700 rounded-lg overflow-hidden h-64 md:h-96 flex items-center justify-center">
+              {/* Placeholder for growth image */}
+              <FaHandsHelping className="text-6xl text-accent" aria-label="Manos ayudando" />
+            </div>
+          </article>
+
+          <article className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h3 className="text-2xl font-semibold mb-4 text-slate-950 dark:text-white">
+                BSK Motorcycle Team Hoy
+              </h3>
+
+              <p className="mb-6 text-gray-700 dark:text-gray-300">
+                Hoy, BSK Motorcycle Team cuenta con 39 miembros activos en Bogotá y Cundinamarca, además de una comunidad de más de 150 seguidores que nos acompañan, nos apoyan y sueñan con nosotros cada nueva ruta.
+              </p>
+
+              <p className="mb-6 text-gray-700 dark:text-gray-300">
+                Pero lo más importante es que seguimos creciendo sin perder nuestra esencia: la pasión por las motos, el respeto por la vida y el compromiso con nuestra comunidad.              </p>
+            </div>
+            <div className="bg-gray-800 dark:bg-slate-700 rounded-lg overflow-hidden h-64 md:h-96 flex items-center justify-center">
+              {/* Placeholder for historical image */}
+              <FaMotorcycle className="text-6xl text-accent" aria-label="Motocicleta" />
+            </div>
+          </article>
+
+          <article className="mt-16 grid md:grid-cols-2 gap-12 items-center">
+            <div className="order-1 md:order-2">
+              <h3 className="text-2xl font-semibold mb-4 text-slate-950 dark:text-white">
+                Más que una marca, un club
+              </h3>
+
+              <p className="mb-6 text-gray-700 dark:text-gray-300">
+                Lo que comenzó como un sueño de amigos se ha convertido en una marca que trasciende el motociclismo tradicional. Hoy en día, BSK Motorcycle Team es:                <ol>
+                  <li>Un motoclub sólido que ofrece experiencias únicas a sus miembros.</li>
+                  <li>Un centro de encuentro de motociclistas en Colombia, abierto a quienes comparten nuestra pasión.</li>
+                  <li>Una empresa legalmente constituida (Organización Motear SAS) que ofrece tours, cursos, capacitaciones y una tienda oficial, donde vendemos nuestra propia marca y los mejores productos de las firmas más prestigiosas del mundo del motociclismo.</li>
+                </ol>
+              </p>
+              <p className="text-gray-700 dark:text-gray-300">
+                No solo rodábamos: también aportamos a la sociedad con eventos benéficos para recaudar fondos destinados a causas locales, y realizamos nuestras primeras capacitaciones en seguridad vial y técnicas de manejo, sentando las bases de lo que más adelante serían nuestros programas de formación para motociclistas.
               </p>
             </div>
             <div className="order-2 md:order-1 bg-gray-800 dark:bg-slate-700 rounded-lg overflow-hidden h-64 md:h-96 flex items-center justify-center">
