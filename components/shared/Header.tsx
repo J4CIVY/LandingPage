@@ -117,7 +117,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
 
       {isMenuOpen && (
         <div
-          className="md:hidden fixed inset-x-0 top-16 bottom-0 bg-white dark:bg-slate-950 z-[60] overflow-y-auto"
+          className="md:hidden fixed inset-x-0 top-16 bottom-0 bg-white dark:bg-slate-950 z-40 overflow-y-auto"
           role="navigation"
           aria-label="Menú principal móvil"
         >
