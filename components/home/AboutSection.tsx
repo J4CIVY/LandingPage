@@ -44,13 +44,13 @@ const AboutSection: React.FC = () => {
               Nuestra Historia
             </h3>
             <p className="text-gray-700 dark:text-gray-300 mb-6">
-              BSK Motorcycle Team nació en 2022 en Bogotá, Colombia, donde la comunidad se vive sobre dos ruedas. Desde nuestra fundación, nos une la pasión por el motociclismo, el espíritu aventurero y el respeto mutuo, creando una familia que trasciende las rutas.
+              BSK Motorcycle Team nació en 2022 en Bogotá, Colombia, en el corazón de una comunidad que vive intensamente sobre dos ruedas. Desde nuestra fundación nos ha movido la pasión por el motociclismo, el espíritu aventurero y el respeto mutuo, creando no solo un motoclub, sino una familia que trasciende fronteras y rutas.
             </p>
             <p className="text-gray-700 dark:text-gray-300 mb-6">
-              En nuestro primer año consolidamos rutas emblemáticas como el Tour Andino, el Tour de la Tatacoa y el Tour de Navidad, estableciendo una tradición de recorrer Colombia con camaradería. Hoy somos 39 miembros activos unidos por algo más grande que nosotros mismos.
+              En nuestro primer año consolidamos rutas emblemáticas como el Tour Andino, el Tour de la Tatacoa y el Tour de Navidad, estableciendo una tradición de recorrer Colombia con camaradería, disciplina y amor por la carretera. Hoy somos 39 miembros activos, unidos por un propósito que va más allá de rodar: vivir y compartir el motociclismo como estilo de vida.
             </p>
             <p className="text-gray-700 dark:text-gray-300 mb-6">
-              Respaldados por Organización Motear SAS (OMSAS), mantenemos nuestra misión de crear un espacio donde cada motociclista encuentra no solo aventura, sino una segunda familia sobre ruedas.
+              Respaldados legalmente por Organización Motear SAS (NIT 901444877), mantenemos nuestra misión de ser un espacio donde cada motociclista encuentra aventura, crecimiento personal y una segunda familia sobre ruedas.
             </p>
 
             <h3 className="text-2xl font-semibold text-slate-950 dark:text-white mb-4 mt-8">
@@ -60,19 +60,19 @@ const AboutSection: React.FC = () => {
               <li className="flex items-start">
                 <div className="flex items-start">
                   <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
-                  <span className="text-gray-700 dark:text-gray-300">Comunidad: Somos una familia de motociclistas, unidos por la confianza, la lealtad y el apoyo mutuo dentro y fuera de la carretera.</span>
+                  <span className="text-gray-700 dark:text-gray-300">Comunidad: Más que un club, somos una familia de motociclistas unida por la confianza, la lealtad y el apoyo dentro y fuera de la carretera.</span>
                 </div>
               </li>
               <li className="flex items-start">
                 <div className="flex items-start">
                   <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
-                  <span className="text-gray-700 dark:text-gray-300">Espíritu: Mantenemos vivo el espíritu aventurero, disfrutando cada ruta con pasión, alegría y la energía que nos impulsa a descubrir nuevos caminos.</span>
+                  <span className="text-gray-700 dark:text-gray-300">Espíritu: Alimentamos la pasión y el espíritu aventurero, disfrutando cada ruta con alegría, disciplina y energía para descubrir nuevos caminos.</span>
                 </div>
               </li>
               <li className="flex items-start">
                 <div className="flex items-start">
                   <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
-                  <span className="text-gray-700 dark:text-gray-300">Respeto: Valoramos y cuidamos a cada miembro y a cada comunidad que visitamos, promoviendo la tolerancia, la responsabilidad y la seguridad en todo momento.</span>
+                  <span className="text-gray-700 dark:text-gray-300">Respeto: Promovemos la seguridad, la tolerancia y la responsabilidad, cuidando a nuestros miembros y a las comunidades que visitamos.</span>
                 </div>
               </li>
             </ul>
