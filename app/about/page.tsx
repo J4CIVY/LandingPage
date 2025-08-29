@@ -84,13 +84,15 @@ const About: React.FC = () => {
               <p className="mb-6 text-gray-700 dark:text-gray-300">
                 El entusiasmo y la energía nos impulsaron rápido. En el primer año ya éramos 17 miembros activos y comenzamos a organizar rutas y experiencias inolvidables:
               </p>  
-              <ol>
-                <li>Tour Andino</li>
-                <li>Tour de Los Llanos</li>
-                <li>Road To Girardot</li>
-                <li>We Come And Go La Calera</li>
-                <li>Direct To F2R</li>
-              </ol>
+              <p>
+                <ol>
+                  <li>Tour Andino</li>
+                  <li>Tour de Los Llanos</li>
+                  <li>Road To Girardot</li>
+                  <li>We Come And Go La Calera</li>
+                  <li>Direct To F2R</li>
+                </ol>
+              </p>
               <p className="text-gray-700 dark:text-gray-300">
                 No solo rodábamos: también aportamos a la sociedad con eventos benéficos para recaudar fondos destinados a causas locales, y realizamos nuestras primeras capacitaciones en seguridad vial y técnicas de manejo, sentando las bases de lo que más adelante serían nuestros programas de formación para motociclistas.
               </p>
