@@ -155,7 +155,7 @@ const About: React.FC = () => {
 
           <div className="grid md:grid-cols-3 gap-8">
             {/* Mission */}
-            <article className="bg-white dark:bg-slate-800 p-8 rounded-lg shadow-lg">
+            <article className="bg-gray-100 dark:bg-slate-900 p-8 rounded-lg shadow-lg">
               <div className="text-accent text-4xl mb-4">
                 <FaMotorcycle aria-label="Icono de motocicleta" />
               </div>
@@ -168,7 +168,7 @@ const About: React.FC = () => {
             </article>
 
             {/* Vision */}
-            <article className="bg-white dark:bg-slate-800 p-8 rounded-lg shadow-lg">
+            <article className="bg-gray-100 dark:bg-slate-900 p-8 rounded-lg shadow-lg">
               <div className="text-accent text-4xl mb-4">
                 <FaShieldAlt aria-label="Icono de escudo" />
               </div>
@@ -181,7 +181,7 @@ const About: React.FC = () => {
             </article>
 
             {/* Values */}
-            <article className="bg-white dark:bg-slate-800 p-8 rounded-lg shadow-lg">
+            <article className="bg-gray-100 dark:bg-slate-900 p-8 rounded-lg shadow-lg">
               <div className="text-accent text-4xl mb-4">
                 <FaHandsHelping aria-label="Icono de manos ayudando" />
               </div>
@@ -243,7 +243,7 @@ const About: React.FC = () => {
           </h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <article className="bg-white dark:bg-slate-800 text-slate-950 dark:text-white p-6 rounded-lg shadow-lg border border-gray-100 dark:border-slate-700">
+            <article className="bg-gray-100 dark:bg-slate-900 text-slate-950 dark:text-white p-6 rounded-lg shadow-lg border border-gray-100 dark:border-slate-700">
               <p className="italic mb-4 text-gray-700 dark:text-gray-300">
                 "Unirme a BSK fue la mejor decisión que pude tomar. No solo he hecho amigos para toda la vida,
                 sino que he aprendido a ser un motociclista más seguro y responsable."
@@ -251,7 +251,7 @@ const About: React.FC = () => {
               <p className="font-semibold text-slate-950 dark:text-white">- Carlos, miembro desde 2022</p>
             </article>
 
-            <article className="bg-white dark:bg-slate-800 text-slate-950 dark:text-white p-6 rounded-lg shadow-lg border border-gray-100 dark:border-slate-700">
+            <article className="bg-gray-100 dark:bg-slate-900 text-slate-950 dark:text-white p-6 rounded-lg shadow-lg border border-gray-100 dark:border-slate-700">
               <p className="italic mb-4 text-gray-700 dark:text-gray-300">
                 "Los eventos benéficos que organizamos me llenan de orgullo. Demostramos que los motociclistas
                 podemos ser una fuerza positiva en la comunidad."
@@ -259,7 +259,7 @@ const About: React.FC = () => {
               <p className="font-semibold text-slate-950 dark:text-white">- Ana, miembro desde 2022</p>
             </article>
 
-            <article className="bg-white dark:bg-slate-800 text-slate-950 dark:text-white p-6 rounded-lg shadow-lg border border-gray-100 dark:border-slate-700 md:col-span-2 lg:col-span-1">
+            <article className="bg-gray-100 dark:bg-slate-900 text-slate-950 dark:text-white p-6 rounded-lg shadow-lg border border-gray-100 dark:border-slate-700 md:col-span-2 lg:col-span-1">
               <p className="italic mb-4 text-gray-700 dark:text-gray-300">
                 "Como mujer motociclista, encontré en BSK un espacio de respeto e igualdad. Aquí lo único que
                 importa es la pasión por las motos."
