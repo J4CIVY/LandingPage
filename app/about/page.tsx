@@ -131,11 +131,13 @@ const About: React.FC = () => {
               <p className="mb-6 text-gray-700 dark:text-gray-300">
                 Lo que comenzó como un sueño de amigos se ha convertido en una marca que trasciende el motociclismo tradicional. Hoy en día, BSK Motorcycle Team es: 
               </p>
-              <ol>
-                <li>Un motoclub sólido que ofrece experiencias únicas a sus miembros.</li>
-                <li>Un centro de encuentro de motociclistas en Colombia, abierto a quienes comparten nuestra pasión.</li>
-                <li>Una empresa legalmente constituida (Organización Motear SAS) que ofrece tours, cursos, capacitaciones y una tienda oficial, donde vendemos nuestra propia marca y los mejores productos de las firmas más prestigiosas del mundo del motociclismo.</li>
-              </ol>
+              <p>
+                <ol>
+                  <li>Un motoclub sólido que ofrece experiencias únicas a sus miembros.</li>
+                  <li>Un centro de encuentro de motociclistas en Colombia, abierto a quienes comparten nuestra pasión.</li>
+                  <li>Una empresa legalmente constituida (Organización Motear SAS) que ofrece tours, cursos, capacitaciones y una tienda oficial, donde vendemos nuestra propia marca y los mejores productos de las firmas más prestigiosas del mundo del motociclismo.</li>
+                </ol>
+              </p>
               <p className="text-gray-700 dark:text-gray-300">
                 No solo rodábamos: también aportamos a la sociedad con eventos benéficos para recaudar fondos destinados a causas locales, y realizamos nuestras primeras capacitaciones en seguridad vial y técnicas de manejo, sentando las bases de lo que más adelante serían nuestros programas de formación para motociclistas.
               </p>
