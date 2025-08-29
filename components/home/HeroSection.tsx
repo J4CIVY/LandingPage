@@ -190,7 +190,7 @@ const HeroSection: React.FC = () => {
 
           {/* Línea indicadora */}
           <div className="w-0.5 h-12 bg-gradient-to-b from-white/60 via-white/30 to-transparent relative overflow-hidden">
-            <div className="absolute top-0 w-full h-4 bg-gradient-to-b from-green-400/80 to-transparent"></div>
+            <div className="absolute top-0 w-full h-4 bg-gradient-to-b from-green-400/60 to-transparent opacity-80"></div>
           </div>
         </div>
       </div>

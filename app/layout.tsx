@@ -185,9 +185,8 @@ export default function RootLayout({
             }
             /* Optimizar reflow y repaint */
             .gpu-accelerated {
-              transform: translateZ(0);
-              backface-visibility: hidden;
-              perspective: 1000px;
+              contain: layout style paint;
+              will-change: auto;
             }
           `
         }} />
