@@ -66,14 +66,13 @@ const ProductSchema = new Schema<IProduct>({
   collection: 'products'
 });
 
-// Índices para optimizar consultas
+// Índices para optimizar consultas (no duplicar los unique ya definidos)
 ProductSchema.index({ name: 'text', shortDescription: 'text', category: 'text' });
 ProductSchema.index({ category: 1 });
 ProductSchema.index({ availability: 1 });
 ProductSchema.index({ finalPrice: 1 });
 ProductSchema.index({ newProduct: 1 });
 ProductSchema.index({ isActive: 1 });
-ProductSchema.index({ slug: 1 });
 
 // Middleware para generar slug automáticamente
 ProductSchema.pre('save', function(next) {

@@ -147,9 +147,7 @@ const UserSchema = new Schema<IUser>({
   collection: 'users'
 });
 
-// Índices para optimizar consultas
-UserSchema.index({ email: 1 });
-UserSchema.index({ documentNumber: 1 });
+// Índices adicionales para optimizar consultas (no duplicar los unique ya definidos)
 UserSchema.index({ membershipType: 1 });
 UserSchema.index({ isActive: 1 });
 UserSchema.index({ city: 1 });
