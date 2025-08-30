@@ -75,10 +75,16 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  console.log('🚀 API Proxy POST llamado');
+  
   const headersList = await headers();
   const csrfToken = headersList.get(CSRF_TOKEN_HEADER);
   
+  console.log('🔐 CSRF Token recibido:', csrfToken ? 'Presente' : 'Ausente');
+  console.log('🔑 API Key configurada:', PRIVATE_API_KEY ? 'Presente' : 'Ausente');
+  
   if (!csrfToken || !validateCSRFToken(csrfToken)) {
+    console.log('❌ Token CSRF inválido o ausente');
     return NextResponse.json(
       { error: 'Invalid or missing CSRF token' },
       { status: 403 }
@@ -87,6 +93,8 @@ export async function POST(request: NextRequest) {
 
   const { searchParams } = new URL(request.url);
   const endpoint = searchParams.get('endpoint');
+  
+  console.log('📍 Endpoint solicitado:', endpoint);
   
   if (!endpoint) {
     return NextResponse.json(
@@ -97,6 +105,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
+    console.log('📤 Enviando petición a:', `${API_BASE_URL}${endpoint}`);
     
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       method: 'POST',
@@ -107,6 +116,7 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify(body),
     });
 
+    console.log('📥 Respuesta del API:', response.status, response.statusText);
     const data = await response.json();
     
     return NextResponse.json(data, {
@@ -118,7 +128,7 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('API Proxy Error:', error);
+    console.error('💥 API Proxy Error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

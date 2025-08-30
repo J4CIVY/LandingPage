@@ -4,6 +4,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosError } from 'axios';
 class SecureHttpClient {
   private instance: AxiosInstance;
   private csrfToken: string | null = null;
+  private retryAttempts = new Set<string>(); // Track retry attempts
 
   constructor() {
     this.instance = axios.create({
@@ -29,6 +30,7 @@ class SecureHttpClient {
           config.headers['x-csrf-token'] = this.csrfToken;
         }
 
+        console.log('🔐 SecureClient: Token CSRF agregado:', this.csrfToken ? 'Si' : 'No');
         return config;
       },
       (error) => {
@@ -40,16 +42,30 @@ class SecureHttpClient {
     this.instance.interceptors.response.use(
       (response) => response,
       async (error: AxiosError) => {
-        // If CSRF token is invalid, refresh and retry
-        if (error.response?.status === 403) {
+        console.log('❌ SecureClient Error:', error.response?.status, error.response?.statusText);
+        
+        // Create a unique key for this request
+        const requestKey = `${error.config?.method}-${error.config?.url}`;
+        
+        // If CSRF token is invalid, refresh and retry ONCE
+        if (error.response?.status === 403 && !this.retryAttempts.has(requestKey)) {
+          console.log('🔄 Refrescando token CSRF...');
+          this.retryAttempts.add(requestKey);
+          
           await this.refreshCSRFToken();
           
           if (error.config && this.csrfToken) {
             error.config.headers['x-csrf-token'] = this.csrfToken;
+            
+            // Clean up the retry attempt after successful retry
+            setTimeout(() => this.retryAttempts.delete(requestKey), 5000);
+            
             return this.instance.request(error.config);
           }
         }
 
+        // Clean up failed retry attempts
+        this.retryAttempts.delete(requestKey);
         return Promise.reject(error);
       }
     );
