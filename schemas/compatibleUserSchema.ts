@@ -48,6 +48,7 @@ export const compatibleUserSchema = z.object({
   motorcycleYear: z.string().optional(),
   motorcyclePlate: z.string().optional(),
   motorcycleEngineSize: z.string().optional(),
+  motorcycleDisplacement: z.string().optional(),
   
   // Contraseña y confirmación
   password: z.string().min(8, 'La contraseña debe tener al menos 8 caracteres'),

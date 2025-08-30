@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { compatibleUserSchema as userSchema, type CompatibleUserSchema as FormUserSchema } from '../../schemas/compatibleUserSchema';
+import { compatibleUserSchema as userSchema, type CompatibleUserSchema as FormUserSchema } from '@/schemas/compatibleUserSchema';
 import { FaUser, FaPhone, FaEnvelope, FaMapMarkerAlt, FaBriefcase, FaHeartbeat, FaMotorcycle, FaShieldAlt, FaLock, FaEye, FaEyeSlash, FaVenusMars, FaUserMd, FaExclamationTriangle, FaCheckCircle } from 'react-icons/fa';
 import { GiSteelwingEmblem } from 'react-icons/gi';
 import { useRouter } from 'next/navigation';
@@ -148,33 +148,27 @@ const UserRegister: React.FC = () => {
         fieldCount: Object.keys(userData).length 
       });
 
-      // Submit to internal API (disabled - external API removed)
+      // Simular registro exitoso (APIs deshabilitadas)
       try {
-        // Simulate successful registration
-        const response = await fetch('/api/auth/signup', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(userData),
-        });
-
-        const responseData = await response.json();
+        // Simulate processing time
+        await new Promise(resolve => setTimeout(resolve, 2000));
         
-        if (response.ok && responseData.status === 'success') {
-          // Limpiar draft guardado al completar registro exitosamente
-          localStorage.removeItem('bskmt-registration-draft');
-          successToast('¡Registro exitoso!', 'Tu cuenta ha sido creada correctamente. Te estamos redirigiendo...');
-          
-          setTimeout(() => {
-            router.push('/registration-success');
-          }, 2000);
-        } else {
-          errorToast('Error en el registro', 'Por favor verifica tus datos e intenta nuevamente.');
-          setSubmitError('Error en el registro. Por favor verifica tus datos.');
-        }
-      } catch (fetchError) {
-        throw fetchError; // Re-throw to be caught by outer catch
+        // Limpiar draft guardado al completar registro exitosamente
+        localStorage.removeItem('bskmt-registration-draft');
+        successToast('¡Registro simulado!', 'Datos guardados localmente. Las APIs han sido deshabilitadas.');
+        
+        // Guardar datos en localStorage como demostración
+        localStorage.setItem('bskmt-registration-data', JSON.stringify({
+          ...userData,
+          password: '[REDACTED]', // No guardar contraseña real
+          registeredAt: new Date().toISOString()
+        }));
+        
+        setTimeout(() => {
+          router.push('/registration-success');
+        }, 2000);
+      } catch (simulationError) {
+        throw new Error('Error en simulación de registro');
       }
     } catch (error: any) {
       console.error('❌ Error en registro:', error);

@@ -2,10 +2,10 @@
 // This resolves type conflicts between old and new schema
 
 import { z } from 'zod';
-import { userSchema } from '../schemas/userSchema';
+import { compatibleUserSchema } from '../schemas/compatibleUserSchema';
 
 // Export the new schema type for use in forms
-export type FormUserSchema = z.infer<typeof userSchema>;
+export type FormUserSchema = z.infer<typeof compatibleUserSchema>;
 
 // Re-export the schema
-export { userSchema };
+export { compatibleUserSchema as userSchema };
