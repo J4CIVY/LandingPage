@@ -118,20 +118,39 @@ const UserRegister: React.FC = () => {
     setSubmitError('');
     
     try {
-      const birthDate: Date = new Date(data.birthDate);
-      const age: number = new Date().getFullYear() - birthDate.getFullYear();
+      // Calcular edad más precisa
+      const birthDate = new Date(data.birthDate);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
       
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      
+      // Remover confirmPassword y preparar datos
       const { confirmPassword, ...submissionData } = data;
 
+      // Asegurar que todos los campos requeridos estén presentes
       const userData = {
         ...submissionData,
         age: age,
         role: 'Membresia Friend',
-        temporaryPassword: false
+        temporaryPassword: false,
+        // Asegurar que los campos booleanos sean realmente booleanos
+        dataConsent: Boolean(submissionData.dataConsent),
+        liabilityWaiver: Boolean(submissionData.liabilityWaiver),
+        termsAcceptance: Boolean(submissionData.termsAcceptance)
       };
 
-  // Submit to internal API
-  const response = await apiClient.post('/auth/signup', userData);
+      console.log('📤 Enviando datos de registro:', { 
+        ...userData, 
+        password: '[REDACTED]',
+        fieldCount: Object.keys(userData).length 
+      });
+
+      // Submit to internal API
+      const response = await apiClient.post('/auth/signup', userData);
       
       if (response.data.status === 'success') {
         // Limpiar draft guardado al completar registro exitosamente
@@ -146,20 +165,50 @@ const UserRegister: React.FC = () => {
         setSubmitError('Error en el registro. Por favor verifica tus datos.');
       }
     } catch (error: any) {
-      console.error('Registration error:', error);
+      console.error('❌ Error en registro:', error);
+      
+      // Log detallado del error para debugging
       if (error.response) {
-        const errorMessage = error.response.data.message || 'Error en el servidor. Por favor intenta más tarde.';
+        console.error('📤 Response error:', {
+          status: error.response.status,
+          statusText: error.response.statusText,
+          data: error.response.data,
+          headers: error.response.headers
+        });
+        
+        const errorData = error.response.data;
+        let errorMessage = 'Error en el servidor. Por favor intenta más tarde.';
+        
+        if (errorData?.message) {
+          errorMessage = errorData.message;
+        }
+        
+        // Si hay errores de validación específicos, mostrarlos
+        if (errorData?.errors && Array.isArray(errorData.errors)) {
+          const fieldErrors = errorData.errors.map((err: any) => 
+            `${err.field}: ${err.message}`
+          ).join(', ');
+          errorMessage = `Errores de validación: ${fieldErrors}`;
+        }
+        
         setSubmitError(errorMessage);
         errorToast('Error en el registro', errorMessage);
-      } else {
-        const connectionError = 'Error de conexión. Verifica tu conexión a internet.';
+        
+        // Ir al paso que tiene el error si es posible
+        if (errorMessage.includes('document')) setCurrentStep(1);
+        else if (errorMessage.includes('email')) setCurrentStep(2);
+        
+      } else if (error.request) {
+        console.error('📡 Request error (no response):', error.request);
+        const connectionError = 'No se pudo conectar al servidor. Verifica tu conexión a internet.';
         setSubmitError(connectionError);
         errorToast('Error de conexión', connectionError);
+      } else {
+        console.error('⚠️ Setup error:', error.message);
+        const generalError = 'Error inesperado. Por favor intenta nuevamente.';
+        setSubmitError(generalError);
+        errorToast('Error inesperado', generalError);
       }
-      // Go to the step with the error if possible
-      const errorMessage = error.response?.data?.message || '';
-      if (errorMessage.includes('document number')) setCurrentStep(1);
-      else if (errorMessage.includes('email')) setCurrentStep(2);
     } finally {
       setIsSubmitting(false);
     }
