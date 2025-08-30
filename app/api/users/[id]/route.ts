@@ -8,9 +8,9 @@ import {
 import { db } from '@/lib/database';
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 /**
@@ -18,7 +18,7 @@ interface RouteParams {
  * Obtiene un usuario específico por ID
  */
 async function handleGet(request: NextRequest, { params }: RouteParams) {
-  const { id } = params;
+  const { id } = await params;
   
   const user = db.getUserById(id);
   
@@ -55,7 +55,7 @@ async function handleGet(request: NextRequest, { params }: RouteParams) {
  * Actualiza un usuario específico
  */
 async function handlePut(request: NextRequest, { params }: RouteParams) {
-  const { id } = params;
+  const { id } = await params;
   
   try {
     const updates = await request.json();
@@ -118,7 +118,7 @@ async function handlePut(request: NextRequest, { params }: RouteParams) {
  * Elimina un usuario específico (soft delete)
  */
 async function handleDelete(request: NextRequest, { params }: RouteParams) {
-  const { id } = params;
+  const { id } = await params;
   
   const user = db.getUserById(id);
   if (!user) {

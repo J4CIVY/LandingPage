@@ -10,9 +10,9 @@ import { db } from '@/lib/database';
 import { updateEmergencySchema } from '@/lib/validation-schemas';
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 /**
@@ -20,7 +20,7 @@ interface RouteParams {
  * Obtiene una emergencia específica por ID
  */
 async function handleGet(request: NextRequest, { params }: RouteParams) {
-  const { id } = params;
+  const { id } = await params;
   
   const emergency = db.getEmergencyById(id);
   
@@ -42,7 +42,7 @@ async function handleGet(request: NextRequest, { params }: RouteParams) {
  * Actualiza el estado de una emergencia
  */
 async function handlePut(request: NextRequest, { params }: RouteParams) {
-  const { id } = params;
+  const { id } = await params;
   
   const validation = await validateRequestBody(request, updateEmergencySchema);
   
@@ -113,7 +113,7 @@ async function handlePut(request: NextRequest, { params }: RouteParams) {
  * Cancela una emergencia (soft delete)
  */
 async function handleDelete(request: NextRequest, { params }: RouteParams) {
-  const { id } = params;
+  const { id } = await params;
   
   const emergency = db.getEmergencyById(id);
   if (!emergency) {

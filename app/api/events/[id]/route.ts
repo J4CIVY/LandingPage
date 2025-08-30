@@ -10,9 +10,9 @@ import { db } from '@/lib/database';
 import { updateEventSchema } from '@/lib/validation-schemas';
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 /**
@@ -20,7 +20,7 @@ interface RouteParams {
  * Obtiene un evento específico por ID
  */
 async function handleGet(request: NextRequest, { params }: RouteParams) {
-  const { id } = params;
+  const { id } = await params;
   
   const event = db.getEventById(id);
   
@@ -42,7 +42,7 @@ async function handleGet(request: NextRequest, { params }: RouteParams) {
  * Actualiza un evento específico
  */
 async function handlePut(request: NextRequest, { params }: RouteParams) {
-  const { id } = params;
+  const { id } = await params;
   
   const validation = await validateRequestBody(request, updateEventSchema);
   
@@ -113,7 +113,7 @@ async function handlePut(request: NextRequest, { params }: RouteParams) {
  * Elimina un evento específico
  */
 async function handleDelete(request: NextRequest, { params }: RouteParams) {
-  const { id } = params;
+  const { id } = await params;
   
   const event = db.getEventById(id);
   if (!event) {

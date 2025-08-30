@@ -10,9 +10,9 @@ import { db } from '@/lib/database';
 import { updateProductSchema } from '@/lib/validation-schemas';
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 /**
@@ -20,7 +20,7 @@ interface RouteParams {
  * Obtiene un producto específico por ID
  */
 async function handleGet(request: NextRequest, { params }: RouteParams) {
-  const { id } = params;
+  const { id } = await params;
   
   const product = db.getProductById(id);
   
@@ -42,7 +42,7 @@ async function handleGet(request: NextRequest, { params }: RouteParams) {
  * Actualiza un producto específico
  */
 async function handlePut(request: NextRequest, { params }: RouteParams) {
-  const { id } = params;
+  const { id } = await params;
   
   const validation = await validateRequestBody(request, updateProductSchema);
   
@@ -103,7 +103,7 @@ async function handlePut(request: NextRequest, { params }: RouteParams) {
  * Elimina un producto específico
  */
 async function handleDelete(request: NextRequest, { params }: RouteParams) {
-  const { id } = params;
+  const { id } = await params;
   
   const product = db.getProductById(id);
   if (!product) {

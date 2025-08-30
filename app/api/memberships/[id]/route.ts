@@ -8,9 +8,9 @@ import {
 import { db } from '@/lib/database';
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 /**
@@ -18,7 +18,7 @@ interface RouteParams {
  * Obtiene una aplicación de membresía específica por ID
  */
 async function handleGet(request: NextRequest, { params }: RouteParams) {
-  const { id } = params;
+  const { id } = await params;
   
   const application = db.getMembershipApplicationById(id);
   
@@ -40,7 +40,7 @@ async function handleGet(request: NextRequest, { params }: RouteParams) {
  * Actualiza el estado de una aplicación de membresía
  */
 async function handlePut(request: NextRequest, { params }: RouteParams) {
-  const { id } = params;
+  const { id } = await params;
   
   try {
     const body = await request.json();
@@ -103,7 +103,7 @@ async function handlePut(request: NextRequest, { params }: RouteParams) {
  * Elimina una aplicación de membresía
  */
 async function handleDelete(request: NextRequest, { params }: RouteParams) {
-  const { id } = params;
+  const { id } = await params;
   
   const application = db.getMembershipApplicationById(id);
   if (!application) {

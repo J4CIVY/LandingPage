@@ -8,9 +8,9 @@ import {
 import { db } from '@/lib/database';
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 /**
@@ -18,7 +18,7 @@ interface RouteParams {
  * Obtiene un mensaje de contacto específico por ID
  */
 async function handleGet(request: NextRequest, { params }: RouteParams) {
-  const { id } = params;
+  const { id } = await params;
   
   const message = db.getContactMessageById(id);
   
@@ -40,7 +40,7 @@ async function handleGet(request: NextRequest, { params }: RouteParams) {
  * Actualiza el estado de un mensaje de contacto
  */
 async function handlePut(request: NextRequest, { params }: RouteParams) {
-  const { id } = params;
+  const { id } = await params;
   
   try {
     const body = await request.json();
@@ -104,7 +104,7 @@ async function handlePut(request: NextRequest, { params }: RouteParams) {
  * Marca un mensaje de contacto como cerrado
  */
 async function handleDelete(request: NextRequest, { params }: RouteParams) {
-  const { id } = params;
+  const { id } = await params;
   
   const message = db.getContactMessageById(id);
   if (!message) {
