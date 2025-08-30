@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { compatibleUserSchema as userSchema, type CompatibleUserSchema as FormUserSchema } from '../../schemas/compatibleUserSchema';
 import { FaUser, FaPhone, FaEnvelope, FaMapMarkerAlt, FaBriefcase, FaHeartbeat, FaMotorcycle, FaShieldAlt, FaLock, FaEye, FaEyeSlash, FaVenusMars, FaUserMd, FaExclamationTriangle, FaCheckCircle } from 'react-icons/fa';
 import { GiSteelwingEmblem } from 'react-icons/gi';
-import secureHttp from '../../http/secureClient';
+import apiClient from '../../http/apiClient';
 import { useRouter } from 'next/navigation';
 import FormError from '../../components/shared/FormError';
 import {
@@ -130,8 +130,8 @@ const UserRegister: React.FC = () => {
         temporaryPassword: false
       };
 
-  // Submit through secure proxy endpoint  
-  const response = await secureHttp.post('/auth/signup', userData);
+  // Submit to internal API
+  const response = await apiClient.post('/auth/signup', userData);
       
       if (response.data.status === 'success') {
         // Limpiar draft guardado al completar registro exitosamente
