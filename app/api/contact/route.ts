@@ -4,73 +4,64 @@ import {
   createSuccessResponse, 
   createErrorResponse,
   validateRequestBody,
-  getQueryParams,
   HTTP_STATUS 
 } from '@/lib/api-utils';
-import { db } from '@/lib/database';
-import { contactMessageSchema, paginationSchema } from '@/lib/validation-schemas';
+import connectDB from '@/lib/mongodb';
+import ContactMessage from '@/lib/models/ContactMessage';
+import { contactMessageSchema } from '@/lib/validation-schemas';
 
 /**
  * GET /api/contact
- * Obtiene mensajes de contacto con paginación
+ * Obtiene mensajes de contacto (solo para administradores)
  */
 async function handleGet(request: NextRequest) {
-  const queryParams = getQueryParams(request);
+  await connectDB();
   
-  // Validar parámetros de paginación
-  const paginationResult = paginationSchema.safeParse(queryParams);
-  if (!paginationResult.success) {
-    return createErrorResponse(
-      'Parámetros de paginación inválidos',
-      HTTP_STATUS.BAD_REQUEST
-    );
-  }
+  const { searchParams } = new URL(request.url);
+  const page = parseInt(searchParams.get('page') || '1');
+  const limit = parseInt(searchParams.get('limit') || '10');
+  const status = searchParams.get('status');
+  const category = searchParams.get('category');
+  const priority = searchParams.get('priority');
   
-  const { page, limit } = paginationResult.data;
-  const status = queryParams.status as 'new' | 'in-progress' | 'resolved' | 'closed' | undefined;
-  const type = queryParams.type as 'general' | 'membership' | 'technical' | 'complaint' | 'suggestion' | undefined;
+  // Construir filtros de MongoDB
+  const mongoFilters: any = { isActive: true };
   
-  // Obtener todos los mensajes
-  let messages = db.getAllContactMessages();
-  
-  // Aplicar filtros
   if (status) {
-    messages = messages.filter(msg => msg.status === status);
+    mongoFilters.status = status;
   }
   
-  if (type) {
-    messages = messages.filter(msg => msg.type === type);
+  if (category) {
+    mongoFilters.category = category;
   }
   
-  // Ordenar por fecha de creación (más recientes primero)
-  messages.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  if (priority) {
+    mongoFilters.priority = priority;
+  }
   
-  // Aplicar paginación
-  const total = messages.length;
-  const startIndex = (page - 1) * limit;
-  const endIndex = startIndex + limit;
-  const paginatedMessages = messages.slice(startIndex, endIndex);
+  // Calcular skip para paginación
+  const skip = (page - 1) * limit;
   
-  const totalPages = Math.ceil(total / limit);
+  // Obtener mensajes con paginación
+  const messages = await ContactMessage.find(mongoFilters)
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit)
+    .populate('assignedTo', 'firstName lastName email')
+    .populate('respondedBy', 'firstName lastName email')
+    .exec();
+  
+  const totalMessages = await ContactMessage.countDocuments(mongoFilters);
   
   return createSuccessResponse({
-    messages: paginatedMessages,
+    messages,
     pagination: {
-      currentPage: page,
-      totalPages,
-      totalItems: total,
-      itemsPerPage: limit,
-      hasNextPage: page < totalPages,
-      hasPreviousPage: page > 1
-    },
-    stats: {
-      new: messages.filter(msg => msg.status === 'new').length,
-      inProgress: messages.filter(msg => msg.status === 'in-progress').length,
-      resolved: messages.filter(msg => msg.status === 'resolved').length,
-      closed: messages.filter(msg => msg.status === 'closed').length,
-      total: messages.length
+      page,
+      limit,
+      total: totalMessages,
+      pages: Math.ceil(totalMessages / limit)
     }
-  }, 'Mensajes de contacto obtenidos exitosamente');
+  }, 'Mensajes obtenidos exitosamente');
 }
 
 /**
@@ -78,35 +69,62 @@ async function handleGet(request: NextRequest) {
  * Crea un nuevo mensaje de contacto
  */
 async function handlePost(request: NextRequest) {
+  await connectDB();
+  
   const validation = await validateRequestBody(request, contactMessageSchema);
   
   if (!validation.success) {
     return validation.response;
   }
 
-  const messageData = validation.data;
+  const contactData = validation.data;
   
-  const newMessage = db.createContactMessage({
-    ...messageData,
-    status: 'new'
-  });
-  
-  // Simular notificación al equipo de soporte
-  console.log(`📧 NUEVO MENSAJE DE CONTACTO: ${newMessage.type.toUpperCase()}`);
-  console.log(`📋 Asunto: ${newMessage.subject}`);
-  console.log(`👤 Remitente: ${newMessage.name} (${newMessage.email})`);
-  
-  // Simular auto-respuesta
-  console.log(`🤖 Auto-respuesta enviada a ${newMessage.email}`);
-  
-  return createSuccessResponse(
-    { 
-      message: newMessage,
-      confirmationMessage: 'Tu mensaje ha sido recibido. Te responderemos en un plazo de 24-48 horas.'
-    },
-    'Mensaje de contacto enviado exitosamente',
-    HTTP_STATUS.CREATED
-  );
+  try {
+    // Obtener información adicional de la solicitud
+    const clientIP = request.headers.get('x-forwarded-for') || 
+                     request.headers.get('x-real-ip') || 
+                     'unknown';
+    const userAgent = request.headers.get('user-agent') || '';
+    const referrerUrl = request.headers.get('referer') || '';
+    
+    // Crear nuevo mensaje de contacto
+    const newMessage = new ContactMessage({
+      ...contactData,
+      ipAddress: clientIP,
+      userAgent,
+      referrerUrl,
+      source: 'website'
+    });
+    
+    await newMessage.save();
+    
+    // Retornar respuesta sin información sensible
+    const responseData = {
+      id: newMessage._id,
+      name: newMessage.name,
+      email: newMessage.email,
+      subject: newMessage.subject,
+      category: newMessage.category,
+      status: newMessage.status,
+      createdAt: newMessage.createdAt
+    };
+    
+    return createSuccessResponse(
+      responseData,
+      'Mensaje enviado exitosamente. Te contactaremos pronto.',
+      HTTP_STATUS.CREATED
+    );
+    
+  } catch (error: any) {
+    if (error.name === 'ValidationError') {
+      return createErrorResponse(
+        `Error de validación: ${error.message}`,
+        HTTP_STATUS.BAD_REQUEST
+      );
+    }
+    
+    throw error;
+  }
 }
 
 // Handlers principales

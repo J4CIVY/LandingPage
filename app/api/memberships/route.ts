@@ -4,72 +4,59 @@ import {
   createSuccessResponse, 
   createErrorResponse,
   validateRequestBody,
-  getQueryParams,
   HTTP_STATUS 
 } from '@/lib/api-utils';
-import { db } from '@/lib/database';
-import { membershipApplicationSchema, paginationSchema } from '@/lib/validation-schemas';
+import connectDB from '@/lib/mongodb';
+import MembershipApplication from '@/lib/models/MembershipApplication';
+import { membershipApplicationSchema } from '@/lib/validation-schemas';
 
 /**
  * GET /api/memberships
- * Obtiene aplicaciones de membresía con paginación
+ * Obtiene aplicaciones de membresía (solo para administradores)
  */
 async function handleGet(request: NextRequest) {
-  const queryParams = getQueryParams(request);
+  await connectDB();
   
-  // Validar parámetros de paginación
-  const paginationResult = paginationSchema.safeParse(queryParams);
-  if (!paginationResult.success) {
-    return createErrorResponse(
-      'Parámetros de paginación inválidos',
-      HTTP_STATUS.BAD_REQUEST
-    );
-  }
+  const { searchParams } = new URL(request.url);
+  const page = parseInt(searchParams.get('page') || '1');
+  const limit = parseInt(searchParams.get('limit') || '10');
+  const status = searchParams.get('status');
+  const membershipType = searchParams.get('membershipType');
   
-  const { page, limit } = paginationResult.data;
-  const status = queryParams.status as 'pending' | 'approved' | 'rejected' | undefined;
-  const membershipType = queryParams.membershipType;
+  // Construir filtros de MongoDB
+  const mongoFilters: any = { isActive: true };
   
-  // Obtener todas las aplicaciones
-  let applications = db.getAllMembershipApplications();
-  
-  // Aplicar filtros
   if (status) {
-    applications = applications.filter(app => app.status === status);
+    mongoFilters.status = status;
   }
   
   if (membershipType) {
-    applications = applications.filter(app => app.membershipType === membershipType);
+    mongoFilters.membershipType = membershipType;
   }
   
-  // Ordenar por fecha de creación (más recientes primero)
-  applications.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  // Calcular skip para paginación
+  const skip = (page - 1) * limit;
   
-  // Aplicar paginación
-  const total = applications.length;
-  const startIndex = (page - 1) * limit;
-  const endIndex = startIndex + limit;
-  const paginatedApplications = applications.slice(startIndex, endIndex);
+  // Obtener aplicaciones con paginación
+  const applications = await MembershipApplication.find(mongoFilters)
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit)
+    .populate('reviewedBy', 'firstName lastName email')
+    .populate('referredByMember', 'firstName lastName email')
+    .exec();
   
-  const totalPages = Math.ceil(total / limit);
+  const totalApplications = await MembershipApplication.countDocuments(mongoFilters);
   
   return createSuccessResponse({
-    applications: paginatedApplications,
+    applications,
     pagination: {
-      currentPage: page,
-      totalPages,
-      totalItems: total,
-      itemsPerPage: limit,
-      hasNextPage: page < totalPages,
-      hasPreviousPage: page > 1
-    },
-    stats: {
-      pending: applications.filter(app => app.status === 'pending').length,
-      approved: applications.filter(app => app.status === 'approved').length,
-      rejected: applications.filter(app => app.status === 'rejected').length,
-      total: applications.length
+      page,
+      limit,
+      total: totalApplications,
+      pages: Math.ceil(totalApplications / limit)
     }
-  }, 'Aplicaciones de membresía obtenidas exitosamente');
+  }, 'Aplicaciones obtenidas exitosamente');
 }
 
 /**
@@ -77,6 +64,8 @@ async function handleGet(request: NextRequest) {
  * Crea una nueva aplicación de membresía
  */
 async function handlePost(request: NextRequest) {
+  await connectDB();
+  
   const validation = await validateRequestBody(request, membershipApplicationSchema);
   
   if (!validation.success) {
@@ -85,35 +74,63 @@ async function handlePost(request: NextRequest) {
 
   const applicationData = validation.data;
   
-  // Verificar si ya existe una aplicación activa con el mismo email
-  const existingApplication = db.getAllMembershipApplications().find(app => 
-    app.email === applicationData.email && app.status === 'pending'
-  );
-  
-  if (existingApplication) {
-    return createErrorResponse(
-      'Ya tienes una aplicación de membresía pendiente',
-      HTTP_STATUS.CONFLICT
+  try {
+    // Verificar si ya existe una aplicación activa con el mismo email
+    const existingApplication = await MembershipApplication.findOne({
+      email: applicationData.email,
+      status: { $in: ['pending', 'approved'] },
+      isActive: true
+    });
+    
+    if (existingApplication) {
+      return createErrorResponse(
+        'Ya existe una aplicación activa con este email',
+        HTTP_STATUS.CONFLICT
+      );
+    }
+    
+    // Obtener información adicional de la solicitud
+    const clientIP = request.headers.get('x-forwarded-for') || 
+                     request.headers.get('x-real-ip') || 
+                     'unknown';
+    const userAgent = request.headers.get('user-agent') || '';
+    
+    // Crear nueva aplicación de membresía
+    const newApplication = new MembershipApplication({
+      ...applicationData,
+      ipAddress: clientIP,
+      userAgent,
+      source: 'website'
+    });
+    
+    await newApplication.save();
+    
+    // Retornar respuesta sin información sensible
+    const responseData = {
+      id: newApplication._id,
+      name: newApplication.name,
+      email: newApplication.email,
+      membershipType: newApplication.membershipType,
+      status: newApplication.status,
+      createdAt: newApplication.createdAt
+    };
+    
+    return createSuccessResponse(
+      responseData,
+      'Aplicación de membresía enviada exitosamente. Te contactaremos pronto.',
+      HTTP_STATUS.CREATED
     );
+    
+  } catch (error: any) {
+    if (error.name === 'ValidationError') {
+      return createErrorResponse(
+        `Error de validación: ${error.message}`,
+        HTTP_STATUS.BAD_REQUEST
+      );
+    }
+    
+    throw error;
   }
-  
-  const newApplication = db.createMembershipApplication({
-    ...applicationData,
-    status: 'pending'
-  });
-  
-  // Simular notificación al equipo de administración
-  console.log(`📋 NUEVA APLICACIÓN DE MEMBRESÍA: ${newApplication.membershipType.toUpperCase()}`);
-  console.log(`👤 Solicitante: ${newApplication.name} (${newApplication.email})`);
-  
-  return createSuccessResponse(
-    { 
-      application: newApplication,
-      message: 'Tu aplicación ha sido recibida. Te contactaremos pronto con más información.'
-    },
-    'Aplicación de membresía enviada exitosamente',
-    HTTP_STATUS.CREATED
-  );
 }
 
 // Handlers principales

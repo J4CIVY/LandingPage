@@ -1,14 +1,13 @@
 import { NextRequest } from 'next/server';
 import { 
   withErrorHandling, 
-  checkMethod, 
-  methodNotAllowed, 
   createSuccessResponse, 
   createErrorResponse,
   validateRequestBody,
   HTTP_STATUS 
 } from '@/lib/api-utils';
-import { db } from '@/lib/database';
+import connectDB from '@/lib/mongodb';
+import User from '@/lib/models/User';
 import { compatibleUserSchema } from '@/schemas/compatibleUserSchema';
 
 /**
@@ -16,11 +15,38 @@ import { compatibleUserSchema } from '@/schemas/compatibleUserSchema';
  * Obtiene todos los usuarios registrados
  */
 async function handleGet(request: NextRequest) {
-  const users = db.getAllUsers();
+  await connectDB();
+  
+  const { searchParams } = new URL(request.url);
+  const page = parseInt(searchParams.get('page') || '1');
+  const limit = parseInt(searchParams.get('limit') || '10');
+  const role = searchParams.get('role');
+  const isActive = searchParams.get('isActive');
+  
+  // Construir filtros
+  const filters: any = {};
+  if (role) filters.role = role;
+  if (isActive !== null) filters.isActive = isActive === 'true';
+  
+  // Obtener usuarios con paginación
+  const skip = (page - 1) * limit;
+  const users = await User.find(filters)
+    .select('-password') // Excluir contraseña
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit)
+    .exec();
+  
+  const total = await User.countDocuments(filters);
   
   return createSuccessResponse({
     users,
-    total: users.length
+    total,
+    pagination: {
+      page,
+      limit,
+      pages: Math.ceil(total / limit)
+    }
   }, 'Usuarios obtenidos exitosamente');
 }
 
@@ -29,6 +55,8 @@ async function handleGet(request: NextRequest) {
  * Registra un nuevo usuario
  */
 async function handlePost(request: NextRequest) {
+  await connectDB();
+  
   const validation = await validateRequestBody(request, compatibleUserSchema);
   
   if (!validation.success) {
@@ -38,7 +66,7 @@ async function handlePost(request: NextRequest) {
   const userData = validation.data;
 
   // Verificar si el usuario ya existe
-  const existingUser = db.getUserByEmail(userData.email);
+  const existingUser = await User.findOne({ email: userData.email });
   if (existingUser) {
     return createErrorResponse(
       'El usuario ya existe con este email',
@@ -47,23 +75,29 @@ async function handlePost(request: NextRequest) {
   }
 
   // Crear nuevo usuario
-  const newUser = db.createUser({
+  const newUser = new User({
     ...userData,
     isActive: true,
     membershipType: 'friend' // Membresía por defecto
   });
 
+  await newUser.save();
+
+  // Retornar usuario sin la contraseña
+  const userResponse = newUser.toObject();
+  delete userResponse.password;
+
   return createSuccessResponse(
     {
       user: {
-        id: newUser.id,
-        email: newUser.email,
-        firstName: newUser.firstName,
-        lastName: newUser.lastName,
-        phone: newUser.phone,
-        membershipType: newUser.membershipType,
-        isActive: newUser.isActive,
-        createdAt: newUser.createdAt
+        id: userResponse._id,
+        email: userResponse.email,
+        firstName: userResponse.firstName,
+        lastName: userResponse.lastName,
+        phone: userResponse.phone,
+        membershipType: userResponse.membershipType,
+        isActive: userResponse.isActive,
+        createdAt: userResponse.createdAt
       }
     },
     'Usuario registrado exitosamente',

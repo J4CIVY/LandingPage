@@ -3,11 +3,11 @@ import {
   withErrorHandling, 
   createSuccessResponse, 
   createErrorResponse,
-  validateRequestBody,
   HTTP_STATUS 
 } from '@/lib/api-utils';
-import { db } from '@/lib/database';
-import { updateEmergencySchema } from '@/lib/validation-schemas';
+import connectDB from '@/lib/mongodb';
+import Emergency from '@/lib/models/Emergency';
+import mongoose from 'mongoose';
 
 interface RouteParams {
   params: Promise<{
@@ -20,11 +20,24 @@ interface RouteParams {
  * Obtiene una emergencia específica por ID
  */
 async function handleGet(request: NextRequest, { params }: RouteParams) {
+  await connectDB();
+  
   const { id } = await params;
   
-  const emergency = db.getEmergencyById(id);
+  // Verificar que el ID es válido
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return createErrorResponse(
+      'ID de emergencia inválido',
+      HTTP_STATUS.BAD_REQUEST
+    );
+  }
   
-  if (!emergency) {
+  const emergency = await Emergency.findById(id)
+    .populate('assignedTo', 'firstName lastName phone email')
+    .populate('respondedBy', 'firstName lastName')
+    .exec();
+  
+  if (!emergency || !emergency.isActive) {
     return createErrorResponse(
       'Emergencia no encontrada',
       HTTP_STATUS.NOT_FOUND
@@ -39,118 +52,112 @@ async function handleGet(request: NextRequest, { params }: RouteParams) {
 
 /**
  * PUT /api/emergencies/[id]
- * Actualiza el estado de una emergencia
+ * Actualiza una emergencia específica
  */
 async function handlePut(request: NextRequest, { params }: RouteParams) {
+  await connectDB();
+  
   const { id } = await params;
   
-  const validation = await validateRequestBody(request, updateEmergencySchema);
-  
-  if (!validation.success) {
-    return validation.response;
-  }
-
-  const updates = validation.data;
-  
-  // Verificar que la emergencia existe
-  const existingEmergency = db.getEmergencyById(id);
-  if (!existingEmergency) {
+  // Verificar que el ID es válido
+  if (!mongoose.Types.ObjectId.isValid(id)) {
     return createErrorResponse(
-      'Emergencia no encontrada',
-      HTTP_STATUS.NOT_FOUND
+      'ID de emergencia inválido',
+      HTTP_STATUS.BAD_REQUEST
     );
   }
-
-  // Validaciones de estado
-  if (updates.status) {
-    // No permitir reabrir emergencias resueltas o canceladas
-    if (existingEmergency.status === 'resolved' && updates.status !== 'resolved') {
+  
+  try {
+    const updates = await request.json();
+    
+    // No permitir actualizar ciertos campos
+    const forbiddenFields = ['_id', 'createdAt', 'emergencyId', 'reportedAt'];
+    const hasForbidenField = Object.keys(updates).some(key => forbiddenFields.includes(key));
+    
+    if (hasForbidenField) {
       return createErrorResponse(
-        'No se puede reabrir una emergencia resuelta',
+        'No se pueden actualizar campos protegidos',
+        HTTP_STATUS.BAD_REQUEST
+      );
+    }
+
+    // Si se está cambiando a resuelto, establecer fecha de resolución
+    if (updates.status === 'resolved' && !updates.resolvedAt) {
+      updates.resolvedAt = new Date();
+    }
+    
+    // Si se está asignando, establecer fecha de asignación
+    if (updates.assignedTo && !updates.assignedAt) {
+      updates.assignedAt = new Date();
+    }
+
+    // Actualizar emergencia
+    const updatedEmergency = await Emergency.findByIdAndUpdate(
+      id,
+      { ...updates, updatedAt: new Date() },
+      { new: true, runValidators: true }
+    ).populate('assignedTo', 'firstName lastName phone email')
+     .populate('respondedBy', 'firstName lastName');
+
+    if (!updatedEmergency || !updatedEmergency.isActive) {
+      return createErrorResponse(
+        'Emergencia no encontrada',
+        HTTP_STATUS.NOT_FOUND
+      );
+    }
+
+    return createSuccessResponse(
+      { emergency: updatedEmergency },
+      'Emergencia actualizada exitosamente'
+    );
+
+  } catch (error: any) {
+    if (error.name === 'ValidationError') {
+      return createErrorResponse(
+        `Error de validación: ${error.message}`,
         HTTP_STATUS.BAD_REQUEST
       );
     }
     
-    if (existingEmergency.status === 'cancelled' && updates.status !== 'cancelled') {
-      return createErrorResponse(
-        'No se puede reabrir una emergencia cancelada',
-        HTTP_STATUS.BAD_REQUEST
-      );
-    }
+    throw error;
   }
-
-  // Si se resuelve, requiere resolución
-  if (updates.status === 'resolved' && !updates.resolution && !existingEmergency.resolution) {
-    return createErrorResponse(
-      'Se requiere una descripción de la resolución',
-      HTTP_STATUS.BAD_REQUEST
-    );
-  }
-
-  const updatedEmergency = db.updateEmergency(id, updates);
-  
-  if (!updatedEmergency) {
-    return createErrorResponse(
-      'Error al actualizar emergencia',
-      HTTP_STATUS.INTERNAL_SERVER_ERROR
-    );
-  }
-
-  // Log de cambio de estado
-  console.log(`🔄 EMERGENCIA ${id} - Estado cambiado a: ${updatedEmergency.status.toUpperCase()}`);
-  if (updates.assignedTo) {
-    console.log(`👤 Asignada a: ${updates.assignedTo}`);
-  }
-
-  return createSuccessResponse(
-    { emergency: updatedEmergency },
-    'Emergencia actualizada exitosamente'
-  );
 }
 
 /**
  * DELETE /api/emergencies/[id]
- * Cancela una emergencia (soft delete)
+ * Cancela una emergencia específica
  */
 async function handleDelete(request: NextRequest, { params }: RouteParams) {
+  await connectDB();
+  
   const { id } = await params;
   
-  const emergency = db.getEmergencyById(id);
-  if (!emergency) {
+  // Verificar que el ID es válido
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return createErrorResponse(
+      'ID de emergencia inválido',
+      HTTP_STATUS.BAD_REQUEST
+    );
+  }
+  
+  // Cambiar estado a cancelado en lugar de eliminar
+  const updatedEmergency = await Emergency.findByIdAndUpdate(
+    id,
+    { 
+      status: 'cancelled', 
+      resolvedAt: new Date(),
+      resolution: 'Emergencia cancelada por el usuario',
+      updatedAt: new Date() 
+    },
+    { new: true }
+  );
+
+  if (!updatedEmergency) {
     return createErrorResponse(
       'Emergencia no encontrada',
       HTTP_STATUS.NOT_FOUND
     );
   }
-
-  // Solo permitir cancelar emergencias pendientes o en progreso
-  if (emergency.status === 'resolved') {
-    return createErrorResponse(
-      'No se puede cancelar una emergencia ya resuelta',
-      HTTP_STATUS.BAD_REQUEST
-    );
-  }
-
-  if (emergency.status === 'cancelled') {
-    return createErrorResponse(
-      'La emergencia ya está cancelada',
-      HTTP_STATUS.BAD_REQUEST
-    );
-  }
-
-  const updatedEmergency = db.updateEmergency(id, { 
-    status: 'cancelled',
-    resolution: 'Cancelada por solicitud del usuario'
-  });
-  
-  if (!updatedEmergency) {
-    return createErrorResponse(
-      'Error al cancelar emergencia',
-      HTTP_STATUS.INTERNAL_SERVER_ERROR
-    );
-  }
-
-  console.log(`❌ EMERGENCIA ${id} CANCELADA`);
 
   return createSuccessResponse(
     { emergency: updatedEmergency },
@@ -160,13 +167,13 @@ async function handleDelete(request: NextRequest, { params }: RouteParams) {
 
 // Handlers principales
 export async function GET(request: NextRequest, context: RouteParams) {
-  return withErrorHandling(handleGet)(request, context);
+  return withErrorHandling((req) => handleGet(req, context))(request);
 }
 
 export async function PUT(request: NextRequest, context: RouteParams) {
-  return withErrorHandling(handlePut)(request, context);
+  return withErrorHandling((req) => handlePut(req, context))(request);
 }
 
 export async function DELETE(request: NextRequest, context: RouteParams) {
-  return withErrorHandling(handleDelete)(request, context);
+  return withErrorHandling((req) => handleDelete(req, context))(request);
 }

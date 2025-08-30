@@ -3,81 +3,61 @@ import {
   withErrorHandling, 
   createSuccessResponse, 
   createErrorResponse,
-  validateRequestBody,
-  getQueryParams,
   HTTP_STATUS 
 } from '@/lib/api-utils';
-import { db } from '@/lib/database';
-import { eventSchema, eventFiltersSchema, paginationSchema } from '@/lib/validation-schemas';
+import connectDB from '@/lib/mongodb';
+import Event from '@/lib/models/Event';
 
 /**
  * GET /api/events
  * Obtiene eventos con filtros y paginación
  */
 async function handleGet(request: NextRequest) {
-  const queryParams = getQueryParams(request);
+  await connectDB();
   
-  // Validar parámetros de paginación
-  const paginationResult = paginationSchema.safeParse(queryParams);
-  if (!paginationResult.success) {
-    return createErrorResponse(
-      'Parámetros de paginación inválidos',
-      HTTP_STATUS.BAD_REQUEST
-    );
+  const { searchParams } = new URL(request.url);
+  const page = parseInt(searchParams.get('page') || '1');
+  const limit = parseInt(searchParams.get('limit') || '10');
+  const status = searchParams.get('status');
+  const category = searchParams.get('category');
+  const upcoming = searchParams.get('upcoming') === 'true';
+  
+  // Construir filtros de MongoDB
+  const mongoFilters: any = { isActive: true };
+  
+  if (status) {
+    mongoFilters.status = status;
   }
   
-  // Validar filtros
-  const filtersResult = eventFiltersSchema.safeParse(queryParams);
-  if (!filtersResult.success) {
-    return createErrorResponse(
-      'Parámetros de filtro inválidos',
-      HTTP_STATUS.BAD_REQUEST
-    );
+  if (category) {
+    mongoFilters.category = category;
   }
   
-  const { page, limit } = paginationResult.data;
-  const filters = filtersResult.data;
-  
-  // Obtener eventos basados en filtros
-  let events = filters.upcoming 
-    ? db.getUpcomingEvents() 
-    : db.getAllEvents();
-  
-  // Aplicar filtros adicionales
-  if (filters.eventType) {
-    events = events.filter(event => 
-      event.eventType.toLowerCase().includes(filters.eventType!.toLowerCase())
-    );
+  if (upcoming) {
+    mongoFilters.startDate = { $gte: new Date() };
   }
   
-  if (filters.search) {
-    const searchTerm = filters.search.toLowerCase();
-    events = events.filter(event =>
-      event.name.toLowerCase().includes(searchTerm) ||
-      event.description.toLowerCase().includes(searchTerm) ||
-      event.eventType.toLowerCase().includes(searchTerm)
-    );
-  }
+  // Calcular skip para paginación
+  const skip = (page - 1) * limit;
   
-  // Aplicar paginación
-  const total = events.length;
-  const startIndex = (page - 1) * limit;
-  const endIndex = startIndex + limit;
-  const paginatedEvents = events.slice(startIndex, endIndex);
+  // Obtener eventos con paginación
+  const events = await Event.find(mongoFilters)
+    .sort({ startDate: 1 }) // Ordenar por fecha de inicio
+    .skip(skip)
+    .limit(limit)
+    .populate('organizer', 'firstName lastName email')
+    .exec();
   
-  const totalPages = Math.ceil(total / limit);
+  const totalEvents = await Event.countDocuments(mongoFilters);
   
   return createSuccessResponse({
-    events: paginatedEvents,
+    events,
     pagination: {
-      currentPage: page,
-      totalPages,
-      totalItems: total,
-      itemsPerPage: limit,
-      hasNextPage: page < totalPages,
-      hasPreviousPage: page > 1
-    },
-    filters: filters
+      page,
+      limit,
+      total: totalEvents,
+      pages: Math.ceil(totalEvents / limit)
+    }
   }, 'Eventos obtenidos exitosamente');
 }
 
@@ -86,45 +66,62 @@ async function handleGet(request: NextRequest) {
  * Crea un nuevo evento
  */
 async function handlePost(request: NextRequest) {
-  const validation = await validateRequestBody(request, eventSchema);
+  await connectDB();
   
-  if (!validation.success) {
-    return validation.response;
-  }
-
-  const eventData = validation.data;
-  
-  // Verificar que la fecha del evento sea futura
-  const eventDate = new Date(eventData.startDate);
-  const now = new Date();
-  
-  if (eventDate <= now) {
-    return createErrorResponse(
-      'La fecha del evento debe ser futura',
-      HTTP_STATUS.BAD_REQUEST
+  try {
+    const eventData = await request.json();
+    
+    // Validaciones básicas
+    if (!eventData.title || !eventData.startDate) {
+      return createErrorResponse(
+        'Título y fecha de inicio son requeridos',
+        HTTP_STATUS.BAD_REQUEST
+      );
+    }
+    
+    // Verificar que la fecha de inicio no sea en el pasado
+    const startDate = new Date(eventData.startDate);
+    if (startDate < new Date()) {
+      return createErrorResponse(
+        'La fecha de inicio no puede ser en el pasado',
+        HTTP_STATUS.BAD_REQUEST
+      );
+    }
+    
+    // Verificar que la fecha de fin sea posterior a la de inicio
+    if (eventData.endDate) {
+      const endDate = new Date(eventData.endDate);
+      if (endDate <= startDate) {
+        return createErrorResponse(
+          'La fecha de fin debe ser posterior a la fecha de inicio',
+          HTTP_STATUS.BAD_REQUEST
+        );
+      }
+    }
+    
+    // Crear nuevo evento
+    const newEvent = new Event(eventData);
+    await newEvent.save();
+    
+    // Poblar información del organizador
+    await newEvent.populate('organizer', 'firstName lastName email');
+    
+    return createSuccessResponse(
+      newEvent,
+      'Evento creado exitosamente',
+      HTTP_STATUS.CREATED
     );
+    
+  } catch (error: any) {
+    if (error.name === 'ValidationError') {
+      return createErrorResponse(
+        `Error de validación: ${error.message}`,
+        HTTP_STATUS.BAD_REQUEST
+      );
+    }
+    
+    throw error;
   }
-  
-  // Verificar si ya existe un evento con el mismo nombre y fecha
-  const existingEvent = db.getAllEvents().find(e => 
-    e.name.toLowerCase() === eventData.name.toLowerCase() &&
-    e.startDate === eventData.startDate
-  );
-  
-  if (existingEvent) {
-    return createErrorResponse(
-      'Ya existe un evento con el mismo nombre y fecha',
-      HTTP_STATUS.CONFLICT
-    );
-  }
-  
-  const newEvent = db.createEvent(eventData);
-  
-  return createSuccessResponse(
-    { event: newEvent },
-    'Evento creado exitosamente',
-    HTTP_STATUS.CREATED
-  );
 }
 
 // Handlers principales

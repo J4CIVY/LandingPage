@@ -3,11 +3,11 @@ import {
   withErrorHandling, 
   createSuccessResponse, 
   createErrorResponse,
-  validateRequestBody,
   HTTP_STATUS 
 } from '@/lib/api-utils';
-import { db } from '@/lib/database';
-import { updateEventSchema } from '@/lib/validation-schemas';
+import connectDB from '@/lib/mongodb';
+import Event from '@/lib/models/Event';
+import mongoose from 'mongoose';
 
 interface RouteParams {
   params: Promise<{
@@ -20,11 +20,24 @@ interface RouteParams {
  * Obtiene un evento específico por ID
  */
 async function handleGet(request: NextRequest, { params }: RouteParams) {
+  await connectDB();
+  
   const { id } = await params;
   
-  const event = db.getEventById(id);
+  // Verificar que el ID es válido
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return createErrorResponse(
+      'ID de evento inválido',
+      HTTP_STATUS.BAD_REQUEST
+    );
+  }
   
-  if (!event) {
+  const event = await Event.findById(id)
+    .populate('organizer', 'firstName lastName email')
+    .populate('attendees.user', 'firstName lastName email')
+    .exec();
+  
+  if (!event || !event.isActive) {
     return createErrorResponse(
       'Evento no encontrado',
       HTTP_STATUS.NOT_FOUND
@@ -42,122 +55,131 @@ async function handleGet(request: NextRequest, { params }: RouteParams) {
  * Actualiza un evento específico
  */
 async function handlePut(request: NextRequest, { params }: RouteParams) {
+  await connectDB();
+  
   const { id } = await params;
   
-  const validation = await validateRequestBody(request, updateEventSchema);
-  
-  if (!validation.success) {
-    return validation.response;
-  }
-
-  const updates = validation.data;
-  
-  // Verificar que el evento existe
-  const existingEvent = db.getEventById(id);
-  if (!existingEvent) {
+  // Verificar que el ID es válido
+  if (!mongoose.Types.ObjectId.isValid(id)) {
     return createErrorResponse(
-      'Evento no encontrado',
-      HTTP_STATUS.NOT_FOUND
+      'ID de evento inválido',
+      HTTP_STATUS.BAD_REQUEST
     );
   }
-
-  // Si se actualiza la fecha, verificar que sea futura
-  if (updates.startDate) {
-    const eventDate = new Date(updates.startDate);
-    const now = new Date();
+  
+  try {
+    const updates = await request.json();
     
-    if (eventDate <= now) {
+    // No permitir actualizar ciertos campos
+    const forbiddenFields = ['_id', 'createdAt', 'attendees'];
+    const hasForbidenField = Object.keys(updates).some(key => forbiddenFields.includes(key));
+    
+    if (hasForbidenField) {
       return createErrorResponse(
-        'La fecha del evento debe ser futura',
+        'No se pueden actualizar campos protegidos',
         HTTP_STATUS.BAD_REQUEST
       );
     }
-  }
 
-  // Si se actualiza el nombre o fecha, verificar duplicados
-  if (updates.name || updates.startDate) {
-    const checkName = updates.name || existingEvent.name;
-    const checkDate = updates.startDate || existingEvent.startDate;
+    // Validar fechas si se están actualizando
+    if (updates.startDate) {
+      const startDate = new Date(updates.startDate);
+      if (startDate < new Date()) {
+        return createErrorResponse(
+          'La fecha de inicio no puede ser en el pasado',
+          HTTP_STATUS.BAD_REQUEST
+        );
+      }
+    }
     
-    const duplicateEvent = db.getAllEvents().find(e => 
-      e.id !== id &&
-      e.name.toLowerCase() === checkName.toLowerCase() &&
-      e.startDate === checkDate
-    );
-    
-    if (duplicateEvent) {
+    if (updates.endDate && updates.startDate) {
+      const startDate = new Date(updates.startDate);
+      const endDate = new Date(updates.endDate);
+      if (endDate <= startDate) {
+        return createErrorResponse(
+          'La fecha de fin debe ser posterior a la fecha de inicio',
+          HTTP_STATUS.BAD_REQUEST
+        );
+      }
+    }
+
+    // Actualizar evento
+    const updatedEvent = await Event.findByIdAndUpdate(
+      id,
+      { ...updates, updatedAt: new Date() },
+      { new: true, runValidators: true }
+    ).populate('organizer', 'firstName lastName email');
+
+    if (!updatedEvent || !updatedEvent.isActive) {
       return createErrorResponse(
-        'Ya existe un evento con el mismo nombre y fecha',
-        HTTP_STATUS.CONFLICT
+        'Evento no encontrado',
+        HTTP_STATUS.NOT_FOUND
       );
     }
-  }
 
-  const updatedEvent = db.updateEvent(id, updates);
+    return createSuccessResponse(
+      { event: updatedEvent },
+      'Evento actualizado exitosamente'
+    );
+
+  } catch (error: any) {
+    if (error.name === 'ValidationError') {
+      return createErrorResponse(
+        `Error de validación: ${error.message}`,
+        HTTP_STATUS.BAD_REQUEST
+      );
+    }
+    
+    throw error;
+  }
+}
+
+/**
+ * DELETE /api/events/[id]
+ * Elimina (desactiva) un evento específico
+ */
+async function handleDelete(request: NextRequest, { params }: RouteParams) {
+  await connectDB();
   
+  const { id } = await params;
+  
+  // Verificar que el ID es válido
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return createErrorResponse(
+      'ID de evento inválido',
+      HTTP_STATUS.BAD_REQUEST
+    );
+  }
+  
+  // En lugar de eliminar, desactivar el evento
+  const updatedEvent = await Event.findByIdAndUpdate(
+    id,
+    { isActive: false, status: 'cancelled', updatedAt: new Date() },
+    { new: true }
+  );
+
   if (!updatedEvent) {
     return createErrorResponse(
-      'Error al actualizar evento',
-      HTTP_STATUS.INTERNAL_SERVER_ERROR
+      'Evento no encontrado',
+      HTTP_STATUS.NOT_FOUND
     );
   }
 
   return createSuccessResponse(
     { event: updatedEvent },
-    'Evento actualizado exitosamente'
-  );
-}
-
-/**
- * DELETE /api/events/[id]
- * Elimina un evento específico
- */
-async function handleDelete(request: NextRequest, { params }: RouteParams) {
-  const { id } = await params;
-  
-  const event = db.getEventById(id);
-  if (!event) {
-    return createErrorResponse(
-      'Evento no encontrado',
-      HTTP_STATUS.NOT_FOUND
-    );
-  }
-
-  // Verificar si el evento ya comenzó
-  const eventDate = new Date(event.startDate);
-  const now = new Date();
-  
-  if (eventDate <= now) {
-    return createErrorResponse(
-      'No se puede eliminar un evento que ya comenzó',
-      HTTP_STATUS.BAD_REQUEST
-    );
-  }
-
-  const deleted = db.deleteEvent(id);
-  
-  if (!deleted) {
-    return createErrorResponse(
-      'Error al eliminar evento',
-      HTTP_STATUS.INTERNAL_SERVER_ERROR
-    );
-  }
-
-  return createSuccessResponse(
-    { message: 'Evento eliminado exitosamente' },
-    'Evento eliminado exitosamente'
+    'Evento cancelado exitosamente'
   );
 }
 
 // Handlers principales
 export async function GET(request: NextRequest, context: RouteParams) {
-  return withErrorHandling(handleGet)(request, context);
+  return withErrorHandling((req) => handleGet(req, context))(request);
 }
 
 export async function PUT(request: NextRequest, context: RouteParams) {
-  return withErrorHandling(handlePut)(request, context);
+  return withErrorHandling((req) => handlePut(req, context))(request);
 }
 
 export async function DELETE(request: NextRequest, context: RouteParams) {
-  return withErrorHandling(handleDelete)(request, context);
+  return withErrorHandling((req) => handleDelete(req, context))(request);
 }

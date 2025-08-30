@@ -7,7 +7,8 @@ import {
   getQueryParams,
   HTTP_STATUS 
 } from '@/lib/api-utils';
-import { db } from '@/lib/database';
+import connectDB from '@/lib/mongodb';
+import Product from '@/lib/models/Product';
 import { productSchema, productFiltersSchema, paginationSchema } from '@/lib/validation-schemas';
 
 /**
@@ -15,6 +16,8 @@ import { productSchema, productFiltersSchema, paginationSchema } from '@/lib/val
  * Obtiene productos con filtros y paginación
  */
 async function handleGet(request: NextRequest) {
+  await connectDB();
+  
   const queryParams = getQueryParams(request);
   
   // Validar parámetros de paginación
@@ -38,60 +41,57 @@ async function handleGet(request: NextRequest) {
   const { page, limit } = paginationResult.data;
   const filters = filtersResult.data;
   
-  // Obtener todos los productos
-  let products = db.getAllProducts();
+  // Construir filtros de MongoDB
+  const mongoFilters: any = { isActive: true };
   
-  // Aplicar filtros
   if (filters.category) {
-    products = products.filter(product => 
-      product.category.toLowerCase().includes(filters.category!.toLowerCase())
-    );
+    mongoFilters.category = { $regex: filters.category, $options: 'i' };
+  }
+  
+  if (filters.minPrice || filters.maxPrice) {
+    mongoFilters.price = {};
+    if (filters.minPrice) mongoFilters.price.$gte = filters.minPrice;
+    if (filters.maxPrice) mongoFilters.price.$lte = filters.maxPrice;
   }
   
   if (filters.availability && filters.availability !== 'all') {
-    products = products.filter(product => product.availability === filters.availability);
+    mongoFilters.inStock = filters.availability === 'in-stock';
   }
   
   if (filters.search) {
-    const searchTerm = filters.search.toLowerCase();
-    products = products.filter(product =>
-      product.name.toLowerCase().includes(searchTerm) ||
-      product.shortDescription.toLowerCase().includes(searchTerm) ||
-      product.category.toLowerCase().includes(searchTerm)
-    );
-  }
-  
-  if (filters.minPrice !== undefined) {
-    products = products.filter(product => product.finalPrice >= filters.minPrice!);
-  }
-  
-  if (filters.maxPrice !== undefined) {
-    products = products.filter(product => product.finalPrice <= filters.maxPrice!);
+    mongoFilters.$or = [
+      { name: { $regex: filters.search, $options: 'i' } },
+      { description: { $regex: filters.search, $options: 'i' } }
+    ];
   }
   
   if (filters.newOnly) {
-    products = products.filter(product => product.newProduct === true);
+    // Productos creados en los últimos 30 días
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    mongoFilters.createdAt = { $gte: thirtyDaysAgo };
   }
   
-  // Aplicar paginación
-  const total = products.length;
-  const startIndex = (page - 1) * limit;
-  const endIndex = startIndex + limit;
-  const paginatedProducts = products.slice(startIndex, endIndex);
+  // Calcular skip para paginación
+  const skip = (page - 1) * limit;
   
-  const totalPages = Math.ceil(total / limit);
+  // Obtener productos con paginación
+  const products = await Product.find(mongoFilters)
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit)
+    .exec();
+  
+  const totalProducts = await Product.countDocuments(mongoFilters);
   
   return createSuccessResponse({
-    products: paginatedProducts,
+    products,
     pagination: {
-      currentPage: page,
-      totalPages,
-      totalItems: total,
-      itemsPerPage: limit,
-      hasNextPage: page < totalPages,
-      hasPreviousPage: page > 1
-    },
-    filters: filters
+      page,
+      limit,
+      total: totalProducts,
+      pages: Math.ceil(totalProducts / limit)
+    }
   }, 'Productos obtenidos exitosamente');
 }
 
@@ -100,41 +100,55 @@ async function handleGet(request: NextRequest) {
  * Crea un nuevo producto
  */
 async function handlePost(request: NextRequest) {
-  const validation = await validateRequestBody(request, productSchema);
+  await connectDB();
   
+  const body = await request.json();
+  
+  // Validar datos del producto
+  const validation = productSchema.safeParse(body);
   if (!validation.success) {
-    return validation.response;
-  }
-
-  const productData = validation.data;
-  
-  // Verificar si ya existe un producto con el mismo nombre
-  const existingProduct = db.getAllProducts().find(p => 
-    p.name.toLowerCase() === productData.name.toLowerCase()
-  );
-  
-  if (existingProduct) {
     return createErrorResponse(
-      'Ya existe un producto con este nombre',
-      HTTP_STATUS.CONFLICT
+      `Datos inválidos: ${validation.error.issues.map(e => e.message).join(', ')}`,
+      HTTP_STATUS.BAD_REQUEST
     );
   }
   
-  // Crear slug si no se proporciona
-  if (!productData.slug) {
-    productData.slug = productData.name
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)/g, '');
+  const productData = validation.data;
+  
+  try {
+    // Verificar si ya existe un producto con el mismo nombre
+    const existingProduct = await Product.findOne({ 
+      name: productData.name,
+      isActive: true 
+    });
+    
+    if (existingProduct) {
+      return createErrorResponse(
+        'Ya existe un producto con ese nombre',
+        HTTP_STATUS.CONFLICT
+      );
+    }
+    
+    // Crear nuevo producto
+    const newProduct = new Product(productData);
+    await newProduct.save();
+    
+    return createSuccessResponse(
+      newProduct,
+      'Producto creado exitosamente',
+      HTTP_STATUS.CREATED
+    );
+    
+  } catch (error: any) {
+    if (error.name === 'ValidationError') {
+      return createErrorResponse(
+        `Error de validación: ${error.message}`,
+        HTTP_STATUS.BAD_REQUEST
+      );
+    }
+    
+    throw error;
   }
-  
-  const newProduct = db.createProduct(productData);
-  
-  return createSuccessResponse(
-    { product: newProduct },
-    'Producto creado exitosamente',
-    HTTP_STATUS.CREATED
-  );
 }
 
 // Handlers principales

@@ -4,93 +4,73 @@ import {
   createSuccessResponse, 
   createErrorResponse,
   validateRequestBody,
-  getQueryParams,
   HTTP_STATUS 
 } from '@/lib/api-utils';
-import { db } from '@/lib/database';
-import { emergencyRequestSchema, emergencyFiltersSchema, paginationSchema } from '@/lib/validation-schemas';
+import connectDB from '@/lib/mongodb';
+import Emergency from '@/lib/models/Emergency';
+import { emergencyRequestSchema } from '@/lib/validation-schemas';
 
 /**
  * GET /api/emergencies
  * Obtiene emergencias con filtros y paginación
  */
 async function handleGet(request: NextRequest) {
-  const queryParams = getQueryParams(request);
+  await connectDB();
   
-  // Validar parámetros de paginación
-  const paginationResult = paginationSchema.safeParse(queryParams);
-  if (!paginationResult.success) {
-    return createErrorResponse(
-      'Parámetros de paginación inválidos',
-      HTTP_STATUS.BAD_REQUEST
-    );
+  const { searchParams } = new URL(request.url);
+  const page = parseInt(searchParams.get('page') || '1');
+  const limit = parseInt(searchParams.get('limit') || '10');
+  const status = searchParams.get('status');
+  const priority = searchParams.get('priority');
+  const emergencyType = searchParams.get('emergencyType');
+  
+  // Construir filtros de MongoDB
+  const mongoFilters: any = { isActive: true };
+  
+  if (status) {
+    mongoFilters.status = status;
   }
   
-  // Validar filtros
-  const filtersResult = emergencyFiltersSchema.safeParse(queryParams);
-  if (!filtersResult.success) {
-    return createErrorResponse(
-      'Parámetros de filtro inválidos',
-      HTTP_STATUS.BAD_REQUEST
-    );
+  if (priority) {
+    mongoFilters.priority = priority;
   }
   
-  const { page, limit } = paginationResult.data;
-  const filters = filtersResult.data;
-  
-  // Obtener todas las emergencias
-  let emergencies = db.getAllEmergencies();
-  
-  // Aplicar filtros
-  if (filters.status && filters.status !== 'all') {
-    emergencies = emergencies.filter(emergency => emergency.status === filters.status);
+  if (emergencyType) {
+    mongoFilters.emergencyType = emergencyType;
   }
   
-  if (filters.priority && filters.priority !== 'all') {
-    emergencies = emergencies.filter(emergency => emergency.priority === filters.priority);
-  }
+  // Calcular skip para paginación
+  const skip = (page - 1) * limit;
   
-  if (filters.emergencyType && filters.emergencyType !== 'all') {
-    emergencies = emergencies.filter(emergency => emergency.emergencyType === filters.emergencyType);
-  }
+  // Obtener emergencias con paginación
+  const emergencies = await Emergency.find(mongoFilters)
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit)
+    .populate('assignedTo', 'firstName lastName phone')
+    .populate('respondedBy', 'firstName lastName')
+    .exec();
   
-  // Ordenar por prioridad y fecha de creación
-  emergencies.sort((a, b) => {
-    const priorityOrder = { critical: 4, high: 3, medium: 2, low: 1 };
-    const priorityDiff = priorityOrder[b.priority] - priorityOrder[a.priority];
-    
-    if (priorityDiff !== 0) return priorityDiff;
-    
-    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-  });
-  
-  // Aplicar paginación
-  const total = emergencies.length;
-  const startIndex = (page - 1) * limit;
-  const endIndex = startIndex + limit;
-  const paginatedEmergencies = emergencies.slice(startIndex, endIndex);
-  
-  const totalPages = Math.ceil(total / limit);
+  const totalEmergencies = await Emergency.countDocuments(mongoFilters);
   
   return createSuccessResponse({
-    emergencies: paginatedEmergencies,
+    emergencies,
     pagination: {
-      currentPage: page,
-      totalPages,
-      totalItems: total,
-      itemsPerPage: limit,
-      hasNextPage: page < totalPages,
-      hasPreviousPage: page > 1
-    },
-    filters: filters
+      page,
+      limit,
+      total: totalEmergencies,
+      pages: Math.ceil(totalEmergencies / limit)
+    }
   }, 'Emergencias obtenidas exitosamente');
 }
 
 /**
  * POST /api/emergencies
- * Crea una nueva solicitud de emergencia
+ * Crea una nueva emergencia SOS
  */
 async function handlePost(request: NextRequest) {
+  await connectDB();
+  
   const validation = await validateRequestBody(request, emergencyRequestSchema);
   
   if (!validation.success) {
@@ -99,36 +79,51 @@ async function handlePost(request: NextRequest) {
 
   const emergencyData = validation.data;
   
-  // Determinar prioridad basada en el tipo de emergencia si no se especifica
-  if (!emergencyData.priority) {
-    const priorityMap: Record<string, 'low' | 'medium' | 'high' | 'critical'> = {
-      medical: 'critical',
-      accident: 'critical',
-      breakdown: 'high',
-      mechanical: 'medium',
-      other: 'medium'
+  try {
+    // Obtener información adicional de la solicitud
+    const clientIP = request.headers.get('x-forwarded-for') || 
+                     request.headers.get('x-real-ip') || 
+                     'unknown';
+    const userAgent = request.headers.get('user-agent') || '';
+    
+    // Crear nueva emergencia
+    const newEmergency = new Emergency({
+      ...emergencyData,
+      ipAddress: clientIP,
+      userAgent,
+      reportedAt: new Date()
+    });
+    
+    await newEmergency.save();
+    
+    // Retornar respuesta con información relevante
+    const responseData = {
+      id: newEmergency._id,
+      emergencyId: newEmergency.emergencyId,
+      name: newEmergency.name,
+      emergencyType: newEmergency.emergencyType,
+      priority: newEmergency.priority,
+      status: newEmergency.status,
+      reportedAt: newEmergency.reportedAt,
+      estimatedResponseTime: newEmergency.estimatedResponseTime
     };
-    emergencyData.priority = priorityMap[emergencyData.emergencyType] || 'medium';
+    
+    return createSuccessResponse(
+      responseData,
+      'Emergencia reportada exitosamente. Ayuda en camino.',
+      HTTP_STATUS.CREATED
+    );
+    
+  } catch (error: any) {
+    if (error.name === 'ValidationError') {
+      return createErrorResponse(
+        `Error de validación: ${error.message}`,
+        HTTP_STATUS.BAD_REQUEST
+      );
+    }
+    
+    throw error;
   }
-  
-  const newEmergency = db.createEmergency({
-    ...emergencyData,
-    status: 'pending'
-  });
-  
-  // Simular notificación a equipo de emergencias
-  console.log(`🚨 NUEVA EMERGENCIA: ${newEmergency.emergencyType.toUpperCase()} - ${newEmergency.priority.toUpperCase()}`);
-  console.log(`📍 Ubicación: ${newEmergency.location}`);
-  console.log(`👤 Solicitante: ${newEmergency.name} (${newEmergency.contactPhone})`);
-  
-  return createSuccessResponse(
-    { 
-      emergency: newEmergency,
-      message: 'Solicitud de emergencia recibida. El equipo de respuesta será notificado inmediatamente.'
-    },
-    'Emergencia reportada exitosamente',
-    HTTP_STATUS.CREATED
-  );
 }
 
 // Handlers principales
