@@ -92,12 +92,12 @@ const nextConfig = {
               style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
               img-src 'self' data: https: blob: https://res.cloudinary.com https://images.unsplash.com https://www.facebook.com https://platform-lookaside.fbsbx.com;
               font-src 'self' https://fonts.gstatic.com;
-              connect-src 'self' https://api.bskmt.com https://www.google-analytics.com https://maps.googleapis.com https://res.cloudinary.com https://cloudflareinsights.com https://www.facebook.com https://graph.facebook.com;
+              connect-src 'self' https://www.google-analytics.com https://maps.googleapis.com https://res.cloudinary.com https://cloudflareinsights.com https://www.facebook.com https://graph.facebook.com;
               media-src 'self' https: data: blob:;
               object-src 'none';
               frame-src 'self' https://www.google.com https://maps.google.com https://www.facebook.com https://web.facebook.com;
               base-uri 'self';
-              form-action 'self' https://api.bskmt.com;
+              form-action 'self';
               frame-ancestors 'none';
               upgrade-insecure-requests;
               block-all-mixed-content;

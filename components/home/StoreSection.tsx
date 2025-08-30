@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import api from '@/components/api/Api';
 import { Product } from '@/types/products';
 import Image from "next/image";
 import { SkeletonProduct } from '../shared/SkeletonLoaders';
@@ -14,20 +13,15 @@ const StoreSection: React.FC = () => {
 
   useEffect(() => {
     /**
-     * Fetches featured products from the API.
-     * Sets loading, error, and featuredProducts states based on the API response.
+     * Simulates fetching featured products (external API removed).
+     * Sets loading, error, and featuredProducts states.
      */
     const fetchFeaturedProducts = async (): Promise<void> => {
       try {
-        // Use the imported api instance for the request
-        const response = await api.get<{ status: string; data: { products: Product[] } }>('/products');
-        
-        if (response.data.status === 'success' && Array.isArray(response.data.data.products)) {
-          // Take only the first 3 products as featured
-          setFeaturedProducts(response.data.data.products.slice(0, 3));
-        } else {
-          throw new Error('Formato de respuesta de productos inesperado.');
-        }
+        // Simulate loading time
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Set empty products array since external API is removed
+        setFeaturedProducts([]);
       } catch (err: any) { // Using 'any' for catch error type as it can be various types
         console.error('Error fetching featured products:', err);
         // Provide a more user-friendly error message
@@ -140,7 +134,7 @@ const StoreSection: React.FC = () => {
           </>
         ) : (
           <div className="text-center py-12">
-            <p className="dark:text-gray-300">No hay productos destacados disponibles en este momento.</p>
+            <p className="dark:text-gray-300">Tienda temporalmente deshabilitada. La API externa ha sido removida.</p>
           </div>
         )}
       </div>

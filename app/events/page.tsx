@@ -3,7 +3,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { format, parseISO, isAfter, isBefore } from "date-fns";
 import { es } from "date-fns/locale";
-import api from "@/components/api/Api";
 import Image from "next/image";
 /**
  * @typedef {Object} EventLocation
@@ -65,16 +64,17 @@ const Events: React.FC = () => {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   /**
-   * Fetches events from the API.
+   * Simulate loading events (removed external API dependency).
    * This function is memoized using useCallback.
    */
   const fetchEvents = useCallback(async () => {
     setLoading(true);
     setError(null); // Reset error state before new fetch
     try {
-      const response = await api.get<EventsApiResponse>("/events");
-      // Ensure data structure is as expected, handle potential empty arrays
-      setEvents(response.data.data.events || []); 
+      // Simulate loading time
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Set empty events array since external API is removed
+      setEvents([]); 
     } catch (err) {
       setError("Error al cargar los eventos. Intenta nuevamente.");
       console.error("Error fetching events:", err);
@@ -292,7 +292,7 @@ const Events: React.FC = () => {
           ) : filteredEvents.length === 0 ? (
             <div className="text-center py-10">
               <p className="text-gray-500 dark:text-gray-400 text-lg">
-                No se encontraron eventos con los filtros aplicados
+                Funcionalidad de eventos temporalmente deshabilitada. La API externa ha sido removida.
               </p>
             </div>
           ) : (

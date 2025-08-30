@@ -107,7 +107,7 @@ export function middleware(request: NextRequest) {
   // Manejar archivos de fuentes
   if (pathname.match(/\.(woff|woff2|ttf|otf)$/)) {
     response.headers.set('Cache-Control', 'public, max-age=31536000, immutable')
-    response.headers.set('Access-Control-Allow-Origin', 'https://bskmt.com')
+    response.headers.set('Access-Control-Allow-Origin', '*')
     return response
   }
 
@@ -124,7 +124,7 @@ export function middleware(request: NextRequest) {
     response.headers.set('Expires', '0')
     
     // CORS for API routes
-    response.headers.set('Access-Control-Allow-Origin', 'https://bskmt.com')
+    response.headers.set('Access-Control-Allow-Origin', '*')
     response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
     response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-csrf-token')
     response.headers.set('Access-Control-Max-Age', '86400')

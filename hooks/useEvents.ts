@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import api from '@/components/api/Api';
 import { Event } from '@/types/events';
 
 export const useEvents = () => {
@@ -10,12 +9,10 @@ export const useEvents = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await api.get<{ status: string; data: { events: Event[] } }>('/events');
-        if (response.data.status === 'success' && Array.isArray(response.data.data.events)) {
-          setEvents(response.data.data.events);
-        } else {
-          throw new Error('Unexpected event response format.');
-        }
+        // Simulate loading time
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Set empty events array since external API is removed
+        setEvents([]);
       } catch (err: any) {
         // Log error only in development
         if (process.env.NODE_ENV === 'development') {

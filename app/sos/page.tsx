@@ -17,7 +17,6 @@ import {
   FaMotorcycle
 } from "react-icons/fa";
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
-import axios from 'axios';
 import SEOComponent from '@/components/home/SEOComponent';
 
 /**
@@ -194,12 +193,9 @@ const Sos: React.FC = () => {
     }
 
     try {
-      // In a real application, replace with your actual API endpoint
-      // Security: Ensure your backend API is protected against CSRF, XSS, etc.
-      // and validates all incoming data.
-      const response = await axios.post<EmergencyApiResponse>('https://api.bskmotorcycleteam.com/emergencies', formData);
-      console.log('Solicitud enviada con éxito:', response.data);
-      alert('Solicitud enviada. Nos contactaremos contigo pronto.');
+      // Simular envío exitoso (sin API externa)
+      console.log('Solicitud preparada:', formData);
+      alert('Funcionalidad de emergencias temporalmente deshabilitada. Por favor contacta directamente por WhatsApp o teléfono.');
       setFormData({ // Reset form after successful submission
         name: "",
         memberId: "",

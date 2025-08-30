@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import SEOComponent from '@/components/home/SEOComponent';
 import { Product } from '@/types/products';
-import api from '@/components/api/Api';
 import Image from 'next/image';
 
 
@@ -41,19 +40,15 @@ const Store: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  // Fetch products from API
+  // Fetch products from API (disabled - external API removed)
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await api.get<ProductsApiResponse>('/products');
-        // Validate response structure and data before setting state
-        if (response.data && response.data.status === 'success' && Array.isArray(response.data.data.products)) {
-          setProducts(response.data.data.products);
-          setFilteredProducts(response.data.data.products); // Initialize filtered products with all products
-        } else {
-          // More specific error message for API response issues
-          throw new Error('Invalid API response structure or data.');
-        }
+        // Simulate loading time
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Set empty products array since external API is removed
+        setProducts([]);
+        setFilteredProducts([]);
       } catch (err: any) { // Use 'any' for error type as Axios errors can be complex
         // Log the full error for debugging, but show a user-friendly message
         console.error("Failed to fetch products:", err);
@@ -305,7 +300,7 @@ const Store: React.FC = () => {
       {/* Products Grid */}
       {filteredProducts.length === 0 ? (
         <div className="text-center py-12">
-          <h3 className="text-xl font-semibold text-gray-700">No products found matching your criteria</h3>
+          <h3 className="text-xl font-semibold text-gray-700">Tienda temporalmente deshabilitada. La API externa ha sido removida.</h3>
           <button
             onClick={() => {
               setSearchTerm('');

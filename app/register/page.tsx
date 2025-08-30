@@ -6,7 +6,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { compatibleUserSchema as userSchema, type CompatibleUserSchema as FormUserSchema } from '../../schemas/compatibleUserSchema';
 import { FaUser, FaPhone, FaEnvelope, FaMapMarkerAlt, FaBriefcase, FaHeartbeat, FaMotorcycle, FaShieldAlt, FaLock, FaEye, FaEyeSlash, FaVenusMars, FaUserMd, FaExclamationTriangle, FaCheckCircle } from 'react-icons/fa';
 import { GiSteelwingEmblem } from 'react-icons/gi';
-import apiClient from '../../http/apiClient';
 import { useRouter } from 'next/navigation';
 import FormError from '../../components/shared/FormError';
 import {
@@ -149,20 +148,33 @@ const UserRegister: React.FC = () => {
         fieldCount: Object.keys(userData).length 
       });
 
-      // Submit to internal API
-      const response = await apiClient.post('/auth/signup', userData);
-      
-      if (response.data.status === 'success') {
-        // Limpiar draft guardado al completar registro exitosamente
-        localStorage.removeItem('bskmt-registration-draft');
-        successToast('¡Registro exitoso!', 'Tu cuenta ha sido creada correctamente. Te estamos redirigiendo...');
+      // Submit to internal API (disabled - external API removed)
+      try {
+        // Simulate successful registration
+        const response = await fetch('/api/auth/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userData),
+        });
+
+        const responseData = await response.json();
         
-        setTimeout(() => {
-          router.push('/registration-success');
-        }, 2000);
-      } else {
-        errorToast('Error en el registro', 'Por favor verifica tus datos e intenta nuevamente.');
-        setSubmitError('Error en el registro. Por favor verifica tus datos.');
+        if (response.ok && responseData.status === 'success') {
+          // Limpiar draft guardado al completar registro exitosamente
+          localStorage.removeItem('bskmt-registration-draft');
+          successToast('¡Registro exitoso!', 'Tu cuenta ha sido creada correctamente. Te estamos redirigiendo...');
+          
+          setTimeout(() => {
+            router.push('/registration-success');
+          }, 2000);
+        } else {
+          errorToast('Error en el registro', 'Por favor verifica tus datos e intenta nuevamente.');
+          setSubmitError('Error en el registro. Por favor verifica tus datos.');
+        }
+      } catch (fetchError) {
+        throw fetchError; // Re-throw to be caught by outer catch
       }
     } catch (error: any) {
       console.error('❌ Error en registro:', error);
