@@ -3,28 +3,60 @@ import { z } from 'zod';
 import connectDB from '@/lib/mongodb';
 import User from '@/models/User';
 
-// Validación de datos del usuario
+// Validación de datos del usuario - Compatible con el frontend
 const UserRegistrationSchema = z.object({
+  // Información personal básica
   documentType: z.string().min(1, 'Tipo de documento requerido'),
   documentNumber: z.string().min(1, 'Número de documento requerido'),
   firstName: z.string().min(1, 'Nombre requerido').max(50),
   lastName: z.string().min(1, 'Apellido requerido').max(50),
   birthDate: z.string().min(1, 'Fecha de nacimiento requerida'),
   birthPlace: z.string().min(1, 'Lugar de nacimiento requerido'),
-  phone: z.string().min(1, 'Teléfono requerido'),
-  whatsapp: z.string().optional(),
   email: z.string().email('Email inválido'),
   password: z.string().min(6, 'Contraseña debe tener al menos 6 caracteres'),
-  genderIdentity: z.string().min(1, 'Identidad de género requerida'),
-  occupation: z.string().min(1, 'Ocupación requerida'),
-  eps: z.string().min(1, 'EPS requerida'),
-  emergencyContactName: z.string().min(1, 'Contacto de emergencia requerido'),
-  emergencyContactPhone: z.string().min(1, 'Teléfono de emergencia requerido'),
-  motorcycleBrand: z.string().optional(),
-  motorcycleModel: z.string().optional(),
-  motorcycleYear: z.number().optional(),
-  motorcyclePlate: z.string().optional(),
+  
+  // Información de contacto
+  phone: z.string().min(1, 'Teléfono requerido'),
+  whatsapp: z.string().optional(),
+  address: z.string().min(1, 'Dirección requerida'),
+  neighborhood: z.string().optional(),
+  city: z.string().min(1, 'Ciudad requerida'),
   country: z.string().default('Colombia'),
+  postalCode: z.string().optional(),
+  
+  // Información de género e identidad
+  binaryGender: z.string().min(1, 'Género requerido'),
+  genderIdentity: z.string().optional(),
+  
+  // Información profesional y salud
+  occupation: z.string().optional(),
+  discipline: z.string().optional(),
+  bloodType: z.string().optional(),
+  rhFactor: z.string().optional(),
+  allergies: z.string().optional(),
+  healthInsurance: z.string().optional(),
+  
+  // Contacto de emergencia
+  emergencyContactName: z.string().min(1, 'Contacto de emergencia requerido'),
+  emergencyContactRelationship: z.string().min(1, 'Relación de contacto de emergencia requerida'),
+  emergencyContactPhone: z.string().min(1, 'Teléfono de emergencia requerido'),
+  emergencyContactNeighborhood: z.string().optional(),
+  emergencyContactCity: z.string().min(1, 'Ciudad de contacto de emergencia requerida'),
+  emergencyContactCountry: z.string().min(1, 'País de contacto de emergencia requerido'),
+  
+  // Información de motocicleta
+  motorcyclePlate: z.string().min(1, 'Placa de motocicleta requerida'),
+  motorcycleBrand: z.string().min(1, 'Marca de motocicleta requerida'),
+  motorcycleModel: z.string().min(1, 'Modelo de motocicleta requerido'),
+  motorcycleYear: z.string().min(1, 'Año de motocicleta requerido'),
+  motorcycleDisplacement: z.string().min(1, 'Cilindraje de motocicleta requerido'),
+  
+  // Campos de consentimiento
+  dataConsent: z.boolean().refine(val => val === true, 'Debe aceptar el tratamiento de datos'),
+  liabilityWaiver: z.boolean().refine(val => val === true, 'Debe aceptar la exención de responsabilidad'),
+  termsAcceptance: z.boolean().refine(val => val === true, 'Debe aceptar los términos y condiciones'),
+  
+  // Campos calculados/automáticos
   age: z.number().min(18, 'Debe ser mayor de edad'),
   role: z.string().default('Membresia Friend'),
   temporaryPassword: z.boolean().default(false)

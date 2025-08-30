@@ -1,26 +1,58 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IUser extends Document {
+  // Información personal básica
   documentType: string;
   documentNumber: string;
   firstName: string;
   lastName: string;
   birthDate: string;
   birthPlace: string;
-  phone: string;
-  whatsapp?: string;
   email: string;
   password: string;
-  genderIdentity: string;
-  occupation: string;
-  eps: string;
-  emergencyContactName: string;
-  emergencyContactPhone: string;
-  motorcycleBrand?: string;
-  motorcycleModel?: string;
-  motorcycleYear?: number;
-  motorcyclePlate?: string;
+  
+  // Información de contacto
+  phone: string;
+  whatsapp?: string;
+  address: string;
+  neighborhood?: string;
+  city: string;
   country: string;
+  postalCode?: string;
+  
+  // Información de género e identidad
+  binaryGender: string;
+  genderIdentity?: string;
+  
+  // Información profesional y salud
+  occupation?: string;
+  discipline?: string;
+  bloodType?: string;
+  rhFactor?: string;
+  allergies?: string;
+  healthInsurance?: string;
+  
+  // Contacto de emergencia
+  emergencyContactName: string;
+  emergencyContactRelationship: string;
+  emergencyContactPhone: string;
+  emergencyContactNeighborhood?: string;
+  emergencyContactCity: string;
+  emergencyContactCountry: string;
+  
+  // Información de motocicleta
+  motorcyclePlate: string;
+  motorcycleBrand: string;
+  motorcycleModel: string;
+  motorcycleYear: string;
+  motorcycleDisplacement: string;
+  
+  // Campos de consentimiento
+  dataConsent: boolean;
+  liabilityWaiver: boolean;
+  termsAcceptance: boolean;
+  
+  // Campos calculados/automáticos
   age: number;
   role: string;
   temporaryPassword: boolean;
@@ -30,6 +62,7 @@ export interface IUser extends Document {
 }
 
 const UserSchema = new Schema<IUser>({
+  // Información personal básica
   documentType: {
     type: String,
     required: [true, 'Tipo de documento es requerido'],
@@ -63,16 +96,6 @@ const UserSchema = new Schema<IUser>({
     required: [true, 'Lugar de nacimiento es requerido'],
     trim: true
   },
-  phone: {
-    type: String,
-    required: [true, 'Teléfono es requerido'],
-    trim: true
-  },
-  whatsapp: {
-    type: String,
-    trim: true,
-    default: ''
-  },
   email: {
     type: String,
     required: [true, 'Email es requerido'],
@@ -87,24 +110,98 @@ const UserSchema = new Schema<IUser>({
     required: [true, 'Contraseña es requerida'],
     minlength: [6, 'Contraseña debe tener al menos 6 caracteres']
   },
+  
+  // Información de contacto
+  phone: {
+    type: String,
+    required: [true, 'Teléfono es requerido'],
+    trim: true
+  },
+  whatsapp: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  address: {
+    type: String,
+    required: [true, 'Dirección es requerida'],
+    trim: true
+  },
+  neighborhood: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  city: {
+    type: String,
+    required: [true, 'Ciudad es requerida'],
+    trim: true
+  },
+  country: {
+    type: String,
+    default: 'Colombia',
+    trim: true
+  },
+  postalCode: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  
+  // Información de género e identidad
+  binaryGender: {
+    type: String,
+    required: [true, 'Género es requerido'],
+    trim: true,
+    enum: ['masculino', 'femenino', 'otro']
+  },
   genderIdentity: {
     type: String,
-    required: [true, 'Identidad de género es requerida'],
-    trim: true
+    trim: true,
+    default: ''
   },
+  
+  // Información profesional y salud
   occupation: {
     type: String,
-    required: [true, 'Ocupación es requerida'],
-    trim: true
+    trim: true,
+    default: ''
   },
-  eps: {
+  discipline: {
     type: String,
-    required: [true, 'EPS es requerida'],
-    trim: true
+    trim: true,
+    default: ''
   },
+  bloodType: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  rhFactor: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  allergies: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  healthInsurance: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  
+  // Contacto de emergencia
   emergencyContactName: {
     type: String,
     required: [true, 'Contacto de emergencia es requerido'],
+    trim: true
+  },
+  emergencyContactRelationship: {
+    type: String,
+    required: [true, 'Relación de contacto de emergencia es requerida'],
     trim: true
   },
   emergencyContactPhone: {
@@ -112,32 +209,65 @@ const UserSchema = new Schema<IUser>({
     required: [true, 'Teléfono de emergencia es requerido'],
     trim: true
   },
-  motorcycleBrand: {
+  emergencyContactNeighborhood: {
     type: String,
     trim: true,
     default: ''
+  },
+  emergencyContactCity: {
+    type: String,
+    required: [true, 'Ciudad de contacto de emergencia es requerida'],
+    trim: true
+  },
+  emergencyContactCountry: {
+    type: String,
+    required: [true, 'País de contacto de emergencia es requerido'],
+    trim: true
+  },
+  
+  // Información de motocicleta
+  motorcyclePlate: {
+    type: String,
+    required: [true, 'Placa de motocicleta es requerida'],
+    trim: true,
+    uppercase: true
+  },
+  motorcycleBrand: {
+    type: String,
+    required: [true, 'Marca de motocicleta es requerida'],
+    trim: true
   },
   motorcycleModel: {
     type: String,
-    trim: true,
-    default: ''
-  },
-  motorcycleYear: {
-    type: Number,
-    min: [1900, 'Año inválido'],
-    max: [new Date().getFullYear() + 1, 'Año inválido']
-  },
-  motorcyclePlate: {
-    type: String,
-    trim: true,
-    uppercase: true,
-    default: ''
-  },
-  country: {
-    type: String,
-    default: 'Colombia',
+    required: [true, 'Modelo de motocicleta es requerido'],
     trim: true
   },
+  motorcycleYear: {
+    type: String,
+    required: [true, 'Año de motocicleta es requerido'],
+    trim: true
+  },
+  motorcycleDisplacement: {
+    type: String,
+    required: [true, 'Cilindraje de motocicleta es requerido'],
+    trim: true
+  },
+  
+  // Campos de consentimiento
+  dataConsent: {
+    type: Boolean,
+    required: [true, 'Consentimiento de datos es requerido']
+  },
+  liabilityWaiver: {
+    type: Boolean,
+    required: [true, 'Exención de responsabilidad es requerida']
+  },
+  termsAcceptance: {
+    type: Boolean,
+    required: [true, 'Aceptación de términos es requerida']
+  },
+  
+  // Campos calculados/automáticos
   age: {
     type: Number,
     required: [true, 'Edad es requerida'],
@@ -171,6 +301,7 @@ const UserSchema = new Schema<IUser>({
 UserSchema.index({ email: 1, documentNumber: 1 });
 UserSchema.index({ createdAt: -1 });
 UserSchema.index({ status: 1 });
+UserSchema.index({ motorcyclePlate: 1 });
 
 // Middleware para hashear contraseña antes de guardar
 UserSchema.pre('save', async function(next) {
