@@ -3,3 +3,16 @@ package-lock.json
 .next
 tests
 httpClient.test.ts
+
+# Environment variables
+.env
+.env.local
+.env.production.local
+.env.development.local
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+.env.example
