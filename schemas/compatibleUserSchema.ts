@@ -48,22 +48,37 @@ export const compatibleUserSchema = z.object({
   motorcycleYear: z.string().optional(),
   motorcyclePlate: z.string().optional(),
   motorcycleEngineSize: z.string().optional(),
-  motorcycleDisplacement: z.string().optional(),
+  motorcycleColor: z.string().optional(),
+  soatExpirationDate: z.string().optional(),
+  technicalReviewExpirationDate: z.string().optional(),
+  
+  // Información de licencia
+  licenseNumber: z.string().optional(),
+  licenseCategory: z.string().optional(),
+  licenseExpirationDate: z.string().optional(),
+  
+  // Información de BSK
+  membershipType: z.enum(['friend', 'rider', 'rider-duo', 'pro', 'pro-duo']).optional(),
   
   // Contraseña y confirmación
   password: z.string().min(8, 'La contraseña debe tener al menos 8 caracteres'),
   confirmPassword: z.string().min(1, 'Confirmación de contraseña requerida'),
   
-  // Consentimientos
-  dataConsent: z.boolean().refine((val) => val === true, {
-    message: 'Debes aceptar el tratamiento de datos personales'
-  }),
-  liabilityWaiver: z.boolean().refine((val) => val === true, {
-    message: 'Debes aceptar la exoneración de responsabilidad'
-  }),
-  termsAcceptance: z.boolean().refine((val) => val === true, {
+  // Términos y condiciones (nombres que coinciden con el modelo backend)
+  acceptedTerms: z.boolean().refine((val) => val === true, {
     message: 'Debes aceptar los términos y condiciones'
-  })
+  }),
+  acceptedPrivacyPolicy: z.boolean().refine((val) => val === true, {
+    message: 'Debes aceptar la política de privacidad'
+  }),
+  acceptedDataProcessing: z.boolean().refine((val) => val === true, {
+    message: 'Debes aceptar el procesamiento de datos'
+  }),
+  
+  // Consentimientos del formulario (se mapearán a los campos anteriores)
+  dataConsent: z.boolean().optional(),
+  liabilityWaiver: z.boolean().optional(),
+  termsAcceptance: z.boolean().optional()
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Las contraseñas no coinciden",
   path: ["confirmPassword"],

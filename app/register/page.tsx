@@ -191,7 +191,7 @@ const UserRegister: React.FC = () => {
         membershipType: 'friend' as const,
         password: submissionData.password,
         
-        // Términos y condiciones
+        // Términos y condiciones (mapeo correcto a campos del backend)
         acceptedTerms: submissionData.termsAcceptance,
         acceptedPrivacyPolicy: submissionData.dataConsent,
         acceptedDataProcessing: submissionData.liabilityWaiver
