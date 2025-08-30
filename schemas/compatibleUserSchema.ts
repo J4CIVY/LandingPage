@@ -58,13 +58,13 @@ export const compatibleUserSchema = z.object({
   licenseExpirationDate: z.string().optional(),
   
   // Información de BSK
-  membershipType: z.enum(['friend', 'rider', 'rider-duo', 'pro', 'pro-duo']).optional(),
+  membershipType: z.enum(['admin', 'member', 'friend']).optional().default('friend'),
   
   // Contraseña y confirmación
   password: z.string().min(8, 'La contraseña debe tener al menos 8 caracteres'),
   confirmPassword: z.string().min(1, 'Confirmación de contraseña requerida'),
   
-  // Términos y condiciones (nombres que coinciden con el modelo backend)
+  // Términos y condiciones
   acceptedTerms: z.boolean().refine((val) => val === true, {
     message: 'Debes aceptar los términos y condiciones'
   }),
@@ -75,10 +75,16 @@ export const compatibleUserSchema = z.object({
     message: 'Debes aceptar el procesamiento de datos'
   }),
   
-  // Consentimientos del formulario (se mapearán a los campos anteriores)
-  dataConsent: z.boolean().optional(),
-  liabilityWaiver: z.boolean().optional(),
-  termsAcceptance: z.boolean().optional()
+  // Consentimientos del formulario (se mapean a los campos de arriba)
+  dataConsent: z.boolean().refine((val) => val === true, {
+    message: 'Debes aceptar el tratamiento de datos personales'
+  }),
+  liabilityWaiver: z.boolean().refine((val) => val === true, {
+    message: 'Debes aceptar la exoneración de responsabilidad'
+  }),
+  termsAcceptance: z.boolean().refine((val) => val === true, {
+    message: 'Debes aceptar los términos y condiciones'
+  })
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Las contraseñas no coinciden",
   path: ["confirmPassword"],

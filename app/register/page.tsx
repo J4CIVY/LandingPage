@@ -48,7 +48,7 @@ const UserRegister: React.FC = () => {
     ['binaryGender', 'genderIdentity', 'occupation', 'discipline'],
     ['bloodType', 'rhFactor', 'allergies', 'healthInsurance'],
     ['emergencyContactName', 'emergencyContactRelationship', 'emergencyContactPhone'],
-    ['motorcyclePlate', 'motorcycleBrand', 'motorcycleModel', 'motorcycleYear', 'motorcycleDisplacement'],
+    ['motorcyclePlate', 'motorcycleBrand', 'motorcycleModel', 'motorcycleYear'],
     ['password', 'confirmPassword', 'dataConsent', 'liabilityWaiver', 'termsAcceptance'],
   ];
 
@@ -694,13 +694,6 @@ const UserRegister: React.FC = () => {
                     </select>
                     <FormError error={errors.motorcycleYear} />
                   </div>
-                </div>
-                
-                <div>
-                  {/* Motorcycle Displacement */}
-                  <label htmlFor="motorcycleDisplacement" className="block text-sm font-medium text-gray-700 mb-1">Cilindraje <span className="text-red-500">*</span></label>
-                  <input type="text" id="motorcycleDisplacement" {...register("motorcycleDisplacement", { required: "Campo obligatorio" })} className={`block w-full px-3 py-2 border ${errors.motorcycleDisplacement ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500`} />
-                  <FormError error={errors.motorcycleDisplacement} />
                 </div>
               </section>
             )}
