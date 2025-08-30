@@ -8,8 +8,7 @@ Este es el repositorio para el frontend de la página web oficial de **BSK Motor
 - **Diseño Receptivo:** Interfaz de usuario totalmente adaptativa construida con Tailwind CSS.
 - **Tema Claro/Oscuro:** Soporte para cambiar entre temas de color.
 - **Calendario de Eventos:** Muestra los próximos eventos del club.
-- **Registro de Usuarios:** Formulario de registro con validación de esquema usando Zod.
-- **Cliente HTTP Centralizado:** Un cliente Axios configurado para manejar las llamadas a la API, con soporte para claves de API en rutas públicas.
+- **Formulario de Registro:** Formulario de registro con validación local usando Zod (preparado para futura integración con API).
 - **SEO Optimizado:** Componentes y configuración para mejorar el posicionamiento en buscadores.
 
 ## 🚀 Pila de Tecnología
