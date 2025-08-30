@@ -212,9 +212,27 @@ const UserRegister: React.FC = () => {
       });
 
       const result = await response.json();
+      
+      console.log('📥 Respuesta de la API:', {
+        status: response.status,
+        ok: response.ok,
+        result
+      });
 
       if (!response.ok) {
-        throw new Error(result.message || `Error ${response.status}: ${response.statusText}`);
+        // Mostrar errores de validación específicos si están disponibles
+        if (response.status === 422 && result.errors) {
+          const validationErrors = Array.isArray(result.errors) 
+            ? result.errors.map((err: any) => err.message || err).join(', ')
+            : typeof result.errors === 'string' 
+              ? result.errors 
+              : 'Errores de validación en los datos enviados';
+          throw new Error(`Errores de validación: ${validationErrors}`);
+        } else if (result.message) {
+          throw new Error(result.message);
+        } else {
+          throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
       }
 
       console.log('✅ Registro exitoso:', result);
