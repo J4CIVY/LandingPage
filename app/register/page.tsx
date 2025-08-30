@@ -127,94 +127,132 @@ const UserRegister: React.FC = () => {
         age--;
       }
       
-      // Remover confirmPassword y preparar datos
+      // Remover confirmPassword y preparar datos para la API
       const { confirmPassword, ...submissionData } = data;
 
-      // Asegurar que todos los campos requeridos estén presentes
+      // Mapear los datos del formulario al formato esperado por la API
       const userData = {
-        ...submissionData,
-        age: age,
-        role: 'Membresia Friend',
-        temporaryPassword: false,
-        // Asegurar que los campos booleanos sean realmente booleanos
-        dataConsent: Boolean(submissionData.dataConsent),
-        liabilityWaiver: Boolean(submissionData.liabilityWaiver),
-        termsAcceptance: Boolean(submissionData.termsAcceptance)
+        // Información personal básica
+        documentType: submissionData.documentType,
+        documentNumber: submissionData.documentNumber,
+        firstName: submissionData.firstName,
+        lastName: submissionData.lastName,
+        birthDate: submissionData.birthDate,
+        birthPlace: submissionData.birthPlace,
+        
+        // Información de contacto
+        phone: submissionData.phone,
+        whatsapp: submissionData.whatsapp || '',
+        email: submissionData.email,
+        address: submissionData.address,
+        neighborhood: submissionData.neighborhood || '',
+        city: submissionData.city,
+        country: submissionData.country,
+        postalCode: submissionData.postalCode || '',
+        
+        // Información de género
+        binaryGender: submissionData.binaryGender,
+        genderIdentity: submissionData.genderIdentity || '',
+        occupation: submissionData.occupation || '',
+        discipline: submissionData.discipline || '',
+        
+        // Información de salud
+        bloodType: submissionData.bloodType || '',
+        rhFactor: submissionData.rhFactor || '',
+        allergies: submissionData.allergies || '',
+        healthInsurance: submissionData.healthInsurance || '',
+        
+        // Contacto de emergencia
+        emergencyContactName: submissionData.emergencyContactName,
+        emergencyContactRelationship: submissionData.emergencyContactRelationship,
+        emergencyContactPhone: submissionData.emergencyContactPhone,
+        emergencyContactAddress: submissionData.emergencyContactAddress || '',
+        emergencyContactNeighborhood: submissionData.emergencyContactNeighborhood || '',
+        emergencyContactCity: submissionData.emergencyContactCity || '',
+        emergencyContactCountry: submissionData.emergencyContactCountry || '',
+        emergencyContactPostalCode: submissionData.emergencyContactPostalCode || '',
+        
+        // Información de motocicleta
+        motorcycleBrand: submissionData.motorcycleBrand || '',
+        motorcycleModel: submissionData.motorcycleModel || '',
+        motorcycleYear: submissionData.motorcycleYear || '',
+        motorcyclePlate: submissionData.motorcyclePlate || '',
+        motorcycleEngineSize: submissionData.motorcycleEngineSize || '',
+        motorcycleColor: '',
+        soatExpirationDate: '',
+        technicalReviewExpirationDate: '',
+        
+        // Información de licencia
+        licenseNumber: '',
+        licenseCategory: '',
+        licenseExpirationDate: '',
+        
+        // Información de BSK
+        membershipType: 'friend' as const,
+        password: submissionData.password,
+        
+        // Términos y condiciones
+        acceptedTerms: submissionData.termsAcceptance,
+        acceptedPrivacyPolicy: submissionData.dataConsent,
+        acceptedDataProcessing: submissionData.liabilityWaiver
       };
 
-      console.log('📤 Enviando datos de registro:', { 
-        ...userData, 
-        password: '[REDACTED]',
+      console.log('📤 Enviando datos de registro a la API...', { 
+        email: userData.email,
         fieldCount: Object.keys(userData).length 
       });
 
-      // Simular registro exitoso (APIs deshabilitadas)
-      try {
-        // Simulate processing time
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        
-        // Limpiar draft guardado al completar registro exitosamente
-        localStorage.removeItem('bskmt-registration-draft');
-        successToast('¡Registro simulado!', 'Datos guardados localmente. Las APIs han sido deshabilitadas.');
-        
-        // Guardar datos en localStorage como demostración
-        localStorage.setItem('bskmt-registration-data', JSON.stringify({
-          ...userData,
-          password: '[REDACTED]', // No guardar contraseña real
-          registeredAt: new Date().toISOString()
-        }));
-        
-        setTimeout(() => {
-          router.push('/registration-success');
-        }, 2000);
-      } catch (simulationError) {
-        throw new Error('Error en simulación de registro');
+      // Enviar datos a la API real
+      const response = await fetch('/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || `Error ${response.status}: ${response.statusText}`);
       }
+
+      console.log('✅ Registro exitoso:', result);
+      
+      // Limpiar draft guardado al completar registro exitosamente
+      localStorage.removeItem('bskmt-registration-draft');
+      
+      successToast(
+        '¡Registro exitoso!', 
+        `Bienvenido ${userData.firstName}! Tu cuenta ha sido creada exitosamente.`
+      );
+      
+      // Redireccionar a página de éxito
+      setTimeout(() => {
+        router.push('/registration-success');
+      }, 2000);
+      
     } catch (error: any) {
       console.error('❌ Error en registro:', error);
       
-      // Log detallado del error para debugging
-      if (error.response) {
-        console.error('📤 Response error:', {
-          status: error.response.status,
-          statusText: error.response.statusText,
-          data: error.response.data,
-          headers: error.response.headers
-        });
-        
-        const errorData = error.response.data;
-        let errorMessage = 'Error en el servidor. Por favor intenta más tarde.';
-        
-        if (errorData?.message) {
-          errorMessage = errorData.message;
+      let errorMessage = 'Error inesperado. Por favor intenta nuevamente.';
+      
+      // Manejar errores específicos de la API
+      if (error.message) {
+        if (error.message.includes('ya existe') || error.message.includes('already exists')) {
+          errorMessage = 'Este email o número de documento ya está registrado. Intenta con datos diferentes.';
+          setCurrentStep(1); // Ir al primer paso
+        } else if (error.message.includes('validation') || error.message.includes('validación')) {
+          errorMessage = `Error de validación: ${error.message}`;
+        } else if (error.message.includes('network') || error.message.includes('fetch')) {
+          errorMessage = 'Error de conexión. Verifica tu internet e intenta nuevamente.';
+        } else {
+          errorMessage = error.message;
         }
-        
-        // Si hay errores de validación específicos, mostrarlos
-        if (errorData?.errors && Array.isArray(errorData.errors)) {
-          const fieldErrors = errorData.errors.map((err: any) => 
-            `${err.field}: ${err.message}`
-          ).join(', ');
-          errorMessage = `Errores de validación: ${fieldErrors}`;
-        }
-        
-        setSubmitError(errorMessage);
-        errorToast('Error en el registro', errorMessage);
-        
-        // Ir al paso que tiene el error si es posible
-        if (errorMessage.includes('document')) setCurrentStep(1);
-        else if (errorMessage.includes('email')) setCurrentStep(2);
-        
-      } else if (error.request) {
-        console.error('📡 Request error (no response):', error.request);
-        const connectionError = 'No se pudo conectar al servidor. Verifica tu conexión a internet.';
-        setSubmitError(connectionError);
-        errorToast('Error de conexión', connectionError);
-      } else {
-        console.error('⚠️ Setup error:', error.message);
-        const generalError = 'Error inesperado. Por favor intenta nuevamente.';
-        setSubmitError(generalError);
-        errorToast('Error inesperado', generalError);
       }
+      
+      setSubmitError(errorMessage);
+      errorToast('Error en el registro', errorMessage);
     } finally {
       setIsSubmitting(false);
     }
