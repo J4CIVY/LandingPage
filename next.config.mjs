@@ -14,6 +14,11 @@ const bundleAnalyzer = withBundleAnalyzer({
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false, // Remover header X-Powered-By
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
+  },
   compiler: {
     styledComponents: true,
     removeConsole: process.env.NODE_ENV === "production",

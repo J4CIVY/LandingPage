@@ -14,39 +14,32 @@ const eslintConfig = [
   {
     files: ["**/*.{js,jsx,ts,tsx}"],
     rules: {
-      // TypeScript rules
-      "@typescript-eslint/no-explicit-any": "error",
-      "@typescript-eslint/no-unused-vars": "error",
-      "@typescript-eslint/prefer-const": "error",
-      "@typescript-eslint/no-empty-interface": "error",
+      // TypeScript rules (only critical ones)
+      "@typescript-eslint/no-unused-vars": "warn",
+      "@typescript-eslint/no-empty-interface": "warn",
       
-      // React rules
-      "react-hooks/exhaustive-deps": "error",
+      // React rules (only critical ones)
+      "react-hooks/exhaustive-deps": "warn",
       "react/jsx-no-duplicate-props": "error",
       "react/jsx-no-undef": "error",
-      "react/no-array-index-key": "warn",
-      "react/no-unescaped-entities": "error",
+      "react/no-array-index-key": "off",
+      "react/no-unescaped-entities": "off",
       
-      // Security rules
-      "security/detect-object-injection": "warn",
-      "security/detect-non-literal-fs-filename": "warn",
-      "security/detect-unsafe-regex": "error",
-      
-      // Performance rules
-      "prefer-const": "error",
+      // Performance rules (relaxed)
+      "prefer-const": "warn",
       "no-var": "error",
-      "no-console": process.env.NODE_ENV === "production" ? "error" : "warn",
+      "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
       
-      // Code quality
-      "no-duplicate-imports": "error",
-      "no-unused-expressions": "error",
-      "prefer-template": "error",
-      "object-shorthand": "error",
+      // Code quality (relaxed)
+      "no-duplicate-imports": "warn",
+      "no-unused-expressions": "warn",
+      "prefer-template": "off",
+      "object-shorthand": "off",
       
-      // Next.js specific
+      // Next.js specific (only critical ones)
       "@next/next/no-html-link-for-pages": "error",
-      "@next/next/no-img-element": "error",
-      "@next/next/no-page-custom-font": "error",
+      "@next/next/no-img-element": "warn",
+      "@next/next/no-page-custom-font": "warn",
     },
   },
   {

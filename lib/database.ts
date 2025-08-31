@@ -13,7 +13,6 @@ export interface User extends CompatibleUserSchema {
   createdAt: string;
   updatedAt: string;
   isActive: boolean;
-  membershipType?: 'friend' | 'rider' | 'rider-duo' | 'pro' | 'pro-duo';
 }
 
 export interface EmergencyRequest {

@@ -58,7 +58,7 @@ export const compatibleUserSchema = z.object({
   licenseExpirationDate: z.string().optional(),
   
   // Información de BSK
-  membershipType: z.enum(['admin', 'member', 'friend']).optional().default('friend'),
+  membershipType: z.enum(['admin', 'member', 'friend']).default('friend'),
   
   // Contraseña y confirmación
   password: z.string().min(8, 'La contraseña debe tener al menos 8 caracteres'),

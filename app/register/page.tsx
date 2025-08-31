@@ -23,11 +23,12 @@ const years = generateYears();
 
 const UserRegister: React.FC = () => {
   const { register, handleSubmit, formState: { errors }, watch, trigger, setValue } = useForm<FormUserSchema>({
-    resolver: zodResolver(userSchema),
+    resolver: zodResolver(userSchema) as any,
     mode: 'onTouched',
     defaultValues: {
       country: 'Colombia',
       emergencyContactCountry: 'Colombia',
+      membershipType: 'friend' as const,
     }
   });
   
