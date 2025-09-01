@@ -58,71 +58,94 @@ async function handleGet(request: NextRequest) {
 async function handlePost(request: NextRequest) {
   await connectDB();
   
-  const validation = await validateRequestBody(request, compatibleUserSchema);
+  // Obtener datos del request
+  const requestData = await request.json();
   
-  if (!validation.success) {
-    return validation.response;
-  }
-
-  const userData = validation.data;
-
-  // Verificar si el usuario ya existe
-  const existingUser = await User.findOne({ 
-    $or: [
-      { email: userData.email },
-      { documentNumber: userData.documentNumber }
-    ]
-  });
+  // Remover confirmPassword antes de validar
+  const { confirmPassword, ...dataToValidate } = requestData;
   
-  if (existingUser) {
-    if (existingUser.email === userData.email) {
-      return createErrorResponse(
-        'Ya existe un usuario registrado con este email',
-        HTTP_STATUS.CONFLICT
-      );
-    }
-    if (existingUser.documentNumber === userData.documentNumber) {
-      return createErrorResponse(
-        'Ya existe un usuario registrado con este número de documento',
-        HTTP_STATUS.CONFLICT
-      );
-    }
-  }
+  // Crear un esquema sin confirmPassword para validación del backend
+  const backendSchema = compatibleUserSchema.omit({ confirmPassword: true });
+  
+  try {
+    // Validar datos sin confirmPassword
+    const userData = backendSchema.parse(dataToValidate);
+    
+    console.log('✅ Validación exitosa en backend', { email: userData.email });
 
-  // Hashear la contraseña
-  const saltRounds = 12;
-  const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
-
-  // Crear nuevo usuario
-  const newUser = new User({
-    ...userData,
-    password: hashedPassword, // Usar la contraseña hasheada
-    isActive: true,
-    membershipType: userData.membershipType || 'friend' // Membresía por defecto
-  });
-
-  await newUser.save();
-
-  // Retornar usuario sin la contraseña
-  const userResponse = newUser.toObject();
-  delete userResponse.password;
-
-  return createSuccessResponse(
-    {
-      user: {
-        id: userResponse._id,
-        email: userResponse.email,
-        firstName: userResponse.firstName,
-        lastName: userResponse.lastName,
-        phone: userResponse.phone,
-        membershipType: userResponse.membershipType,
-        isActive: userResponse.isActive,
-        createdAt: userResponse.createdAt
+    // Verificar si el usuario ya existe
+    const existingUser = await User.findOne({ 
+      $or: [
+        { email: userData.email },
+        { documentNumber: userData.documentNumber }
+      ]
+    });
+  
+    if (existingUser) {
+      if (existingUser.email === userData.email) {
+        return createErrorResponse(
+          'Ya existe un usuario registrado con este email',
+          HTTP_STATUS.CONFLICT
+        );
       }
-    },
-    'Usuario registrado exitosamente',
-    HTTP_STATUS.CREATED
-  );
+      if (existingUser.documentNumber === userData.documentNumber) {
+        return createErrorResponse(
+          'Ya existe un usuario registrado con este número de documento',
+          HTTP_STATUS.CONFLICT
+        );
+      }
+    }
+
+    // Hashear la contraseña
+    const saltRounds = 12;
+    const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
+
+    // Crear nuevo usuario
+    const newUser = new User({
+      ...userData,
+      password: hashedPassword, // Usar la contraseña hasheada
+      isActive: true,
+      membershipType: userData.membershipType || 'friend' // Membresía por defecto
+    });
+
+    await newUser.save();
+
+    // Retornar usuario sin la contraseña
+    const userResponse = newUser.toObject();
+    delete userResponse.password;
+
+    return createSuccessResponse(
+      {
+        user: {
+          id: userResponse._id,
+          email: userResponse.email,
+          firstName: userResponse.firstName,
+          lastName: userResponse.lastName,
+          phone: userResponse.phone,
+          membershipType: userResponse.membershipType,
+          isActive: userResponse.isActive,
+          createdAt: userResponse.createdAt
+        }
+      },
+      'Usuario registrado exitosamente',
+      HTTP_STATUS.CREATED
+    );
+  } catch (error: any) {
+    console.error('❌ Error en validación o registro:', error);
+    
+    if (error.name === 'ZodError') {
+      return createErrorResponse(
+        'Error de validación en los datos enviados',
+        HTTP_STATUS.VALIDATION_ERROR,
+        error.errors
+      );
+    }
+    
+    return createErrorResponse(
+      'Error interno del servidor',
+      HTTP_STATUS.INTERNAL_SERVER_ERROR
+    );
+  }
 }
 
 // Handler principal
