@@ -27,8 +27,10 @@ async function handleGet(request: NextRequest) {
       inactive: users.filter(u => !u.isActive).length,
       byMembership: {
         friend: users.filter(u => u.membershipType === 'friend').length,
-        admin: users.filter(u => u.membershipType === 'admin').length,
-        member: users.filter(u => u.membershipType === 'member').length,
+        rider: users.filter(u => u.membershipType === 'rider').length,
+        'rider-duo': users.filter(u => u.membershipType === 'rider-duo').length,
+        pro: users.filter(u => u.membershipType === 'pro').length,
+        'pro-duo': users.filter(u => u.membershipType === 'pro-duo').length,
       },
       recentRegistrations: users.filter(u => 
         new Date(u.createdAt) >= thirtyDaysAgo
