@@ -64,18 +64,7 @@ export const compatibleUserSchema = z.object({
   password: z.string().min(8, 'La contraseña debe tener al menos 8 caracteres'),
   confirmPassword: z.string().min(1, 'Confirmación de contraseña requerida'),
   
-  // Términos y condiciones
-  acceptedTerms: z.boolean().refine((val) => val === true, {
-    message: 'Debes aceptar los términos y condiciones'
-  }),
-  acceptedPrivacyPolicy: z.boolean().refine((val) => val === true, {
-    message: 'Debes aceptar la política de privacidad'
-  }),
-  acceptedDataProcessing: z.boolean().refine((val) => val === true, {
-    message: 'Debes aceptar el procesamiento de datos'
-  }),
-  
-  // Consentimientos del formulario (se mapean a los campos de arriba)
+  // Consentimientos del formulario
   dataConsent: z.boolean().refine((val) => val === true, {
     message: 'Debes aceptar el tratamiento de datos personales'
   }),
