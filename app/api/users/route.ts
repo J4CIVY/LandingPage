@@ -1,4 +1,5 @@
 import { NextRequest } from 'next/server';
+import bcrypt from 'bcryptjs';
 import { 
   withErrorHandling, 
   createSuccessResponse, 
@@ -66,19 +67,38 @@ async function handlePost(request: NextRequest) {
   const userData = validation.data;
 
   // Verificar si el usuario ya existe
-  const existingUser = await User.findOne({ email: userData.email });
+  const existingUser = await User.findOne({ 
+    $or: [
+      { email: userData.email },
+      { documentNumber: userData.documentNumber }
+    ]
+  });
+  
   if (existingUser) {
-    return createErrorResponse(
-      'El usuario ya existe con este email',
-      HTTP_STATUS.CONFLICT
-    );
+    if (existingUser.email === userData.email) {
+      return createErrorResponse(
+        'Ya existe un usuario registrado con este email',
+        HTTP_STATUS.CONFLICT
+      );
+    }
+    if (existingUser.documentNumber === userData.documentNumber) {
+      return createErrorResponse(
+        'Ya existe un usuario registrado con este número de documento',
+        HTTP_STATUS.CONFLICT
+      );
+    }
   }
+
+  // Hashear la contraseña
+  const saltRounds = 12;
+  const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
 
   // Crear nuevo usuario
   const newUser = new User({
     ...userData,
+    password: hashedPassword, // Usar la contraseña hasheada
     isActive: true,
-    membershipType: 'friend' // Membresía por defecto
+    membershipType: userData.membershipType || 'friend' // Membresía por defecto
   });
 
   await newUser.save();

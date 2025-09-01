@@ -61,6 +61,7 @@ export interface IUser extends Document {
   membershipType: 'friend' | 'rider' | 'rider-duo' | 'pro' | 'pro-duo';
   membershipNumber?: string;
   joinDate?: Date;
+  password: string;
   
   // Términos y condiciones
   acceptedTerms: boolean;
@@ -137,6 +138,7 @@ const UserSchema = new Schema<IUser>({
   },
   membershipNumber: { type: String },
   joinDate: { type: Date, default: Date.now },
+  password: { type: String, required: true },
   
   // Términos y condiciones
   acceptedTerms: { type: Boolean, default: false },
