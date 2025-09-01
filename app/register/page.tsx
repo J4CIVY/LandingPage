@@ -51,6 +51,7 @@ const UserRegister: React.FC = () => {
     ['emergencyContactName', 'emergencyContactRelationship', 'emergencyContactPhone'],
     ['motorcyclePlate', 'motorcycleBrand', 'motorcycleModel', 'motorcycleYear'],
     ['password', 'confirmPassword', 'dataConsent', 'liabilityWaiver', 'termsAcceptance'],
+    [], // Paso 8: Confirmación (sin validación adicional)
   ];
 
   const allFormData = watch();
@@ -113,7 +114,15 @@ const UserRegister: React.FC = () => {
   }, [setValue]);
 
   const onSubmit = async (data: FormUserSchema) => {
-    if (isSubmitting) return;
+    console.log('🚀 onSubmit iniciado', { isSubmitting, currentStep });
+    
+    if (isSubmitting) {
+      console.log('⏸️ Ya se está enviando, cancelando...');
+      return;
+    }
+    
+    console.log('📝 Datos del formulario recibidos:', Object.keys(data));
+    
     setIsSubmitting(true);
     setSubmitError('');
     
@@ -273,6 +282,7 @@ const UserRegister: React.FC = () => {
       setSubmitError(errorMessage);
       errorToast('Error en el registro', errorMessage);
     } finally {
+      console.log('🏁 Finalizando envío, isSubmitting = false');
       setIsSubmitting(false);
     }
   };
@@ -807,8 +817,18 @@ const UserRegister: React.FC = () => {
                 </button>
               )}
               {currentStep === totalSteps && (
-                <button type="submit" disabled={isSubmitting}
-                        className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 ml-auto disabled:bg-gray-400">
+                <button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  onClick={(e) => {
+                    console.log('🖱️ Botón Finalizar Registro clickeado', { 
+                      currentStep, 
+                      totalSteps, 
+                      isSubmitting,
+                      formValid: Object.keys(errors).length === 0
+                    });
+                  }}
+                  className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 ml-auto disabled:bg-gray-400">
                   {isSubmitting ? 'Enviando...' : 'Finalizar Registro'}
                 </button>
               )}
