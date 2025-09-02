@@ -202,9 +202,9 @@ const UserRegister: React.FC = () => {
         password: submissionData.password,
         
         // Términos y condiciones (mapeo correcto a campos del backend)
-        acceptedTerms: submissionData.termsAcceptance,
-        acceptedPrivacyPolicy: submissionData.dataConsent,
-        acceptedDataProcessing: submissionData.liabilityWaiver
+        dataConsent: submissionData.dataConsent,
+        liabilityWaiver: submissionData.liabilityWaiver,
+        termsAcceptance: submissionData.termsAcceptance
       };
 
       console.log('📤 Enviando datos de registro a la API...', { 
