@@ -63,11 +63,12 @@ function LoginForm() {
       const result = await response.json();
 
       if (result.success) {
-        // Login exitoso - redirección simple y directa
-        console.log('Login exitoso! Redirigiendo a dashboard...');
+        // Login exitoso - usar returnUrl si está disponible
+        const targetUrl = returnUrl !== '/dashboard' ? returnUrl : '/dashboard';
+        console.log('Login exitoso! Redirigiendo a:', targetUrl);
         
-        // Redirección inmediata con recarga completa de página
-        window.location.href = '/dashboard';
+        // Redirección con la URL correcta
+        window.location.href = targetUrl;
         
       } else {
         // Mostrar error específico

@@ -59,7 +59,9 @@ export default function DashboardPage() {
     );
   }
 
+  // Si no está autenticado DESPUÉS de la inicialización, mostrar mensaje de acceso requerido
   if (!isAuthenticated || !user) {
+    console.log('Dashboard: Usuario no autenticado', { isAuthenticated, user: !!user, isInitialized });
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center px-4">
         <div className="text-center bg-white dark:bg-slate-800 rounded-lg shadow-lg p-8 max-w-md w-full">
@@ -67,7 +69,7 @@ export default function DashboardPage() {
           <h2 className="text-2xl font-bold text-gray-800 dark:text-slate-200 mb-2">Acceso Requerido</h2>
           <p className="text-gray-600 dark:text-slate-400 mb-6">Debes iniciar sesión para acceder a tu panel de control</p>
           <Link
-            href="/login"
+            href="/login?returnUrl=/dashboard"
             className="inline-flex items-center px-6 py-3 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
           >
             <FaUser className="mr-2" />
