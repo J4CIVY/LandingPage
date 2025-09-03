@@ -161,8 +161,8 @@ export function middleware(request: NextRequest) {
   // Manejar rutas de autenticación (login, register, etc.)
   if (authRoutes.some(route => pathname.startsWith(route))) {
     if (isAuthenticated) {
-      // Redirigir a página principal si ya está autenticado
-      const returnUrl = request.nextUrl.searchParams.get('returnUrl') || '/';
+      // Redirigir al dashboard si ya está autenticado (a menos que tenga returnUrl específico)
+      const returnUrl = request.nextUrl.searchParams.get('returnUrl') || '/dashboard';
       return NextResponse.redirect(new URL(returnUrl, request.url));
     }
   }

@@ -53,12 +53,12 @@ export default function AuthButton() {
     <div className="relative">
       <button
         onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg p-2 transition-colors"
+        className="flex items-center space-x-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg p-2 transition-colors"
       >
         <FaUserCircle className="w-8 h-8" />
         <div className="hidden md:block text-left">
           <div className="text-sm font-medium">{user.firstName} {user.lastName}</div>
-          <div className="text-xs text-gray-500 capitalize">{user.membershipType}</div>
+          <div className="text-xs text-gray-500 dark:text-gray-400 capitalize">{user.membershipType}</div>
         </div>
         <svg
           className={`w-4 h-4 transition-transform ${isMenuOpen ? 'rotate-180' : ''}`}
@@ -72,14 +72,14 @@ export default function AuthButton() {
 
       {/* Menú desplegable */}
       {isMenuOpen && (
-        <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+        <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-600 py-2 z-50">
           {/* Información del usuario */}
-          <div className="px-4 py-3 border-b border-gray-200">
-            <div className="text-sm font-medium text-gray-900">
+          <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-600">
+            <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
               {user.firstName} {user.lastName}
             </div>
-            <div className="text-sm text-gray-500">{user.email}</div>
-            <div className="text-xs text-blue-600 capitalize mt-1">
+            <div className="text-sm text-gray-500 dark:text-gray-400">{user.email}</div>
+            <div className="text-xs text-blue-600 dark:text-blue-400 capitalize mt-1">
               Membresía: {user.membershipType}
             </div>
           </div>
@@ -88,7 +88,7 @@ export default function AuthButton() {
           <div className="py-1">
             <Link
               href="/dashboard"
-              className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+              className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               <FaTachometerAlt className="mr-3 w-4 h-4" />
@@ -96,7 +96,7 @@ export default function AuthButton() {
             </Link>
             <Link
               href="/profile"
-              className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+              className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               <FaUser className="mr-3 w-4 h-4" />
@@ -105,7 +105,7 @@ export default function AuthButton() {
           </div>
 
           {/* Separador */}
-          <div className="border-t border-gray-200 my-1"></div>
+          <div className="border-t border-gray-200 dark:border-gray-600 my-1"></div>
 
           {/* Logout */}
           <button
@@ -113,7 +113,7 @@ export default function AuthButton() {
               logout();
               setIsMenuOpen(false);
             }}
-            className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+            className="flex items-center w-full px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
           >
             <FaSignOutAlt className="mr-3 w-4 h-4" />
             Cerrar Sesión

@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FaEye, FaEyeSlash, FaSpinner, FaEnvelope, FaLock, FaMotorcycle } from 'react-icons/fa';
 import { loginSchema } from '@/schemas/authSchemas';
+import { useAuth } from '@/hooks/useAuth';
 
 type LoginFormData = {
   email: string;
@@ -14,11 +15,16 @@ type LoginFormData = {
   rememberMe?: boolean;
 };
 
-export default function LoginPage() {
+function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [loginError, setLoginError] = useState<string | null>(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const { login: authLogin } = useAuth();
+
+  // Obtener la URL de retorno de los parámetros de consulta
+  const returnUrl = searchParams.get('returnUrl') || '/dashboard';
 
   const {
     register,
@@ -39,23 +45,16 @@ export default function LoginPage() {
     setLoginError(null);
 
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      const result = await response.json();
-
-      if (result.success) {
-        // Login exitoso - redirigir al dashboard o página principal
-        router.push('/');
+      // Usar el método login del AuthProvider
+      const success = await authLogin(data.email, data.password, data.rememberMe);
+      
+      if (success) {
+        // Login exitoso - redirigir a la URL de retorno o dashboard
+        router.push(returnUrl);
         router.refresh(); // Actualizar el estado de autenticación
       } else {
-        // Mostrar error específico
-        setLoginError(result.message || 'Error al iniciar sesión');
+        // Error manejado por el AuthProvider
+        setLoginError('Error al iniciar sesión. Verifica tus credenciales.');
       }
     } catch (error) {
       console.error('Error en login:', error);
@@ -221,5 +220,17 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600 dark:from-slate-900 dark:via-slate-800 dark:to-slate-700 flex items-center justify-center">
+        <FaSpinner className="animate-spin text-white text-4xl" />
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }
