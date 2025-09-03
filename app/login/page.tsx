@@ -66,65 +66,69 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600 flex items-center justify-center px-4 py-8">
-      <div className="max-w-md w-full">
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600 dark:from-slate-900 dark:via-slate-800 dark:to-slate-700 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-md w-full space-y-8">
         {/* Logo y Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full mb-4 shadow-lg">
-            <FaMotorcycle className="text-blue-800 text-2xl" />
+        <div className="text-center">
+          <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-white dark:bg-slate-800 rounded-full mb-4 shadow-lg">
+            <FaMotorcycle className="text-blue-800 dark:text-blue-400 text-2xl sm:text-3xl" />
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white dark:text-slate-100 mb-2">
             BSK Motorcycle Team
           </h1>
-          <p className="text-blue-100">
+          <p className="text-blue-100 dark:text-slate-300 text-sm sm:text-base">
             Inicia sesión en tu cuenta
           </p>
         </div>
 
         {/* Formulario de Login */}
-        <div className="bg-white rounded-2xl shadow-2xl p-8">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl dark:shadow-slate-900/50 p-6 sm:p-8">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {/* Campo Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                 Correo Electrónico
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FaEnvelope className="text-gray-400 text-sm" />
+                  <FaEnvelope className="text-gray-400 dark:text-slate-500 text-sm" />
                 </div>
                 <input
                   {...register('email')}
                   type="email"
                   id="email"
                   className={`block w-full pl-10 pr-3 py-3 border ${
-                    errors.email ? 'border-red-300' : 'border-gray-300'
-                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors`}
+                    errors.email 
+                      ? 'border-red-300 dark:border-red-500' 
+                      : 'border-gray-300 dark:border-slate-600'
+                  } rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 placeholder-gray-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-colors`}
                   placeholder="tu@email.com"
                   autoComplete="email"
                 />
               </div>
               {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+                <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.email.message}</p>
               )}
             </div>
 
             {/* Campo Contraseña */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                 Contraseña
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FaLock className="text-gray-400 text-sm" />
+                  <FaLock className="text-gray-400 dark:text-slate-500 text-sm" />
                 </div>
                 <input
                   {...register('password')}
                   type={showPassword ? 'text' : 'password'}
                   id="password"
                   className={`block w-full pl-10 pr-12 py-3 border ${
-                    errors.password ? 'border-red-300' : 'border-gray-300'
-                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors`}
+                    errors.password 
+                      ? 'border-red-300 dark:border-red-500' 
+                      : 'border-gray-300 dark:border-slate-600'
+                  } rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 placeholder-gray-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-colors`}
                   placeholder="Tu contraseña"
                   autoComplete="current-password"
                 />
@@ -134,33 +138,33 @@ export default function LoginPage() {
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <FaEyeSlash className="text-gray-400 hover:text-gray-600 text-sm" />
+                    <FaEyeSlash className="text-gray-400 dark:text-slate-500 hover:text-gray-600 dark:hover:text-slate-300 text-sm transition-colors" />
                   ) : (
-                    <FaEye className="text-gray-400 hover:text-gray-600 text-sm" />
+                    <FaEye className="text-gray-400 dark:text-slate-500 hover:text-gray-600 dark:hover:text-slate-300 text-sm transition-colors" />
                   )}
                 </button>
               </div>
               {errors.password && (
-                <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
+                <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.password.message}</p>
               )}
             </div>
 
             {/* Recordarme y Olvidé mi contraseña */}
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
               <div className="flex items-center">
                 <input
                   {...register('rememberMe')}
                   id="rememberMe"
                   type="checkbox"
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-blue-600 dark:text-blue-400 focus:ring-blue-500 dark:focus:ring-blue-400 border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 rounded"
                 />
-                <label htmlFor="rememberMe" className="ml-2 block text-sm text-gray-700">
+                <label htmlFor="rememberMe" className="ml-2 block text-sm text-gray-700 dark:text-slate-300">
                   Recordarme
                 </label>
               </div>
               <Link
                 href="/auth/forgot-password"
-                className="text-sm text-blue-600 hover:text-blue-500 font-medium"
+                className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-medium transition-colors"
               >
                 ¿Olvidaste tu contraseña?
               </Link>
@@ -168,8 +172,8 @@ export default function LoginPage() {
 
             {/* Error de Login */}
             {loginError && (
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                <p className="text-sm text-red-600">{loginError}</p>
+              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+                <p className="text-sm text-red-600 dark:text-red-400">{loginError}</p>
               </div>
             )}
 
@@ -177,16 +181,17 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading || !isValid}
-              className={`w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white transition-colors ${
+              className={`w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white transition-all duration-200 ${
                 isLoading || !isValid
-                  ? 'bg-gray-400 cursor-not-allowed'
-                  : 'bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
+                  ? 'bg-gray-400 dark:bg-slate-600 cursor-not-allowed'
+                  : 'bg-blue-600 dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-slate-800 active:scale-[0.98]'
               }`}
             >
               {isLoading ? (
                 <>
                   <FaSpinner className="animate-spin mr-2" />
-                  Iniciando sesión...
+                  <span className="hidden sm:inline">Iniciando sesión...</span>
+                  <span className="sm:hidden">Iniciando...</span>
                 </>
               ) : (
                 'Iniciar Sesión'
@@ -195,12 +200,12 @@ export default function LoginPage() {
           </form>
 
           {/* Separador */}
-          <div className="mt-8 pt-6 border-t border-gray-200">
-            <p className="text-center text-sm text-gray-600">
+          <div className="mt-6 sm:mt-8 pt-6 border-t border-gray-200 dark:border-slate-600">
+            <p className="text-center text-sm text-gray-600 dark:text-slate-400">
               ¿No tienes una cuenta?{' '}
               <Link
                 href="/register"
-                className="text-blue-600 hover:text-blue-500 font-medium"
+                className="text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-medium transition-colors"
               >
                 Regístrate aquí
               </Link>
@@ -209,8 +214,8 @@ export default function LoginPage() {
         </div>
 
         {/* Footer */}
-        <div className="text-center mt-8">
-          <p className="text-blue-100 text-sm">
+        <div className="text-center">
+          <p className="text-blue-100 dark:text-slate-400 text-xs sm:text-sm">
             © 2025 BSK Motorcycle Team. Todos los derechos reservados.
           </p>
         </div>
