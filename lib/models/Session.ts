@@ -51,8 +51,7 @@ const SessionSchema = new Schema<ISession>({
   },
   expiresAt: {
     type: Date,
-    required: true,
-    index: { expireAfterSeconds: 0 }
+    required: true
   },
   lastUsed: {
     type: Date,
@@ -65,7 +64,7 @@ const SessionSchema = new Schema<ISession>({
 
 // Índices adicionales
 SessionSchema.index({ userId: 1, isActive: 1 });
-SessionSchema.index({ expiresAt: 1 });
+SessionSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 }); // TTL index para auto-eliminación
 SessionSchema.index({ lastUsed: -1 });
 
 // Middleware para actualizar lastUsed
