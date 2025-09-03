@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 export interface IUser extends Document {
   // Información personal básica
@@ -63,6 +64,15 @@ export interface IUser extends Document {
   joinDate?: Date;
   password: string;
   
+  // Autenticación y seguridad
+  isEmailVerified: boolean;
+  emailVerificationToken?: string;
+  passwordResetToken?: string;
+  passwordResetExpires?: Date;
+  lastLogin?: Date;
+  loginAttempts: number;
+  lockUntil?: Date;
+  
   // Términos y condiciones
   acceptedTerms: boolean;
   acceptedPrivacyPolicy: boolean;
@@ -71,62 +81,82 @@ export interface IUser extends Document {
   // Metadatos
   createdAt: Date;
   updatedAt: Date;
+  
+  // Métodos
+  comparePassword(candidatePassword: string): Promise<boolean>;
+  getPublicProfile(): Partial<IUser>;
+  updateLastLogin(): Promise<IUser>;
+  incrementLoginAttempts(): Promise<IUser>;
+  resetLoginAttempts(): Promise<IUser>;
+  isAccountLocked(): boolean;
 }
 
 const UserSchema = new Schema<IUser>({
   // Información personal básica
-  documentType: { type: String, required: true },
-  documentNumber: { type: String, required: true, unique: true },
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  documentType: { type: String, required: true, trim: true },
+  documentNumber: { type: String, required: true, unique: true, trim: true, index: true },
+  firstName: { type: String, required: true, trim: true },
+  lastName: { type: String, required: true, trim: true },
   birthDate: { type: String, required: true },
-  birthPlace: { type: String, required: true },
+  birthPlace: { type: String, required: true, trim: true },
   
   // Información de contacto
-  phone: { type: String, required: true },
-  whatsapp: { type: String },
-  email: { type: String, required: true, unique: true },
-  address: { type: String, required: true },
-  neighborhood: { type: String },
-  city: { type: String, required: true },
-  country: { type: String, required: true },
-  postalCode: { type: String },
+  phone: { type: String, required: true, trim: true },
+  whatsapp: { type: String, trim: true },
+  email: { 
+    type: String, 
+    required: true, 
+    unique: true, 
+    lowercase: true,
+    trim: true,
+    index: true,
+    match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Email inválido']
+  },
+  address: { type: String, required: true, trim: true },
+  neighborhood: { type: String, trim: true },
+  city: { type: String, required: true, trim: true },
+  country: { type: String, required: true, trim: true },
+  postalCode: { type: String, trim: true },
   
   // Información de género
-  binaryGender: { type: String, required: true },
-  genderIdentity: { type: String },
-  occupation: { type: String },
-  discipline: { type: String },
+  binaryGender: { 
+    type: String, 
+    required: true,
+    enum: ['Masculino', 'Femenino', 'Otro']
+  },
+  genderIdentity: { type: String, trim: true },
+  occupation: { type: String, trim: true },
+  discipline: { type: String, trim: true },
   
   // Información de salud
-  bloodType: { type: String },
-  rhFactor: { type: String },
-  allergies: { type: String },
-  healthInsurance: { type: String },
+  bloodType: { type: String, trim: true },
+  rhFactor: { type: String, trim: true },
+  allergies: { type: String, trim: true },
+  healthInsurance: { type: String, trim: true },
   
   // Contacto de emergencia
-  emergencyContactName: { type: String, required: true },
-  emergencyContactRelationship: { type: String, required: true },
-  emergencyContactPhone: { type: String, required: true },
-  emergencyContactAddress: { type: String },
-  emergencyContactNeighborhood: { type: String },
-  emergencyContactCity: { type: String },
-  emergencyContactCountry: { type: String },
-  emergencyContactPostalCode: { type: String },
+  emergencyContactName: { type: String, required: true, trim: true },
+  emergencyContactRelationship: { type: String, required: true, trim: true },
+  emergencyContactPhone: { type: String, required: true, trim: true },
+  emergencyContactAddress: { type: String, trim: true },
+  emergencyContactNeighborhood: { type: String, trim: true },
+  emergencyContactCity: { type: String, trim: true },
+  emergencyContactCountry: { type: String, trim: true },
+  emergencyContactPostalCode: { type: String, trim: true },
   
   // Información de motocicleta
-  motorcycleBrand: { type: String },
-  motorcycleModel: { type: String },
-  motorcycleYear: { type: String },
-  motorcyclePlate: { type: String },
-  motorcycleEngineSize: { type: String },
-  motorcycleColor: { type: String },
+  motorcycleBrand: { type: String, trim: true },
+  motorcycleModel: { type: String, trim: true },
+  motorcycleYear: { type: String, trim: true },
+  motorcyclePlate: { type: String, trim: true, uppercase: true },
+  motorcycleEngineSize: { type: String, trim: true },
+  motorcycleColor: { type: String, trim: true },
   soatExpirationDate: { type: String },
   technicalReviewExpirationDate: { type: String },
   
   // Información de licencia
-  licenseNumber: { type: String },
-  licenseCategory: { type: String },
+  licenseNumber: { type: String, trim: true },
+  licenseCategory: { type: String, trim: true },
   licenseExpirationDate: { type: String },
   
   // Información de BSK
@@ -136,23 +166,75 @@ const UserSchema = new Schema<IUser>({
     enum: ['friend', 'rider', 'rider-duo', 'pro', 'pro-duo'],
     default: 'friend'
   },
-  membershipNumber: { type: String },
+  membershipNumber: { type: String, unique: true, sparse: true },
   joinDate: { type: Date, default: Date.now },
-  password: { type: String, required: true },
+  password: { 
+    type: String, 
+    required: true,
+    minlength: [8, 'La contraseña debe tener al menos 8 caracteres'],
+    select: false // Por defecto no incluir en queries
+  },
+  
+  // Autenticación y seguridad
+  isEmailVerified: { type: Boolean, default: false },
+  emailVerificationToken: { type: String, select: false },
+  passwordResetToken: { type: String, select: false },
+  passwordResetExpires: { type: Date, select: false },
+  lastLogin: { type: Date },
+  loginAttempts: { type: Number, default: 0, max: 5 },
+  lockUntil: { type: Date },
   
   // Términos y condiciones
-  acceptedTerms: { type: Boolean, default: false },
-  acceptedPrivacyPolicy: { type: Boolean, default: false },
-  acceptedDataProcessing: { type: Boolean, default: false }
+  acceptedTerms: { type: Boolean, default: false, required: true },
+  acceptedPrivacyPolicy: { type: Boolean, default: false, required: true },
+  acceptedDataProcessing: { type: Boolean, default: false, required: true }
 }, {
   timestamps: true,
-  collection: 'users'
+  collection: 'users',
+  toJSON: { 
+    virtuals: true, 
+    transform: function(doc: any, ret: any) {
+      delete ret.password;
+      delete ret.emailVerificationToken;
+      delete ret.passwordResetToken;
+      delete ret.passwordResetExpires;
+      return ret;
+    }
+  }
 });
 
-// Índices adicionales para optimizar consultas (no duplicar los unique ya definidos)
+// Índices adicionales para optimizar consultas
 UserSchema.index({ membershipType: 1 });
 UserSchema.index({ isActive: 1 });
 UserSchema.index({ city: 1 });
+UserSchema.index({ createdAt: -1 });
+UserSchema.index({ lastLogin: -1 });
+UserSchema.index({ lockUntil: 1 }, { expireAfterSeconds: 0 });
+
+// Virtual para nombre completo
+UserSchema.virtual('fullName').get(function(this: IUser) {
+  return `${this.firstName} ${this.lastName}`;
+});
+
+// Virtual para verificar si la cuenta está bloqueada
+UserSchema.virtual('isLocked').get(function(this: IUser) {
+  return !!(this.lockUntil && this.lockUntil > new Date());
+});
+
+// Middleware para encriptar contraseña antes de guardar
+UserSchema.pre('save', async function(next) {
+  // Solo hashear la contraseña si ha sido modificada (o es nueva)
+  if (!this.isModified('password')) return next();
+  
+  try {
+    // Hash password con salt de 12 rounds
+    const salt = await bcrypt.genSalt(12);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } catch (error) {
+    next(error as Error);
+  }
+});
 
 // Middleware para generar número de membresía
 UserSchema.pre('save', async function(next) {
@@ -163,5 +245,73 @@ UserSchema.pre('save', async function(next) {
   }
   next();
 });
+
+// Método para comparar contraseñas
+UserSchema.methods.comparePassword = async function(this: IUser, candidatePassword: string): Promise<boolean> {
+  try {
+    return await bcrypt.compare(candidatePassword, this.password);
+  } catch (error) {
+    throw new Error('Error al comparar contraseñas');
+  }
+};
+
+// Método para obtener perfil público (sin datos sensibles)
+UserSchema.methods.getPublicProfile = function(this: IUser): Partial<IUser> {
+  return {
+    _id: this._id,
+    firstName: this.firstName,
+    lastName: this.lastName,
+    email: this.email,
+    phone: this.phone,
+    city: this.city,
+    country: this.country,
+    membershipType: this.membershipType,
+    membershipNumber: this.membershipNumber,
+    isActive: this.isActive,
+    isEmailVerified: this.isEmailVerified,
+    lastLogin: this.lastLogin,
+    joinDate: this.joinDate,
+    createdAt: this.createdAt,
+    updatedAt: this.updatedAt
+  };
+};
+
+// Método para actualizar última conexión
+UserSchema.methods.updateLastLogin = function(this: IUser): Promise<IUser> {
+  this.lastLogin = new Date();
+  return this.save();
+};
+
+// Método para incrementar intentos de login
+UserSchema.methods.incrementLoginAttempts = function(this: IUser): Promise<IUser> {
+  // Si tenemos un lock previo y ya expiró, reiniciar
+  if (this.lockUntil && this.lockUntil < new Date()) {
+    return this.updateOne({
+      $unset: { lockUntil: 1 },
+      $set: { loginAttempts: 1 }
+    });
+  }
+  
+  const updates: any = { $inc: { loginAttempts: 1 } };
+  
+  // Si llegamos al máximo de intentos y no estamos bloqueados, bloquear cuenta
+  if (this.loginAttempts + 1 >= 5 && !this.isAccountLocked()) {
+    updates.$set = { lockUntil: new Date(Date.now() + 2 * 60 * 60 * 1000) }; // 2 horas
+  }
+  
+  return this.updateOne(updates);
+};
+
+// Método para resetear intentos de login
+UserSchema.methods.resetLoginAttempts = function(this: IUser): Promise<IUser> {
+  return this.updateOne({
+    $unset: { loginAttempts: 1, lockUntil: 1 }
+  });
+};
+
+// Método para verificar si la cuenta está bloqueada
+UserSchema.methods.isAccountLocked = function(this: IUser): boolean {
+  return !!(this.lockUntil && this.lockUntil > new Date());
+};
 
 export default mongoose.models.User || mongoose.model<IUser>('User', UserSchema);

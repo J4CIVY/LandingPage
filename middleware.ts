@@ -1,25 +1,42 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server';
+import { verifyAccessToken } from '@/lib/auth-utils';
+
+// Rutas que requieren autenticación
+const protectedRoutes = [
+  '/dashboard',
+  '/profile',
+  '/settings',
+  '/admin'
+];
+
+// Rutas que NO deben ser accesibles para usuarios autenticados
+const authRoutes = [
+  '/login',
+  '/register',
+  '/auth/forgot-password',
+  '/auth/reset-password'
+];
 
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl
-  const response = NextResponse.next()
-  const userAgent = request.headers.get('user-agent') || ''
+  const { pathname } = request.nextUrl;
+  const response = NextResponse.next();
+  const userAgent = request.headers.get('user-agent') || '';
 
   // Enhanced security headers for all responses
-  response.headers.set('X-Content-Type-Options', 'nosniff')
-  response.headers.set('X-Frame-Options', 'DENY')
-  response.headers.set('X-XSS-Protection', '1; mode=block')
-  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
-  response.headers.set('X-DNS-Prefetch-Control', 'on')
-  response.headers.set('X-Download-Options', 'noopen')
-  response.headers.set('X-Permitted-Cross-Domain-Policies', 'none')
+  response.headers.set('X-Content-Type-Options', 'nosniff');
+  response.headers.set('X-Frame-Options', 'DENY');
+  response.headers.set('X-XSS-Protection', '1; mode=block');
+  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  response.headers.set('X-DNS-Prefetch-Control', 'on');
+  response.headers.set('X-Download-Options', 'noopen');
+  response.headers.set('X-Permitted-Cross-Domain-Policies', 'none');
 
   // HSTS for production
   if (process.env.NODE_ENV === 'production') {
     response.headers.set(
       'Strict-Transport-Security',
       'max-age=31536000; includeSubDomains; preload'
-    )
+    );
   }
 
   // Block malicious requests
@@ -33,7 +50,7 @@ export function middleware(request: NextRequest) {
     /python-requests/i,
     /curl/i,
     /wget/i,
-  ]
+  ];
   
   // Allow legitimate bots
   const legitimateBots = [
@@ -45,17 +62,17 @@ export function middleware(request: NextRequest) {
     /twitterbot/i,
     /linkedinbot/i,
     /whatsapp/i,
-  ]
+  ];
   
-  const isSuspicious = suspiciousPatterns.some(pattern => pattern.test(userAgent))
-  const isLegitimate = legitimateBots.some(pattern => pattern.test(userAgent))
+  const isSuspicious = suspiciousPatterns.some(pattern => pattern.test(userAgent));
+  const isLegitimate = legitimateBots.some(pattern => pattern.test(userAgent));
   
   if (isSuspicious && !isLegitimate) {
-    return new NextResponse('Forbidden', { status: 403 })
+    return new NextResponse('Forbidden', { status: 403 });
   }
 
   // Block requests with suspicious query parameters
-  const url = request.nextUrl
+  const url = request.nextUrl;
   const suspiciousQueries = [
     'script',
     'javascript',
@@ -77,60 +94,104 @@ export function middleware(request: NextRequest) {
     'etc/passwd',
     'cmd.exe',
     'powershell',
-  ]
+  ];
   
   for (const [key, value] of url.searchParams) {
-    const queryString = `${key}=${value}`.toLowerCase()
+    const queryString = `${key}=${value}`.toLowerCase();
     if (suspiciousQueries.some(pattern => queryString.includes(pattern))) {
-      return new NextResponse('Bad Request', { status: 400 })
+      return new NextResponse('Bad Request', { status: 400 });
     }
   }
 
   // Rate limiting headers
-  response.headers.set('X-RateLimit-Limit', '100')
-  response.headers.set('X-RateLimit-Remaining', '99')
+  response.headers.set('X-RateLimit-Limit', '100');
+  response.headers.set('X-RateLimit-Remaining', '99');
 
-  // Manejar archivos CSS estáticos
+  // Manejar archivos estáticos con optimizaciones de cache
   if (pathname.endsWith('.css')) {
-    response.headers.set('Content-Type', 'text/css; charset=utf-8')
-    response.headers.set('Cache-Control', 'public, max-age=31536000, immutable')
-    return response
+    response.headers.set('Content-Type', 'text/css; charset=utf-8');
+    response.headers.set('Cache-Control', 'public, max-age=31536000, immutable');
+    return response;
   }
 
-  // Manejar archivos JavaScript estáticos
   if (pathname.endsWith('.js')) {
-    response.headers.set('Content-Type', 'application/javascript; charset=utf-8')
-    response.headers.set('Cache-Control', 'public, max-age=31536000, immutable')
-    return response
+    response.headers.set('Content-Type', 'application/javascript; charset=utf-8');
+    response.headers.set('Cache-Control', 'public, max-age=31536000, immutable');
+    return response;
   }
 
-  // Manejar archivos de fuentes
   if (pathname.match(/\.(woff|woff2|ttf|otf)$/)) {
-    response.headers.set('Cache-Control', 'public, max-age=31536000, immutable')
-    response.headers.set('Access-Control-Allow-Origin', '*')
-    return response
+    response.headers.set('Cache-Control', 'public, max-age=31536000, immutable');
+    response.headers.set('Access-Control-Allow-Origin', '*');
+    return response;
   }
 
-  // Manejar imágenes
   if (pathname.match(/\.(png|jpg|jpeg|gif|svg|ico|webp|avif)$/)) {
-    response.headers.set('Cache-Control', 'public, max-age=31536000, immutable')
-    return response
+    response.headers.set('Cache-Control', 'public, max-age=31536000, immutable');
+    return response;
+  }
+
+  // AUTENTICACIÓN - Obtener token de las cookies
+  const accessToken = request.cookies.get('bsk-access-token')?.value;
+
+  // Verificar si el usuario está autenticado
+  let isAuthenticated = false;
+  let userPayload = null;
+
+  if (accessToken) {
+    try {
+      userPayload = verifyAccessToken(accessToken);
+      isAuthenticated = true;
+    } catch (error) {
+      // Token inválido o expirado
+      isAuthenticated = false;
+    }
+  }
+
+  // Manejar rutas protegidas
+  if (protectedRoutes.some(route => pathname.startsWith(route))) {
+    if (!isAuthenticated) {
+      // Redirigir a login con returnUrl
+      const loginUrl = new URL('/login', request.url);
+      loginUrl.searchParams.set('returnUrl', pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+  }
+
+  // Manejar rutas de autenticación (login, register, etc.)
+  if (authRoutes.some(route => pathname.startsWith(route))) {
+    if (isAuthenticated) {
+      // Redirigir a página principal si ya está autenticado
+      const returnUrl = request.nextUrl.searchParams.get('returnUrl') || '/';
+      return NextResponse.redirect(new URL(returnUrl, request.url));
+    }
   }
 
   // Security for API routes
   if (pathname.startsWith('/api/')) {
-    response.headers.set('Cache-Control', 'private, no-cache, no-store, must-revalidate')
-    response.headers.set('Pragma', 'no-cache')
-    response.headers.set('Expires', '0')
+    response.headers.set('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    response.headers.set('Pragma', 'no-cache');
+    response.headers.set('Expires', '0');
     
     // CORS for API routes
-    response.headers.set('Access-Control-Allow-Origin', '*')
-    response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-csrf-token')
-    response.headers.set('Access-Control-Max-Age', '86400')
+    response.headers.set('Access-Control-Allow-Origin', '*');
+    response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-csrf-token');
+    response.headers.set('Access-Control-Max-Age', '86400');
+
+    // Para rutas de API protegidas
+    const protectedApiRoutes = ['/api/auth/me', '/api/auth/logout', '/api/users', '/api/admin'];
+    if (protectedApiRoutes.some(route => pathname.startsWith(route))) {
+      if (!isAuthenticated) {
+        return NextResponse.json(
+          { success: false, message: 'No autorizado', error: 'UNAUTHORIZED' },
+          { status: 401 }
+        );
+      }
+    }
   }
 
-  return response
+  return response;
 }
 
 export const config = {

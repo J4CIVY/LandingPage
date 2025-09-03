@@ -7,6 +7,7 @@ import { navItems } from '@/data/navigation';
 import Image from 'next/image';
 import { ThemeChanger } from './ThemeChanger';
 import SearchComponent from './SearchComponent';
+import AuthButton from './AuthButton';
 
 interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
   className?: string;
@@ -97,6 +98,9 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
               ))}
               <li>
                 <ThemeChanger />
+              </li>
+              <li>
+                <AuthButton />
               </li>
             </ul>
           </nav>

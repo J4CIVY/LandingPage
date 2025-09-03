@@ -119,6 +119,7 @@ import { ThemeProvider } from '@/providers/ThemeProvider'
 import { ToastProvider } from '@/components/shared/ToastProvider'
 import { PWAManager } from '@/components/pwa/ServiceWorkerManager'
 import { StrategicPreloader, BSK_CRITICAL_RESOURCES } from '@/components/performance/StrategicPreloader'
+import { AuthProvider } from '@/hooks/useAuth'
 
 export default function RootLayout({
   children,
@@ -207,16 +208,18 @@ export default function RootLayout({
           defaultTheme="light"
           enableSystem
         >
-          <ToastProvider>
-            <StrategicPreloader resources={BSK_CRITICAL_RESOURCES} />
-            <PWAManager />
-            <DynamicThemeColor />
-            <Header />
-            <main id="main-content" className="pt-16" tabIndex={-1}>{children}</main>
-            <Footer />
-            <CookieBanner />
-            <ScrollToTop />
-          </ToastProvider>
+          <AuthProvider>
+            <ToastProvider>
+              <StrategicPreloader resources={BSK_CRITICAL_RESOURCES} />
+              <PWAManager />
+              <DynamicThemeColor />
+              <Header />
+              <main id="main-content" className="pt-16" tabIndex={-1}>{children}</main>
+              <Footer />
+              <CookieBanner />
+              <ScrollToTop />
+            </ToastProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
