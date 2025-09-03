@@ -21,18 +21,11 @@ function LoginForm() {
   const [loginError, setLoginError] = useState<string | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { isAuthenticated, isInitialized, refreshAuth } = useAuth();
 
-  // Obtener la URL de retorno de los parámetros de consulta
+  // Obtener la URL de retorno de los parámetros de consulta (sin usar por ahora)
   const returnUrl = searchParams.get('returnUrl') || '/dashboard';
 
-  // Si ya está autenticado, redirigir automáticamente
-  useEffect(() => {
-    if (isInitialized && isAuthenticated) {
-      console.log('Usuario ya autenticado, redirigiendo a:', returnUrl);
-      window.location.replace(returnUrl);
-    }
-  }, [isInitialized, isAuthenticated, returnUrl]);
+  // TEMPORALMENTE REMOVIDO - useEffect que causaba redirecciones automáticas
 
   const {
     register,
@@ -70,30 +63,11 @@ function LoginForm() {
       const result = await response.json();
 
       if (result.success) {
-        // Login exitoso - verificar que las cookies estén establecidas
-        console.log('Login exitoso, verificando autenticación...');
+        // Login exitoso - redirección simple y directa
+        console.log('Login exitoso! Redirigiendo a dashboard...');
         
-        // Verificar directamente el estado de autenticación
-        const authCheck = await fetch('/api/auth/me', {
-          method: 'GET',
-          credentials: 'include',
-        });
-        
-        if (authCheck.ok) {
-          const authResult = await authCheck.json();
-          if (authResult.success) {
-            console.log('Autenticación verificada, redirigiendo a:', returnUrl);
-            // Usar location.replace para evitar que el usuario pueda volver con el botón atrás
-            window.location.replace(returnUrl);
-            return;
-          }
-        }
-        
-        // Si la verificación falló, intentar refrescar el estado
-        await refreshAuth();
-        setTimeout(() => {
-          window.location.replace(returnUrl);
-        }, 300);
+        // Redirección inmediata con recarga completa de página
+        window.location.href = '/dashboard';
         
       } else {
         // Mostrar error específico
@@ -105,7 +79,6 @@ function LoginForm() {
       setLoginError('Error de conexión. Por favor intenta nuevamente.');
       setIsLoading(false);
     }
-    // No establecer isLoading a false si el login fue exitoso
   };
 
   return (
