@@ -142,16 +142,21 @@ export function middleware(request: NextRequest) {
     try {
       userPayload = verifyAccessToken(accessToken);
       isAuthenticated = true;
+      console.log(`[MIDDLEWARE] Usuario autenticado: ${userPayload.email}, ruta: ${pathname}`);
     } catch (error) {
       // Token inválido o expirado
       isAuthenticated = false;
+      console.log(`[MIDDLEWARE] Token inválido para ruta: ${pathname}, error: ${error}`);
     }
+  } else {
+    console.log(`[MIDDLEWARE] No hay token para ruta: ${pathname}`);
   }
 
   // Manejar rutas protegidas
   if (protectedRoutes.some(route => pathname.startsWith(route))) {
     if (!isAuthenticated) {
       // Redirigir a login con returnUrl
+      console.log(`[MIDDLEWARE] Redirigiendo a login desde: ${pathname}`);
       const loginUrl = new URL('/login', request.url);
       loginUrl.searchParams.set('returnUrl', pathname);
       return NextResponse.redirect(loginUrl);
@@ -163,6 +168,7 @@ export function middleware(request: NextRequest) {
     if (isAuthenticated) {
       // Redirigir al dashboard si ya está autenticado (a menos que tenga returnUrl específico)
       const returnUrl = request.nextUrl.searchParams.get('returnUrl') || '/dashboard';
+      console.log(`[MIDDLEWARE] Usuario autenticado intentando acceder a ${pathname}, redirigiendo a: ${returnUrl}`);
       return NextResponse.redirect(new URL(returnUrl, request.url));
     }
   }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, Suspense } from 'react';
+import { useState, Suspense, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -21,10 +21,18 @@ function LoginForm() {
   const [loginError, setLoginError] = useState<string | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { login: authLogin } = useAuth();
+  const { isAuthenticated, isInitialized, refreshAuth } = useAuth();
 
   // Obtener la URL de retorno de los parámetros de consulta
   const returnUrl = searchParams.get('returnUrl') || '/dashboard';
+
+  // Si ya está autenticado, redirigir automáticamente
+  useEffect(() => {
+    if (isInitialized && isAuthenticated) {
+      console.log('Usuario ya autenticado, redirigiendo a:', returnUrl);
+      window.location.replace(returnUrl);
+    }
+  }, [isInitialized, isAuthenticated, returnUrl]);
 
   const {
     register,
@@ -45,23 +53,59 @@ function LoginForm() {
     setLoginError(null);
 
     try {
-      // Usar el método login del AuthProvider
-      const success = await authLogin(data.email, data.password, data.rememberMe);
-      
-      if (success) {
-        // Login exitoso - redirigir a la URL de retorno o dashboard
-        router.push(returnUrl);
-        router.refresh(); // Actualizar el estado de autenticación
+      // Llamar directamente a la API
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ 
+          email: data.email, 
+          password: data.password, 
+          rememberMe: data.rememberMe 
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        // Login exitoso - verificar que las cookies estén establecidas
+        console.log('Login exitoso, verificando autenticación...');
+        
+        // Verificar directamente el estado de autenticación
+        const authCheck = await fetch('/api/auth/me', {
+          method: 'GET',
+          credentials: 'include',
+        });
+        
+        if (authCheck.ok) {
+          const authResult = await authCheck.json();
+          if (authResult.success) {
+            console.log('Autenticación verificada, redirigiendo a:', returnUrl);
+            // Usar location.replace para evitar que el usuario pueda volver con el botón atrás
+            window.location.replace(returnUrl);
+            return;
+          }
+        }
+        
+        // Si la verificación falló, intentar refrescar el estado
+        await refreshAuth();
+        setTimeout(() => {
+          window.location.replace(returnUrl);
+        }, 300);
+        
       } else {
-        // Error manejado por el AuthProvider
-        setLoginError('Error al iniciar sesión. Verifica tus credenciales.');
+        // Mostrar error específico
+        setLoginError(result.message || 'Error al iniciar sesión');
+        setIsLoading(false);
       }
     } catch (error) {
       console.error('Error en login:', error);
       setLoginError('Error de conexión. Por favor intenta nuevamente.');
-    } finally {
       setIsLoading(false);
     }
+    // No establecer isLoading a false si el login fue exitoso
   };
 
   return (
