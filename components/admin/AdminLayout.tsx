@@ -37,10 +37,10 @@ export default function AdminLayout({ children, title, description }: AdminLayou
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-slate-950 flex items-center justify-center">
         <div className="text-center">
           <FaSpinner className="animate-spin text-4xl text-blue-600 mx-auto mb-4" />
-          <p className="text-gray-600">Verificando permisos...</p>
+          <p className="text-gray-600 dark:text-gray-400">Verificando permisos...</p>
         </div>
       </div>
     );
@@ -48,11 +48,11 @@ export default function AdminLayout({ children, title, description }: AdminLayou
 
   if (!user || (user.role !== 'admin' && user.role !== 'super-admin')) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center bg-white p-8 rounded-lg shadow-lg max-w-md">
+      <div className="min-h-screen bg-gray-50 dark:bg-slate-950 flex items-center justify-center">
+        <div className="text-center bg-white dark:bg-slate-900 p-8 rounded-lg shadow-lg max-w-md">
           <FaShieldAlt className="text-6xl text-red-500 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Acceso Denegado</h1>
-          <p className="text-gray-600 mb-6">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Acceso Denegado</h1>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
             No tienes permisos para acceder al panel de administración.
           </p>
           <div className="space-y-3">
@@ -64,7 +64,7 @@ export default function AdminLayout({ children, title, description }: AdminLayou
             </Link>
             <Link 
               href="/" 
-              className="block w-full bg-gray-100 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-200 transition-colors"
+              className="block w-full bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-gray-300 px-6 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"
             >
               Volver al Inicio
             </Link>
@@ -75,7 +75,7 @@ export default function AdminLayout({ children, title, description }: AdminLayou
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-16"> {/* pt-16 para dar espacio al header */}
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 pt-16"> {/* pt-16 para dar espacio al header */}
       {/* Mobile menu overlay */}
       {sidebarOpen && (
         <div 
@@ -95,15 +95,15 @@ export default function AdminLayout({ children, title, description }: AdminLayou
       {/* Main Content */}
       <div className="lg:ml-64 min-h-screen">
         {/* Mobile header with hamburger menu */}
-        <div className="lg:hidden bg-white shadow-sm border-b fixed top-16 left-0 right-0 z-20">
+        <div className="lg:hidden bg-white dark:bg-slate-900 shadow-sm border-b border-gray-200 dark:border-gray-800 fixed top-16 left-0 right-0 z-20">
           <div className="flex items-center justify-between px-4 py-3">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+              className="p-2 rounded-md text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-slate-800"
             >
               <FaBars className="h-6 w-6" />
             </button>
-            <h1 className="text-lg font-semibold text-gray-900">
+            <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
               Panel Admin
             </h1>
             <div className="w-10" /> {/* Spacer for centering */}
@@ -112,13 +112,13 @@ export default function AdminLayout({ children, title, description }: AdminLayou
 
         {/* Header opcional */}
         {(title || description) && (
-          <header className="bg-white shadow-sm border-b mt-0 lg:mt-0">
+          <header className="bg-white dark:bg-slate-900 shadow-sm border-b border-gray-200 dark:border-gray-800 mt-0 lg:mt-0">
             <div className="px-4 lg:px-6 py-4">
               {title && (
-                <h1 className="text-xl lg:text-2xl font-bold text-gray-900">{title}</h1>
+                <h1 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">{title}</h1>
               )}
               {description && (
-                <p className="text-sm text-gray-600 mt-1">{description}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{description}</p>
               )}
             </div>
           </header>

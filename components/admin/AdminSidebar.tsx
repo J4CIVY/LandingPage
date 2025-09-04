@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import ThemeChanger from '@/components/shared/ThemeChanger';
 import { 
   FaHome,
   FaUsers, 
@@ -115,7 +116,7 @@ export default function AdminSidebar({ user, onLogout, isOpen = false, onClose }
 
   return (
     <div className={`
-      fixed top-16 bottom-0 left-0 z-40 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out flex flex-col
+      fixed top-16 bottom-0 left-0 z-40 w-64 bg-white dark:bg-slate-900 shadow-lg transform transition-transform duration-300 ease-in-out flex flex-col
       ${isOpen ? 'translate-x-0' : '-translate-x-full'}
       lg:translate-x-0
     `}>
@@ -124,7 +125,7 @@ export default function AdminSidebar({ user, onLogout, isOpen = false, onClose }
         <div className="lg:hidden absolute top-4 right-4 z-10">
           <button
             onClick={onClose}
-            className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+            className="p-2 rounded-md text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-slate-800"
           >
             <FaTimes className="h-5 w-5" />
           </button>
@@ -132,18 +133,21 @@ export default function AdminSidebar({ user, onLogout, isOpen = false, onClose }
       )}
 
       {/* Header */}
-      <div className="p-4 lg:p-6 border-b border-gray-200 flex-shrink-0">
-        <div className="flex items-center">
-          <FaUserShield className="text-xl lg:text-2xl text-blue-600 mr-3" />
-          <div>
-            <h2 className="text-base lg:text-lg font-semibold text-gray-900">Admin Panel</h2>
-            <p className="text-xs lg:text-sm text-gray-600">BSK Motorcycle Team</p>
+      <div className="p-4 lg:p-6 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <FaUserShield className="text-xl lg:text-2xl text-blue-600 mr-3" />
+            <div>
+              <h2 className="text-base lg:text-lg font-semibold text-gray-900 dark:text-white">Admin Panel</h2>
+              <p className="text-xs lg:text-sm text-gray-600 dark:text-gray-400">BSK Motorcycle Team</p>
+            </div>
           </div>
+          <ThemeChanger />
         </div>
       </div>
 
       {/* User Info */}
-      <div className="p-4 lg:p-6 border-b border-gray-200 bg-gray-50 flex-shrink-0">
+      <div className="p-4 lg:p-6 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-slate-800 flex-shrink-0">
         <div className="flex items-center">
           <div className="h-8 w-8 lg:h-10 lg:w-10 rounded-full bg-blue-600 flex items-center justify-center">
             <span className="text-white font-medium text-sm lg:text-base">
@@ -151,10 +155,10 @@ export default function AdminSidebar({ user, onLogout, isOpen = false, onClose }
             </span>
           </div>
           <div className="ml-3 min-w-0 flex-1">
-            <p className="text-sm font-medium text-gray-900 truncate">
+            <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
               {user.firstName} {user.lastName}
             </p>
-            <p className="text-xs text-gray-600 capitalize">{user.role}</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400 capitalize">{user.role}</p>
           </div>
         </div>
       </div>
@@ -163,7 +167,7 @@ export default function AdminSidebar({ user, onLogout, isOpen = false, onClose }
       <nav className="flex-1 overflow-y-auto">
         {/* Gestión Principal */}
         <div className="px-4 lg:px-6 mt-6 mb-6">
-          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+          <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
             Gestión Principal
           </h3>
           <div className="space-y-1">
@@ -174,20 +178,20 @@ export default function AdminSidebar({ user, onLogout, isOpen = false, onClose }
                 onClick={onClose} // Close mobile menu when clicking a link
                 className={`group flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
                   isActive(item.href)
-                    ? 'bg-blue-100 text-blue-700'
-                    : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                    ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white'
                 }`}
               >
                 <item.icon
                   className={`mr-3 h-4 w-4 lg:h-5 lg:w-5 flex-shrink-0 ${
                     isActive(item.href)
-                      ? 'text-blue-500'
-                      : 'text-gray-400 group-hover:text-gray-500'
+                      ? 'text-blue-500 dark:text-blue-400'
+                      : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-500 dark:group-hover:text-gray-400'
                   }`}
                 />
                 <div className="min-w-0 flex-1">
                   <div className="truncate">{item.name}</div>
-                  <div className="text-xs text-gray-500 truncate lg:block hidden">{item.description}</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 truncate lg:block hidden">{item.description}</div>
                 </div>
               </Link>
             ))}
@@ -196,7 +200,7 @@ export default function AdminSidebar({ user, onLogout, isOpen = false, onClose }
 
         {/* Herramientas */}
         <div className="px-4 lg:px-6 mb-6">
-          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+          <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
             Herramientas
           </h3>
           <div className="space-y-1">
@@ -207,20 +211,20 @@ export default function AdminSidebar({ user, onLogout, isOpen = false, onClose }
                 onClick={onClose} // Close mobile menu when clicking a link
                 className={`group flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
                   isActive(item.href)
-                    ? 'bg-blue-100 text-blue-700'
-                    : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                    ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white'
                 }`}
               >
                 <item.icon
                   className={`mr-3 h-4 w-4 lg:h-5 lg:w-5 flex-shrink-0 ${
                     isActive(item.href)
-                      ? 'text-blue-500'
-                      : 'text-gray-400 group-hover:text-gray-500'
+                      ? 'text-blue-500 dark:text-blue-400'
+                      : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-500 dark:group-hover:text-gray-400'
                   }`}
                 />
                 <div className="min-w-0 flex-1">
                   <div className="truncate">{item.name}</div>
-                  <div className="text-xs text-gray-500 truncate lg:block hidden">{item.description}</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 truncate lg:block hidden">{item.description}</div>
                 </div>
               </Link>
             ))}
@@ -232,10 +236,10 @@ export default function AdminSidebar({ user, onLogout, isOpen = false, onClose }
       </nav>
 
       {/* Footer - Fixed at bottom */}
-      <div className="absolute bottom-0 w-full p-4 lg:p-6 border-t border-gray-200 bg-white flex-shrink-0">
+      <div className="absolute bottom-0 w-full p-4 lg:p-6 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900 flex-shrink-0">
         <button
           onClick={onLogout}
-          className="w-full flex items-center px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-50 rounded-md transition-colors"
+          className="w-full flex items-center px-3 py-2 text-sm font-medium text-red-700 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors"
         >
           <FaSignOutAlt className="mr-3 h-4 w-4 lg:h-5 lg:w-5 flex-shrink-0" />
           <span className="truncate">Cerrar Sesión</span>
