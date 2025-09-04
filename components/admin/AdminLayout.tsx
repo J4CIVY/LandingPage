@@ -75,11 +75,11 @@ export default function AdminLayout({ children, title, description }: AdminLayou
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pt-16"> {/* pt-16 para dar espacio al header */}
       {/* Mobile menu overlay */}
       {sidebarOpen && (
         <div 
-          className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden"
+          className="fixed inset-0 z-30 bg-black bg-opacity-50 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
@@ -95,7 +95,7 @@ export default function AdminLayout({ children, title, description }: AdminLayou
       {/* Main Content */}
       <div className="lg:ml-64 min-h-screen">
         {/* Mobile header with hamburger menu */}
-        <div className="lg:hidden bg-white shadow-sm border-b">
+        <div className="lg:hidden bg-white shadow-sm border-b fixed top-16 left-0 right-0 z-20">
           <div className="flex items-center justify-between px-4 py-3">
             <button
               onClick={() => setSidebarOpen(true)}
@@ -112,7 +112,7 @@ export default function AdminLayout({ children, title, description }: AdminLayou
 
         {/* Header opcional */}
         {(title || description) && (
-          <header className="bg-white shadow-sm border-b">
+          <header className="bg-white shadow-sm border-b mt-0 lg:mt-0">
             <div className="px-4 lg:px-6 py-4">
               {title && (
                 <h1 className="text-xl lg:text-2xl font-bold text-gray-900">{title}</h1>
@@ -125,7 +125,7 @@ export default function AdminLayout({ children, title, description }: AdminLayou
         )}
         
         {/* Content */}
-        <main className="p-4 lg:p-6">
+        <main className="p-4 lg:p-6 mt-16 lg:mt-0"> {/* mt-16 en móvil para el header de admin */}
           {children}
         </main>
       </div>

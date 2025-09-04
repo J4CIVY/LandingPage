@@ -115,13 +115,13 @@ export default function AdminSidebar({ user, onLogout, isOpen = false, onClose }
 
   return (
     <div className={`
-      fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out
+      fixed top-16 bottom-0 left-0 z-40 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out flex flex-col
       ${isOpen ? 'translate-x-0' : '-translate-x-full'}
       lg:translate-x-0
     `}>
       {/* Mobile close button */}
       {onClose && (
-        <div className="lg:hidden absolute top-4 right-4">
+        <div className="lg:hidden absolute top-4 right-4 z-10">
           <button
             onClick={onClose}
             className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
@@ -132,7 +132,7 @@ export default function AdminSidebar({ user, onLogout, isOpen = false, onClose }
       )}
 
       {/* Header */}
-      <div className="p-4 lg:p-6 border-b border-gray-200">
+      <div className="p-4 lg:p-6 border-b border-gray-200 flex-shrink-0">
         <div className="flex items-center">
           <FaUserShield className="text-xl lg:text-2xl text-blue-600 mr-3" />
           <div>
@@ -143,7 +143,7 @@ export default function AdminSidebar({ user, onLogout, isOpen = false, onClose }
       </div>
 
       {/* User Info */}
-      <div className="p-4 lg:p-6 border-b border-gray-200 bg-gray-50">
+      <div className="p-4 lg:p-6 border-b border-gray-200 bg-gray-50 flex-shrink-0">
         <div className="flex items-center">
           <div className="h-8 w-8 lg:h-10 lg:w-10 rounded-full bg-blue-600 flex items-center justify-center">
             <span className="text-white font-medium text-sm lg:text-base">
@@ -159,8 +159,8 @@ export default function AdminSidebar({ user, onLogout, isOpen = false, onClose }
         </div>
       </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto pb-20">
+      {/* Navigation - Scrollable area */}
+      <nav className="flex-1 overflow-y-auto">
         {/* Gestión Principal */}
         <div className="px-4 lg:px-6 mt-6 mb-6">
           <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
@@ -226,10 +226,13 @@ export default function AdminSidebar({ user, onLogout, isOpen = false, onClose }
             ))}
           </div>
         </div>
+        
+        {/* Spacer for footer */}
+        <div className="h-20"></div>
       </nav>
 
-      {/* Footer */}
-      <div className="absolute bottom-0 w-full p-4 lg:p-6 border-t border-gray-200 bg-white">
+      {/* Footer - Fixed at bottom */}
+      <div className="absolute bottom-0 w-full p-4 lg:p-6 border-t border-gray-200 bg-white flex-shrink-0">
         <button
           onClick={onLogout}
           className="w-full flex items-center px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-50 rounded-md transition-colors"
