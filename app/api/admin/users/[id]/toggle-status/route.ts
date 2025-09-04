@@ -5,7 +5,7 @@ import User from '@/lib/models/User';
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   const adminRequest = req as AdminRequest;
   
@@ -16,9 +16,10 @@ export async function PATCH(
   try {
     await connectDB();
     const { isActive } = await req.json();
+    const { id } = await context.params;
 
     const user = await User.findByIdAndUpdate(
-      params.id,
+      id,
       { isActive },
       { new: true }
     ).select('-password');

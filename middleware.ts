@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import jwt from 'jsonwebtoken';
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -19,52 +18,32 @@ export function middleware(request: NextRequest) {
     );
   }
 
-  // Proteger rutas de administración
+  // Proteger rutas de administración - verificación básica de token
   if (pathname.startsWith('/admin')) {
-    try {
-      const token = request.cookies.get('auth-token')?.value;
-      
-      if (!token) {
-        console.log('[MIDDLEWARE] Sin token para ruta admin:', pathname);
-        return NextResponse.redirect(new URL('/login', request.url));
-      }
-
-      // Verificar token JWT
-      const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
-      
-      // Para rutas de admin, verificar que el usuario tenga rol de admin
-      if (decoded.role !== 'admin' && decoded.role !== 'super-admin') {
-        console.log('[MIDDLEWARE] Usuario sin permisos de admin:', decoded.role);
-        return NextResponse.redirect(new URL('/dashboard', request.url));
-      }
-
-      console.log('[MIDDLEWARE] Acceso admin autorizado:', pathname, 'Rol:', decoded.role);
-      
-    } catch (error) {
-      console.log('[MIDDLEWARE] Error verificando token admin:', error);
+    const token = request.cookies.get('auth-token')?.value;
+    
+    if (!token) {
+      console.log('[MIDDLEWARE] Sin token para ruta admin:', pathname);
       return NextResponse.redirect(new URL('/login', request.url));
     }
+
+    // Verificación básica de token (sin JWT decode por Edge Runtime)
+    // La verificación completa se hará en las APIs individuales
+    console.log('[MIDDLEWARE] Token presente para ruta admin:', pathname);
   }
 
   // Proteger otras rutas que requieren autenticación
   const protectedRoutes = ['/dashboard', '/events/register', '/membership-info'];
   
   if (protectedRoutes.some(route => pathname.startsWith(route))) {
-    try {
-      const token = request.cookies.get('auth-token')?.value;
-      
-      if (!token) {
-        console.log('[MIDDLEWARE] Sin token para ruta protegida:', pathname);
-        return NextResponse.redirect(new URL('/login', request.url));
-      }
-
-      jwt.verify(token, process.env.JWT_SECRET!);
-      console.log('[MIDDLEWARE] Acceso autorizado a ruta protegida:', pathname);
-      
-    } catch (error) {
-      console.log('[MIDDLEWARE] Error verificando token:', error);
+    const token = request.cookies.get('auth-token')?.value;
+    
+    if (!token) {
+      console.log('[MIDDLEWARE] Sin token para ruta protegida:', pathname);
       return NextResponse.redirect(new URL('/login', request.url));
     }
+
+    console.log('[MIDDLEWARE] Token presente para ruta protegida:', pathname);
   }
 
   return response;

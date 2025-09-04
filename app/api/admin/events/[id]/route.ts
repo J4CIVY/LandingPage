@@ -5,7 +5,7 @@ import Event from '@/lib/models/Event';
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   const adminRequest = req as AdminRequest;
   
@@ -15,8 +15,9 @@ export async function GET(
 
   try {
     await connectDB();
+    const { id } = await context.params;
 
-    const event = await Event.findById(params.id)
+    const event = await Event.findById(id)
       .populate('participants', 'firstName lastName email membershipType')
       .populate('createdBy', 'firstName lastName email');
 
@@ -43,7 +44,7 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   const adminRequest = req as AdminRequest;
   
@@ -54,9 +55,10 @@ export async function PUT(
   try {
     await connectDB();
     const eventData = await req.json();
+    const { id } = await context.params;
 
     const event = await Event.findByIdAndUpdate(
-      params.id,
+      id,
       { 
         ...eventData,
         updatedBy: adminRequest.user?.id,
@@ -89,7 +91,7 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   const adminRequest = req as AdminRequest;
   
@@ -99,8 +101,9 @@ export async function DELETE(
 
   try {
     await connectDB();
+    const { id } = await context.params;
 
-    const event = await Event.findByIdAndDelete(params.id);
+    const event = await Event.findByIdAndDelete(id);
 
     if (!event) {
       return NextResponse.json(

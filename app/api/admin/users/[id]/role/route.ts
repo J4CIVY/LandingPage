@@ -5,12 +5,13 @@ import User from '@/lib/models/User';
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   const adminRequest = req as AdminRequest;
   
   try {
     const { role } = await req.json();
+    const { id } = await context.params;
 
     // Si se intenta asignar super-admin, verificar permisos de super-admin
     if (role === 'super-admin') {
@@ -25,7 +26,7 @@ export async function PATCH(
     await connectDB();
 
     // Verificar que el usuario objetivo existe
-    const targetUser = await User.findById(params.id);
+    const targetUser = await User.findById(id);
     if (!targetUser) {
       return NextResponse.json(
         { success: false, error: 'Usuario no encontrado' },
@@ -43,7 +44,7 @@ export async function PATCH(
 
     // Actualizar rol
     const user = await User.findByIdAndUpdate(
-      params.id,
+      id,
       { role },
       { new: true }
     ).select('-password');
