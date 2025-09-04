@@ -138,81 +138,81 @@ export default function AdminDashboard() {
 
   return (
     <AdminLayout title="Dashboard de Administración" description="Vista general del sistema BSK Motorcycle Team">
-      <div className="p-6">
-        {/* Estadísticas Principales */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow p-6 border-l-4 border-blue-500">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-500">Usuarios Totales</p>
-                <p className="text-3xl font-bold text-gray-900">
-                  {loadingStats ? '...' : stats.totalUsers}
-                </p>
-                <p className="text-sm text-green-600">
-                  {loadingStats ? '...' : stats.activeUsers} activos
-                </p>
-              </div>
-              <FaUsers className="text-4xl text-blue-500" />
+      {/* Estadísticas Principales */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-6 lg:mb-8">
+        <div className="bg-white rounded-lg shadow p-4 lg:p-6 border-l-4 border-blue-500">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs lg:text-sm font-medium text-gray-500">Usuarios Totales</p>
+              <p className="text-2xl lg:text-3xl font-bold text-gray-900">
+                {loadingStats ? '...' : stats.totalUsers}
+              </p>
+              <p className="text-xs lg:text-sm text-green-600">
+                {loadingStats ? '...' : stats.activeUsers} activos
+              </p>
             </div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow p-6 border-l-4 border-green-500">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-500">Eventos Próximos</p>
-                <p className="text-3xl font-bold text-gray-900">
-                  {loadingStats ? '...' : stats.upcomingEvents}
-                </p>
-                <p className="text-sm text-gray-600">
-                  {loadingStats ? '...' : stats.totalEvents} total
-                </p>
-              </div>
-              <FaCalendarAlt className="text-4xl text-green-500" />
-            </div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow p-6 border-l-4 border-orange-500">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-500">Membresías Pendientes</p>
-                <p className="text-3xl font-bold text-gray-900">
-                  {loadingStats ? '...' : stats.pendingMemberships}
-                </p>
-                <p className="text-sm text-gray-600">
-                  {loadingStats ? '...' : stats.totalMemberships} total
-                </p>
-              </div>
-              <FaIdCard className="text-4xl text-orange-500" />
-            </div>
-          </div>
-
-          <div className={`bg-white rounded-lg shadow p-6 border-l-4 ${
-            stats.emergencies > 0 ? 'border-red-500' : 'border-gray-300'
-          }`}>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-500">Emergencias</p>
-                <p className={`text-3xl font-bold ${
-                  stats.emergencies > 0 ? 'text-red-600' : 'text-gray-900'
-                }`}>
-                  {loadingStats ? '...' : stats.emergencies}
-                </p>
-                <p className="text-sm text-gray-600">
-                  {stats.emergencies > 0 ? 'Requieren atención' : 'Todo en orden'}
-                </p>
-              </div>
-              <FaMedkit className={`text-4xl ${
-                stats.emergencies > 0 ? 'text-red-500' : 'text-gray-400'
-              }`} />
-            </div>
+            <FaUsers className="text-3xl lg:text-4xl text-blue-500" />
           </div>
         </div>
 
-        {/* Alertas Importantes */}
-        {stats.emergencies > 0 && (
-          <div className="bg-red-50 border-l-4 border-red-400 p-4 mb-8">
-            <div className="flex items-center">
-              <FaExclamationTriangle className="text-red-400 mr-3" />
+        <div className="bg-white rounded-lg shadow p-4 lg:p-6 border-l-4 border-green-500">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs lg:text-sm font-medium text-gray-500">Eventos Próximos</p>
+              <p className="text-2xl lg:text-3xl font-bold text-gray-900">
+                {loadingStats ? '...' : stats.upcomingEvents}
+              </p>
+              <p className="text-xs lg:text-sm text-gray-600">
+                {loadingStats ? '...' : stats.totalEvents} total
+              </p>
+            </div>
+            <FaCalendarAlt className="text-3xl lg:text-4xl text-green-500" />
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg shadow p-4 lg:p-6 border-l-4 border-orange-500">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs lg:text-sm font-medium text-gray-500">Membresías Pendientes</p>
+              <p className="text-2xl lg:text-3xl font-bold text-gray-900">
+                {loadingStats ? '...' : stats.pendingMemberships}
+              </p>
+              <p className="text-xs lg:text-sm text-gray-600">
+                {loadingStats ? '...' : stats.totalMemberships} total
+              </p>
+            </div>
+            <FaIdCard className="text-3xl lg:text-4xl text-orange-500" />
+          </div>
+        </div>
+
+        <div className={`bg-white rounded-lg shadow p-4 lg:p-6 border-l-4 ${
+          stats.emergencies > 0 ? 'border-red-500' : 'border-gray-300'
+        }`}>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs lg:text-sm font-medium text-gray-500">Emergencias</p>
+              <p className={`text-2xl lg:text-3xl font-bold ${
+                stats.emergencies > 0 ? 'text-red-600' : 'text-gray-900'
+              }`}>
+                {loadingStats ? '...' : stats.emergencies}
+              </p>
+              <p className="text-xs lg:text-sm text-gray-600">
+                {stats.emergencies > 0 ? 'Requieren atención' : 'Todo en orden'}
+              </p>
+            </div>
+            <FaMedkit className={`text-3xl lg:text-4xl ${
+              stats.emergencies > 0 ? 'text-red-500' : 'text-gray-400'
+            }`} />
+          </div>
+        </div>
+      </div>
+
+      {/* Alertas Importantes */}
+      {stats.emergencies > 0 && (
+        <div className="bg-red-50 border-l-4 border-red-400 p-4 mb-6 lg:mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+            <div className="flex items-start">
+              <FaExclamationTriangle className="text-red-400 mr-3 mt-0.5 flex-shrink-0" />
               <div className="flex-1">
                 <h3 className="text-sm font-medium text-red-800">
                   ¡Atención! Hay {stats.emergencies} emergencia(s) activa(s)
@@ -221,20 +221,22 @@ export default function AdminDashboard() {
                   Revisa el panel de emergencias inmediatamente.
                 </p>
               </div>
-              <Link
-                href="/admin/emergencies"
-                className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
-              >
-                Ver Emergencias
-              </Link>
             </div>
+            <Link
+              href="/admin/emergencies"
+              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors text-center flex-shrink-0"
+            >
+              Ver Emergencias
+            </Link>
           </div>
-        )}
+        </div>
+      )}
 
-        {stats.pendingMemberships > 5 && (
-          <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8">
-            <div className="flex items-center">
-              <FaIdCard className="text-yellow-400 mr-3" />
+      {stats.pendingMemberships > 5 && (
+        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 lg:mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+            <div className="flex items-start">
+              <FaIdCard className="text-yellow-400 mr-3 mt-0.5 flex-shrink-0" />
               <div className="flex-1">
                 <h3 className="text-sm font-medium text-yellow-800">
                   Muchas solicitudes de membresía pendientes
@@ -243,75 +245,75 @@ export default function AdminDashboard() {
                   Hay {stats.pendingMemberships} solicitudes esperando aprobación.
                 </p>
               </div>
-              <Link
-                href="/admin/memberships"
-                className="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors"
-              >
-                Revisar Solicitudes
-              </Link>
             </div>
-          </div>
-        )}
-
-        {/* Acciones Rápidas */}
-        <div className="mb-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">Gestión Principal</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {quickActions.map((action) => (
-              <Link
-                key={action.href}
-                href={action.href}
-                className="bg-white rounded-lg shadow hover:shadow-lg transition-all duration-200 p-6 block group"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <div className={`${action.color} p-3 rounded-lg group-hover:scale-110 transition-transform`}>
-                    <action.icon className="text-xl text-white" />
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    {getTrendIcon(action.trend)}
-                    <FaArrowRight className="text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all" />
-                  </div>
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                  {action.title}
-                </h3>
-                <p className="text-gray-600 text-sm mb-3">{action.description}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-700">{action.stats}</span>
-                  <span className="text-xs text-gray-500">Ver más →</span>
-                </div>
-              </Link>
-            ))}
+            <Link
+              href="/admin/memberships"
+              className="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors text-center flex-shrink-0"
+            >
+              Revisar Solicitudes
+            </Link>
           </div>
         </div>
+      )}
 
-        {/* Resumen de Actividad Reciente */}
-        <div className="bg-white rounded-lg shadow">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900">Actividad Reciente</h3>
-          </div>
-          <div className="p-6">
-            <div className="space-y-4">
-              <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
-                <div className="h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
-                  <FaUsers className="text-blue-600" />
+      {/* Acciones Rápidas */}
+      <div className="mb-6 lg:mb-8">
+        <h2 className="text-lg lg:text-xl font-bold text-gray-900 mb-4 lg:mb-6">Gestión Principal</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
+          {quickActions.map((action) => (
+            <Link
+              key={action.href}
+              href={action.href}
+              className="bg-white rounded-lg shadow hover:shadow-lg transition-all duration-200 p-4 lg:p-6 block group"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <div className={`${action.color} p-2 lg:p-3 rounded-lg group-hover:scale-110 transition-transform`}>
+                  <action.icon className="text-lg lg:text-xl text-white" />
                 </div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-900">
-                    Sistema de administración iniciado
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    Panel de control disponible para gestión completa
-                  </p>
+                <div className="flex items-center space-x-2">
+                  {getTrendIcon(action.trend)}
+                  <FaArrowRight className="text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all" />
                 </div>
-                <span className="text-xs text-gray-400">Ahora</span>
               </div>
-              
-              <div className="text-center py-8">
-                <p className="text-gray-500 text-sm">
-                  La actividad reciente aparecerá aquí una vez que comiences a usar el sistema.
+              <h3 className="text-base lg:text-lg font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                {action.title}
+              </h3>
+              <p className="text-gray-600 text-sm mb-3">{action.description}</p>
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-gray-700">{action.stats}</span>
+                <span className="text-xs text-gray-500">Ver más →</span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* Resumen de Actividad Reciente */}
+      <div className="bg-white rounded-lg shadow">
+        <div className="px-4 lg:px-6 py-4 border-b border-gray-200">
+          <h3 className="text-base lg:text-lg font-semibold text-gray-900">Actividad Reciente</h3>
+        </div>
+        <div className="p-4 lg:p-6">
+          <div className="space-y-4">
+            <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+              <div className="h-8 w-8 lg:h-10 lg:w-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <FaUsers className="text-blue-600 text-sm lg:text-base" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-gray-900">
+                  Sistema de administración iniciado
+                </p>
+                <p className="text-xs text-gray-500">
+                  Panel de control disponible para gestión completa
                 </p>
               </div>
+              <span className="text-xs text-gray-400 flex-shrink-0">Ahora</span>
+            </div>
+            
+            <div className="text-center py-8">
+              <p className="text-gray-500 text-sm">
+                La actividad reciente aparecerá aquí una vez que comiences a usar el sistema.
+              </p>
             </div>
           </div>
         </div>

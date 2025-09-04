@@ -4,21 +4,16 @@ import { useAuth } from '@/hooks/useAuth';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import AdminLayout from '@/components/admin/AdminLayout';
+import UserTable from '@/components/admin/UserTable';
 import { 
   FaSpinner, 
   FaUsers, 
   FaSearch,
-  FaEdit,
-  FaTrash,
-  FaEye,
-  FaUserCheck,
-  FaUserTimes,
-  FaArrowLeft,
   FaFilter,
   FaDownload,
   FaPlus,
-  FaUserShield,
-  FaUserMinus
+  FaArrowLeft
 } from 'react-icons/fa';
 
 interface User {
@@ -144,6 +139,25 @@ export default function AdminUsersPage() {
     );
   };
 
+  const handleDeleteUser = async (userId: string) => {
+    if (!confirm('¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer.')) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/admin/users/${userId}`, {
+        method: 'DELETE'
+      });
+
+      if (response.ok) {
+        setUsers(users.filter(u => u._id !== userId));
+        setSelectedUsers(prev => prev.filter(id => id !== userId));
+      }
+    } catch (error) {
+      console.error('Error eliminando usuario:', error);
+    }
+  };
+
   const handleBulkAction = async (action: string) => {
     if (selectedUsers.length === 0) return;
 
@@ -188,33 +202,33 @@ export default function AdminUsersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <AdminLayout title="Gestión de Usuarios" description="Administrar usuarios registrados">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
+      <div className="bg-white shadow-sm border-b mb-6">
+        <div className="px-4 lg:px-6 py-4">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <div className="flex items-center">
-              <Link href="/admin" className="mr-4">
-                <FaArrowLeft className="text-xl text-gray-600 hover:text-gray-900" />
+              <Link href="/admin" className="mr-3 lg:mr-4">
+                <FaArrowLeft className="text-lg lg:text-xl text-gray-600 hover:text-gray-900" />
               </Link>
-              <FaUsers className="text-2xl text-blue-600 mr-3" />
+              <FaUsers className="text-xl lg:text-2xl text-blue-600 mr-3" />
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Gestión de Usuarios</h1>
-                <p className="text-sm text-gray-600">Administrar usuarios registrados</p>
+                <h1 className="text-lg lg:text-2xl font-bold text-gray-900">Gestión de Usuarios</h1>
+                <p className="text-xs lg:text-sm text-gray-600 hidden sm:block">Administrar usuarios registrados</p>
               </div>
             </div>
             
-            <div className="flex items-center space-x-4">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-4">
               <button
                 onClick={() => handleBulkAction('export')}
-                className="flex items-center bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                className="flex items-center justify-center bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors text-sm"
               >
                 <FaDownload className="mr-2" />
                 Exportar
               </button>
               <Link
                 href="/admin/users/new"
-                className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                className="flex items-center justify-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm"
               >
                 <FaPlus className="mr-2" />
                 Nuevo Usuario
@@ -222,12 +236,10 @@ export default function AdminUsersPage() {
             </div>
           </div>
         </div>
-      </header>
-
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      </div>
         {/* Filtros y Búsqueda */}
-        <div className="bg-white rounded-lg shadow mb-6 p-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+        <div className="bg-white rounded-lg shadow mb-6 p-4 lg:p-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Buscar
@@ -296,201 +308,98 @@ export default function AdminUsersPage() {
 
           {/* Acciones Masivas */}
           {selectedUsers.length > 0 && (
-            <div className="flex items-center space-x-4 p-4 bg-blue-50 rounded-lg">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 p-4 bg-blue-50 rounded-lg">
               <span className="text-sm text-gray-700">
                 {selectedUsers.length} usuario(s) seleccionado(s)
               </span>
-              <button
-                onClick={() => handleBulkAction('activate')}
-                className="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700"
-              >
-                Activar
-              </button>
-              <button
-                onClick={() => handleBulkAction('deactivate')}
-                className="bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700"
-              >
-                Desactivar
-              </button>
-              <button
-                onClick={() => handleBulkAction('export')}
-                className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700"
-              >
-                Exportar Seleccionados
-              </button>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => handleBulkAction('activate')}
+                  className="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700"
+                >
+                  Activar
+                </button>
+                <button
+                  onClick={() => handleBulkAction('deactivate')}
+                  className="bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700"
+                >
+                  Desactivar
+                </button>
+                <button
+                  onClick={() => handleBulkAction('export')}
+                  className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700"
+                >
+                  Exportar Seleccionados
+                </button>
+              </div>
             </div>
           )}
         </div>
 
         {/* Tabla de Usuarios */}
-        <div className="bg-white rounded-lg shadow overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left">
-                    <input
-                      type="checkbox"
-                      checked={selectedUsers.length === users.length && users.length > 0}
-                      onChange={handleSelectAll}
-                      className="rounded border-gray-300"
-                    />
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Usuario
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Email
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Rol
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Membresía
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Estado
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Acciones
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {loadingUsers ? (
-                  <tr>
-                    <td colSpan={7} className="px-6 py-12 text-center">
-                      <FaSpinner className="animate-spin text-2xl text-gray-400 mx-auto" />
-                    </td>
-                  </tr>
-                ) : users.length === 0 ? (
-                  <tr>
-                    <td colSpan={7} className="px-6 py-12 text-center text-gray-500">
-                      No se encontraron usuarios
-                    </td>
-                  </tr>
-                ) : (
-                  users.map((userItem) => (
-                    <tr key={userItem._id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4">
-                        <input
-                          type="checkbox"
-                          checked={selectedUsers.includes(userItem._id)}
-                          onChange={() => handleSelectUser(userItem._id)}
-                          className="rounded border-gray-300"
-                        />
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <div className="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center">
-                            <span className="text-sm font-medium text-gray-700">
-                              {userItem.firstName.charAt(0)}{userItem.lastName.charAt(0)}
-                            </span>
-                          </div>
-                          <div className="ml-4">
-                            <div className="text-sm font-medium text-gray-900">
-                              {userItem.firstName} {userItem.lastName}
-                            </div>
-                            <div className="text-sm text-gray-500">
-                              {userItem.isEmailVerified ? 'Verificado' : 'Sin verificar'}
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {userItem.email}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <select
-                          value={userItem.role}
-                          onChange={(e) => handleChangeUserRole(userItem._id, e.target.value)}
-                          className="text-sm border border-gray-300 rounded px-2 py-1"
-                          disabled={user.role === 'admin' && userItem.role === 'super-admin'}
-                        >
-                          <option value="user">Usuario</option>
-                          <option value="admin">Admin</option>
-                          {user.role === 'super-admin' && (
-                            <option value="super-admin">Super Admin</option>
-                          )}
-                        </select>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                          {userItem.membershipType}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          userItem.isActive 
-                            ? 'bg-green-100 text-green-800' 
-                            : 'bg-red-100 text-red-800'
-                        }`}>
-                          {userItem.isActive ? 'Activo' : 'Inactivo'}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <div className="flex items-center space-x-2">
-                          <Link
-                            href={`/admin/users/${userItem._id}`}
-                            className="text-blue-600 hover:text-blue-900"
-                          >
-                            <FaEye />
-                          </Link>
-                          <Link
-                            href={`/admin/users/${userItem._id}/edit`}
-                            className="text-green-600 hover:text-green-900"
-                          >
-                            <FaEdit />
-                          </Link>
-                          <button
-                            onClick={() => handleToggleUserStatus(userItem._id, userItem.isActive)}
-                            className={`${
-                              userItem.isActive 
-                                ? 'text-red-600 hover:text-red-900' 
-                                : 'text-green-600 hover:text-green-900'
-                            }`}
-                          >
-                            {userItem.isActive ? <FaUserTimes /> : <FaUserCheck />}
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+        {loadingUsers ? (
+          <div className="bg-white rounded-lg shadow p-12 text-center">
+            <FaSpinner className="animate-spin text-2xl text-gray-400 mx-auto mb-4" />
+            <p className="text-gray-500">Cargando usuarios...</p>
           </div>
+        ) : users.length === 0 ? (
+          <div className="bg-white rounded-lg shadow p-12 text-center">
+            <FaUsers className="text-4xl text-gray-300 mx-auto mb-4" />
+            <p className="text-gray-500">No se encontraron usuarios</p>
+          </div>
+        ) : (
+          <UserTable
+            users={users}
+            onToggleStatus={handleToggleUserStatus}
+            onDeleteUser={handleDeleteUser}
+            selectedUsers={selectedUsers}
+            onSelectUser={handleSelectUser}
+            onSelectAll={handleSelectAll}
+            allSelected={selectedUsers.length === users.length && users.length > 0}
+          />
+        )}
 
-          {/* Paginación */}
-          {totalPages > 1 && (
-            <div className="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
-              <div className="flex items-center justify-between">
-                <div className="flex-1 flex justify-between sm:hidden">
-                  <button
-                    onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                    disabled={currentPage === 1}
-                    className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
-                  >
-                    Anterior
-                  </button>
-                  <button
-                    onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                    disabled={currentPage === totalPages}
-                    className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
-                  >
-                    Siguiente
-                  </button>
+        {/* Paginación */}
+        {totalPages > 1 && (
+          <div className="bg-white px-4 py-3 border-t border-gray-200 sm:px-6 rounded-b-lg">
+            <div className="flex items-center justify-between">
+              <div className="flex-1 flex justify-between sm:hidden">
+                <button
+                  onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                  disabled={currentPage === 1}
+                  className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
+                >
+                  Anterior
+                </button>
+                <button
+                  onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                  disabled={currentPage === totalPages}
+                  className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
+                >
+                  Siguiente
+                </button>
+              </div>
+              <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-sm text-gray-700">
+                    Página <span className="font-medium">{currentPage}</span> de{' '}
+                    <span className="font-medium">{totalPages}</span>
+                  </p>
                 </div>
-                <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                  <div>
-                    <p className="text-sm text-gray-700">
-                      Página <span className="font-medium">{currentPage}</span> de{' '}
-                      <span className="font-medium">{totalPages}</span>
-                    </p>
-                  </div>
-                  <div>
-                    <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
-                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                <div>
+                  <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                      let page;
+                      if (totalPages <= 5) {
+                        page = i + 1;
+                      } else if (currentPage <= 3) {
+                        page = i + 1;
+                      } else if (currentPage >= totalPages - 2) {
+                        page = totalPages - 4 + i;
+                      } else {
+                        page = currentPage - 2 + i;
+                      }
+                      return (
                         <button
                           key={page}
                           onClick={() => setCurrentPage(page)}
@@ -502,15 +411,14 @@ export default function AdminUsersPage() {
                         >
                           {page}
                         </button>
-                      ))}
-                    </nav>
-                  </div>
+                      );
+                    })}
+                  </nav>
                 </div>
               </div>
             </div>
-          )}
-        </div>
-      </main>
-    </div>
+          </div>
+        )}
+    </AdminLayout>
   );
 }
