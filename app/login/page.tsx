@@ -83,12 +83,12 @@ function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600 dark:from-slate-900 dark:via-slate-800 dark:to-slate-700 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-white dark:bg-slate-950 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8">
       <div className="max-w-md w-full space-y-8">
         {/* Logo y Header */}
         <div className="text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-white dark:bg-slate-800 rounded-full mb-4 shadow-lg">
-            <FaMotorcycle className="text-blue-800 dark:text-blue-400 text-2xl sm:text-3xl" />
+            <FaMotorcycle className=" bg-gray dark:bg-slate-900 text-slate-950 dark:text-white text-2xl sm:text-3xl" />
           </div>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white dark:text-slate-100 mb-2">
             BSK Motorcycle Team
