@@ -85,21 +85,8 @@ function LoginForm() {
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8">
       <div className="max-w-md w-full space-y-8">
-        {/* Logo y Header */}
-        <div className="text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-white dark:bg-slate-800 rounded-full mb-4 shadow-lg">
-            <FaMotorcycle className=" bg-gray dark:bg-slate-900 text-slate-950 dark:text-white text-2xl sm:text-3xl" />
-          </div>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white dark:text-slate-100 mb-2">
-            BSK Motorcycle Team
-          </h1>
-          <p className="text-blue-100 dark:text-slate-300 text-sm sm:text-base">
-            Inicia sesión en tu cuenta
-          </p>
-        </div>
-
         {/* Formulario de Login */}
-        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl dark:shadow-slate-900/50 p-6 sm:p-8">
+        <div className="p-6 sm:p-8">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {/* Campo Email */}
             <div>
