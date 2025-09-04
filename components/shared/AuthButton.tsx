@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { FaUser, FaSignOutAlt, FaUserCircle, FaTachometerAlt, FaSpinner } from 'react-icons/fa';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -27,41 +28,34 @@ export default function AuthButton() {
     );
   }
 
-  // Si NO está autenticado, mostrar botón de login
+  // Si NO está autenticado, mostrar solo el icono de login
   if (!isAuthenticated || !user) {
     return (
-      <div className="flex items-center space-x-4">
-        <Link
-          href="/login"
-          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-        >
-          <FaUser className="mr-2 w-4 h-4" />
-          Iniciar Sesión
-        </Link>
-        <Link
-          href="/register"
-          className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-        >
-          Registrarse
-        </Link>
-      </div>
+      <Link
+        href="/login"
+        className="inline-flex items-center justify-center w-10 h-10 rounded-lg text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+        aria-label="Iniciar sesión"
+      >
+        <FaUser className="w-5 h-5" />
+      </Link>
     );
   }
 
-  // Si está autenticado, mostrar menú de usuario
+  // Si está autenticado, mostrar avatar de usuario
   return (
     <div className="relative">
       <button
         onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className="flex items-center space-x-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg p-2 transition-colors"
+        className="flex items-center space-x-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg p-1 transition-colors"
+        aria-label={`Menú de usuario - ${user.firstName} ${user.lastName}`}
       >
-        <FaUserCircle className="w-8 h-8" />
-        <div className="hidden md:block text-left">
-          <div className="text-sm font-medium">{user.firstName} {user.lastName}</div>
-          <div className="text-xs text-gray-500 dark:text-gray-400 capitalize">{user.membershipType}</div>
+        <div className="relative w-8 h-8 rounded-full overflow-hidden bg-gradient-to-br from-blue-500 to-blue-600 border-2 border-gray-300 dark:border-slate-600 flex items-center justify-center">
+          <span className="text-white text-sm font-semibold">
+            {user.firstName[0]}{user.lastName[0]}
+          </span>
         </div>
         <svg
-          className={`w-4 h-4 transition-transform ${isMenuOpen ? 'rotate-180' : ''}`}
+          className={`w-3 h-3 transition-transform ${isMenuOpen ? 'rotate-180' : ''} hidden md:block`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"

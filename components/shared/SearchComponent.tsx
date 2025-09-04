@@ -15,18 +15,22 @@ interface SearchResult {
 interface SearchComponentProps {
   placeholder?: string;
   onSearch?: (query: string) => void;
+  isCollapsible?: boolean;
 }
 
 const SearchComponent: React.FC<SearchComponentProps> = ({ 
   placeholder = "Buscar eventos, cursos, documentos...",
-  onSearch 
+  onSearch,
+  isCollapsible = false
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(!isCollapsible);
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const collapseTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const router = useRouter();
 
   // Datos de búsqueda estáticos (en producción vendría de una API)
@@ -47,6 +51,9 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         setIsOpen(false);
+        if (isCollapsible) {
+          startCollapseTimer();
+        }
       }
     };
 
@@ -54,6 +61,9 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
       if (event.key === 'Escape') {
         setIsOpen(false);
         setQuery('');
+        if (isCollapsible) {
+          setIsExpanded(false);
+        }
       }
     };
 
@@ -66,7 +76,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('keydown', handleEscape);
     };
-  }, [isOpen]);
+  }, [isOpen, isCollapsible]);
 
   useEffect(() => {
     if (query.length > 0) {
@@ -88,8 +98,44 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
     }
   }, [query]);
 
+  // Función para iniciar el timer de colapso
+  const startCollapseTimer = () => {
+    if (collapseTimeoutRef.current) {
+      clearTimeout(collapseTimeoutRef.current);
+    }
+    collapseTimeoutRef.current = setTimeout(() => {
+      if (isCollapsible && !isOpen && query === '') {
+        setIsExpanded(false);
+      }
+    }, 5000);
+  };
+
+  // Función para cancelar el timer de colapso
+  const cancelCollapseTimer = () => {
+    if (collapseTimeoutRef.current) {
+      clearTimeout(collapseTimeoutRef.current);
+      collapseTimeoutRef.current = null;
+    }
+  };
+
+  const handleSearchIconClick = () => {
+    if (isCollapsible && !isExpanded) {
+      setIsExpanded(true);
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
+    }
+  };
+
   const handleInputFocus = () => {
     setIsOpen(true);
+    cancelCollapseTimer();
+  };
+
+  const handleInputBlur = () => {
+    if (isCollapsible && query === '') {
+      startCollapseTimer();
+    }
   };
 
   const handleClear = () => {
@@ -97,6 +143,15 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
     setResults([]);
     inputRef.current?.focus();
   };
+
+  // Limpiar timers al desmontar el componente
+  useEffect(() => {
+    return () => {
+      if (collapseTimeoutRef.current) {
+        clearTimeout(collapseTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleResultClick = (path: string) => {
     setIsOpen(false);
@@ -114,6 +169,21 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
     }
   };
 
+  // Renderizar solo el icono de búsqueda si está colapsado
+  if (isCollapsible && !isExpanded) {
+    return (
+      <div className="relative">
+        <button
+          onClick={handleSearchIconClick}
+          className="p-2 text-gray-700 dark:text-gray-200 hover:text-green-400 dark:hover:text-green-400 focus:outline-none focus:ring-2 focus:ring-green-400 rounded-lg transition-colors"
+          aria-label="Abrir búsqueda"
+        >
+          <FaSearch className="w-5 h-5" />
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div ref={searchRef} className="relative" role="search" aria-label="Buscar en el sitio">
       <form onSubmit={handleSubmit} className="relative">
@@ -124,11 +194,19 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
             placeholder={placeholder}
             className="w-full md:w-80 pl-10 pr-10 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent bg-white dark:bg-slate-800 text-slate-950 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
             aria-label="Buscar en el sitio"
           />
-          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" aria-hidden="true" />
+          <button
+            type="button"
+            onClick={isCollapsible ? handleSearchIconClick : undefined}
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+            aria-hidden="true"
+          >
+            <FaSearch className="w-4 h-4" />
+          </button>
           {query && (
             <button
               type="button"

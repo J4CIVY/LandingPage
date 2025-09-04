@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { navItems } from '@/data/navigation';
 import Image from 'next/image';
-import { ThemeChanger } from './ThemeChanger';
 import SearchComponent from './SearchComponent';
 import AuthButton from './AuthButton';
 
@@ -51,6 +50,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-full">
+          {/* Logo a la izquierda */}
           <Link href="/" className="focus-enhanced ml-3 md:ml-4" aria-label="BSK Motorcycle Team - Ir a la página de inicio">
             {/* Logo para modo claro (azul) */}
             <picture className="block dark:hidden">
@@ -81,8 +81,8 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
             </picture>
           </Link>
 
-          <nav id="navigation" className="hidden md:flex items-center space-x-6" role="navigation" aria-label="Navegación principal">
-            <SearchComponent />
+          {/* Navegación centrada en desktop */}
+          <nav id="navigation" className="hidden md:flex flex-1 justify-center" role="navigation" aria-label="Navegación principal">
             <ul className="flex space-x-6 items-center">
               {navItems.map((item) => (
                 <li key={item.name}>
@@ -96,15 +96,16 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
                   </Link>
                 </li>
               ))}
-              <li>
-                <ThemeChanger />
-              </li>
-              <li>
-                <AuthButton />
-              </li>
             </ul>
           </nav>
 
+          {/* Barra de búsqueda y auth a la derecha */}
+          <div className="hidden md:flex items-center space-x-4">
+            <SearchComponent isCollapsible={true} />
+            <AuthButton />
+          </div>
+
+          {/* Botón móvil */}
           <button
             className="md:hidden text-slate-950 dark:text-white focus:outline-none mr-3"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -126,6 +127,16 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
           aria-label="Menú principal móvil"
         >
           <div className="container mx-auto px-5 py-8 flex flex-col h-full">
+            {/* Búsqueda en móvil */}
+            <div className="mb-6">
+              <SearchComponent />
+            </div>
+
+            {/* Auth en móvil */}
+            <div className="mb-6">
+              <AuthButton />
+            </div>
+
             <ul className="flex-1 flex flex-col space-y-6 pl-2">
               {navItems.map((item) => (
                 <li key={item.name}>
@@ -160,9 +171,6 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
                   <p>Teléfono: +57 312 519 2000</p>
                   <p>Email: emergencias@bskmt.com</p>
                 </div>
-              </div>
-              <div className="border-t border-gray-300 dark:border-gray-700 pt-6 mt-6">
-                <ThemeChanger />
               </div>
             </div>
           </div>
