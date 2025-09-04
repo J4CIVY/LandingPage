@@ -11,6 +11,7 @@ interface User {
   lastName: string;
   membershipType: string;
   isEmailVerified: boolean;
+  role: 'user' | 'admin' | 'super-admin';
 }
 
 interface AuthState {

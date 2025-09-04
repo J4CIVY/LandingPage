@@ -63,6 +63,7 @@ export interface IUser extends Document {
   membershipNumber?: string;
   joinDate?: Date;
   password: string;
+  role: 'user' | 'admin' | 'super-admin';
   
   // Autenticación y seguridad
   isEmailVerified: boolean;
@@ -173,6 +174,11 @@ const UserSchema = new Schema<IUser>({
     required: true,
     minlength: [8, 'La contraseña debe tener al menos 8 caracteres'],
     select: false // Por defecto no incluir en queries
+  },
+  role: {
+    type: String,
+    enum: ['user', 'admin', 'super-admin'],
+    default: 'user'
   },
   
   // Autenticación y seguridad

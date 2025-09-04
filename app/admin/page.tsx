@@ -1,0 +1,321 @@
+'use client';
+
+import { useAuth } from '@/hooks/useAuth';
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import AdminLayout from '@/components/admin/AdminLayout';
+import { 
+  FaSpinner, 
+  FaUsers, 
+  FaCalendarAlt,
+  FaBoxes,
+  FaIdCard,
+  FaChartLine,
+  FaExclamationTriangle,
+  FaMedkit,
+  FaArrowRight,
+  FaArrowUp,
+  FaArrowDown
+} from 'react-icons/fa';
+
+interface AdminStats {
+  totalUsers: number;
+  activeUsers: number;
+  totalEvents: number;
+  upcomingEvents: number;
+  totalProducts: number;
+  totalMemberships: number;
+  pendingMemberships: number;
+  emergencies: number;
+}
+
+export default function AdminDashboard() {
+  const { user } = useAuth();
+  
+  const [stats, setStats] = useState<AdminStats>({
+    totalUsers: 0,
+    activeUsers: 0,
+    totalEvents: 0,
+    upcomingEvents: 0,
+    totalProducts: 0,
+    totalMemberships: 0,
+    pendingMemberships: 0,
+    emergencies: 0
+  });
+  
+  const [loadingStats, setLoadingStats] = useState(true);
+
+  // Cargar estadísticas del dashboard
+  useEffect(() => {
+    const loadStats = async () => {
+      try {
+        const response = await fetch('/api/admin/stats');
+        if (response.ok) {
+          const data = await response.json();
+          setStats(data.stats);
+        }
+      } catch (error) {
+        console.error('Error cargando estadísticas:', error);
+      } finally {
+        setLoadingStats(false);
+      }
+    };
+
+    if (user && (user.role === 'admin' || user.role === 'super-admin')) {
+      loadStats();
+    }
+  }, [user]);
+
+  const quickActions = [
+    {
+      title: 'Gestión de Usuarios',
+      description: 'Administrar usuarios registrados',
+      href: '/admin/users',
+      icon: FaUsers,
+      color: 'bg-blue-500',
+      stats: `${stats.activeUsers}/${stats.totalUsers}`,
+      trend: 'up'
+    },
+    {
+      title: 'Gestión de Eventos',
+      description: 'Crear y administrar eventos',
+      href: '/admin/events',
+      icon: FaCalendarAlt,
+      color: 'bg-green-500',
+      stats: `${stats.upcomingEvents} próximos`,
+      trend: 'up'
+    },
+    {
+      title: 'Gestión de Productos',
+      description: 'Inventario y tienda',
+      href: '/admin/products',
+      icon: FaBoxes,
+      color: 'bg-purple-500',
+      stats: `${stats.totalProducts} productos`,
+      trend: 'stable'
+    },
+    {
+      title: 'Membresías',
+      description: 'Gestionar solicitudes de membresía',
+      href: '/admin/memberships',
+      icon: FaIdCard,
+      color: 'bg-orange-500',
+      stats: `${stats.pendingMemberships} pendientes`,
+      trend: stats.pendingMemberships > 0 ? 'up' : 'stable'
+    },
+    {
+      title: 'Emergencias',
+      description: 'Panel de emergencias SOS',
+      href: '/admin/emergencies',
+      icon: FaMedkit,
+      color: stats.emergencies > 0 ? 'bg-red-500' : 'bg-gray-500',
+      stats: stats.emergencies > 0 ? `${stats.emergencies} activas` : 'Sin emergencias',
+      trend: stats.emergencies > 0 ? 'critical' : 'stable'
+    },
+    {
+      title: 'Reportes y Analytics',
+      description: 'Estadísticas y reportes',
+      href: '/admin/analytics',
+      icon: FaChartLine,
+      color: 'bg-indigo-500',
+      stats: 'Ver reportes',
+      trend: 'up'
+    }
+  ];
+
+  const getTrendIcon = (trend: string) => {
+    switch (trend) {
+      case 'up':
+        return <FaArrowUp className="text-green-500" />;
+      case 'down':
+        return <FaArrowDown className="text-red-500" />;
+      case 'critical':
+        return <FaExclamationTriangle className="text-red-500" />;
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <AdminLayout title="Dashboard de Administración" description="Vista general del sistema BSK Motorcycle Team">
+      <div className="p-6">
+        {/* Estadísticas Principales */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="bg-white rounded-lg shadow p-6 border-l-4 border-blue-500">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-500">Usuarios Totales</p>
+                <p className="text-3xl font-bold text-gray-900">
+                  {loadingStats ? '...' : stats.totalUsers}
+                </p>
+                <p className="text-sm text-green-600">
+                  {loadingStats ? '...' : stats.activeUsers} activos
+                </p>
+              </div>
+              <FaUsers className="text-4xl text-blue-500" />
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow p-6 border-l-4 border-green-500">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-500">Eventos Próximos</p>
+                <p className="text-3xl font-bold text-gray-900">
+                  {loadingStats ? '...' : stats.upcomingEvents}
+                </p>
+                <p className="text-sm text-gray-600">
+                  {loadingStats ? '...' : stats.totalEvents} total
+                </p>
+              </div>
+              <FaCalendarAlt className="text-4xl text-green-500" />
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow p-6 border-l-4 border-orange-500">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-500">Membresías Pendientes</p>
+                <p className="text-3xl font-bold text-gray-900">
+                  {loadingStats ? '...' : stats.pendingMemberships}
+                </p>
+                <p className="text-sm text-gray-600">
+                  {loadingStats ? '...' : stats.totalMemberships} total
+                </p>
+              </div>
+              <FaIdCard className="text-4xl text-orange-500" />
+            </div>
+          </div>
+
+          <div className={`bg-white rounded-lg shadow p-6 border-l-4 ${
+            stats.emergencies > 0 ? 'border-red-500' : 'border-gray-300'
+          }`}>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-500">Emergencias</p>
+                <p className={`text-3xl font-bold ${
+                  stats.emergencies > 0 ? 'text-red-600' : 'text-gray-900'
+                }`}>
+                  {loadingStats ? '...' : stats.emergencies}
+                </p>
+                <p className="text-sm text-gray-600">
+                  {stats.emergencies > 0 ? 'Requieren atención' : 'Todo en orden'}
+                </p>
+              </div>
+              <FaMedkit className={`text-4xl ${
+                stats.emergencies > 0 ? 'text-red-500' : 'text-gray-400'
+              }`} />
+            </div>
+          </div>
+        </div>
+
+        {/* Alertas Importantes */}
+        {stats.emergencies > 0 && (
+          <div className="bg-red-50 border-l-4 border-red-400 p-4 mb-8">
+            <div className="flex items-center">
+              <FaExclamationTriangle className="text-red-400 mr-3" />
+              <div className="flex-1">
+                <h3 className="text-sm font-medium text-red-800">
+                  ¡Atención! Hay {stats.emergencies} emergencia(s) activa(s)
+                </h3>
+                <p className="text-sm text-red-700 mt-1">
+                  Revisa el panel de emergencias inmediatamente.
+                </p>
+              </div>
+              <Link
+                href="/admin/emergencies"
+                className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
+              >
+                Ver Emergencias
+              </Link>
+            </div>
+          </div>
+        )}
+
+        {stats.pendingMemberships > 5 && (
+          <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8">
+            <div className="flex items-center">
+              <FaIdCard className="text-yellow-400 mr-3" />
+              <div className="flex-1">
+                <h3 className="text-sm font-medium text-yellow-800">
+                  Muchas solicitudes de membresía pendientes
+                </h3>
+                <p className="text-sm text-yellow-700 mt-1">
+                  Hay {stats.pendingMemberships} solicitudes esperando aprobación.
+                </p>
+              </div>
+              <Link
+                href="/admin/memberships"
+                className="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors"
+              >
+                Revisar Solicitudes
+              </Link>
+            </div>
+          </div>
+        )}
+
+        {/* Acciones Rápidas */}
+        <div className="mb-8">
+          <h2 className="text-xl font-bold text-gray-900 mb-6">Gestión Principal</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {quickActions.map((action) => (
+              <Link
+                key={action.href}
+                href={action.href}
+                className="bg-white rounded-lg shadow hover:shadow-lg transition-all duration-200 p-6 block group"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className={`${action.color} p-3 rounded-lg group-hover:scale-110 transition-transform`}>
+                    <action.icon className="text-xl text-white" />
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    {getTrendIcon(action.trend)}
+                    <FaArrowRight className="text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all" />
+                  </div>
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                  {action.title}
+                </h3>
+                <p className="text-gray-600 text-sm mb-3">{action.description}</p>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-gray-700">{action.stats}</span>
+                  <span className="text-xs text-gray-500">Ver más →</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* Resumen de Actividad Reciente */}
+        <div className="bg-white rounded-lg shadow">
+          <div className="px-6 py-4 border-b border-gray-200">
+            <h3 className="text-lg font-semibold text-gray-900">Actividad Reciente</h3>
+          </div>
+          <div className="p-6">
+            <div className="space-y-4">
+              <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                <div className="h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
+                  <FaUsers className="text-blue-600" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-gray-900">
+                    Sistema de administración iniciado
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    Panel de control disponible para gestión completa
+                  </p>
+                </div>
+                <span className="text-xs text-gray-400">Ahora</span>
+              </div>
+              
+              <div className="text-center py-8">
+                <p className="text-gray-500 text-sm">
+                  La actividad reciente aparecerá aquí una vez que comiences a usar el sistema.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </AdminLayout>
+  );
+}
