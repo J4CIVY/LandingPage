@@ -132,11 +132,6 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
               <SearchComponent />
             </div>
 
-            {/* Auth en móvil */}
-            <div className="mb-6">
-              <AuthButton />
-            </div>
-
             <ul className="flex-1 flex flex-col space-y-6 pl-2">
               {navItems.map((item) => (
                 <li key={item.name}>
@@ -162,7 +157,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
                 <Link
                   href="/sos"
                   onClick={() => setIsMenuOpen(false)}
-                  className="w-full bg-red-600 text-white font-bold py-3 px-4 rounded hover:bg-red-700 transition-colors mb-4 text-center"
+                  className="block w-full bg-red-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-red-700 transition-colors mb-4 text-center"
                 >
                   Botón SOS
                 </Link>
@@ -170,6 +165,13 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
                   <p>Contacto de emergencia:</p>
                   <p>Teléfono: +57 312 519 2000</p>
                   <p>Email: emergencias@bskmt.com</p>
+                </div>
+              </div>
+
+              {/* Pie del menú móvil con autenticación */}
+              <div className="border-t border-gray-300 dark:border-gray-700 pt-6 mt-6">
+                <div className="bg-gray-50 dark:bg-slate-800 rounded-lg p-4">
+                  <AuthButton isMobile={true} onMobileAction={() => setIsMenuOpen(false)} />
                 </div>
               </div>
             </div>

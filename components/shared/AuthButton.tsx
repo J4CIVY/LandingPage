@@ -6,7 +6,12 @@ import Image from 'next/image';
 import { FaUser, FaSignOutAlt, FaUserCircle, FaTachometerAlt, FaSpinner } from 'react-icons/fa';
 import { useAuth } from '@/hooks/useAuth';
 
-export default function AuthButton() {
+interface AuthButtonProps {
+  isMobile?: boolean;
+  onMobileAction?: () => void; // Para cerrar el menú móvil
+}
+
+export default function AuthButton({ isMobile = false, onMobileAction }: AuthButtonProps) {
   const { isAuthenticated, user, logout, isLoading, isInitialized } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -28,8 +33,21 @@ export default function AuthButton() {
     );
   }
 
-  // Si NO está autenticado, mostrar solo el icono de login
+  // Si NO está autenticado, mostrar solo el icono de login (desktop) o texto (mobile)
   if (!isAuthenticated || !user) {
+    if (isMobile) {
+      return (
+        <Link
+          href="/login"
+          onClick={onMobileAction}
+          className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg text-center transition-colors"
+        >
+          <FaUser className="inline mr-2" />
+          Iniciar Sesión
+        </Link>
+      );
+    }
+    
     return (
       <Link
         href="/login"
@@ -41,7 +59,22 @@ export default function AuthButton() {
     );
   }
 
-  // Si está autenticado, mostrar avatar de usuario
+  // Si está autenticado, mostrar avatar de usuario (desktop) o botón de cerrar sesión (mobile)
+  if (isMobile) {
+    return (
+      <button
+        onClick={() => {
+          logout();
+          if (onMobileAction) onMobileAction();
+        }}
+        className="block w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-lg text-center transition-colors"
+      >
+        <FaSignOutAlt className="inline mr-2" />
+        Cerrar Sesión
+      </button>
+    );
+  }
+
   return (
     <div className="relative">
       <button
