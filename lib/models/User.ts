@@ -275,6 +275,7 @@ UserSchema.methods.getPublicProfile = function(this: IUser): Partial<IUser> {
     membershipNumber: this.membershipNumber,
     isActive: this.isActive,
     isEmailVerified: this.isEmailVerified,
+    role: this.role, // Agregar el rol al perfil público
     lastLogin: this.lastLogin,
     joinDate: this.joinDate,
     createdAt: this.createdAt,

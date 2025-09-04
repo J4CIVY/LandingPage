@@ -20,15 +20,21 @@ export function middleware(request: NextRequest) {
 
   // Proteger rutas de administración - verificación básica de token
   if (pathname.startsWith('/admin')) {
-    const token = request.cookies.get('bsk-access-token')?.value;
+    const token = request.cookies.get('auth-token')?.value || 
+                  request.cookies.get('bsk-access-token')?.value;
     
     if (!token) {
       console.log('[MIDDLEWARE] Sin token para ruta admin:', pathname);
       return NextResponse.redirect(new URL('/login', request.url));
     }
 
-    // Verificación básica de token (sin JWT decode por Edge Runtime)
-    // La verificación completa se hará en las APIs individuales
+    // Verificación básica de formato de token (sin JWT decode por Edge Runtime)
+    // La verificación completa de rol se hará en las APIs individuales
+    if (!token.includes('.') || token.length < 50) {
+      console.log('[MIDDLEWARE] Token inválido para ruta admin:', pathname);
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
+
     console.log('[MIDDLEWARE] Token presente para ruta admin:', pathname);
   }
 
@@ -36,7 +42,8 @@ export function middleware(request: NextRequest) {
   const protectedRoutes = ['/dashboard', '/events/register', '/membership-info'];
   
   if (protectedRoutes.some(route => pathname.startsWith(route))) {
-    const token = request.cookies.get('bsk-access-token')?.value;
+    const token = request.cookies.get('auth-token')?.value || 
+                  request.cookies.get('bsk-access-token')?.value;
     
     if (!token) {
       console.log('[MIDDLEWARE] Sin token para ruta protegida:', pathname);
