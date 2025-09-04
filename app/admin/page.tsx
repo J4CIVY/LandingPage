@@ -138,15 +138,16 @@ export default function AdminDashboard() {
 
   return (
     <AdminLayout title="Dashboard de Administración" description="Vista general del sistema BSK Motorcycle Team">
-      {/* Estadísticas Principales */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-6 lg:mb-8">
-        <div className="bg-white rounded-lg shadow p-4 lg:p-6 border-l-4 border-blue-500">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs lg:text-sm font-medium text-gray-500">Usuarios Totales</p>
-              <p className="text-2xl lg:text-3xl font-bold text-gray-900">
-                {loadingStats ? '...' : stats.totalUsers}
-              </p>
+      <div className="space-y-6">
+        {/* Estadísticas Principales */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+          <div className="bg-white rounded-lg shadow p-4 lg:p-6 border-l-4 border-blue-500">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs lg:text-sm font-medium text-gray-500">Usuarios Totales</p>
+                <p className="text-2xl lg:text-3xl font-bold text-gray-900">
+                  {loadingStats ? '...' : stats.totalUsers}
+                </p>
               <p className="text-xs lg:text-sm text-green-600">
                 {loadingStats ? '...' : stats.activeUsers} activos
               </p>
@@ -317,6 +318,7 @@ export default function AdminDashboard() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </AdminLayout>
   );

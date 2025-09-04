@@ -125,8 +125,10 @@ export default function AdminLayout({ children, title, description }: AdminLayou
         )}
         
         {/* Content */}
-        <main className="p-4 lg:p-6">
-          {children}
+        <main className="p-4 lg:p-6 bg-gray-50 min-h-screen">
+          <div className="max-w-7xl mx-auto">
+            {children}
+          </div>
         </main>
       </div>
     </div>
