@@ -15,7 +15,8 @@ import {
   FaMedkit,
   FaFileAlt,
   FaSignOutAlt,
-  FaUserShield
+  FaUserShield,
+  FaTimes
 } from 'react-icons/fa';
 
 interface AdminSidebarProps {
@@ -26,9 +27,11 @@ interface AdminSidebarProps {
     email: string;
   };
   onLogout: () => void;
+  isOpen?: boolean;
+  onClose?: () => void;
 }
 
-export default function AdminSidebar({ user, onLogout }: AdminSidebarProps) {
+export default function AdminSidebar({ user, onLogout, isOpen = false, onClose }: AdminSidebarProps) {
   const pathname = usePathname();
 
   const navigationItems = [
@@ -111,28 +114,44 @@ export default function AdminSidebar({ user, onLogout }: AdminSidebarProps) {
   };
 
   return (
-    <div className="w-64 bg-white shadow-lg h-screen fixed left-0 top-0 z-40 overflow-y-auto">
+    <div className={`
+      fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out
+      ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+      lg:translate-x-0 lg:static lg:inset-0
+    `}>
+      {/* Mobile close button */}
+      {onClose && (
+        <div className="lg:hidden absolute top-4 right-4">
+          <button
+            onClick={onClose}
+            className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+          >
+            <FaTimes className="h-5 w-5" />
+          </button>
+        </div>
+      )}
+
       {/* Header */}
-      <div className="p-6 border-b border-gray-200">
+      <div className="p-4 lg:p-6 border-b border-gray-200">
         <div className="flex items-center">
-          <FaUserShield className="text-2xl text-blue-600 mr-3" />
+          <FaUserShield className="text-xl lg:text-2xl text-blue-600 mr-3" />
           <div>
-            <h2 className="text-lg font-semibold text-gray-900">Admin Panel</h2>
-            <p className="text-sm text-gray-600">BSK Motorcycle Team</p>
+            <h2 className="text-base lg:text-lg font-semibold text-gray-900">Admin Panel</h2>
+            <p className="text-xs lg:text-sm text-gray-600">BSK Motorcycle Team</p>
           </div>
         </div>
       </div>
 
       {/* User Info */}
-      <div className="p-6 border-b border-gray-200 bg-gray-50">
+      <div className="p-4 lg:p-6 border-b border-gray-200 bg-gray-50">
         <div className="flex items-center">
-          <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center">
-            <span className="text-white font-medium">
+          <div className="h-8 w-8 lg:h-10 lg:w-10 rounded-full bg-blue-600 flex items-center justify-center">
+            <span className="text-white font-medium text-sm lg:text-base">
               {user.firstName.charAt(0)}{user.lastName.charAt(0)}
             </span>
           </div>
-          <div className="ml-3">
-            <p className="text-sm font-medium text-gray-900">
+          <div className="ml-3 min-w-0 flex-1">
+            <p className="text-sm font-medium text-gray-900 truncate">
               {user.firstName} {user.lastName}
             </p>
             <p className="text-xs text-gray-600 capitalize">{user.role}</p>
@@ -141,9 +160,9 @@ export default function AdminSidebar({ user, onLogout }: AdminSidebarProps) {
       </div>
 
       {/* Navigation */}
-      <nav className="mt-6">
+      <nav className="flex-1 overflow-y-auto pb-20">
         {/* Gestión Principal */}
-        <div className="px-6 mb-6">
+        <div className="px-4 lg:px-6 mt-6 mb-6">
           <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
             Gestión Principal
           </h3>
@@ -152,6 +171,7 @@ export default function AdminSidebar({ user, onLogout }: AdminSidebarProps) {
               <Link
                 key={item.name}
                 href={item.href}
+                onClick={onClose} // Close mobile menu when clicking a link
                 className={`group flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
                   isActive(item.href)
                     ? 'bg-blue-100 text-blue-700'
@@ -159,15 +179,15 @@ export default function AdminSidebar({ user, onLogout }: AdminSidebarProps) {
                 }`}
               >
                 <item.icon
-                  className={`mr-3 h-5 w-5 ${
+                  className={`mr-3 h-4 w-4 lg:h-5 lg:w-5 flex-shrink-0 ${
                     isActive(item.href)
                       ? 'text-blue-500'
                       : 'text-gray-400 group-hover:text-gray-500'
                   }`}
                 />
-                <div>
-                  <div>{item.name}</div>
-                  <div className="text-xs text-gray-500">{item.description}</div>
+                <div className="min-w-0 flex-1">
+                  <div className="truncate">{item.name}</div>
+                  <div className="text-xs text-gray-500 truncate lg:block hidden">{item.description}</div>
                 </div>
               </Link>
             ))}
@@ -175,7 +195,7 @@ export default function AdminSidebar({ user, onLogout }: AdminSidebarProps) {
         </div>
 
         {/* Herramientas */}
-        <div className="px-6 mb-6">
+        <div className="px-4 lg:px-6 mb-6">
           <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
             Herramientas
           </h3>
@@ -184,6 +204,7 @@ export default function AdminSidebar({ user, onLogout }: AdminSidebarProps) {
               <Link
                 key={item.name}
                 href={item.href}
+                onClick={onClose} // Close mobile menu when clicking a link
                 className={`group flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
                   isActive(item.href)
                     ? 'bg-blue-100 text-blue-700'
@@ -191,15 +212,15 @@ export default function AdminSidebar({ user, onLogout }: AdminSidebarProps) {
                 }`}
               >
                 <item.icon
-                  className={`mr-3 h-5 w-5 ${
+                  className={`mr-3 h-4 w-4 lg:h-5 lg:w-5 flex-shrink-0 ${
                     isActive(item.href)
                       ? 'text-blue-500'
                       : 'text-gray-400 group-hover:text-gray-500'
                   }`}
                 />
-                <div>
-                  <div>{item.name}</div>
-                  <div className="text-xs text-gray-500">{item.description}</div>
+                <div className="min-w-0 flex-1">
+                  <div className="truncate">{item.name}</div>
+                  <div className="text-xs text-gray-500 truncate lg:block hidden">{item.description}</div>
                 </div>
               </Link>
             ))}
@@ -208,13 +229,13 @@ export default function AdminSidebar({ user, onLogout }: AdminSidebarProps) {
       </nav>
 
       {/* Footer */}
-      <div className="absolute bottom-0 w-full p-6 border-t border-gray-200">
+      <div className="absolute bottom-0 w-full p-4 lg:p-6 border-t border-gray-200 bg-white">
         <button
           onClick={onLogout}
           className="w-full flex items-center px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-50 rounded-md transition-colors"
         >
-          <FaSignOutAlt className="mr-3 h-5 w-5" />
-          Cerrar Sesión
+          <FaSignOutAlt className="mr-3 h-4 w-4 lg:h-5 lg:w-5 flex-shrink-0" />
+          <span className="truncate">Cerrar Sesión</span>
         </button>
       </div>
     </div>

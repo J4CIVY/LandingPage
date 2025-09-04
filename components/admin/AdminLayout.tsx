@@ -2,9 +2,9 @@
 
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
-import { useEffect, ReactNode } from 'react';
+import { useEffect, ReactNode, useState } from 'react';
 import AdminSidebar from '@/components/admin/AdminSidebar';
-import { FaSpinner, FaShieldAlt } from 'react-icons/fa';
+import { FaSpinner, FaShieldAlt, FaBars, FaTimes } from 'react-icons/fa';
 import Link from 'next/link';
 
 interface AdminLayoutProps {
@@ -16,6 +16,7 @@ interface AdminLayoutProps {
 export default function AdminLayout({ children, title, description }: AdminLayoutProps) {
   const { user, logout, isLoading, isAuthenticated } = useAuth();
   const router = useRouter();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -74,18 +75,47 @@ export default function AdminLayout({ children, title, description }: AdminLayou
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-gray-50">
+      {/* Mobile menu overlay */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <AdminSidebar user={user} onLogout={handleLogout} />
+      <AdminSidebar 
+        user={user} 
+        onLogout={handleLogout} 
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+      />
       
       {/* Main Content */}
-      <div className="flex-1 ml-64">
+      <div className="lg:ml-64 min-h-screen">
+        {/* Mobile header with hamburger menu */}
+        <div className="lg:hidden bg-white shadow-sm border-b">
+          <div className="flex items-center justify-between px-4 py-3">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+            >
+              <FaBars className="h-6 w-6" />
+            </button>
+            <h1 className="text-lg font-semibold text-gray-900">
+              Panel Admin
+            </h1>
+            <div className="w-10" /> {/* Spacer for centering */}
+          </div>
+        </div>
+
         {/* Header opcional */}
         {(title || description) && (
           <header className="bg-white shadow-sm border-b">
-            <div className="px-6 py-4">
+            <div className="px-4 lg:px-6 py-4">
               {title && (
-                <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
+                <h1 className="text-xl lg:text-2xl font-bold text-gray-900">{title}</h1>
               )}
               {description && (
                 <p className="text-sm text-gray-600 mt-1">{description}</p>
@@ -95,7 +125,7 @@ export default function AdminLayout({ children, title, description }: AdminLayou
         )}
         
         {/* Content */}
-        <main className="min-h-screen">
+        <main className="p-4 lg:p-6">
           {children}
         </main>
       </div>
