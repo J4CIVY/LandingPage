@@ -18,7 +18,7 @@ export interface AdminRequest extends NextRequest {
  */
 export async function requireAdmin(req: AdminRequest): Promise<NextResponse | null> {
   try {
-    const token = req.cookies.get('auth-token')?.value;
+    const token = req.cookies.get('bsk-access-token')?.value;
     
     if (!token) {
       return NextResponse.json(

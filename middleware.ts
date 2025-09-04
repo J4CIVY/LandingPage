@@ -20,7 +20,7 @@ export function middleware(request: NextRequest) {
 
   // Proteger rutas de administración - verificación básica de token
   if (pathname.startsWith('/admin')) {
-    const token = request.cookies.get('auth-token')?.value;
+    const token = request.cookies.get('bsk-access-token')?.value;
     
     if (!token) {
       console.log('[MIDDLEWARE] Sin token para ruta admin:', pathname);
@@ -36,7 +36,7 @@ export function middleware(request: NextRequest) {
   const protectedRoutes = ['/dashboard', '/events/register', '/membership-info'];
   
   if (protectedRoutes.some(route => pathname.startsWith(route))) {
-    const token = request.cookies.get('auth-token')?.value;
+    const token = request.cookies.get('bsk-access-token')?.value;
     
     if (!token) {
       console.log('[MIDDLEWARE] Sin token para ruta protegida:', pathname);

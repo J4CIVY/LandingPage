@@ -132,6 +132,7 @@ export async function POST(request: NextRequest) {
       userId: user._id.toString(),
       email: user.email,
       membershipType: user.membershipType,
+      role: user.role,
       sessionId: session._id.toString()
     });
 
