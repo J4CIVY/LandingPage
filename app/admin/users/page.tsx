@@ -69,8 +69,9 @@ export default function AdminUsersPage() {
           status: filterStatus
         });
 
-        const response = await fetch(`/api/admin/users?${params}`);
-        console.log('URL de request:', `/api/admin/users?${params}`);
+        // TEMPORAL: Usar endpoint de test sin autenticación
+        const response = await fetch(`/api/test/users?${params}`);
+        console.log('URL de request:', `/api/test/users?${params}`);
         console.log('Response status:', response.status);
         
         if (response.ok) {
