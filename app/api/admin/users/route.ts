@@ -44,8 +44,14 @@ export async function GET(req: NextRequest) {
       filters.isActive = status === 'active';
     }
 
+    // Agregar logging para debugging
+    console.log('Filtros aplicados:', filters);
+    console.log('Parámetros de búsqueda:', { page, limit, search, role, membershipType, status });
+
     // Contar total de usuarios
     const totalUsers = await User.countDocuments(filters);
+    console.log('Total de usuarios encontrados:', totalUsers);
+    
     const totalPages = Math.ceil(totalUsers / limit);
 
     // Obtener usuarios con paginación
@@ -54,6 +60,8 @@ export async function GET(req: NextRequest) {
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(limit);
+
+    console.log('Usuarios devueltos:', users.length);
 
     return NextResponse.json({
       success: true,

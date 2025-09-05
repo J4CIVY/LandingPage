@@ -70,10 +70,17 @@ export default function AdminUsersPage() {
         });
 
         const response = await fetch(`/api/admin/users?${params}`);
+        console.log('URL de request:', `/api/admin/users?${params}`);
+        console.log('Response status:', response.status);
+        
         if (response.ok) {
           const data = await response.json();
+          console.log('Datos recibidos:', data);
           setUsers(data.users);
           setTotalPages(data.totalPages);
+        } else {
+          const errorData = await response.json();
+          console.error('Error en la respuesta:', errorData);
         }
       } catch (error) {
         console.error('Error cargando usuarios:', error);
