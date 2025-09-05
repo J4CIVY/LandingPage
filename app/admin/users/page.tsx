@@ -69,16 +69,12 @@ export default function AdminUsersPage() {
           status: filterStatus
         });
 
-        // TEMPORAL: Usar endpoint bypass sin autenticación para producción
-        const response = await fetch(`/api/admin-bypass/users?${params}`);
-        console.log('URL de request (BYPASS):', `/api/admin-bypass/users?${params}`);
-        console.log('Response status:', response.status);
+        const response = await fetch(`/api/admin/users?${params}`);
         
         if (response.ok) {
           const data = await response.json();
-          console.log('Datos recibidos:', data);
           setUsers(data.users);
-          setTotalPages(data.totalPages);
+          setTotalPages(data.pagination.totalPages);
         } else {
           const errorData = await response.json();
           console.error('Error en la respuesta:', errorData);
