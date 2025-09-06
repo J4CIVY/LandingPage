@@ -399,7 +399,10 @@ const DashboardEventsSimple: React.FC = () => {
                       {/* Botones de acción */}
                       <div className="flex flex-wrap gap-2">
                         {/* Ver detalles */}
-                        <button className="inline-flex items-center px-3 py-1.5 bg-blue-600 dark:bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors">
+                        <button 
+                          onClick={() => window.location.href = `/events/${event._id}`}
+                          className="inline-flex items-center px-3 py-1.5 bg-blue-600 dark:bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
+                        >
                           <FaEye className="mr-1" />
                           Ver Detalles
                         </button>
