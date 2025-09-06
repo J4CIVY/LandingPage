@@ -18,3 +18,4 @@ pids
 .env.example
 
 /public/sw.js
+public/sw.js

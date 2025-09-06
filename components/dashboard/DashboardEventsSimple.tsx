@@ -341,7 +341,10 @@ const DashboardEventsSimple: React.FC = () => {
                         className="w-full sm:w-24 h-32 sm:h-16 object-cover rounded-lg"
                         onError={(e) => {
                           const img = e.target as HTMLImageElement;
-                          img.src = '/images/default-event.jpg';
+                          // Evitar bucle infinito - solo cambiar si no es ya la imagen por defecto
+                          if (!img.src.includes('default-event.jpg')) {
+                            img.src = '/images/default-event.jpg';
+                          }
                         }}
                       />
                     </div>

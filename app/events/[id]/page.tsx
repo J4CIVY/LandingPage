@@ -270,7 +270,10 @@ export default function EventDetailsPage() {
                 className="w-full h-full object-cover"
                 onError={(e) => {
                   const img = e.target as HTMLImageElement;
-                  img.src = '/images/default-event.jpg';
+                  // Evitar bucle infinito - solo cambiar si no es ya la imagen por defecto
+                  if (!img.src.includes('default-event.jpg')) {
+                    img.src = '/images/default-event.jpg';
+                  }
                 }}
               />
             </div>
