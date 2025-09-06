@@ -16,3 +16,5 @@ pids
 *.seed
 *.pid.lock
 .env.example
+
+/public/sw.js
