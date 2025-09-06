@@ -24,14 +24,23 @@ import {
 interface Product {
   _id: string;
   name: string;
-  description: string;
-  price: number;
+  shortDescription: string;
+  longDescription: string;
+  finalPrice: number;
+  originalPrice?: number;
+  availability: 'in-stock' | 'out-of-stock';
+  featuredImage: string;
+  gallery?: string[];
+  newProduct: boolean;
   category: string;
-  stock: number;
-  images: string[];
+  sku?: string;
+  stockQuantity?: number;
+  minStockAlert?: number;
+  tags?: string[];
   isActive: boolean;
-  featured: boolean;
   createdAt: string;
+  discountPercentage?: number;
+  isLowStock?: boolean;
 }
 
 export default function AdminProductsPage() {
@@ -107,21 +116,21 @@ export default function AdminProductsPage() {
     }
   };
 
-  const handleToggleFeatured = async (productId: string, currentFeatured: boolean) => {
+  const handleToggleNewProduct = async (productId: string, currentNewProduct: boolean) => {
     try {
-      const response = await fetch(`/api/admin/products/${productId}/toggle-featured`, {
-        method: 'PATCH',
+      const response = await fetch(`/api/admin/products/${productId}`, {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ featured: !currentFeatured })
+        body: JSON.stringify({ newProduct: !currentNewProduct })
       });
 
       if (response.ok) {
         setProducts(products.map(p => 
-          p._id === productId ? { ...p, featured: !currentFeatured } : p
+          p._id === productId ? { ...p, newProduct: !currentNewProduct } : p
         ));
       }
     } catch (error) {
-      console.error('Error cambiando estado destacado del producto:', error);
+      console.error('Error cambiando estado "nuevo" del producto:', error);
     }
   };
 
@@ -145,11 +154,15 @@ export default function AdminProductsPage() {
 
   const getCategoryColor = (category: string) => {
     const colors: { [key: string]: string } = {
-      clothing: 'bg-blue-100 text-blue-800',
-      accessories: 'bg-green-100 text-green-800',
-      parts: 'bg-yellow-100 text-yellow-800',
-      gear: 'bg-purple-100 text-purple-800',
-      merchandise: 'bg-red-100 text-red-800'
+      cascos: 'bg-red-100 text-red-800',
+      chaquetas: 'bg-blue-100 text-blue-800',
+      guantes: 'bg-green-100 text-green-800',
+      botas: 'bg-yellow-100 text-yellow-800',
+      pantalones: 'bg-purple-100 text-purple-800',
+      accesorios: 'bg-indigo-100 text-indigo-800',
+      repuestos: 'bg-orange-100 text-orange-800',
+      herramientas: 'bg-gray-100 text-gray-800',
+      merchandising: 'bg-pink-100 text-pink-800'
     };
     return colors[category] || 'bg-gray-100 text-gray-800';
   };
@@ -233,11 +246,15 @@ export default function AdminProductsPage() {
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="all">Todas las categorías</option>
-                <option value="clothing">Ropa</option>
-                <option value="accessories">Accesorios</option>
-                <option value="parts">Repuestos</option>
-                <option value="gear">Equipamiento</option>
-                <option value="merchandise">Mercancía</option>
+                <option value="cascos">Cascos</option>
+                <option value="chaquetas">Chaquetas</option>
+                <option value="guantes">Guantes</option>
+                <option value="botas">Botas</option>
+                <option value="pantalones">Pantalones</option>
+                <option value="accesorios">Accesorios</option>
+                <option value="repuestos">Repuestos</option>
+                <option value="herramientas">Herramientas</option>
+                <option value="merchandising">Merchandising</option>
               </select>
             </div>
 
@@ -253,7 +270,9 @@ export default function AdminProductsPage() {
                 <option value="all">Todos</option>
                 <option value="active">Activos</option>
                 <option value="inactive">Inactivos</option>
-                <option value="featured">Destacados</option>
+                <option value="in-stock">En Stock</option>
+                <option value="out-of-stock">Sin Stock</option>
+                <option value="new">Nuevos</option>
                 <option value="low-stock">Stock Bajo</option>
               </select>
             </div>
@@ -285,11 +304,14 @@ export default function AdminProductsPage() {
                 <div key={product._id} className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
                   {/* Imagen del Producto */}
                   <div className="h-48 bg-gray-200 relative">
-                    {product.images && product.images.length > 0 ? (
+                    {product.featuredImage ? (
                       <img
-                        src={product.images[0]}
+                        src={product.featuredImage}
                         alt={product.name}
                         className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = '/placeholder-product.jpg';
+                        }}
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
@@ -304,17 +326,22 @@ export default function AdminProductsPage() {
                           Inactivo
                         </span>
                       )}
-                      {product.featured && (
-                        <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">
-                          Destacado
+                      {product.newProduct && (
+                        <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
+                          Nuevo
                         </span>
                       )}
-                      {product.stock <= 5 && product.stock > 0 && (
+                      {product.originalPrice && product.originalPrice > product.finalPrice && (
+                        <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">
+                          Oferta
+                        </span>
+                      )}
+                      {product.isLowStock && (
                         <span className="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full">
                           Stock Bajo
                         </span>
                       )}
-                      {product.stock === 0 && (
+                      {product.availability === 'out-of-stock' && (
                         <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">
                           Sin Stock
                         </span>
@@ -334,26 +361,34 @@ export default function AdminProductsPage() {
                     </div>
                     
                     <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-                      {product.description}
+                      {product.shortDescription}
                     </p>
                     
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center">
                         <FaDollarSign className="text-green-500 mr-1" />
                         <span className="text-lg font-bold text-gray-900">
-                          ${product.price.toLocaleString()}
+                          ${product.finalPrice.toLocaleString()}
                         </span>
+                        {product.originalPrice && product.originalPrice > product.finalPrice && (
+                          <span className="text-sm text-gray-500 line-through ml-2">
+                            ${product.originalPrice.toLocaleString()}
+                          </span>
+                        )}
                       </div>
                       <div className="flex items-center">
                         <FaWarehouse className="text-blue-500 mr-1" />
                         <span className={`text-sm font-medium ${
-                          product.stock <= 5 
-                            ? product.stock === 0 
-                              ? 'text-red-600' 
-                              : 'text-orange-600'
+                          product.availability === 'out-of-stock'
+                            ? 'text-red-600'
+                            : product.isLowStock
+                            ? 'text-orange-600'
                             : 'text-gray-600'
                         }`}>
-                          {product.stock} unidades
+                          {product.availability === 'out-of-stock' 
+                            ? 'Sin stock'
+                            : `${product.stockQuantity || 0} unidades`
+                          }
                         </span>
                       </div>
                     </div>
@@ -362,14 +397,14 @@ export default function AdminProductsPage() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
                         <Link
-                          href={`/admin/products/${product._id}`}
+                          href={`/admin/products/view/${product._id}`}
                           className="p-2 text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded-lg transition-colors"
                           title="Ver detalles"
                         >
                           <FaEye />
                         </Link>
                         <Link
-                          href={`/admin/products/${product._id}/edit`}
+                          href={`/admin/products/${product._id}`}
                           className="p-2 text-green-600 hover:text-green-900 hover:bg-green-50 rounded-lg transition-colors"
                           title="Editar"
                         >
@@ -397,13 +432,13 @@ export default function AdminProductsPage() {
                           {product.isActive ? <FaToggleOn /> : <FaToggleOff />}
                         </button>
                         <button
-                          onClick={() => handleToggleFeatured(product._id, product.featured)}
+                          onClick={() => handleToggleNewProduct(product._id, product.newProduct)}
                           className={`p-2 rounded-lg transition-colors ${
-                            product.featured 
-                              ? 'text-yellow-600 hover:text-yellow-900 hover:bg-yellow-50' 
-                              : 'text-gray-400 hover:text-yellow-600 hover:bg-yellow-50'
+                            product.newProduct 
+                              ? 'text-green-600 hover:text-green-900 hover:bg-green-50' 
+                              : 'text-gray-400 hover:text-green-600 hover:bg-green-50'
                           }`}
-                          title={product.featured ? 'Quitar destacado' : 'Destacar'}
+                          title={product.newProduct ? 'Quitar "Nuevo"' : 'Marcar como "Nuevo"'}
                         >
                           <FaTag />
                         </button>
