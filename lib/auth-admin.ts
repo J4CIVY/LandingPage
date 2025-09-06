@@ -27,15 +27,9 @@ export async function requireAdmin(req: AdminRequest): Promise<NextResponse | nu
       );
     }
 
-    if (!process.env.JWT_SECRET) {
-      console.error('JWT_SECRET no está configurado');
-      return NextResponse.json(
-        { success: false, error: 'Error de configuración del servidor' },
-        { status: 500 }
-      );
-    }
+    const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secure-jwt-secret-change-in-production';
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET) as any;
+    const decoded = jwt.verify(token, JWT_SECRET) as any;
     
     await connectDB();
     const user = await User.findById(decoded.userId);
