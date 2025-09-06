@@ -252,9 +252,9 @@ export async function verifyAuth(request: NextRequest): Promise<AuthResult> {
     let token = extractTokenFromRequest(request);
     
     if (!token) {
-      // Intentar obtener de cookies
+      // Intentar obtener de cookies con el nombre correcto
       const cookies = request.cookies;
-      token = cookies.get('auth-token')?.value || null;
+      token = cookies.get('bsk-access-token')?.value || null;
     }
 
     if (!token) {

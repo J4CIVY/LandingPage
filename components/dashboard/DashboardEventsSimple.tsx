@@ -52,25 +52,53 @@ const DashboardEventsSimple: React.FC = () => {
 
   // Fetch user registrations and favorites
   const fetchUserEventData = async () => {
-    if (!user) return;
+    if (!user) {
+      console.log('🚫 fetchUserEventData: No user, skipping');
+      return;
+    }
+    
+    console.log('🔍 fetchUserEventData: Starting with user:', user.email);
     
     try {
       const [registrationsRes, favoritesRes] = await Promise.all([
-        fetch('/api/users/events/registrations'),
-        fetch('/api/users/events/favorites')
+        fetch('/api/users/events/registrations', {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }),
+        fetch('/api/users/events/favorites', {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
       ]);
+
+      console.log('📡 fetchUserEventData: Registrations response:', registrationsRes.status);
+      console.log('📡 fetchUserEventData: Favorites response:', favoritesRes.status);
 
       if (registrationsRes.ok) {
         const regData = await registrationsRes.json();
+        console.log('✅ fetchUserEventData: Registration data:', regData);
         setUserRegistrations(regData.data?.registrations || []);
+      } else {
+        const regError = await registrationsRes.json();
+        console.error('❌ fetchUserEventData: Registration error:', regError);
       }
 
       if (favoritesRes.ok) {
         const favData = await favoritesRes.json();
+        console.log('✅ fetchUserEventData: Favorites data:', favData);
         setUserFavorites(favData.data?.favorites || []);
+      } else {
+        const favError = await favoritesRes.json();
+        console.error('❌ fetchUserEventData: Favorites error:', favError);
       }
     } catch (error) {
-      console.error('Error fetching user event data:', error);
+      console.error('❌ fetchUserEventData: Network error:', error);
     }
   };
 
@@ -84,7 +112,13 @@ const DashboardEventsSimple: React.FC = () => {
       let url = '/api/events';
       console.log('🌐 Component: Usando API REAL sin filtros:', url);
       
-      let response = await fetch(url);
+      let response = await fetch(url, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
       console.log('📡 Component: API status:', response.status);
       
       if (!response.ok) {
@@ -129,6 +163,7 @@ const DashboardEventsSimple: React.FC = () => {
     try {
       const response = await fetch(`/api/events/${eventId}/register`, {
         method: action === 'register' ? 'POST' : 'DELETE',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -181,6 +216,7 @@ const DashboardEventsSimple: React.FC = () => {
     try {
       const response = await fetch(`/api/events/${eventId}/favorite`, {
         method: isFavorite ? 'DELETE' : 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
