@@ -39,15 +39,13 @@ export async function GET(request: NextRequest) {
     }
   ];
 
-  return NextResponse.json({
-    success: true,
+  return createSuccessResponse({
     events: mockEvents,
     pagination: {
       page: 1,
       limit: 10,
       total: mockEvents.length,
       pages: 1
-    },
-    message: 'Eventos de prueba obtenidos exitosamente'
-  });
+    }
+  }, 'Eventos de prueba obtenidos exitosamente');
 }
