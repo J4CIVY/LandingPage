@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createSuccessResponse } from '../../../../lib/api-utils';
 
 export async function GET(request: NextRequest) {
   const mockEvents = [
