@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import { verify } from 'jsonwebtoken';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
@@ -80,31 +81,39 @@ export async function GET(request: NextRequest) {
   try {
     await connectDB();
 
-    // Obtener token de las cookies
-    const token = request.cookies.get('bsk-access-token')?.value;
+    // Verificar autenticación y permisos de admin
+    const cookieStore = await cookies();
+    const token = cookieStore.get('bsk-access-token')?.value;
 
     if (!token) {
-      return NextResponse.json(
-        { success: false, message: 'Token de acceso requerido' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
     }
 
-    // Verificar token y permisos de administrador
-    const decoded = verify(token, JWT_SECRET) as JWTPayload;
-    const user = await User.findById(decoded.userId).select('role').lean();
+    const decoded = verify(token, process.env.JWT_SECRET!) as any;
+    const adminUser = await User.findById(decoded.userId);
 
-    if (!user || ((user as any).role !== 'admin' && (user as any).role !== 'super-admin')) {
-      return NextResponse.json(
-        { success: false, message: 'Permisos de administrador requeridos' },
-        { status: 403 }
-      );
+    if (!adminUser || adminUser.role !== 'admin') {
+      return NextResponse.json({ error: 'Acceso denegado' }, { status: 403 });
     }
 
-    // Obtener estadísticas
-    const totalNotifications = await Notification.countDocuments();
-    const unreadNotifications = await Notification.countDocuments({ isRead: false });
-    const notificationsByType = await Notification.aggregate([
+    // Obtener estadísticas detalladas
+    const now = new Date();
+    const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+
+    // Estadísticas básicas
+    const total = await Notification.countDocuments();
+    const unread = await Notification.countDocuments({ isRead: false });
+    const recent = await Notification.countDocuments({ 
+      createdAt: { $gte: oneDayAgo } 
+    });
+
+    // Contar notificaciones expiradas (que ya se eliminaron automáticamente)
+    const expired = await Notification.countDocuments({
+      expiresAt: { $lt: now }
+    });
+
+    // Estadísticas por tipo
+    const byTypeStats = await Notification.aggregate([
       {
         $group: {
           _id: '$type',
@@ -113,46 +122,96 @@ export async function GET(request: NextRequest) {
       }
     ]);
 
-    const notificationsByPriority = await Notification.aggregate([
+    const byType = {
+      event_upcoming: 0,
+      event_registration_open: 0,
+      event_reminder: 0,
+      membership_update: 0,
+      system_announcement: 0
+    };
+
+    byTypeStats.forEach(stat => {
+      if (byType.hasOwnProperty(stat._id)) {
+        byType[stat._id as keyof typeof byType] = stat.count;
+      }
+    });
+
+    // Estadísticas por prioridad
+    const byPriorityStats = await Notification.aggregate([
       {
         $group: {
           _id: '$priority',
-          count: { $sum:1 }
+          count: { $sum: 1 }
         }
       }
     ]);
 
-    const recentNotifications = await Notification.find()
-      .sort({ createdAt: -1 })
-      .limit(10)
-      .populate('userId', 'firstName lastName email')
-      .lean();
+    const byPriority = {
+      low: 0,
+      medium: 0,
+      high: 0,
+      urgent: 0
+    };
 
-    return NextResponse.json({
-      success: true,
-      data: {
-        statistics: {
-          total: totalNotifications,
-          unread: unreadNotifications,
-          byType: notificationsByType,
-          byPriority: notificationsByPriority
-        },
-        recentNotifications
+    byPriorityStats.forEach(stat => {
+      if (byPriority.hasOwnProperty(stat._id)) {
+        byPriority[stat._id as keyof typeof byPriority] = stat.count;
       }
     });
 
-  } catch (error) {
-    console.error('Error en GET /api/notifications/admin/generate:', error);
-    
-    if (error instanceof Error && error.name === 'JsonWebTokenError') {
-      return NextResponse.json(
-        { success: false, message: 'Token inválido' },
-        { status: 401 }
-      );
-    }
+    // Estadísticas adicionales
+    const topUsers = await Notification.aggregate([
+      {
+        $group: {
+          _id: '$userId',
+          count: { $sum: 1 },
+          unreadCount: {
+            $sum: { $cond: [{ $eq: ['$isRead', false] }, 1, 0] }
+          }
+        }
+      },
+      { $sort: { count: -1 } },
+      { $limit: 10 },
+      {
+        $lookup: {
+          from: 'users',
+          localField: '_id',
+          foreignField: '_id',
+          as: 'user'
+        }
+      },
+      {
+        $project: {
+          userId: '$_id',
+          count: 1,
+          unreadCount: 1,
+          userName: { $arrayElemAt: ['$user.name', 0] },
+          userEmail: { $arrayElemAt: ['$user.email', 0] }
+        }
+      }
+    ]);
 
+    const stats = {
+      total,
+      unread,
+      recent,
+      expired,
+      byType,
+      byPriority,
+      topUsers,
+      lastGeneration: new Date().toISOString()
+    };
+
+    return NextResponse.json({
+      success: true,
+      stats,
+      timestamp: new Date().toISOString()
+    });
+
+  } catch (error) {
+    console.error('Error getting notification stats:', error);
     return NextResponse.json(
-      { success: false, message: 'Error interno del servidor' },
+      { error: 'Error interno del servidor' },
       { status: 500 }
     );
   }

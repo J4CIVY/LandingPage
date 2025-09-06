@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     await connectDB();
 
     // Verificar autenticación y permisos de admin
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const token = cookieStore.get('bsk-access-token')?.value;
 
     if (!token) {

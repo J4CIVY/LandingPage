@@ -15,7 +15,8 @@ import {
   FaMedkit,
   FaArrowRight,
   FaArrowUp,
-  FaArrowDown
+  FaArrowDown,
+  FaBell
 } from 'react-icons/fa';
 
 interface AdminStats {
@@ -120,6 +121,15 @@ export default function AdminDashboard() {
       color: 'bg-indigo-500',
       stats: 'Ver reportes',
       trend: 'up'
+    },
+    {
+      title: 'Gestión de Notificaciones',
+      description: 'Administrar notificaciones del sistema',
+      href: '/admin/notifications',
+      icon: FaBell,
+      color: 'bg-yellow-500',
+      stats: 'Sistema activo',
+      trend: 'stable'
     }
   ];
 
