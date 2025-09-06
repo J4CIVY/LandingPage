@@ -4,14 +4,22 @@ import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 
 export async function GET(req: NextRequest) {
+  console.log('🔍 Admin users GET request started');
   const adminRequest = req as AdminRequest;
   
-  // Verificar permisos de administrador
-  const authCheck = await requireAdmin(adminRequest);
-  if (authCheck) return authCheck;
-
   try {
+    // Verificar permisos de administrador
+    console.log('🛡️ Checking admin permissions...');
+    const authCheck = await requireAdmin(adminRequest);
+    if (authCheck) {
+      console.log('❌ Admin auth failed');
+      return authCheck;
+    }
+    console.log('✅ Admin auth passed');
+
+    console.log('🔌 Connecting to database...');
     await connectDB();
+    console.log('✅ Database connected');
 
     const { searchParams } = new URL(req.url);
     const page = parseInt(searchParams.get('page') || '1');
@@ -20,6 +28,8 @@ export async function GET(req: NextRequest) {
     const role = searchParams.get('role') || 'all';
     const membershipType = searchParams.get('membershipType') || 'all';
     const status = searchParams.get('status') || 'all';
+
+    console.log('📋 Query params:', { page, limit, search, role, membershipType, status });
 
     // Construir filtros
     const filters: any = {};
@@ -44,16 +54,23 @@ export async function GET(req: NextRequest) {
       filters.isActive = status === 'active';
     }
 
+    console.log('🔍 Applied filters:', JSON.stringify(filters));
+
     // Contar total de usuarios
+    console.log('📊 Counting total users...');
     const totalUsers = await User.countDocuments(filters);
     const totalPages = Math.ceil(totalUsers / limit);
+    console.log(`📊 Found ${totalUsers} users, ${totalPages} pages`);
 
     // Obtener usuarios con paginación
+    console.log('👥 Fetching users...');
     const users = await User.find(filters)
       .select('-password -emailVerificationToken -passwordResetToken')
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(limit);
+
+    console.log(`✅ Retrieved ${users.length} users`);
 
     return NextResponse.json({
       success: true,
@@ -67,9 +84,14 @@ export async function GET(req: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error obteniendo usuarios:', error);
+    console.error('❌ Error in admin users GET:', error);
+    console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace');
     return NextResponse.json(
-      { success: false, error: 'Error interno del servidor' },
+      { 
+        success: false, 
+        error: 'Error interno del servidor',
+        details: process.env.NODE_ENV === 'development' ? (error instanceof Error ? error.message : String(error)) : undefined
+      },
       { status: 500 }
     );
   }
