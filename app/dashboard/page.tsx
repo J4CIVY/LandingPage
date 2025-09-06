@@ -30,7 +30,8 @@ import {
   FaCalendarCheck,
   FaCalendarPlus,
   FaCloudSun,
-  FaBookOpen
+  FaBookOpen,
+  FaHeart
 } from 'react-icons/fa';
 
 export default function DashboardPage() {
@@ -47,7 +48,9 @@ export default function DashboardPage() {
     membershipType: '',
     isActive: true
   });
+  const [recentActivities, setRecentActivities] = useState([]);
   const [loadingStats, setLoadingStats] = useState(true);
+  const [loadingActivities, setLoadingActivities] = useState(true);
 
   // Función para obtener el perfil del usuario
   const fetchUserProfile = async () => {
@@ -109,11 +112,35 @@ export default function DashboardPage() {
     }
   };
 
+  // Función para obtener las actividades recientes del usuario
+  const fetchRecentActivities = async () => {
+    try {
+      setLoadingActivities(true);
+      const response = await fetch('/api/users/activity?limit=4', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setRecentActivities(data.data.activities);
+      }
+    } catch (error) {
+      console.error('Error fetching recent activities:', error);
+    } finally {
+      setLoadingActivities(false);
+    }
+  };
+
   // Cargar datos cuando el usuario esté autenticado
   useEffect(() => {
     if (isAuthenticated && user) {
       fetchUserProfile();
       fetchUserStats();
+      fetchRecentActivities();
     }
   }, [isAuthenticated, user]);
 
@@ -350,47 +377,74 @@ export default function DashboardPage() {
                 </h3>
               </div>
               <div className="p-4 sm:p-6">
-                <div className="space-y-4">
-                  <div className="flex items-start space-x-3 sm:space-x-4 p-3 sm:p-4 bg-gray-50 dark:bg-slate-700/50 rounded-lg">
-                    <div className="bg-green-100 dark:bg-green-900/30 p-2 rounded-full flex-shrink-0">
-                      <FaCheck className="text-green-600 dark:text-green-400 text-sm" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium text-gray-900 dark:text-slate-100 text-sm sm:text-base">Ruta completada: Cordillera Central</p>
-                      <p className="text-xs sm:text-sm text-gray-600 dark:text-slate-400">hace 2 días • 180 km</p>
-                    </div>
+                {loadingActivities ? (
+                  <div className="space-y-4">
+                    {[...Array(4)].map((_, index) => (
+                      <div key={index} className="flex items-start space-x-3 sm:space-x-4 p-3 sm:p-4 bg-gray-50 dark:bg-slate-700/50 rounded-lg animate-pulse">
+                        <div className="bg-gray-300 dark:bg-slate-600 p-2 rounded-full flex-shrink-0 w-10 h-10"></div>
+                        <div className="flex-1 min-w-0 space-y-2">
+                          <div className="h-4 bg-gray-300 dark:bg-slate-600 rounded w-3/4"></div>
+                          <div className="h-3 bg-gray-200 dark:bg-slate-700 rounded w-1/2"></div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  
-                  <div className="flex items-start space-x-3 sm:space-x-4 p-3 sm:p-4 bg-gray-50 dark:bg-slate-700/50 rounded-lg">
-                    <div className="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-full flex-shrink-0">
-                      <FaCalendarAlt className="text-blue-600 dark:text-blue-400 text-sm" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium text-gray-900 dark:text-slate-100 text-sm sm:text-base">Inscrito al evento: Rodada de Primavera</p>
-                      <p className="text-xs sm:text-sm text-gray-600 dark:text-slate-400">hace 5 días • 15 de Abril</p>
-                    </div>
+                ) : recentActivities.length === 0 ? (
+                  <div className="text-center py-8">
+                    <FaHistory className="text-4xl text-gray-300 dark:text-slate-600 mx-auto mb-4" />
+                    <p className="text-gray-500 dark:text-slate-400">No hay actividades recientes</p>
+                    <p className="text-sm text-gray-400 dark:text-slate-500 mt-1">
+                      ¡Comienza participando en eventos para ver tu actividad aquí!
+                    </p>
                   </div>
-                  
-                  <div className="flex items-start space-x-3 sm:space-x-4 p-3 sm:p-4 bg-gray-50 dark:bg-slate-700/50 rounded-lg">
-                    <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-full flex-shrink-0">
-                      <FaGraduationCap className="text-purple-600 dark:text-purple-400 text-sm" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium text-gray-900 dark:text-slate-100 text-sm sm:text-base">Curso completado: Seguridad Vial Avanzada</p>
-                      <p className="text-xs sm:text-sm text-gray-600 dark:text-slate-400">hace 1 semana • Certificado obtenido</p>
-                    </div>
+                ) : (
+                  <div className="space-y-4">
+                    {recentActivities.map((activity: any) => {
+                      const getIconComponent = (iconName: string) => {
+                        const iconMap: { [key: string]: any } = {
+                          FaCheck,
+                          FaCalendarPlus,
+                          FaCalendarCheck,
+                          FaHeart: () => <FaMedal />, // Usar FaMedal para favoritos
+                          FaUser,
+                          FaMedal,
+                          FaHistory
+                        };
+                        return iconMap[iconName] || FaHistory;
+                      };
+
+                      const getRelativeTime = (dateString: string) => {
+                        const date = new Date(dateString);
+                        const now = new Date();
+                        const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+                        if (diffInSeconds < 60) return 'hace unos segundos';
+                        if (diffInSeconds < 3600) return `hace ${Math.floor(diffInSeconds / 60)} minutos`;
+                        if (diffInSeconds < 86400) return `hace ${Math.floor(diffInSeconds / 3600)} horas`;
+                        if (diffInSeconds < 2592000) return `hace ${Math.floor(diffInSeconds / 86400)} días`;
+                        return `hace más de un mes`;
+                      };
+
+                      const IconComponent = getIconComponent(activity.icon);
+
+                      return (
+                        <div key={activity.id} className="flex items-start space-x-3 sm:space-x-4 p-3 sm:p-4 bg-gray-50 dark:bg-slate-700/50 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700/70 transition-colors">
+                          <div className={`${activity.bgColor} p-2 rounded-full flex-shrink-0`}>
+                            <IconComponent className={`${activity.iconColor} text-sm`} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium text-gray-900 dark:text-slate-100 text-sm sm:text-base">
+                              {activity.title}
+                            </p>
+                            <p className="text-xs sm:text-sm text-gray-600 dark:text-slate-400">
+                              {activity.description} • {getRelativeTime(activity.date)}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
-                  
-                  <div className="flex items-start space-x-3 sm:space-x-4 p-3 sm:p-4 bg-gray-50 dark:bg-slate-700/50 rounded-lg">
-                    <div className="bg-yellow-100 dark:bg-yellow-900/30 p-2 rounded-full flex-shrink-0">
-                      <FaMedal className="text-yellow-600 dark:text-yellow-400 text-sm" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium text-gray-900 dark:text-slate-100 text-sm sm:text-base">Logro desbloqueado: Explorador</p>
-                      <p className="text-xs sm:text-sm text-gray-600 dark:text-slate-400">hace 1 semana • 5 rutas completadas</p>
-                    </div>
-                  </div>
-                </div>
+                )}
                 
                 <div className="mt-6">
                   <Link
