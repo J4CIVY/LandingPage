@@ -34,35 +34,57 @@ const DashboardEventsSimple: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  console.log('🎨 Component Render:', { 
+    eventsCount: events.length, 
+    loading, 
+    error,
+    hasUser: !!user 
+  });
+
   useEffect(() => {
+    console.log('🚀 Component: useEffect triggered');
     fetchUpcomingEvents();
   }, []);
 
   const fetchUpcomingEvents = async () => {
     try {
+      console.log('🔍 Component: Iniciando fetch de eventos');
       setLoading(true);
       setError(null);
       
-      const response = await fetch('/api/events?upcoming=true&limit=3');
+      const url = '/api/events/test'; // Endpoint de prueba
+      // const url = '/api/events?upcoming=true&limit=3'; // Endpoint real
+      console.log('🌐 Component: URL:', url);
+      
+      const response = await fetch(url);
+      console.log('📡 Component: Response status:', response.status);
+      console.log('📡 Component: Response ok:', response.ok);
       
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorText = await response.text();
+        console.error('❌ Component: Response error:', errorText);
+        throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
       }
       
       const data = await response.json();
-      
-      console.log('Events data:', data); // Para debugging
+      console.log('📋 Component: Response data:', data);
+      console.log('📋 Component: Events array:', data.events);
+      console.log('📋 Component: Events length:', data.events?.length || 0);
       
       if (data.success) {
-        setEvents(data.events || []);
+        const eventsArray = data.events || [];
+        console.log('✅ Component: Setting events:', eventsArray);
+        setEvents(eventsArray);
       } else {
+        console.error('❌ Component: API returned error:', data.message);
         setError(data.message || 'Error al cargar eventos');
       }
     } catch (err: any) {
-      console.error('Error fetching events:', err);
+      console.error('❌ Component: Fetch error:', err);
       setError(`Error de conexión: ${err.message}`);
     } finally {
       setLoading(false);
+      console.log('🏁 Component: Fetch completed');
     }
   };
 
@@ -123,6 +145,15 @@ const DashboardEventsSimple: React.FC = () => {
             <p className="text-sm text-gray-500 dark:text-slate-500 mt-2">
               Los eventos aparecerán aquí cuando estén disponibles
             </p>
+            <div className="mt-4 p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg text-left">
+              <p className="text-sm text-yellow-700 dark:text-yellow-400">
+                🔍 <strong>Debug Info:</strong><br/>
+                - Estado de carga: {loading ? 'Cargando' : 'Completado'}<br/>
+                - Eventos encontrados: {events.length}<br/>
+                - Error: {error || 'Ninguno'}<br/>
+                - Usuario logueado: {user ? 'Sí' : 'No'}
+              </p>
+            </div>
           </div>
         ) : (
           <div className="space-y-4">

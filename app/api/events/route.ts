@@ -14,41 +14,46 @@ import Event from '@/lib/models/Event';
  */
 async function handleGet(request: NextRequest) {
   try {
+    console.log('🔍 API Events: Iniciando obtención de eventos');
     await connectDB();
+    console.log('✅ API Events: Conectado a la base de datos');
     
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '10');
-    const status = searchParams.get('status');
-    const category = searchParams.get('category');
     const upcoming = searchParams.get('upcoming') === 'true';
+    
+    console.log('📋 API Events: Parámetros:', { page, limit, upcoming });
     
     // Construir filtros de MongoDB
     const mongoFilters: any = { isActive: true };
-    
-    if (status) {
-      mongoFilters.status = status;
-    }
-    
-    if (category) {
-      mongoFilters.category = category;
-    }
     
     if (upcoming) {
       mongoFilters.startDate = { $gte: new Date() };
     }
     
+    console.log('🔎 API Events: Filtros MongoDB:', mongoFilters);
+    
     // Calcular skip para paginación
     const skip = (page - 1) * limit;
     
-    // Obtener eventos con paginación
+    // Primero verificar si hay eventos en total
+    const totalEvents = await Event.countDocuments({});
+    console.log(`📊 API Events: Total eventos en DB: ${totalEvents}`);
+    
+    const totalActiveEvents = await Event.countDocuments(mongoFilters);
+    console.log(`📊 API Events: Total eventos activos: ${totalActiveEvents}`);
+    
+    // Obtener eventos
     const events = await Event.find(mongoFilters)
-      .sort({ startDate: 1 }) // Ordenar por fecha de inicio
+      .sort({ startDate: 1 })
       .skip(skip)
       .limit(limit)
-      .populate('createdBy', 'firstName lastName email')
-      .lean() // Usar lean() para mejor performance
+      .lean()
       .exec();
+    
+    console.log(`📋 API Events: Eventos encontrados: ${events.length}`);
+    console.log('📋 API Events: Primeros eventos:', events.slice(0, 2).map(e => ({ name: e.name, startDate: e.startDate })));
     
     // Agregar campos virtuales manualmente
     const eventsWithVirtuals = events.map(event => {
@@ -67,22 +72,27 @@ async function handleGet(request: NextRequest) {
       };
     });
     
-    const totalEvents = await Event.countDocuments(mongoFilters);
-    
-    return createSuccessResponse({
+    const result = {
       events: eventsWithVirtuals,
       pagination: {
         page,
         limit,
-        total: totalEvents,
-        pages: Math.ceil(totalEvents / limit)
+        total: totalActiveEvents,
+        pages: Math.ceil(totalActiveEvents / limit)
       }
-    }, 'Eventos obtenidos exitosamente');
+    };
+    
+    console.log('✅ API Events: Respuesta exitosa:', { 
+      eventCount: result.events.length, 
+      total: result.pagination.total 
+    });
+    
+    return createSuccessResponse(result, 'Eventos obtenidos exitosamente');
     
   } catch (error: any) {
-    console.error('Error en GET /api/events:', error);
+    console.error('❌ API Events: Error:', error);
     return createErrorResponse(
-      'Error interno del servidor',
+      `Error interno del servidor: ${error.message}`,
       HTTP_STATUS.INTERNAL_SERVER_ERROR
     );
   }
