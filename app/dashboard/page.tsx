@@ -3,7 +3,7 @@
 import { useAuth } from '@/hooks/useAuth';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import DashboardEvents from '@/components/dashboard/DashboardEvents';
+import DashboardEventsSimple from '@/components/dashboard/DashboardEventsSimple';
 import { 
   FaSpinner, 
   FaUser, 
@@ -316,7 +316,7 @@ export default function DashboardPage() {
           {/* Panel Lateral */}
           <div className="space-y-6">
             {/* Próximos Eventos - Componente mejorado */}
-            <DashboardEvents />
+            <DashboardEventsSimple />
 
             {/* Acciones Rápidas */}
             <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700">
