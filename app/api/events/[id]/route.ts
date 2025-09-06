@@ -33,8 +33,8 @@ async function handleGet(request: NextRequest, { params }: RouteParams) {
   }
   
   const event = await Event.findById(id)
-    .populate('organizer', 'firstName lastName email')
-    .populate('attendees.user', 'firstName lastName email')
+    .populate('createdBy', 'firstName lastName email')
+    .populate('participants', 'firstName lastName email')
     .exec();
   
   if (!event || !event.isActive) {

@@ -3,6 +3,7 @@
 import { useAuth } from '@/hooks/useAuth';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import DashboardEvents from '@/components/dashboard/DashboardEvents';
 import { 
   FaSpinner, 
   FaUser, 
@@ -314,40 +315,8 @@ export default function DashboardPage() {
 
           {/* Panel Lateral */}
           <div className="space-y-6">
-            {/* Próximos Eventos */}
-            <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700">
-              <div className="p-4 sm:p-6 border-b border-gray-200 dark:border-slate-700">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 flex items-center">
-                  <FaCalendarCheck className="mr-2 text-green-600 dark:text-green-400" />
-                  Próximos Eventos
-                </h3>
-              </div>
-              <div className="p-4 sm:p-6">
-                <div className="space-y-4">
-                  <div className="border-l-4 border-blue-500 dark:border-blue-400 pl-4">
-                    <h4 className="font-medium text-gray-900 dark:text-slate-100 text-sm sm:text-base">Rodada de Primavera</h4>
-                    <p className="text-xs sm:text-sm text-gray-600 dark:text-slate-400">15 de Abril, 2024</p>
-                    <p className="text-xs sm:text-sm text-gray-600 dark:text-slate-400">8:00 AM - Parque Central</p>
-                  </div>
-                  
-                  <div className="border-l-4 border-green-500 dark:border-green-400 pl-4">
-                    <h4 className="font-medium text-gray-900 dark:text-slate-100 text-sm sm:text-base">Taller de Mantenimiento</h4>
-                    <p className="text-xs sm:text-sm text-gray-600 dark:text-slate-400">22 de Abril, 2024</p>
-                    <p className="text-xs sm:text-sm text-gray-600 dark:text-slate-400">2:00 PM - Sede del Club</p>
-                  </div>
-                </div>
-                
-                <div className="mt-6">
-                  <Link
-                    href="/events"
-                    className="inline-flex items-center w-full justify-center px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors text-sm sm:text-base"
-                  >
-                    <FaCalendarPlus className="mr-2" />
-                    Ver Todos los Eventos
-                  </Link>
-                </div>
-              </div>
-            </div>
+            {/* Próximos Eventos - Componente mejorado */}
+            <DashboardEvents />
 
             {/* Acciones Rápidas */}
             <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700">

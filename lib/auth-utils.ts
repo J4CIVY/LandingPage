@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import { NextRequest } from 'next/server';
+import connectDB from './mongodb';
+import User from './models/User';
 
 // Configuración de JWT
 const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secure-jwt-secret-change-in-production';
@@ -23,6 +25,17 @@ export interface RefreshTokenPayload {
   sessionId: string;
   iat?: number;
   exp?: number;
+}
+
+export interface AuthResult {
+  success: boolean;
+  user?: {
+    id: string;
+    email: string;
+    membershipType: string;
+    role: string;
+  };
+  error?: string;
 }
 
 /**
@@ -228,4 +241,57 @@ export function validatePasswordStrength(password: string): {
     isValid: errors.length === 0,
     errors
   };
+}
+
+/**
+ * Verifica la autenticación del usuario desde la request
+ */
+export async function verifyAuth(request: NextRequest): Promise<AuthResult> {
+  try {
+    // Extraer token del header o cookies
+    let token = extractTokenFromRequest(request);
+    
+    if (!token) {
+      // Intentar obtener de cookies
+      const cookies = request.cookies;
+      token = cookies.get('auth-token')?.value || null;
+    }
+
+    if (!token) {
+      return {
+        success: false,
+        error: 'Token de autenticación no encontrado'
+      };
+    }
+
+    // Verificar el token
+    const payload = verifyAccessToken(token);
+    
+    // Conectar a la base de datos y verificar que el usuario existe
+    await connectDB();
+    const user = await User.findById(payload.userId).select('email membershipType role isActive');
+    
+    if (!user || !user.isActive) {
+      return {
+        success: false,
+        error: 'Usuario no encontrado o inactivo'
+      };
+    }
+
+    return {
+      success: true,
+      user: {
+        id: payload.userId,
+        email: user.email,
+        membershipType: user.membershipType,
+        role: user.role || 'user'
+      }
+    };
+
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error.message || 'Error de autenticación'
+    };
+  }
 }

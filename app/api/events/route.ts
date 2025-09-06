@@ -45,7 +45,7 @@ async function handleGet(request: NextRequest) {
     .sort({ startDate: 1 }) // Ordenar por fecha de inicio
     .skip(skip)
     .limit(limit)
-    .populate('organizer', 'firstName lastName email')
+    .populate('createdBy', 'firstName lastName email')
     .exec();
   
   const totalEvents = await Event.countDocuments(mongoFilters);
@@ -104,7 +104,7 @@ async function handlePost(request: NextRequest) {
     await newEvent.save();
     
     // Poblar información del organizador
-    await newEvent.populate('organizer', 'firstName lastName email');
+    await newEvent.populate('createdBy', 'firstName lastName email');
     
     return createSuccessResponse(
       newEvent,

@@ -79,6 +79,10 @@ export interface IUser extends Document {
   acceptedPrivacyPolicy: boolean;
   acceptedDataProcessing: boolean;
   
+  // Eventos y actividades
+  events?: mongoose.Types.ObjectId[]; // Eventos en los que está registrado
+  favoriteEvents?: mongoose.Types.ObjectId[]; // Eventos marcados como favoritos
+  
   // Metadatos
   createdAt: Date;
   updatedAt: Date;
@@ -193,7 +197,11 @@ const UserSchema = new Schema<IUser>({
   // Términos y condiciones
   acceptedTerms: { type: Boolean, default: false, required: true },
   acceptedPrivacyPolicy: { type: Boolean, default: false, required: true },
-  acceptedDataProcessing: { type: Boolean, default: false, required: true }
+  acceptedDataProcessing: { type: Boolean, default: false, required: true },
+  
+  // Eventos y actividades
+  events: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
+  favoriteEvents: [{ type: Schema.Types.ObjectId, ref: 'Event' }]
 }, {
   timestamps: true,
   collection: 'users',
