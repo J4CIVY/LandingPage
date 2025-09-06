@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import DashboardEventsSimple from '@/components/dashboard/DashboardEventsSimple';
+import NotificationDropdown from '@/components/shared/NotificationDropdown';
 import { 
   FaSpinner, 
   FaUser, 
@@ -209,12 +210,7 @@ export default function DashboardPage() {
             </div>
             
             <div className="flex items-center space-x-2 sm:space-x-4">
-              <button className="p-2 text-gray-400 dark:text-slate-500 hover:text-gray-600 dark:hover:text-slate-300 relative transition-colors">
-                <FaBell className="text-lg sm:text-xl" />
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center text-[10px] sm:text-xs">
-                  3
-                </span>
-              </button>
+              <NotificationDropdown />
               
               <button
                 onClick={handleLogout}
