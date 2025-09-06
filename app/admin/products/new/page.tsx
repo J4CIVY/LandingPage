@@ -262,7 +262,7 @@ export default function ProductFormPage() {
     if (!formData.category) newErrors.category = 'La categoría es requerida';
 
     // Validar precio original si existe
-    if (formData.originalPrice && formData.originalPrice < formData.finalPrice) {
+    if (formData.originalPrice && typeof formData.originalPrice === 'number' && typeof formData.finalPrice === 'number' && formData.originalPrice < formData.finalPrice) {
       newErrors.originalPrice = 'El precio original debe ser mayor al precio final';
     }
 
