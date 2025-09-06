@@ -41,17 +41,26 @@ const DashboardEventsSimple: React.FC = () => {
   const fetchUpcomingEvents = async () => {
     try {
       setLoading(true);
+      setError(null);
+      
       const response = await fetch('/api/events?upcoming=true&limit=3');
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const data = await response.json();
       
-      if (response.ok) {
+      console.log('Events data:', data); // Para debugging
+      
+      if (data.success) {
         setEvents(data.events || []);
       } else {
         setError(data.message || 'Error al cargar eventos');
       }
-    } catch (err) {
-      setError('Error de conexión al cargar eventos');
+    } catch (err: any) {
       console.error('Error fetching events:', err);
+      setError(`Error de conexión: ${err.message}`);
     } finally {
       setLoading(false);
     }
@@ -85,7 +94,7 @@ const DashboardEventsSimple: React.FC = () => {
         </div>
         <div className="p-6 text-center">
           <FaExclamationTriangle className="text-3xl text-red-500 mx-auto mb-2" />
-          <p className="text-red-600 dark:text-red-400">{error}</p>
+          <p className="text-red-600 dark:text-red-400 mb-2">{error}</p>
           <button
             onClick={fetchUpcomingEvents}
             className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
@@ -102,7 +111,7 @@ const DashboardEventsSimple: React.FC = () => {
       <div className="p-6 border-b border-gray-200 dark:border-slate-700">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 flex items-center">
           <FaCalendarAlt className="mr-2 text-blue-600 dark:text-blue-400" />
-          Próximos Eventos
+          Próximos Eventos ({events.length})
         </h3>
       </div>
       
@@ -111,6 +120,9 @@ const DashboardEventsSimple: React.FC = () => {
           <div className="text-center py-8">
             <FaCalendarAlt className="text-4xl text-gray-400 mx-auto mb-4" />
             <p className="text-gray-600 dark:text-slate-400">No hay eventos próximos</p>
+            <p className="text-sm text-gray-500 dark:text-slate-500 mt-2">
+              Los eventos aparecerán aquí cuando estén disponibles
+            </p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -123,6 +135,10 @@ const DashboardEventsSimple: React.FC = () => {
                       src={event.mainImage}
                       alt={event.name}
                       className="w-full sm:w-24 h-32 sm:h-16 object-cover rounded-lg"
+                      onError={(e) => {
+                        const img = e.target as HTMLImageElement;
+                        img.src = '/images/default-event.jpg'; // Imagen por defecto
+                      }}
                     />
                   </div>
                   
@@ -167,6 +183,12 @@ const DashboardEventsSimple: React.FC = () => {
                         <FaEye className="mr-1" />
                         Ver Detalles
                       </button>
+                      
+                      {user && (
+                        <button className="inline-flex items-center px-3 py-1.5 bg-green-600 dark:bg-green-500 text-white text-sm rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors">
+                          Registrarse
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>

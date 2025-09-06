@@ -1,5 +1,46 @@
-import connectDB from '../lib/mongodb.js';
-import Event from '../lib/models/Event.js';
+import mongoose from 'mongoose';
+
+// Configuración de MongoDB
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/bsk-motorcycle-team';
+
+// Esquema del evento (simplificado para el script)
+const EventSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  description: { type: String, required: true },
+  longDescription: { type: String },
+  startDate: { type: Date, required: true },
+  endDate: { type: Date },
+  mainImage: { type: String, required: true },
+  eventType: { type: String, required: true },
+  status: { type: String, default: 'published' },
+  departureLocation: {
+    address: String,
+    city: String,
+    country: String
+  },
+  arrivalLocation: {
+    address: String,
+    city: String,
+    country: String
+  },
+  maxParticipants: Number,
+  currentParticipants: { type: Number, default: 0 },
+  registrationDeadline: Date,
+  price: { type: Number, default: 0 },
+  difficulty: String,
+  distance: Number,
+  duration: Number,
+  organizer: {
+    name: String,
+    phone: String,
+    email: String
+  },
+  tags: [String],
+  isActive: { type: Boolean, default: true },
+  participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+}, { timestamps: true });
+
+const Event = mongoose.models.Event || mongoose.model('Event', EventSchema);
 
 const sampleEvents = [
   {
@@ -158,10 +199,9 @@ const sampleEvents = [
 
 async function seedEvents() {
   try {
-    await connectDB();
-    
-    // Limpiar eventos existentes (opcional)
-    // await Event.deleteMany({});
+    // Conectar a MongoDB
+    await mongoose.connect(MONGODB_URI);
+    console.log('✅ Conectado a MongoDB');
     
     // Insertar eventos de ejemplo
     const events = await Event.insertMany(sampleEvents);
@@ -171,6 +211,7 @@ async function seedEvents() {
       console.log(`- ${event.name} (${event._id})`);
     });
     
+    await mongoose.connection.close();
     process.exit(0);
   } catch (error) {
     console.error('❌ Error al crear eventos de ejemplo:', error);

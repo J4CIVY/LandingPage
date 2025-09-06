@@ -13,52 +13,79 @@ import Event from '@/lib/models/Event';
  * Obtiene eventos con filtros y paginación
  */
 async function handleGet(request: NextRequest) {
-  await connectDB();
-  
-  const { searchParams } = new URL(request.url);
-  const page = parseInt(searchParams.get('page') || '1');
-  const limit = parseInt(searchParams.get('limit') || '10');
-  const status = searchParams.get('status');
-  const category = searchParams.get('category');
-  const upcoming = searchParams.get('upcoming') === 'true';
-  
-  // Construir filtros de MongoDB
-  const mongoFilters: any = { isActive: true };
-  
-  if (status) {
-    mongoFilters.status = status;
-  }
-  
-  if (category) {
-    mongoFilters.category = category;
-  }
-  
-  if (upcoming) {
-    mongoFilters.startDate = { $gte: new Date() };
-  }
-  
-  // Calcular skip para paginación
-  const skip = (page - 1) * limit;
-  
-  // Obtener eventos con paginación
-  const events = await Event.find(mongoFilters)
-    .sort({ startDate: 1 }) // Ordenar por fecha de inicio
-    .skip(skip)
-    .limit(limit)
-    .populate('createdBy', 'firstName lastName email')
-    .exec();
-  
-  const totalEvents = await Event.countDocuments(mongoFilters);
-  
-  return createSuccessResponse({
-    events,
-    pagination: {
-      page,
-      limit,
-      total: totalEvents,
-      pages: Math.ceil(totalEvents / limit)
+  try {
+    await connectDB();
+    
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '10');
+    const status = searchParams.get('status');
+    const category = searchParams.get('category');
+    const upcoming = searchParams.get('upcoming') === 'true';
+    
+    // Construir filtros de MongoDB
+    const mongoFilters: any = { isActive: true };
+    
+    if (status) {
+      mongoFilters.status = status;
     }
-  }, 'Eventos obtenidos exitosamente');
+    
+    if (category) {
+      mongoFilters.category = category;
+    }
+    
+    if (upcoming) {
+      mongoFilters.startDate = { $gte: new Date() };
+    }
+    
+    // Calcular skip para paginación
+    const skip = (page - 1) * limit;
+    
+    // Obtener eventos con paginación
+    const events = await Event.find(mongoFilters)
+      .sort({ startDate: 1 }) // Ordenar por fecha de inicio
+      .skip(skip)
+      .limit(limit)
+      .populate('createdBy', 'firstName lastName email')
+      .lean() // Usar lean() para mejor performance
+      .exec();
+    
+    // Agregar campos virtuales manualmente
+    const eventsWithVirtuals = events.map(event => {
+      const now = new Date();
+      const registrationDeadline = event.registrationDeadline || event.startDate;
+      const isFull = event.maxParticipants !== undefined && 
+                     event.currentParticipants >= event.maxParticipants;
+      
+      return {
+        ...event,
+        isRegistrationOpen: now < registrationDeadline && 
+                           event.status === 'published' && 
+                           !isFull,
+        isFull,
+        isPast: event.endDate ? now > event.endDate : now > event.startDate
+      };
+    });
+    
+    const totalEvents = await Event.countDocuments(mongoFilters);
+    
+    return createSuccessResponse({
+      events: eventsWithVirtuals,
+      pagination: {
+        page,
+        limit,
+        total: totalEvents,
+        pages: Math.ceil(totalEvents / limit)
+      }
+    }, 'Eventos obtenidos exitosamente');
+    
+  } catch (error: any) {
+    console.error('Error en GET /api/events:', error);
+    return createErrorResponse(
+      'Error interno del servidor',
+      HTTP_STATUS.INTERNAL_SERVER_ERROR
+    );
+  }
 }
 
 /**
