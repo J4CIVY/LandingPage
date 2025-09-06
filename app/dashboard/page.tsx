@@ -36,18 +36,86 @@ import {
 export default function DashboardPage() {
   const { user, logout, isLoading, isAuthenticated, isInitialized } = useAuth();
   
-  // Configuración de estadísticas del usuario
+  // Estados para datos del usuario
+  const [userProfile, setUserProfile] = useState(null);
   const [stats, setStats] = useState({
-    eventsAttended: 12,
-    routesCompleted: 8,
-    coursesTaken: 3,
-    purchases: 5,
-    totalKilometers: 1245,
-    totalKm: 1245, // Alias para compatibilidad
-    memberSince: 'Enero 2023',
-    safetyScore: 94,
-    coursesCompleted: 3 // Alias para compatibilidad
+    eventsRegistered: 0,
+    eventsAttended: 0,
+    favoriteEvents: 0,
+    daysSinceJoining: 0,
+    memberSince: '',
+    membershipType: '',
+    isActive: true
   });
+  const [loadingStats, setLoadingStats] = useState(true);
+
+  // Función para obtener el perfil del usuario
+  const fetchUserProfile = async () => {
+    try {
+      const response = await fetch('/api/users/profile', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUserProfile(data.data.user);
+      }
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+    }
+  };
+
+  // Función para obtener las estadísticas del usuario
+  const fetchUserStats = async () => {
+    try {
+      setLoadingStats(true);
+      const response = await fetch('/api/users/stats', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const statsData = data.data.stats;
+        
+        // Formatear fecha de miembro
+        const memberSinceDate = new Date(statsData.memberSince);
+        const memberSinceFormatted = memberSinceDate.toLocaleDateString('es-ES', {
+          month: 'long',
+          year: 'numeric'
+        });
+
+        setStats({
+          eventsRegistered: statsData.eventsRegistered,
+          eventsAttended: statsData.eventsAttended,
+          favoriteEvents: statsData.favoriteEvents,
+          daysSinceJoining: statsData.daysSinceJoining,
+          memberSince: memberSinceFormatted,
+          membershipType: statsData.membershipType,
+          isActive: statsData.isActive
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching user stats:', error);
+    } finally {
+      setLoadingStats(false);
+    }
+  };
+
+  // Cargar datos cuando el usuario esté autenticado
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      fetchUserProfile();
+      fetchUserStats();
+    }
+  }, [isAuthenticated, user]);
 
   if (!isInitialized || isLoading) {
     return (
@@ -196,12 +264,18 @@ export default function DashboardPage() {
           <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm p-4 sm:p-6 border border-gray-200 dark:border-slate-700 hover:shadow-md dark:hover:shadow-slate-700/50 transition-shadow">
             <div className="flex items-center justify-between">
               <div className="min-w-0 flex-1">
-                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-slate-400 truncate">Eventos Asistidos</p>
-                <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-slate-100">{stats.eventsAttended}</p>
-                <p className="text-xs sm:text-sm text-green-600 dark:text-green-400 mt-1">+2 este mes</p>
+                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-slate-400 truncate">Eventos Registrados</p>
+                <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-slate-100">
+                  {loadingStats ? (
+                    <FaSpinner className="animate-spin text-blue-600" />
+                  ) : (
+                    stats.eventsRegistered
+                  )}
+                </p>
+                <p className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 mt-1">Eventos inscritos</p>
               </div>
               <div className="bg-blue-100 dark:bg-blue-900/30 p-2 sm:p-3 rounded-lg flex-shrink-0">
-                <FaCalendarAlt className="text-lg sm:text-2xl text-blue-600 dark:text-blue-400" />
+                <FaCalendarPlus className="text-lg sm:text-2xl text-blue-600 dark:text-blue-400" />
               </div>
             </div>
           </div>
@@ -209,12 +283,18 @@ export default function DashboardPage() {
           <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm p-4 sm:p-6 border border-gray-200 dark:border-slate-700 hover:shadow-md dark:hover:shadow-slate-700/50 transition-shadow">
             <div className="flex items-center justify-between">
               <div className="min-w-0 flex-1">
-                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-slate-400 truncate">Kilómetros Recorridos</p>
-                <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-slate-100">{stats.totalKm.toLocaleString()}</p>
-                <p className="text-xs sm:text-sm text-green-600 dark:text-green-400 mt-1">+250 km esta semana</p>
+                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-slate-400 truncate">Eventos Asistidos</p>
+                <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-slate-100">
+                  {loadingStats ? (
+                    <FaSpinner className="animate-spin text-green-600" />
+                  ) : (
+                    stats.eventsAttended
+                  )}
+                </p>
+                <p className="text-xs sm:text-sm text-green-600 dark:text-green-400 mt-1">Eventos completados</p>
               </div>
               <div className="bg-green-100 dark:bg-green-900/30 p-2 sm:p-3 rounded-lg flex-shrink-0">
-                <FaMotorcycle className="text-lg sm:text-2xl text-green-600 dark:text-green-400" />
+                <FaCalendarCheck className="text-lg sm:text-2xl text-green-600 dark:text-green-400" />
               </div>
             </div>
           </div>
@@ -222,12 +302,18 @@ export default function DashboardPage() {
           <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm p-4 sm:p-6 border border-gray-200 dark:border-slate-700 hover:shadow-md dark:hover:shadow-slate-700/50 transition-shadow">
             <div className="flex items-center justify-between">
               <div className="min-w-0 flex-1">
-                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-slate-400 truncate">Nivel de Seguridad</p>
-                <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-slate-100">{stats.safetyScore}%</p>
-                <p className="text-xs sm:text-sm text-green-600 dark:text-green-400 mt-1">Excelente</p>
+                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-slate-400 truncate">Eventos Favoritos</p>
+                <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-slate-100">
+                  {loadingStats ? (
+                    <FaSpinner className="animate-spin text-yellow-600" />
+                  ) : (
+                    stats.favoriteEvents
+                  )}
+                </p>
+                <p className="text-xs sm:text-sm text-yellow-600 dark:text-yellow-400 mt-1">Marcados como favoritos</p>
               </div>
               <div className="bg-yellow-100 dark:bg-yellow-900/30 p-2 sm:p-3 rounded-lg flex-shrink-0">
-                <FaShieldAlt className="text-lg sm:text-2xl text-yellow-600 dark:text-yellow-400" />
+                <FaMedal className="text-lg sm:text-2xl text-yellow-600 dark:text-yellow-400" />
               </div>
             </div>
           </div>
@@ -235,12 +321,18 @@ export default function DashboardPage() {
           <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm p-4 sm:p-6 border border-gray-200 dark:border-slate-700 hover:shadow-md dark:hover:shadow-slate-700/50 transition-shadow">
             <div className="flex items-center justify-between">
               <div className="min-w-0 flex-1">
-                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-slate-400 truncate">Cursos Completados</p>
-                <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-slate-100">{stats.coursesCompleted}</p>
-                <p className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 mt-1">1 en progreso</p>
+                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-slate-400 truncate">Días como Miembro</p>
+                <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-slate-100">
+                  {loadingStats ? (
+                    <FaSpinner className="animate-spin text-purple-600" />
+                  ) : (
+                    stats.daysSinceJoining
+                  )}
+                </p>
+                <p className="text-xs sm:text-sm text-purple-600 dark:text-purple-400 mt-1">Días activo</p>
               </div>
               <div className="bg-purple-100 dark:bg-purple-900/30 p-2 sm:p-3 rounded-lg flex-shrink-0">
-                <FaGraduationCap className="text-lg sm:text-2xl text-purple-600 dark:text-purple-400" />
+                <FaHistory className="text-lg sm:text-2xl text-purple-600 dark:text-purple-400" />
               </div>
             </div>
           </div>
