@@ -25,14 +25,15 @@ export async function GET(req: NextRequest) {
 
     if (search) {
       filters.$or = [
-        { title: { $regex: search, $options: 'i' } },
+        { name: { $regex: search, $options: 'i' } },
         { description: { $regex: search, $options: 'i' } },
-        { location: { $regex: search, $options: 'i' } }
+        { 'departureLocation.address': { $regex: search, $options: 'i' } },
+        { 'departureLocation.city': { $regex: search, $options: 'i' } }
       ];
     }
 
     if (type !== 'all') {
-      filters.type = type;
+      filters.eventType = type;
     }
 
     if (status !== 'all') {
@@ -44,11 +45,11 @@ export async function GET(req: NextRequest) {
           filters.isActive = false;
           break;
         case 'upcoming':
-          filters.date = { $gte: new Date() };
-          filters.isActive = true;
+          filters.startDate = { $gte: new Date() };
+          filters.status = 'published';
           break;
         case 'past':
-          filters.date = { $lt: new Date() };
+          filters.startDate = { $lt: new Date() };
           break;
       }
     }
@@ -59,7 +60,7 @@ export async function GET(req: NextRequest) {
 
     // Obtener eventos con paginación
     const events = await Event.find(filters)
-      .sort({ date: -1 })
+      .sort({ startDate: -1 })
       .skip((page - 1) * limit)
       .limit(limit)
       .populate('participants', 'firstName lastName email');
@@ -102,10 +103,17 @@ export async function POST(req: NextRequest) {
     const eventData = await req.json();
 
     // Validar datos requeridos
-    const requiredFields = ['title', 'description', 'date', 'time', 'location', 'type'];
+    const requiredFields = ['name', 'description', 'startDate', 'mainImage', 'eventType', 'departureLocation'];
 
     for (const field of requiredFields) {
-      if (!eventData[field]) {
+      if (field === 'departureLocation') {
+        if (!eventData.departureLocation?.address || !eventData.departureLocation?.city) {
+          return NextResponse.json(
+            { success: false, error: 'La dirección y ciudad de salida son requeridas' },
+            { status: 400 }
+          );
+        }
+      } else if (!eventData[field]) {
         return NextResponse.json(
           { success: false, error: `El campo ${field} es requerido` },
           { status: 400 }

@@ -22,12 +22,24 @@ import {
 
 interface Event {
   _id: string;
-  title: string;
+  name: string;
+  startDate: string;
+  endDate?: string;
   description: string;
-  date: string;
-  time: string;
-  location: string;
-  type: string;
+  longDescription?: string;
+  mainImage: string;
+  eventType: string;
+  status: 'draft' | 'published' | 'cancelled' | 'completed';
+  departureLocation: {
+    address: string;
+    city: string;
+    country: string;
+  };
+  arrivalLocation?: {
+    address: string;
+    city: string;
+    country: string;
+  };
   maxParticipants?: number;
   currentParticipants: number;
   price: number;
@@ -136,11 +148,14 @@ export default function AdminEventsPage() {
 
   const getEventTypeColor = (type: string) => {
     const colors: { [key: string]: string } = {
-      ride: 'bg-blue-100 text-blue-800',
-      meeting: 'bg-green-100 text-green-800',
-      course: 'bg-yellow-100 text-yellow-800',
+      rodada: 'bg-blue-100 text-blue-800',
+      reunion: 'bg-green-100 text-green-800',
+      curso: 'bg-yellow-100 text-yellow-800',
       social: 'bg-purple-100 text-purple-800',
-      maintenance: 'bg-red-100 text-red-800'
+      mantenimiento: 'bg-red-100 text-red-800',
+      competencia: 'bg-orange-100 text-orange-800',
+      viaje: 'bg-indigo-100 text-indigo-800',
+      patrocinado: 'bg-pink-100 text-pink-800'
     };
     return colors[type] || 'bg-gray-100 text-gray-800';
   };
@@ -224,11 +239,14 @@ export default function AdminEventsPage() {
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="all">Todos los tipos</option>
-                <option value="ride">Rodada</option>
-                <option value="meeting">Reunión</option>
-                <option value="course">Curso</option>
-                <option value="social">Social</option>
-                <option value="maintenance">Mantenimiento</option>
+                <option value="rodada">Rodada</option>
+                <option value="reunion">Reunión</option>
+                <option value="curso">Curso/Taller</option>
+                <option value="social">Evento Social</option>
+                <option value="mantenimiento">Mantenimiento</option>
+                <option value="competencia">Competencia</option>
+                <option value="viaje">Viaje Largo</option>
+                <option value="patrocinado">Evento Patrocinado</option>
               </select>
             </div>
 
@@ -278,10 +296,10 @@ export default function AdminEventsPage() {
                     <div className="flex-1">
                       <div className="flex items-center mb-2">
                         <h3 className="text-lg font-semibold text-gray-900 mr-3">
-                          {event.title}
+                          {event.name}
                         </h3>
-                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${getEventTypeColor(event.type)}`}>
-                          {event.type}
+                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${getEventTypeColor(event.eventType)}`}>
+                          {event.eventType}
                         </span>
                         <span className={`ml-2 px-2 py-1 text-xs font-medium rounded-full ${
                           event.isActive 
@@ -296,18 +314,14 @@ export default function AdminEventsPage() {
                         {event.description}
                       </p>
                       
-                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm text-gray-500">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-500">
                         <div className="flex items-center">
-                          <FaCalendarCheck className="mr-2 text-blue-500" />
-                          {formatDate(event.date)}
+                          <FaCalendarAlt className="mr-2 text-blue-500" />
+                          {formatDate(event.startDate)}
                         </div>
                         <div className="flex items-center">
-                          <FaClock className="mr-2 text-green-500" />
-                          {event.time}
-                        </div>
-                        <div className="flex items-center">
-                          <FaMapMarkerAlt className="mr-2 text-red-500" />
-                          {event.location}
+                          <FaMapMarkerAlt className="mr-2 text-green-500" />
+                          {event.departureLocation.city}
                         </div>
                         <div className="flex items-center">
                           <FaUsers className="mr-2 text-purple-500" />
@@ -327,14 +341,14 @@ export default function AdminEventsPage() {
                     
                     <div className="flex items-center space-x-2 ml-6">
                       <Link
-                        href={`/admin/events/${event._id}`}
+                        href={`/admin/events/view/${event._id}`}
                         className="p-2 text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded-lg transition-colors"
                         title="Ver detalles"
                       >
                         <FaEye />
                       </Link>
                       <Link
-                        href={`/admin/events/${event._id}/edit`}
+                        href={`/admin/events/edit/${event._id}`}
                         className="p-2 text-green-600 hover:text-green-900 hover:bg-green-50 rounded-lg transition-colors"
                         title="Editar"
                       >
