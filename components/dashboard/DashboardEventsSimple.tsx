@@ -48,46 +48,40 @@ const DashboardEventsSimple: React.FC = () => {
 
   const fetchUpcomingEvents = async () => {
     try {
-      console.log('🔍 Component: Iniciando fetch de eventos');
+      console.log('🔍 Component: Iniciando fetch de eventos REALES');
       setLoading(true);
       setError(null);
       
-      // Primero intentar con datos reales
-      let url = '/api/events?upcoming=true&limit=3';
-      console.log('🌐 Component: Intentando URL real:', url);
+      // USAR LA API REAL que ya funciona, SIN filtro upcoming que está causando problemas
+      let url = '/api/events';
+      console.log('🌐 Component: Usando API REAL sin filtros:', url);
       
       let response = await fetch(url);
-      console.log('📡 Component: Response status:', response.status);
-      
-      // Si falla la API real, usar datos de prueba
-      if (!response.ok) {
-        console.log('⚠️ Component: API real falló, usando datos de prueba');
-        url = '/api/events/test';
-        response = await fetch(url);
-        console.log('📡 Component: Test API status:', response.status);
-      }
+      console.log('📡 Component: API status:', response.status);
       
       if (!response.ok) {
         const errorText = await response.text();
-        console.error('❌ Component: Response error:', errorText);
-        throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
+        console.error('❌ Component: API error:', errorText);
+        throw new Error(`API failed! status: ${response.status} - ${errorText}`);
       }
       
       const data = await response.json();
-      console.log('📋 Component: Response data:', data);
-      console.log('📋 Component: Events array:', data.events);
-      console.log('📋 Component: Events length:', data.events?.length || 0);
+      console.log('📋 Component: API Response completa:', data);
+      console.log('📋 Component: API data.data:', data.data);
+      console.log('📋 Component: API events:', data.data?.events);
       
-      if (data.success) {
-        const eventsArray = data.events || [];
-        console.log('✅ Component: Setting events:', eventsArray);
+      if (data.success && data.data && data.data.events) {
+        const eventsArray = data.data.events || [];
+        console.log('✅ Component: EVENTOS ENCONTRADOS:', eventsArray.length);
+        console.log('✅ Component: Primer evento:', eventsArray[0]);
         setEvents(eventsArray);
+        console.log('✅ Component: Events state actualizado con:', eventsArray.length, 'eventos');
       } else {
-        console.error('❌ Component: API returned error:', data.message);
-        setError(data.message || 'Error al cargar eventos');
+        console.error('❌ Component: No se encontraron eventos en la respuesta:', data);
+        setError('No se encontraron eventos en la respuesta de la API');
       }
     } catch (err: any) {
-      console.error('❌ Component: Fetch error:', err);
+      console.error('❌ Component: Error completo:', err);
       setError(`Error de conexión: ${err.message}`);
     } finally {
       setLoading(false);
