@@ -49,14 +49,6 @@ export async function GET(request: NextRequest) {
     
     // Buscar usuario con sus eventos y favoritos
     const user = await User.findById(decoded.userId)
-      .populate({
-        path: 'events',
-        options: { sort: { createdAt: -1 } }
-      })
-      .populate({
-        path: 'favoriteEvents',
-        options: { sort: { createdAt: -1 } }
-      })
       .lean();
 
     if (!user) {
@@ -76,30 +68,56 @@ export async function GET(request: NextRequest) {
       _id: { $in: (user as any).favoriteEvents || [] }
     }).sort({ createdAt: -1 }).lean();
 
+    console.log('Usuario encontrado:', (user as any)._id);
+    console.log('Events IDs del usuario:', (user as any).events);
+    console.log('FavoriteEvents IDs del usuario:', (user as any).favoriteEvents);
+    console.log('Eventos registrados encontrados:', registeredEvents.length);
+    console.log('Eventos favoritos encontrados:', favoriteEvents.length);
+    if (registeredEvents.length > 0) {
+      console.log('Primer evento registrado:', {
+        id: registeredEvents[0]._id,
+        name: (registeredEvents[0] as any).name,
+        startDate: (registeredEvents[0] as any).startDate
+      });
+    }
+
     // Crear array de actividades
     const activities: Activity[] = [];
 
     // Agregar eventos registrados
     for (const event of registeredEvents) {
-      const eventDate = new Date((event as any).eventStartDate);
+      if (!event) continue; // Skip si el evento es null/undefined
+      
+      const eventStartDate = (event as any).startDate ? new Date((event as any).startDate) : null;
+      const eventEndDate = (event as any).endDate ? new Date((event as any).endDate) : null;
       const now = new Date();
       
-      // Evento completado (fecha pasada)
-      if (eventDate < now) {
+      // Verificar si tenemos una fecha válida
+      const displayDate = eventStartDate && !isNaN(eventStartDate.getTime()) ? eventStartDate : new Date();
+      const isValidDate = eventStartDate && !isNaN(eventStartDate.getTime());
+      
+      // Construir ubicación desde departureLocation o arrivalLocation
+      const location = (event as any).departureLocation?.city || 
+                      (event as any).arrivalLocation?.city || 
+                      (event as any).departureLocation?.address || 
+                      'Ubicación no especificada';
+      
+      // Evento completado (fecha de fin pasada)
+      if (eventEndDate && eventEndDate < now) {
         activities.push({
           id: `event_attendance_${(event as any)._id}`,
           type: 'event_attendance',
-          title: `Evento completado: ${(event as any).title}`,
-          description: `${(event as any).location} • ${eventDate.toLocaleDateString('es-ES')}`,
-          date: eventDate,
+          title: `Evento completado: ${(event as any).name || 'Evento sin título'}`,
+          description: `${location} • ${isValidDate ? displayDate.toLocaleDateString('es-ES') : 'Fecha por confirmar'}`,
+          date: eventEndDate,
           icon: 'FaCheck',
           iconColor: 'text-green-600 dark:text-green-400',
           bgColor: 'bg-green-100 dark:bg-green-900/30',
           details: {
             eventId: (event as any)._id,
-            eventTitle: (event as any).title,
-            location: (event as any).location,
-            eventDate: eventDate
+            eventTitle: (event as any).name,
+            location: location,
+            eventDate: displayDate
           }
         });
       } else {
@@ -107,17 +125,17 @@ export async function GET(request: NextRequest) {
         activities.push({
           id: `event_registration_${(event as any)._id}`,
           type: 'event_registration',
-          title: `Inscrito al evento: ${(event as any).title}`,
-          description: `${(event as any).location} • ${eventDate.toLocaleDateString('es-ES')}`,
-          date: new Date((event as any).createdAt || eventDate),
+          title: `Inscrito al evento: ${(event as any).name || 'Evento sin título'}`,
+          description: `${location} • ${isValidDate ? displayDate.toLocaleDateString('es-ES') : 'Fecha por confirmar'}`,
+          date: new Date((event as any).createdAt || Date.now()),
           icon: 'FaCalendarPlus',
           iconColor: 'text-blue-600 dark:text-blue-400',
           bgColor: 'bg-blue-100 dark:bg-blue-900/30',
           details: {
             eventId: (event as any)._id,
-            eventTitle: (event as any).title,
-            location: (event as any).location,
-            eventDate: eventDate
+            eventTitle: (event as any).name,
+            location: location,
+            eventDate: displayDate
           }
         });
       }
@@ -125,20 +143,32 @@ export async function GET(request: NextRequest) {
 
     // Agregar eventos favoritos
     for (const event of favoriteEvents) {
+      if (!event) continue; // Skip si el evento es null/undefined
+      
+      const eventStartDate = (event as any).startDate ? new Date((event as any).startDate) : null;
+      const isValidDate = eventStartDate && !isNaN(eventStartDate.getTime());
+      const displayDate = isValidDate ? eventStartDate : new Date();
+      
+      // Construir ubicación desde departureLocation o arrivalLocation
+      const location = (event as any).departureLocation?.city || 
+                      (event as any).arrivalLocation?.city || 
+                      (event as any).departureLocation?.address || 
+                      'Ubicación no especificada';
+      
       activities.push({
         id: `event_favorite_${(event as any)._id}`,
         type: 'event_favorite',
-        title: `Evento marcado como favorito: ${(event as any).title}`,
-        description: `${(event as any).location} • ${new Date((event as any).eventStartDate).toLocaleDateString('es-ES')}`,
-        date: new Date((event as any).createdAt || (event as any).eventStartDate),
+        title: `Evento marcado como favorito: ${(event as any).name || 'Evento sin título'}`,
+        description: `${location} • ${isValidDate ? displayDate.toLocaleDateString('es-ES') : 'Fecha por confirmar'}`,
+        date: new Date((event as any).createdAt || Date.now()),
         icon: 'FaHeart',
         iconColor: 'text-red-600 dark:text-red-400',
         bgColor: 'bg-red-100 dark:bg-red-900/30',
         details: {
           eventId: (event as any)._id,
-          eventTitle: (event as any).title,
-          location: (event as any).location,
-          eventDate: new Date((event as any).eventStartDate)
+          eventTitle: (event as any).name,
+          location: location,
+          eventDate: displayDate
         }
       });
     }
