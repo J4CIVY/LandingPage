@@ -52,13 +52,20 @@ const DashboardEventsSimple: React.FC = () => {
       setLoading(true);
       setError(null);
       
-      const url = '/api/events/test'; // Endpoint de prueba
-      // const url = '/api/events?upcoming=true&limit=3'; // Endpoint real
-      console.log('🌐 Component: URL:', url);
+      // Primero intentar con datos reales
+      let url = '/api/events?upcoming=true&limit=3';
+      console.log('🌐 Component: Intentando URL real:', url);
       
-      const response = await fetch(url);
+      let response = await fetch(url);
       console.log('📡 Component: Response status:', response.status);
-      console.log('📡 Component: Response ok:', response.ok);
+      
+      // Si falla la API real, usar datos de prueba
+      if (!response.ok) {
+        console.log('⚠️ Component: API real falló, usando datos de prueba');
+        url = '/api/events/test';
+        response = await fetch(url);
+        console.log('📡 Component: Test API status:', response.status);
+      }
       
       if (!response.ok) {
         const errorText = await response.text();
