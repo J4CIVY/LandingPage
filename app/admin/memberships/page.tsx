@@ -2,6 +2,7 @@
 
 import { useAuth } from '@/hooks/useAuth';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { 
@@ -12,113 +13,196 @@ import {
   FaCheck,
   FaTimes,
   FaClock,
+  FaPlus,
   FaDownload,
-  FaFilter,
   FaUser,
-  FaCalendarAlt,
-  FaMotorcycle
+  FaEnvelope,
+  FaPhone,
+  FaCheckCircle,
+  FaTimesCircle,
+  FaExclamationTriangle,
+  FaEdit
 } from 'react-icons/fa';
 
+// Interfaz para los datos de solicitudes de membresía
 interface MembershipApplication {
   _id: string;
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
   phone: string;
-  membershipType: string;
-  documentType: string;
-  documentNumber: string;
+  membershipType: 'friend' | 'rider' | 'rider-duo' | 'pro' | 'pro-duo';
+  message?: string;
   status: 'pending' | 'approved' | 'rejected';
+  age?: number;
+  city?: string;
   motorcycleBrand?: string;
   motorcycleModel?: string;
-  createdAt: string;
-  reviewedAt?: string;
+  ridingExperience?: 'beginner' | 'intermediate' | 'advanced' | 'expert';
   reviewedBy?: string;
+  reviewedByName?: string;
+  reviewDate?: string;
+  rejectionReason?: string;
+  approvalNotes?: string;
+  orientationCompleted?: boolean;
+  orientationDate?: string;
+  membershipStartDate?: string;
+  membershipNumber?: string;
+  referredBy?: string;
+  source?: 'website' | 'referral' | 'event' | 'social-media' | 'other';
+  createdAt: string;
+  updatedAt: string;
 }
 
-export default function AdminMembershipsPage() {
+const membershipTypeNames: Record<string, string> = {
+  'friend': 'Amigo',
+  'rider': 'Piloto',
+  'rider-duo': 'Piloto Dúo',
+  'pro': 'Profesional',
+  'pro-duo': 'Profesional Dúo'
+};
+
+const statusColors: Record<string, string> = {
+  'pending': 'bg-yellow-100 text-yellow-800',
+  'approved': 'bg-green-100 text-green-800',
+  'rejected': 'bg-red-100 text-red-800'
+};
+
+const statusNames: Record<string, string> = {
+  'pending': 'Pendiente',
+  'approved': 'Aprobada',
+  'rejected': 'Rechazada'
+};
+
+export default function MembershipsAdminPage() {
   const { user } = useAuth();
-  
+  const router = useRouter();
   const [applications, setApplications] = useState<MembershipApplication[]>([]);
-  const [loadingApplications, setLoadingApplications] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState('all');
-  const [filterMembershipType, setFilterMembershipType] = useState('all');
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterStatus, setFilterStatus] = useState<string>('all');
+  const [filterMembershipType, setFilterMembershipType] = useState<string>('all');
+  const [sortBy, setSortBy] = useState<string>('createdAt');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [selectedApplications, setSelectedApplications] = useState<string[]>([]);
+  const [statistics, setStatistics] = useState({
+    total: 0,
+    pending: 0,
+    approved: 0,
+    rejected: 0
+  });
+
+  // Verificar autenticación y roles
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+      return;
+    }
+
+    if (user && !['admin', 'super-admin'].includes(user.role)) {
+      router.push('/dashboard');
+      return;
+    }
+  }, [user, loading, router]);
 
   // Cargar solicitudes de membresía
   useEffect(() => {
     const loadApplications = async () => {
+      if (!user || !['admin', 'super-admin'].includes(user.role)) return;
+
       try {
-        setLoadingApplications(true);
+        setLoading(true);
         const params = new URLSearchParams({
           page: currentPage.toString(),
+          limit: '20',
           search: searchTerm,
-          status: filterStatus,
-          membershipType: filterMembershipType
+          sortBy,
+          sortOrder
         });
 
-        const response = await fetch(`/api/admin/memberships?${params}`);
+        if (filterStatus !== 'all') params.append('status', filterStatus);
+        if (filterMembershipType !== 'all') params.append('membershipType', filterMembershipType);
+
+        const response = await fetch(`/api/admin/memberships?${params.toString()}`);
         if (response.ok) {
           const data = await response.json();
-          setApplications(data.applications);
-          setTotalPages(data.pagination.totalPages);
+          setApplications(data.applications || []);
+          setStatistics(data.statistics || { total: 0, pending: 0, approved: 0, rejected: 0 });
+          setTotalPages(data.pagination?.totalPages || 1);
+        } else {
+          console.error('Error al cargar solicitudes de membresía');
         }
       } catch (error) {
-        console.error('Error cargando solicitudes:', error);
+        console.error('Error:', error);
       } finally {
-        setLoadingApplications(false);
+        setLoading(false);
       }
     };
 
-    if (user && (user.role === 'admin' || user.role === 'super-admin')) {
-      loadApplications();
-    }
-  }, [user, currentPage, searchTerm, filterStatus, filterMembershipType]);
+    loadApplications();
+  }, [user, currentPage, searchTerm, filterStatus, filterMembershipType, sortBy, sortOrder]);
 
+  // Aprobar solicitud de membresía
   const handleApproveApplication = async (applicationId: string) => {
     try {
       const response = await fetch(`/api/admin/memberships/${applicationId}/approve`, {
-        method: 'PATCH'
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          reviewedBy: user?.id,
+          reviewedByName: `${user?.firstName} ${user?.lastName}`,
+          approvalNotes: 'Aprobado desde panel de administración'
+        }),
       });
 
       if (response.ok) {
         setApplications(applications.map(app => 
           app._id === applicationId 
-            ? { ...app, status: 'approved', reviewedAt: new Date().toISOString(), reviewedBy: user?.email }
+            ? { ...app, status: 'approved', reviewDate: new Date().toISOString(), reviewedByName: `${user?.firstName} ${user?.lastName}` }
             : app
         ));
+      } else {
+        console.error('Error al aprobar solicitud');
       }
     } catch (error) {
-      console.error('Error aprobando solicitud:', error);
+      console.error('Error:', error);
     }
   };
 
+  // Rechazar solicitud de membresía
   const handleRejectApplication = async (applicationId: string) => {
-    const reason = prompt('Motivo del rechazo (opcional):');
-    
     try {
       const response = await fetch(`/api/admin/memberships/${applicationId}/reject`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ reason })
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          reviewedBy: user?.id,
+          reviewedByName: `${user?.firstName} ${user?.lastName}`,
+          rejectionReason: 'Rechazado desde panel de administración'
+        }),
       });
 
       if (response.ok) {
         setApplications(applications.map(app => 
           app._id === applicationId 
-            ? { ...app, status: 'rejected', reviewedAt: new Date().toISOString(), reviewedBy: user?.email }
+            ? { ...app, status: 'rejected', reviewDate: new Date().toISOString(), reviewedByName: `${user?.firstName} ${user?.lastName}` }
             : app
         ));
+      } else {
+        console.error('Error al rechazar solicitud');
       }
     } catch (error) {
-      console.error('Error rechazando solicitud:', error);
+      console.error('Error:', error);
     }
   };
 
-  const handleBulkAction = async (action: string) => {
+  // Acciones masivas para múltiples solicitudes
+  const handleBulkAction = async (action: 'approve' | 'reject') => {
     if (selectedApplications.length === 0) return;
 
     if (!confirm(`¿Estás seguro de ${action === 'approve' ? 'aprobar' : 'rechazar'} ${selectedApplications.length} solicitud(es)?`)) {
@@ -126,32 +210,40 @@ export default function AdminMembershipsPage() {
     }
 
     try {
-      const response = await fetch('/api/admin/memberships/bulk', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
+      const response = await fetch(`/api/admin/memberships/bulk-${action}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           applicationIds: selectedApplications,
-          action 
-        })
+          reviewedBy: user?.id,
+          reviewedByName: `${user?.firstName} ${user?.lastName}`,
+          notes: action === 'approve' ? 'Aprobado masivamente' : 'Rechazado masivamente'
+        }),
       });
 
       if (response.ok) {
-        // Recargar aplicaciones
+        // Recargar la lista
         window.location.reload();
+      } else {
+        console.error(`Error en acción masiva ${action}`);
       }
     } catch (error) {
-      console.error('Error en acción masiva:', error);
+      console.error('Error:', error);
     }
   };
 
+  // Manejar selección individual
   const handleSelectApplication = (applicationId: string) => {
-    setSelectedApplications(prev => 
-      prev.includes(applicationId) 
+    setSelectedApplications(prev =>
+      prev.includes(applicationId)
         ? prev.filter(id => id !== applicationId)
         : [...prev, applicationId]
     );
   };
 
+  // Seleccionar/deseleccionar todas
   const handleSelectAll = () => {
     setSelectedApplications(
       selectedApplications.length === applications.length 
@@ -160,45 +252,110 @@ export default function AdminMembershipsPage() {
     );
   };
 
-  const getStatusBadge = (status: string) => {
-    const badges = {
-      pending: 'bg-yellow-100 text-yellow-800',
-      approved: 'bg-green-100 text-green-800',
-      rejected: 'bg-red-100 text-red-800'
-    };
-    return badges[status as keyof typeof badges] || 'bg-gray-100 text-gray-800';
-  };
+  // Mostrar loading mientras se autentica o carga los datos
+  if (loading) {
+    return (
+      <AdminLayout>
+        <div className="flex items-center justify-center h-64">
+          <FaSpinner className="animate-spin text-4xl text-blue-600" />
+        </div>
+      </AdminLayout>
+    );
+  }
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'pending':
-        return <FaClock className="text-yellow-600" />;
-      case 'approved':
-        return <FaCheck className="text-green-600" />;
-      case 'rejected':
-        return <FaTimes className="text-red-600" />;
-      default:
-        return null;
-    }
-  };
-
-  const getMembershipTypeBadge = (type: string) => {
-    const badges = {
-      friend: 'bg-blue-100 text-blue-800',
-      rider: 'bg-green-100 text-green-800',
-      'rider-duo': 'bg-purple-100 text-purple-800',
-      pro: 'bg-orange-100 text-orange-800',
-      'pro-duo': 'bg-red-100 text-red-800'
-    };
-    return badges[type as keyof typeof badges] || 'bg-gray-100 text-gray-800';
-  };
+  // Verificar permisos
+  if (!user || !['admin', 'super-admin'].includes(user.role)) {
+    return (
+      <AdminLayout>
+        <div className="text-center py-8">
+          <div className="text-red-600 mb-4">
+            <FaExclamationTriangle className="text-6xl mx-auto mb-4" />
+            <h2 className="text-2xl font-bold">Sin permisos</h2>
+            <p className="text-gray-600">No tienes permisos para acceder a esta sección.</p>
+          </div>
+        </div>
+      </AdminLayout>
+    );
+  }
 
   return (
-    <AdminLayout title="Gestión de Membresías" description="Administrar solicitudes de membresía">
-      <div className="p-6">
-        {/* Filtros y Búsqueda */}
-        <div className="bg-white rounded-lg shadow mb-6 p-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+    <AdminLayout>
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Gestión de Membresías</h1>
+            <p className="text-gray-600">Administra las solicitudes de membresía del motoclub</p>
+          </div>
+          <div className="flex space-x-3">
+            <Link
+              href="/admin/memberships/new"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors"
+            >
+              <FaPlus />
+              <span>Nueva Membresía</span>
+            </Link>
+            <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors">
+              <FaDownload />
+              <span>Exportar</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Estadísticas */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="bg-white p-6 rounded-lg shadow">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <FaIdCard className="h-8 w-8 text-blue-600" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-500">Total Solicitudes</p>
+                <p className="text-2xl font-semibold text-gray-900">{statistics.total}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg shadow">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <FaClock className="h-8 w-8 text-yellow-600" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-500">Pendientes</p>
+                <p className="text-2xl font-semibold text-gray-900">{statistics.pending}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg shadow">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <FaCheckCircle className="h-8 w-8 text-green-600" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-500">Aprobadas</p>
+                <p className="text-2xl font-semibold text-gray-900">{statistics.approved}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg shadow">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <FaTimesCircle className="h-8 w-8 text-red-600" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-500">Rechazadas</p>
+                <p className="text-2xl font-semibold text-gray-900">{statistics.rejected}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Filtros y búsqueda */}
+        <div className="bg-white p-6 rounded-lg shadow">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Buscar
@@ -207,10 +364,10 @@ export default function AdminMembershipsPage() {
                 <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 <input
                   type="text"
-                  placeholder="Nombre, email, documento..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Buscar por nombre o email..."
+                  className="pl-10 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             </div>
@@ -222,7 +379,7 @@ export default function AdminMembershipsPage() {
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="all">Todos los estados</option>
                 <option value="pending">Pendientes</option>
@@ -238,75 +395,89 @@ export default function AdminMembershipsPage() {
               <select
                 value={filterMembershipType}
                 onChange={(e) => setFilterMembershipType(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="all">Todos los tipos</option>
-                <option value="friend">Friend</option>
-                <option value="rider">Rider</option>
-                <option value="rider-duo">Rider Duo</option>
-                <option value="pro">Pro</option>
-                <option value="pro-duo">Pro Duo</option>
+                <option value="friend">Amigo</option>
+                <option value="rider">Piloto</option>
+                <option value="rider-duo">Piloto Dúo</option>
+                <option value="pro">Profesional</option>
+                <option value="pro-duo">Profesional Dúo</option>
               </select>
             </div>
 
-            <div className="flex items-end">
-              <button
-                onClick={() => handleBulkAction('export')}
-                className="w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center"
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Ordenar por
+              </label>
+              <select
+                value={`${sortBy}-${sortOrder}`}
+                onChange={(e) => {
+                  const [field, order] = e.target.value.split('-');
+                  setSortBy(field);
+                  setSortOrder(order as 'asc' | 'desc');
+                }}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <FaDownload className="mr-2" />
-                Exportar
-              </button>
+                <option value="createdAt-desc">Más recientes</option>
+                <option value="createdAt-asc">Más antiguas</option>
+                <option value="name-asc">Nombre A-Z</option>
+                <option value="name-desc">Nombre Z-A</option>
+                <option value="status-asc">Estado A-Z</option>
+              </select>
             </div>
           </div>
-
-          {/* Acciones Masivas */}
-          {selectedApplications.length > 0 && (
-            <div className="flex items-center space-x-4 p-4 bg-blue-50 rounded-lg">
-              <span className="text-sm text-gray-700">
-                {selectedApplications.length} solicitud(es) seleccionada(s)
-              </span>
-              <button
-                onClick={() => handleBulkAction('approve')}
-                className="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700"
-              >
-                Aprobar Seleccionadas
-              </button>
-              <button
-                onClick={() => handleBulkAction('reject')}
-                className="bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700"
-              >
-                Rechazar Seleccionadas
-              </button>
-            </div>
-          )}
         </div>
 
-        {/* Lista de Solicitudes */}
+        {/* Acciones masivas */}
+        {selectedApplications.length > 0 && (
+          <div className="bg-blue-50 p-4 rounded-lg">
+            <div className="flex items-center justify-between">
+              <span className="text-blue-700 font-medium">
+                {selectedApplications.length} solicitud(es) seleccionada(s)
+              </span>
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => handleBulkAction('approve')}
+                  className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2"
+                >
+                  <FaCheck />
+                  <span>Aprobar seleccionadas</span>
+                </button>
+                <button
+                  onClick={() => handleBulkAction('reject')}
+                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2"
+                >
+                  <FaTimes />
+                  <span>Rechazar seleccionadas</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Lista de solicitudes */}
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     <input
                       type="checkbox"
                       checked={selectedApplications.length === applications.length && applications.length > 0}
                       onChange={handleSelectAll}
-                      className="rounded border-gray-300"
+                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                     />
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Solicitante
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Documento
+                    Contacto
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Tipo de Membresía
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Motocicleta
+                    Tipo
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Estado
@@ -320,111 +491,106 @@ export default function AdminMembershipsPage() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {loadingApplications ? (
+                {loading ? (
                   <tr>
-                    <td colSpan={8} className="px-6 py-12 text-center">
+                    <td colSpan={7} className="px-6 py-12 text-center">
                       <FaSpinner className="animate-spin text-2xl text-gray-400 mx-auto mb-4" />
-                      <p className="text-gray-600">Cargando solicitudes...</p>
+                      <p className="text-gray-500">Cargando solicitudes...</p>
                     </td>
                   </tr>
                 ) : applications.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="px-6 py-12 text-center text-gray-500">
-                      No se encontraron solicitudes de membresía
+                    <td colSpan={7} className="px-6 py-12 text-center">
+                      <FaIdCard className="text-4xl text-gray-300 mx-auto mb-4" />
+                      <p className="text-gray-500">No se encontraron solicitudes</p>
                     </td>
                   </tr>
                 ) : (
                   applications.map((application) => (
                     <tr key={application._id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4">
+                      <td className="px-6 py-4 whitespace-nowrap">
                         <input
                           type="checkbox"
                           checked={selectedApplications.includes(application._id)}
                           onChange={() => handleSelectApplication(application._id)}
-                          className="rounded border-gray-300"
+                          className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                         />
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <div className="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center">
-                            <FaUser className="text-gray-600" />
+                          <div className="flex-shrink-0 h-10 w-10">
+                            <div className="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center">
+                              <FaUser className="text-gray-600" />
+                            </div>
                           </div>
                           <div className="ml-4">
                             <div className="text-sm font-medium text-gray-900">
-                              {application.firstName} {application.lastName}
+                              {application.name}
                             </div>
-                            <div className="text-sm text-gray-500">
-                              {application.email}
-                            </div>
-                            <div className="text-sm text-gray-500">
-                              {application.phone}
-                            </div>
+                            {application.city && (
+                              <div className="text-sm text-gray-500">{application.city}</div>
+                            )}
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        <div>{application.documentType}</div>
-                        <div className="text-gray-600">{application.documentNumber}</div>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900 flex items-center space-x-1">
+                          <FaEnvelope className="text-gray-400" />
+                          <span>{application.email}</span>
+                        </div>
+                        {application.phone && (
+                          <div className="text-sm text-gray-500 flex items-center space-x-1">
+                            <FaPhone className="text-gray-400" />
+                            <span>{application.phone}</span>
+                          </div>
+                        )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${getMembershipTypeBadge(application.membershipType)}`}>
-                          {application.membershipType}
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                          {membershipTypeNames[application.membershipType]}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {application.motorcycleBrand && application.motorcycleModel ? (
-                          <div className="flex items-center">
-                            <FaMotorcycle className="text-blue-500 mr-2" />
-                            <div>
-                              <div>{application.motorcycleBrand}</div>
-                              <div className="text-gray-600">{application.motorcycleModel}</div>
-                            </div>
-                          </div>
-                        ) : (
-                          <span className="text-gray-400">No especificada</span>
-                        )}
-                      </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center">
-                          {getStatusIcon(application.status)}
-                          <span className={`ml-2 px-2 py-1 text-xs font-medium rounded-full ${getStatusBadge(application.status)}`}>
-                            {application.status === 'pending' ? 'Pendiente' : 
-                             application.status === 'approved' ? 'Aprobada' : 'Rechazada'}
-                          </span>
-                        </div>
+                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColors[application.status]}`}>
+                          {statusNames[application.status]}
+                        </span>
+                        {application.reviewDate && (
+                          <div className="text-xs text-gray-500 mt-1">
+                            Revisada: {new Date(application.reviewDate).toLocaleDateString('es-ES')}
+                          </div>
+                        )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <div className="flex items-center">
-                          <FaCalendarAlt className="mr-2" />
-                          {new Date(application.createdAt).toLocaleDateString('es-ES')}
-                        </div>
-                        {application.reviewedAt && (
-                          <div className="text-xs text-gray-400 mt-1">
-                            Revisada: {new Date(application.reviewedAt).toLocaleDateString('es-ES')}
-                          </div>
-                        )}
+                        {new Date(application.createdAt).toLocaleDateString('es-ES')}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <div className="flex items-center space-x-2">
                           <Link
-                            href={`/admin/memberships/${application._id}`}
-                            className="text-blue-600 hover:text-blue-900 p-1 rounded hover:bg-blue-50"
+                            href={`/admin/memberships/view/${application._id}`}
+                            className="text-blue-600 hover:text-blue-900"
                             title="Ver detalles"
                           >
                             <FaEye />
+                          </Link>
+                          <Link
+                            href={`/admin/memberships/${application._id}`}
+                            className="text-indigo-600 hover:text-indigo-900"
+                            title="Editar"
+                          >
+                            <FaEdit />
                           </Link>
                           {application.status === 'pending' && (
                             <>
                               <button
                                 onClick={() => handleApproveApplication(application._id)}
-                                className="text-green-600 hover:text-green-900 p-1 rounded hover:bg-green-50"
+                                className="text-green-600 hover:text-green-900"
                                 title="Aprobar"
                               >
                                 <FaCheck />
                               </button>
                               <button
                                 onClick={() => handleRejectApplication(application._id)}
-                                className="text-red-600 hover:text-red-900 p-1 rounded hover:bg-red-50"
+                                className="text-red-600 hover:text-red-900"
                                 title="Rechazar"
                               >
                                 <FaTimes />
@@ -439,56 +605,72 @@ export default function AdminMembershipsPage() {
               </tbody>
             </table>
           </div>
+        </div>
 
-          {/* Paginación */}
-          {totalPages > 1 && (
-            <div className="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
-              <div className="flex items-center justify-between">
-                <div className="flex-1 flex justify-between sm:hidden">
+        {/* Paginación */}
+        {totalPages > 1 && (
+          <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+            <div className="flex-1 flex justify-between sm:hidden">
+              <button
+                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
+              >
+                Anterior
+              </button>
+              <button
+                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                disabled={currentPage === totalPages}
+                className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
+              >
+                Siguiente
+              </button>
+            </div>
+            <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+              <div>
+                <p className="text-sm text-gray-700">
+                  Mostrando página <span className="font-medium">{currentPage}</span> de{' '}
+                  <span className="font-medium">{totalPages}</span>
+                </p>
+              </div>
+              <div>
+                <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
                   <button
                     onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                     disabled={currentPage === 1}
-                    className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
+                    className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
                   >
                     Anterior
                   </button>
+                  {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                    const page = currentPage <= 3 ? i + 1 : currentPage - 2 + i;
+                    if (page > totalPages) return null;
+                    return (
+                      <button
+                        key={page}
+                        onClick={() => setCurrentPage(page)}
+                        className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
+                          page === currentPage
+                            ? 'z-10 bg-blue-50 border-blue-500 text-blue-600'
+                            : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    );
+                  })}
                   <button
                     onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                     disabled={currentPage === totalPages}
-                    className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
+                    className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
                   >
                     Siguiente
                   </button>
-                </div>
-                <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                  <div>
-                    <p className="text-sm text-gray-700">
-                      Página <span className="font-medium">{currentPage}</span> de{' '}
-                      <span className="font-medium">{totalPages}</span>
-                    </p>
-                  </div>
-                  <div>
-                    <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
-                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                        <button
-                          key={page}
-                          onClick={() => setCurrentPage(page)}
-                          className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
-                            page === currentPage
-                              ? 'z-10 bg-blue-50 border-blue-500 text-blue-600'
-                              : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
-                          }`}
-                        >
-                          {page}
-                        </button>
-                      ))}
-                    </nav>
-                  </div>
-                </div>
+                </nav>
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </AdminLayout>
   );
