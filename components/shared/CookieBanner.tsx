@@ -19,14 +19,27 @@ const CookieBanner: React.FC = () => {
         social: false
       };
     }
-    const savedSettings = localStorage.getItem('cookieSettings');
-    return savedSettings ? JSON.parse(savedSettings) : {
+    
+    const defaultSettings = {
       essential: true,
       performance: false,
       functional: false,
       marketing: false,
       social: false
     };
+    
+    try {
+      const savedSettings = localStorage.getItem('cookieSettings');
+      if (savedSettings && savedSettings.trim() !== '') {
+        return JSON.parse(savedSettings);
+      }
+      return defaultSettings;
+    } catch (error) {
+      console.warn('Error parsing cookie settings from localStorage:', error);
+      // Limpiar localStorage corrupto
+      localStorage.removeItem('cookieSettings');
+      return defaultSettings;
+    }
   });
 
   const applyCookieSettings = (settings: CookieSettings) => {
