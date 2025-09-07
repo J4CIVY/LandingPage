@@ -192,7 +192,7 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg:white dark:bg-slate-950">
       {/* Header del Dashboard */}
-      <div className="bg-gray-100 dark:bg-slate-900 shadow-sm border-b border-gray-200 dark:border-slate-700">
+      <div className="bg-white dark:bg-slate-950 shadow-sm border-b border-gray-50 dark:border-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-4 sm:py-6 space-y-4 sm:space-y-0">
             <div className="flex items-center space-x-4">
