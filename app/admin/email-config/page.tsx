@@ -78,7 +78,8 @@ const EmailConfigPage: React.FC = () => {
     
     const authUrl = `https://accounts.zoho.com/oauth/v2/auth?scope=${scope}&client_id=${clientId}&response_type=code&access_type=offline&redirect_uri=${redirectUri}`;
     
-    window.open(authUrl, '_blank', 'width=600,height=600');
+    // Usar la misma ventana en lugar de popup
+    window.location.href = authUrl;
   };
 
   const testConnection = async () => {
@@ -269,9 +270,9 @@ const EmailConfigPage: React.FC = () => {
                 Pasos para configurar OAuth:
               </h3>
               <ol className="text-blue-700 dark:text-blue-300 text-sm space-y-1 list-decimal list-inside">
-                <li>Haz clic en "Autorizar con Zoho" para abrir la ventana de autorización</li>
+                <li>Haz clic en "Autorizar con Zoho" para ir a la página de autorización</li>
                 <li>Autoriza la aplicación en Zoho Mail</li>
-                <li>Copia el código de autorización de la URL de callback</li>
+                <li>Serás redirigido de vuelta con el código de autorización</li>
                 <li>Usa el código para obtener los tokens (ver documentación)</li>
                 <li>Actualiza las variables de entorno con los tokens obtenidos</li>
               </ol>
@@ -292,7 +293,6 @@ const EmailConfigPage: React.FC = () => {
               
               <a
                 href="/admin/email-config/callback"
-                target="_blank"
                 className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition"
               >
                 🔗 Ver página de callback

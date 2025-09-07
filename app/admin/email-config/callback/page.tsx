@@ -103,10 +103,10 @@ const CallbackContent: React.FC = () => {
                 Volver a Configuración
               </button>
               <button
-                onClick={() => window.close()}
+                onClick={() => router.push('/admin')}
                 className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition"
               >
-                Cerrar Ventana
+                Ir al Panel Admin
               </button>
             </div>
           </div>
@@ -224,10 +224,10 @@ ZOHO_REFRESH_TOKEN=1000.xxxxxxxxxxxxxxxxxxxxx`}
                 Volver a Configuración
               </button>
               <button
-                onClick={() => window.close()}
+                onClick={() => router.push('/admin')}
                 className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition"
               >
-                Cerrar Ventana
+                Ir al Panel Admin
               </button>
               <a
                 href="https://www.zoho.com/mail/help/api/get-account-details.html"
