@@ -5,13 +5,15 @@ Este sistema implementa el envío de correos electrónicos usando la API de Zoho
 ## Funcionalidades
 
 - ✅ Envío de correos de contacto desde formularios web
-- ✅ Notificaciones automáticas (bienvenida, eventos, membresías)
+- ✅ **Notificaciones automáticas de bienvenida** al completar registro
+- ✅ Notificaciones de eventos, membresías y emergencias
 - ✅ Correos de restablecimiento de contraseña
-- ✅ Sistema de plantillas HTML responsivas
-- ✅ Panel de administración para configuración
+- ✅ Sistema de plantillas HTML responsivas con diseño moderno
+- ✅ Panel de administración para configuración OAuth
 - ✅ Rate limiting para prevenir spam
 - ✅ Validación y sanitización de datos
 - ✅ Manejo de errores y reintentos
+- ✅ **Integración automática con formularios de registro**
 
 ## Configuración
 
@@ -94,6 +96,45 @@ curl "https://mail.zoho.com/api/accounts" \
 - `ZohoMail.messages.CREATE`: Para enviar correos
 - `ZohoMail.accounts.READ`: Para leer información de cuentas
 - `ZohoMail.folders.READ`: Para acceder a carpetas de correo
+
+## Integración con Registro de Usuarios
+
+### Envío Automático de Bienvenida
+
+El sistema está integrado con los formularios de registro para enviar automáticamente correos de bienvenida:
+
+#### Formularios Compatibles:
+- **Registro Completo**: `/register` - Formulario paso a paso con información detallada
+- **Registro Simplificado**: `/register-simple` - Formulario básico para pruebas
+
+#### Proceso Automático:
+1. **Usuario completa registro** → Datos se envían a `/api/users`
+2. **Registro exitoso** → Se activa automáticamente el envío de correo
+3. **Correo se envía** → API `/api/email/notifications` con tipo `welcome`
+4. **Usuario recibe confirmación** → Correo de bienvenida personalizado
+
+#### Datos Incluidos en el Correo:
+```typescript
+{
+  type: 'welcome',
+  recipientEmail: 'usuario@ejemplo.com',
+  recipientName: 'Juan Pérez',
+  templateData: {
+    userData: {
+      firstName: 'Juan',
+      lastName: 'Pérez', 
+      membershipType: 'friend', // o 'member'
+      registrationDate: '2024-01-15T10:30:00.000Z'
+    }
+  },
+  priority: 'high'
+}
+```
+
+#### Manejo de Errores:
+- **Registro exitoso + Email falla**: El registro se completa normalmente, solo se registra el error del email
+- **Sin interrupciones**: Los errores de email no afectan el proceso de registro
+- **Logs detallados**: Todos los eventos se registran en consola para debugging
 
 ## Uso
 
@@ -247,8 +288,18 @@ Envía correos de prueba (solo administradores).
 - Se envía al email de soporte configurado
 
 ### 2. Correo de Bienvenida
-- Enviado a nuevos usuarios registrados
-- Incluye enlaces útiles y información del club
+- **Activación automática**: Se envía automáticamente al completar el registro
+- **Para nuevos usuarios**: Tanto en registro completo como simplificado
+- **Contenido incluido**: 
+  - Saludo personalizado con nombre completo
+  - Información del tipo de membresía
+  - Fecha de registro
+  - Lista de beneficios y características
+  - Enlaces a dashboard y login
+  - Información de seguridad vial
+  - Datos de contacto y soporte
+- **Prioridad**: Alta (se envía inmediatamente)
+- **Diseño**: Plantilla HTML responsiva con gradientes y elementos visuales
 
 ### 3. Restablecimiento de Contraseña
 - Enviado cuando un usuario solicita restablecer su contraseña

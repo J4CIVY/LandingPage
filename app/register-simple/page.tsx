@@ -89,7 +89,42 @@ const SimpleRegisterTest: React.FC = () => {
 
       if (response.ok) {
         console.log('✅ SIMPLE: Registro exitoso');
-        setSubmitSuccess(`¡Registro exitoso! Usuario: ${result.data?.user?.email}`);
+        
+        // Enviar correo de bienvenida
+        try {
+          console.log('📧 SIMPLE: Enviando correo de bienvenida...');
+          const emailResponse = await fetch('/api/email/notifications', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              type: 'welcome',
+              recipientEmail: userData.email,
+              recipientName: `${userData.firstName} ${userData.lastName}`,
+              templateData: {
+                userData: {
+                  firstName: userData.firstName,
+                  lastName: userData.lastName,
+                  membershipType: userData.membershipType,
+                  registrationDate: new Date().toISOString()
+                }
+              },
+              priority: 'high'
+            }),
+          });
+
+          if (emailResponse.ok) {
+            console.log('✅ SIMPLE: Correo de bienvenida enviado exitosamente');
+          } else {
+            console.warn('⚠️ SIMPLE: Error enviando correo de bienvenida, pero el registro fue exitoso');
+          }
+        } catch (emailError) {
+          console.warn('⚠️ SIMPLE: Error enviando correo de bienvenida:', emailError);
+          // No interrumpir el flujo de registro por error de email
+        }
+        
+        setSubmitSuccess(`¡Registro exitoso! Usuario: ${result.data?.user?.email}. Se ha enviado un correo de confirmación.`);
       } else {
         console.log('❌ SIMPLE: Error en registro');
         setSubmitError(`Error: ${result.message || 'Error desconocido'}`);

@@ -276,6 +276,10 @@ export class EmailService {
    * Genera el contenido HTML para el correo de bienvenida
    */
   private generateWelcomeEmailContent(userName: string, additionalData?: Record<string, any>): string {
+    const userData = additionalData?.userData || {};
+    const membershipType = userData.membershipType === 'friend' ? 'Amigo del Club' : 'Miembro';
+    const registrationDate = userData.registrationDate ? new Date(userData.registrationDate).toLocaleDateString('es-ES') : new Date().toLocaleDateString('es-ES');
+    
     return `
       <!DOCTYPE html>
       <html>
@@ -283,39 +287,104 @@ export class EmailService {
         <meta charset="utf-8">
         <title>Bienvenido al BSK Motorcycle Team</title>
         <style>
-          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-          .header { background-color: #1e40af; color: white; padding: 30px; text-align: center; }
-          .content { padding: 30px; }
-          .welcome-message { background-color: #eff6ff; padding: 20px; border-radius: 8px; margin: 20px 0; }
-          .cta-button { display: inline-block; background-color: #1e40af; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; margin: 20px 0; }
-          .footer { background-color: #f3f4f6; padding: 20px; text-align: center; }
+          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
+          .header { background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; padding: 40px 20px; text-align: center; }
+          .logo { font-size: 24px; font-weight: bold; margin-bottom: 10px; }
+          .content { padding: 40px 20px; max-width: 600px; margin: 0 auto; }
+          .welcome-badge { background: linear-gradient(135deg, #10b981 0%, #34d399 100%); color: white; padding: 20px; border-radius: 10px; text-align: center; margin: 30px 0; }
+          .info-box { background-color: #eff6ff; padding: 25px; border-radius: 10px; margin: 25px 0; border-left: 5px solid #1e40af; }
+          .benefits-list { background-color: #f8fafc; padding: 25px; border-radius: 10px; margin: 25px 0; }
+          .benefits-list ul { margin: 0; padding-left: 20px; }
+          .benefits-list li { margin: 8px 0; }
+          .cta-section { text-align: center; margin: 30px 0; }
+          .cta-button { display: inline-block; background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; transition: transform 0.2s; }
+          .cta-button:hover { transform: translateY(-2px); }
+          .footer { background-color: #1f2937; color: white; padding: 30px 20px; text-align: center; }
+          .social-links { margin: 20px 0; }
+          .social-links a { color: #60a5fa; text-decoration: none; margin: 0 10px; }
+          .contact-info { margin-top: 20px; font-size: 14px; color: #9ca3af; }
         </style>
       </head>
       <body>
         <div class="header">
-          <h1>¡Bienvenido al BSK Motorcycle Team!</h1>
+          <div class="logo">🏍️ BSK MOTORCYCLE TEAM</div>
+          <h1>¡Bienvenido a la familia!</h1>
+          <p>Tu aventura en dos ruedas comienza aquí</p>
         </div>
+        
         <div class="content">
-          <h2>Hola ${userName},</h2>
-          <div class="welcome-message">
-            <p>¡Nos complace darte la bienvenida a la familia BSK Motorcycle Team! Estás a punto de formar parte de una comunidad apasionada por las motocicletas y la aventura.</p>
+          <div class="welcome-badge">
+            <h2 style="margin: 0; font-size: 28px;">¡Hola ${userName}!</h2>
+            <p style="margin: 10px 0 0 0; font-size: 18px;">Registro exitoso como ${membershipType}</p>
           </div>
-          <p>Con tu cuenta, podrás:</p>
-          <ul>
-            <li>Acceder a eventos exclusivos del club</li>
-            <li>Conectarte con otros miembros de la comunidad</li>
-            <li>Participar en rutas y actividades organizadas</li>
-            <li>Acceder a descuentos en productos y servicios</li>
-            <li>Recibir noticias y actualizaciones del club</li>
-          </ul>
-          <div style="text-align: center;">
-            <a href="${process.env.NEXT_PUBLIC_BASE_URL}/dashboard" class="cta-button">Acceder a mi cuenta</a>
+
+          <div class="info-box">
+            <h3 style="margin-top: 0; color: #1e40af;">📋 Detalles de tu registro:</h3>
+            <p><strong>Fecha de registro:</strong> ${registrationDate}</p>
+            <p><strong>Tipo de membresía:</strong> ${membershipType}</p>
+            <p><strong>Estado:</strong> ✅ Activo</p>
           </div>
-          <p>Si tienes alguna pregunta, no dudes en contactarnos. ¡Esperamos verte pronto en nuestros eventos!</p>
+
+          <p style="font-size: 18px; text-align: center; margin: 30px 0;">
+            ¡Nos complace darte la bienvenida a la familia BSK Motorcycle Team! Estás a punto de formar parte de una comunidad apasionada por las motocicletas, la aventura y la hermandad sobre dos ruedas.
+          </p>
+
+          <div class="benefits-list">
+            <h3 style="margin-top: 0; color: #1e40af;">🎯 Con tu cuenta podrás:</h3>
+            <ul>
+              <li><strong>🏍️ Participar en eventos exclusivos</strong> - Rutas, encuentros y actividades del club</li>
+              <li><strong>👥 Conectarte con otros moteros</strong> - Una comunidad de personas que comparten tu pasión</li>
+              <li><strong>📅 Acceder a nuestro calendario</strong> - Rutas programadas, talleres y eventos especiales</li>
+              <li><strong>💰 Obtener descuentos especiales</strong> - En productos, servicios y establecimientos afiliados</li>
+              <li><strong>📱 Usar la plataforma completa</strong> - Dashboard personal, perfil y herramientas</li>
+              <li><strong>📧 Recibir noticias importantes</strong> - Actualizaciones, consejos de seguridad y novedades</li>
+            </ul>
+          </div>
+
+          <div class="cta-section">
+            <h3 style="color: #1e40af;">🚀 ¡Comienza tu aventura ahora!</h3>
+            <a href="${process.env.NEXT_PUBLIC_BASE_URL}/login" class="cta-button">
+              Iniciar Sesión
+            </a>
+            <br><br>
+            <a href="${process.env.NEXT_PUBLIC_BASE_URL}/dashboard" style="color: #1e40af; text-decoration: none;">
+              🎯 Ver mi dashboard →
+            </a>
+          </div>
+
+          <div class="info-box">
+            <h3 style="margin-top: 0; color: #dc2626;">🛡️ Importante - Seguridad vial:</h3>
+            <p>Como miembro de BSK Motorcycle Team, recuerda siempre:</p>
+            <ul style="margin: 10px 0;">
+              <li>Usar equipo de protección completo</li>
+              <li>Respetar las normas de tránsito</li>
+              <li>Mantener tu motocicleta en óptimas condiciones</li>
+              <li>Participar responsablemente en nuestras actividades</li>
+            </ul>
+          </div>
+
+          <p style="text-align: center; margin: 30px 0; font-size: 16px;">
+            Si tienes alguna pregunta o necesitas ayuda, no dudes en contactarnos. ¡Esperamos verte pronto en nuestros eventos y rutas!
+          </p>
         </div>
+
         <div class="footer">
-          <p><strong>BSK Motorcycle Team</strong></p>
-          <p>Tu pasión, nuestra comunidad</p>
+          <h3 style="margin: 0 0 10px 0;">BSK MOTORCYCLE TEAM</h3>
+          <p style="margin: 5px 0; font-size: 16px;">🏍️ Tu pasión, nuestra comunidad 🏍️</p>
+          
+          <div class="social-links">
+            <a href="#" style="color: #60a5fa;">📘 Facebook</a>
+            <a href="#" style="color: #60a5fa;">📷 Instagram</a>
+            <a href="#" style="color: #60a5fa;">💬 WhatsApp</a>
+          </div>
+
+          <div class="contact-info">
+            <p>📧 Soporte: ${process.env.EMAIL_SUPPORT_ADDRESS || 'support@bskmotorcycleteam.com'}</p>
+            <p>🌐 Web: ${process.env.NEXT_PUBLIC_BASE_URL}</p>
+            <p style="margin-top: 15px; font-size: 12px;">
+              Este correo fue enviado automáticamente. Si no solicitaste este registro, ignora este mensaje.
+            </p>
+          </div>
         </div>
       </body>
       </html>

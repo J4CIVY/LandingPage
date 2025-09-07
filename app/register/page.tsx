@@ -247,12 +247,46 @@ const UserRegister: React.FC = () => {
 
       console.log('✅ Registro exitoso:', result);
       
+      // Enviar correo de bienvenida
+      try {
+        console.log('📧 Enviando correo de bienvenida...');
+        const emailResponse = await fetch('/api/email/notifications', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            type: 'welcome',
+            recipientEmail: userData.email,
+            recipientName: `${userData.firstName} ${userData.lastName}`,
+            templateData: {
+              userData: {
+                firstName: userData.firstName,
+                lastName: userData.lastName,
+                membershipType: userData.membershipType,
+                registrationDate: new Date().toISOString()
+              }
+            },
+            priority: 'high'
+          }),
+        });
+
+        if (emailResponse.ok) {
+          console.log('✅ Correo de bienvenida enviado exitosamente');
+        } else {
+          console.warn('⚠️ Error enviando correo de bienvenida, pero el registro fue exitoso');
+        }
+      } catch (emailError) {
+        console.warn('⚠️ Error enviando correo de bienvenida:', emailError);
+        // No interrumpir el flujo de registro por error de email
+      }
+      
       // Limpiar draft guardado al completar registro exitosamente
       localStorage.removeItem('bskmt-registration-draft');
       
       successToast(
         '¡Registro exitoso!', 
-        `Bienvenido ${userData.firstName}! Tu cuenta ha sido creada exitosamente.`
+        `Bienvenido ${userData.firstName}! Tu cuenta ha sido creada exitosamente. Se ha enviado un correo de confirmación.`
       );
       
       // Redireccionar a página de éxito
