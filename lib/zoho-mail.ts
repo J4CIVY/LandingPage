@@ -22,15 +22,18 @@ export class ZohoMailClient {
     this.apiDomain = process.env.ZOHO_API_DOMAIN || 'https://www.zohoapis.com';
     this.baseUrl = process.env.ZOHO_MAIL_API_URL || 'https://mail.zoho.com/api';
 
-    if (!this.clientId || !this.clientSecret) {
-      throw new Error('Zoho client credentials not configured');
-    }
+    // Note: No lanzamos error aquí para permitir consultar el estado de configuración
+    // El error se manejará en métodos específicos que requieran credenciales
   }
 
   /**
    * Obtiene la URL de autorización para OAuth 2.0
    */
   getAuthorizationUrl(redirectUri: string, scopes: string[] = ['ZohoMail.messages.ALL']): string {
+    if (!this.clientId) {
+      throw new Error('Zoho Client ID not configured');
+    }
+
     const params = new URLSearchParams({
       client_id: this.clientId,
       response_type: 'code',
@@ -46,6 +49,10 @@ export class ZohoMailClient {
    * Intercambia el código de autorización por tokens de acceso
    */
   async exchangeCodeForTokens(code: string, redirectUri: string): Promise<ZohoAuthTokens> {
+    if (!this.clientId || !this.clientSecret) {
+      throw new Error('Zoho client credentials not configured');
+    }
+
     const response = await fetch('https://accounts.zoho.com/oauth/v2/token', {
       method: 'POST',
       headers: {
