@@ -26,10 +26,39 @@ const EmailConfigPage: React.FC = () => {
   const [testResult, setTestResult] = useState<TestResult | null>(null);
   const [isTesting, setIsTesting] = useState(false);
   const [testEmail, setTestEmail] = useState('');
+  const [authCode, setAuthCode] = useState<string | null>(null);
+  const [authSuccess, setAuthSuccess] = useState(false);
 
   useEffect(() => {
     if (!authLoading && user && user.role === 'admin') {
       fetchConfig();
+      
+      // Verificar si venimos de una autorización exitosa
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('auth_success') === 'true') {
+        const storedCode = localStorage.getItem('zoho_auth_code');
+        const timestamp = localStorage.getItem('zoho_auth_timestamp');
+        
+        if (storedCode && timestamp) {
+          // Verificar que el código no sea muy antiguo (10 minutos)
+          const codeAge = Date.now() - parseInt(timestamp);
+          if (codeAge < 10 * 60 * 1000) {
+            setAuthCode(storedCode);
+            setAuthSuccess(true);
+            
+            // Limpiar el código del localStorage
+            localStorage.removeItem('zoho_auth_code');
+            localStorage.removeItem('zoho_auth_timestamp');
+            
+            // Limpiar la URL
+            window.history.replaceState({}, document.title, '/admin/email-config');
+          } else {
+            // Código expirado
+            localStorage.removeItem('zoho_auth_code');
+            localStorage.removeItem('zoho_auth_timestamp');
+          }
+        }
+      }
     } else if (!authLoading && user && user.role !== 'admin') {
       router.push('/admin');
     }
@@ -73,7 +102,7 @@ const EmailConfigPage: React.FC = () => {
       return;
     }
     
-    const redirectUri = encodeURIComponent(`${window.location.origin}/admin/email-config/callback`);
+    const redirectUri = encodeURIComponent(`${window.location.origin}/oauth/zoho/callback`);
     const scope = encodeURIComponent('ZohoMail.messages.CREATE,ZohoMail.accounts.READ,ZohoMail.folders.READ');
     
     const authUrl = `https://accounts.zoho.com/oauth/v2/auth?scope=${scope}&client_id=${clientId}&response_type=code&access_type=offline&redirect_uri=${redirectUri}`;
@@ -130,6 +159,28 @@ const EmailConfigPage: React.FC = () => {
     } finally {
       setIsTesting(false);
     }
+  };
+
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert('Copiado al portapapeles');
+    } catch (err) {
+      console.error('Error al copiar:', err);
+    }
+  };
+
+  const generateCurlCommand = () => {
+    const clientId = process.env.NEXT_PUBLIC_ZOHO_CLIENT_ID || 'TU_CLIENT_ID';
+    const redirectUri = `${window.location.origin}/oauth/zoho/callback`;
+    
+    return `curl -X POST "https://accounts.zoho.com/oauth/v2/token" \\
+  -d "code=${authCode}" \\
+  -d "grant_type=authorization_code" \\
+  -d "client_id=${clientId}" \\
+  -d "client_secret=TU_CLIENT_SECRET" \\
+  -d "redirect_uri=${redirectUri}" \\
+  -d "scope=ZohoMail.messages.CREATE,ZohoMail.accounts.READ,ZohoMail.folders.READ"`;
   };
 
   const refreshConfig = () => {
@@ -258,6 +309,71 @@ const EmailConfigPage: React.FC = () => {
           </div>
         </div>
 
+        {/* Código de Autorización (si está disponible) */}
+        {authSuccess && authCode && (
+          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 mb-6">
+            <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-4 mb-6">
+              <div className="flex items-center mb-2">
+                <span className="text-2xl mr-3">✅</span>
+                <h3 className="text-lg font-semibold text-green-800 dark:text-green-200">
+                  ¡Autorización Exitosa!
+                </h3>
+              </div>
+              <p className="text-green-700 dark:text-green-300">
+                Se ha obtenido el código de autorización correctamente.
+              </p>
+            </div>
+
+            <h2 className="text-xl font-semibold text-slate-950 dark:text-white mb-4">
+              Código de Autorización Obtenido
+            </h2>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Código de autorización:
+                </label>
+                <div className="bg-gray-50 dark:bg-slate-700 rounded-lg p-4">
+                  <div className="flex items-center justify-between">
+                    <code className="text-sm text-gray-700 dark:text-gray-300 break-all">
+                      {authCode}
+                    </code>
+                    <button
+                      onClick={() => copyToClipboard(authCode)}
+                      className="ml-2 px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition"
+                    >
+                      📋 Copiar
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Comando cURL para obtener tokens:
+                </label>
+                <div className="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                  <pre className="text-green-400 text-sm">
+                    {generateCurlCommand()}
+                  </pre>
+                </div>
+                <button
+                  onClick={() => copyToClipboard(generateCurlCommand())}
+                  className="mt-3 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+                >
+                  📋 Copiar Comando cURL
+                </button>
+              </div>
+
+              <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4">
+                <p className="text-yellow-800 dark:text-yellow-200 text-sm">
+                  <strong>Importante:</strong> Reemplaza <code>TU_CLIENT_SECRET</code> con tu client secret real antes de ejecutar el comando.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Configuración OAuth */}
         <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 mb-6">
           <h2 className="text-xl font-semibold text-slate-950 dark:text-white mb-4">
@@ -304,7 +420,7 @@ const EmailConfigPage: React.FC = () => {
                 URL de callback configurada:
               </h4>
               <code className="text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-800 px-2 py-1 rounded">
-                {typeof window !== 'undefined' ? `${window.location.origin}/admin/email-config/callback` : 'https://tu-dominio.com/admin/email-config/callback'}
+                {typeof window !== 'undefined' ? `${window.location.origin}/oauth/zoho/callback` : 'https://tu-dominio.com/oauth/zoho/callback'}
               </code>
             </div>
           </div>

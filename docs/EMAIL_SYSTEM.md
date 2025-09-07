@@ -53,7 +53,7 @@ NEXT_PUBLIC_BASE_URL=https://tu-dominio.com
 4. Proporciona la información requerida:
    - **Client Name**: BSK Motorcycle Team Email System
    - **Homepage URL**: https://tu-dominio.com
-   - **Authorized Redirect URIs**: https://tu-dominio.com/admin/email-config/callback
+   - **Authorized Redirect URIs**: https://tu-dominio.com/oauth/zoho/callback
 
 #### Paso 2: Obtener credenciales
 
@@ -66,7 +66,7 @@ Después del registro obtendrás:
 1. Ve al panel de administración: `/admin/email-config`
 2. Haz clic en "Autorizar con Zoho"
 3. Autoriza la aplicación en Zoho
-4. Serás redirigido a `/admin/email-config/callback` con el código de autorización
+4. Serás redirigido a `/oauth/zoho/callback` con el código de autorización
 
 #### Paso 4: Intercambiar código por tokens
 
@@ -78,7 +78,7 @@ curl -X POST "https://accounts.zoho.com/oauth/v2/token" \
   -d "grant_type=authorization_code" \
   -d "client_id=1000.XXXXXXXXXX" \
   -d "client_secret=xxxxxxxxxxxxxxxxxxxxx" \
-  -d "redirect_uri=https://tu-dominio.com/admin/email-config/callback" \
+  -d "redirect_uri=https://tu-dominio.com/oauth/zoho/callback" \
   -d "scope=ZohoMail.messages.CREATE,ZohoMail.accounts.READ,ZohoMail.folders.READ"
 ```
 
