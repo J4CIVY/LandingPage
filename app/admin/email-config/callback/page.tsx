@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useEffect, useState, Suspense } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 
-const CallbackContent: React.FC = () => {
+const CallbackPage: React.FC = () => {
   const { user, isLoading: authLoading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -249,18 +249,6 @@ ZOHO_REFRESH_TOKEN=1000.xxxxxxxxxxxxxxxxxxxxx`}
         )}
       </div>
     </div>
-  );
-};
-
-const CallbackPage: React.FC = () => {
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-gray-50 dark:bg-slate-950 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-green-600"></div>
-      </div>
-    }>
-      <CallbackContent />
-    </Suspense>
   );
 };
 

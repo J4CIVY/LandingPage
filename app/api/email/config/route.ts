@@ -6,7 +6,7 @@ import {
   HTTP_STATUS 
 } from '@/lib/api-utils';
 import { getZohoMailClient } from '@/lib/zoho-mail';
-import { requireAdmin, AdminRequest } from '@/lib/auth-admin';
+import { requireAdmin } from '@/lib/auth-admin';
 
 /**
  * GET /api/email/config/auth-url
@@ -14,7 +14,7 @@ import { requireAdmin, AdminRequest } from '@/lib/auth-admin';
  */
 async function handleGet(request: NextRequest) {
   // Verificar autenticación de administrador
-  const authResult = await requireAdmin(request as AdminRequest);
+  const authResult = await requireAdmin(request as any);
   if (authResult) {
     return authResult;
   }
@@ -54,7 +54,7 @@ async function handleGet(request: NextRequest) {
  */
 async function handlePost(request: NextRequest) {
   // Verificar autenticación de administrador
-  const authResult = await requireAdmin(request as AdminRequest);
+  const authResult = await requireAdmin(request as any);
   if (authResult) {
     return authResult;
   }
@@ -104,7 +104,7 @@ async function handlePost(request: NextRequest) {
  */
 async function handleGetStatus(request: NextRequest) {
   // Verificar autenticación de administrador
-  const authResult = await requireAdmin(request as AdminRequest);
+  const authResult = await requireAdmin(request as any);
   if (authResult) {
     return authResult;
   }

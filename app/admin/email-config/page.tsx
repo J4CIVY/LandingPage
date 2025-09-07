@@ -70,6 +70,12 @@ const EmailConfigPage: React.FC = () => {
 
   const generateAuthUrl = () => {
     const clientId = process.env.NEXT_PUBLIC_ZOHO_CLIENT_ID;
+    
+    if (!clientId) {
+      alert('Error: NEXT_PUBLIC_ZOHO_CLIENT_ID no está configurado. Por favor revisa tu archivo .env.local');
+      return;
+    }
+    
     const redirectUri = encodeURIComponent(`${window.location.origin}/admin/email-config/callback`);
     const scope = encodeURIComponent('ZohoMail.messages.ALL,ZohoMail.accounts.READ');
     
@@ -215,6 +221,45 @@ const EmailConfigPage: React.FC = () => {
           )}
         </div>
 
+        {/* Verificación de Variables de Entorno */}
+        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 mb-6">
+          <h2 className="text-xl font-semibold text-slate-950 dark:text-white mb-4">
+            Verificación de Variables de Entorno
+          </h2>
+
+          <div className="space-y-3">
+            <div className="flex items-center space-x-3">
+              <div className={`w-3 h-3 rounded-full ${
+                process.env.NEXT_PUBLIC_ZOHO_CLIENT_ID ? 'bg-green-500' : 'bg-red-500'
+              }`}></div>
+              <span className="text-slate-950 dark:text-white text-sm">
+                NEXT_PUBLIC_ZOHO_CLIENT_ID: {
+                  process.env.NEXT_PUBLIC_ZOHO_CLIENT_ID ? 'Configurado' : 'Falta configurar'
+                }
+              </span>
+            </div>
+
+            {!process.env.NEXT_PUBLIC_ZOHO_CLIENT_ID && (
+              <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4">
+                <h4 className="text-yellow-800 dark:text-yellow-200 font-medium mb-2">
+                  ⚠️ Variables de entorno faltantes
+                </h4>
+                <p className="text-yellow-700 dark:text-yellow-300 text-sm mb-3">
+                  Para usar el sistema de autorización OAuth, necesitas configurar las siguientes variables en tu archivo <code>.env.local</code>:
+                </p>
+                <div className="bg-gray-900 rounded p-3 text-green-400 text-xs font-mono">
+                  <div>ZOHO_CLIENT_ID=tu_client_id</div>
+                  <div>ZOHO_CLIENT_SECRET=tu_client_secret</div>
+                  <div>NEXT_PUBLIC_ZOHO_CLIENT_ID=tu_client_id</div>
+                </div>
+                <p className="text-yellow-700 dark:text-yellow-300 text-sm mt-3">
+                  Después de configurar las variables, reinicia la aplicación.
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+
         {/* Configuración OAuth */}
         <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 mb-6">
           <h2 className="text-xl font-semibold text-slate-950 dark:text-white mb-4">
@@ -238,7 +283,12 @@ const EmailConfigPage: React.FC = () => {
             <div className="flex space-x-4">
               <button
                 onClick={generateAuthUrl}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                disabled={!process.env.NEXT_PUBLIC_ZOHO_CLIENT_ID}
+                className={`px-6 py-2 rounded-lg transition ${
+                  process.env.NEXT_PUBLIC_ZOHO_CLIENT_ID
+                    ? 'bg-blue-600 text-white hover:bg-blue-700'
+                    : 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                }`}
               >
                 🔐 Autorizar con Zoho
               </button>
