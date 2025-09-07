@@ -192,13 +192,10 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg:white dark:bg-slate-950">
       {/* Header del Dashboard */}
-      <div className="bg-white dark:bg-slate-950 shadow-sm">
+      <div className="bg-white dark:bg-slate-950 shadow-sm border-b border-gray-50 dark:border-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-4 sm:py-6 space-y-4 sm:space-y-0">
             <div className="flex items-center space-x-4">
-              <div className="bg-slate-950 dark:bg-white p-2 rounded-lg">
-                <FaUserCircle className="text-xl sm:text-2xl text-white dark:text-slate-950" />
-              </div>
               <div>
                 <h1 className="text-xl sm:text-2xl font-bold text-slate-950 dark:text-white">
                   Área de miembros
