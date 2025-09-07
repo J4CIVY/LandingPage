@@ -98,6 +98,12 @@ export class ZohoMailClient {
 
     if (!response.ok) {
       const error = await response.text();
+      
+      // Detectar si el refresh token ha expirado
+      if (response.status === 401 || error.includes('invalid_grant') || error.includes('invalid_token')) {
+        throw new Error('REFRESH_TOKEN_EXPIRED: El refresh token ha expirado. Necesitas reautorizar la aplicación.');
+      }
+      
       throw new Error(`Failed to refresh access token: ${error}`);
     }
 
@@ -215,18 +221,48 @@ export class ZohoMailClient {
   /**
    * Obtiene el estado de configuración
    */
-  getConfigStatus(): {
+  async getConfigStatus(): Promise<{
     hasClientCredentials: boolean;
     hasTokens: boolean;
     hasAccountId: boolean;
     isFullyConfigured: boolean;
-  } {
-    return {
+    refreshTokenValid: boolean;
+    needsReauthorization: boolean;
+    lastTokenCheck?: string;
+  }> {
+    const status = {
       hasClientCredentials: !!(this.clientId && this.clientSecret),
       hasTokens: !!(this.accessToken && this.refreshToken),
       hasAccountId: !!this.accountId,
-      isFullyConfigured: this.isConfigured() && !!this.accountId,
+      isFullyConfigured: false,
+      refreshTokenValid: false,
+      needsReauthorization: false,
+      lastTokenCheck: new Date().toISOString(),
     };
+
+    status.isFullyConfigured = status.hasClientCredentials && status.hasTokens && status.hasAccountId;
+
+    // Verificar validez del refresh token solo si tenemos tokens
+    if (status.hasTokens) {
+      try {
+        // Intentar hacer una llamada simple para verificar el token
+        const response = await this.makeApiRequest('/accounts', 'GET');
+        status.refreshTokenValid = response.ok;
+        status.needsReauthorization = !response.ok;
+      } catch (error) {
+        status.refreshTokenValid = false;
+        status.needsReauthorization = true;
+        
+        // Si el error indica que el refresh token expiró
+        if (error instanceof Error && error.message.includes('REFRESH_TOKEN_EXPIRED')) {
+          status.needsReauthorization = true;
+        }
+      }
+    } else {
+      status.needsReauthorization = true;
+    }
+
+    return status;
   }
 }
 

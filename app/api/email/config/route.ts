@@ -111,13 +111,13 @@ async function handleGetStatus(request: NextRequest) {
 
   try {
     const client = getZohoMailClient();
-    const configStatus = client.getConfigStatus();
+    const configStatus = await client.getConfigStatus();
 
-    // Intentar obtener las cuentas para verificar conectividad
+    // Intentar obtener las cuentas para verificar conectividad adicional
     let accountsStatus = false;
     let accountsCount = 0;
     
-    if (configStatus.isFullyConfigured) {
+    if (configStatus.isFullyConfigured && configStatus.refreshTokenValid) {
       try {
         const accounts = await client.getUserAccounts();
         accountsStatus = true;
@@ -136,9 +136,11 @@ async function handleGetStatus(request: NextRequest) {
         supportEmail: process.env.EMAIL_SUPPORT_ADDRESS || null,
         accountsStatus,
         accountsCount,
-        lastCheck: new Date().toISOString()
+        lastCheck: configStatus.lastTokenCheck || new Date().toISOString()
       },
-      'Estado de configuración obtenido'
+      configStatus.needsReauthorization 
+        ? 'Se requiere reautorización - Refresh token expirado'
+        : 'Estado de configuración obtenido'
     );
 
   } catch (error) {
