@@ -49,6 +49,7 @@ export async function GET(request: NextRequest) {
     const attendedEventsCount = (user as any).attendedEvents?.length || 0;
 
     // Calcular días como miembro
+    const now = new Date();
     const joinDate = (user as any).joinDate || (user as any).createdAt;
     const daysSinceJoining = Math.floor(
       (now.getTime() - new Date(joinDate).getTime()) / (1000 * 60 * 60 * 24)
