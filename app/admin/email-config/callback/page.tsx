@@ -2,11 +2,11 @@
 
 import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { useAuth } from '@/hooks/useAuth';
+import { useRequireAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 
 const CallbackContent: React.FC = () => {
-  const { user, isLoading: authLoading } = useAuth();
+  const { user, isLoading: authLoading } = useRequireAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [authCode, setAuthCode] = useState<string | null>(null);
@@ -14,22 +14,24 @@ const CallbackContent: React.FC = () => {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    if (!authLoading && (!user || user.role !== 'admin')) {
+    if (!authLoading && user && user.role !== 'admin') {
       router.push('/admin');
       return;
     }
 
-    // Obtener el código de autorización de la URL
-    const code = searchParams.get('code');
-    const errorParam = searchParams.get('error');
-    const errorDescription = searchParams.get('error_description');
+    if (!authLoading && user && user.role === 'admin') {
+      // Obtener el código de autorización de la URL
+      const code = searchParams.get('code');
+      const errorParam = searchParams.get('error');
+      const errorDescription = searchParams.get('error_description');
 
-    if (errorParam) {
-      setError(`Error de autorización: ${errorParam} - ${errorDescription || 'Error desconocido'}`);
-    } else if (code) {
-      setAuthCode(code);
-    } else {
-      setError('No se recibió código de autorización válido');
+      if (errorParam) {
+        setError(`Error de autorización: ${errorParam} - ${errorDescription || 'Error desconocido'}`);
+      } else if (code) {
+        setAuthCode(code);
+      } else {
+        setError('No se recibió código de autorización válido');
+      }
     }
   }, [user, authLoading, router, searchParams]);
 

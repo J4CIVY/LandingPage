@@ -21,9 +21,12 @@ function LoginForm() {
   const [loginError, setLoginError] = useState<string | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { getRedirectUrl, clearRedirectUrl } = useAuth();
 
-  // Obtener la URL de retorno de los parámetros de consulta (sin usar por ahora)
-  const returnUrl = searchParams.get('returnUrl') || '/dashboard';
+  // Obtener la URL de retorno de los parámetros de consulta o del sessionStorage
+  const urlParamRedirect = searchParams.get('returnUrl');
+  const sessionRedirect = getRedirectUrl();
+  const returnUrl = urlParamRedirect || sessionRedirect || '/dashboard';
 
   // TEMPORALMENTE REMOVIDO - useEffect que causaba redirecciones automáticas
 
@@ -63,12 +66,12 @@ function LoginForm() {
       const result = await response.json();
 
       if (result.success) {
-        // Login exitoso - usar returnUrl si está disponible
-        const targetUrl = returnUrl !== '/dashboard' ? returnUrl : '/dashboard';
-        console.log('Login exitoso! Redirigiendo a:', targetUrl);
+        // Login exitoso - limpiar URL guardada y redireccionar
+        clearRedirectUrl();
+        console.log('Login exitoso! Redirigiendo a:', returnUrl);
         
-        // Redirección con la URL correcta
-        window.location.href = targetUrl;
+        // Usar router.push en lugar de window.location.href para mejor UX
+        router.push(returnUrl);
         
       } else {
         // Mostrar error específico

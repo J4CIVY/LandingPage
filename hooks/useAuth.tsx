@@ -22,10 +22,13 @@ interface AuthState {
 }
 
 interface AuthContextType extends AuthState {
-  login: (email: string, password: string, rememberMe?: boolean) => Promise<boolean>;
+  login: (email: string, password: string, rememberMe?: boolean, redirectUrl?: string) => Promise<boolean>;
   logout: () => Promise<void>;
   refreshAuth: () => Promise<boolean>;
   isInitialized: boolean;
+  setRedirectUrl: (url: string) => void;
+  getRedirectUrl: () => string | null;
+  clearRedirectUrl: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -224,12 +227,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => clearInterval(interval);
   }, [isInitialized, authState.isAuthenticated, refreshAuth]);
 
+  // Funciones para manejar URL de redirección
+  const setRedirectUrl = useCallback((url: string) => {
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('redirectUrl', url);
+    }
+  }, []);
+
+  const getRedirectUrl = useCallback((): string | null => {
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem('redirectUrl');
+    }
+    return null;
+  }, []);
+
+  const clearRedirectUrl = useCallback(() => {
+    if (typeof window !== 'undefined') {
+      sessionStorage.removeItem('redirectUrl');
+    }
+  }, []);
+
   const contextValue: AuthContextType = {
     ...authState,
     login,
     logout,
     refreshAuth,
-    isInitialized
+    isInitialized,
+    setRedirectUrl,
+    getRedirectUrl,
+    clearRedirectUrl
   };
 
   return (
@@ -253,9 +279,14 @@ export function useRequireAuth() {
 
   useEffect(() => {
     if (auth.isInitialized && !auth.isAuthenticated && !auth.isLoading) {
+      // Guardar la URL actual para redirección después del login
+      const currentPath = window.location.pathname + window.location.search;
+      if (currentPath !== '/login' && currentPath !== '/register') {
+        auth.setRedirectUrl(currentPath);
+      }
       router.push('/login');
     }
-  }, [auth.isInitialized, auth.isAuthenticated, auth.isLoading, router]);
+  }, [auth, router]);
 
   return auth;
 }

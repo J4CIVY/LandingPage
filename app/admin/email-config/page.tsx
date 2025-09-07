@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '@/hooks/useAuth';
+import { useRequireAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 
 interface EmailConfig {
@@ -19,7 +19,7 @@ interface TestResult {
 }
 
 const EmailConfigPage: React.FC = () => {
-  const { user, isLoading: authLoading } = useAuth();
+  const { user, isLoading: authLoading } = useRequireAuth();
   const router = useRouter();
   const [config, setConfig] = useState<EmailConfig | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -28,13 +28,10 @@ const EmailConfigPage: React.FC = () => {
   const [testEmail, setTestEmail] = useState('');
 
   useEffect(() => {
-    if (!authLoading && (!user || user.role !== 'admin')) {
-      router.push('/admin');
-      return;
-    }
-
-    if (user?.role === 'admin') {
+    if (!authLoading && user && user.role === 'admin') {
       fetchConfig();
+    } else if (!authLoading && user && user.role !== 'admin') {
+      router.push('/admin');
     }
   }, [user, authLoading, router]);
 
