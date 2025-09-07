@@ -77,7 +77,7 @@ const EmailConfigPage: React.FC = () => {
     }
     
     const redirectUri = encodeURIComponent(`${window.location.origin}/admin/email-config/callback`);
-    const scope = encodeURIComponent('ZohoMail.messages.ALL,ZohoMail.accounts.READ');
+    const scope = encodeURIComponent('ZohoMail.messages.CREATE,ZohoMail.accounts.READ,ZohoMail.folders.READ');
     
     const authUrl = `https://accounts.zoho.com/oauth/v2/auth?scope=${scope}&client_id=${clientId}&response_type=code&access_type=offline&redirect_uri=${redirectUri}`;
     

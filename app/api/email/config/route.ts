@@ -34,7 +34,7 @@ async function handleGet(request: NextRequest) {
       { 
         authUrl,
         redirectUri,
-        scopes: ['ZohoMail.messages.ALL', 'ZohoMail.accounts.READ']
+        scopes: ['ZohoMail.messages.CREATE', 'ZohoMail.accounts.READ', 'ZohoMail.folders.READ']
       },
       'URL de autorización generada'
     );

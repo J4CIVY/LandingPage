@@ -79,7 +79,7 @@ curl -X POST "https://accounts.zoho.com/oauth/v2/token" \
   -d "client_id=1000.XXXXXXXXXX" \
   -d "client_secret=xxxxxxxxxxxxxxxxxxxxx" \
   -d "redirect_uri=https://tu-dominio.com/admin/email-config/callback" \
-  -d "scope=ZohoMail.messages.ALL,ZohoMail.accounts.READ"
+  -d "scope=ZohoMail.messages.CREATE,ZohoMail.accounts.READ,ZohoMail.folders.READ"
 ```
 
 #### Paso 5: Obtener Account ID
@@ -91,8 +91,9 @@ curl "https://mail.zoho.com/api/accounts" \
 
 ### 3. Scopes OAuth Requeridos
 
-- `ZohoMail.messages.ALL`: Para enviar correos
+- `ZohoMail.messages.CREATE`: Para enviar correos
 - `ZohoMail.accounts.READ`: Para leer información de cuentas
+- `ZohoMail.folders.READ`: Para acceder a carpetas de correo
 
 ## Uso
 

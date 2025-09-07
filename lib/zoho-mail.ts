@@ -30,7 +30,7 @@ export class ZohoMailClient {
   /**
    * Obtiene la URL de autorización para OAuth 2.0
    */
-  getAuthorizationUrl(redirectUri: string, scopes: string[] = ['ZohoMail.messages.ALL']): string {
+  getAuthorizationUrl(redirectUri: string, scopes: string[] = ['ZohoMail.messages.CREATE', 'ZohoMail.accounts.READ', 'ZohoMail.folders.READ']): string {
     const params = new URLSearchParams({
       client_id: this.clientId,
       response_type: 'code',
@@ -57,7 +57,7 @@ export class ZohoMailClient {
         client_id: this.clientId,
         client_secret: this.clientSecret,
         redirect_uri: redirectUri,
-        scope: 'ZohoMail.messages.ALL,ZohoMail.accounts.READ'
+        scope: 'ZohoMail.messages.CREATE,ZohoMail.accounts.READ,ZohoMail.folders.READ'
       }),
     });
 

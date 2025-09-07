@@ -53,7 +53,7 @@ const CallbackContent: React.FC = () => {
   -d "client_id=${clientId}" \\
   -d "client_secret=TU_CLIENT_SECRET" \\
   -d "redirect_uri=${redirectUri}" \\
-  -d "scope=ZohoMail.messages.ALL,ZohoMail.accounts.READ"`;
+  -d "scope=ZohoMail.messages.CREATE,ZohoMail.accounts.READ,ZohoMail.folders.READ"`;
   };
 
   if (authLoading) {
