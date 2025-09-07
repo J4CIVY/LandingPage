@@ -225,7 +225,7 @@ export default function DashboardPage() {
       {/* Contenido del Dashboard */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Tarjeta de Perfil del Usuario */}
-        <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm p-4 sm:p-6 mb-6 sm:mb-8 border border-gray-200 dark:border-slate-700">
+        <div className="bg-gray-50 dark:bg-slate-900 rounded-xl shadow-sm p-4 sm:p-6 mb-6 sm:mb-8 border border-gray-200 dark:border-slate-700">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
             <div className="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-6">
               <div className="relative flex-shrink-0 self-center sm:self-auto">
