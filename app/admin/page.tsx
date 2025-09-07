@@ -16,7 +16,8 @@ import {
   FaArrowRight,
   FaArrowUp,
   FaArrowDown,
-  FaBell
+  FaBell,
+  FaEnvelope
 } from 'react-icons/fa';
 
 interface AdminStats {
@@ -129,6 +130,15 @@ export default function AdminDashboard() {
       icon: FaBell,
       color: 'bg-yellow-500',
       stats: 'Sistema activo',
+      trend: 'stable'
+    },
+    {
+      title: 'Configuración de Email',
+      description: 'Configurar sistema de correo Zoho Mail',
+      href: '/admin/email-config',
+      icon: FaEnvelope,
+      color: 'bg-cyan-500',
+      stats: 'Zoho Mail API',
       trend: 'stable'
     }
   ];

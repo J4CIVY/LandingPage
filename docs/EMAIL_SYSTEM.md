@@ -66,7 +66,7 @@ Después del registro obtendrás:
 1. Ve al panel de administración: `/admin/email-config`
 2. Haz clic en "Autorizar con Zoho"
 3. Autoriza la aplicación en Zoho
-4. Copia el código de autorización de la URL de callback
+4. Serás redirigido a `/admin/email-config/callback` con el código de autorización
 
 #### Paso 4: Intercambiar código por tokens
 
