@@ -33,6 +33,7 @@ export async function GET(request: NextRequest) {
     const user = await User.findById(decoded.userId)
       .populate('events')
       .populate('favoriteEvents')
+      .populate('attendedEvents')
       .lean();
 
     if (!user) {
@@ -45,13 +46,7 @@ export async function GET(request: NextRequest) {
     // Contar eventos
     const registeredEventsCount = (user as any).events?.length || 0;
     const favoriteEventsCount = (user as any).favoriteEvents?.length || 0;
-
-    // Obtener eventos pasados (eventos en los que participó)
-    const now = new Date();
-    const pastEvents = await Event.find({
-      _id: { $in: (user as any).events || [] },
-      eventEndDate: { $lt: now }
-    }).countDocuments();
+    const attendedEventsCount = (user as any).attendedEvents?.length || 0;
 
     // Calcular días como miembro
     const joinDate = (user as any).joinDate || (user as any).createdAt;
@@ -64,7 +59,7 @@ export async function GET(request: NextRequest) {
       data: {
         stats: {
           eventsRegistered: registeredEventsCount,
-          eventsAttended: pastEvents,
+          eventsAttended: attendedEventsCount,
           favoriteEvents: favoriteEventsCount,
           daysSinceJoining: daysSinceJoining,
           memberSince: joinDate ? new Date(joinDate).toISOString() : new Date((user as any).createdAt).toISOString(),

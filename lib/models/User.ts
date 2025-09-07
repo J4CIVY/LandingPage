@@ -82,6 +82,7 @@ export interface IUser extends Document {
   // Eventos y actividades
   events?: mongoose.Types.ObjectId[]; // Eventos en los que está registrado
   favoriteEvents?: mongoose.Types.ObjectId[]; // Eventos marcados como favoritos
+  attendedEvents?: mongoose.Types.ObjectId[]; // Eventos en los que se confirmó su asistencia
   
   // Metadatos
   createdAt: Date;
@@ -201,7 +202,8 @@ const UserSchema = new Schema<IUser>({
   
   // Eventos y actividades
   events: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
-  favoriteEvents: [{ type: Schema.Types.ObjectId, ref: 'Event' }]
+  favoriteEvents: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
+  attendedEvents: [{ type: Schema.Types.ObjectId, ref: 'Event' }] // Eventos confirmados como asistidos
 }, {
   timestamps: true,
   collection: 'users',

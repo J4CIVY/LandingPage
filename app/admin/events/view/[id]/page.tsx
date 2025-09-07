@@ -107,6 +107,8 @@ export default function EventDetailPage() {
   const [event, setEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState(true);
   const [showParticipants, setShowParticipants] = useState(false);
+  const [attendanceData, setAttendanceData] = useState<any>(null);
+  const [loadingAttendance, setLoadingAttendance] = useState(false);
 
   // Verificar autenticación y permisos
   useEffect(() => {
@@ -145,6 +147,54 @@ export default function EventDetailPage() {
       loadEvent();
     }
   }, [user, eventId, router]);
+
+  // Cargar datos de asistencia
+  const loadAttendanceData = async () => {
+    try {
+      setLoadingAttendance(true);
+      const response = await fetch(`/api/admin/events/${eventId}/attendance`);
+      if (response.ok) {
+        const data = await response.json();
+        setAttendanceData(data.data);
+      }
+    } catch (error) {
+      console.error('Error cargando datos de asistencia:', error);
+    } finally {
+      setLoadingAttendance(false);
+    }
+  };
+
+  // Marcar/desmarcar asistencia
+  const handleToggleAttendance = async (participantId: string, currentAttendance: boolean) => {
+    try {
+      const response = await fetch(`/api/admin/events/${eventId}/attendance`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          participantId,
+          action: currentAttendance ? 'unmark' : 'mark'
+        })
+      });
+
+      if (response.ok) {
+        // Recargar datos de asistencia
+        await loadAttendanceData();
+      } else {
+        const errorData = await response.json();
+        alert(errorData.error || 'Error al actualizar asistencia');
+      }
+    } catch (error) {
+      console.error('Error actualizando asistencia:', error);
+      alert('Error de conexión');
+    }
+  };
+
+  // Cargar datos de asistencia cuando se muestren los participantes
+  useEffect(() => {
+    if (showParticipants && eventId) {
+      loadAttendanceData();
+    }
+  }, [showParticipants, eventId]);
 
   const handleToggleStatus = async () => {
     if (!event) return;
@@ -382,7 +432,7 @@ export default function EventDetailPage() {
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-900 flex items-center">
                   <FaUsers className="mr-2 text-blue-500" />
-                  Participantes ({event.currentParticipants}{event.maxParticipants ? `/${event.maxParticipants}` : ''})
+                  Gestión de Asistencia
                 </h3>
                 {event.participants && event.participants.length > 0 && (
                   <button
@@ -394,10 +444,16 @@ export default function EventDetailPage() {
                 )}
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
-                <div className="text-center p-4 bg-gray-50 rounded-lg">
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-4">
+                <div className="text-center p-4 bg-blue-50 rounded-lg">
                   <p className="text-2xl font-bold text-blue-600">{event.currentParticipants}</p>
                   <p className="text-sm text-gray-600">Registrados</p>
+                </div>
+                <div className="text-center p-4 bg-green-50 rounded-lg">
+                  <p className="text-2xl font-bold text-green-600">
+                    {attendanceData?.totalAttended || 0}
+                  </p>
+                  <p className="text-sm text-gray-600">Asistieron</p>
                 </div>
                 {event.maxParticipants && (
                   <>
@@ -405,36 +461,75 @@ export default function EventDetailPage() {
                       <p className="text-2xl font-bold text-gray-600">{event.maxParticipants - event.currentParticipants}</p>
                       <p className="text-sm text-gray-600">Disponibles</p>
                     </div>
-                    <div className="text-center p-4 bg-gray-50 rounded-lg">
-                      <p className="text-2xl font-bold text-green-600">
-                        {Math.round((event.currentParticipants / event.maxParticipants) * 100)}%
+                    <div className="text-center p-4 bg-purple-50 rounded-lg">
+                      <p className="text-2xl font-bold text-purple-600">
+                        {event.currentParticipants > 0 
+                          ? Math.round(((attendanceData?.totalAttended || 0) / event.currentParticipants) * 100)
+                          : 0}%
                       </p>
-                      <p className="text-sm text-gray-600">Ocupación</p>
+                      <p className="text-sm text-gray-600">% Asistencia</p>
                     </div>
                   </>
                 )}
               </div>
 
-              {showParticipants && event.participants && event.participants.length > 0 && (
+              {showParticipants && (
                 <div className="space-y-2">
-                  <h4 className="font-medium text-gray-900 mb-2">Lista de Participantes</h4>
-                  <div className="max-h-60 overflow-y-auto">
-                    {event.participants.map((participant, index) => (
-                      <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                        <div>
-                          <p className="font-medium text-gray-900">
-                            {participant.firstName} {participant.lastName}
-                          </p>
-                          <p className="text-sm text-gray-600">{participant.email}</p>
-                        </div>
-                        {participant.membershipType && (
-                          <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
-                            {participant.membershipType}
-                          </span>
-                        )}
-                      </div>
-                    ))}
+                  <div className="flex items-center justify-between mb-4">
+                    <h4 className="font-medium text-gray-900">Lista de Participantes</h4>
+                    {loadingAttendance && (
+                      <FaSpinner className="animate-spin text-blue-600" />
+                    )}
                   </div>
+                  
+                  {attendanceData?.participants && attendanceData.participants.length > 0 ? (
+                    <div className="space-y-2 max-h-96 overflow-y-auto">
+                      {attendanceData.participants.map((participant: any) => (
+                        <div key={participant._id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border">
+                          <div className="flex-1">
+                            <div className="flex items-center space-x-3">
+                              <div className={`w-3 h-3 rounded-full ${
+                                participant.hasAttended ? 'bg-green-500' : 'bg-gray-300'
+                              }`}></div>
+                              <div>
+                                <p className="font-medium text-gray-900">
+                                  {participant.firstName} {participant.lastName}
+                                </p>
+                                <p className="text-sm text-gray-600">{participant.email}</p>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="flex items-center space-x-2">
+                            {participant.membershipType && (
+                              <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
+                                {participant.membershipType}
+                              </span>
+                            )}
+                            
+                            <button
+                              onClick={() => handleToggleAttendance(participant._id, participant.hasAttended)}
+                              className={`px-3 py-1 rounded text-xs font-medium transition-colors ${
+                                participant.hasAttended
+                                  ? 'bg-red-100 text-red-800 hover:bg-red-200'
+                                  : 'bg-green-100 text-green-800 hover:bg-green-200'
+                              }`}
+                            >
+                              {participant.hasAttended ? 'Marcar Ausente' : 'Marcar Presente'}
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : event.participants && event.participants.length > 0 ? (
+                    <div className="text-center py-4">
+                      <p className="text-gray-500">Cargando datos de asistencia...</p>
+                    </div>
+                  ) : (
+                    <div className="text-center py-4">
+                      <p className="text-gray-500">No hay participantes registrados</p>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -565,6 +660,14 @@ export default function EventDetailPage() {
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Acciones</h3>
               
               <div className="space-y-3">
+                <button
+                  onClick={() => router.push(`/admin/events/attendance/${eventId}`)}
+                  className="w-full flex items-center justify-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                >
+                  <FaCalendarCheck className="mr-2" />
+                  Gestionar Asistencia
+                </button>
+
                 <button
                   onClick={() => window.open(`/events/${eventId}`, '_blank')}
                   className="w-full flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"

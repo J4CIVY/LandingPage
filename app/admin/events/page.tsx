@@ -17,7 +17,8 @@ import {
   FaMapMarkerAlt,
   FaUsers,
   FaClock,
-  FaFilter
+  FaFilter,
+  FaUserCheck
 } from 'react-icons/fa';
 
 interface Event {
@@ -346,6 +347,13 @@ export default function AdminEventsPage() {
                         title="Ver detalles"
                       >
                         <FaEye />
+                      </Link>
+                      <Link
+                        href={`/admin/events/attendance/${event._id}`}
+                        className="p-2 text-purple-600 hover:text-purple-900 hover:bg-purple-50 rounded-lg transition-colors"
+                        title="Gestionar asistencia"
+                      >
+                        <FaUserCheck />
                       </Link>
                       <Link
                         href={`/admin/events/edit/${event._id}`}

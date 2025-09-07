@@ -43,6 +43,7 @@ export interface IEvent extends Document {
     email: string;
   };
   participants?: mongoose.Types.ObjectId[];
+  attendedParticipants?: mongoose.Types.ObjectId[]; // Participantes que realmente asistieron
   tags?: string[];
   isActive: boolean;
   createdBy?: mongoose.Types.ObjectId;
@@ -100,6 +101,7 @@ const EventSchema = new Schema<IEvent>({
     email: { type: String, required: true }
   },
   participants: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  attendedParticipants: [{ type: Schema.Types.ObjectId, ref: 'User' }], // Participantes confirmados como asistentes
   tags: [{ type: String, trim: true }],
   isActive: { type: Boolean, default: true },
   createdBy: { type: Schema.Types.ObjectId, ref: 'User' }
