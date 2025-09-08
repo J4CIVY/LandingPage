@@ -132,11 +132,13 @@ export class ZohoMailClient {
    */
   async sendEmail(emailConfig: ZohoEmailConfig): Promise<ZohoEmailResponse> {
     if (!this.accountId) {
+      console.log('🔍 Account ID no configurado, obteniendo cuentas disponibles...');
       const accounts = await this.getUserAccounts();
       if (accounts.length === 0) {
         throw new Error('No email accounts found');
       }
       this.accountId = accounts[0].accountId;
+      console.log(`✅ Account ID configurado automáticamente: ${this.accountId}`);
     }
 
     const response = await this.makeApiRequest(
@@ -148,6 +150,36 @@ export class ZohoMailClient {
     const result: ZohoEmailResponse = await response.json();
 
     if (!response.ok) {
+      // Si el error es por Account ID incorrecto, intentar obtener el correcto
+      if (result.data?.moreInfo === 'Account not exists') {
+        console.log('⚠️ Account ID incorrecto, obteniendo el Account ID válido...');
+        try {
+          const accounts = await this.getUserAccounts();
+          if (accounts.length > 0) {
+            this.accountId = accounts[0].accountId;
+            console.log(`🔄 Reintentando con Account ID correcto: ${this.accountId}`);
+            
+            // Reintentar la petición con el Account ID correcto
+            const retryResponse = await this.makeApiRequest(
+              `/accounts/${this.accountId}/messages`,
+              'POST',
+              emailConfig
+            );
+            
+            const retryResult: ZohoEmailResponse = await retryResponse.json();
+            
+            if (retryResponse.ok) {
+              console.log('✅ Email enviado exitosamente después de corregir Account ID');
+              return retryResult;
+            } else {
+              throw new Error(`Failed to send email after Account ID correction: ${retryResult.status?.description || 'Unknown error'}`);
+            }
+          }
+        } catch (accountError) {
+          console.error('❌ Error obteniendo Account ID correcto:', accountError);
+        }
+      }
+      
       throw new Error(`Failed to send email: ${result.status?.description || 'Unknown error'}`);
     }
 
@@ -199,12 +231,18 @@ export class ZohoMailClient {
     // Si el token ha expirado, intentar renovarlo
     if (response.status === 401 && this.refreshToken) {
       try {
+        console.log('🔄 Access token expirado, renovando automáticamente...');
         await this.refreshAccessToken();
         headers['Authorization'] = `Zoho-oauthtoken ${this.accessToken}`;
         config.headers = headers;
         response = await fetch(url, config);
+        
+        if (response.ok) {
+          console.log('✅ Token renovado y petición exitosa');
+        }
       } catch (error) {
-        console.error('Failed to refresh token:', error);
+        console.error('❌ Error renovando token:', error);
+        throw new Error('Token renovation failed: ' + error);
       }
     }
 

@@ -47,6 +47,15 @@ export interface ZohoEmailResponse {
   data?: {
     messageId?: string;
     folder?: string;
+    moreInfo?: string; // Para errores como "Account not exists"
+    // Otros campos opcionales de respuesta
+    askReceipt?: string;
+    subject?: string;
+    fromAddress?: string;
+    toAddress?: string;
+    mailFormat?: string;
+    mailId?: string;
+    content?: string;
   };
 }
 

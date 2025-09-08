@@ -97,11 +97,23 @@ async function handlePost(request: NextRequest) {
     }
 
     if (!emailSent) {
+      console.error('❌ Email notification failed:', {
+        type: notificationData.type,
+        recipient: notificationData.recipientEmail,
+        timestamp: new Date().toISOString()
+      });
+      
       return createErrorResponse(
         'Error al enviar la notificación',
         HTTP_STATUS.INTERNAL_SERVER_ERROR
       );
     }
+
+    console.log('✅ Email notification sent successfully:', {
+      type: notificationData.type,
+      recipient: notificationData.recipientEmail,
+      timestamp: new Date().toISOString()
+    });
 
     return createSuccessResponse(
       { 
@@ -114,7 +126,14 @@ async function handlePost(request: NextRequest) {
     );
 
   } catch (error) {
-    console.error('Error sending notification email:', error);
+    console.error('💥 Error sending notification email:', {
+      error: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+      type: notificationData?.type,
+      recipient: notificationData?.recipientEmail,
+      timestamp: new Date().toISOString()
+    });
+    
     return createErrorResponse(
       'Error interno del servidor',
       HTTP_STATUS.INTERNAL_SERVER_ERROR
