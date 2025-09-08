@@ -12,22 +12,27 @@ import { requireAdmin } from '@/lib/auth-admin';
 
 /**
  * POST /api/email/notifications
- * Envía notificaciones por correo electrónico (solo para administradores)
+ * Envía notificaciones por correo electrónico
+ * - welcome, password_reset: No requieren autenticación
+ * - other types: Requieren autenticación de administrador
  */
 async function handlePost(request: NextRequest) {
-  // Verificar autenticación de administrador
-  const authResult = await requireAdmin(request as any);
-  if (authResult) {
-    return authResult; // Retorna el error de autenticación
-  }
-
-  // Validar el cuerpo de la solicitud
+  // Validar el cuerpo de la solicitud primero
   const validation = await validateRequestBody(request, notificationEmailSchema);
   if (!validation.success) {
     return validation.response;
   }
 
   const notificationData = validation.data;
+
+  // Solo requerir autenticación para tipos que no sean públicos
+  const publicNotificationTypes = ['welcome', 'password_reset'];
+  if (!publicNotificationTypes.includes(notificationData.type)) {
+    const authResult = await requireAdmin(request as any);
+    if (authResult) {
+      return authResult; // Retorna el error de autenticación
+    }
+  }
 
   try {
     const emailService = getEmailService();
