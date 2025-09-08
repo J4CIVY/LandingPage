@@ -39,7 +39,7 @@ export function middleware(request: NextRequest) {
   }
 
   // Proteger otras rutas que requieren autenticación
-  const protectedRoutes = ['/dashboard', '/events/register', '/membership-info'];
+  const protectedRoutes = ['/dashboard', '/events/register'];
   
   if (protectedRoutes.some(route => pathname.startsWith(route))) {
     const token = request.cookies.get('auth-token')?.value || 
