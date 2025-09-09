@@ -56,8 +56,6 @@ export class EmailService {
     additionalData?: Record<string, any>
   ): Promise<boolean> {
     try {
-      console.log(`📧 Enviando email de bienvenida a: ${userEmail}`);
-      
       const emailConfig: ZohoEmailConfig = {
         fromAddress: this.fromEmail,
         toAddress: userEmail,
@@ -67,27 +65,10 @@ export class EmailService {
         askReceipt: 'no'
       };
 
-      console.log(`📋 Configuración del email:`, {
-        from: emailConfig.fromAddress,
-        to: emailConfig.toAddress,
-        subject: emailConfig.subject
-      });
-
       const result = await this.client.sendEmail(emailConfig);
-      
-      if (result.status?.code === 200) {
-        console.log(`✅ Email de bienvenida enviado exitosamente a ${userEmail}`);
-        console.log(`📬 Message ID: ${result.data?.messageId || 'N/A'}`);
-        return true;
-      } else {
-        console.error(`❌ Error enviando email de bienvenida:`, {
-          status: result.status,
-          data: result.data
-        });
-        return false;
-      }
+      return result.status?.code === 200;
     } catch (error) {
-      console.error('💥 Error sending welcome email:', error);
+      console.error('Error sending welcome email:', error);
       return false;
     }
   }
