@@ -5,7 +5,8 @@ import 'dotenv/config';
 // Conexión a MongoDB
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://mongodb:27017/bsk_motorcycle_team');
+    const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/test';
+    await mongoose.connect(uri);
     console.log('✅ Conectado a MongoDB');
   } catch (error) {
     console.error('❌ Error conectando a MongoDB:', error);
