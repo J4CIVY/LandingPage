@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { FaCheckCircle, FaTimesCircle, FaSpinner, FaEnvelope } from 'react-icons/fa';
 import Link from 'next/link';
@@ -15,7 +15,7 @@ interface VerificationResult {
   };
 }
 
-const VerifyEmailPage: React.FC = () => {
+const VerifyEmailContent: React.FC = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [verificationResult, setVerificationResult] = useState<VerificationResult | null>(null);
@@ -215,6 +215,29 @@ const ResendVerificationSection: React.FC = () => {
         </p>
       )}
     </div>
+  );
+};
+
+// Componente principal que envuelve con Suspense
+const VerifyEmailPage: React.FC = () => {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
+          <div className="mb-6">
+            <FaSpinner className="text-6xl text-blue-600 dark:text-blue-400 mx-auto animate-spin" />
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-slate-100 mb-4">
+            Cargando...
+          </h1>
+          <p className="text-gray-600 dark:text-slate-400">
+            Preparando la verificación de email.
+          </p>
+        </div>
+      </div>
+    }>
+      <VerifyEmailContent />
+    </Suspense>
   );
 };
 
