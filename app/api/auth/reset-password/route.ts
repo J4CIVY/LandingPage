@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 import { resetPasswordSchema } from '@/schemas/authSchemas';
-import bcrypt from 'bcryptjs';
 
 export async function POST(request: NextRequest) {
   try {
@@ -43,12 +42,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Hashear la nueva contraseña
-    const saltRounds = 12;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-    // Actualizar la contraseña y limpiar tokens de reset
-    user.password = hashedPassword;
+    // Actualizar la contraseña - el middleware del modelo se encarga del hashing
+    user.password = password; // Usar la contraseña sin hashear (el middleware se encarga)
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     

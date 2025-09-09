@@ -1,5 +1,4 @@
 import { NextRequest } from 'next/server';
-import bcrypt from 'bcryptjs';
 import { 
   withErrorHandling, 
   createSuccessResponse, 
@@ -96,14 +95,10 @@ async function handlePost(request: NextRequest) {
       }
     }
 
-    // Hashear la contraseña
-    const saltRounds = 12;
-    const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
-
-    // Crear nuevo usuario
+    // Crear nuevo usuario - el middleware del modelo se encarga del hashing
     const newUser = new User({
       ...userData,
-      password: hashedPassword, // Usar la contraseña hasheada
+      password: userData.password, // Usar la contraseña sin hashear (el middleware se encarga)
       isActive: true,
       membershipType: userData.membershipType || 'friend' // Membresía por defecto
     });
