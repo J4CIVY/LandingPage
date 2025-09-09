@@ -21,7 +21,7 @@ function LoginForm() {
   const [loginError, setLoginError] = useState<string | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { getRedirectUrl, clearRedirectUrl } = useAuth();
+  const { getRedirectUrl, clearRedirectUrl, login, error: authError } = useAuth();
 
   // Obtener la URL de retorno de los parámetros de consulta o del sessionStorage
   const urlParamRedirect = searchParams.get('returnUrl');
@@ -49,33 +49,22 @@ function LoginForm() {
     setLoginError(null);
 
     try {
-      // Llamar directamente a la API
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ 
-          email: data.email, 
-          password: data.password, 
-          rememberMe: data.rememberMe 
-        }),
-      });
+      // Usar el hook useAuth para manejar el login
+      const loginSuccess = await login(data.email, data.password, data.rememberMe);
 
-      const result = await response.json();
-
-      if (result.success) {
+      if (loginSuccess) {
         // Login exitoso - limpiar URL guardada y redireccionar
         clearRedirectUrl();
         console.log('Login exitoso! Redirigiendo a:', returnUrl);
         
-        // Usar router.push en lugar de window.location.href para mejor UX
-        router.push(returnUrl);
+        // Pequeño delay para asegurar que el estado se propague
+        setTimeout(() => {
+          router.push(returnUrl);
+        }, 100);
         
       } else {
-        // Mostrar error específico
-        setLoginError(result.message || 'Error al iniciar sesión');
+        // Mostrar error específico del hook de autenticación o genérico
+        setLoginError(authError || 'Credenciales inválidas o error de autenticación');
         setIsLoading(false);
       }
     } catch (error) {

@@ -1,20 +1,153 @@
-# Sistema de Verificación de Correo Electrónico
+# Sistema de Verificación de Correo Electrónico - Flujo Mejorado
 
-Este documento describe la implementación del sistema de verificación de correo electrónico para BSK Motorcycle Team.
+Este documento describe la implementación mejorada del sistema de verificación de correo electrónico para BSK Motorcycle Team.
 
-## Funcionalidad
+## Nuevo Flujo de Usuario
 
-### Flujo de Registro
+### 1. Registro → Email de Verificación
 1. **Usuario se registra**: Completa el formulario de registro
 2. **Cuenta creada pero inactiva**: La cuenta se crea con `isActive: false` e `isEmailVerified: false`
-3. **Email de verificación enviado**: Se envía automáticamente un correo con enlace de verificación
-4. **Usuario no puede hacer login**: Hasta que verifique su email
+3. **Solo email de verificación enviado**: Se envía únicamente el correo con enlace de verificación
+4. **Página de registro exitoso**: Enfocada en instrucciones de verificación (no bienvenida)
+5. **Usuario no puede hacer login**: Hasta que verifique su email
 
-### Flujo de Verificación
-1. **Usuario recibe email**: Con enlace de verificación único
+### 2. Verificación → Email de Bienvenida + Página de Bienvenida
+1. **Usuario recibe email de verificación**: Con enlace único
 2. **Hace clic en el enlace**: Redirige a `/verify-email?token=...`
 3. **Cuenta activada**: Se establece `isEmailVerified: true` e `isActive: true`
-4. **Usuario puede hacer login**: Ya puede acceder a su cuenta
+4. **Email de bienvenida enviado**: Automáticamente después de la verificación
+5. **Redirección a página de bienvenida**: `/welcome` con datos del usuario
+6. **Usuario puede hacer login**: Acceso completo activado
+
+## Páginas del Flujo
+
+### Página de Registro Exitoso (`/registration-success`)
+**Propósito**: Informar sobre verificación pendiente
+- ⚠️ Enfoque en verificación de email requerida
+- 📧 Instrucciones claras paso a paso
+- 🚫 No es una bienvenida (cuenta aún inactiva)
+- 🔗 Enlaces a verificación y ayuda
+
+### Página de Verificación (`/verify-email`)
+**Propósito**: Procesar verificación y redireccionar
+- ✅ Muestra estado de verificación
+- ⏳ Auto-redirección a página de bienvenida (2 segundos)
+- 🔄 Formulario de reenvío si es necesario
+- 📝 Mensaje de confirmación
+
+### Nueva Página de Bienvenida (`/welcome`)
+**Propósito**: Celebrar activación exitosa y orientar al usuario
+- 🎉 Mensaje de bienvenida oficial al club
+- 📋 Información sobre membresía y beneficios
+- 🚀 Próximos pasos sugeridos
+- 🔗 Enlaces directos a dashboard, perfil y eventos
+- 📧 Confirmación de email de bienvenida enviado
+
+## Emails en el Flujo
+
+### 1. Email de Verificación (Registro)
+- **Cuándo**: Inmediatamente después del registro
+- **Propósito**: Verificar propiedad del email
+- **Contenido**: Enlace de verificación, instrucciones de seguridad
+- **Acción**: Activar cuenta al hacer clic
+
+### 2. Email de Bienvenida (Post-Verificación)
+- **Cuándo**: Después de verificación exitosa
+- **Propósito**: Dar bienvenida oficial al club
+- **Contenido**: Información de membresía, beneficios, próximos pasos
+- **Acción**: Informar sobre activación completa
+
+## Archivos Modificados/Creados
+
+### APIs Actualizadas
+- `/app/api/auth/verify-email/route.ts` - **MODIFICADO**: Envía email de bienvenida después de verificar
+- `/app/api/users/route.ts` - Solo envía email de verificación (sin cambios)
+
+### Páginas Nuevas
+- `/app/welcome/page.tsx` - **NUEVA**: Página de bienvenida oficial al club
+
+### Páginas Modificadas
+- `/app/registration-success/page.tsx` - **MODIFICADO**: Enfocada en verificación pendiente
+- `/app/verify-email/page.tsx` - **MODIFICADO**: Redirecciona a `/welcome` después de verificar
+- `/app/dashboard/page.tsx` - Banner de verificación (sin cambios)
+- `/app/login/page.tsx` - Manejo de errores de verificación (sin cambios)
+
+### Servicios
+- `/lib/email-service.ts` - Utiliza método `sendWelcomeEmail()` existente
+
+## Estados del Usuario Mejorados
+
+### Durante Registro
+- `isActive: false`
+- `isEmailVerified: false` 
+- `emailVerificationToken: "token_único"`
+- **Experiencia**: Página informativa sobre verificación pendiente
+
+### Durante Verificación 
+- **Proceso**: Token validado → Cuenta activada → Email bienvenida enviado
+- **Experiencia**: Mensaje de confirmación → Auto-redirección a bienvenida
+
+### Post-Verificación
+- `isActive: true`
+- `isEmailVerified: true`
+- `emailVerificationToken: undefined`
+- **Experiencia**: Página de bienvenida oficial → Acceso completo
+
+## Beneficios del Nuevo Flujo
+
+### 📧 **Intercambio de Emails Lógico**
+- **Registro**: Solo verificación (propósito técnico)
+- **Verificación**: Bienvenida (propósito celebratorio)
+
+### 🎯 **Experiencia de Usuario Mejorada**
+- **Expectativas claras**: Cada página tiene un propósito específico
+- **Progresión lógica**: Verificación → Bienvenida → Acceso
+- **Celebración apropiada**: Bienvenida solo cuando la cuenta está activa
+
+### 🔒 **Seguridad Mantenida**
+- **Sin cambios en seguridad**: Mismas validaciones y rate limiting
+- **Token único**: Proceso de verificación inalterado
+- **Activación protegida**: Solo después de verificación exitosa
+
+## URLs del Flujo
+
+```
+Registro → /registration-success?userEmail=email
+              ↓ (Usuario verifica email)
+Verificación → /verify-email?token=TOKEN 
+              ↓ (Auto-redirección después de 2s)
+Bienvenida → /welcome?email=X&firstName=Y&lastName=Z
+              ↓ (Usuario hace clic)
+Dashboard → /dashboard (cuenta completamente activa)
+```
+
+## Testing del Flujo Completo
+
+### Caso de Prueba Principal
+1. **Registrar usuario nuevo**
+   - ✅ Verificar redirección a `/registration-success`
+   - ✅ Verificar mensaje enfocado en verificación
+   - ✅ Verificar envío de email de verificación únicamente
+
+2. **Intentar login sin verificar**
+   - ✅ Verificar error de email no verificado
+   - ✅ Verificar enlace a verificación
+
+3. **Verificar email**
+   - ✅ Verificar activación de cuenta
+   - ✅ Verificar envío de email de bienvenida
+   - ✅ Verificar redirección a `/welcome`
+
+4. **Página de bienvenida**
+   - ✅ Verificar información de bienvenida
+   - ✅ Verificar enlaces funcionales
+   - ✅ Verificar datos del usuario
+
+5. **Login post-verificación**
+   - ✅ Verificar acceso normal al dashboard
+   - ✅ Verificar ausencia de banner de verificación
+
+Este flujo mejorado proporciona una experiencia más lógica y celebratoria para los nuevos miembros del BSK Motorcycle Team. 🏍️
 
 ## Archivos Modificados/Creados
 

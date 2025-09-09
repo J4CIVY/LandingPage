@@ -47,9 +47,10 @@ export function middleware(request: NextRequest) {
     
     if (!token) {
       console.log('[MIDDLEWARE] Sin token para ruta protegida:', pathname);
-      return NextResponse.redirect(new URL('/login', request.url));
+      return NextResponse.redirect(new URL('/login?returnUrl=' + encodeURIComponent(pathname), request.url));
     }
 
+    // Si hay token, dejamos que la página maneje la validación completa
     console.log('[MIDDLEWARE] Token presente para ruta protegida:', pathname);
   }
 

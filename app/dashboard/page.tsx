@@ -157,8 +157,13 @@ export default function DashboardPage() {
   }
 
   // Si no está autenticado DESPUÉS de la inicialización, mostrar mensaje de acceso requerido
-  if (!isAuthenticated || !user) {
-    console.log('Dashboard: Usuario no autenticado', { isAuthenticated, user: !!user, isInitialized });
+  if (isInitialized && !isAuthenticated) {
+    console.log('Dashboard: Usuario no autenticado después de inicialización', { 
+      isAuthenticated, 
+      user: !!user, 
+      isInitialized,
+      isLoading 
+    });
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center px-4">
         <div className="text-center bg-white dark:bg-slate-800 rounded-lg shadow-lg p-8 max-w-md w-full">
@@ -176,6 +181,15 @@ export default function DashboardPage() {
       </div>
     );
   }
+
+  // En este punto, sabemos que el usuario está autenticado y user no es null
+  if (!user) {
+    // Esto no debería pasar, pero agregamos por seguridad
+    return null;
+  }
+
+  // Ahora user está garantizado de no ser null
+  const userName = `${user.firstName} ${user.lastName}` || user.email || 'Usuario';
 
   const handleLogout = async () => {
     await logout();
