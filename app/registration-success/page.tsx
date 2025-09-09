@@ -26,54 +26,60 @@ const ContentWithSearchParams: React.FC = () => {
         <FaCheckCircle className="text-green-500 text-6xl" aria-hidden="true" />
       </div>
 
-      <h1 className="text-3xl font-extrabold text-gray-900 mb-4">¡Registro Exitoso!</h1>
+      <h1 className="text-3xl font-extrabold text-gray-900 mb-4">¡Registro Completado!</h1>
 
       <p className="text-xl text-gray-600 mb-8">
-        Bienvenido a la familia <span className="text-red-600 font-bold">BSK Motorcycle Team</span>. Tu registro como miembro <span className="font-semibold">Friend</span> ha sido completado con éxito.
+        Tu cuenta en <span className="text-red-600 font-bold">BSK Motorcycle Team</span> ha sido creada exitosamente.
       </p>
 
-      <div className="mt-6 bg-amber-50 p-4 rounded-lg border border-amber-200" role="alert">
-        <h3 className="text-lg font-semibold text-amber-800 mb-2">⚠️ Verificación de correo requerida</h3>
-        <p className="text-amber-700 mb-3">
-          Tu cuenta ha sido creada pero <strong>necesita ser verificada</strong> antes de que puedas iniciar sesión.
+      <div className="mt-6 bg-amber-50 p-6 rounded-lg border border-amber-200" role="alert">
+        <h3 className="text-xl font-semibold text-amber-800 mb-3">📧 Verificación de correo requerida</h3>
+        <p className="text-amber-700 mb-4">
+          <strong>Importante:</strong> Tu cuenta está pendiente de verificación. Debes verificar tu correo electrónico antes de poder iniciar sesión.
         </p>
-        <p className="text-amber-700">
-          Hemos enviado un correo de verificación a <span className="font-semibold">{userEmail || 'tu dirección de correo'}</span>. 
-          <strong> Debes hacer clic en el enlace de verificación para activar tu cuenta.</strong>
+        <p className="text-amber-700 mb-4">
+          Hemos enviado un correo de verificación a <span className="font-semibold bg-amber-100 px-2 py-1 rounded">{userEmail || 'tu dirección de correo'}</span>.
         </p>
+        <div className="bg-amber-100 p-3 rounded border-l-4 border-amber-400">
+          <p className="text-amber-800 text-sm font-medium">
+            ⚠️ No podrás iniciar sesión hasta que verifiques tu correo electrónico.
+          </p>
+        </div>
       </div>
 
       <div className="mt-4 bg-blue-50 p-4 rounded-lg border border-blue-200">
-        <h3 className="text-lg font-semibold text-blue-800 mb-2">📧 Revisa tu correo</h3>
-        <p className="text-blue-700 text-sm">
-          • Revisa tu bandeja de entrada y la carpeta de spam<br/>
-          • El correo puede tardar unos minutos en llegar<br/>
-          • Si no lo recibes, puedes solicitar un reenvío desde la página de verificación
-        </p>
+        <h3 className="text-lg font-semibold text-blue-800 mb-2">� Instrucciones:</h3>
+        <ol className="text-blue-700 text-sm space-y-2 list-decimal list-inside">
+          <li>Revisa tu bandeja de entrada y la carpeta de spam</li>
+          <li>Busca el correo de "BSK Motorcycle Team - Verifica tu correo"</li>
+          <li>Haz clic en el enlace de verificación</li>
+          <li>Serás redirigido a la página de bienvenida del club</li>
+          <li>¡Después podrás iniciar sesión normalmente!</li>
+        </ol>
       </div>
 
       <div className="bg-gray-50 rounded-lg p-6 mb-8 text-left mt-6">
         <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b border-gray-200 pb-2">
-          Próximos pasos:
+          Proceso de activación:
         </h2>
 
         <div className="space-y-4">
           {[
             {
-              title: '1. Verifica tu correo electrónico:',
-              text: 'Haz clic en el enlace de verificación que enviamos a tu correo para activar tu cuenta.'
+              title: '✅ Cuenta creada exitosamente',
+              text: 'Tu información ha sido registrada en nuestro sistema.'
             },
             {
-              title: '2. Inicia sesión:',
-              text: 'Una vez verificado tu email, podrás iniciar sesión en tu cuenta y acceder a tu dashboard.'
+              title: '📧 Email de verificación enviado',
+              text: 'Revisa tu correo y haz clic en el enlace de verificación.'
             },
             {
-              title: '3. Completa tu perfil:',
-              text: 'Revisa y actualiza cualquier información adicional en tu perfil de usuario.'
+              title: '🎉 Bienvenida al club',
+              text: 'Después de verificar tu email serás oficialmente parte del BSK MT.'
             },
             {
-              title: '4. Únete a la comunidad:',
-              text: 'Explora eventos, conecta con otros miembros y disfruta de tu membresía en BSK Motorcycle Team.'
+              title: '🚀 Acceso completo',
+              text: 'Podrás iniciar sesión y acceder a todas las funcionalidades.'
             }
           ].map((step, index) => (
             <div className="flex items-start" key={index}>
@@ -83,7 +89,7 @@ const ContentWithSearchParams: React.FC = () => {
                 </div>
               </div>
               <p className="ml-3 text-gray-700">
-                <span className="font-medium">{step.title}</span> {step.text}
+                <span className="font-medium">{step.title}:</span> {step.text}
               </p>
             </div>
           ))}

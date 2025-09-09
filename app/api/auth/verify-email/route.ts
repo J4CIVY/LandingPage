@@ -7,6 +7,33 @@ const verifyEmailSchema = z.object({
   token: z.string().min(1, 'Token requerido')
 });
 
+// Función auxiliar para verificar email y enviar bienvenida
+async function processEmailVerification(user: any) {
+  // Verificar email y activar cuenta
+  user.isEmailVerified = true;
+  user.isActive = true;
+  user.emailVerificationToken = undefined;
+  await user.save();
+
+  // Enviar email de bienvenida
+  try {
+    const { EmailService } = await import('@/lib/email-service');
+    const emailService = new EmailService();
+    await emailService.sendWelcomeEmail(
+      user.email,
+      `${user.firstName} ${user.lastName}`,
+      {
+        membershipType: user.membershipType,
+        firstName: user.firstName,
+        lastName: user.lastName
+      }
+    );
+  } catch (emailError) {
+    console.error('Error enviando email de bienvenida:', emailError);
+    // No fallar la verificación si el email de bienvenida falla
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     await connectDB();
@@ -44,16 +71,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Verificar email y activar cuenta
-    user.isEmailVerified = true;
-    user.isActive = true;
-    user.emailVerificationToken = undefined;
-    await user.save();
+    await processEmailVerification(user);
 
     return NextResponse.json(
       {
         success: true,
-        message: 'Correo electrónico verificado exitosamente. Tu cuenta ha sido activada.',
+        message: 'Correo electrónico verificado exitosamente. Tu cuenta ha sido activada y recibirás un email de bienvenida.',
         data: {
           email: user.email,
           firstName: user.firstName,
@@ -112,16 +135,12 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Verificar email y activar cuenta
-    user.isEmailVerified = true;
-    user.isActive = true;
-    user.emailVerificationToken = undefined;
-    await user.save();
+    await processEmailVerification(user);
 
     return NextResponse.json(
       {
         success: true,
-        message: 'Correo electrónico verificado exitosamente. Tu cuenta ha sido activada.',
+        message: 'Correo electrónico verificado exitosamente. Tu cuenta ha sido activada y recibirás un email de bienvenida.',
         data: {
           email: user.email,
           firstName: user.firstName,

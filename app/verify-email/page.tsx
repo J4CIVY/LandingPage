@@ -46,6 +46,18 @@ const VerifyEmailContent: React.FC = () => {
 
         const result = await response.json();
         setVerificationResult(result);
+        
+        // Si la verificación fue exitosa, redirigir a la página de bienvenida
+        if (result.success && result.data) {
+          setTimeout(() => {
+            const params = new URLSearchParams({
+              email: result.data.email,
+              firstName: result.data.firstName,
+              lastName: result.data.lastName
+            });
+            router.push(`/welcome?${params.toString()}`);
+          }, 2000); // Esperar 2 segundos para que el usuario vea el mensaje
+        }
       } catch (error) {
         console.error('Error verificando email:', error);
         setVerificationResult({
