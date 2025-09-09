@@ -224,6 +224,32 @@ export default function DashboardPage() {
 
       {/* Contenido del Dashboard */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        {/* Banner de verificación de email */}
+        {user && !user.isEmailVerified && (
+          <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
+            <div className="flex items-start space-x-3">
+              <FaEnvelope className="text-amber-600 dark:text-amber-400 text-xl flex-shrink-0 mt-0.5" />
+              <div className="flex-1 min-w-0">
+                <h3 className="text-lg font-semibold text-amber-800 dark:text-amber-200 mb-2">
+                  Verificación de correo pendiente
+                </h3>
+                <p className="text-amber-700 dark:text-amber-300 text-sm mb-3">
+                  Tu cuenta está limitada hasta que verifiques tu correo electrónico. Revisa tu bandeja de entrada y haz clic en el enlace de verificación.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <EmailVerificationButton userEmail={user.email} />
+                  <Link
+                    href="/verify-email"
+                    className="inline-flex items-center px-3 py-2 text-sm font-medium text-amber-700 dark:text-amber-300 bg-amber-100 dark:bg-amber-800/30 hover:bg-amber-200 dark:hover:bg-amber-800/50 rounded-lg transition-colors"
+                  >
+                    Ir a verificación
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Tarjeta de Perfil del Usuario */}
         <div className="bg-gray-50 dark:bg-slate-900 rounded-xl shadow-sm p-4 sm:p-6 mb-6 sm:mb-8 border border-gray-200 dark:border-slate-700">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
@@ -504,3 +530,59 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+// Componente para el botón de reenvío de verificación de email
+const EmailVerificationButton: React.FC<{ userEmail: string }> = ({ userEmail }) => {
+  const [isResending, setIsResending] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const handleResendVerification = async () => {
+    setIsResending(true);
+    setMessage('');
+
+    try {
+      const response = await fetch('/api/auth/resend-verification', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: userEmail }),
+      });
+
+      const result = await response.json();
+      setMessage(result.message);
+    } catch (error) {
+      console.error('Error reenviando verificación:', error);
+      setMessage('Error de conexión. Intenta nuevamente más tarde.');
+    } finally {
+      setIsResending(false);
+    }
+  };
+
+  return (
+    <div>
+      <button
+        onClick={handleResendVerification}
+        disabled={isResending}
+        className="inline-flex items-center px-3 py-2 text-sm font-medium text-amber-800 dark:text-amber-200 bg-amber-200 dark:bg-amber-700/50 hover:bg-amber-300 dark:hover:bg-amber-700 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {isResending ? (
+          <>
+            <FaSpinner className="animate-spin mr-2" />
+            Enviando...
+          </>
+        ) : (
+          <>
+            <FaEnvelope className="mr-2" />
+            Reenviar verificación
+          </>
+        )}
+      </button>
+      {message && (
+        <p className="mt-2 text-xs text-amber-700 dark:text-amber-300">
+          {message}
+        </p>
+      )}
+    </div>
+  );
+};

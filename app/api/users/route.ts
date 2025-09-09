@@ -95,15 +95,34 @@ async function handlePost(request: NextRequest) {
       }
     }
 
+    // Generar token de verificación de email
+    const emailVerificationToken = require('crypto').randomBytes(32).toString('hex');
+    
     // Crear nuevo usuario - el middleware del modelo se encarga del hashing
     const newUser = new User({
       ...userData,
       password: userData.password, // Usar la contraseña sin hashear (el middleware se encarga)
-      isActive: true,
+      isActive: false, // Inactivo hasta verificar email
+      isEmailVerified: false,
+      emailVerificationToken,
       membershipType: userData.membershipType || 'friend' // Membresía por defecto
     });
 
     await newUser.save();
+
+    // Enviar email de verificación
+    try {
+      const { EmailService } = await import('@/lib/email-service');
+      const emailService = new EmailService();
+      await emailService.sendEmailVerification(
+        userData.email,
+        `${userData.firstName} ${userData.lastName}`,
+        emailVerificationToken
+      );
+    } catch (emailError) {
+      console.error('Error enviando email de verificación:', emailError);
+      // No fallar el registro si el email falla, el usuario puede solicitar reenvío
+    }
 
     // Retornar usuario sin la contraseña
     const userResponse = newUser.toObject();

@@ -102,6 +102,34 @@ export class EmailService {
   }
 
   /**
+   * Envía un correo de verificación de email
+   */
+  async sendEmailVerification(
+    userEmail: string,
+    userName: string,
+    verificationToken: string
+  ): Promise<boolean> {
+    try {
+      const verificationUrl = `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/verify-email?token=${verificationToken}`;
+      
+      const emailConfig: ZohoEmailConfig = {
+        fromAddress: this.fromEmail,
+        toAddress: userEmail,
+        subject: 'Verifica tu correo electrónico - BSK Motorcycle Team',
+        content: this.generateEmailVerificationContent(userName, verificationUrl),
+        mailFormat: 'html',
+        askReceipt: 'no'
+      };
+
+      const result = await this.client.sendEmail(emailConfig);
+      return result.status?.code === 200;
+    } catch (error) {
+      console.error('Error sending email verification:', error);
+      return false;
+    }
+  }
+
+  /**
    * Envía una notificación de evento
    */
   async sendEventNotification(
@@ -196,6 +224,74 @@ export class EmailService {
       console.error('Error sending admin notification:', error);
       return false;
     }
+  }
+
+  /**
+   * Genera el contenido HTML para el correo de verificación de email
+   */
+  private generateEmailVerificationContent(userName: string, verificationUrl: string): string {
+    return `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Verifica tu correo electrónico</title>
+        <style>
+          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
+          .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; }
+          .header { background-color: #1e40af; color: white; padding: 30px 20px; text-align: center; }
+          .logo { font-size: 24px; font-weight: bold; margin-bottom: 10px; }
+          .content { padding: 40px 30px; }
+          .welcome { font-size: 18px; margin-bottom: 20px; color: #1e40af; }
+          .message { margin-bottom: 30px; }
+          .button-container { text-align: center; margin: 30px 0; }
+          .verify-button { 
+            display: inline-block; 
+            background-color: #1e40af; 
+            color: white; 
+            padding: 15px 30px; 
+            text-decoration: none; 
+            border-radius: 5px; 
+            font-weight: bold;
+          }
+          .verify-button:hover { background-color: #1d4ed8; }
+          .alternative { margin-top: 30px; padding: 20px; background-color: #f8fafc; border-radius: 5px; }
+          .footer { background-color: #f3f4f6; padding: 20px; text-align: center; font-size: 12px; color: #6b7280; }
+          .security-note { color: #ef4444; font-size: 14px; margin-top: 20px; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <div class="logo">BSK Motorcycle Team</div>
+            <div>Verifica tu correo electrónico</div>
+          </div>
+          <div class="content">
+            <div class="welcome">¡Bienvenido ${userName}!</div>
+            <div class="message">
+              <p>Gracias por registrarte en BSK Motorcycle Team. Para completar tu registro y activar tu cuenta, necesitas verificar tu correo electrónico.</p>
+              <p>Haz clic en el botón de abajo para verificar tu correo:</p>
+            </div>
+            <div class="button-container">
+              <a href="${verificationUrl}" class="verify-button">Verificar Correo Electrónico</a>
+            </div>
+            <div class="alternative">
+              <strong>¿No puedes hacer clic en el botón?</strong><br>
+              Copia y pega el siguiente enlace en tu navegador:<br>
+              <a href="${verificationUrl}">${verificationUrl}</a>
+            </div>
+            <div class="security-note">
+              <strong>Nota de seguridad:</strong> Este enlace expirará en 24 horas por tu seguridad. Si no fuiste tú quien se registró, puedes ignorar este correo.
+            </div>
+          </div>
+          <div class="footer">
+            <p>Este correo fue enviado automáticamente. No respondas a este mensaje.</p>
+            <p>BSK Motorcycle Team © ${new Date().getFullYear()}</p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
   }
 
   /**

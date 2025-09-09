@@ -32,11 +32,23 @@ const ContentWithSearchParams: React.FC = () => {
         Bienvenido a la familia <span className="text-red-600 font-bold">BSK Motorcycle Team</span>. Tu registro como miembro <span className="font-semibold">Friend</span> ha sido completado con éxito.
       </p>
 
-      <div className="mt-6 bg-blue-50 p-4 rounded-lg border border-blue-200" role="alert">
-        <h3 className="text-lg font-semibold text-blue-800 mb-2">Verifica tu correo electrónico</h3>
-        <p className="text-blue-700">
-          Hemos enviado un correo de confirmación a <span className="font-semibold">{userEmail || 'tu dirección de correo'}</span>. 
-          Revisa tu bandeja de entrada (y la carpeta de spam) para encontrar tu mensaje de bienvenida.
+      <div className="mt-6 bg-amber-50 p-4 rounded-lg border border-amber-200" role="alert">
+        <h3 className="text-lg font-semibold text-amber-800 mb-2">⚠️ Verificación de correo requerida</h3>
+        <p className="text-amber-700 mb-3">
+          Tu cuenta ha sido creada pero <strong>necesita ser verificada</strong> antes de que puedas iniciar sesión.
+        </p>
+        <p className="text-amber-700">
+          Hemos enviado un correo de verificación a <span className="font-semibold">{userEmail || 'tu dirección de correo'}</span>. 
+          <strong> Debes hacer clic en el enlace de verificación para activar tu cuenta.</strong>
+        </p>
+      </div>
+
+      <div className="mt-4 bg-blue-50 p-4 rounded-lg border border-blue-200">
+        <h3 className="text-lg font-semibold text-blue-800 mb-2">📧 Revisa tu correo</h3>
+        <p className="text-blue-700 text-sm">
+          • Revisa tu bandeja de entrada y la carpeta de spam<br/>
+          • El correo puede tardar unos minutos en llegar<br/>
+          • Si no lo recibes, puedes solicitar un reenvío desde la página de verificación
         </p>
       </div>
 
@@ -48,20 +60,20 @@ const ContentWithSearchParams: React.FC = () => {
         <div className="space-y-4">
           {[
             {
-              title: 'Revisa tu correo electrónico:',
-              text: 'Hemos enviado un mensaje de confirmación con los detalles de tu membresía y credenciales de acceso.'
+              title: '1. Verifica tu correo electrónico:',
+              text: 'Haz clic en el enlace de verificación que enviamos a tu correo para activar tu cuenta.'
             },
             {
-              title: 'Verificación manual:',
-              text: 'Nuestro equipo verificará tu información en las próximas 24-48 horas. Te contactaremos si necesitamos algún documento adicional.'
+              title: '2. Inicia sesión:',
+              text: 'Una vez verificado tu email, podrás iniciar sesión en tu cuenta y acceder a tu dashboard.'
             },
             {
-              title: 'Activación completa:',
-              text: 'Tu membresía estará totalmente activa después de la verificación. Recibirás una notificación cuando esto ocurra.'
+              title: '3. Completa tu perfil:',
+              text: 'Revisa y actualiza cualquier información adicional en tu perfil de usuario.'
             },
             {
-              title: 'Primer evento:',
-              text: 'Mantente atento a nuestras comunicaciones para participar en tu primera rodada como miembro oficial.'
+              title: '4. Únete a la comunidad:',
+              text: 'Explora eventos, conecta con otros miembros y disfruta de tu membresía en BSK Motorcycle Team.'
             }
           ].map((step, index) => (
             <div className="flex items-start" key={index}>
@@ -80,8 +92,15 @@ const ContentWithSearchParams: React.FC = () => {
 
       <div className="flex flex-col sm:flex-row justify-center gap-4">
         <Link
+          href="/verify-email"
+          className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+          aria-label="Ir a verificación de email"
+        >
+          Verificar Email
+        </Link>
+        <Link
           href="/"
-          className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
+          className="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
           aria-label="Volver al Inicio"
         >
           Volver al Inicio

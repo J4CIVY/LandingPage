@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
     const user = await User.findOne({ 
       email,
       isActive: true 
-    }).select('+password +loginAttempts +lockUntil');
+    }).select('+password +loginAttempts +lockUntil +isEmailVerified');
 
     if (!user) {
       return NextResponse.json(
@@ -72,6 +72,18 @@ export async function POST(request: NextRequest) {
           error: 'INVALID_CREDENTIALS'
         },
         { status: 401 }
+      );
+    }
+
+    // Verificar si el email ha sido verificado
+    if (!user.isEmailVerified) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Debes verificar tu correo electrónico antes de iniciar sesión. Revisa tu bandeja de entrada.',
+          error: 'EMAIL_NOT_VERIFIED'
+        },
+        { status: 403 }
       );
     }
 

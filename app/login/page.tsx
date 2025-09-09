@@ -179,8 +179,29 @@ function LoginForm() {
 
             {/* Error de Login */}
             {loginError && (
-              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
-                <p className="text-sm text-red-600 dark:text-red-400">{loginError}</p>
+              <div className={`border rounded-lg p-4 ${
+                loginError.includes('verificar tu correo') 
+                  ? 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800'
+                  : 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800'
+              }`}>
+                <p className={`text-sm ${
+                  loginError.includes('verificar tu correo')
+                    ? 'text-amber-600 dark:text-amber-400'
+                    : 'text-red-600 dark:text-red-400'
+                }`}>
+                  {loginError}
+                </p>
+                {loginError.includes('verificar tu correo') && (
+                  <div className="mt-3">
+                    <Link
+                      href="/verify-email"
+                      className="inline-flex items-center text-sm font-medium text-amber-700 dark:text-amber-300 hover:text-amber-800 dark:hover:text-amber-200 underline"
+                    >
+                      <FaEnvelope className="mr-1" />
+                      Ir a verificación de email
+                    </Link>
+                  </div>
+                )}
               </div>
             )}
 
