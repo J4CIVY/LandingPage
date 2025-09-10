@@ -151,21 +151,13 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
             <div className="pl-2">
               <div className="border-t border-gray-300 dark:border-gray-700 pt-6">
                 <h3 className="text-slate-950 dark:text-white font-bold mb-4">Asistencia de Emergencia</h3>
-                <p className="text-slate-950 dark:text-white text-sm mb-4">
-                  Solicitar Asistencia Técnica O De Emergencias
-                </p>
                 <Link
                   href="/sos"
                   onClick={() => setIsMenuOpen(false)}
                   className="block w-full bg-red-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-red-700 transition-colors mb-4 text-center"
                 >
-                  Botón SOS
+                  Solicitar Asistencia Técnica O De Emergencias
                 </Link>
-                <div className="text-slate-950 dark:text-white text-sm pt-4">
-                  <p>Contacto de emergencia:</p>
-                  <p>Teléfono: +57 312 519 2000</p>
-                  <p>Email: emergencias@bskmt.com</p>
-                </div>
               </div>
 
               {/* Pie del menú móvil con autenticación */}
