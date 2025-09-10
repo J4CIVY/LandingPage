@@ -32,6 +32,30 @@ async function processEmailVerification(user: any) {
     console.error('Error enviando email de bienvenida:', emailError);
     // No fallar la verificación si el email de bienvenida falla
   }
+
+  // Enviar notificación de WhatsApp si el usuario tiene WhatsApp
+  if (user.whatsapp) {
+    try {
+      const { sendWhatsAppWelcomeNotification } = await import('@/lib/whatsapp-service');
+      const whatsappSent = await sendWhatsAppWelcomeNotification(
+        user.documentNumber,
+        user.firstName,
+        user.whatsapp,
+        user.membershipType
+      );
+      
+      if (whatsappSent) {
+        console.log('✅ Notificación de WhatsApp enviada para:', user.firstName);
+      } else {
+        console.warn('⚠️ No se pudo enviar la notificación de WhatsApp para:', user.firstName);
+      }
+    } catch (whatsappError) {
+      console.error('❌ Error enviando notificación de WhatsApp:', whatsappError);
+      // No fallar la verificación si la notificación de WhatsApp falla
+    }
+  } else {
+    console.log('📱 Usuario sin WhatsApp, omitiendo notificación:', user.firstName);
+  }
 }
 
 export async function POST(request: NextRequest) {
