@@ -1,0 +1,215 @@
+import React, { useState, useRef } from 'react';
+import { FaCamera, FaSpinner, FaUser, FaTimes } from 'react-icons/fa';
+import { useImageUpload } from '@/hooks/useImageUpload';
+
+interface ImageUploadProps {
+  onImageUploaded: (imageUrl: string) => void;
+  currentImageUrl?: string;
+  disabled?: boolean;
+  className?: string;
+  folder?: string;
+  publicIdPrefix?: string;
+}
+
+const ImageUpload: React.FC<ImageUploadProps> = ({
+  onImageUploaded,
+  currentImageUrl,
+  disabled = false,
+  className = '',
+  folder = 'user-profiles',
+  publicIdPrefix,
+}) => {
+  const [previewUrl, setPreviewUrl] = useState<string | null>(currentImageUrl || null);
+  const [dragOver, setDragOver] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { uploading, uploadImage, uploadError, clearError } = useImageUpload();
+
+  const handleFileSelect = async (file: File) => {
+    if (disabled || uploading) return;
+
+    clearError();
+
+    // Validaciones básicas
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
+    const maxSize = 5 * 1024 * 1024; // 5MB
+
+    if (!allowedTypes.includes(file.type)) {
+      alert('Tipo de archivo no permitido. Solo se aceptan JPEG, PNG y WebP.');
+      return;
+    }
+
+    if (file.size > maxSize) {
+      alert('El archivo es demasiado grande. Máximo 5MB.');
+      return;
+    }
+
+    // Mostrar preview inmediato
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setPreviewUrl(e.target?.result as string);
+    };
+    reader.readAsDataURL(file);
+
+    try {
+      // Generar publicId único si se proporciona prefijo
+      const publicId = publicIdPrefix ? `${publicIdPrefix}_${Date.now()}` : undefined;
+      
+      // Subir a Cloudinary
+      const result = await uploadImage(file, folder, publicId);
+      
+      // Notificar al componente padre
+      onImageUploaded(result.url);
+    } catch (error) {
+      // Revertir preview en caso de error
+      setPreviewUrl(currentImageUrl || null);
+      console.error('Error uploading image:', error);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      handleFileSelect(file);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setDragOver(false);
+
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      handleFileSelect(file);
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setDragOver(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setDragOver(false);
+  };
+
+  const handleClick = () => {
+    if (!disabled && !uploading) {
+      fileInputRef.current?.click();
+    }
+  };
+
+  const handleRemoveImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setPreviewUrl(null);
+    onImageUploaded('');
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  return (
+    <div className={`relative ${className}`}>
+      {/* Input oculto */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleInputChange}
+        className="hidden"
+        disabled={disabled || uploading}
+      />
+
+      {/* Área de drop/click */}
+      <div
+        onClick={handleClick}
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        className={`
+          relative group cursor-pointer transition-all duration-300
+          w-32 h-32 mx-auto rounded-full border-4 overflow-hidden
+          ${dragOver ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'border-gray-300 dark:border-gray-600'}
+          ${disabled ? 'cursor-not-allowed opacity-50' : 'hover:border-blue-400 hover:shadow-lg'}
+          ${uploading ? 'pointer-events-none' : ''}
+        `}
+      >
+        {/* Contenido del círculo */}
+        {previewUrl ? (
+          <>
+            {/* Imagen preview */}
+            <img
+              src={previewUrl}
+              alt="Preview"
+              className="w-full h-full object-cover"
+            />
+            
+            {/* Overlay con botones */}
+            <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+              <div className="flex space-x-2">
+                <button
+                  onClick={handleClick}
+                  className="p-2 bg-white text-gray-800 rounded-full hover:bg-gray-100 transition-colors"
+                  disabled={disabled || uploading}
+                >
+                  <FaCamera className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={handleRemoveImage}
+                  className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                  disabled={disabled || uploading}
+                >
+                  <FaTimes className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </>
+        ) : (
+          /* Placeholder cuando no hay imagen */
+          <div className="w-full h-full bg-gray-100 dark:bg-gray-800 flex flex-col items-center justify-center text-gray-500 dark:text-gray-400">
+            {uploading ? (
+              <>
+                <FaSpinner className="w-8 h-8 animate-spin mb-2" />
+                <span className="text-xs">Subiendo...</span>
+              </>
+            ) : (
+              <>
+                <FaUser className="w-8 h-8 mb-2" />
+                <FaCamera className="w-4 h-4" />
+              </>
+            )}
+          </div>
+        )}
+
+        {/* Spinner de carga overlay */}
+        {uploading && (
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="text-center text-white">
+              <FaSpinner className="w-6 h-6 animate-spin mx-auto mb-1" />
+              <span className="text-xs">Subiendo...</span>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Texto de instrucciones */}
+      <div className="text-center mt-3">
+        <p className="text-sm text-gray-600 dark:text-gray-400">
+          {uploading ? 'Subiendo imagen...' : 'Haz clic o arrastra una imagen'}
+        </p>
+        <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+          JPEG, PNG, WebP • Máx. 5MB
+        </p>
+      </div>
+
+      {/* Error */}
+      {uploadError && (
+        <div className="mt-2 text-center">
+          <p className="text-sm text-red-500">{uploadError}</p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default ImageUpload;

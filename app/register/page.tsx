@@ -8,6 +8,7 @@ import { FaUser, FaPhone, FaEnvelope, FaMapMarkerAlt, FaBriefcase, FaHeartbeat, 
 import { GiSteelwingEmblem } from 'react-icons/gi';
 import { useRouter } from 'next/navigation';
 import FormError from '../../components/shared/FormError';
+import ImageUpload from '../../components/shared/ImageUpload';
 import {
   colombianMunicipalities,
   genderIdentities,
@@ -204,6 +205,9 @@ const UserRegister: React.FC = () => {
         // Información de BSK
         membershipType: 'friend' as const,
         password: submissionData.password,
+        
+        // Imagen de perfil
+        profileImage: submissionData.profileImage || '',
         
         // Términos y condiciones (mapeo correcto a campos del backend)
         dataConsent: submissionData.dataConsent,
@@ -449,6 +453,26 @@ const UserRegister: React.FC = () => {
                       ))}
                     </select>
                     <FormError error={errors.birthPlace} />
+                  </div>
+                </div>
+
+                {/* Profile Image Upload */}
+                <div className="mt-8">
+                  <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200 mb-4 flex items-center">
+                    <FaUser className="mr-2 text-red-600" />
+                    Foto de Perfil (Opcional)
+                  </h3>
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
+                    <ImageUpload
+                      onImageUploaded={(imageUrl) => setValue('profileImage', imageUrl)}
+                      currentImageUrl={watch('profileImage')}
+                      folder="user-profiles"
+                      publicIdPrefix={`user_${watch('documentNumber')}`}
+                      className="w-full"
+                    />
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-3 text-center">
+                      Sube una foto de perfil para personalizar tu cuenta. Esta imagen será visible para otros miembros del club.
+                    </p>
                   </div>
                 </div>
               </section>

@@ -65,6 +65,9 @@ export interface IUser extends Document {
   password: string;
   role: 'user' | 'admin' | 'super-admin';
   
+  // Imagen de perfil
+  profileImage?: string;
+  
   // Autenticación y seguridad
   isEmailVerified: boolean;
   emailVerificationToken?: string;
@@ -186,6 +189,20 @@ const UserSchema = new Schema<IUser>({
     default: 'user'
   },
   
+  // Imagen de perfil
+  profileImage: { 
+    type: String, 
+    default: null,
+    validate: {
+      validator: function(v: string) {
+        // Validar que sea una URL de Cloudinary válida si está presente
+        if (!v) return true;
+        return v.includes('cloudinary.com') || v.includes('res.cloudinary.com');
+      },
+      message: 'La imagen de perfil debe ser una URL válida de Cloudinary'
+    }
+  },
+  
   // Autenticación y seguridad
   isEmailVerified: { type: Boolean, default: false },
   emailVerificationToken: { type: String, select: false },
@@ -286,6 +303,7 @@ UserSchema.methods.getPublicProfile = function(this: IUser): Partial<IUser> {
     isActive: this.isActive,
     isEmailVerified: this.isEmailVerified,
     role: this.role, // Agregar el rol al perfil público
+    profileImage: this.profileImage, // Agregar imagen de perfil
     lastLogin: this.lastLogin,
     joinDate: this.joinDate,
     createdAt: this.createdAt,

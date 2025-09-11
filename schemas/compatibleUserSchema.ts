@@ -60,6 +60,9 @@ export const compatibleUserSchema = z.object({
   // Información de BSK
   membershipType: z.enum(['friend', 'rider', 'rider-duo', 'pro', 'pro-duo']).default('friend'),
   
+  // Imagen de perfil
+  profileImage: z.string().optional(),
+  
   // Contraseña y confirmación
   password: z.string().min(8, 'La contraseña debe tener al menos 8 caracteres'),
   confirmPassword: z.string().min(1, 'Confirmación de contraseña requerida'),
