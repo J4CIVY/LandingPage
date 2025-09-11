@@ -53,6 +53,7 @@ interface UserFormData {
   membershipType: string;
   role: string;
   isActive: boolean;
+  profileImage: string;
 }
 
 export default function EditUserPage() {
@@ -98,7 +99,8 @@ export default function EditUserPage() {
     motorcycleEngineSize: '',
     membershipType: '',
     role: '',
-    isActive: true
+    isActive: true,
+    profileImage: ''
   });
 
   useEffect(() => {
@@ -128,7 +130,8 @@ export default function EditUserPage() {
             motorcycleModel: data.user.motorcycleModel || '',
             motorcycleYear: data.user.motorcycleYear || '',
             motorcyclePlate: data.user.motorcyclePlate || '',
-            motorcycleEngineSize: data.user.motorcycleEngineSize || ''
+            motorcycleEngineSize: data.user.motorcycleEngineSize || '',
+            profileImage: data.user.profileImage || ''
           });
         } else {
           setError('Error al cargar los datos del usuario');

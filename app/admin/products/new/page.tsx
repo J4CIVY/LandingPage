@@ -7,6 +7,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import AdminLayout from '@/components/admin/AdminLayout';
+import ImageUpload from '@/components/shared/ImageUpload';
+import ImageGalleryUpload from '@/components/shared/ImageGalleryUpload';
 import { 
   FaSpinner, 
   FaSave,
@@ -92,7 +94,6 @@ export default function ProductFormPage() {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [newGalleryImage, setNewGalleryImage] = useState('');
   const [newFeature, setNewFeature] = useState('');
   const [newTag, setNewTag] = useState('');
   const [newSpecKey, setNewSpecKey] = useState('');
@@ -189,23 +190,6 @@ export default function ProductFormPage() {
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
-  };
-
-  const addToGallery = () => {
-    if (!newGalleryImage.trim()) return;
-    
-    setFormData(prev => ({
-      ...prev,
-      gallery: [...prev.gallery, newGalleryImage.trim()]
-    }));
-    setNewGalleryImage('');
-  };
-
-  const removeFromGallery = (index: number) => {
-    setFormData(prev => ({
-      ...prev,
-      gallery: prev.gallery.filter((_, i) => i !== index)
-    }));
   };
 
   const addToArray = (arrayName: 'features' | 'tags', value: string) => {
@@ -583,18 +567,20 @@ export default function ProductFormPage() {
             <div className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Imagen Principal (URL) *
+                  Imagen Principal *
                 </label>
-                <input
-                  type="url"
-                  name="featuredImage"
-                  value={formData.featuredImage}
-                  onChange={handleInputChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    errors.featuredImage ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                  placeholder="https://ejemplo.com/imagen.jpg"
-                />
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <ImageUpload
+                    onImageUploaded={(imageUrl) => setFormData(prev => ({ ...prev, featuredImage: imageUrl }))}
+                    currentImageUrl={formData.featuredImage}
+                    folder="products"
+                    publicIdPrefix={`product_${formData.sku || 'new'}`}
+                    className="w-full"
+                  />
+                  <p className="text-sm text-gray-600 mt-2 text-center">
+                    Sube la imagen principal del producto. Esta será la imagen destacada en las vistas de lista.
+                  </p>
+                </div>
                 {errors.featuredImage && <p className="mt-1 text-sm text-red-600">{errors.featuredImage}</p>}
               </div>
 
@@ -602,44 +588,18 @@ export default function ProductFormPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Galería de Imágenes
                 </label>
-                <div className="flex gap-2 mb-3">
-                  <input
-                    type="url"
-                    value={newGalleryImage}
-                    onChange={(e) => setNewGalleryImage(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addToGallery())}
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="URL de imagen adicional..."
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <ImageGalleryUpload
+                    images={formData.gallery}
+                    onImagesChanged={(images) => setFormData(prev => ({ ...prev, gallery: images }))}
+                    folder="products/gallery"
+                    publicIdPrefix={`product_${formData.sku || 'new'}`}
+                    maxImages={8}
+                    className="w-full"
                   />
-                  <button
-                    type="button"
-                    onClick={addToGallery}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                  >
-                    Agregar
-                  </button>
-                </div>
-                
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  {formData.gallery.map((image, index) => (
-                    <div key={index} className="relative group">
-                      <img
-                        src={image}
-                        alt={`Galería ${index + 1}`}
-                        className="w-full h-24 object-cover rounded border"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = '/placeholder-product.jpg';
-                        }}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => removeFromGallery(index)}
-                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
-                      >
-                        ×
-                      </button>
-                    </div>
-                  ))}
+                  <p className="text-sm text-gray-600 mt-2 text-center">
+                    Sube imágenes adicionales del producto. Los usuarios podrán ver estas imágenes en la vista detalle.
+                  </p>
                 </div>
               </div>
             </div>

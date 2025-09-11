@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import DashboardEventsSimple from '@/components/dashboard/DashboardEventsSimple';
 import NotificationDropdown from '@/components/shared/NotificationDropdown';
+import UserAvatar from '@/components/shared/UserAvatar';
 import { 
   FaSpinner, 
   FaUser, 
@@ -269,11 +270,16 @@ export default function DashboardPage() {
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
             <div className="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-6">
               <div className="relative flex-shrink-0 self-center sm:self-auto">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 rounded-full flex items-center justify-center">
-                  <FaUserCircle className="text-3xl sm:text-4xl text-white" />
-                </div>
-                <div className="absolute -bottom-1 -right-1 bg-green-500 w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-white dark:border-slate-800 flex items-center justify-center">
-                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                <div className="relative">
+                  <UserAvatar
+                    imageUrl={user.profileImage}
+                    name={`${user.firstName} ${user.lastName}`}
+                    size="xl"
+                    className="border-4 border-white dark:border-slate-800 shadow-lg"
+                  />
+                  <div className="absolute -bottom-1 -right-1 bg-green-500 w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-white dark:border-slate-800 flex items-center justify-center">
+                    <div className="w-2 h-2 bg-white rounded-full"></div>
+                  </div>
                 </div>
               </div>
               

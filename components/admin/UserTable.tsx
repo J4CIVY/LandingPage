@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import UserAvatar from '@/components/shared/UserAvatar';
 import { 
   FaEdit,
   FaTrash,
@@ -24,6 +25,7 @@ interface User {
   joinDate: string;
   lastLogin?: string;
   isEmailVerified: boolean;
+  profileImage?: string;
 }
 
 interface UserTableProps {
@@ -139,11 +141,11 @@ export default function UserTable({
                 </td>
                 <td className="px-6 py-4">
                   <div className="flex items-center">
-                    <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center">
-                      <span className="text-white font-medium text-sm">
-                        {user.firstName.charAt(0)}{user.lastName.charAt(0)}
-                      </span>
-                    </div>
+                    <UserAvatar
+                      imageUrl={user.profileImage}
+                      name={`${user.firstName} ${user.lastName}`}
+                      size="md"
+                    />
                     <div className="ml-4">
                       <div className="text-sm font-medium text-gray-900 dark:text-white">
                         {user.firstName} {user.lastName}
@@ -230,11 +232,11 @@ export default function UserTable({
                       onChange={() => onSelectUser(user._id)}
                       className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                     />
-                    <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center">
-                      <span className="text-white font-medium text-sm">
-                        {user.firstName.charAt(0)}{user.lastName.charAt(0)}
-                      </span>
-                    </div>
+                    <UserAvatar
+                      imageUrl={user.profileImage}
+                      name={`${user.firstName} ${user.lastName}`}
+                      size="md"
+                    />
                     <div className="min-w-0 flex-1">
                       <div className="text-sm font-medium text-gray-900 dark:text-white truncate">
                         {user.firstName} {user.lastName}

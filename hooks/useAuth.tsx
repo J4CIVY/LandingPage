@@ -12,6 +12,7 @@ interface User {
   membershipType: string;
   isEmailVerified: boolean;
   role: 'user' | 'admin' | 'super-admin';
+  profileImage?: string;
 }
 
 interface AuthState {

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import UserAvatar from '@/components/shared/UserAvatar';
 import { 
   FaUser, 
   FaEnvelope, 
@@ -63,6 +64,7 @@ interface UserDetails {
   createdAt: string;
   updatedAt: string;
   lastLogin?: string;
+  profileImage?: string;
 }
 
 export default function UserDetailsPage() {
@@ -162,6 +164,11 @@ export default function UserDetailsPage() {
             >
               <FaArrowLeft className="text-xl" />
             </Link>
+            <UserAvatar
+              imageUrl={user.profileImage}
+              name={`${user.firstName} ${user.lastName}`}
+              size="lg"
+            />
             <div>
               <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
                 {user.firstName} {user.lastName}

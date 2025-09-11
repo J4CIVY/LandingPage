@@ -4,6 +4,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import AdminLayout from '@/components/admin/AdminLayout';
+import ImageUpload from '@/components/shared/ImageUpload';
+import ImageGalleryUpload from '@/components/shared/ImageGalleryUpload';
 import { 
   FaSpinner, 
   FaSave,
@@ -900,6 +902,35 @@ export default function EditEventPage() {
                     </button>
                   </span>
                 ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Imágenes */}
+          <div className="bg-white rounded-lg shadow-sm border p-6">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+              <FaImage className="mr-2 text-blue-600" />
+              Imágenes
+            </h3>
+            
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Imagen Principal *
+                </label>
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <ImageUpload
+                    onImageUploaded={(imageUrl) => setFormData(prev => ({ ...prev, mainImage: imageUrl }))}
+                    currentImageUrl={formData.mainImage}
+                    folder="events"
+                    publicIdPrefix={`event_${formData.name.toLowerCase().replace(/\s+/g, '_') || 'edit'}`}
+                    className="w-full"
+                  />
+                  <p className="text-sm text-gray-600 mt-2 text-center">
+                    Sube la imagen principal del evento. Esta será la imagen destacada en las listas.
+                  </p>
+                </div>
+                {errors.mainImage && <p className="mt-1 text-sm text-red-600">{errors.mainImage}</p>}
               </div>
             </div>
           </div>

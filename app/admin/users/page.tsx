@@ -27,6 +27,7 @@ interface User {
   joinDate: string;
   lastLogin?: string;
   isEmailVerified: boolean;
+  profileImage?: string;
 }
 
 export default function AdminUsersPage() {
