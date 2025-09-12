@@ -55,18 +55,19 @@ export default function GamificationPanel() {
   };
 
   const getParticipationPercentage = () => {
-    if (!stats) return 0;
-    return Math.round((stats.participationScore / stats.maxParticipationScore) * 100);
+    if (!stats || !stats.maxParticipationScore) return 0;
+    return Math.round(((stats.participationScore || 0) / stats.maxParticipationScore) * 100);
   };
 
   const getProgressToNextLevel = () => {
     if (!stats) return 0;
-    const currentLevelPoints = stats.totalPoints % 1000; // Asumiendo 1000 puntos por nivel
+    const currentLevelPoints = (stats.totalPoints || 0) % 1000; // Asumiendo 1000 puntos por nivel
     return Math.round((currentLevelPoints / 1000) * 100);
   };
 
   const getLevelColor = (level: string) => {
-    switch (level.toLowerCase()) {
+    const levelLower = level?.toLowerCase() || '';
+    switch (levelLower) {
       case 'bronce':
         return 'text-orange-600 dark:text-orange-400';
       case 'plata':
@@ -81,7 +82,8 @@ export default function GamificationPanel() {
   };
 
   const getLevelIcon = (level: string) => {
-    switch (level.toLowerCase()) {
+    const levelLower = level?.toLowerCase() || '';
+    switch (levelLower) {
       case 'bronce':
         return '🥉';
       case 'plata':
@@ -141,13 +143,13 @@ export default function GamificationPanel() {
         {/* Nivel y Puntos */}
         <div className="text-center">
           <div className="flex items-center justify-center mb-2">
-            <span className="text-3xl mr-2">{getLevelIcon(stats.level)}</span>
+            <span className="text-3xl mr-2">{getLevelIcon(stats.level || 'Principiante')}</span>
             <div>
-              <h4 className={`text-lg font-bold ${getLevelColor(stats.level)}`}>
-                Nivel {stats.level}
+              <h4 className={`text-lg font-bold ${getLevelColor(stats.level || 'Principiante')}`}>
+                Nivel {stats.level || 'Principiante'}
               </h4>
               <p className="text-sm text-gray-600 dark:text-slate-400">
-                {stats.totalPoints.toLocaleString()} puntos totales
+                {stats.totalPoints?.toLocaleString() || '0'} puntos totales
               </p>
             </div>
           </div>
@@ -165,7 +167,7 @@ export default function GamificationPanel() {
               ></div>
             </div>
             <p className="text-xs text-gray-500 dark:text-slate-500 mt-1">
-              {stats.nextLevelPoints - (stats.totalPoints % 1000)} puntos para el siguiente nivel
+              {(stats.nextLevelPoints || 3000) - ((stats.totalPoints || 0) % 1000)} puntos para el siguiente nivel
             </p>
           </div>
         </div>
@@ -201,7 +203,7 @@ export default function GamificationPanel() {
               </span>
             </div>
             <p className="text-lg font-bold text-gray-900 dark:text-slate-100">
-              {stats.eventsAttended}
+              {stats.eventsAttended || 0}
             </p>
             <p className="text-xs text-gray-500 dark:text-slate-500">
               Asistidos
@@ -216,10 +218,10 @@ export default function GamificationPanel() {
               </span>
             </div>
             <p className="text-lg font-bold text-gray-900 dark:text-slate-100">
-              #{stats.userRank}
+              #{stats.userRank || 0}
             </p>
             <p className="text-xs text-gray-500 dark:text-slate-500">
-              de {stats.totalUsers}
+              de {stats.totalUsers || 0}
             </p>
           </div>
         </div>
@@ -239,7 +241,7 @@ export default function GamificationPanel() {
             <div className="flex items-center text-sm">
               <span className="mr-2">⭐</span>
               <span className="text-gray-600 dark:text-slate-400">
-                Alcanzaste el nivel {stats.level}
+                Alcanzaste el nivel {stats.level || 'Principiante'}
               </span>
             </div>
           </div>

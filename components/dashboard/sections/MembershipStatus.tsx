@@ -21,7 +21,13 @@ const membershipTypeNames: Record<string, string> = {
 };
 
 export default function MembershipStatus({ user, stats }: MembershipStatusProps) {
-  const membershipTypeName = membershipTypeNames[user.membershipType] || user.membershipType;
+  if (!user) {
+    return null;
+  }
+
+  const membershipTypeName = user?.membershipType ? 
+    (membershipTypeNames[user.membershipType] || user.membershipType) : 
+    'Sin membresía';
   
   // Calcular estado de membresía (por ahora simple basado en isActive)
   const getStatusColor = () => {

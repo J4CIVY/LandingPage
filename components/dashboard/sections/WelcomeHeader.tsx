@@ -17,7 +17,13 @@ const membershipTypeNames: Record<string, string> = {
 };
 
 export default function WelcomeHeader({ user }: WelcomeHeaderProps) {
-  const membershipTypeName = membershipTypeNames[user.membershipType] || user.membershipType;
+  const membershipTypeName = user?.membershipType ? 
+    (membershipTypeNames[user.membershipType] || user.membershipType) : 
+    'Sin membresía';
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 p-6">

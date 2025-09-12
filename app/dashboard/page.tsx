@@ -141,7 +141,7 @@ export default function DashboardPage() {
         
         {/* Encabezado de Bienvenida */}
         <div className="mb-6">
-          <WelcomeHeader user={user as any} />
+          {user && <WelcomeHeader user={user as any} />}
         </div>
 
         {/* Layout principal */}
@@ -165,7 +165,7 @@ export default function DashboardPage() {
           <div className="space-y-6">
             
             {/* Estado de la Membresía */}
-            {!loadingStats && (
+            {!loadingStats && user && (
               <MembershipStatus user={user as any} stats={stats} />
             )}
             
