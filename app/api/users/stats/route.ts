@@ -3,7 +3,6 @@ import { verify } from 'jsonwebtoken';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 import Event from '@/lib/models/Event';
-import GamificationService from '@/lib/services/GamificationService';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
@@ -44,7 +43,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Contar eventos (método tradicional)
+    // Contar eventos
     const registeredEventsCount = (user as any).events?.length || 0;
     const favoriteEventsCount = (user as any).favoriteEvents?.length || 0;
     const attendedEventsCount = (user as any).attendedEvents?.length || 0;
@@ -56,30 +55,18 @@ export async function GET(request: NextRequest) {
       (now.getTime() - new Date(joinDate).getTime()) / (1000 * 60 * 60 * 24)
     );
 
-    // Obtener estadísticas de gamificación
-    let gamificationStats = null;
-    try {
-      gamificationStats = await GamificationService.getUserStatsDetails(decoded.userId);
-    } catch (error) {
-      console.log('No se pudieron obtener estadísticas de gamificación:', error);
-    }
-
-    // Estadísticas tradicionales
-    const traditionalStats = {
-      eventsRegistered: registeredEventsCount,
-      eventsAttended: attendedEventsCount,
-      favoriteEvents: favoriteEventsCount,
-      daysSinceJoining: daysSinceJoining,
-      memberSince: joinDate ? new Date(joinDate).toISOString() : new Date((user as any).createdAt).toISOString(),
-      membershipType: (user as any).membershipType,
-      isActive: (user as any).isActive
-    };
-
     return NextResponse.json({
       success: true,
       data: {
-        stats: traditionalStats,
-        gamification: gamificationStats // Incluir datos de gamificación si están disponibles
+        stats: {
+          eventsRegistered: registeredEventsCount,
+          eventsAttended: attendedEventsCount,
+          favoriteEvents: favoriteEventsCount,
+          daysSinceJoining: daysSinceJoining,
+          memberSince: joinDate ? new Date(joinDate).toISOString() : new Date((user as any).createdAt).toISOString(),
+          membershipType: (user as any).membershipType,
+          isActive: (user as any).isActive
+        }
       }
     });
 
