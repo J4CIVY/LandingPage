@@ -13,6 +13,8 @@ interface User {
   isEmailVerified: boolean;
   role: 'user' | 'admin' | 'super-admin';
   profileImage?: string;
+  joinDate?: Date;
+  createdAt?: Date;
 }
 
 interface AuthState {
