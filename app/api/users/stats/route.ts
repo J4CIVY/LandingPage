@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
     // Obtener estadísticas de gamificación
     let gamificationStats = null;
     try {
-      gamificationStats = await GamificationService.getUserStats(decoded.userId);
+      gamificationStats = await GamificationService.getUserStatsDetails(decoded.userId);
     } catch (error) {
       console.log('No se pudieron obtener estadísticas de gamificación:', error);
     }
