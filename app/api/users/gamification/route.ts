@@ -21,8 +21,7 @@ export async function GET(request: NextRequest) {
     
     // Buscar datos del usuario
     const userDetails = await User.findById(user.id)
-      .select('firstName lastName membershipType joinDate')
-      .lean();
+      .select('firstName lastName membershipType joinDate');
 
     if (!userDetails) {
       return NextResponse.json(
