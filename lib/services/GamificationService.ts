@@ -71,38 +71,38 @@ export const ACHIEVEMENTS: Achievement[] = [
   {
     id: 'silver_level',
     name: 'Nivel Plata',
-    description: 'Alcanzaste el nivel Plata',
+    description: 'Alcanzaste el nivel 5',
     icon: '🥈',
     pointsAwarded: 100,
     type: 'special',
-    condition: (stats) => stats.level === 'plata' || stats.level === 'oro' || stats.level === 'platino' || stats.level === 'diamante'
+    condition: (stats) => stats.level >= 5
   },
   {
     id: 'gold_level',
     name: 'Nivel Oro',
-    description: 'Alcanzaste el nivel Oro',
+    description: 'Alcanzaste el nivel 10',
     icon: '🥇',
     pointsAwarded: 300,
     type: 'special',
-    condition: (stats) => stats.level === 'oro' || stats.level === 'platino' || stats.level === 'diamante'
+    condition: (stats) => stats.level >= 10
   },
   {
     id: 'platinum_level',
     name: 'Nivel Platino',
-    description: 'Alcanzaste el nivel Platino',
+    description: 'Alcanzaste el nivel 15',
     icon: '💎',
     pointsAwarded: 500,
     type: 'special',
-    condition: (stats) => stats.level === 'platino' || stats.level === 'diamante'
+    condition: (stats) => stats.level >= 15
   },
   {
     id: 'diamond_level',
     name: 'Nivel Diamante',
-    description: 'Alcanzaste el nivel Diamante',
-    icon: '💠',
+    description: 'Alcanzaste el nivel 20',
+    icon: '💎',
     pointsAwarded: 1000,
     type: 'special',
-    condition: (stats) => stats.level === 'diamante'
+    condition: (stats) => stats.level >= 20
   }
 ];
 
@@ -180,7 +180,21 @@ export class GamificationService {
       const hasAchievement = userStats.achievements.some(a => a.id === achievement.id);
       
       if (!hasAchievement && achievement.condition(userStats)) {
-        userStats.addAchievement(achievement);
+        // Agregar logro manualmente
+        userStats.achievements.push({
+          id: achievement.id,
+          name: achievement.name,
+          description: achievement.description,
+          icon: achievement.icon,
+          pointsAwarded: achievement.pointsAwarded,
+          achievedAt: new Date(),
+          type: achievement.type
+        });
+        
+        // Actualizar puntos
+        userStats.totalPoints += achievement.pointsAwarded;
+        userStats.monthlyPoints += achievement.pointsAwarded;
+        userStats.annualPoints += achievement.pointsAwarded;
       }
     }
   }
@@ -290,7 +304,7 @@ export class GamificationService {
     return {
       ...userStats.toObject(),
       ranking,
-      pointsForNextLevel: userStats.getPointsForNextLevel(),
+      pointsForNextLevel: (userStats.level + 1) * 1000 - userStats.totalPoints,
       recentAchievements: userStats.achievements
         .sort((a, b) => new Date(b.achievedAt).getTime() - new Date(a.achievedAt).getTime())
         .slice(0, 5)
