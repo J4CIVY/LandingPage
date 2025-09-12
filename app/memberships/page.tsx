@@ -19,7 +19,8 @@ import {
   FaMotorcycle,
   FaWrench,
   FaHandsHelping,
-  FaPaperPlane
+  FaPaperPlane,
+  FaUser
 } from 'react-icons/fa';
 import { 
   GiMechanicGarage,
@@ -148,13 +149,24 @@ const Memberships: React.FC = () => {
           <p className="text-xl mb-8 max-w-3xl mx-auto">
             Donde la comunidad se vive sobre dos ruedas. Forma parte de una familia que comparte la pasión por el motociclismo, el espíritu aventurero y el respeto mutuo en cada ruta por Colombia.
           </p>
-          <a 
-            href="#memberships" 
-            className="bg-red-600 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-flex items-center"
-            aria-label="Ver nuestras opciones de membresía"
-          >
-            Ver Membresías <FaChevronRight className="ml-2" aria-hidden="true" />
-          </a>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a 
+              href="#memberships" 
+              className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-flex items-center"
+              aria-label="Ver nuestras opciones de membresía"
+            >
+              Ver Membresías <FaChevronRight className="ml-2" aria-hidden="true" />
+            </a>
+            
+            <button 
+              onClick={() => router.push('/membership-status')}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-flex items-center"
+              aria-label="Ver estado de mi membresía"
+            >
+              Mi Membresía <FaUser className="ml-2" aria-hidden="true" />
+            </button>
+          </div>
         </div>
       </div>
 

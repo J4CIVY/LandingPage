@@ -4,6 +4,9 @@ import { useAuth } from '@/hooks/useAuth';
 import { useState, useEffect } from 'react';
 import { FaSpinner } from 'react-icons/fa';
 
+// Importar el header del dashboard
+import DashboardHeader from '@/components/dashboard/DashboardHeader';
+
 // Importar los nuevos componentes del dashboard
 import WelcomeHeader from '@/components/dashboard/sections/WelcomeHeader';
 import MembershipStatus from '@/components/dashboard/sections/MembershipStatus';
@@ -131,6 +134,9 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
+      {/* Header del Dashboard */}
+      <DashboardHeader />
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         
         {/* Encabezado de Bienvenida */}
