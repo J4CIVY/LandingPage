@@ -56,7 +56,7 @@ export default function MembershipStatusPage() {
         // Simular datos mientras se implementan las APIs
         const mockMembershipData: MembershipData = {
           type: user.membershipType || 'friend',
-          startDate: user.joinDate?.toString() || new Date().toISOString(),
+          startDate: user.joinDate ? new Date(user.joinDate).toISOString() : new Date().toISOString(),
           expirationDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
           status: 'active',
           daysRemaining: 365,

@@ -40,22 +40,32 @@ export default function MembershipStats({ user, membershipData }: MembershipStat
       return '0 días';
     }
     
-    const now = new Date();
-    const diffTime = Math.abs(now.getTime() - joinDate.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
-    if (diffDays < 30) {
-      return `${diffDays} días`;
-    } else if (diffDays < 365) {
-      const months = Math.floor(diffDays / 30);
-      return `${months} mes${months !== 1 ? 'es' : ''}`;
-    } else {
-      const years = Math.floor(diffDays / 365);
-      const remainingMonths = Math.floor((diffDays % 365) / 30);
-      if (remainingMonths === 0) {
-        return `${years} año${years !== 1 ? 's' : ''}`;
+    try {
+      const joinDateObj = new Date(joinDate);
+      if (isNaN(joinDateObj.getTime())) {
+        return '0 días';
       }
-      return `${years} año${years !== 1 ? 's' : ''} y ${remainingMonths} mes${remainingMonths !== 1 ? 'es' : ''}`;
+      
+      const now = new Date();
+      const diffTime = Math.abs(now.getTime() - joinDateObj.getTime());
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      
+      if (diffDays < 30) {
+        return `${diffDays} días`;
+      } else if (diffDays < 365) {
+        const months = Math.floor(diffDays / 30);
+        return `${months} mes${months !== 1 ? 'es' : ''}`;
+      } else {
+        const years = Math.floor(diffDays / 365);
+        const remainingMonths = Math.floor((diffDays % 365) / 30);
+        if (remainingMonths === 0) {
+          return `${years} año${years !== 1 ? 's' : ''}`;
+        }
+        return `${years} año${years !== 1 ? 's' : ''} y ${remainingMonths} mes${remainingMonths !== 1 ? 'es' : ''}`;
+      }
+    } catch (error) {
+      console.error('Error calculating membership duration:', error);
+      return '0 días';
     }
   };
 
@@ -83,7 +93,17 @@ export default function MembershipStats({ user, membershipData }: MembershipStat
       description: 'Más de 1 año como miembro',
       icon: FaMedal,
       color: 'text-gold-500',
-      earned: user.joinDate ? (new Date().getTime() - user.joinDate.getTime()) > (365 * 24 * 60 * 60 * 1000) : false
+      earned: (() => {
+        const joinDate = user.joinDate || user.createdAt;
+        if (!joinDate) return false;
+        try {
+          const joinDateObj = new Date(joinDate);
+          if (isNaN(joinDateObj.getTime())) return false;
+          return (new Date().getTime() - joinDateObj.getTime()) > (365 * 24 * 60 * 60 * 1000);
+        } catch (error) {
+          return false;
+        }
+      })()
     },
     {
       id: 'event-enthusiast',

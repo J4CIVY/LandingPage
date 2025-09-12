@@ -47,11 +47,20 @@ const statusConfig: Record<string, { color: string; bgColor: string; icon: React
 
 export default function MembershipHistory({ history }: MembershipHistoryProps) {
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('es-ES', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) {
+        return 'Fecha no disponible';
+      }
+      return date.toLocaleDateString('es-ES', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return 'Fecha no disponible';
+    }
   };
 
   const formatCurrency = (amount: number) => {

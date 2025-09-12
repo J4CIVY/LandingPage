@@ -23,11 +23,20 @@ const membershipTypeNames: Record<string, string> = {
 
 export default function MembershipCurrentStatus({ membershipData }: MembershipCurrentStatusProps) {
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('es-ES', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) {
+        return 'Fecha no disponible';
+      }
+      return date.toLocaleDateString('es-ES', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return 'Fecha no disponible';
+    }
   };
 
   const getStatusConfig = () => {
