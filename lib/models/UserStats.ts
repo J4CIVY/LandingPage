@@ -7,7 +7,7 @@ export interface IUserStats extends Document {
   totalPoints: number;
   monthlyPoints: number;
   annualPoints: number;
-  level: 'bronce' | 'plata' | 'oro' | 'platino' | 'diamante';
+  level: number;
   
   // Estadísticas de eventos
   eventsAttended: number;
@@ -63,9 +63,9 @@ const UserStatsSchema = new Schema<IUserStats>({
   monthlyPoints: { type: Number, default: 0, min: 0 },
   annualPoints: { type: Number, default: 0, min: 0 },
   level: {
-    type: String,
-    enum: ['bronce', 'plata', 'oro', 'platino', 'diamante'],
-    default: 'bronce'
+    type: Number,
+    default: 1,
+    min: 1
   },
   
   // Estadísticas de eventos
@@ -172,13 +172,17 @@ UserStatsSchema.methods.addAchievement = function(achievement: {
   this.annualPoints += achievement.pointsAwarded;
   
   // Recalcular nivel
-  this.level = this.calculateLevel();
+  this.level = Math.floor(this.totalPoints / 1000) + 1;
 };
 
 // Middleware para actualizar el nivel antes de guardar
 UserStatsSchema.pre('save', function(next) {
-  this.level = this.calculateLevel();
-  this.participationScore = this.calculateParticipationScore();
+  // Calcular nivel basado en puntos totales
+  (this as any).level = Math.floor((this as any).totalPoints / 1000) + 1;
+  
+  // Calcular score de participación (ejemplo simple)
+  (this as any).participationScore = Math.min((this as any).eventsAttended * 10, 100);
+  
   next();
 });
 
