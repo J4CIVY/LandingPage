@@ -37,10 +37,17 @@ export default function PQRSDFPage() {
 
   // Cargar datos iniciales
   useEffect(() => {
-    if (user?.id) {
+    console.log('useEffect ejecutado - authLoading:', authLoading, 'user:', user);
+    if (user?._id) {
+      console.log('Iniciando carga de datos para usuario con ID:', user._id);
       cargarDatos();
+    } else if (!authLoading && !user) {
+      // Si no está cargando auth y no hay usuario, mostrar error
+      console.log('Usuario no autenticado');
+      setError('Usuario no autenticado');
+      setCargando(false);
     }
-  }, [user?.id]);
+  }, [user?._id, authLoading]);
 
   // Aplicar filtros
   useEffect(() => {
@@ -52,16 +59,21 @@ export default function PQRSDFPage() {
       setCargando(true);
       setError(null);
 
+      console.log('Cargando datos PQRSDF para usuario:', user?._id);
+
       const [solicitudesData, estadisticasData] = await Promise.all([
-        PQRSDFService.obtenerSolicitudes(user!.id),
-        PQRSDFService.obtenerEstadisticas(user!.id)
+        PQRSDFService.obtenerSolicitudes(user!._id as string),
+        PQRSDFService.obtenerEstadisticas(user!._id as string)
       ]);
+
+      console.log('Solicitudes cargadas:', solicitudesData);
+      console.log('Estadísticas cargadas:', estadisticasData);
 
       setSolicitudes(solicitudesData);
       setEstadisticas(estadisticasData);
     } catch (err) {
+      console.error('Error al cargar solicitudes:', err);
       setError('Error al cargar las solicitudes. Por favor, intenta nuevamente.');
-      console.error('Error:', err);
     } finally {
       setCargando(false);
     }

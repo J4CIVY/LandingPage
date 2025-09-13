@@ -140,7 +140,7 @@ export default function NuevaSolicitudPage() {
         adjuntos: archivosSeleccionados
       };
 
-      const solicitudCreada = await PQRSDFService.crearSolicitud(user.id, datosEnvio);
+      const solicitudCreada = await PQRSDFService.crearSolicitud(user._id as string, datosEnvio);
       
       setExito(true);
       

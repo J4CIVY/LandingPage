@@ -65,7 +65,7 @@ export default function DetalleSolicitudPage() {
       }
 
       // Verificar que la solicitud pertenece al usuario
-      if (solicitudData.usuarioId !== user?.id) {
+      if (solicitudData.usuarioId !== user?._id) {
         setError('No tienes permisos para ver esta solicitud');
         return;
       }

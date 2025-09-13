@@ -161,12 +161,119 @@ export class PQRSDFService {
   private static solicitudes: Solicitud[] = [...SOLICITUDES_MOCK];
   private static contadorSolicitudes = 4;
 
+  // Crear solicitudes de ejemplo para un nuevo usuario
+  private static crearSolicitudesEjemplo(usuarioId: string): Solicitud[] {
+    const ahora = new Date();
+    const hace3Dias = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
+    const haceUnaSemana = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+
+    return [
+      {
+        id: `${usuarioId}_1`,
+        numeroSolicitud: `PQRS-2025-${String(this.contadorSolicitudes++).padStart(4, '0')}`,
+        usuarioId,
+        categoria: 'peticion',
+        asunto: 'Solicitud de información sobre eventos próximos',
+        descripcion: 'Me gustaría obtener información detallada sobre los próximos eventos del club.',
+        estado: 'respondida',
+        prioridad: 'media',
+        fechaCreacion: haceUnaSemana,
+        fechaActualizacion: hace3Dias,
+        adjuntos: [],
+        mensajes: [
+          {
+            id: `m_${usuarioId}_1`,
+            solicitudId: `${usuarioId}_1`,
+            contenido: 'Hola, me gustaría conocer más detalles sobre los eventos programados.',
+            tipo: 'usuario',
+            autorNombre: 'Usuario',
+            fechaCreacion: haceUnaSemana,
+            adjuntos: []
+          },
+          {
+            id: `m_${usuarioId}_2`,
+            solicitudId: `${usuarioId}_1`,
+            contenido: 'Hola, puedes encontrar toda la información en la sección de eventos del dashboard.',
+            tipo: 'admin',
+            autorNombre: 'Administrador BSK',
+            fechaCreacion: hace3Dias,
+            adjuntos: []
+          }
+        ],
+        timeline: [
+          {
+            id: `t_${usuarioId}_1`,
+            solicitudId: `${usuarioId}_1`,
+            tipo: 'creada',
+            descripcion: 'Solicitud creada',
+            fecha: haceUnaSemana,
+            autorNombre: 'Usuario'
+          },
+          {
+            id: `t_${usuarioId}_2`,
+            solicitudId: `${usuarioId}_1`,
+            tipo: 'respondida',
+            descripcion: 'Solicitud respondida por el administrador',
+            fecha: hace3Dias,
+            autorNombre: 'Administrador BSK'
+          }
+        ]
+      },
+      {
+        id: `${usuarioId}_2`,
+        numeroSolicitud: `PQRS-2025-${String(this.contadorSolicitudes++).padStart(4, '0')}`,
+        usuarioId,
+        categoria: 'sugerencia',
+        asunto: 'Mejora en la aplicación móvil',
+        descripcion: 'Sería útil tener notificaciones push para eventos próximos.',
+        estado: 'en_revision',
+        prioridad: 'baja',
+        fechaCreacion: ahora,
+        fechaActualizacion: ahora,
+        adjuntos: [],
+        mensajes: [
+          {
+            id: `m_${usuarioId}_3`,
+            solicitudId: `${usuarioId}_2`,
+            contenido: 'Sugiero implementar notificaciones push para mantener informados a los miembros.',
+            tipo: 'usuario',
+            autorNombre: 'Usuario',
+            fechaCreacion: ahora,
+            adjuntos: []
+          }
+        ],
+        timeline: [
+          {
+            id: `t_${usuarioId}_3`,
+            solicitudId: `${usuarioId}_2`,
+            tipo: 'creada',
+            descripcion: 'Solicitud creada',
+            fecha: ahora,
+            autorNombre: 'Usuario'
+          }
+        ]
+      }
+    ];
+  }
+
   // Obtener todas las solicitudes del usuario
   static async obtenerSolicitudes(usuarioId: string): Promise<Solicitud[]> {
     // Simular latencia de red
     await new Promise(resolve => setTimeout(resolve, 500));
     
-    return this.solicitudes.filter(s => s.usuarioId === usuarioId);
+    console.log('PQRSDFService.obtenerSolicitudes llamado con usuarioId:', usuarioId);
+    
+    // Si no hay solicitudes para este usuario, crear algunas de ejemplo
+    const solicitudesUsuario = this.solicitudes.filter(s => s.usuarioId === usuarioId);
+    
+    if (solicitudesUsuario.length === 0) {
+      // Crear solicitudes de ejemplo para este usuario
+      const solicitudesEjemplo = this.crearSolicitudesEjemplo(usuarioId);
+      this.solicitudes.push(...solicitudesEjemplo);
+      return solicitudesEjemplo;
+    }
+    
+    return solicitudesUsuario;
   }
 
   // Obtener una solicitud específica
@@ -285,6 +392,8 @@ export class PQRSDFService {
   // Estadísticas mock
   static async obtenerEstadisticas(usuarioId: string) {
     await new Promise(resolve => setTimeout(resolve, 400));
+    
+    console.log('PQRSDFService.obtenerEstadisticas llamado con usuarioId:', usuarioId);
     
     const solicitudesUsuario = this.solicitudes.filter(s => s.usuarioId === usuarioId);
     
