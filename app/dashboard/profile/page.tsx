@@ -2,39 +2,19 @@
 
 import { useState, useEffect } from 'react';
 import { FaUser, FaHeart, FaMotorcycle, FaFileAlt, FaCog, FaHistory, FaCrown, FaEdit, FaSave, FaTimes, FaExclamationCircle } from 'react-icons/fa';
-import ProfileHeader from '@/components/dashboard/profile/ProfileHeader';
-import PersonalInfo from '@/components/dashboard/profile/PersonalInfo';
-import EmergencyContact from '@/components/dashboard/profile/EmergencyContact';
-import MedicalData from '@/components/dashboard/profile/MedicalData';
-import MotorcycleInfo from '@/components/dashboard/profile/MotorcycleInfo';
-import Documents from '@/components/dashboard/profile/Documents';
-import AccountSettings from '@/components/dashboard/profile/AccountSettings';
-import UserActivity from '@/components/dashboard/profile/UserActivity';
-import AdminOptions from '@/components/dashboard/profile/AdminOptions';
-import { IUser } from '@/lib/models/User';
-
-// Mock user data - replace with actual user data fetching  
-const mockUser = {
-  _id: '66f5a8c123456789abcdef01',
-  documentType: 'CC',
-  documentNumber: '12345678',
-  firstName: 'Carlos',
-  lastName: 'Rodríguez',
-  birthDate: '1990-05-15',
-  birthPlace: 'Bogotá',
-  phone: '+57 300 123 4567',
-  email: 'carlos.rodriguez@bskmt.com',
-  address: 'Carrera 15 #45-67',
-  city: 'Bogotá',
-  country: 'Colombia',
-  binaryGender: 'Masculino',
-  role: 'user',
-  isActive: true,
-  membershipNumber: 'BSKMT-2024-001',
-  profilePicture: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
-  createdAt: new Date('2024-01-15'),
-  updatedAt: new Date('2024-09-15')
-} as any;
+import { 
+  ProfileHeader, 
+  PersonalInfo, 
+  EmergencyContact, 
+  MedicalData, 
+  MotorcycleInfo, 
+  Documents, 
+  AccountSettings, 
+  UserActivity, 
+  AdminOptions 
+} from '@/components/dashboard/profile';
+import { useAuth } from '@/hooks/useAuth';
+import { useProfile } from '@/hooks/useProfile';
 
 interface ProfileTab {
   id: string;
@@ -46,13 +26,24 @@ interface ProfileTab {
 }
 
 export default function ProfilePage() {
-  const [user, setUser] = useState<any>(mockUser);
+  const { user: authUser } = useAuth();
+  const { profileData, loading, error, profileCompletion, updateProfile, uploadAvatar, refresh } = useProfile();
   const [currentUserRole, setCurrentUserRole] = useState<'user' | 'admin' | 'super-admin'>('user');
   const [activeTab, setActiveTab] = useState('personal');
   const [isEditMode, setIsEditMode] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [showUnsavedModal, setShowUnsavedModal] = useState(false);
   const [pendingTab, setPendingTab] = useState<string | null>(null);
+
+  // Set user role from auth data
+  useEffect(() => {
+    if (authUser?.role) {
+      setCurrentUserRole(authUser.role);
+    }
+  }, [authUser]);
+
+  // Use profileData or fallback to authUser
+  const user = profileData || authUser;
 
   // Configuración de pestañas
   const profileTabs: ProfileTab[] = [
@@ -127,10 +118,14 @@ export default function ProfilePage() {
   };
 
   const handleUserUpdate = async (updatedData: any) => {
-    // Implementar actualización de usuario
+    // Implementar actualización de usuario usando el hook
     console.log('Updating user:', updatedData);
-    setUser((prev: any) => ({ ...prev, ...updatedData }));
-    setHasUnsavedChanges(false);
+    try {
+      await updateProfile(updatedData);
+      setHasUnsavedChanges(false);
+    } catch (error) {
+      console.error('Error updating profile:', error);
+    }
   };
 
   const handleStatusChange = async (newStatus: 'active' | 'suspended' | 'inactive') => {
@@ -155,7 +150,9 @@ export default function ProfilePage() {
 
   const handleGenerateReport = async () => {
     // Implementar generación de reporte
-    console.log('Generating report for user:', user._id);
+    if (user) {
+      console.log('Generating report for user:', (user as any)._id || (user as any).id);
+    }
   };
 
   // Manejar cambio de pestaña con verificación de cambios no guardados
@@ -191,7 +188,7 @@ export default function ProfilePage() {
 
   // Props comunes para todos los componentes
   const commonProps = {
-    user,
+    user: user as any,
     isEditMode,
     onEdit: () => setIsEditMode(true),
     onSave: handleUserUpdate,
@@ -211,6 +208,50 @@ export default function ProfilePage() {
     onProfileApproval: handleProfileApproval,
     onGenerateReport: handleGenerateReport
   } : {};
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-slate-600 dark:text-slate-400">Cargando perfil...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
+        <div className="text-center">
+          <FaExclamationCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+          <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">Error al cargar el perfil</h2>
+          <p className="text-slate-600 dark:text-slate-400 mb-4">{error}</p>
+          <button
+            onClick={refresh}
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200"
+          >
+            Reintentar
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render if no user data
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
+        <div className="text-center">
+          <FaExclamationCircle className="w-12 h-12 text-amber-500 mx-auto mb-4" />
+          <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">No se encontró información del usuario</h2>
+          <p className="text-slate-600 dark:text-slate-400">Por favor, inicia sesión nuevamente.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
@@ -276,12 +317,12 @@ export default function ProfilePage() {
               <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-600">
                 <div className="flex items-center justify-between text-sm text-slate-600 dark:text-slate-400 mb-2">
                   <span>Completitud del perfil</span>
-                  <span className="font-medium">85%</span>
+                  <span className="font-medium">{profileCompletion}%</span>
                 </div>
                 <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
                   <div 
                     className="bg-gradient-to-r from-blue-500 to-green-500 h-2 rounded-full transition-all duration-300"
-                    style={{ width: '85%' }}
+                    style={{ width: `${profileCompletion}%` }}
                   ></div>
                 </div>
                 <p className="text-xs text-slate-500 dark:text-slate-500 mt-1">

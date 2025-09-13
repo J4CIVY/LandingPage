@@ -1,0 +1,254 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useAuth } from './useAuth';
+
+export interface ProfileData {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string;
+  address?: string;
+  city?: string;
+  country?: string;
+  profilePicture?: string;
+  membershipNumber?: string;
+  role: string;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  // Campos extendidos
+  documentType?: string;
+  documentNumber?: string;
+  birthDate?: string;
+  birthPlace?: string;
+  binaryGender?: string;
+  // Datos adicionales del perfil extendido
+  profileCompletion?: number;
+  emergencyContact?: any;
+  medicalData?: any;
+  motorcycleInfo?: any;
+  documents?: any[];
+  activities?: any[];
+  notificationPreferences?: any;
+}
+
+export function useProfile() {
+  const { user, isAuthenticated } = useAuth();
+  const [profileData, setProfileData] = useState<ProfileData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch user profile data
+  const fetchProfile = async () => {
+    if (!isAuthenticated || !user?.id) {
+      setLoading(false);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const response = await fetch(`/api/users/${user.id}/profile`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error fetching profile: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setProfileData(data.data.user);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error fetching profile');
+      console.error('Error fetching profile:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Update user profile
+  const updateProfile = async (updates: Partial<ProfileData>) => {
+    if (!isAuthenticated || !user?.id) {
+      throw new Error('User not authenticated');
+    }
+
+    try {
+      setError(null);
+
+      const response = await fetch(`/api/users/${user.id}/profile`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updates),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error updating profile: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setProfileData(data.data.user);
+      return data.data.user;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error updating profile');
+      throw err;
+    }
+  };
+
+  // Upload avatar
+  const uploadAvatar = async (file: File) => {
+    if (!isAuthenticated || !user?.id) {
+      throw new Error('User not authenticated');
+    }
+
+    try {
+      setError(null);
+
+      const formData = new FormData();
+      formData.append('avatar', file);
+
+      const response = await fetch(`/api/users/${user.id}/avatar`, {
+        method: 'POST',
+        credentials: 'include',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error uploading avatar: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setProfileData(prev => prev ? { ...prev, profilePicture: data.data.avatarUrl } : null);
+      return data.data.avatarUrl;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error uploading avatar');
+      throw err;
+    }
+  };
+
+  // Upload document
+  const uploadDocument = async (file: File, documentType: string, category: string) => {
+    if (!isAuthenticated || !user?.id) {
+      throw new Error('User not authenticated');
+    }
+
+    try {
+      setError(null);
+
+      const formData = new FormData();
+      formData.append('document', file);
+      formData.append('type', documentType);
+      formData.append('category', category);
+
+      const response = await fetch(`/api/users/${user.id}/documents`, {
+        method: 'POST',
+        credentials: 'include',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error uploading document: ${response.status}`);
+      }
+
+      const data = await response.json();
+      // Refetch profile to get updated documents
+      await fetchProfile();
+      return data.data.document;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error uploading document');
+      throw err;
+    }
+  };
+
+  // Get user activities
+  const fetchActivities = async () => {
+    if (!isAuthenticated || !user?.id) {
+      return [];
+    }
+
+    try {
+      const response = await fetch(`/api/users/${user.id}/activities`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error fetching activities: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data.data.activities;
+    } catch (err) {
+      console.error('Error fetching activities:', err);
+      return [];
+    }
+  };
+
+  // Calculate profile completion
+  const calculateProfileCompletion = (profile: ProfileData | null): number => {
+    if (!profile) return 0;
+
+    let filledFields = 0;
+    let totalFields = 0;
+
+    // Basic fields (40% weight)
+    const basicFields = ['firstName', 'lastName', 'email', 'phone', 'birthDate'];
+    totalFields += basicFields.length;
+    filledFields += basicFields.filter(field => profile[field as keyof ProfileData]).length;
+
+    // Address (10% weight)
+    totalFields += 1;
+    if (profile.address && profile.city) filledFields += 1;
+
+    // Additional info (15% weight)
+    const additionalFields = ['documentNumber', 'birthPlace', 'binaryGender'];
+    totalFields += additionalFields.length;
+    filledFields += additionalFields.filter(field => profile[field as keyof ProfileData]).length;
+
+    // Emergency contact (15% weight)
+    totalFields += 1;
+    if (profile.emergencyContact?.firstName && profile.emergencyContact?.phone) filledFields += 1;
+
+    // Motorcycle info (10% weight)
+    totalFields += 1;
+    if (profile.motorcycleInfo?.motorcycles?.length > 0) filledFields += 1;
+
+    // Required documents (10% weight)
+    totalFields += 1;
+    const requiredDocs = profile.documents?.filter(doc => doc.isRequired) || [];
+    const approvedRequiredDocs = requiredDocs.filter(doc => doc.status === 'approved');
+    if (requiredDocs.length > 0 && approvedRequiredDocs.length === requiredDocs.length) filledFields += 1;
+
+    return Math.round((filledFields / totalFields) * 100);
+  };
+
+  // Load profile on mount and when user changes
+  useEffect(() => {
+    fetchProfile();
+  }, [isAuthenticated, user?.id]);
+
+  return {
+    profileData,
+    loading,
+    error,
+    profileCompletion: calculateProfileCompletion(profileData),
+    fetchProfile,
+    updateProfile,
+    uploadAvatar,
+    uploadDocument,
+    fetchActivities,
+    refresh: fetchProfile
+  };
+}

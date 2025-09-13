@@ -27,7 +27,7 @@ interface NavigationItem {
 
 const navigationItems: NavigationItem[] = [
   { href: '/dashboard', label: 'Inicio', icon: FaHome },
-  { href: '/profile', label: 'Perfil', icon: FaUser },
+  { href: '/dashboard/profile', label: 'Perfil', icon: FaUser },
   { href: '/membership-status', label: 'Membresía', icon: FaCreditCard },
   { href: '/events', label: 'Eventos', icon: FaCalendarAlt },
   { href: '/dashboard/community', label: 'Comunidad', icon: FaUsers },

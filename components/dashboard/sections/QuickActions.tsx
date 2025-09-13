@@ -28,7 +28,7 @@ const quickActions: QuickAction[] = [
     title: 'Actualizar Perfil',
     description: 'Edita tu información personal',
     icon: <FaUser />,
-    href: '/profile',
+    href: '/dashboard/profile',
     color: 'text-blue-600 dark:text-blue-400',
     bgColor: 'bg-blue-50 dark:bg-blue-900/20',
     hoverColor: 'hover:bg-blue-100 dark:hover:bg-blue-900/30'
