@@ -4,9 +4,9 @@ import { ChatMensaje } from '@/lib/models/Comunidad';
 import { verifySession } from '@/lib/auth-utils';
 import { Types } from 'mongoose';
 
-type Params = {
+type Params = Promise<{
   id: string;
-};
+}>;
 
 // PUT - Editar mensaje
 export async function PUT(request: NextRequest, { params }: { params: Params }) {
@@ -14,14 +14,14 @@ export async function PUT(request: NextRequest, { params }: { params: Params }) 
     await connectToDatabase();
     
     const session = await verifySession(request);
-    if (!session) {
+    if (!session.success) {
       return NextResponse.json(
         { exito: false, error: 'No autorizado' },
         { status: 401 }
       );
     }
 
-    const { id } = params;
+    const { id } = await params;
     const { contenido } = await request.json();
     
     if (!Types.ObjectId.isValid(id)) {
@@ -54,8 +54,8 @@ export async function PUT(request: NextRequest, { params }: { params: Params }) 
     }
 
     // Verificar permisos (solo el autor o administrador)
-    if (mensaje.autorId.toString() !== session.user.id && 
-        session.user.role !== 'admin') {
+    if (mensaje.autorId.toString() !== session.user?.id && 
+        session.user?.role !== 'admin') {
       return NextResponse.json(
         { exito: false, error: 'Sin permisos para editar este mensaje' },
         { status: 403 }
@@ -66,7 +66,7 @@ export async function PUT(request: NextRequest, { params }: { params: Params }) 
     const tiempoLimite = 5 * 60 * 1000; // 5 minutos en millisegundos
     const tiempoTranscurrido = Date.now() - mensaje.fechaEnvio.getTime();
     
-    if (tiempoTranscurrido > tiempoLimite && session.user.role !== 'admin') {
+    if (tiempoTranscurrido > tiempoLimite && session.user?.role !== 'admin') {
       return NextResponse.json(
         { exito: false, error: 'El tiempo para editar ha expirado (5 minutos)' },
         { status: 400 }
@@ -114,14 +114,14 @@ export async function DELETE(request: NextRequest, { params }: { params: Params 
     await connectToDatabase();
     
     const session = await verifySession(request);
-    if (!session) {
+    if (!session.success) {
       return NextResponse.json(
         { exito: false, error: 'No autorizado' },
         { status: 401 }
       );
     }
 
-    const { id } = params;
+    const { id } = await params;
     
     if (!Types.ObjectId.isValid(id)) {
       return NextResponse.json(
@@ -139,8 +139,8 @@ export async function DELETE(request: NextRequest, { params }: { params: Params 
     }
 
     // Verificar permisos (solo el autor, moderador o administrador)
-    if (mensaje.autorId.toString() !== session.user.id && 
-        !['admin', 'moderator'].includes(session.user.role)) {
+    if (mensaje.autorId.toString() !== session.user?.id && 
+        !['admin', 'moderator'].includes(session.user?.role || '')) {
       return NextResponse.json(
         { exito: false, error: 'Sin permisos para eliminar este mensaje' },
         { status: 403 }

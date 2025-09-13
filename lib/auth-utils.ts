@@ -295,3 +295,6 @@ export async function verifyAuth(request: NextRequest): Promise<AuthResult> {
     };
   }
 }
+
+// Alias para compatibilidad con código existente
+export { verifyAuth as verifySession };
