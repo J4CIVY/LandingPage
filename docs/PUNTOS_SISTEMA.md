@@ -46,6 +46,10 @@ Sistema completo de gamificación para el dashboard del BSK Motorcycle Team que 
 - **Historial de Actividades**: Filtrado por tipo y fecha
 - **Catálogo de Recompensas**: Cards con detalles y sistema de canje
 - **Ranking**: Leaderboard con filtros temporales
+- **Sistema de Logros**: Badges desbloqueables con progreso
+- **Estadísticas Rápidas**: Métricas diarias y semanales
+- **Resumen Semanal**: Gráfico de actividad de los últimos 7 días
+- **Notificaciones**: Toast messages para feedback en tiempo real
 
 ### Para Administradores
 
