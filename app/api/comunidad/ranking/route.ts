@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
     await connectToDatabase();
     
     const session = await verifySession(request);
-    if (!session) {
+    if (!session.success || !session.user) {
       return NextResponse.json(
         { exito: false, error: 'No autorizado' },
         { status: 401 }
@@ -57,13 +57,13 @@ export async function GET(request: NextRequest) {
 
     // Obtener posición del usuario actual
     const usuarioActual = rankings.find(r => 
-      r.usuarioId._id.toString() === session.user.id
+      r.usuarioId._id.toString() === session.user!.id
     );
 
     let posicionUsuario = null;
     if (!usuarioActual) {
       // Si el usuario no está en el top, buscar su posición
-      const usuarioRanking = await UsuarioRanking.findOne({ usuarioId: session.user.id });
+      const usuarioRanking = await UsuarioRanking.findOne({ usuarioId: session.user!.id });
       if (usuarioRanking) {
         const usuariosConMasPuntos = await UsuarioRanking.countDocuments({
           puntos: { $gt: usuarioRanking.puntos }
@@ -72,7 +72,7 @@ export async function GET(request: NextRequest) {
       }
     } else {
       posicionUsuario = rankingsConBadges.find(r => 
-        r.usuarioId === session.user.id
+        r.usuarioId === session.user!.id
       )?.posicion || null;
     }
 

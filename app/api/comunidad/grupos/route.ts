@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
       nombre: grupo.nombre,
       descripcion: grupo.descripcion,
       icono: grupo.icono,
-      miembros: grupo.miembros.map(id => id.toString()),
+      miembros: grupo.miembros.map((id: any) => id.toString()),
       adminId: grupo.adminId._id.toString(),
       fechaCreacion: grupo.fechaCreacion,
       esPrivado: grupo.esPrivado
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
     await connectToDatabase();
     
     const session = await verifySession(request);
-    if (!session) {
+    if (!session.success || !session.user) {
       return NextResponse.json(
         { exito: false, error: 'No autorizado' },
         { status: 401 }
@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
       nombre: nuevoGrupo.nombre,
       descripcion: nuevoGrupo.descripcion,
       icono: nuevoGrupo.icono,
-      miembros: nuevoGrupo.miembros.map(id => id.toString()),
+      miembros: nuevoGrupo.miembros.map((id: any) => id.toString()),
       adminId: nuevoGrupo.adminId._id.toString(),
       fechaCreacion: nuevoGrupo.fechaCreacion,
       esPrivado: nuevoGrupo.esPrivado

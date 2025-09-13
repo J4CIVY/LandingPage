@@ -3,12 +3,11 @@ import { connectToDatabase } from '@/lib/mongodb';
 import { Publicacion } from '@/lib/models/Comunidad';
 import { verifySession } from '@/lib/auth-utils';
 
-type Params = Promise<{
-  id: string;
-}>;
-
 // PUT - Editar publicación
-export async function PUT(request: NextRequest, { params }: { params: Params }) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     await connectToDatabase();
     
@@ -21,6 +20,18 @@ export async function PUT(request: NextRequest, { params }: { params: Params }) 
     }
 
     const { id } = await params;
+) {
+  try {
+    await connectToDatabase();
+    
+    const session = await verifySession(request);
+    if (!session) {
+      return NextResponse.json(
+        { exito: false, error: 'No autorizado' },
+        { status: 401 }
+      );
+    }
+
     const { contenido } = await request.json();
 
     if (!contenido?.trim()) {
@@ -31,7 +42,7 @@ export async function PUT(request: NextRequest, { params }: { params: Params }) 
     }
 
     // Buscar publicación
-    const publicacion = await Publicacion.findById(id).populate('autorId');
+    const publicacion = await Publicacion.findById(params.id).populate('autorId');
     
     if (!publicacion) {
       return NextResponse.json(
@@ -51,38 +62,41 @@ export async function PUT(request: NextRequest, { params }: { params: Params }) 
       );
     }
 
-    // Actualizar contenido
+    // Actualizar publicación
     publicacion.contenido = contenido.trim();
-    publicacion.fechaEdicion = new Date();
+    publicacion.esEditado = true;
+    publicacion.fechaActualizacion = new Date();
+
     await publicacion.save();
 
-    // Obtener datos actualizados
-    await publicacion.populate('autorId', 'firstName lastName email role');
-
-    const publicacionData = {
+    // Respuesta con datos actualizados
+    const publicacionActualizada = {
       id: publicacion._id.toString(),
-      contenido: publicacion.contenido,
       autorId: publicacion.autorId._id.toString(),
-      autorNombre: `${publicacion.autorId.firstName} ${publicacion.autorId.lastName}`,
-      autorEmail: publicacion.autorId.email,
-      autorRole: publicacion.autorId.role,
-      fechaCreacion: publicacion.fechaCreacion,
-      fechaEdicion: publicacion.fechaEdicion,
-      grupoId: publicacion.grupoId?.toString() || null,
-      imagenes: publicacion.imagenes || [],
-      tipoPublicacion: publicacion.tipoPublicacion,
-      reacciones: {
-        meGusta: publicacion.reacciones.meGusta.map((id: any) => id.toString()),
-        corazones: publicacion.reacciones.corazones.map((id: any) => id.toString()),
-        fuego: publicacion.reacciones.fuego.map((id: any) => id.toString())
+      autor: {
+        firstName: publicacion.autorId.firstName,
+        lastName: publicacion.autorId.lastName,
+        email: publicacion.autorId.email,
+        role: publicacion.autorId.role
       },
-      cantidadComentarios: publicacion.cantidadComentarios || 0,
-      activa: publicacion.activa
+      contenido: publicacion.contenido,
+      imagenes: publicacion.imagenes || [],
+      fechaCreacion: publicacion.fechaCreacion,
+      fechaActualizacion: publicacion.fechaActualizacion,
+      reacciones: {
+        meGusta: publicacion.reacciones.meGusta.map(id => id.toString()),
+        corazones: publicacion.reacciones.corazones.map(id => id.toString()),
+        fuego: publicacion.reacciones.fuego.map(id => id.toString())
+      },
+      comentarios: [],
+      grupoId: publicacion.grupoId?.toString(),
+      esEditado: publicacion.esEditado
     };
 
     return NextResponse.json({
       exito: true,
-      publicacion: publicacionData
+      datos: publicacionActualizada,
+      mensaje: 'Publicación actualizada exitosamente'
     });
 
   } catch (error) {
@@ -95,22 +109,23 @@ export async function PUT(request: NextRequest, { params }: { params: Params }) 
 }
 
 // DELETE - Eliminar publicación
-export async function DELETE(request: NextRequest, { params }: { params: Params }) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
     await connectToDatabase();
     
     const session = await verifySession(request);
-    if (!session.success || !session.user) {
+    if (!session) {
       return NextResponse.json(
         { exito: false, error: 'No autorizado' },
         { status: 401 }
       );
     }
 
-    const { id } = await params;
-
     // Buscar publicación
-    const publicacion = await Publicacion.findById(id).populate('autorId');
+    const publicacion = await Publicacion.findById(params.id).populate('autorId');
     
     if (!publicacion) {
       return NextResponse.json(
