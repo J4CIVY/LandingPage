@@ -115,7 +115,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
                           (event as any).difficultyLevel === 'medium' ? 'Media' : 'Alta'} dificultad
                         </span>
                         <span className={`px-2 py-1 rounded-full text-xs font-semibold text-white ${getEventTypeColor(event.eventType)}`}>
-                          {event.eventType === 'Ride' ? 'Rodada' : 'Encuentro'}
+                          {event.eventType === 'Rodada' ? 'Rodada' : 'Encuentro'}
                         </span>
                         <span className="px-2 py-1 rounded-full text-xs font-semibold text-white bg-indigo-500">
                           {(event as any).internalEventType}
