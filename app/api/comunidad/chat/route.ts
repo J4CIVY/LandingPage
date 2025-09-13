@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
     await connectToDatabase();
     
     const session = await verifySession(request);
-    if (!session) {
+    if (!session.success) {
       return NextResponse.json(
         { exito: false, error: 'No autorizado' },
         { status: 401 }
@@ -127,7 +127,7 @@ export async function POST(request: NextRequest) {
     // Crear nuevo mensaje
     const nuevoMensaje = new ChatMensaje({
       contenido: contenido.trim(),
-      autorId: session.user.id,
+      autorId: session.user?.id,
       grupoId: grupoId || null,
       fechaEnvio: new Date(),
       activo: true,
@@ -141,7 +141,7 @@ export async function POST(request: NextRequest) {
 
     // Otorgar puntos por participar en chat
     await UsuarioRanking.findOneAndUpdate(
-      { usuarioId: session.user.id },
+      { usuarioId: session.user?.id },
       { 
         $inc: { puntos: 2 },
         $set: { fechaActualizacion: new Date() }
