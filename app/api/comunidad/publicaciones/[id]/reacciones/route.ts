@@ -6,13 +6,13 @@ import { verifySession } from '@/lib/auth-utils';
 // POST - Toggle reacción en publicación
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectToDatabase();
     
     const session = await verifySession(request);
-    if (!session) {
+    if (!session.success || !session.user) {
       return NextResponse.json(
         { exito: false, error: 'No autorizado' },
         { status: 401 }
@@ -28,8 +28,10 @@ export async function POST(
       );
     }
 
+    const { id } = await params;
+
     // Buscar publicación
-    const publicacion = await Publicacion.findById(params.id).populate('autorId');
+    const publicacion = await Publicacion.findById(id).populate('autorId');
     
     if (!publicacion || !publicacion.activa) {
       return NextResponse.json(
@@ -45,7 +47,7 @@ export async function POST(
     if (yaReacciono) {
       // Quitar reacción
       publicacion.reacciones[tipo as keyof typeof publicacion.reacciones] = 
-        reacciones.filter(id => id.toString() !== usuarioId);
+        reacciones.filter((id: any) => id.toString() !== usuarioId);
       
       // Restar punto al autor de la publicación
       await actualizarPuntosReaccion(publicacion.autorId._id.toString(), -1);
@@ -74,9 +76,9 @@ export async function POST(
       fechaCreacion: publicacion.fechaCreacion,
       fechaActualizacion: publicacion.fechaActualizacion,
       reacciones: {
-        meGusta: publicacion.reacciones.meGusta.map(id => id.toString()),
-        corazones: publicacion.reacciones.corazones.map(id => id.toString()),
-        fuego: publicacion.reacciones.fuego.map(id => id.toString())
+        meGusta: publicacion.reacciones.meGusta.map((id: any) => id.toString()),
+        corazones: publicacion.reacciones.corazones.map((id: any) => id.toString()),
+        fuego: publicacion.reacciones.fuego.map((id: any) => id.toString())
       },
       comentarios: [],
       grupoId: publicacion.grupoId?.toString(),

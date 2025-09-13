@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
     await connectToDatabase();
     
     const session = await verifySession(request);
-    if (!session) {
+    if (!session.success || !session.user) {
       return NextResponse.json(
         { exito: false, error: 'No autorizado' },
         { status: 401 }
@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
     await connectToDatabase();
     
     const session = await verifySession(request);
-    if (!session) {
+    if (!session.success || !session.user) {
       return NextResponse.json(
         { exito: false, error: 'No autorizado' },
         { status: 401 }

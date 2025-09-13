@@ -4,9 +4,9 @@ import { GrupoInteres, UsuarioRanking } from '@/lib/models/Comunidad';
 import { verifySession } from '@/lib/auth-utils';
 import { Types } from 'mongoose';
 
-type Params = {
+type Params = Promise<{
   id: string;
-};
+}>;
 
 // POST - Unirse/Salir de grupo
 export async function POST(request: NextRequest, { params }: { params: Params }) {
@@ -14,14 +14,14 @@ export async function POST(request: NextRequest, { params }: { params: Params })
     await connectToDatabase();
     
     const session = await verifySession(request);
-    if (!session) {
+    if (!session.success || !session.user) {
       return NextResponse.json(
         { exito: false, error: 'No autorizado' },
         { status: 401 }
       );
     }
 
-    const { id } = params;
+    const { id } = await params;
     const { accion } = await request.json(); // 'unirse' o 'salir'
     
     if (!Types.ObjectId.isValid(id)) {
@@ -46,9 +46,9 @@ export async function POST(request: NextRequest, { params }: { params: Params })
       );
     }
 
-    const usuarioId = new Types.ObjectId(session.user.id);
-    const yaEsMiembro = grupo.miembros.some(miembroId => 
-      miembroId.toString() === session.user.id
+    const usuarioId = new Types.ObjectId(session.user!.id);
+    const yaEsMiembro = grupo.miembros.some((miembroId: any) => 
+      miembroId.toString() === session.user!.id
     );
 
     if (accion === 'unirse') {
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest, { params }: { params: Params })
 
       // Otorgar puntos por unirse a un grupo
       await UsuarioRanking.findOneAndUpdate(
-        { usuarioId: session.user.id },
+        { usuarioId: session.user!.id },
         { 
           $inc: { puntos: 5 },
           $set: { fechaActualizacion: new Date() }
@@ -99,7 +99,7 @@ export async function POST(request: NextRequest, { params }: { params: Params })
       }
 
       // Verificar que no sea el admin (no puede salir)
-      if (grupo.adminId.toString() === session.user.id) {
+      if (grupo.adminId.toString() === session.user!.id) {
         return NextResponse.json(
           { exito: false, error: 'El administrador no puede salir del grupo' },
           { status: 400 }
@@ -107,8 +107,8 @@ export async function POST(request: NextRequest, { params }: { params: Params })
       }
 
       // Salir del grupo
-      grupo.miembros = grupo.miembros.filter(miembroId => 
-        miembroId.toString() !== session.user.id
+      grupo.miembros = grupo.miembros.filter((miembroId: any) => 
+        miembroId.toString() !== session.user!.id
       );
       await grupo.save();
 

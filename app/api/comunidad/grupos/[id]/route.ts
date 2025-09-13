@@ -4,9 +4,9 @@ import { GrupoInteres } from '@/lib/models/Comunidad';
 import { verifySession } from '@/lib/auth-utils';
 import { Types } from 'mongoose';
 
-type Params = {
+type Params = Promise<{
   id: string;
-};
+}>;
 
 // PUT - Actualizar grupo
 export async function PUT(request: NextRequest, { params }: { params: Params }) {
@@ -14,14 +14,14 @@ export async function PUT(request: NextRequest, { params }: { params: Params }) 
     await connectToDatabase();
     
     const session = await verifySession(request);
-    if (!session) {
+    if (!session.success || !session.user) {
       return NextResponse.json(
         { exito: false, error: 'No autorizado' },
         { status: 401 }
       );
     }
 
-    const { id } = params;
+    const { id } = await params;
     
     if (!Types.ObjectId.isValid(id)) {
       return NextResponse.json(
@@ -39,8 +39,8 @@ export async function PUT(request: NextRequest, { params }: { params: Params }) 
     }
 
     // Verificar permisos (solo admin del grupo o administrador general)
-    if (grupo.adminId.toString() !== session.user.id && 
-        session.user.role !== 'admin') {
+    if (grupo.adminId.toString() !== session.user!.id && 
+        session.user!.role !== 'admin') {
       return NextResponse.json(
         { exito: false, error: 'Sin permisos para editar este grupo' },
         { status: 403 }
@@ -79,7 +79,7 @@ export async function PUT(request: NextRequest, { params }: { params: Params }) 
       nombre: grupo.nombre,
       descripcion: grupo.descripcion,
       icono: grupo.icono,
-      miembros: grupo.miembros.map(id => id.toString()),
+      miembros: grupo.miembros.map((id: any) => id.toString()),
       adminId: grupo.adminId._id.toString(),
       fechaCreacion: grupo.fechaCreacion,
       esPrivado: grupo.esPrivado
@@ -106,14 +106,14 @@ export async function DELETE(request: NextRequest, { params }: { params: Params 
     await connectToDatabase();
     
     const session = await verifySession(request);
-    if (!session) {
+    if (!session.success || !session.user) {
       return NextResponse.json(
         { exito: false, error: 'No autorizado' },
         { status: 401 }
       );
     }
 
-    const { id } = params;
+    const { id } = await params;
     
     if (!Types.ObjectId.isValid(id)) {
       return NextResponse.json(
@@ -131,8 +131,8 @@ export async function DELETE(request: NextRequest, { params }: { params: Params 
     }
 
     // Verificar permisos (solo admin del grupo o administrador general)
-    if (grupo.adminId.toString() !== session.user.id && 
-        session.user.role !== 'admin') {
+    if (grupo.adminId.toString() !== session.user!.id && 
+        session.user!.role !== 'admin') {
       return NextResponse.json(
         { exito: false, error: 'Sin permisos para eliminar este grupo' },
         { status: 403 }

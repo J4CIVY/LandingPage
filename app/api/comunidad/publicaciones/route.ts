@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { Publicacion } from '@/lib/models/Comunidad';
-import { User } from '@/lib/models/User';
+import { IUser } from '@/lib/models/User';
 import { UsuarioRanking } from '@/lib/models/Comunidad';
 import { verifySession } from '@/lib/auth-utils';
 
@@ -51,9 +51,9 @@ export async function GET(request: NextRequest) {
       fechaCreacion: pub.fechaCreacion,
       fechaActualizacion: pub.fechaActualizacion,
       reacciones: {
-        meGusta: pub.reacciones.meGusta.map(id => id.toString()),
-        corazones: pub.reacciones.corazones.map(id => id.toString()),
-        fuego: pub.reacciones.fuego.map(id => id.toString())
+        meGusta: pub.reacciones.meGusta.map((id: any) => id.toString()),
+        corazones: pub.reacciones.corazones.map((id: any) => id.toString()),
+        fuego: pub.reacciones.fuego.map((id: any) => id.toString())
       },
       comentarios: [], // Los comentarios se cargan por separado
       grupoId: pub.grupoId?.toString(),
@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
     
     // Verificar sesión
     const session = await verifySession(request);
-    if (!session) {
+    if (!session.success || !session.user) {
       return NextResponse.json(
         { exito: false, error: 'No autorizado' },
         { status: 401 }
