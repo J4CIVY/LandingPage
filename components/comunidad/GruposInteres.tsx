@@ -54,7 +54,7 @@ export default function GruposInteres({
     '🚀', '⚙️', '🏆', '🎸', '📸', '🍺', '🌮', '🎉'
   ];
 
-  const esAdmin = usuarioActual?.role === 'admin' || usuarioActual?.role === 'moderator';
+  const esAdmin = usuarioActual?.role === 'admin' || usuarioActual?.role === 'super-admin';
 
   // Función para manejar cambios en el formulario
   const manejarCambioFormulario = (campo: keyof FormularioGrupo, valor: any) => {

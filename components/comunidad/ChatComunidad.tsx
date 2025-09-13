@@ -49,7 +49,7 @@ export default function ChatComunidad({
   const mensajesRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const esAdmin = usuarioActual?.role === 'admin' || usuarioActual?.role === 'moderator';
+  const esAdmin = usuarioActual?.role === 'admin' || usuarioActual?.role === 'super-admin';
 
   // Auto-scroll al final cuando llegan nuevos mensajes
   useEffect(() => {

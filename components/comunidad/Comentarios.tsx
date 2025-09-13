@@ -45,7 +45,7 @@ function ComentarioItem({
   const [cargandoEdicion, setCargandoEdicion] = useState(false);
 
   const esAutor = usuarioActual?.id === comentario.autorId;
-  const esAdmin = usuarioActual?.role === 'admin' || usuarioActual?.role === 'moderator';
+  const esAdmin = usuarioActual?.role === 'admin' || usuarioActual?.role === 'super-admin';
 
   // Función para formatear fecha
   const formatearFecha = (fecha: Date) => {
@@ -156,12 +156,12 @@ function ComentarioItem({
               <span className={`px-1.5 py-0.5 text-xs font-medium rounded ${
                 comentario.autor.role === 'admin' 
                   ? 'bg-red-100 text-red-800'
-                  : comentario.autor.role === 'moderator'
+                  : comentario.autor.role === 'super-admin'
                   ? 'bg-purple-100 text-purple-800'
                   : 'bg-gray-100 text-gray-800'
               }`}>
                 {comentario.autor.role === 'admin' ? 'Admin' : 
-                 comentario.autor.role === 'moderator' ? 'Mod' : 'Miembro'}
+                 comentario.autor.role === 'super-admin' ? 'S.Admin' : 'Miembro'}
               </span>
             )}
             <span className="text-xs text-gray-500">

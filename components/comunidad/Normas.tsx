@@ -165,7 +165,7 @@ export default function Normas({ usuarioActual }: NormasProps) {
     }
   ]);
 
-  const esAdmin = usuarioActual?.role === 'admin' || usuarioActual?.role === 'moderator';
+  const esAdmin = usuarioActual?.role === 'admin' || usuarioActual?.role === 'super-admin';
 
   const normasComunidad = [
     {

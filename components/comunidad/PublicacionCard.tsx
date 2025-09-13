@@ -38,7 +38,7 @@ export default function PublicacionCard({
   const [cargandoEdicion, setCargandoEdicion] = useState(false);
 
   const esAutor = usuarioActual?.id === publicacion.autorId;
-  const esAdmin = usuarioActual?.role === 'admin' || usuarioActual?.role === 'moderator';
+  const esAdmin = usuarioActual?.role === 'admin' || usuarioActual?.role === 'super-admin';
   
   // Función para formatear fecha
   const formatearFecha = (fecha: Date) => {
@@ -184,12 +184,12 @@ export default function PublicacionCard({
                 <span className={`px-2 py-1 text-xs font-medium rounded-full ${
                   publicacion.autor.role === 'admin' 
                     ? 'bg-red-100 text-red-800'
-                    : publicacion.autor.role === 'moderator'
+                    : publicacion.autor.role === 'super-admin'
                     ? 'bg-purple-100 text-purple-800'
                     : 'bg-gray-100 text-gray-800'
                 }`}>
                   {publicacion.autor.role === 'admin' ? 'Administrador' : 
-                   publicacion.autor.role === 'moderator' ? 'Moderador' : 'Miembro'}
+                   publicacion.autor.role === 'super-admin' ? 'Super Admin' : 'Miembro'}
                 </span>
               )}
             </div>
