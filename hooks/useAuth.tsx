@@ -3,24 +3,12 @@
 
 import { useState, useEffect, useCallback, createContext, useContext } from 'react';
 import { useRouter } from 'next/navigation';
-
-interface User {
-  id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  membershipType: string;
-  isEmailVerified: boolean;
-  role: 'user' | 'admin' | 'super-admin';
-  profileImage?: string;
-  joinDate?: Date;
-  createdAt?: Date;
-}
+import { IUser } from '@/lib/models/User';
 
 interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
-  user: User | null;
+  user: IUser | null;
   error: string | null;
 }
 
