@@ -34,7 +34,7 @@ const navigationItems: NavigationItem[] = [
   { href: '/dashboard/pqrsdf', label: 'PQRSDF', icon: FaFileAlt },
   { href: '/dashboard/benefits', label: 'Beneficios', icon: FaGift },
   { href: '/store', label: 'Tienda', icon: FaShoppingCart },
-  { href: '/dashboard/history', label: 'Historial', icon: FaHistory },
+  { href: '/dashboard/historial', label: 'Historial', icon: FaHistory },
   { href: '/dashboard/gamification', label: 'Puntos', icon: FaTrophy },
   { href: '/dashboard/settings', label: 'Configuración', icon: FaCog },
 ];
