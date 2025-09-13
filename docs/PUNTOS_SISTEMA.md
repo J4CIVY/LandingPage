@@ -18,7 +18,10 @@ Sistema completo de gamificación para el dashboard del BSK Motorcycle Team que 
 ├── RecompensaModal.tsx        # Modal para detalles y canje
 ├── Leaderboard.tsx            # Ranking de miembros
 ├── AdminPanel.tsx             # Panel administrativo
-└── NotificacionesToast.tsx    # Sistema de notificaciones
+├── NotificacionesToast.tsx    # Sistema de notificaciones
+├── EstadisticasRapidas.tsx    # Métricas en tiempo real
+├── LogrosUsuario.tsx          # Sistema de logros/badges
+└── ResumenSemanal.tsx         # Gráfico de actividad semanal
 
 /types/puntos/
 └── index.ts                   # Interfaces y tipos TypeScript

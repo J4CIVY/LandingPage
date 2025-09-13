@@ -8,14 +8,27 @@ import HistorialPuntos from '@/components/puntos/HistorialPuntos';
 import RecompensaCard from '@/components/puntos/RecompensaCard';
 import Leaderboard from '@/components/puntos/Leaderboard';
 import AdminPanel from '@/components/puntos/AdminPanel';
+import NotificacionesToast from '@/components/puntos/NotificacionesToast';
+import EstadisticasRapidas from '@/components/puntos/EstadisticasRapidas';
+import LogrosUsuario from '@/components/puntos/LogrosUsuario';
+import ResumenSemanal from '@/components/puntos/ResumenSemanal';
 import { obtenerUsuarioActual, obtenerRecompensas } from '@/data/puntos/mockData';
 import { Recompensa } from '@/types/puntos';
+import { useNotificaciones } from '@/hooks/useNotificacionesPuntos';
 
 export default function PuntosPage() {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [recompensas, setRecompensas] = useState<Recompensa[]>([]);
-  const [tabActiva, setTabActiva] = useState<'recompensas' | 'historial' | 'ranking' | 'admin'>('recompensas');
+  const [tabActiva, setTabActiva] = useState<'recompensas' | 'historial' | 'ranking' | 'logros' | 'admin'>('recompensas');
   const [loading, setLoading] = useState(true);
+  
+  // Hook de notificaciones
+  const { 
+    notificaciones, 
+    eliminarNotificacion, 
+    notificarExito, 
+    notificarError 
+  } = useNotificaciones();
 
   useEffect(() => {
     // Simular carga de datos
@@ -26,8 +39,17 @@ export default function PuntosPage() {
         
         setUsuario(usuarioData);
         setRecompensas(recompensasData);
+        
+        // Notificación de bienvenida
+        setTimeout(() => {
+          notificarExito(
+            '¡Bienvenido!', 
+            `Hola ${usuarioData.nombre}, tienes ${usuarioData.puntosTotales} puntos disponibles`
+          );
+        }, 1000);
       } catch (error) {
         console.error('Error cargando datos:', error);
+        notificarError('Error', 'No se pudieron cargar los datos del sistema');
       } finally {
         setLoading(false);
       }
@@ -59,6 +81,7 @@ export default function PuntosPage() {
     { id: 'recompensas', label: 'Recompensas', icon: '🎁' },
     { id: 'historial', label: 'Historial', icon: '📊' },
     { id: 'ranking', label: 'Ranking', icon: '🏆' },
+    { id: 'logros', label: 'Logros', icon: '🏅' },
     ...(usuario.esAdmin ? [{ id: 'admin', label: 'Admin', icon: '⚙️' }] : [])
   ];
 
@@ -79,6 +102,21 @@ export default function PuntosPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <PuntosHeader usuario={usuario} />
           <ProgresoNivel usuario={usuario} />
+        </div>
+
+        {/* Estadísticas rápidas y logros */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          <EstadisticasRapidas 
+            usuarioId={usuario.id} 
+            puntosActuales={usuario.puntosTotales} 
+          />
+          <LogrosUsuario 
+            usuarioId={usuario.id} 
+            puntosActuales={usuario.puntosTotales} 
+          />
+          <ResumenSemanal 
+            usuarioId={usuario.id} 
+          />
         </div>
 
         {/* Navegación por pestañas */}
@@ -119,6 +157,12 @@ export default function PuntosPage() {
                           ...prev,
                           puntosTotales: prev.puntosTotales - recompensa.costoPuntos
                         } : null);
+                        
+                        // Notificar éxito del canje
+                        notificarExito(
+                          '¡Canje exitoso!',
+                          `Has canjeado ${recompensa.nombre} por ${recompensa.costoPuntos} puntos`
+                        );
                       }}
                     />
                   ))}
@@ -141,10 +185,23 @@ export default function PuntosPage() {
 
             {tabActiva === 'ranking' && <Leaderboard />}
 
+            {tabActiva === 'logros' && (
+              <LogrosUsuario 
+                usuarioId={usuario.id} 
+                puntosActuales={usuario.puntosTotales} 
+              />
+            )}
+
             {tabActiva === 'admin' && usuario.esAdmin && <AdminPanel />}
           </div>
         </div>
       </div>
+      
+      {/* Sistema de notificaciones */}
+      <NotificacionesToast 
+        notificaciones={notificaciones}
+        onEliminar={eliminarNotificacion}
+      />
     </div>
   );
 }
