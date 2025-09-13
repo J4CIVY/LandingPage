@@ -181,8 +181,8 @@ export default function ChatComunidad({
   };
 
   const mensajesFiltrados = grupoId 
-    ? mensajes.filter(m => m.grupoId === grupoId)
-    : mensajes.filter(m => !m.grupoId);
+    ? (Array.isArray(mensajes) ? mensajes.filter(m => m.grupoId === grupoId) : [])
+    : (Array.isArray(mensajes) ? mensajes.filter(m => !m.grupoId) : []);
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 h-96 flex flex-col">
@@ -197,7 +197,7 @@ export default function ChatComunidad({
             className="flex items-center space-x-1 text-sm text-gray-500 hover:text-blue-600 transition-colors"
           >
             <FaUsers className="h-4 w-4" />
-            <span>{usuariosEnLinea.filter(u => estaEnLinea(u.ultimaActividad)).length} en línea</span>
+            <span>{(Array.isArray(usuariosEnLinea) ? usuariosEnLinea.filter(u => estaEnLinea(u.ultimaActividad)) : []).length} en línea</span>
           </button>
         </div>
 

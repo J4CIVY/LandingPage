@@ -74,13 +74,14 @@ export default function ComunidadPage() {
 
       if (response.ok) {
         const data = await response.json();
-        setPublicaciones(data.datos || []);
+        setPublicaciones(Array.isArray(data.datos) ? data.datos : []);
         setEstadoPublicaciones({ cargando: false, error: null, exito: true });
       } else {
         throw new Error('Error al cargar publicaciones');
       }
     } catch (error) {
       console.error('Error:', error);
+      setPublicaciones([]); // Asegurar que siempre sea un array
       setEstadoPublicaciones({ 
         cargando: false, 
         error: 'Error al cargar las publicaciones', 
@@ -104,13 +105,14 @@ export default function ComunidadPage() {
 
       if (response.ok) {
         const data = await response.json();
-        setGrupos(data.datos || []);
+        setGrupos(Array.isArray(data.datos) ? data.datos : []);
         setEstadoGrupos({ cargando: false, error: null, exito: true });
       } else {
         throw new Error('Error al cargar grupos');
       }
     } catch (error) {
       console.error('Error:', error);
+      setGrupos([]); // Asegurar que siempre sea un array
       setEstadoGrupos({ 
         cargando: false, 
         error: 'Error al cargar los grupos', 
@@ -132,10 +134,11 @@ export default function ComunidadPage() {
 
       if (response.ok) {
         const data = await response.json();
-        setRanking(data.datos || []);
+        setRanking(data.datos?.ranking || []);
       }
     } catch (error) {
       console.error('Error al cargar ranking:', error);
+      setRanking([]); // Asegurar que siempre sea un array
     }
   };
 
@@ -152,10 +155,11 @@ export default function ComunidadPage() {
 
       if (response.ok) {
         const data = await response.json();
-        setMensajes(data.datos || []);
+        setMensajes(data.datos?.mensajes || []);
       }
     } catch (error) {
       console.error('Error al cargar mensajes:', error);
+      setMensajes([]); // Asegurar que siempre sea un array
     }
   };
 
