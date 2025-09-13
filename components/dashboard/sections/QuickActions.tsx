@@ -59,7 +59,7 @@ const quickActions: QuickAction[] = [
     title: 'Enviar PQRSDF',
     description: 'Peticiones, quejas y sugerencias',
     icon: <FaEnvelope />,
-    href: '/contact',
+    href: '/dashboard/pqrsdf',
     color: 'text-purple-600 dark:text-purple-400',
     bgColor: 'bg-purple-50 dark:bg-purple-900/20',
     hoverColor: 'hover:bg-purple-100 dark:hover:bg-purple-900/30'
