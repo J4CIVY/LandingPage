@@ -8,6 +8,7 @@ import {
   FaShieldAlt, 
   FaCloudSun, 
   FaBookOpen,
+  FaTrophy,
   FaArrowRight
 } from 'react-icons/fa';
 
@@ -32,6 +33,16 @@ const quickActions: QuickAction[] = [
     color: 'text-blue-600 dark:text-blue-400',
     bgColor: 'bg-blue-50 dark:bg-blue-900/20',
     hoverColor: 'hover:bg-blue-100 dark:hover:bg-blue-900/30'
+  },
+  {
+    id: 'points',
+    title: 'Sistema de Puntos',
+    description: 'Canjea puntos por recompensas',
+    icon: <FaTrophy />,
+    href: '/dashboard/puntos',
+    color: 'text-orange-600 dark:text-orange-400',
+    bgColor: 'bg-orange-50 dark:bg-orange-900/20',
+    hoverColor: 'hover:bg-orange-100 dark:hover:bg-orange-900/30'
   },
   {
     id: 'events',

@@ -35,8 +35,8 @@ const navigationItems: NavigationItem[] = [
   { href: '/dashboard/benefits', label: 'Beneficios', icon: FaGift },
   { href: '/store', label: 'Tienda', icon: FaShoppingCart },
   { href: '/dashboard/historial', label: 'Historial', icon: FaHistory },
-  { href: '/dashboard/gamification', label: 'Puntos', icon: FaTrophy },
-  { href: '/dashboard/settings', label: 'Configuración', icon: FaCog },
+  { href: '/dashboard/puntos', label: 'Puntos', icon: FaTrophy },
+  { href: '/dashboard/security', label: 'Seguridad', icon: FaCog },
 ];
 
 export default function DashboardHeader() {

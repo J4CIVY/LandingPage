@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { FaTrophy, FaChartLine, FaMedal, FaStar, FaSpinner } from 'react-icons/fa';
+import { FaTrophy, FaChartLine, FaMedal, FaStar, FaSpinner, FaArrowRight } from 'react-icons/fa';
+import Link from 'next/link';
 
 interface StatsData {
   participationScore: number;
@@ -245,6 +246,18 @@ export default function GamificationPanel() {
               </span>
             </div>
           </div>
+        </div>
+
+        {/* Botón para ir a la página completa de puntos */}
+        <div className="border-t border-gray-200 dark:border-slate-700 pt-4">
+          <Link 
+            href="/dashboard/puntos"
+            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-2 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 group"
+          >
+            <FaTrophy className="w-4 h-4" />
+            <span>Ver Sistema Completo de Puntos</span>
+            <FaArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
       </div>
     </div>
