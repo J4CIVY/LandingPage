@@ -4,9 +4,9 @@ import { ReporteContenido, Publicacion, Comentario, ChatMensaje } from '@/lib/mo
 import { verifySession } from '@/lib/auth-utils';
 import { Types } from 'mongoose';
 
-type Params = {
+type Params = Promise<{
   id: string;
-};
+}>;
 
 // PUT - Resolver reporte (solo moderadores/admins)
 export async function PUT(request: NextRequest, { params }: { params: Params }) {
@@ -14,7 +14,7 @@ export async function PUT(request: NextRequest, { params }: { params: Params }) 
     await connectToDatabase();
     
     const session = await verifySession(request);
-    if (!session) {
+    if (!session.success || !session.user) {
       return NextResponse.json(
         { exito: false, error: 'No autorizado' },
         { status: 401 }
@@ -29,7 +29,7 @@ export async function PUT(request: NextRequest, { params }: { params: Params }) 
       );
     }
 
-    const { id } = params;
+    const { id } = await params;
     const { accion, razon } = await request.json();
     
     if (!Types.ObjectId.isValid(id)) {
