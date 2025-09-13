@@ -1,0 +1,255 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { PuntosActividad, FiltroHistorial } from '@/types/puntos';
+import { obtenerHistorialPuntos } from '@/data/puntos/mockData';
+
+interface HistorialPuntosProps {
+  usuarioId: string;
+}
+
+export default function HistorialPuntos({ usuarioId }: HistorialPuntosProps) {
+  const [historial, setHistorial] = useState<PuntosActividad[]>([]);
+  const [filtros, setFiltros] = useState<FiltroHistorial>({});
+  const [loading, setLoading] = useState(true);
+  const [historialFiltrado, setHistorialFiltrado] = useState<PuntosActividad[]>([]);
+
+  useEffect(() => {
+    const cargarHistorial = async () => {
+      try {
+        const data = await obtenerHistorialPuntos(usuarioId);
+        setHistorial(data);
+        setHistorialFiltrado(data);
+      } catch (error) {
+        console.error('Error cargando historial:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    cargarHistorial();
+  }, [usuarioId]);
+
+  useEffect(() => {
+    let resultado = [...historial];
+
+    // Filtrar por tipo
+    if (filtros.tipo) {
+      resultado = resultado.filter(item => item.tipo === filtros.tipo);
+    }
+
+    // Filtrar por fecha
+    if (filtros.fechaInicio) {
+      resultado = resultado.filter(item => new Date(item.fecha) >= new Date(filtros.fechaInicio!));
+    }
+
+    if (filtros.fechaFin) {
+      resultado = resultado.filter(item => new Date(item.fecha) <= new Date(filtros.fechaFin!));
+    }
+
+    setHistorialFiltrado(resultado);
+  }, [historial, filtros]);
+
+  const limpiarFiltros = () => {
+    setFiltros({});
+  };
+
+  const tiposActividad = ["Evento", "Membresía", "Beneficio", "Comunidad", "Otro"] as const;
+
+  const getIconoActividad = (tipo: PuntosActividad['tipo']) => {
+    const iconos = {
+      Evento: '🏍️',
+      Membresía: '👥',
+      Beneficio: '🎁',
+      Comunidad: '💬',
+      Otro: '⭐'
+    };
+    return iconos[tipo];
+  };
+
+  const getColorActividad = (puntos: number) => {
+    return puntos > 0 ? 'text-green-600' : 'text-red-600';
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-12">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
+        <h3 className="text-xl font-bold text-gray-800 mb-4 sm:mb-0">
+          Historial de Puntos
+        </h3>
+        
+        {/* Filtros */}
+        <div className="flex flex-wrap gap-4">
+          {/* Filtro por tipo */}
+          <select
+            value={filtros.tipo || ''}
+            onChange={(e) => setFiltros(prev => ({ 
+              ...prev, 
+              tipo: e.target.value as PuntosActividad['tipo'] || undefined 
+            }))}
+            className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          >
+            <option value="">Todos los tipos</option>
+            {tiposActividad.map(tipo => (
+              <option key={tipo} value={tipo}>
+                {getIconoActividad(tipo)} {tipo}
+              </option>
+            ))}
+          </select>
+
+          {/* Filtro fecha inicio */}
+          <input
+            type="date"
+            value={filtros.fechaInicio || ''}
+            onChange={(e) => setFiltros(prev => ({ 
+              ...prev, 
+              fechaInicio: e.target.value || undefined 
+            }))}
+            className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Fecha inicio"
+          />
+
+          {/* Filtro fecha fin */}
+          <input
+            type="date"
+            value={filtros.fechaFin || ''}
+            onChange={(e) => setFiltros(prev => ({ 
+              ...prev, 
+              fechaFin: e.target.value || undefined 
+            }))}
+            className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Fecha fin"
+          />
+
+          {/* Limpiar filtros */}
+          {(filtros.tipo || filtros.fechaInicio || filtros.fechaFin) && (
+            <button
+              onClick={limpiarFiltros}
+              className="px-3 py-2 text-sm text-gray-600 hover:text-gray-800 underline"
+            >
+              Limpiar filtros
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Tabla de historial */}
+      <div className="bg-white rounded-lg border overflow-hidden">
+        {historialFiltrado.length > 0 ? (
+          <>
+            {/* Header para desktop */}
+            <div className="hidden md:grid md:grid-cols-5 bg-gray-50 px-6 py-3 text-sm font-medium text-gray-700">
+              <div>Fecha</div>
+              <div>Actividad</div>
+              <div>Descripción</div>
+              <div className="text-center">Puntos</div>
+              <div className="text-center">Saldo</div>
+            </div>
+
+            {/* Filas */}
+            <div className="divide-y divide-gray-200">
+              {historialFiltrado.map((item) => (
+                <div key={item.id} className="md:grid md:grid-cols-5 md:items-center px-6 py-4 hover:bg-gray-50 transition-colors">
+                  {/* Versión móvil */}
+                  <div className="md:hidden space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-500">
+                        {new Date(item.fecha).toLocaleDateString('es-ES')}
+                      </span>
+                      <span className={`text-lg font-bold ${getColorActividad(item.puntos)}`}>
+                        {item.puntos > 0 ? '+' : ''}{item.puntos}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">{getIconoActividad(item.tipo)}</span>
+                      <span className="font-medium">{item.tipo}</span>
+                    </div>
+                    <p className="text-sm text-gray-600">{item.descripcion}</p>
+                    <div className="text-sm text-gray-500">
+                      Saldo: {item.saldo.toLocaleString()} puntos
+                    </div>
+                  </div>
+
+                  {/* Versión desktop */}
+                  <div className="hidden md:block text-sm text-gray-600">
+                    {new Date(item.fecha).toLocaleDateString('es-ES')}
+                  </div>
+
+                  <div className="hidden md:flex md:items-center md:gap-2">
+                    <span className="text-lg">{getIconoActividad(item.tipo)}</span>
+                    <span className="text-sm font-medium">{item.tipo}</span>
+                  </div>
+
+                  <div className="hidden md:block text-sm text-gray-600">
+                    {item.descripcion}
+                  </div>
+
+                  <div className={`hidden md:block text-center font-bold ${getColorActividad(item.puntos)}`}>
+                    {item.puntos > 0 ? '+' : ''}{item.puntos}
+                  </div>
+
+                  <div className="hidden md:block text-center text-sm text-gray-600">
+                    {item.saldo.toLocaleString()}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        ) : (
+          <div className="text-center py-12">
+            <div className="text-6xl mb-4">📊</div>
+            <h4 className="text-lg font-semibold text-gray-600 mb-2">
+              No se encontraron actividades
+            </h4>
+            <p className="text-gray-500">
+              {Object.keys(filtros).length > 0 
+                ? 'Intenta ajustar los filtros para ver más resultados'
+                : 'Aún no tienes actividades registradas'
+              }
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Resumen */}
+      {historialFiltrado.length > 0 && (
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
+            <p className="text-2xl font-bold text-green-600">
+              +{historialFiltrado
+                .filter(item => item.puntos > 0)
+                .reduce((sum, item) => sum + item.puntos, 0)
+                .toLocaleString()}
+            </p>
+            <p className="text-sm text-green-700">Puntos ganados</p>
+          </div>
+
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
+            <p className="text-2xl font-bold text-red-600">
+              {historialFiltrado
+                .filter(item => item.puntos < 0)
+                .reduce((sum, item) => sum + item.puntos, 0)
+                .toLocaleString()}
+            </p>
+            <p className="text-sm text-red-700">Puntos gastados</p>
+          </div>
+
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
+            <p className="text-2xl font-bold text-blue-600">
+              {historialFiltrado.length}
+            </p>
+            <p className="text-sm text-blue-700">Total actividades</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
