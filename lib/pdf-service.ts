@@ -1,4 +1,4 @@
-import { EstadisticasHistorial, HistorialItem } from '@/types/historial';
+import type { EstadisticasHistorial, HistorialItem } from '@/types/historial';
 
 // Función para generar PDF del historial del miembro usando window.print()
 export const generateHistorialPDF = async (

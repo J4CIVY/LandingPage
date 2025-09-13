@@ -18,7 +18,7 @@ import {
   FaFilter,
   FaSearch
 } from 'react-icons/fa';
-import { LogroHistorial } from '@/types/historial';
+import type { LogroHistorial } from '@/types/historial';
 
 export default function LogrosHistorial() {
   const [logros, setLogros] = useState<LogroHistorial[]>([]);

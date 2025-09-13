@@ -11,9 +11,9 @@ import BeneficiosHistorial from '@/components/historial/BeneficiosHistorial';
 import LogrosHistorial from '@/components/historial/LogrosHistorial';
 import { useAuth } from '@/hooks/useAuth';
 import { 
-  HistorialItem, 
-  FiltroHistorial, 
-  EstadisticasHistorial 
+  type HistorialItem, 
+  type FiltroHistorial, 
+  type EstadisticasHistorial 
 } from '@/types/historial';
 import { FaSpinner } from 'react-icons/fa';
 import { generateHistorialPDF } from '@/lib/pdf-service';

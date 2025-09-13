@@ -20,7 +20,7 @@ import {
   FaPercent,
   FaMapMarkerAlt
 } from 'react-icons/fa';
-import { BeneficioHistorial } from '@/types/historial';
+import type { BeneficioHistorial } from '@/types/historial';
 
 export default function BeneficiosHistorial() {
   const [beneficios, setBeneficios] = useState<BeneficioHistorial[]>([]);

@@ -12,7 +12,7 @@ import {
   FaEye,
   FaExternalLinkAlt
 } from 'react-icons/fa';
-import { HistorialItem, FiltroHistorial } from '@/types/historial';
+import type { HistorialItem, FiltroHistorial } from '@/types/historial';
 
 interface TimelineProps {
   items: HistorialItem[];

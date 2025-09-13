@@ -10,7 +10,7 @@ import {
   FaUsers,
   FaSpinner 
 } from 'react-icons/fa';
-import { EstadisticasHistorial } from '@/types/historial';
+import type { EstadisticasHistorial } from '@/types/historial';
 
 interface HistorialHeaderProps {
   estadisticas: EstadisticasHistorial | null;

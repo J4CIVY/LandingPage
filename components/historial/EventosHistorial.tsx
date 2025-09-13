@@ -15,7 +15,7 @@ import {
   FaTimesCircle,
   FaExclamationCircle
 } from 'react-icons/fa';
-import { EventoHistorial } from '@/types/historial';
+import type { EventoHistorial } from '@/types/historial';
 
 export default function EventosHistorial() {
   const [eventos, setEventos] = useState<EventoHistorial[]>([]);
