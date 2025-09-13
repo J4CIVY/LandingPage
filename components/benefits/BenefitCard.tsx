@@ -2,48 +2,48 @@
 
 import Image from 'next/image';
 import { FaMapMarkerAlt, FaExternalLinkAlt, FaEye, FaTicketAlt, FaClock, FaCheckCircle } from 'react-icons/fa';
-import { BeneficioCardProps } from '@/types/beneficios';
+import { BenefitCardProps } from '@/types/benefits';
 
-const BeneficioCard: React.FC<BeneficioCardProps> = ({
-  beneficio,
-  onVerDetalles,
-  onObtenerBeneficio
+const BenefitCard: React.FC<BenefitCardProps> = ({
+  benefit,
+  onViewDetails,
+  onClaimBenefit
 }) => {
-  // Función para obtener el estilo del estado
-  const getEstadoStyle = (estado: string) => {
-    switch (estado) {
-      case 'activo':
+  // Function to get status style
+  const getStatusStyle = (status: string) => {
+    switch (status) {
+      case 'active':
         return 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400';
-      case 'proximamente':
+      case 'coming-soon':
         return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400';
-      case 'expirado':
+      case 'expired':
         return 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400';
       default:
         return 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400';
     }
   };
 
-  // Función para obtener el icono del estado
-  const getEstadoIcon = (estado: string) => {
-    switch (estado) {
-      case 'activo':
+  // Function to get status icon
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'active':
         return <FaCheckCircle className="w-3 h-3" />;
-      case 'proximamente':
+      case 'coming-soon':
         return <FaClock className="w-3 h-3" />;
-      case 'expirado':
+      case 'expired':
         return <FaClock className="w-3 h-3" />;
       default:
         return null;
     }
   };
 
-  // Función para capitalizar texto
+  // Function to capitalize text
   const capitalize = (text: string) => {
-    return text.charAt(0).toUpperCase() + text.slice(1);
+    return text.charAt(0).toUpperCase() + text.slice(1).replace('-', ' ');
   };
 
-  const isExpired = beneficio.estado === 'expirado';
-  const isProximamente = beneficio.estado === 'proximamente';
+  const isExpired = benefit.status === 'expired';
+  const isComingSoon = benefit.status === 'coming-soon';
 
   return (
     <div className={`
@@ -52,40 +52,40 @@ const BeneficioCard: React.FC<BeneficioCardProps> = ({
       ${isExpired ? 'opacity-75' : 'hover:-translate-y-1'}
       overflow-hidden group
     `}>
-      {/* Imagen del beneficio */}
+      {/* Benefit image */}
       <div className="relative h-48 overflow-hidden">
         <Image
-          src={beneficio.imagen}
-          alt={beneficio.nombre}
+          src={benefit.image}
+          alt={benefit.name}
           fill
           className="object-cover group-hover:scale-105 transition-transform duration-300"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         
-        {/* Overlay con estado */}
+        {/* Status overlay */}
         <div className="absolute top-4 left-4">
           <span className={`
             inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium
-            backdrop-blur-sm ${getEstadoStyle(beneficio.estado)}
+            backdrop-blur-sm ${getStatusStyle(benefit.status)}
           `}>
-            {getEstadoIcon(beneficio.estado)}
-            {capitalize(beneficio.estado)}
+            {getStatusIcon(benefit.status)}
+            {capitalize(benefit.status)}
           </span>
         </div>
 
-        {/* Descuento destacado */}
-        {beneficio.descuento && (
+        {/* Featured discount */}
+        {benefit.discount && (
           <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
-            {beneficio.descuento}
+            {benefit.discount}
           </div>
         )}
 
-        {/* Logo de la empresa */}
-        {beneficio.logo && (
+        {/* Company logo */}
+        {benefit.logo && (
           <div className="absolute bottom-4 right-4 w-12 h-12 bg-white dark:bg-gray-800 rounded-lg p-2 shadow-md">
             <Image
-              src={beneficio.logo}
-              alt={`Logo ${beneficio.empresa}`}
+              src={benefit.logo}
+              alt={`${benefit.company} logo`}
               fill
               className="object-contain rounded"
               sizes="48px"
@@ -94,76 +94,76 @@ const BeneficioCard: React.FC<BeneficioCardProps> = ({
         )}
       </div>
 
-      {/* Contenido de la tarjeta */}
+      {/* Card content */}
       <div className="p-6">
-        {/* Nombre y empresa */}
+        {/* Name and company */}
         <div className="mb-3">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1 line-clamp-2">
-            {beneficio.nombre}
+            {benefit.name}
           </h3>
           <p className="text-sm text-blue-600 dark:text-blue-400 font-medium">
-            {beneficio.empresa}
+            {benefit.company}
           </p>
         </div>
 
-        {/* Descripción */}
+        {/* Description */}
         <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
-          {beneficio.descripcionBreve}
+          {benefit.briefDescription}
         </p>
 
-        {/* Ubicación o enlace web */}
-        {(beneficio.ubicacion || beneficio.enlaceWeb) && (
+        {/* Location or website */}
+        {(benefit.location || benefit.website) && (
           <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400 text-xs mb-4">
-            {beneficio.ubicacion ? (
+            {benefit.location ? (
               <>
                 <FaMapMarkerAlt className="w-3 h-3" />
-                <span className="truncate">{beneficio.ubicacion}</span>
+                <span className="truncate">{benefit.location}</span>
               </>
             ) : (
               <>
                 <FaExternalLinkAlt className="w-3 h-3" />
-                <span className="truncate">Sitio web disponible</span>
+                <span className="truncate">Website available</span>
               </>
             )}
           </div>
         )}
 
-        {/* Fecha de vigencia */}
+        {/* Validity date */}
         <div className="text-xs text-gray-500 dark:text-gray-400 mb-4">
-          Vigente hasta: {new Date(beneficio.fechaFin).toLocaleDateString('es-ES', {
+          Valid until: {new Date(benefit.endDate).toLocaleDateString('en-US', {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric'
           })}
         </div>
 
-        {/* Botones de acción */}
+        {/* Action buttons */}
         <div className="flex gap-2">
           <button
-            onClick={() => onVerDetalles(beneficio)}
+            onClick={() => onViewDetails(benefit)}
             className="flex-1 flex items-center justify-center gap-2 px-4 py-2 
                      border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 
                      rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 
                      transition-colors duration-200 text-sm font-medium"
           >
             <FaEye className="w-4 h-4" />
-            Ver detalles
+            View Details
           </button>
           
           <button
-            onClick={() => onObtenerBeneficio(beneficio)}
-            disabled={isExpired || isProximamente}
+            onClick={() => onClaimBenefit(benefit)}
+            disabled={isExpired || isComingSoon}
             className={`
               flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg 
               text-sm font-medium transition-colors duration-200
-              ${isExpired || isProximamente
+              ${isExpired || isComingSoon
                 ? 'bg-gray-100 text-gray-400 cursor-not-allowed dark:bg-gray-700 dark:text-gray-500'
                 : 'bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800'
               }
             `}
           >
             <FaTicketAlt className="w-4 h-4" />
-            {isProximamente ? 'Próximamente' : isExpired ? 'Expirado' : 'Obtener'}
+            {isComingSoon ? 'Coming Soon' : isExpired ? 'Expired' : 'Get Benefit'}
           </button>
         </div>
       </div>
@@ -171,4 +171,4 @@ const BeneficioCard: React.FC<BeneficioCardProps> = ({
   );
 };
 
-export default BeneficioCard;
+export default BenefitCard;

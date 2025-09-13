@@ -3,15 +3,15 @@
 import { useEffect } from 'react';
 import Image from 'next/image';
 import { FaTimes, FaMapMarkerAlt, FaExternalLinkAlt, FaDownload, FaShare, FaQrcode, FaCopy, FaCheckCircle, FaClock } from 'react-icons/fa';
-import { BeneficioModalProps } from '@/types/beneficios';
+import { BenefitModalProps } from '@/types/benefits';
 
-const BeneficioModal: React.FC<BeneficioModalProps> = ({
-  beneficio,
+const BenefitModal: React.FC<BenefitModalProps> = ({
+  benefit,
   isOpen,
   onClose,
-  onCompartir
+  onShare
 }) => {
-  // Cerrar modal con ESC
+  // Close modal with ESC
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -30,50 +30,54 @@ const BeneficioModal: React.FC<BeneficioModalProps> = ({
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen || !beneficio) return null;
+  if (!isOpen || !benefit) return null;
 
-  // Función para copiar código promocional
-  const copiarCodigo = async () => {
+  // Function to copy promo code
+  const copyCode = async () => {
     try {
-      await navigator.clipboard.writeText(beneficio.codigoPromocional);
-      // Aquí podrías mostrar un toast de confirmación
+      await navigator.clipboard.writeText(benefit.promoCode);
+      // Here you could show a success toast
     } catch (err) {
-      console.error('Error al copiar:', err);
+      console.error('Error copying:', err);
     }
   };
 
-  // Función para descargar QR
-  const descargarQR = () => {
-    // Simulación de descarga de QR
+  // Function to download QR
+  const downloadQR = () => {
+    // QR download simulation
     const link = document.createElement('a');
-    link.href = beneficio.qrCode || '/images/sample-qr.png';
-    link.download = `qr-${beneficio.nombre.replace(/\s+/g, '-').toLowerCase()}.png`;
+    link.href = benefit.qrCode || '/images/sample-qr.png';
+    link.download = `qr-${benefit.name.replace(/\s+/g, '-').toLowerCase()}.png`;
     link.click();
   };
 
-  const getEstadoStyle = (estado: string) => {
-    switch (estado) {
-      case 'activo':
+  const getStatusStyle = (status: string) => {
+    switch (status) {
+      case 'active':
         return 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400';
-      case 'proximamente':
+      case 'coming-soon':
         return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400';
-      case 'expirado':
+      case 'expired':
         return 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400';
       default:
         return 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400';
     }
   };
 
-  const getEstadoIcon = (estado: string) => {
-    switch (estado) {
-      case 'activo':
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'active':
         return <FaCheckCircle className="w-4 h-4" />;
-      case 'proximamente':
-      case 'expirado':
+      case 'coming-soon':
+      case 'expired':
         return <FaClock className="w-4 h-4" />;
       default:
         return null;
     }
+  };
+
+  const capitalize = (text: string) => {
+    return text.charAt(0).toUpperCase() + text.slice(1).replace('-', ' ');
   };
 
   return (
@@ -89,17 +93,17 @@ const BeneficioModal: React.FC<BeneficioModalProps> = ({
         <div className="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 
                        text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl">
           
-          {/* Header con imagen */}
+          {/* Header with image */}
           <div className="relative h-64 sm:h-80">
             <Image
-              src={beneficio.imagen}
-              alt={beneficio.nombre}
+              src={benefit.image}
+              alt={benefit.name}
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 672px"
             />
             
-            {/* Botón cerrar */}
+            {/* Close button */}
             <button
               onClick={onClose}
               className="absolute top-4 right-4 p-2 bg-black bg-opacity-50 text-white 
@@ -108,70 +112,70 @@ const BeneficioModal: React.FC<BeneficioModalProps> = ({
               <FaTimes className="w-5 h-5" />
             </button>
 
-            {/* Estado del beneficio */}
+            {/* Benefit status */}
             <div className="absolute top-4 left-4">
               <span className={`
                 inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium
-                backdrop-blur-sm ${getEstadoStyle(beneficio.estado)}
+                backdrop-blur-sm ${getStatusStyle(benefit.status)}
               `}>
-                {getEstadoIcon(beneficio.estado)}
-                {beneficio.estado.charAt(0).toUpperCase() + beneficio.estado.slice(1)}
+                {getStatusIcon(benefit.status)}
+                {capitalize(benefit.status)}
               </span>
             </div>
 
-            {/* Descuento */}
-            {beneficio.descuento && (
+            {/* Discount */}
+            {benefit.discount && (
               <div className="absolute bottom-4 right-4 bg-red-500 text-white px-4 py-2 
                             rounded-full text-lg font-bold shadow-lg">
-                {beneficio.descuento}
+                {benefit.discount}
               </div>
             )}
           </div>
 
-          {/* Contenido del modal */}
+          {/* Modal content */}
           <div className="px-6 py-6">
-            {/* Título y empresa */}
+            {/* Title and company */}
             <div className="mb-4">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                {beneficio.nombre}
+                {benefit.name}
               </h2>
               <p className="text-lg text-blue-600 dark:text-blue-400 font-medium">
-                {beneficio.empresa}
+                {benefit.company}
               </p>
             </div>
 
-            {/* Descripción completa */}
+            {/* Full description */}
             <div className="mb-6">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                Descripción
+                Description
               </h3>
               <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                {beneficio.descripcionCompleta}
+                {benefit.fullDescription}
               </p>
             </div>
 
-            {/* Ubicación o enlace */}
-            {(beneficio.ubicacion || beneficio.enlaceWeb) && (
+            {/* Location or website */}
+            {(benefit.location || benefit.website) && (
               <div className="mb-6">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                  Ubicación
+                  Location
                 </h3>
                 <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
-                  {beneficio.ubicacion ? (
+                  {benefit.location ? (
                     <>
                       <FaMapMarkerAlt className="w-4 h-4 text-red-500" />
-                      <span>{beneficio.ubicacion}</span>
+                      <span>{benefit.location}</span>
                     </>
                   ) : (
                     <>
                       <FaExternalLinkAlt className="w-4 h-4 text-blue-500" />
                       <a 
-                        href={beneficio.enlaceWeb} 
+                        href={benefit.website} 
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="text-blue-600 dark:text-blue-400 hover:underline"
                       >
-                        Visitar sitio web
+                        Visit website
                       </a>
                     </>
                   )}
@@ -179,38 +183,38 @@ const BeneficioModal: React.FC<BeneficioModalProps> = ({
               </div>
             )}
 
-            {/* Requisitos */}
-            {beneficio.requisitos.length > 0 && (
+            {/* Requirements */}
+            {benefit.requirements.length > 0 && (
               <div className="mb-6">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                  Requisitos
+                  Requirements
                 </h3>
                 <ul className="list-disc list-inside space-y-1 text-gray-600 dark:text-gray-300">
-                  {beneficio.requisitos.map((requisito, index) => (
-                    <li key={index}>{requisito}</li>
+                  {benefit.requirements.map((requirement, index) => (
+                    <li key={index}>{requirement}</li>
                   ))}
                 </ul>
               </div>
             )}
 
-            {/* Código promocional y QR */}
+            {/* Promo code and QR */}
             <div className="mb-6">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
-                Código Promocional
+                Promotional Code
               </h3>
               
               <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-4">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-2xl font-mono font-bold text-gray-900 dark:text-white">
-                    {beneficio.codigoPromocional}
+                    {benefit.promoCode}
                   </span>
                   <button
-                    onClick={copiarCodigo}
+                    onClick={copyCode}
                     className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 text-white 
                              rounded-md hover:bg-blue-700 transition-colors duration-200 text-sm"
                   >
                     <FaCopy className="w-4 h-4" />
-                    Copiar
+                    Copy
                   </button>
                 </div>
                 
@@ -222,28 +226,28 @@ const BeneficioModal: React.FC<BeneficioModalProps> = ({
                 </div>
                 
                 <button
-                  onClick={descargarQR}
+                  onClick={downloadQR}
                   className="w-full mt-3 flex items-center justify-center gap-2 px-4 py-2 
                            border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 
                            rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
                 >
                   <FaDownload className="w-4 h-4" />
-                  Descargar QR
+                  Download QR
                 </button>
               </div>
             </div>
 
-            {/* Vigencia */}
+            {/* Validity */}
             <div className="mb-6">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                Vigencia
+                Validity
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Desde {new Date(beneficio.fechaInicio).toLocaleDateString('es-ES', {
+                From {new Date(benefit.startDate).toLocaleDateString('en-US', {
                   day: '2-digit',
                   month: 'long',
                   year: 'numeric'
-                })} hasta {new Date(beneficio.fechaFin).toLocaleDateString('es-ES', {
+                })} to {new Date(benefit.endDate).toLocaleDateString('en-US', {
                   day: '2-digit',
                   month: 'long',
                   year: 'numeric'
@@ -251,16 +255,16 @@ const BeneficioModal: React.FC<BeneficioModalProps> = ({
               </p>
             </div>
 
-            {/* Botones de acción */}
+            {/* Action buttons */}
             <div className="flex gap-3">
               <button
-                onClick={() => onCompartir(beneficio)}
+                onClick={() => onShare(benefit)}
                 className="flex-1 flex items-center justify-center gap-2 px-4 py-3 
                          bg-green-600 text-white rounded-lg hover:bg-green-700 
                          transition-colors duration-200 font-medium"
               >
                 <FaShare className="w-4 h-4" />
-                Compartir con la comunidad
+                Share with Community
               </button>
               
               <button
@@ -269,7 +273,7 @@ const BeneficioModal: React.FC<BeneficioModalProps> = ({
                          text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 
                          dark:hover:bg-gray-700 transition-colors duration-200 font-medium"
               >
-                Cerrar
+                Close
               </button>
             </div>
           </div>
@@ -279,4 +283,4 @@ const BeneficioModal: React.FC<BeneficioModalProps> = ({
   );
 };
 
-export default BeneficioModal;
+export default BenefitModal;

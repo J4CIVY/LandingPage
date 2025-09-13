@@ -2,83 +2,83 @@
 
 import { useState, useEffect } from 'react';
 import { FaTimes, FaUpload, FaCalendarAlt, FaPlus, FaTrash } from 'react-icons/fa';
-import { BeneficioFormProps, CategoriaTypes, BeneficioFormData } from '@/types/beneficios';
+import { BenefitFormProps, CategoryType } from '@/types/benefits';
 
-const BeneficioForm: React.FC<BeneficioFormProps> = ({
+const BenefitForm: React.FC<BenefitFormProps> = ({
   isOpen,
   onClose,
   onSubmit,
-  beneficio,
+  benefit,
   isLoading = false
 }) => {
   const [formData, setFormData] = useState({
-    nombre: '',
-    categoria: 'talleres-mecanica' as CategoriaTypes,
-    descripcionBreve: '',
-    descripcionCompleta: '',
-    descuento: '',
-    ubicacion: '',
-    enlaceWeb: '',
-    empresa: '',
-    codigoPromocional: '',
-    fechaInicio: '',
-    fechaFin: '',
-    requisitos: [''],
+    name: '',
+    category: 'workshops-mechanics' as CategoryType,
+    briefDescription: '',
+    fullDescription: '',
+    discount: '',
+    location: '',
+    website: '',
+    company: '',
+    promoCode: '',
+    startDate: '',
+    endDate: '',
+    requirements: [''],
   });
 
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
 
-  // Categorías disponibles
-  const categorias = [
-    { id: 'talleres-mecanica', nombre: 'Talleres y Mecánica' },
-    { id: 'accesorios-repuestos', nombre: 'Accesorios y Repuestos' },
-    { id: 'restaurantes-hoteles', nombre: 'Restaurantes y Hoteles' },
-    { id: 'seguros-finanzas', nombre: 'Seguros y Finanzas' },
-    { id: 'salud-bienestar', nombre: 'Salud y Bienestar' },
-    { id: 'otros', nombre: 'Otros' },
+  // Available categories
+  const categories = [
+    { id: 'workshops-mechanics', name: 'Workshops & Mechanics' },
+    { id: 'accessories-parts', name: 'Accessories & Parts' },
+    { id: 'restaurants-hotels', name: 'Restaurants & Hotels' },
+    { id: 'insurance-finance', name: 'Insurance & Finance' },
+    { id: 'health-wellness', name: 'Health & Wellness' },
+    { id: 'others', name: 'Others' },
   ];
 
-  // Cargar datos del beneficio para edición
+  // Load benefit data for editing
   useEffect(() => {
-    if (beneficio) {
+    if (benefit) {
       setFormData({
-        nombre: beneficio.nombre,
-        categoria: beneficio.categoria,
-        descripcionBreve: beneficio.descripcionBreve,
-        descripcionCompleta: beneficio.descripcionCompleta,
-        descuento: beneficio.descuento,
-        ubicacion: beneficio.ubicacion || '',
-        enlaceWeb: beneficio.enlaceWeb || '',
-        empresa: beneficio.empresa,
-        codigoPromocional: beneficio.codigoPromocional,
-        fechaInicio: new Date(beneficio.fechaInicio).toISOString().split('T')[0],
-        fechaFin: new Date(beneficio.fechaFin).toISOString().split('T')[0],
-        requisitos: beneficio.requisitos.length > 0 ? beneficio.requisitos : [''],
+        name: benefit.name,
+        category: benefit.category,
+        briefDescription: benefit.briefDescription,
+        fullDescription: benefit.fullDescription,
+        discount: benefit.discount,
+        location: benefit.location || '',
+        website: benefit.website || '',
+        company: benefit.company,
+        promoCode: benefit.promoCode,
+        startDate: new Date(benefit.startDate).toISOString().split('T')[0],
+        endDate: new Date(benefit.endDate).toISOString().split('T')[0],
+        requirements: benefit.requirements.length > 0 ? benefit.requirements : [''],
       });
-      setImagePreview(beneficio.imagen);
+      setImagePreview(benefit.image);
     } else {
-      // Resetear formulario para nuevo beneficio
+      // Reset form for new benefit
       setFormData({
-        nombre: '',
-        categoria: 'talleres-mecanica',
-        descripcionBreve: '',
-        descripcionCompleta: '',
-        descuento: '',
-        ubicacion: '',
-        enlaceWeb: '',
-        empresa: '',
-        codigoPromocional: '',
-        fechaInicio: '',
-        fechaFin: '',
-        requisitos: [''],
+        name: '',
+        category: 'workshops-mechanics',
+        briefDescription: '',
+        fullDescription: '',
+        discount: '',
+        location: '',
+        website: '',
+        company: '',
+        promoCode: '',
+        startDate: '',
+        endDate: '',
+        requirements: [''],
       });
       setImageFile(null);
       setImagePreview('');
     }
-  }, [beneficio]);
+  }, [benefit]);
 
-  // Cerrar modal con ESC
+  // Close modal with ESC
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -97,7 +97,7 @@ const BeneficioForm: React.FC<BeneficioFormProps> = ({
     };
   }, [isOpen, onClose]);
 
-  // Manejar cambios en inputs
+  // Handle input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -106,36 +106,36 @@ const BeneficioForm: React.FC<BeneficioFormProps> = ({
     }));
   };
 
-  // Manejar cambios en requisitos
-  const handleRequisitoChange = (index: number, value: string) => {
-    const newRequisitos = [...formData.requisitos];
-    newRequisitos[index] = value;
+  // Handle requirement changes
+  const handleRequirementChange = (index: number, value: string) => {
+    const newRequirements = [...formData.requirements];
+    newRequirements[index] = value;
     setFormData(prev => ({
       ...prev,
-      requisitos: newRequisitos
+      requirements: newRequirements
     }));
   };
 
-  // Agregar nuevo requisito
-  const addRequisito = () => {
+  // Add new requirement
+  const addRequirement = () => {
     setFormData(prev => ({
       ...prev,
-      requisitos: [...prev.requisitos, '']
+      requirements: [...prev.requirements, '']
     }));
   };
 
-  // Eliminar requisito
-  const removeRequisito = (index: number) => {
-    if (formData.requisitos.length > 1) {
-      const newRequisitos = formData.requisitos.filter((_, i) => i !== index);
+  // Remove requirement
+  const removeRequirement = (index: number) => {
+    if (formData.requirements.length > 1) {
+      const newRequirements = formData.requirements.filter((_, i) => i !== index);
       setFormData(prev => ({
         ...prev,
-        requisitos: newRequisitos
+        requirements: newRequirements
       }));
     }
   };
 
-  // Manejar carga de imagen
+  // Handle image upload
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -148,14 +148,14 @@ const BeneficioForm: React.FC<BeneficioFormProps> = ({
     }
   };
 
-  // Enviar formulario
+  // Submit form
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    const dataToSubmit: BeneficioFormData = {
+    const dataToSubmit = {
       ...formData,
-      requisitos: formData.requisitos.filter(req => req.trim() !== ''),
-      imagen: imageFile
+      requirements: formData.requirements.filter(req => req.trim() !== ''),
+      image: imageFile
     };
 
     onSubmit(dataToSubmit);
@@ -180,7 +180,7 @@ const BeneficioForm: React.FC<BeneficioFormProps> = ({
           <div className="sticky top-0 bg-white dark:bg-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                {beneficio ? 'Editar Beneficio' : 'Agregar Nuevo Beneficio'}
+                {benefit ? 'Edit Benefit' : 'Add New Benefit'}
               </h2>
               <button
                 onClick={onClose}
@@ -192,63 +192,63 @@ const BeneficioForm: React.FC<BeneficioFormProps> = ({
             </div>
           </div>
 
-          {/* Formulario */}
+          {/* Form */}
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
             
-            {/* Información básica */}
+            {/* Basic information */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Nombre del Beneficio *
+                  Benefit Name *
                 </label>
                 <input
                   type="text"
-                  name="nombre"
-                  value={formData.nombre}
+                  name="name"
+                  value={formData.name}
                   onChange={handleInputChange}
                   required
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 
                            rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
                            bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                  placeholder="Ej: Descuento en repuestos"
+                  placeholder="e.g. Parts discount"
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Empresa *
+                  Company *
                 </label>
                 <input
                   type="text"
-                  name="empresa"
-                  value={formData.empresa}
+                  name="company"
+                  value={formData.company}
                   onChange={handleInputChange}
                   required
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 
                            rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
                            bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                  placeholder="Ej: AutoParts Pro"
+                  placeholder="e.g. AutoParts Pro"
                 />
               </div>
             </div>
 
-            {/* Categoría y descuento */}
+            {/* Category and discount */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Categoría *
+                  Category *
                 </label>
                 <select
-                  name="categoria"
-                  value={formData.categoria}
+                  name="category"
+                  value={formData.category}
                   onChange={handleInputChange}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 
                            rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
                            bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 >
-                  {categorias.map(cat => (
+                  {categories.map(cat => (
                     <option key={cat.id} value={cat.id}>
-                      {cat.nombre}
+                      {cat.name}
                     </option>
                   ))}
                 </select>
@@ -256,101 +256,101 @@ const BeneficioForm: React.FC<BeneficioFormProps> = ({
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Descuento *
+                  Discount *
                 </label>
                 <input
                   type="text"
-                  name="descuento"
-                  value={formData.descuento}
+                  name="discount"
+                  value={formData.discount}
                   onChange={handleInputChange}
                   required
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 
                            rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
                            bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                  placeholder="Ej: 15% OFF, $500 desc."
+                  placeholder="e.g. 15% OFF, $500 off"
                 />
               </div>
             </div>
 
-            {/* Descripciones */}
+            {/* Descriptions */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Descripción Breve *
+                Brief Description *
               </label>
               <textarea
-                name="descripcionBreve"
-                value={formData.descripcionBreve}
+                name="briefDescription"
+                value={formData.briefDescription}
                 onChange={handleInputChange}
                 required
                 rows={2}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 
                          rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
                          bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                placeholder="Descripción corta para mostrar en la tarjeta"
+                placeholder="Short description to show in the card"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Descripción Completa *
+                Full Description *
               </label>
               <textarea
-                name="descripcionCompleta"
-                value={formData.descripcionCompleta}
+                name="fullDescription"
+                value={formData.fullDescription}
                 onChange={handleInputChange}
                 required
                 rows={4}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 
                          rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
                          bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                placeholder="Descripción detallada del beneficio, términos y condiciones..."
+                placeholder="Detailed benefit description, terms and conditions..."
               />
             </div>
 
-            {/* Ubicación y enlace web */}
+            {/* Location and website */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Ubicación
+                  Location
                 </label>
                 <input
                   type="text"
-                  name="ubicacion"
-                  value={formData.ubicacion}
+                  name="location"
+                  value={formData.location}
                   onChange={handleInputChange}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 
                            rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
                            bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                  placeholder="Dirección física del establecimiento"
+                  placeholder="Physical address of the establishment"
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Enlace Web
+                  Website
                 </label>
                 <input
                   type="url"
-                  name="enlaceWeb"
-                  value={formData.enlaceWeb}
+                  name="website"
+                  value={formData.website}
                   onChange={handleInputChange}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 
                            rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
                            bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                  placeholder="https://ejemplo.com"
+                  placeholder="https://example.com"
                 />
               </div>
             </div>
 
-            {/* Código promocional */}
+            {/* Promo code */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Código Promocional *
+                Promotional Code *
               </label>
               <input
                 type="text"
-                name="codigoPromocional"
-                value={formData.codigoPromocional}
+                name="promoCode"
+                value={formData.promoCode}
                 onChange={handleInputChange}
                 required
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 
@@ -360,17 +360,17 @@ const BeneficioForm: React.FC<BeneficioFormProps> = ({
               />
             </div>
 
-            {/* Fechas */}
+            {/* Dates */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Fecha de Inicio *
+                  Start Date *
                 </label>
                 <div className="relative">
                   <input
                     type="date"
-                    name="fechaInicio"
-                    value={formData.fechaInicio}
+                    name="startDate"
+                    value={formData.startDate}
                     onChange={handleInputChange}
                     required
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 
@@ -383,13 +383,13 @@ const BeneficioForm: React.FC<BeneficioFormProps> = ({
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Fecha de Fin *
+                  End Date *
                 </label>
                 <div className="relative">
                   <input
                     type="date"
-                    name="fechaFin"
-                    value={formData.fechaFin}
+                    name="endDate"
+                    value={formData.endDate}
                     onChange={handleInputChange}
                     required
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 
@@ -401,10 +401,10 @@ const BeneficioForm: React.FC<BeneficioFormProps> = ({
               </div>
             </div>
 
-            {/* Imagen */}
+            {/* Image */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Imagen del Beneficio
+                Benefit Image
               </label>
               <div className="space-y-4">
                 <input
@@ -427,27 +427,27 @@ const BeneficioForm: React.FC<BeneficioFormProps> = ({
               </div>
             </div>
 
-            {/* Requisitos */}
+            {/* Requirements */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Requisitos
+                Requirements
               </label>
               <div className="space-y-2">
-                {formData.requisitos.map((requisito, index) => (
+                {formData.requirements.map((requirement, index) => (
                   <div key={index} className="flex gap-2">
                     <input
                       type="text"
-                      value={requisito}
-                      onChange={(e) => handleRequisitoChange(index, e.target.value)}
+                      value={requirement}
+                      onChange={(e) => handleRequirementChange(index, e.target.value)}
                       className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 
                                rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
                                bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                      placeholder="Ej: Mostrar carné de miembro"
+                      placeholder="e.g. Show member card"
                     />
-                    {formData.requisitos.length > 1 && (
+                    {formData.requirements.length > 1 && (
                       <button
                         type="button"
-                        onClick={() => removeRequisito(index)}
+                        onClick={() => removeRequirement(index)}
                         className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 
                                  rounded-lg transition-colors duration-200"
                       >
@@ -458,17 +458,17 @@ const BeneficioForm: React.FC<BeneficioFormProps> = ({
                 ))}
                 <button
                   type="button"
-                  onClick={addRequisito}
+                  onClick={addRequirement}
                   className="flex items-center gap-2 px-3 py-2 text-blue-600 dark:text-blue-400 
                            hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors duration-200"
                 >
                   <FaPlus className="w-4 h-4" />
-                  Agregar requisito
+                  Add requirement
                 </button>
               </div>
             </div>
 
-            {/* Botones */}
+            {/* Buttons */}
             <div className="flex gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
               <button
                 type="button"
@@ -477,7 +477,7 @@ const BeneficioForm: React.FC<BeneficioFormProps> = ({
                          text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 
                          dark:hover:bg-gray-700 transition-colors duration-200 font-medium"
               >
-                Cancelar
+                Cancel
               </button>
               <button
                 type="submit"
@@ -487,10 +487,10 @@ const BeneficioForm: React.FC<BeneficioFormProps> = ({
                          transition-colors duration-200 font-medium"
               >
                 {isLoading 
-                  ? 'Guardando...' 
-                  : beneficio 
-                    ? 'Actualizar Beneficio' 
-                    : 'Crear Beneficio'
+                  ? 'Saving...' 
+                  : benefit 
+                    ? 'Update Benefit' 
+                    : 'Create Benefit'
                 }
               </button>
             </div>
@@ -501,4 +501,4 @@ const BeneficioForm: React.FC<BeneficioFormProps> = ({
   );
 };
 
-export default BeneficioForm;
+export default BenefitForm;

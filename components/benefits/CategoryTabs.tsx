@@ -2,46 +2,46 @@
 
 import { useState } from 'react';
 import { FaWrench, FaCog, FaUtensils, FaShieldAlt, FaHeartbeat, FaEllipsisH, FaChevronDown } from 'react-icons/fa';
-import { CategoriesTabsProps, CategoriaTypes } from '@/types/beneficios';
+import { CategoryTabsProps, CategoryType } from '@/types/benefits';
 
-const CategoriasTabs: React.FC<CategoriesTabsProps> = ({
-  categorias,
-  categoriaActiva,
-  onCategoriaChange
+const CategoryTabs: React.FC<CategoryTabsProps> = ({
+  categories,
+  activeCategory,
+  onCategoryChange
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  // Iconos para cada categoría
-  const iconosPorCategoria = {
-    'talleres-mecanica': FaWrench,
-    'accesorios-repuestos': FaCog,
-    'restaurantes-hoteles': FaUtensils,
-    'seguros-finanzas': FaShieldAlt,
-    'salud-bienestar': FaHeartbeat,
-    'otros': FaEllipsisH,
+  // Icons for each category
+  const iconsByCategory = {
+    'workshops-mechanics': FaWrench,
+    'accessories-parts': FaCog,
+    'restaurants-hotels': FaUtensils,
+    'insurance-finance': FaShieldAlt,
+    'health-wellness': FaHeartbeat,
+    'others': FaEllipsisH,
   };
 
-  const categoriasTodas = [
-    { id: 'todos' as const, nombre: 'Todos', icon: '', color: 'gray' },
-    ...categorias
+  const allCategories = [
+    { id: 'all' as const, name: 'All', icon: '', color: 'gray' },
+    ...categories
   ];
 
-  const categoriaActivaData = categoriasTodas.find(cat => cat.id === categoriaActiva);
+  const activeCategoryData = allCategories.find(cat => cat.id === activeCategory);
 
   return (
     <div className="mb-6">
-      {/* Vista Desktop - Tabs horizontales */}
+      {/* Desktop View - Horizontal tabs */}
       <div className="hidden lg:block">
         <div className="border-b border-gray-200 dark:border-gray-700">
           <nav className="-mb-px flex space-x-8 overflow-x-auto scrollbar-hide">
-            {categoriasTodas.map((categoria) => {
-              const IconComponent = categoria.id === 'todos' ? FaEllipsisH : iconosPorCategoria[categoria.id as CategoriaTypes];
-              const isActive = categoriaActiva === categoria.id;
+            {allCategories.map((category) => {
+              const IconComponent = category.id === 'all' ? FaEllipsisH : iconsByCategory[category.id as CategoryType];
+              const isActive = activeCategory === category.id;
               
               return (
                 <button
-                  key={categoria.id}
-                  onClick={() => onCategoriaChange(categoria.id as CategoriaTypes | 'todos')}
+                  key={category.id}
+                  onClick={() => onCategoryChange(category.id as CategoryType | 'all')}
                   className={`
                     group inline-flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm
                     transition-colors duration-200 whitespace-nowrap
@@ -56,8 +56,8 @@ const CategoriasTabs: React.FC<CategoriesTabsProps> = ({
                       className={`w-4 h-4 ${isActive ? 'text-blue-500' : 'text-gray-400 group-hover:text-gray-500'}`} 
                     />
                   )}
-                  {categoria.nombre}
-                  {categoria.id !== 'todos' && (
+                  {category.name}
+                  {category.id !== 'all' && (
                     <span className={`
                       inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
                       ${isActive 
@@ -65,11 +65,11 @@ const CategoriasTabs: React.FC<CategoriesTabsProps> = ({
                         : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
                       }
                     `}>
-                      {categoria.id === 'talleres-mecanica' ? '8' :
-                       categoria.id === 'accesorios-repuestos' ? '6' :
-                       categoria.id === 'restaurantes-hoteles' ? '5' :
-                       categoria.id === 'seguros-finanzas' ? '3' :
-                       categoria.id === 'salud-bienestar' ? '2' : '4'}
+                      {category.id === 'workshops-mechanics' ? '8' :
+                       category.id === 'accessories-parts' ? '6' :
+                       category.id === 'restaurants-hotels' ? '5' :
+                       category.id === 'insurance-finance' ? '3' :
+                       category.id === 'health-wellness' ? '2' : '4'}
                     </span>
                   )}
                 </button>
@@ -79,7 +79,7 @@ const CategoriasTabs: React.FC<CategoriesTabsProps> = ({
         </div>
       </div>
 
-      {/* Vista Mobile - Dropdown */}
+      {/* Mobile View - Dropdown */}
       <div className="lg:hidden">
         <div className="relative">
           <button
@@ -89,18 +89,18 @@ const CategoriasTabs: React.FC<CategoriesTabsProps> = ({
                      text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
             <div className="flex items-center gap-2">
-              {categoriaActivaData?.id !== 'todos' && (
+              {activeCategoryData?.id !== 'all' && (
                 <>
-                  {iconosPorCategoria[categoriaActivaData?.id as CategoriaTypes] && 
+                  {iconsByCategory[activeCategoryData?.id as CategoryType] && 
                     (() => {
-                      const IconComponent = iconosPorCategoria[categoriaActivaData?.id as CategoriaTypes];
+                      const IconComponent = iconsByCategory[activeCategoryData?.id as CategoryType];
                       return <IconComponent className="w-4 h-4 text-blue-500" />;
                     })()
                   }
                 </>
               )}
               <span className="text-gray-900 dark:text-white font-medium">
-                {categoriaActivaData?.nombre || 'Seleccionar categoría'}
+                {activeCategoryData?.name || 'Select category'}
               </span>
             </div>
             <FaChevronDown 
@@ -114,15 +114,15 @@ const CategoriasTabs: React.FC<CategoriesTabsProps> = ({
           {isDropdownOpen && (
             <div className="absolute z-10 mt-1 w-full bg-white dark:bg-gray-800 shadow-lg 
                           rounded-md py-1 border border-gray-200 dark:border-gray-700">
-              {categoriasTodas.map((categoria) => {
-                const IconComponent = categoria.id === 'todos' ? FaEllipsisH : iconosPorCategoria[categoria.id as CategoriaTypes];
-                const isActive = categoriaActiva === categoria.id;
+              {allCategories.map((category) => {
+                const IconComponent = category.id === 'all' ? FaEllipsisH : iconsByCategory[category.id as CategoryType];
+                const isActive = activeCategory === category.id;
                 
                 return (
                   <button
-                    key={categoria.id}
+                    key={category.id}
                     onClick={() => {
-                      onCategoriaChange(categoria.id as CategoriaTypes | 'todos');
+                      onCategoryChange(category.id as CategoryType | 'all');
                       setIsDropdownOpen(false);
                     }}
                     className={`
@@ -138,8 +138,8 @@ const CategoriasTabs: React.FC<CategoriesTabsProps> = ({
                         className={`w-4 h-4 ${isActive ? 'text-blue-500' : 'text-gray-400'}`} 
                       />
                     )}
-                    <span className="flex-1 text-left">{categoria.nombre}</span>
-                    {categoria.id !== 'todos' && (
+                    <span className="flex-1 text-left">{category.name}</span>
+                    {category.id !== 'all' && (
                       <span className={`
                         inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium
                         ${isActive 
@@ -147,11 +147,11 @@ const CategoriasTabs: React.FC<CategoriesTabsProps> = ({
                           : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400'
                         }
                       `}>
-                        {categoria.id === 'talleres-mecanica' ? '8' :
-                         categoria.id === 'accesorios-repuestos' ? '6' :
-                         categoria.id === 'restaurantes-hoteles' ? '5' :
-                         categoria.id === 'seguros-finanzas' ? '3' :
-                         categoria.id === 'salud-bienestar' ? '2' : '4'}
+                        {category.id === 'workshops-mechanics' ? '8' :
+                         category.id === 'accessories-parts' ? '6' :
+                         category.id === 'restaurants-hotels' ? '5' :
+                         category.id === 'insurance-finance' ? '3' :
+                         category.id === 'health-wellness' ? '2' : '4'}
                       </span>
                     )}
                   </button>
@@ -165,4 +165,4 @@ const CategoriasTabs: React.FC<CategoriesTabsProps> = ({
   );
 };
 
-export default CategoriasTabs;
+export default CategoryTabs;

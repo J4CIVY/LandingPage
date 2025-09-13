@@ -1,30 +1,30 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Beneficio, CategoriaTypes, BeneficioFormData } from '@/types/beneficios';
+import { Benefit, CategoryType, BenefitFormData, BenefitStatus } from '@/types/benefits';
 import { 
-  categorias, 
-  beneficiosMock, 
-  historialUsoMock,
-  getBeneficiosPorCategoria,
-  getHistorialPorUsuario 
-} from '@/data/beneficiosData';
+  categories, 
+  benefitsMock, 
+  usageHistoryMock,
+  getBenefitsByCategory,
+  getHistoryByUser 
+} from '@/data/benefitsData';
 
 // Componentes
-import BeneficiosHeader from '@/components/beneficios/BeneficiosHeader';
-import CategoriasTabs from '@/components/beneficios/CategoriasTabs';
-import BeneficioCard from '@/components/beneficios/BeneficioCard';
-import BeneficioModal from '@/components/beneficios/BeneficioModal';
-import BeneficioForm from '@/components/beneficios/BeneficioForm';
-import HistorialUso from '@/components/beneficios/HistorialUso';
+import BenefitsHeader from '@/components/benefits/BenefitsHeader';
+import CategoryTabs from '@/components/benefits/CategoryTabs';
+import BenefitCard from '@/components/benefits/BenefitCard';
+import BenefitModal from '@/components/benefits/BenefitModal';
+import BenefitForm from '@/components/benefits/BenefitForm';
+import UsageHistory from '@/components/benefits/UsageHistory';
 
 const BeneficiosPage = () => {
   // Estados para el manejo de la página
-  const [categoriaActiva, setCategoriaActiva] = useState<CategoriaTypes | 'todos'>('todos');
-  const [beneficioSeleccionado, setBeneficioSeleccionado] = useState<Beneficio | null>(null);
+  const [categoriaActiva, setCategoriaActiva] = useState<CategoryType | 'todos'>('todos');
+  const [beneficioSeleccionado, setBeneficioSeleccionado] = useState<Benefit | null>(null);
   const [modalDetalleAbierto, setModalDetalleAbierto] = useState(false);
   const [modalFormularioAbierto, setModalFormularioAbierto] = useState(false);
-  const [beneficiosData, setBeneficiosData] = useState(beneficiosMock);
+  const [beneficiosData, setBeneficiosData] = useState(benefitsMock);
   const [vistaActual, setVistaActual] = useState<'beneficios' | 'historial'>('beneficios');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,46 +34,46 @@ const BeneficiosPage = () => {
 
   // Beneficios filtrados por categoría
   const beneficiosFiltrados = useMemo(() => {
-    return getBeneficiosPorCategoria(categoriaActiva);
+    return getBenefitsByCategory(categoriaActiva === 'todos' ? 'all' : categoriaActiva);
   }, [categoriaActiva]);
 
   // Historial del usuario
   const historialUsuario = useMemo(() => {
-    return getHistorialPorUsuario(usuarioId);
+    return getHistoryByUser(usuarioId);
   }, [usuarioId]);
 
   // Handlers
-  const handleCategoriaChange = (categoria: CategoriaTypes | 'todos') => {
+  const handleCategoriaChange = (categoria: CategoryType | 'todos') => {
     setCategoriaActiva(categoria);
   };
 
-  const handleVerDetalles = (beneficio: Beneficio) => {
+  const handleVerDetalles = (beneficio: Benefit) => {
     setBeneficioSeleccionado(beneficio);
     setModalDetalleAbierto(true);
   };
 
-  const handleObtenerBeneficio = (beneficio: Beneficio) => {
+  const handleObtenerBeneficio = (beneficio: Benefit) => {
     // En una app real, aquí se registraría el uso del beneficio
     console.log('Obtener beneficio:', beneficio.id);
     
     // Simular acción exitosa
-    alert(`¡Beneficio obtenido! Código: ${beneficio.codigoPromocional}`);
+    alert(`¡Beneficio obtenido! Código: ${beneficio.promoCode}`);
     
     // Podrías actualizar el historial aquí si fuera necesario
     // setHistorialUsuario(prev => [...prev, nuevoRegistro]);
   };
 
-  const handleCompartirBeneficio = (beneficio: Beneficio) => {
+  const handleCompartirBeneficio = (beneficio: Benefit) => {
     // En una app real, aquí se implementaría la funcionalidad de compartir
     if (navigator.share) {
       navigator.share({
-        title: `Beneficio BSK: ${beneficio.nombre}`,
-        text: `¡Mira este beneficio exclusivo para miembros BSK! ${beneficio.descripcionBreve}`,
+        title: `Beneficio BSK: ${beneficio.name}`,
+        text: `¡Mira este beneficio exclusivo para miembros BSK! ${beneficio.briefDescription}`,
         url: window.location.href
       });
     } else {
       // Fallback para navegadores que no soportan Web Share API
-      const texto = `¡Beneficio BSK! ${beneficio.nombre} - ${beneficio.descuento} en ${beneficio.empresa}. Código: ${beneficio.codigoPromocional}`;
+      const texto = `¡Beneficio BSK! ${beneficio.name} - ${beneficio.discount} en ${beneficio.company}. Código: ${beneficio.promoCode}`;
       navigator.clipboard.writeText(texto).then(() => {
         alert('¡Beneficio copiado al portapapeles!');
       });
@@ -85,12 +85,12 @@ const BeneficiosPage = () => {
     setModalFormularioAbierto(true);
   };
 
-  const handleEditarBeneficio = (beneficio: Beneficio) => {
+  const handleEditarBeneficio = (beneficio: Benefit) => {
     setBeneficioSeleccionado(beneficio);
     setModalFormularioAbierto(true);
   };
 
-  const handleSubmitBeneficio = async (data: BeneficioFormData) => {
+  const handleSubmitBeneficio = async (data: BenefitFormData) => {
     setIsLoading(true);
     
     try {
@@ -99,26 +99,26 @@ const BeneficiosPage = () => {
       
       if (beneficioSeleccionado) {
         // Editar beneficio existente
-        const beneficiosActualizados = beneficiosData.map(b => 
+        const beneficiosActualizados = beneficiosData.map((b: Benefit) => 
           b.id === beneficioSeleccionado.id 
             ? { 
                 ...b, 
-                nombre: data.nombre,
-                categoria: data.categoria,
-                descripcionBreve: data.descripcionBreve,
-                descripcionCompleta: data.descripcionCompleta,
-                descuento: data.descuento,
-                ubicacion: data.ubicacion,
-                enlaceWeb: data.enlaceWeb,
-                empresa: data.empresa,
-                codigoPromocional: data.codigoPromocional,
-                requisitos: data.requisitos,
-                fechaInicio: new Date(data.fechaInicio),
-                fechaFin: new Date(data.fechaFin),
-                estado: (new Date(data.fechaFin) > new Date() ? 'activo' : 'expirado') as 'activo' | 'proximamente' | 'expirado',
+                name: data.name,
+                category: data.category,
+                briefDescription: data.briefDescription,
+                fullDescription: data.fullDescription,
+                discount: data.discount,
+                location: data.location,
+                website: data.website,
+                company: data.company,
+                promoCode: data.promoCode,
+                requirements: data.requirements,
+                startDate: new Date(data.startDate),
+                endDate: new Date(data.endDate),
+                status: (new Date(data.endDate) > new Date() ? 'active' : 'expired') as BenefitStatus,
                 updatedAt: new Date(),
                 // Solo actualizar imagen si se proporciona una nueva
-                ...(data.imagen && { imagen: URL.createObjectURL(data.imagen) })
+                ...(data.image && { image: URL.createObjectURL(data.image) })
               } 
             : b
         );
@@ -126,27 +126,27 @@ const BeneficiosPage = () => {
         alert('Beneficio actualizado exitosamente');
       } else {
         // Crear nuevo beneficio
-        const nuevoBeneficio: Beneficio = {
+        const nuevoBeneficio: Benefit = {
           id: String(Date.now()),
-          nombre: data.nombre,
-          categoria: data.categoria,
-          descripcionBreve: data.descripcionBreve,
-          descripcionCompleta: data.descripcionCompleta,
-          descuento: data.descuento,
-          ubicacion: data.ubicacion,
-          enlaceWeb: data.enlaceWeb,
-          imagen: data.imagen ? URL.createObjectURL(data.imagen) : '/images/beneficios/default.jpg',
-          empresa: data.empresa,
-          codigoPromocional: data.codigoPromocional,
-          fechaInicio: new Date(data.fechaInicio),
-          fechaFin: new Date(data.fechaFin),
-          estado: (new Date(data.fechaFin) > new Date() ? 'activo' : 'expirado') as 'activo' | 'proximamente' | 'expirado',
-          requisitos: data.requisitos,
+          name: data.name,
+          category: data.category,
+          briefDescription: data.briefDescription,
+          fullDescription: data.fullDescription,
+          discount: data.discount,
+          location: data.location,
+          website: data.website,
+          image: data.image ? URL.createObjectURL(data.image) : '/images/beneficios/default.jpg',
+          company: data.company,
+          promoCode: data.promoCode,
+          startDate: new Date(data.startDate),
+          endDate: new Date(data.endDate),
+          status: (new Date(data.endDate) > new Date() ? 'active' : 'expired') as BenefitStatus,
+          requirements: data.requirements,
           createdAt: new Date(),
           updatedAt: new Date()
         };
         
-        setBeneficiosData(prev => [nuevoBeneficio, ...prev]);
+        setBeneficiosData((prev: Benefit[]) => [nuevoBeneficio, ...prev]);
         alert('Beneficio creado exitosamente');
       }
       
@@ -165,9 +165,9 @@ const BeneficiosPage = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
         {/* Header principal */}
-        <BeneficiosHeader 
+        <BenefitsHeader 
           isAdmin={isAdmin}
-          onAgregarBeneficio={handleAgregarBeneficio}
+          onAddBenefit={handleAgregarBeneficio}
         />
 
         {/* Navegación entre vistas */}
@@ -198,20 +198,20 @@ const BeneficiosPage = () => {
         {vistaActual === 'beneficios' ? (
           <>
             {/* Filtros por categoría */}
-            <CategoriasTabs
-              categorias={categorias}
-              categoriaActiva={categoriaActiva}
-              onCategoriaChange={handleCategoriaChange}
+            <CategoryTabs
+              categories={categories}
+              activeCategory={categoriaActiva === 'todos' ? 'all' : categoriaActiva}
+              onCategoryChange={(category) => handleCategoriaChange(category === 'all' ? 'todos' : category)}
             />
 
             {/* Grid de beneficios */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {beneficiosFiltrados.map((beneficio) => (
-                <BeneficioCard
+              {beneficiosFiltrados.map((beneficio: Benefit) => (
+                <BenefitCard
                   key={beneficio.id}
-                  beneficio={beneficio}
-                  onVerDetalles={handleVerDetalles}
-                  onObtenerBeneficio={handleObtenerBeneficio}
+                  benefit={beneficio}
+                  onViewDetails={handleVerDetalles}
+                  onClaimBenefit={handleObtenerBeneficio}
                 />
               ))}
             </div>
@@ -233,33 +233,33 @@ const BeneficiosPage = () => {
           </>
         ) : (
           /* Vista de historial */
-          <HistorialUso 
-            historial={historialUsuario}
+          <UsageHistory 
+            history={historialUsuario}
             isLoading={false}
           />
         )}
 
         {/* Modal de detalles */}
-        <BeneficioModal
-          beneficio={beneficioSeleccionado}
+        <BenefitModal
+          benefit={beneficioSeleccionado}
           isOpen={modalDetalleAbierto}
           onClose={() => {
             setModalDetalleAbierto(false);
             setBeneficioSeleccionado(null);
           }}
-          onCompartir={handleCompartirBeneficio}
+          onShare={handleCompartirBeneficio}
         />
 
         {/* Modal de formulario (solo admin) */}
         {isAdmin && (
-          <BeneficioForm
+          <BenefitForm
             isOpen={modalFormularioAbierto}
             onClose={() => {
               setModalFormularioAbierto(false);
               setBeneficioSeleccionado(null);
             }}
             onSubmit={handleSubmitBeneficio}
-            beneficio={beneficioSeleccionado}
+            benefit={beneficioSeleccionado}
             isLoading={isLoading}
           />
         )}
