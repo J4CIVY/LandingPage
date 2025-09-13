@@ -177,11 +177,11 @@ class InMemoryDatabase {
     return limit ? upcoming.slice(0, limit) : upcoming;
   }
 
-  createEvent(eventData: Omit<Event, 'id'>): Event {
+  createEvent(eventData: Omit<Event, '_id'>): Event {
     const id = this.generateId();
     const event: Event = {
       ...eventData,
-      id,
+      _id: id,
     };
     this.events.set(id, event);
     return event;
@@ -382,13 +382,23 @@ class InMemoryDatabase {
     sampleProducts.forEach(product => this.createProduct(product));
 
     // Eventos de ejemplo
-    const sampleEvents: Omit<Event, 'id'>[] = [
+    const sampleEvents: Omit<Event, '_id'>[] = [
       {
         name: "Ruta Laguna de Guatavita",
         startDate: "2025-09-15T08:00:00Z",
         description: "Ruta panorámica hacia la famosa Laguna de Guatavita. Incluye desayuno y almuerzo.",
         mainImage: "/events/guatavita.webp",
-        eventType: "Ruta",
+        eventType: "Rodada",
+        status: "published",
+        organizer: {
+          name: "BSK Motorcycle Team",
+          phone: "+57 300 123 4567",
+          email: "eventos@bskmt.com"
+        },
+        currentParticipants: 0,
+        isActive: true,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
         departureLocation: {
           address: "Estación de Servicio Terpel Calle 85",
           city: "Bogotá",
@@ -400,7 +410,17 @@ class InMemoryDatabase {
         startDate: "2025-09-20T14:00:00Z",
         description: "Aprende a realizar el mantenimiento básico de tu motocicleta con nuestros expertos mecánicos.",
         mainImage: "/events/mantenimiento.webp",
-        eventType: "Curso",
+        eventType: "Taller",
+        status: "published",
+        organizer: {
+          name: "BSK Motorcycle Team",
+          phone: "+57 300 123 4567",
+          email: "eventos@bskmt.com"
+        },
+        currentParticipants: 0,
+        isActive: true,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
         departureLocation: {
           address: "Sede BSK Motorcycle Team",
           city: "Bogotá",
@@ -412,7 +432,17 @@ class InMemoryDatabase {
         startDate: "2025-09-25T07:00:00Z",
         description: "Día de pista en el autódromo de Tocancipá. Niveles principiante, intermedio y avanzado.",
         mainImage: "/events/track-day.webp",
-        eventType: "Track Day",
+        eventType: "Competencia",
+        status: "published",
+        organizer: {
+          name: "BSK Motorcycle Team",
+          phone: "+57 300 123 4567",
+          email: "eventos@bskmt.com"
+        },
+        currentParticipants: 0,
+        isActive: true,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
         departureLocation: {
           address: "Autódromo de Tocancipá",
           city: "Tocancipá",
