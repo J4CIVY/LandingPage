@@ -115,7 +115,46 @@ export default function PQRSDFPage() {
     setSolicitudesFiltradas(resultado);
   };
 
-  if (authLoading || cargando) {
+  if (authLoading) {
+    return (
+      <>
+        <DashboardHeader />
+        <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="flex items-center justify-center h-64">
+              <div className="text-center">
+                <FaSpinner className="w-8 h-8 animate-spin text-blue-600 mx-auto mb-4" />
+                <p className="text-gray-600 dark:text-slate-400">Verificando autenticación...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  if (!user) {
+    return (
+      <>
+        <DashboardHeader />
+        <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="text-center">
+              <FaExclamationTriangle className="w-12 h-12 text-red-600 mx-auto mb-4" />
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-slate-100 mb-2">
+                Usuario no autenticado
+              </h2>
+              <p className="text-gray-600 dark:text-slate-400 mb-4">
+                Necesitas estar autenticado para acceder a esta página.
+              </p>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  if (cargando) {
     return (
       <>
         <DashboardHeader />
@@ -125,6 +164,7 @@ export default function PQRSDFPage() {
               <div className="text-center">
                 <FaSpinner className="w-8 h-8 animate-spin text-blue-600 mx-auto mb-4" />
                 <p className="text-gray-600 dark:text-slate-400">Cargando solicitudes...</p>
+                <p className="text-xs text-gray-500 mt-2">Usuario ID: {String(user._id)}</p>
               </div>
             </div>
           </div>
