@@ -29,7 +29,7 @@ const navigationItems: NavigationItem[] = [
   { href: '/dashboard', label: 'Inicio', icon: FaHome },
   { href: '/dashboard/profile', label: 'Perfil', icon: FaUser },
   { href: '/membership-status', label: 'Membresía', icon: FaCreditCard },
-  { href: '/events', label: 'Eventos', icon: FaCalendarAlt },
+  { href: '/dashboard/eventos', label: 'Eventos', icon: FaCalendarAlt },
   { href: '/dashboard/community', label: 'Comunidad', icon: FaUsers },
   { href: '/dashboard/pqrsdf', label: 'PQRSDF', icon: FaFileAlt },
   { href: '/dashboard/benefits', label: 'Beneficios', icon: FaGift },
