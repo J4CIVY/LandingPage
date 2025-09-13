@@ -116,11 +116,6 @@ export const BSK_CRITICAL_RESOURCES: PreloadResource[] = [
     as: 'image',
     priority: 'high',
   },
-  {
-    href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap',
-    as: 'style',
-    priority: 'medium',
-  },
 ];
 
 export default StrategicPreloader;

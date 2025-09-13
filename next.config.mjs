@@ -5,6 +5,14 @@ import withBundleAnalyzer from '@next/bundle-analyzer';
 const withPWA = withPWAInit({
   dest: "public",
   disable: process.env.NODE_ENV === "development",
+  exclude: [
+    /\.map$/,
+    /manifest$/,
+    /\.htaccess$/,
+    /^_buildManifest\.js$/,
+    /^_ssgManifest\.js$/,
+    /_next\/static\/chunks\/webpack-.*\.js$/,
+  ],
 });
 
 const bundleAnalyzer = withBundleAnalyzer({
@@ -63,6 +71,22 @@ const nextConfig = {
   headers: async () => {
     return [
       {
+        source: '/sw.js',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: `
+              default-src 'self';
+              script-src 'self' 'unsafe-inline' 'unsafe-eval';
+              connect-src 'self' *;
+              img-src 'self' data: https: blob:;
+              font-src 'self' https://fonts.gstatic.com;
+              style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+            `.replace(/\s+/g, ' ').trim(),
+          },
+        ],
+      },
+      {
         source: '/(.*)',
         headers: [
           {
@@ -97,7 +121,7 @@ const nextConfig = {
               style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
               img-src 'self' data: https: blob: https://res.cloudinary.com https://images.unsplash.com https://www.facebook.com https://platform-lookaside.fbsbx.com;
               font-src 'self' https://fonts.gstatic.com;
-              connect-src 'self' https://www.google-analytics.com https://maps.googleapis.com https://res.cloudinary.com https://cloudflareinsights.com https://www.facebook.com https://graph.facebook.com;
+              connect-src 'self' https://www.google-analytics.com https://maps.googleapis.com https://res.cloudinary.com https://cloudflareinsights.com https://static.cloudflareinsights.com https://fonts.googleapis.com https://fonts.gstatic.com https://www.facebook.com https://graph.facebook.com;
               media-src 'self' https: data: blob:;
               object-src 'none';
               frame-src 'self' https://www.google.com https://maps.google.com https://www.facebook.com https://web.facebook.com;
