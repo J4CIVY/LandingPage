@@ -133,11 +133,13 @@ Agregar imágenes de recompensas en `/public/images/rewards/`
 - [ ] Backup y restauración de datos
 
 ### Funcionalidades Adicionales
-- [ ] Sistema de badges/logros
+- [ ] Sistema de badges/logros ✅ **COMPLETADO**
 - [ ] Challenges temporales
 - [ ] Referidos y bonificaciones
 - [ ] Exportación de reportes (PDF/Excel)
-- [ ] Notificaciones push
+- [ ] Notificaciones push ✅ **COMPLETADO (Toast)**
+- [ ] Estadísticas en tiempo real ✅ **COMPLETADO**
+- [ ] Gráficos de actividad ✅ **COMPLETADO**
 
 ### UX/UI Improvements
 - [ ] Dark mode support
