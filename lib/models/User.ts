@@ -93,7 +93,7 @@ export interface IUser extends Document {
   
   // Métodos
   comparePassword(candidatePassword: string): Promise<boolean>;
-  getPublicProfile(): Partial<IUser>;
+  getPublicProfile(): any; // Cambiar a any para permitir campos adicionales como fullName
   updateLastLogin(): Promise<IUser>;
   incrementLoginAttempts(): Promise<IUser>;
   resetLoginAttempts(): Promise<IUser>;
@@ -289,23 +289,94 @@ UserSchema.methods.comparePassword = async function(this: IUser, candidatePasswo
 };
 
 // Método para obtener perfil público (sin datos sensibles)
-UserSchema.methods.getPublicProfile = function(this: IUser): Partial<IUser> {
+UserSchema.methods.getPublicProfile = function(this: IUser): any {
   return {
     _id: this._id,
+    id: this._id, // Alias para id
+    
+    // Información personal básica
+    documentType: this.documentType,
+    documentNumber: this.documentNumber,
     firstName: this.firstName,
     lastName: this.lastName,
-    email: this.email,
+    fullName: `${this.firstName} ${this.lastName}`, // Campo computed
+    birthDate: this.birthDate,
+    birthPlace: this.birthPlace,
+    
+    // Información de contacto
     phone: this.phone,
+    whatsapp: this.whatsapp,
+    email: this.email,
+    address: this.address,
+    neighborhood: this.neighborhood,
     city: this.city,
     country: this.country,
+    postalCode: this.postalCode,
+    
+    // Información de género y ocupación
+    binaryGender: this.binaryGender,
+    genderIdentity: this.genderIdentity,
+    occupation: this.occupation,
+    discipline: this.discipline,
+    
+    // Información de salud
+    bloodType: this.bloodType,
+    rhFactor: this.rhFactor,
+    allergies: this.allergies,
+    healthInsurance: this.healthInsurance,
+    
+    // Contacto de emergencia
+    emergencyContactName: this.emergencyContactName,
+    emergencyContactRelationship: this.emergencyContactRelationship,
+    emergencyContactPhone: this.emergencyContactPhone,
+    emergencyContactAddress: this.emergencyContactAddress,
+    emergencyContactNeighborhood: this.emergencyContactNeighborhood,
+    emergencyContactCity: this.emergencyContactCity,
+    emergencyContactCountry: this.emergencyContactCountry,
+    emergencyContactPostalCode: this.emergencyContactPostalCode,
+    
+    // Información de motocicleta
+    motorcycleBrand: this.motorcycleBrand,
+    motorcycleModel: this.motorcycleModel,
+    motorcycleYear: this.motorcycleYear,
+    motorcyclePlate: this.motorcyclePlate,
+    motorcycleEngineSize: this.motorcycleEngineSize,
+    motorcycleColor: this.motorcycleColor,
+    soatExpirationDate: this.soatExpirationDate,
+    technicalReviewExpirationDate: this.technicalReviewExpirationDate,
+    
+    // Información de licencia
+    licenseNumber: this.licenseNumber,
+    licenseCategory: this.licenseCategory,
+    licenseExpirationDate: this.licenseExpirationDate,
+    
+    // Información de BSK
+    isActive: this.isActive,
     membershipType: this.membershipType,
     membershipNumber: this.membershipNumber,
-    isActive: this.isActive,
-    isEmailVerified: this.isEmailVerified,
-    role: this.role, // Agregar el rol al perfil público
-    profileImage: this.profileImage, // Agregar imagen de perfil
-    lastLogin: this.lastLogin,
     joinDate: this.joinDate,
+    role: this.role,
+    
+    // Imagen de perfil
+    profileImage: this.profileImage,
+    
+    // Estado de verificación
+    isEmailVerified: this.isEmailVerified,
+    isLocked: this.isAccountLocked(), // Método para verificar si está bloqueado
+    
+    // Términos y condiciones
+    acceptedTerms: this.acceptedTerms,
+    acceptedPrivacyPolicy: this.acceptedPrivacyPolicy,
+    acceptedDataProcessing: this.acceptedDataProcessing,
+    
+    // Eventos y actividades
+    events: this.events,
+    favoriteEvents: this.favoriteEvents,
+    attendedEvents: this.attendedEvents,
+    
+    // Metadatos
+    lastLogin: this.lastLogin,
+    loginAttempts: this.loginAttempts,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt
   };

@@ -29,9 +29,7 @@ export async function GET(request: NextRequest) {
     const decoded = verify(token, JWT_SECRET) as JWTPayload;
     
     // Buscar usuario en la base de datos
-    const user = await User.findById(decoded.userId)
-      .select('-password') // Excluir la contraseña
-      .lean();
+    const user = await User.findById(decoded.userId);
 
     if (!user) {
       return NextResponse.json(
@@ -40,35 +38,11 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Usar el método getPublicProfile que ahora incluye todos los campos
     return NextResponse.json({
       success: true,
       data: {
-        user: {
-          id: (user as any)._id,
-          firstName: (user as any).firstName,
-          lastName: (user as any).lastName,
-          email: (user as any).email,
-          phone: (user as any).phone,
-          address: (user as any).address,
-          city: (user as any).city,
-          country: (user as any).country,
-          dateOfBirth: (user as any).birthDate,
-          motorcycleInfo: {
-            brand: (user as any).motorcycleBrand || '',
-            model: (user as any).motorcycleModel || '',
-            year: (user as any).motorcycleYear || '',
-            licensePlate: (user as any).motorcyclePlate || ''
-          },
-          emergencyContact: {
-            name: (user as any).emergencyContactName || '',
-            phone: (user as any).emergencyContactPhone || '',
-            relationship: (user as any).emergencyContactRelationship || ''
-          },
-          membershipType: (user as any).membershipType,
-          isEmailVerified: (user as any).isEmailVerified,
-          createdAt: (user as any).createdAt,
-          updatedAt: (user as any).updatedAt
-        }
+        user: user.getPublicProfile()
       }
     });
 
