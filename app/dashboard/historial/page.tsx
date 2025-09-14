@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import HistorialHeader from '@/components/historial/HistorialHeader';
 import Timeline from '@/components/historial/Timeline';
 import EventosHistorial from '@/components/historial/EventosHistorial';
@@ -132,7 +131,6 @@ export default function HistorialPage() {
   if (isLoading || isLoadingData) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <DashboardHeader />
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
             <FaSpinner className="animate-spin text-blue-600 text-4xl mx-auto mb-4" />
@@ -146,7 +144,6 @@ export default function HistorialPage() {
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <DashboardHeader />
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
             <p className="text-gray-600">Debes iniciar sesión para ver tu historial.</p>
@@ -157,9 +154,7 @@ export default function HistorialPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <DashboardHeader />
-      
+    <div className="min-h-screen bg-gray-50">      
       <main className="container mx-auto px-4 py-6 max-w-7xl">
         {/* Header del historial */}
         <HistorialHeader 

@@ -13,9 +13,6 @@ import {
   FaExclamationCircle
 } from 'react-icons/fa';
 
-// Importar componentes
-import DashboardHeader from '@/components/dashboard/DashboardHeader';
-
 // Importar tipos y servicios
 import { 
   CrearSolicitudDto, 
@@ -162,7 +159,6 @@ export default function NuevaSolicitudPage() {
   if (exito) {
     return (
       <>
-        <DashboardHeader />
         <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-8 text-center">
@@ -188,7 +184,6 @@ export default function NuevaSolicitudPage() {
 
   return (
     <>
-      <DashboardHeader />
       <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header */}

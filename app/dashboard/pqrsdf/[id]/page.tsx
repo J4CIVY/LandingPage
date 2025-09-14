@@ -19,7 +19,6 @@ import {
 } from 'react-icons/fa';
 
 // Importar componentes
-import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import Timeline from '@/components/dashboard/pqrsdf/Timeline';
 import ChatBox from '@/components/dashboard/pqrsdf/ChatBox';
 
@@ -138,7 +137,6 @@ export default function DetalleSolicitudPage() {
   if (cargando) {
     return (
       <>
-        <DashboardHeader />
         <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="flex items-center justify-center h-64">
@@ -156,7 +154,6 @@ export default function DetalleSolicitudPage() {
   if (error) {
     return (
       <>
-        <DashboardHeader />
         <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="text-center">
@@ -193,7 +190,6 @@ export default function DetalleSolicitudPage() {
 
   return (
     <>
-      <DashboardHeader />
       <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header */}

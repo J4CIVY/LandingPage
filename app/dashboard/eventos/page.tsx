@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useEvents } from '@/hooks/useEvents';
-import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import EventosHeader from '@/components/eventos/EventosHeader';
 import EventosFilter from '@/components/eventos/EventosFilter';
 import EventoCard from '@/components/eventos/EventoCard';
