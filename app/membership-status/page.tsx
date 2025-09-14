@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import MembershipHeader from '@/components/dashboard/Membership/MembershipHeader';
 import MembershipCurrentStatus from '@/components/dashboard/Membership/MembershipCurrentStatus';
 import MembershipBenefits from '@/components/dashboard/Membership/MembershipBenefits';
@@ -118,7 +117,6 @@ export default function MembershipStatusPage() {
   if (isLoading || isLoadingData) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <DashboardHeader />
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
             <FaSpinner className="animate-spin text-4xl text-green-600 mx-auto mb-4" />
@@ -132,7 +130,6 @@ export default function MembershipStatusPage() {
   if (!user) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <DashboardHeader />
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
             <p className="text-gray-600">Debes iniciar sesión para ver tu información de membresía.</p>
@@ -143,9 +140,7 @@ export default function MembershipStatusPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <DashboardHeader />
-      
+    <div className="min-h-screen bg-gray-50">      
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header de Membresía */}
         <MembershipHeader user={user} membershipData={membershipData} />

@@ -16,7 +16,6 @@ import {
 } from 'react-icons/fa';
 
 // Importar componentes
-import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import SolicitudTable from '@/components/dashboard/pqrsdf/SolicitudTable';
 import SolicitudCard from '@/components/dashboard/pqrsdf/SolicitudCard';
 import FiltrosSolicitudes from '@/components/dashboard/pqrsdf/FiltrosSolicitudes';
@@ -118,7 +117,6 @@ export default function PQRSDFPage() {
   if (authLoading) {
     return (
       <>
-        <DashboardHeader />
         <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="flex items-center justify-center h-64">
@@ -136,7 +134,6 @@ export default function PQRSDFPage() {
   if (!user) {
     return (
       <>
-        <DashboardHeader />
         <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="text-center">
@@ -157,7 +154,6 @@ export default function PQRSDFPage() {
   if (cargando) {
     return (
       <>
-        <DashboardHeader />
         <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="flex items-center justify-center h-64">
@@ -176,7 +172,6 @@ export default function PQRSDFPage() {
   if (error) {
     return (
       <>
-        <DashboardHeader />
         <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="text-center">
@@ -200,7 +195,6 @@ export default function PQRSDFPage() {
 
   return (
     <>
-      <DashboardHeader />
       <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header */}
