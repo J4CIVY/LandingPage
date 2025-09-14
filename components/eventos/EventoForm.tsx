@@ -88,29 +88,53 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
     if (!isoDate) return '';
     
     try {
+      console.log('🔄 Formateando fecha para input:', isoDate);
+      
       // Si la fecha ya está en formato datetime-local, devolverla como está
-      if (isoDate.length === 16 && isoDate.includes('T')) {
+      if (isoDate.length === 16 && isoDate.includes('T') && !isoDate.includes(':00')) {
+        console.log('✅ Fecha ya en formato datetime-local:', isoDate);
         return isoDate;
       }
       
       // Convertir fecha ISO a objeto Date
       const date = new Date(isoDate);
       
+      // Verificar si la fecha es válida
+      if (isNaN(date.getTime())) {
+        console.error('❌ Fecha inválida:', isoDate);
+        return '';
+      }
+      
       // Ajustar a zona horaria colombiana (UTC-5)
-      const colombianOffset = -5 * 60; // Colombia está UTC-5
-      const localOffset = date.getTimezoneOffset();
-      const colombianTime = new Date(date.getTime() + (localOffset - colombianOffset) * 60000);
+      // Colombia está 5 horas atrás de UTC
+      const colombianTime = new Date(date.getTime() - (5 * 60 * 60 * 1000));
       
-      // Formatear como datetime-local (YYYY-MM-DDTHH:mm)
-      const year = colombianTime.getFullYear();
-      const month = String(colombianTime.getMonth() + 1).padStart(2, '0');
-      const day = String(colombianTime.getDate()).padStart(2, '0');
-      const hours = String(colombianTime.getHours()).padStart(2, '0');
-      const minutes = String(colombianTime.getMinutes()).padStart(2, '0');
+      // Si la fecha original ya tenía zona horaria colombiana, no ajustar
+      if (isoDate.includes('-05:00') || isoDate.includes('-0500')) {
+        // La fecha ya está en hora colombiana, usar la fecha original
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        
+        const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;
+        console.log('✅ Fecha ya en zona colombiana, formateada:', formattedDate);
+        return formattedDate;
+      }
       
-      return `${year}-${month}-${day}T${hours}:${minutes}`;
+      // Formatear como datetime-local (YYYY-MM-DDTHH:mm) en hora colombiana
+      const year = colombianTime.getUTCFullYear();
+      const month = String(colombianTime.getUTCMonth() + 1).padStart(2, '0');
+      const day = String(colombianTime.getUTCDate()).padStart(2, '0');
+      const hours = String(colombianTime.getUTCHours()).padStart(2, '0');
+      const minutes = String(colombianTime.getUTCMinutes()).padStart(2, '0');
+      
+      const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;
+      console.log('✅ Fecha convertida a hora colombiana:', formattedDate);
+      return formattedDate;
     } catch (error) {
-      console.error('Error formatting date:', error);
+      console.error('❌ Error formatting date:', error);
       return '';
     }
   };
@@ -262,26 +286,37 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
         if (!dateString) return dateString;
         
         try {
+          console.log('🔄 Procesando fecha para envío:', dateString);
+          
           // Para datetime-local, el formato es "YYYY-MM-DDTHH:mm"
-          // Necesitamos convertir esto a formato ISO con zona horaria colombiana
+          // Necesitamos convertir esto a formato ISO con zona horaria colombiana explícita
           
           if (dateString.includes('T')) {
             // Si ya tiene formato datetime-local (YYYY-MM-DDTHH:mm)
             if (dateString.length === 16) {
-              // Agregar segundos y zona horaria colombiana
-              return dateString + ':00.000-05:00';
+              const processedDate = dateString + ':00.000-05:00';
+              console.log('✅ Fecha procesada con zona horaria colombiana:', processedDate);
+              return processedDate;
             }
-            // Si ya tiene más información, verificar si tiene zona horaria
+            
+            // Si ya tiene más información pero no zona horaria
             if (!dateString.includes('+') && !dateString.includes('-') && !dateString.endsWith('Z')) {
-              // No tiene zona horaria, agregar la colombiana
-              return dateString + '-05:00';
+              const processedDate = dateString + '-05:00';
+              console.log('✅ Zona horaria colombiana agregada:', processedDate);
+              return processedDate;
+            }
+            
+            // Si ya tiene zona horaria, verificar que sea la correcta
+            if (dateString.includes('-05:00') || dateString.includes('-0500')) {
+              console.log('✅ Fecha ya tiene zona horaria colombiana:', dateString);
+              return dateString;
             }
           }
           
-          // Fallback: devolver como está
+          console.log('⚠️ Formato de fecha no reconocido, devolviendo como está:', dateString);
           return dateString;
         } catch (error) {
-          console.error('Error processing date:', error);
+          console.error('❌ Error processing date:', error);
           return dateString;
         }
       };
@@ -298,7 +333,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
         gallery: formData.gallery?.filter(item => item.trim() !== '') || []
       };
 
-      console.log('🕐 Fechas procesadas:', {
+      console.log('🕐 Fechas procesadas para envío:', {
         original: {
           startDate: formData.startDate,
           endDate: formData.endDate,
@@ -310,6 +345,30 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
           registrationDeadline: cleanedData.registrationDeadline
         }
       });
+
+      // Verificación específica de zona horaria
+      console.log('🇨🇴 Verificación zona horaria colombiana (UTC-5):');
+      console.log('📅 Fecha inicio:', {
+        input: formData.startDate,
+        output: cleanedData.startDate,
+        hasColombianTz: cleanedData.startDate?.includes('-05:00')
+      });
+      
+      if (cleanedData.endDate) {
+        console.log('📅 Fecha fin:', {
+          input: formData.endDate,
+          output: cleanedData.endDate,
+          hasColombianTz: cleanedData.endDate?.includes('-05:00')
+        });
+      }
+      
+      if (cleanedData.registrationDeadline) {
+        console.log('📅 Límite inscripción:', {
+          input: formData.registrationDeadline,
+          output: cleanedData.registrationDeadline,
+          hasColombianTz: cleanedData.registrationDeadline?.includes('-05:00')
+        });
+      }
 
       console.log('📤 Enviando datos del evento:', cleanedData);
 
