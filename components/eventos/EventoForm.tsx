@@ -17,6 +17,8 @@ import {
   FaSave
 } from 'react-icons/fa';
 import { Event, EventType, EventStatus, EventDifficulty, CreateEventData } from '@/types/events';
+import ImageUpload from '@/components/shared/ImageUpload';
+import ImageGalleryUpload from '@/components/shared/ImageGalleryUpload';
 
 interface EventoFormProps {
   event?: Event | null;
@@ -200,6 +202,26 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
     setLoading(true);
 
     try {
+      // Validar que la imagen principal esté presente
+      if (!formData.mainImage || formData.mainImage.trim() === '') {
+        alert('Por favor, sube una imagen principal para el evento.');
+        setLoading(false);
+        return;
+      }
+
+      // Validaciones adicionales
+      if (!formData.departureLocation.address || !formData.departureLocation.city) {
+        alert('Por favor, completa la información de la ubicación de salida.');
+        setLoading(false);
+        return;
+      }
+
+      if (!formData.organizer.name || !formData.organizer.phone || !formData.organizer.email) {
+        alert('Por favor, completa toda la información del organizador.');
+        setLoading(false);
+        return;
+      }
+
       // Limpiar arrays de elementos vacíos
       const cleanedData = {
         ...formData,
@@ -212,6 +234,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
       await onSave(cleanedData);
     } catch (error) {
       console.error('Error saving event:', error);
+      alert('Error al guardar el evento. Por favor, inténtalo de nuevo.');
     } finally {
       setLoading(false);
     }
@@ -221,15 +244,15 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-slate-800 rounded-lg max-w-4xl w-full max-h-screen overflow-y-auto">
+      <div className="bg-white dark:bg-slate-800 rounded-lg max-w-5xl w-full max-h-screen overflow-y-auto">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-slate-600">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-800 sticky top-0 z-10">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-slate-100">
             {event ? 'Editar Evento' : 'Crear Nuevo Evento'}
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 dark:hover:text-slate-300"
+            className="text-gray-400 hover:text-gray-600 dark:hover:text-slate-300 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors"
           >
             <FaTimes className="text-xl" />
           </button>
@@ -316,49 +339,79 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
           </div>
 
           {/* Descripción */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
-              Descripción corta *
-            </label>
-            <textarea
-              required
-              value={formData.description}
-              onChange={(e) => updateField('description', e.target.value)}
-              rows={3}
-              maxLength={1000}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
-              placeholder="Descripción que aparecerá en la tarjeta del evento..."
-            />
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+                Descripción corta *
+              </label>
+              <textarea
+                required
+                value={formData.description}
+                onChange={(e) => updateField('description', e.target.value)}
+                rows={3}
+                maxLength={1000}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
+                placeholder="Descripción que aparecerá en la tarjeta del evento..."
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+                Descripción completa
+              </label>
+              <textarea
+                value={formData.longDescription}
+                onChange={(e) => updateField('longDescription', e.target.value)}
+                rows={5}
+                maxLength={5000}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
+                placeholder="Descripción detallada que aparecerá en el modal del evento..."
+              />
+            </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
-              Descripción completa
-            </label>
-            <textarea
-              value={formData.longDescription}
-              onChange={(e) => updateField('longDescription', e.target.value)}
-              rows={5}
-              maxLength={5000}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
-              placeholder="Descripción detallada que aparecerá en el modal del evento..."
-            />
-          </div>
+          {/* Sección de imágenes */}
+          <div className="space-y-6 p-6 bg-gray-50 dark:bg-slate-700 rounded-lg">
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-slate-100 border-b border-gray-200 dark:border-slate-600 pb-2">
+              Imágenes del Evento
+            </h3>
+            
+            {/* Imagen principal */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+                <FaImage className="inline mr-1" />
+                Imagen principal del evento *
+              </label>
+              <ImageUpload
+                onImageUploaded={(imageUrl) => updateField('mainImage', imageUrl)}
+                currentImageUrl={formData.mainImage}
+                folder="events"
+                publicIdPrefix={`event_${Date.now()}`}
+                className="mb-4"
+              />
+              <p className="text-sm text-gray-500 dark:text-slate-400 mt-2">
+                Esta imagen aparecerá como portada del evento en las tarjetas y detalles.
+              </p>
+            </div>
 
-          {/* Imagen principal */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
-              <FaImage className="inline mr-1" />
-              URL de imagen principal *
-            </label>
-            <input
-              type="url"
-              required
-              value={formData.mainImage}
-              onChange={(e) => updateField('mainImage', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
-              placeholder="https://ejemplo.com/imagen.jpg"
-            />
+            {/* Galería de imágenes */}
+            <div>
+              <h4 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-3 flex items-center">
+                <FaImage className="mr-2" />
+                Galería de Imágenes
+              </h4>
+              <ImageGalleryUpload
+                images={formData.gallery || []}
+                onImagesChanged={(images) => updateField('gallery', images)}
+                folder="events/gallery"
+                publicIdPrefix={`event_gallery_${Date.now()}`}
+                maxImages={10}
+                className="mb-4"
+              />
+              <p className="text-sm text-gray-500 dark:text-slate-400">
+                Agrega hasta 10 imágenes adicionales para mostrar en la galería del evento (opcional).
+              </p>
+            </div>
           </div>
 
           {/* Ubicaciones */}
@@ -535,8 +588,8 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
           </div>
 
           {/* Organizador */}
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-3">
+          <div className="space-y-4 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-slate-100 border-b border-blue-200 dark:border-blue-700 pb-2">
               Información del Organizador *
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

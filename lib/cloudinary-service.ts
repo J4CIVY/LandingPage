@@ -35,12 +35,24 @@ export async function uploadToCloudinary(
       resource_type: 'image',
       quality: 'auto',
       fetch_format: 'auto',
-      transformation: [
-        { width: 500, height: 500, crop: 'fill', gravity: 'face' }, // Optimiza para fotos de perfil
+    };
+
+    // Configurar transformaciones específicas según la carpeta
+    if (folder.includes('events')) {
+      // Para eventos: mejor para paisajes y imágenes de eventos
+      uploadOptions.transformation = [
+        { width: 1200, height: 800, crop: 'fill', gravity: 'center' },
         { quality: 'auto:good' },
         { format: 'webp' }
-      ]
-    };
+      ];
+    } else {
+      // Para perfiles de usuario: optimizado para fotos de personas
+      uploadOptions.transformation = [
+        { width: 500, height: 500, crop: 'fill', gravity: 'face' },
+        { quality: 'auto:good' },
+        { format: 'webp' }
+      ];
+    }
 
     if (publicId) {
       uploadOptions.public_id = publicId;

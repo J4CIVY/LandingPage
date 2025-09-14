@@ -13,11 +13,28 @@ interface MembershipStatusProps {
 }
 
 const membershipTypeNames: Record<string, string> = {
-  'friend': 'Amigo',
-  'rider': 'Piloto',
-  'rider-duo': 'Piloto Dúo',
-  'pro': 'Profesional',
-  'pro-duo': 'Profesional Dúo'
+  'friend': 'Membresía Friend',
+  'rider': 'Membresía Rider',
+  'rider-duo': 'Membresía Rider Dúo',
+  'pro': 'Membresía Pro',
+  'pro-duo': 'Membresía Pro Dúo',
+  'pro-family': 'Membresía Pro Familiar',
+  'elite': 'Membresía Elite',
+  'elite-duo': 'Membresía Elite Dúo',
+  'elite-family': 'Membresía Elite Familiar',
+  'vip': 'Membresía VIP',
+  'vip-duo': 'Membresía VIP Dúo',
+  'vip-family': 'Membresía VIP Familiar',
+  'lifetime': 'Membresía Vitalicia',
+  'sponsor': 'Patrocinador',
+  'admin': 'Administrador',
+  'super-admin': 'Super Administrador',
+  'moderator': 'Moderador',
+  'guest': 'Invitado',
+  'none': 'Sin membresía',
+  '': 'Sin membresía',
+  null: 'Sin membresía',
+  undefined: 'Sin membresía',
 };
 
 export default function MembershipStatus({ user, stats }: MembershipStatusProps) {

@@ -9,13 +9,28 @@ interface WelcomeHeaderProps {
 }
 
 const membershipTypeNames: Record<string, string> = {
-  'friend': 'Friend',
-  'rider': 'Rider',
-  'rider-duo': 'Rider Dúo',
-  'pro': 'Pro',
-  'pro-duo': 'Pro Dúo',
-  'elite': 'Elite',
-  'elite-duo': 'Elite Dúo'
+  'friend': 'Membresía Friend',
+  'rider': 'Membresía Rider',
+  'rider-duo': 'Membresía Rider Dúo',
+  'pro': 'Membresía Pro',
+  'pro-duo': 'Membresía Pro Dúo',
+  'pro-family': 'Membresía Pro Familiar',
+  'elite': 'Membresía Elite',
+  'elite-duo': 'Membresía Elite Dúo',
+  'elite-family': 'Membresía Elite Familiar',
+  'vip': 'Membresía VIP',
+  'vip-duo': 'Membresía VIP Dúo',
+  'vip-family': 'Membresía VIP Familiar',
+  'lifetime': 'Membresía Vitalicia',
+  'sponsor': 'Patrocinador',
+  'admin': 'Administrador',
+  'super-admin': 'Super Administrador',
+  'moderator': 'Moderador',
+  'guest': 'Invitado',
+  'none': 'Sin membresía',
+  '': 'Sin membresía',
+  null: 'Sin membresía',
+  undefined: 'Sin membresía',
 };
 
 export default function WelcomeHeader({ user }: WelcomeHeaderProps) {
