@@ -12,9 +12,10 @@ export interface CloudinaryUploadResult {
   secure_url: string;
   url: string;
   format: string;
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
   bytes: number;
+  pages?: number; // Para PDFs
 }
 
 /**
@@ -76,6 +77,45 @@ export async function uploadToCloudinary(
 }
 
 /**
+ * Sube un PDF a Cloudinary
+ * @param file - Archivo PDF a subir como string base64
+ * @param folder - Carpeta donde almacenar el PDF
+ * @param publicId - ID público personalizado (opcional)
+ * @returns Resultado de la subida con URL y metadatos
+ */
+export async function uploadPdfToCloudinary(
+  file: string,
+  folder: string = 'documents',
+  publicId?: string
+): Promise<CloudinaryUploadResult> {
+  try {
+    const uploadOptions: any = {
+      folder,
+      resource_type: 'raw', // Para archivos que no son imágenes/videos
+      allowed_formats: ['pdf'],
+    };
+
+    if (publicId) {
+      uploadOptions.public_id = publicId;
+    }
+
+    const result = await cloudinary.uploader.upload(file, uploadOptions);
+    
+    return {
+      public_id: result.public_id,
+      secure_url: result.secure_url,
+      url: result.url,
+      format: result.format,
+      bytes: result.bytes,
+      pages: result.pages || undefined,
+    };
+  } catch (error) {
+    console.error('Error uploading PDF to Cloudinary:', error);
+    throw new Error('Failed to upload PDF to Cloudinary');
+  }
+}
+
+/**
  * Elimina una imagen de Cloudinary
  * @param publicId - ID público de la imagen a eliminar
  * @returns Resultado de la eliminación
@@ -103,6 +143,32 @@ export function getCloudinaryUrl(
   const baseUrl = `https://res.cloudinary.com/dz0peilmu/image/upload/`;
   const transforms = transformations || 'q_auto,f_auto,w_300,h_300,c_fill,g_face';
   return `${baseUrl}${transforms}/${publicId}`;
+}
+
+/**
+ * Valida que el archivo sea un PDF válido
+ * @param file - Archivo a validar
+ * @returns true si es válido, false si no
+ */
+export function validatePdfFile(file: File): { isValid: boolean; error?: string } {
+  const allowedTypes = ['application/pdf'];
+  const maxSize = 10 * 1024 * 1024; // 10MB para PDFs
+
+  if (!allowedTypes.includes(file.type)) {
+    return {
+      isValid: false,
+      error: 'Tipo de archivo no permitido. Solo se aceptan archivos PDF.'
+    };
+  }
+
+  if (file.size > maxSize) {
+    return {
+      isValid: false,
+      error: 'El archivo es demasiado grande. Máximo 10MB.'
+    };
+  }
+
+  return { isValid: true };
 }
 
 /**

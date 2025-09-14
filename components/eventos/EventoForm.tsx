@@ -19,6 +19,7 @@ import {
 import { Event, EventType, EventStatus, EventDifficulty, CreateEventData } from '@/types/events';
 import ImageUpload from '@/components/shared/ImageUpload';
 import ImageGalleryUpload from '@/components/shared/ImageGalleryUpload';
+import PdfUpload from '@/components/shared/PdfUpload';
 
 interface EventoFormProps {
   event?: Event | null;
@@ -53,6 +54,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
     longDescription: '',
     mainImage: '',
     gallery: [],
+    detailsPdf: '',
     eventType: 'Rodada',
     status: 'published',
     departureLocation: {
@@ -124,6 +126,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
         longDescription: event.longDescription || '',
         mainImage: event.mainImage,
         gallery: event.gallery || [],
+        detailsPdf: event.detailsPdf || '',
         eventType: event.eventType,
         status: event.status,
         departureLocation: event.departureLocation || {
@@ -157,6 +160,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
         longDescription: '',
         mainImage: '',
         gallery: [],
+        detailsPdf: '',
         eventType: 'Rodada',
         status: 'published',
         departureLocation: {
@@ -448,10 +452,10 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
             </div>
           </div>
 
-          {/* Sección de imágenes */}
+          {/* Sección de imágenes y documentos */}
           <div className="space-y-6 p-6 bg-gray-50 dark:bg-slate-700 rounded-lg">
             <h3 className="text-xl font-semibold text-gray-900 dark:text-slate-100 border-b border-gray-200 dark:border-slate-600 pb-2">
-              Imágenes del Evento
+              Imágenes y Documentos del Evento
             </h3>
             
             {/* Imagen principal */}
@@ -488,6 +492,24 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
               />
               <p className="text-sm text-gray-500 dark:text-slate-400">
                 Agrega hasta 10 imágenes adicionales para mostrar en la galería del evento (opcional).
+              </p>
+            </div>
+
+            {/* PDF con detalles */}
+            <div>
+              <h4 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-3 flex items-center">
+                <FaImage className="mr-2" />
+                Documento PDF con Detalles
+              </h4>
+              <PdfUpload
+                onPdfUploaded={(pdfUrl) => updateField('detailsPdf', pdfUrl)}
+                currentPdfUrl={formData.detailsPdf}
+                folder="events/documents"
+                publicIdPrefix={`event_details_${Date.now()}`}
+                className="mb-4"
+              />
+              <p className="text-sm text-gray-500 dark:text-slate-400">
+                Sube un PDF con información detallada del evento (itinerario, requisitos, etc.) - Opcional.
               </p>
             </div>
           </div>

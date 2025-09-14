@@ -8,6 +8,7 @@ export interface Event {
   longDescription?: string;
   mainImage: string;
   gallery?: string[];
+  detailsPdf?: string; // URL del PDF con detalles del evento
   eventType: EventType;
   status: EventStatus;
   departureLocation?: EventLocation;
@@ -119,6 +120,7 @@ export interface CreateEventData {
   longDescription?: string;
   mainImage: string;
   gallery?: string[];
+  detailsPdf?: string; // URL del PDF con detalles del evento
   eventType: EventType;
   status: EventStatus;
   departureLocation: EventLocation;

@@ -8,6 +8,7 @@ export interface IEvent extends Document {
   longDescription?: string;
   mainImage: string;
   gallery?: string[];
+  detailsPdf?: string; // URL del PDF con detalles del evento
   eventType: string;
   status: 'draft' | 'published' | 'cancelled' | 'completed';
   departureLocation?: {
@@ -59,6 +60,7 @@ const EventSchema = new Schema<IEvent>({
   longDescription: { type: String, maxlength: 5000 },
   mainImage: { type: String, required: true },
   gallery: [{ type: String }],
+  detailsPdf: { type: String }, // URL del PDF con detalles del evento
   eventType: { type: String, required: true, trim: true },
   status: {
     type: String,
