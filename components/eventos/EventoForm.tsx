@@ -81,13 +81,45 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
     tags: ['']
   });
 
+  // Función para convertir fecha ISO a datetime-local manteniendo hora colombiana
+  const formatDateForInput = (isoDate: string): string => {
+    if (!isoDate) return '';
+    
+    try {
+      // Si la fecha ya está en formato datetime-local, devolverla como está
+      if (isoDate.length === 16 && isoDate.includes('T')) {
+        return isoDate;
+      }
+      
+      // Convertir fecha ISO a objeto Date
+      const date = new Date(isoDate);
+      
+      // Ajustar a zona horaria colombiana (UTC-5)
+      const colombianOffset = -5 * 60; // Colombia está UTC-5
+      const localOffset = date.getTimezoneOffset();
+      const colombianTime = new Date(date.getTime() + (localOffset - colombianOffset) * 60000);
+      
+      // Formatear como datetime-local (YYYY-MM-DDTHH:mm)
+      const year = colombianTime.getFullYear();
+      const month = String(colombianTime.getMonth() + 1).padStart(2, '0');
+      const day = String(colombianTime.getDate()).padStart(2, '0');
+      const hours = String(colombianTime.getHours()).padStart(2, '0');
+      const minutes = String(colombianTime.getMinutes()).padStart(2, '0');
+      
+      return `${year}-${month}-${day}T${hours}:${minutes}`;
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return '';
+    }
+  };
+
   // Inicializar formulario con datos del evento (para edición)
   useEffect(() => {
     if (event) {
       setFormData({
         name: event.name,
-        startDate: event.startDate.split('T')[0] + 'T' + event.startDate.split('T')[1]?.substring(0, 5) || '',
-        endDate: event.endDate ? event.endDate.split('T')[0] + 'T' + event.endDate.split('T')[1]?.substring(0, 5) : '',
+        startDate: formatDateForInput(event.startDate),
+        endDate: event.endDate ? formatDateForInput(event.endDate) : '',
         description: event.description,
         longDescription: event.longDescription || '',
         mainImage: event.mainImage,
@@ -105,8 +137,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
           country: 'Colombia'
         },
         maxParticipants: event.maxParticipants,
-        registrationDeadline: event.registrationDeadline ? 
-          event.registrationDeadline.split('T')[0] + 'T' + event.registrationDeadline.split('T')[1]?.substring(0, 5) : '',
+        registrationDeadline: event.registrationDeadline ? formatDateForInput(event.registrationDeadline) : '',
         price: event.price || 0,
         includedServices: event.includedServices?.length ? event.includedServices : [''],
         requirements: event.requirements?.length ? event.requirements : [''],
@@ -222,14 +253,61 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
         return;
       }
 
+      // Procesar fechas manteniendo la hora local colombiana
+      const processDate = (dateString: string) => {
+        if (!dateString) return dateString;
+        
+        try {
+          // Para datetime-local, el formato es "YYYY-MM-DDTHH:mm"
+          // Necesitamos convertir esto a formato ISO con zona horaria colombiana
+          
+          if (dateString.includes('T')) {
+            // Si ya tiene formato datetime-local (YYYY-MM-DDTHH:mm)
+            if (dateString.length === 16) {
+              // Agregar segundos y zona horaria colombiana
+              return dateString + ':00.000-05:00';
+            }
+            // Si ya tiene más información, verificar si tiene zona horaria
+            if (!dateString.includes('+') && !dateString.includes('-') && !dateString.endsWith('Z')) {
+              // No tiene zona horaria, agregar la colombiana
+              return dateString + '-05:00';
+            }
+          }
+          
+          // Fallback: devolver como está
+          return dateString;
+        } catch (error) {
+          console.error('Error processing date:', error);
+          return dateString;
+        }
+      };
+
       // Limpiar arrays de elementos vacíos
       const cleanedData = {
         ...formData,
+        startDate: processDate(formData.startDate),
+        endDate: formData.endDate ? processDate(formData.endDate) : undefined,
+        registrationDeadline: formData.registrationDeadline ? processDate(formData.registrationDeadline) : undefined,
         includedServices: formData.includedServices?.filter(item => item.trim() !== '') || [],
         requirements: formData.requirements?.filter(item => item.trim() !== '') || [],
         tags: formData.tags?.filter(item => item.trim() !== '') || [],
         gallery: formData.gallery?.filter(item => item.trim() !== '') || []
       };
+
+      console.log('🕐 Fechas procesadas:', {
+        original: {
+          startDate: formData.startDate,
+          endDate: formData.endDate,
+          registrationDeadline: formData.registrationDeadline
+        },
+        processed: {
+          startDate: cleanedData.startDate,
+          endDate: cleanedData.endDate,
+          registrationDeadline: cleanedData.registrationDeadline
+        }
+      });
+
+      console.log('📤 Enviando datos del evento:', cleanedData);
 
       await onSave(cleanedData);
     } catch (error) {

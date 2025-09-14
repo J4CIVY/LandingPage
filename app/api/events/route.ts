@@ -107,18 +107,30 @@ async function handlePost(request: NextRequest) {
   
   try {
     const eventData = await request.json();
+    console.log('📥 Received event data:', JSON.stringify(eventData, null, 2));
     
     // Validaciones básicas
-    if (!eventData.title || !eventData.startDate) {
+    if (!eventData.name || !eventData.startDate) {
+      console.log('❌ Validation failed: name or startDate missing');
       return createErrorResponse(
-        'Título y fecha de inicio son requeridos',
+        'Nombre y fecha de inicio son requeridos',
+        HTTP_STATUS.BAD_REQUEST
+      );
+    }
+
+    // Validar formato de fechas
+    const startDate = new Date(eventData.startDate);
+    if (isNaN(startDate.getTime())) {
+      return createErrorResponse(
+        'Formato de fecha de inicio inválido',
         HTTP_STATUS.BAD_REQUEST
       );
     }
     
-    // Verificar que la fecha de inicio no sea en el pasado
-    const startDate = new Date(eventData.startDate);
-    if (startDate < new Date()) {
+    // Verificar que la fecha de inicio no sea en el pasado (con margen de 1 hora)
+    const now = new Date();
+    const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
+    if (startDate < oneHourAgo) {
       return createErrorResponse(
         'La fecha de inicio no puede ser en el pasado',
         HTTP_STATUS.BAD_REQUEST
@@ -128,6 +140,12 @@ async function handlePost(request: NextRequest) {
     // Verificar que la fecha de fin sea posterior a la de inicio
     if (eventData.endDate) {
       const endDate = new Date(eventData.endDate);
+      if (isNaN(endDate.getTime())) {
+        return createErrorResponse(
+          'Formato de fecha de fin inválido',
+          HTTP_STATUS.BAD_REQUEST
+        );
+      }
       if (endDate <= startDate) {
         return createErrorResponse(
           'La fecha de fin debe ser posterior a la fecha de inicio',
@@ -136,6 +154,50 @@ async function handlePost(request: NextRequest) {
       }
     }
     
+    // Validaciones adicionales
+    if (!eventData.description || eventData.description.trim() === '') {
+      return createErrorResponse(
+        'La descripción es requerida',
+        HTTP_STATUS.BAD_REQUEST
+      );
+    }
+    
+    if (!eventData.mainImage || eventData.mainImage.trim() === '') {
+      return createErrorResponse(
+        'La imagen principal es requerida',
+        HTTP_STATUS.BAD_REQUEST
+      );
+    }
+    
+    if (!eventData.eventType || eventData.eventType.trim() === '') {
+      return createErrorResponse(
+        'El tipo de evento es requerido',
+        HTTP_STATUS.BAD_REQUEST
+      );
+    }
+    
+    // Validar organizador
+    if (!eventData.organizer || 
+        !eventData.organizer.name || 
+        !eventData.organizer.phone || 
+        !eventData.organizer.email) {
+      return createErrorResponse(
+        'La información completa del organizador es requerida',
+        HTTP_STATUS.BAD_REQUEST
+      );
+    }
+
+    // Validar ubicación de salida
+    if (!eventData.departureLocation || 
+        !eventData.departureLocation.address || 
+        !eventData.departureLocation.city || 
+        !eventData.departureLocation.country) {
+      return createErrorResponse(
+        'La información completa de la ubicación de salida es requerida',
+        HTTP_STATUS.BAD_REQUEST
+      );
+    }
+
     // Crear nuevo evento
     const newEvent = new Event(eventData);
     await newEvent.save();
