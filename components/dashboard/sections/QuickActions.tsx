@@ -9,6 +9,7 @@ import {
   FaCloudSun, 
   FaBookOpen,
   FaTrophy,
+  FaAddressCard,
   FaArrowRight
 } from 'react-icons/fa';
 
@@ -26,13 +27,23 @@ interface QuickAction {
 const quickActions: QuickAction[] = [
   {
     id: 'profile',
-    title: 'Actualizar Perfil',
-    description: 'Edita tu información personal',
+    title: 'Perfil',
+    description: 'Gestiona tu información personal',
     icon: <FaUser />,
     href: '/dashboard/profile',
     color: 'text-blue-600 dark:text-blue-400',
     bgColor: 'bg-blue-50 dark:bg-blue-900/20',
     hoverColor: 'hover:bg-blue-100 dark:hover:bg-blue-900/30'
+  },
+  {
+    id: 'membership',
+    title: 'Gestión de Membresía',
+    description: 'Gestiona tu membresía y beneficios',
+    icon: <FaAddressCard />,
+    href: '/dashboard/membership-status',
+    color: 'text-cyan-600 dark:text-cyan-400',
+    bgColor: 'bg-cyan-50 dark:bg-cyan-900/20',
+    hoverColor: 'hover:bg-cyan-100 dark:hover:bg-cyan-900/30'
   },
   {
     id: 'points',
@@ -49,7 +60,7 @@ const quickActions: QuickAction[] = [
     title: 'Ver Mis Eventos',
     description: 'Eventos registrados y favoritos',
     icon: <FaCalendarAlt />,
-    href: '/events',
+    href: '/dashboard/eventos',
     color: 'text-green-600 dark:text-green-400',
     bgColor: 'bg-green-50 dark:bg-green-900/20',
     hoverColor: 'hover:bg-green-100 dark:hover:bg-green-900/30'
@@ -69,7 +80,7 @@ const quickActions: QuickAction[] = [
     title: 'Beneficios',
     description: 'Descuentos y convenios',
     icon: <FaGift />,
-    href: '/benefits',
+    href: '/dashboard/beneficios',
     color: 'text-pink-600 dark:text-pink-400',
     bgColor: 'bg-pink-50 dark:bg-pink-900/20',
     hoverColor: 'hover:bg-pink-100 dark:hover:bg-pink-900/30'
