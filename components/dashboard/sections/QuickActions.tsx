@@ -1,7 +1,9 @@
 'use client';
 
 import { 
-  FaUser, 
+  FaHome,
+  FaUser,
+  FaUsers,
   FaCalendarAlt, 
   FaEnvelope, 
   FaGift, 
@@ -10,8 +12,13 @@ import {
   FaBookOpen,
   FaTrophy,
   FaAddressCard,
+  FaStore,
   FaArrowRight
 } from 'react-icons/fa';
+
+import {
+  FaGear
+} from "react-icons/fa6";
 
 interface QuickAction {
   id: string;
@@ -26,34 +33,34 @@ interface QuickAction {
 
 const quickActions: QuickAction[] = [
   {
+    id: 'home',
+    title: 'Inicio',
+    description: 'Regresa a la página principal',
+    icon: <FaHome />,
+    href: '/dashboard',
+    color: 'text-red-600 dark:text-red-400',
+    bgColor: 'bg-red-50 dark:bg-red-900/20',
+    hoverColor: 'hover:bg-red-100 dark:hover:bg-red-900/30'
+  },
+  {
     id: 'profile',
     title: 'Perfil',
     description: 'Gestiona tu información personal',
     icon: <FaUser />,
     href: '/dashboard/profile',
-    color: 'text-blue-600 dark:text-blue-400',
-    bgColor: 'bg-blue-50 dark:bg-blue-900/20',
-    hoverColor: 'hover:bg-blue-100 dark:hover:bg-blue-900/30'
+    color: 'text-orange-600 dark:text-orange-400',
+    bgColor: 'bg-orange-50 dark:bg-orange-900/20',
+    hoverColor: 'hover:bg-orange-100 dark:hover:bg-orange-900/30'
   },
   {
     id: 'membership',
     title: 'Gestión de Membresía',
     description: 'Gestiona tu membresía y beneficios',
     icon: <FaAddressCard />,
-    href: '/dashboard/membership-status',
-    color: 'text-cyan-600 dark:text-cyan-400',
-    bgColor: 'bg-cyan-50 dark:bg-cyan-900/20',
-    hoverColor: 'hover:bg-cyan-100 dark:hover:bg-cyan-900/30'
-  },
-  {
-    id: 'points',
-    title: 'Sistema de Puntos',
-    description: 'Canjea puntos por recompensas',
-    icon: <FaTrophy />,
-    href: '/dashboard/puntos',
-    color: 'text-orange-600 dark:text-orange-400',
-    bgColor: 'bg-orange-50 dark:bg-orange-900/20',
-    hoverColor: 'hover:bg-orange-100 dark:hover:bg-orange-900/30'
+    href: '/membership-status',
+    color: 'text-amber-600 dark:text-amber-400',
+    bgColor: 'bg-amber-50 dark:bg-amber-900/20',
+    hoverColor: 'hover:bg-amber-100 dark:hover:bg-amber-900/30'
   },
   {
     id: 'events',
@@ -66,14 +73,24 @@ const quickActions: QuickAction[] = [
     hoverColor: 'hover:bg-green-100 dark:hover:bg-green-900/30'
   },
   {
+    id: 'comunity',
+    title: 'Ver Mi Comunidad',
+    description: 'Conéctate con otros miembros',
+    icon: <FaUsers />,
+    href: '/dashboard/comunidad',
+    color: 'text-yellow-600 dark:text-yellow-400',
+    bgColor: 'bg-yellow-50 dark:bg-yellow-900/20',
+    hoverColor: 'hover:bg-yellow-100 dark:hover:bg-yellow-900/30'
+  },
+  {
     id: 'pqrsdf',
     title: 'Enviar PQRSDF',
     description: 'Peticiones, quejas y sugerencias',
     icon: <FaEnvelope />,
     href: '/dashboard/pqrsdf',
-    color: 'text-purple-600 dark:text-purple-400',
-    bgColor: 'bg-purple-50 dark:bg-purple-900/20',
-    hoverColor: 'hover:bg-purple-100 dark:hover:bg-purple-900/30'
+    color: 'text-lime-600 dark:text-lime-400',
+    bgColor: 'bg-lime-50 dark:bg-lime-900/20',
+    hoverColor: 'hover:bg-lime-100 dark:hover:bg-lime-900/30'
   },
   {
     id: 'benefits',
@@ -86,14 +103,35 @@ const quickActions: QuickAction[] = [
     hoverColor: 'hover:bg-pink-100 dark:hover:bg-pink-900/30'
   },
   {
+    id: 'store',
+    title: 'Tienda',
+    description: 'Accede a la tienda',
+    icon: <FaStore />,
+    href: '/dashboard/store',
+    color: 'text-green-600 dark:text-green-400',
+    bgColor: 'bg-green-50 dark:bg-green-900/20',
+    hoverColor: 'hover:bg-green-100 dark:hover:bg-green-900/30'
+  },
+  {
+    id: 'points',
+    title: 'Sistema de Puntos',
+    description: 'Canjea puntos por recompensas',
+    icon: <FaTrophy />,
+    href: '/dashboard/puntos',
+    color: 'text-emerald-600 dark:text-emerald-400',
+    bgColor: 'bg-emerald-50 dark:bg-emerald-900/20',
+    hoverColor: 'hover:bg-emerald-100 dark:hover:bg-emerald-900/30'
+  },
+
+  {
     id: 'sos',
     title: 'Emergencia SOS',
     description: 'Solicitar ayuda inmediata',
     icon: <FaShieldAlt />,
     href: '/sos',
-    color: 'text-red-600 dark:text-red-400',
-    bgColor: 'bg-red-50 dark:bg-red-900/20',
-    hoverColor: 'hover:bg-red-100 dark:hover:bg-red-900/30'
+    color: 'text-teal-600 dark:text-teal-400',
+    bgColor: 'bg-teal-50 dark:bg-teal-900/20',
+    hoverColor: 'hover:bg-teal-100 dark:hover:bg-teal-900/30'
   },
   {
     id: 'weather',
@@ -101,9 +139,9 @@ const quickActions: QuickAction[] = [
     description: 'Consulta el clima para rodadas',
     icon: <FaCloudSun />,
     href: '/weather',
-    color: 'text-yellow-600 dark:text-yellow-400',
-    bgColor: 'bg-yellow-50 dark:bg-yellow-900/20',
-    hoverColor: 'hover:bg-yellow-100 dark:hover:bg-yellow-900/30'
+    color: 'text-cyan-600 dark:text-cyan-400',
+    bgColor: 'bg-cyan-50 dark:bg-cyan-900/20',
+    hoverColor: 'hover:bg-cyan-100 dark:hover:bg-cyan-900/30'
   },
   {
     id: 'courses',
@@ -111,9 +149,19 @@ const quickActions: QuickAction[] = [
     description: 'Capacitación y entrenamiento',
     icon: <FaBookOpen />,
     href: '/courses',
-    color: 'text-indigo-600 dark:text-indigo-400',
-    bgColor: 'bg-indigo-50 dark:bg-indigo-900/20',
-    hoverColor: 'hover:bg-indigo-100 dark:hover:bg-indigo-900/30'
+    color: 'text-sky-600 dark:text-sky-400',
+    bgColor: 'bg-sky-50 dark:bg-sky-900/20',
+    hoverColor: 'hover:bg-sky-100 dark:hover:bg-sky-900/30'
+  },
+  {
+    id: 'security',
+    title: 'Estado de Seguridad',
+    description: 'Consulta el estado de seguridad',
+    icon: <FaGear />,
+    href: '/dashboard/security',
+    color: 'text-blue-600 dark:text-blue-400',
+    bgColor: 'bg-blue-50 dark:bg-blue-900/20',
+    hoverColor: 'hover:bg-blue-100 dark:hover:bg-blue-900/30'
   }
 ];
 
