@@ -43,7 +43,7 @@ export default function WelcomeHeader({ user }: WelcomeHeaderProps) {
               ¡Bienvenido(a), {user.firstName}!
             </h1>
             <p className="text-sm sm:text-base text-gray-600 dark:text-slate-400 mt-1">
-              Membresía: <span className="font-medium text-blue-600 dark:text-blue-400">{membershipTypeName}</span>
+              Membresía: <span className="font-medium text-emerald-600 dark:text-emerald-400">{membershipTypeName}</span>
             </p>
             {user.membershipNumber && (
               <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-500">
