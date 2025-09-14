@@ -46,7 +46,7 @@ export default function MembershipStatus({ user, stats }: MembershipStatusProps)
   };
 
   return (
-    <div className="bg-gray-50 dark:bg-slate-950 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800 p-6">
+    <div className="bg-gray-50 dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800 p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 flex items-center">
           <FaUser className="mr-2 text-blue-600 dark:text-blue-400" />

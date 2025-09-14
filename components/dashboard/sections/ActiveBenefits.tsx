@@ -82,7 +82,7 @@ export default function ActiveBenefits() {
   };
 
   return (
-    <div className="bg-gray-50 dark:bg-slate-950 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
+    <div className="bg-gray-50 dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
       <div className="p-6 border-b border-gray-200 dark:border-slate-700">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 flex items-center">
           <FaGift className="mr-2 text-purple-600 dark:text-purple-400" />

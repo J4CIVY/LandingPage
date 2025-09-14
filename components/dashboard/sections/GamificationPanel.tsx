@@ -100,7 +100,7 @@ export default function GamificationPanel() {
 
   if (loading) {
     return (
-      <div className="bg-gray-50 dark:bg-slate-950 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
+      <div className="bg-gray-50 dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
         <div className="p-6 border-b border-gray-200 dark:border-slate-700">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 flex items-center">
             <FaTrophy className="mr-2 text-yellow-600 dark:text-yellow-400" />
@@ -117,7 +117,7 @@ export default function GamificationPanel() {
 
   if (!stats) {
     return (
-      <div className="bg-gray-50 dark:bg-slate-950 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
+      <div className="bg-gray-50 dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
         <div className="p-6 border-b border-gray-200 dark:border-slate-700">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 flex items-center">
             <FaTrophy className="mr-2 text-yellow-600 dark:text-yellow-400" />
@@ -132,7 +132,7 @@ export default function GamificationPanel() {
   }
 
   return (
-    <div className="bg-gray-50 dark:bg-slate-950 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
+    <div className="bg-gray-50 dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
       <div className="p-6 border-b border-gray-200 dark:border-slate-700">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 flex items-center">
           <FaTrophy className="mr-2 text-yellow-600 dark:text-yellow-400" />
