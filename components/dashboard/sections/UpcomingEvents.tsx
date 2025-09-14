@@ -183,7 +183,7 @@ export default function UpcomingEvents() {
 
   if (loading) {
     return (
-      <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700">
+      <div className="bg-gray-50 dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
         <div className="p-6 border-b border-gray-200 dark:border-slate-700">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 flex items-center">
             <FaCalendarAlt className="mr-2 text-blue-600 dark:text-blue-400" />
@@ -200,7 +200,7 @@ export default function UpcomingEvents() {
 
   if (error) {
     return (
-      <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700">
+      <div className="bg-gray-50 dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
         <div className="p-6 border-b border-gray-200 dark:border-slate-700">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 flex items-center">
             <FaCalendarAlt className="mr-2 text-blue-600 dark:text-blue-400" />
@@ -222,7 +222,7 @@ export default function UpcomingEvents() {
   }
 
   return (
-    <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700">
+    <div className="bg-gray-50 dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
       <div className="p-6 border-b border-gray-200 dark:border-slate-700">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 flex items-center">
           <FaCalendarAlt className="mr-2 text-blue-600 dark:text-blue-400" />
