@@ -141,7 +141,7 @@ const MembershipInfoPage: React.FC = () => {
           </Link>
           
           <Link 
-            href="/membership-status" 
+            href="/dashboard/membership" 
             className="w-full sm:w-auto px-6 py-3 border border-blue-600 text-base font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 text-center"
             aria-label="Ver estado de mi membresía"
           >

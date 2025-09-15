@@ -103,7 +103,7 @@ export default function MembershipStatus({ user, stats }: MembershipStatusProps)
         {/* Botón Ver más */}
         <div className="pt-2">
           <button 
-            onClick={() => window.location.href = '/membership-status'}
+            onClick={() => window.location.href = '/dashboard/membership'}
             className="w-full inline-flex items-center justify-center px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
           >
             <FaEye className="mr-2" />

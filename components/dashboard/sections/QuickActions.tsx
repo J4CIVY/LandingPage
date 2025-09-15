@@ -57,7 +57,7 @@ const quickActions: QuickAction[] = [
     title: 'Gestión de Membresía',
     description: 'Gestiona tu membresía y beneficios',
     icon: <FaAddressCard />,
-    href: '/membership-status',
+    href: '/dashboard/membership',
     color: 'text-amber-600 dark:text-amber-400',
     bgColor: 'bg-amber-50 dark:bg-amber-900/20',
     hoverColor: 'hover:bg-amber-100 dark:hover:bg-amber-900/30'

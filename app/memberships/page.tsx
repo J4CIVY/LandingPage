@@ -160,7 +160,7 @@ const Memberships: React.FC = () => {
             </a>
             
             <button 
-              onClick={() => router.push('/membership-status')}
+              onClick={() => router.push('/dashboard/membership')}
               className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-flex items-center"
               aria-label="Ver estado de mi membresía"
             >
