@@ -67,6 +67,12 @@ export default function AdminSidebar({ user, onLogout, isOpen = false, onClose }
       description: 'Solicitudes de membresía'
     },
     {
+      name: 'Planes de Membresía',
+      href: '/admin/membership-plans',
+      icon: FaUserShield,
+      description: 'Gestionar planes y beneficios'
+    },
+    {
       name: 'Emergencias',
       href: '/admin/emergencies',
       icon: FaMedkit,

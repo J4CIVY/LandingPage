@@ -106,6 +106,15 @@ export default function AdminDashboard() {
       trend: stats.pendingMemberships > 0 ? 'up' : 'stable'
     },
     {
+      title: 'Planes de Membresía',
+      description: 'Crear y gestionar planes de membresía',
+      href: '/admin/membership-plans',
+      icon: FaIdCard,
+      color: 'bg-blue-600',
+      stats: 'Gestionar planes',
+      trend: 'stable'
+    },
+    {
       title: 'Emergencias',
       description: 'Panel de emergencias SOS',
       href: '/admin/emergencies',
