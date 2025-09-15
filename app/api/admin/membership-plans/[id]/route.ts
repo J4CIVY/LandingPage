@@ -4,18 +4,15 @@ import Membership from '@/lib/models/Membership';
 import { updateMembershipSchema } from '@/lib/validation-schemas';
 import { verifyAuth } from '@/lib/auth-utils';
 
-interface RouteParams {
-  params: {
-    id: string;
-  };
-}
-
 // GET - Obtener una membresía específica
-export async function GET(request: NextRequest, { params }: RouteParams) {
+export async function GET(
+  request: NextRequest, 
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     await connectToDatabase();
 
-    const { id } = params;
+    const { id } = await params;
 
     // Verificar si el ID es válido
     if (!id || id.length !== 24) {
@@ -65,7 +62,10 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 }
 
 // PUT - Actualizar una membresía (solo admins)
-export async function PUT(request: NextRequest, { params }: RouteParams) {
+export async function PUT(
+  request: NextRequest, 
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     // Verificar autenticación y permisos de admin
     const authResult = await verifyAuth(request);
@@ -85,7 +85,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
     await connectToDatabase();
 
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
 
     // Verificar si el ID es válido
@@ -171,7 +171,10 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 }
 
 // DELETE - Eliminar una membresía (solo admins)
-export async function DELETE(request: NextRequest, { params }: RouteParams) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     // Verificar autenticación y permisos de admin
     const authResult = await verifyAuth(request);
@@ -191,9 +194,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
 
     await connectToDatabase();
 
-    const { id } = params;
-
-    // Verificar si el ID es válido
+    const { id } = await params;    // Verificar si el ID es válido
     if (!id || id.length !== 24) {
       return NextResponse.json({
         success: false,
