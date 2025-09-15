@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
-import User from '@/lib/models/User';
 import { verifyAuth } from '@/lib/auth-utils';
+import { GamificationService } from '@/lib/services/GamificationService';
 
 // GET /api/users/gamification - Obtener datos de gamificación del usuario
 export async function GET(request: NextRequest) {
@@ -17,72 +17,63 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const user = authResult.user;
+    const userId = authResult.user.id;
     
-    // Buscar datos del usuario
-    const userDetails = await User.findById(user.id)
-      .select('firstName lastName membershipType joinDate');
-
-    if (!userDetails) {
-      return NextResponse.json(
-        { error: 'Usuario no encontrado' },
-        { status: 404 }
-      );
-    }
-
-    // Calcular estadísticas de gamificación
-    const joinDate = userDetails.joinDate ? new Date(userDetails.joinDate) : new Date();
-    const now = new Date();
-    const daysSinceJoining = Math.floor((now.getTime() - joinDate.getTime()) / (1000 * 60 * 60 * 24));
+    // Obtener estadísticas completas usando el servicio
+    const estadisticasCompletas = await GamificationService.obtenerEstadisticasUsuario(userId);
     
-    // Datos de gamificación simulados (se pueden reemplazar con datos reales)
-    const gamificationData = {
-      level: Math.min(Math.floor(daysSinceJoining / 30) + 1, 10), // Nivel basado en días
-      points: daysSinceJoining * 10, // 10 puntos por día
-      badges: [
-        {
-          id: 'member',
-          name: 'Miembro',
-          description: 'Te uniste a BSK Motorcycle Team',
-          earnedAt: joinDate.toISOString(),
-          icon: 'FaUser'
-        }
-      ],
-      achievements: [
-        {
-          id: 'first_week',
-          name: 'Primera Semana',
-          description: 'Completaste tu primera semana como miembro',
-          progress: Math.min((daysSinceJoining / 7) * 100, 100),
-          completed: daysSinceJoining >= 7,
-          earnedAt: daysSinceJoining >= 7 ? new Date(joinDate.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString() : null
-        },
-        {
-          id: 'first_month',
-          name: 'Primer Mes',
-          description: 'Completaste tu primer mes como miembro',
-          progress: Math.min((daysSinceJoining / 30) * 100, 100),
-          completed: daysSinceJoining >= 30,
-          earnedAt: daysSinceJoining >= 30 ? new Date(joinDate.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString() : null
-        }
-      ],
+    // Formatear datos para compatibilidad con el frontend existente
+    const datosCompatibles = {
       stats: {
-        totalDays: daysSinceJoining,
-        eventsAttended: 0, // TODO: Calcular desde eventos reales
-        eventRegistrations: 0, // TODO: Calcular desde registraciones reales
-        loyaltyScore: Math.min(daysSinceJoining * 2, 1000) // Máximo 1000 puntos de lealtad
+        participationScore: estadisticasCompletas.estadisticas?.actividad?.interacciones || 0,
+        maxParticipationScore: 1000, // Valor máximo de referencia
+        totalPoints: estadisticasCompletas.estadisticas?.puntos?.total || 0,
+        userRank: estadisticasCompletas.ranking?.posicion || 0,
+        totalUsers: estadisticasCompletas.ranking?.totalUsuarios || 0,
+        level: estadisticasCompletas.nivelInfo?.actual || 'Novato',
+        nextLevelPoints: estadisticasCompletas.nivelInfo?.puntosSiguienteNivel || 100,
+        eventsAttended: estadisticasCompletas.estadisticas?.eventos?.asistidos || 0,
+        eventsRegistered: estadisticasCompletas.estadisticas?.eventos?.registrados || 0,
+        pointsToday: estadisticasCompletas.estadisticas?.puntos?.hoy || 0,
+        pointsThisMonth: estadisticasCompletas.estadisticas?.puntos?.esteMes || 0,
+        pointsThisYear: estadisticasCompletas.estadisticas?.puntos?.esteAno || 0,
+        levelProgress: estadisticasCompletas.nivelInfo?.progreso || 0,
+        currentStreak: estadisticasCompletas.estadisticas?.actividad?.rachaActual || 0,
+        bestStreak: estadisticasCompletas.estadisticas?.actividad?.mejorRacha || 0,
+        activeDays: estadisticasCompletas.estadisticas?.actividad?.diasActivo || 0,
+        rankingChange: estadisticasCompletas.estadisticas?.ranking?.cambioSemanal || 0,
+        achievements: estadisticasCompletas.estadisticas?.logros?.total || 0,
+        recentActivity: {
+          lastLogin: estadisticasCompletas.estadisticas?.actividad?.ultimaConexion,
+          interactions: estadisticasCompletas.estadisticas?.actividad?.interacciones || 0
+        }
       },
-      nextLevelProgress: {
-        currentLevel: Math.min(Math.floor(daysSinceJoining / 30) + 1, 10),
-        nextLevel: Math.min(Math.floor(daysSinceJoining / 30) + 2, 10),
-        daysToNextLevel: 30 - (daysSinceJoining % 30),
-        progressPercentage: (daysSinceJoining % 30) / 30 * 100
+      level: {
+        current: estadisticasCompletas.nivelInfo?.actual || 'Novato',
+        icon: estadisticasCompletas.nivelInfo?.icono || '🌱',
+        color: estadisticasCompletas.nivelInfo?.color || '#10B981',
+        points: estadisticasCompletas.nivelInfo?.puntosActuales || 0,
+        nextLevelPoints: estadisticasCompletas.nivelInfo?.puntosSiguienteNivel || 100,
+        progress: estadisticasCompletas.nivelInfo?.progreso || 0
+      },
+      ranking: {
+        position: estadisticasCompletas.ranking?.posicion || 0,
+        totalUsers: estadisticasCompletas.ranking?.totalUsuarios || 0,
+        percentile: estadisticasCompletas.ranking?.percentil || 0,
+        change: estadisticasCompletas.estadisticas?.ranking?.cambioSemanal || 0
+      },
+      nextRewards: estadisticasCompletas.proximasRecompensas || [],
+      user: {
+        id: userId,
+        name: `${estadisticasCompletas.usuario?.firstName} ${estadisticasCompletas.usuario?.lastName}`,
+        membershipType: estadisticasCompletas.usuario?.membershipType || 'friend',
+        joinDate: estadisticasCompletas.usuario?.joinDate
       }
     };
 
     return NextResponse.json({
       success: true,
-      data: gamificationData
+      data: datosCompatibles
     });
 
   } catch (error) {
@@ -94,7 +85,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/users/gamification - Actualizar puntos de gamificación (para acciones específicas)
+// POST /api/users/gamification - Otorgar puntos por acción específica
 export async function POST(request: NextRequest) {
   try {
     await connectDB();
@@ -108,27 +99,49 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { action, points } = await request.json();
+    const { action, metadata } = await request.json();
     
     // Validar datos de entrada
-    if (!action || typeof points !== 'number') {
+    if (!action) {
       return NextResponse.json(
-        { error: 'Datos inválidos' },
+        { error: 'Acción requerida' },
         { status: 400 }
       );
     }
 
-    // Aquí se podría implementar la lógica para actualizar puntos en la base de datos
-    // Por ahora retornamos un éxito simple
+    const userId = authResult.user.id;
+    
+    // Otorgar puntos usando el servicio
+    const transaccion = await GamificationService.otorgarPuntos(userId, action, metadata);
+    
+    // Obtener estadísticas actualizadas
+    const estadisticasActualizadas = await GamificationService.obtenerEstadisticasUsuario(userId);
     
     return NextResponse.json({
       success: true,
-      message: `Puntos actualizados por acción: ${action}`,
-      pointsAdded: points
+      message: `Puntos otorgados por acción: ${action}`,
+      data: {
+        pointsAwarded: transaccion.cantidad,
+        totalPoints: estadisticasActualizadas.estadisticas?.puntos?.total || 0,
+        newLevel: estadisticasActualizadas.nivelInfo?.actual,
+        transaction: {
+          id: transaccion._id,
+          reason: transaccion.razon,
+          date: transaccion.fechaTransaccion
+        }
+      }
     });
 
   } catch (error) {
     console.error('Error updating gamification:', error);
+    
+    if (error instanceof Error && error.message.includes('Tipo de acción no válido')) {
+      return NextResponse.json(
+        { error: error.message },
+        { status: 400 }
+      );
+    }
+    
     return NextResponse.json(
       { error: 'Error interno del servidor' },
       { status: 500 }

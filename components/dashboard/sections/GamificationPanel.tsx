@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { FaTrophy, FaChartLine, FaMedal, FaStar, FaSpinner, FaArrowRight } from 'react-icons/fa';
+import { FaTrophy, FaChartLine, FaMedal, FaStar, FaSpinner, FaArrowRight, FaFireAlt, FaCalendarCheck } from 'react-icons/fa';
 import Link from 'next/link';
 
 interface StatsData {
@@ -15,12 +15,55 @@ interface StatsData {
   nextLevelPoints: number;
   eventsAttended: number;
   eventsRegistered: number;
+  pointsToday: number;
+  pointsThisMonth: number;
+  pointsThisYear: number;
+  levelProgress: number;
+  currentStreak: number;
+  bestStreak: number;
+  activeDays: number;
+  rankingChange: number;
+  achievements: number;
+  recentActivity: {
+    lastLogin: string;
+    interactions: number;
+  };
+}
+
+interface LevelInfo {
+  current: string;
+  icon: string;
+  color: string;
+  points: number;
+  nextLevelPoints: number;
+  progress: number;
+}
+
+interface RankingInfo {
+  position: number;
+  totalUsers: number;
+  percentile: number;
+  change: number;
+}
+
+interface GamificationData {
+  stats: StatsData;
+  level: LevelInfo;
+  ranking: RankingInfo;
+  nextRewards: any[];
+  user: {
+    id: string;
+    name: string;
+    membershipType: string;
+    joinDate: string;
+  };
 }
 
 export default function GamificationPanel() {
   const { user } = useAuth();
-  const [stats, setStats] = useState<StatsData | null>(null);
+  const [gamificationData, setGamificationData] = useState<GamificationData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (user) {
@@ -31,6 +74,7 @@ export default function GamificationPanel() {
   const fetchGamificationStats = async () => {
     try {
       setLoading(true);
+      setError(null);
 
       const response = await fetch('/api/users/gamification', {
         method: 'GET',
@@ -42,60 +86,96 @@ export default function GamificationPanel() {
 
       if (response.ok) {
         const data = await response.json();
-        setStats(data.data?.stats);
+        if (data.success) {
+          setGamificationData(data.data);
+        } else {
+          throw new Error(data.error || 'Error al cargar datos');
+        }
       } else {
-        // Usar datos mock si no hay endpoint
-        setStats(mockGamificationData);
+        throw new Error('Error del servidor');
       }
     } catch (err) {
-      // Usar datos mock en caso de error
-      setStats(mockGamificationData);
+      console.error('Error fetching gamification stats:', err);
+      setError(err instanceof Error ? err.message : 'Error desconocido');
+      // En caso de error, usar datos básicos
+      setGamificationData(getBasicData());
     } finally {
       setLoading(false);
     }
   };
 
-  const getParticipationPercentage = () => {
-    if (!stats || !stats.maxParticipationScore) return 0;
-    return Math.round(((stats.participationScore || 0) / stats.maxParticipationScore) * 100);
-  };
+  // Datos básicos en caso de error
+  const getBasicData = (): GamificationData => ({
+    stats: {
+      participationScore: 0,
+      maxParticipationScore: 1000,
+      totalPoints: 0,
+      userRank: 0,
+      totalUsers: 0,
+      level: 'Novato',
+      nextLevelPoints: 100,
+      eventsAttended: 0,
+      eventsRegistered: 0,
+      pointsToday: 0,
+      pointsThisMonth: 0,
+      pointsThisYear: 0,
+      levelProgress: 0,
+      currentStreak: 0,
+      bestStreak: 0,
+      activeDays: 0,
+      rankingChange: 0,
+      achievements: 0,
+      recentActivity: {
+        lastLogin: new Date().toISOString(),
+        interactions: 0
+      }
+    },
+    level: {
+      current: 'Novato',
+      icon: '🌱',
+      color: '#10B981',
+      points: 0,
+      nextLevelPoints: 100,
+      progress: 0
+    },
+    ranking: {
+      position: 0,
+      totalUsers: 0,
+      percentile: 0,
+      change: 0
+    },
+    nextRewards: [],
+    user: {
+      id: user?.id || '',
+      name: user ? `${user.firstName} ${user.lastName}` : '',
+      membershipType: user?.membershipType || 'friend',
+      joinDate: new Date().toISOString()
+    }
+  });
 
-  const getProgressToNextLevel = () => {
-    if (!stats) return 0;
-    const currentLevelPoints = (stats.totalPoints || 0) % 1000; // Asumiendo 1000 puntos por nivel
-    return Math.round((currentLevelPoints / 1000) * 100);
+  const getParticipationPercentage = () => {
+    if (!gamificationData?.stats || !gamificationData.stats.maxParticipationScore) return 0;
+    return Math.round(((gamificationData.stats.participationScore || 0) / gamificationData.stats.maxParticipationScore) * 100);
   };
 
   const getLevelColor = (level: string) => {
-    const levelLower = level?.toLowerCase() || '';
-    switch (levelLower) {
-      case 'bronce':
-        return 'text-orange-600 dark:text-orange-400';
-      case 'plata':
-        return 'text-gray-500 dark:text-gray-400';
-      case 'oro':
-        return 'text-yellow-500 dark:text-yellow-400';
-      case 'platino':
-        return 'text-purple-600 dark:text-purple-400';
-      default:
-        return 'text-blue-600 dark:text-blue-400';
-    }
+    return gamificationData?.level?.color || '#10B981';
   };
 
   const getLevelIcon = (level: string) => {
-    const levelLower = level?.toLowerCase() || '';
-    switch (levelLower) {
-      case 'bronce':
-        return '🥉';
-      case 'plata':
-        return '🥈';
-      case 'oro':
-        return '🥇';
-      case 'platino':
-        return '💎';
-      default:
-        return '⭐';
-    }
+    return gamificationData?.level?.icon || '🌱';
+  };
+
+  const getRankingChangeIcon = (change: number) => {
+    if (change > 0) return '📈';
+    if (change < 0) return '📉';
+    return '➡️';
+  };
+
+  const getRankingChangeColor = (change: number) => {
+    if (change > 0) return 'text-green-600 dark:text-green-400';
+    if (change < 0) return 'text-red-600 dark:text-red-400';
+    return 'text-gray-600 dark:text-gray-400';
   };
 
   if (loading) {
@@ -115,7 +195,7 @@ export default function GamificationPanel() {
     );
   }
 
-  if (!stats) {
+  if (error && !gamificationData) {
     return (
       <div className="bg-gray-50 dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
         <div className="p-6 border-b border-gray-200 dark:border-slate-700">
@@ -125,11 +205,23 @@ export default function GamificationPanel() {
           </h3>
         </div>
         <div className="p-6 text-center">
-          <p className="text-gray-600 dark:text-slate-400">No se pudieron cargar las estadísticas</p>
+          <p className="text-gray-600 dark:text-slate-400">Error al cargar estadísticas</p>
+          <button 
+            onClick={fetchGamificationStats}
+            className="mt-2 text-blue-600 dark:text-blue-400 hover:underline"
+          >
+            Reintentar
+          </button>
         </div>
       </div>
     );
   }
+
+  const stats = gamificationData?.stats;
+  const level = gamificationData?.level;
+  const ranking = gamificationData?.ranking;
+
+  if (!stats || !level) return null;
 
   return (
     <div className="bg-gray-50 dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800">
@@ -138,16 +230,21 @@ export default function GamificationPanel() {
           <FaTrophy className="mr-2 text-yellow-600 dark:text-yellow-400" />
           Panel de Estadísticas
         </h3>
+        {error && (
+          <p className="text-xs text-amber-600 dark:text-amber-400 mt-1">
+            Mostrando datos básicos
+          </p>
+        )}
       </div>
       
       <div className="p-6 space-y-6">
         {/* Nivel y Puntos */}
         <div className="text-center">
           <div className="flex items-center justify-center mb-2">
-            <span className="text-3xl mr-2">{getLevelIcon(stats.level || 'Principiante')}</span>
+            <span className="text-3xl mr-2">{getLevelIcon(level.current)}</span>
             <div>
-              <h4 className={`text-lg font-bold ${getLevelColor(stats.level || 'Principiante')}`}>
-                Nivel {stats.level || 'Principiante'}
+              <h4 className="text-lg font-bold" style={{ color: getLevelColor(level.current) }}>
+                Nivel {level.current}
               </h4>
               <p className="text-sm text-gray-600 dark:text-slate-400">
                 {stats.totalPoints?.toLocaleString() || '0'} puntos totales
@@ -159,16 +256,45 @@ export default function GamificationPanel() {
           <div className="mt-4">
             <div className="flex justify-between text-sm text-gray-600 dark:text-slate-400 mb-2">
               <span>Progreso al siguiente nivel</span>
-              <span>{getProgressToNextLevel()}%</span>
+              <span>{Math.round(level.progress || 0)}%</span>
             </div>
             <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
               <div 
                 className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-500"
-                style={{ width: `${getProgressToNextLevel()}%` }}
+                style={{ width: `${Math.min(Math.max(level.progress || 0, 0), 100)}%` }}
               ></div>
             </div>
             <p className="text-xs text-gray-500 dark:text-slate-500 mt-1">
-              {(stats.nextLevelPoints || 3000) - ((stats.totalPoints || 0) % 1000)} puntos para el siguiente nivel
+              {Math.max((level.nextLevelPoints || 100) - (level.points || 0), 0)} puntos para el siguiente nivel
+            </p>
+          </div>
+        </div>
+
+        {/* Estadísticas rápidas */}
+        <div className="grid grid-cols-2 gap-3">
+          {/* Puntos de hoy */}
+          <div className="text-center p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+            <div className="flex items-center justify-center mb-1">
+              <FaFireAlt className="text-blue-600 dark:text-blue-400 mr-1 text-sm" />
+              <span className="text-xs font-medium text-blue-700 dark:text-blue-300">
+                Hoy
+              </span>
+            </div>
+            <p className="text-lg font-bold text-blue-900 dark:text-blue-100">
+              +{stats.pointsToday || 0}
+            </p>
+          </div>
+
+          {/* Puntos del mes */}
+          <div className="text-center p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+            <div className="flex items-center justify-center mb-1">
+              <FaCalendarCheck className="text-green-600 dark:text-green-400 mr-1 text-sm" />
+              <span className="text-xs font-medium text-green-700 dark:text-green-300">
+                Este mes
+              </span>
+            </div>
+            <p className="text-lg font-bold text-green-900 dark:text-green-100">
+              +{stats.pointsThisMonth || 0}
             </p>
           </div>
         </div>
@@ -179,7 +305,7 @@ export default function GamificationPanel() {
             <div className="flex items-center">
               <FaChartLine className="mr-2 text-blue-600 dark:text-blue-400" />
               <span className="text-sm font-medium text-gray-700 dark:text-slate-300">
-                Participación
+                Actividad
               </span>
             </div>
             <span className="text-sm font-bold text-blue-600 dark:text-blue-400">
@@ -218,11 +344,18 @@ export default function GamificationPanel() {
                 Ranking
               </span>
             </div>
-            <p className="text-lg font-bold text-gray-900 dark:text-slate-100">
-              #{stats.userRank || 0}
-            </p>
+            <div className="flex items-center justify-center">
+              <p className="text-lg font-bold text-gray-900 dark:text-slate-100">
+                #{ranking?.position || 0}
+              </p>
+              {ranking && ranking.change !== 0 && (
+                <span className={`ml-2 text-xs ${getRankingChangeColor(ranking.change)}`}>
+                  {getRankingChangeIcon(ranking.change)}
+                </span>
+              )}
+            </div>
             <p className="text-xs text-gray-500 dark:text-slate-500">
-              de {stats.totalUsers || 0}
+              de {ranking?.totalUsers || 0}
             </p>
           </div>
         </div>
@@ -230,21 +363,31 @@ export default function GamificationPanel() {
         {/* Logros recientes */}
         <div className="border-t border-gray-200 dark:border-slate-700 pt-4">
           <h5 className="text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
-            Logros Recientes
+            Estado Actual
           </h5>
           <div className="space-y-2">
             <div className="flex items-center text-sm">
               <span className="mr-2">🏆</span>
               <span className="text-gray-600 dark:text-slate-400">
-                Participaste en 5 eventos este mes
+                Nivel {level.current} alcanzado
               </span>
             </div>
-            <div className="flex items-center text-sm">
-              <span className="mr-2">⭐</span>
-              <span className="text-gray-600 dark:text-slate-400">
-                Alcanzaste el nivel {stats.level || 'Principiante'}
-              </span>
-            </div>
+            {stats.currentStreak > 0 && (
+              <div className="flex items-center text-sm">
+                <span className="mr-2">🔥</span>
+                <span className="text-gray-600 dark:text-slate-400">
+                  Racha actual: {stats.currentStreak} días
+                </span>
+              </div>
+            )}
+            {stats.eventsAttended > 0 && (
+              <div className="flex items-center text-sm">
+                <span className="mr-2">⭐</span>
+                <span className="text-gray-600 dark:text-slate-400">
+                  {stats.eventsAttended} eventos completados
+                </span>
+              </div>
+            )}
           </div>
         </div>
 
@@ -263,16 +406,3 @@ export default function GamificationPanel() {
     </div>
   );
 }
-
-// Mock data para demostración
-const mockGamificationData: StatsData = {
-  participationScore: 750,
-  maxParticipationScore: 1000,
-  totalPoints: 2350,
-  userRank: 15,
-  totalUsers: 245,
-  level: 'Plata',
-  nextLevelPoints: 3000,
-  eventsAttended: 12,
-  eventsRegistered: 18
-};

@@ -3,6 +3,7 @@ import { verify } from 'jsonwebtoken';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 import Event from '@/lib/models/Event';
+import { GamificationService } from '@/lib/services/GamificationService';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
@@ -43,6 +44,9 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Obtener estadísticas de gamificación
+    const estadisticasGamificacion = await GamificationService.obtenerEstadisticasUsuario(decoded.userId);
+
     // Contar eventos
     const registeredEventsCount = (user as any).events?.length || 0;
     const favoriteEventsCount = (user as any).favoriteEvents?.length || 0;
@@ -55,18 +59,48 @@ export async function GET(request: NextRequest) {
       (now.getTime() - new Date(joinDate).getTime()) / (1000 * 60 * 60 * 24)
     );
 
+    // Combinar estadísticas tradicionales con gamificación
+    const statsData = {
+      eventsRegistered: registeredEventsCount,
+      eventsAttended: attendedEventsCount,
+      favoriteEvents: favoriteEventsCount,
+      daysSinceJoining: daysSinceJoining,
+      memberSince: joinDate ? new Date(joinDate).toISOString() : new Date((user as any).createdAt).toISOString(),
+      membershipType: (user as any).membershipType,
+      isActive: (user as any).isActive,
+      
+      // Datos de gamificación
+      totalPoints: estadisticasGamificacion.estadisticas?.puntos?.total || 0,
+      pointsToday: estadisticasGamificacion.estadisticas?.puntos?.hoy || 0,
+      pointsThisMonth: estadisticasGamificacion.estadisticas?.puntos?.esteMes || 0,
+      pointsThisYear: estadisticasGamificacion.estadisticas?.puntos?.esteAno || 0,
+      currentLevel: estadisticasGamificacion.nivelInfo?.actual || 'Novato',
+      levelIcon: estadisticasGamificacion.nivelInfo?.icono || '🌱',
+      levelProgress: estadisticasGamificacion.nivelInfo?.progreso || 0,
+      nextLevelPoints: estadisticasGamificacion.nivelInfo?.puntosSiguienteNivel || 100,
+      ranking: {
+        position: estadisticasGamificacion.ranking?.posicion || 0,
+        totalUsers: estadisticasGamificacion.ranking?.totalUsuarios || 0,
+        percentile: estadisticasGamificacion.ranking?.percentil || 0,
+        change: estadisticasGamificacion.estadisticas?.ranking?.cambioSemanal || 0
+      },
+      activity: {
+        activeDays: estadisticasGamificacion.estadisticas?.actividad?.diasActivo || daysSinceJoining,
+        currentStreak: estadisticasGamificacion.estadisticas?.actividad?.rachaActual || 1,
+        bestStreak: estadisticasGamificacion.estadisticas?.actividad?.mejorRacha || 1,
+        lastConnection: estadisticasGamificacion.estadisticas?.actividad?.ultimaConexion || new Date(),
+        totalInteractions: estadisticasGamificacion.estadisticas?.actividad?.interacciones || 0
+      },
+      achievements: {
+        total: estadisticasGamificacion.estadisticas?.logros?.total || 0,
+        recent: estadisticasGamificacion.estadisticas?.logros?.ultimoLogro || null
+      }
+    };
+
     return NextResponse.json({
       success: true,
       data: {
-        stats: {
-          eventsRegistered: registeredEventsCount,
-          eventsAttended: attendedEventsCount,
-          favoriteEvents: favoriteEventsCount,
-          daysSinceJoining: daysSinceJoining,
-          memberSince: joinDate ? new Date(joinDate).toISOString() : new Date((user as any).createdAt).toISOString(),
-          membershipType: (user as any).membershipType,
-          isActive: (user as any).isActive
-        }
+        stats: statsData
       }
     });
 
