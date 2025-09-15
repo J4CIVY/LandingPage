@@ -31,7 +31,7 @@ export default function EventosHeader({ isAdmin, onCreateEvent, stats, loading }
   return (
     <div className="mb-8">
       {/* Encabezado principal */}
-      <div className="bg-gradient-to-r from-emerald-600 to-red-600 rounded-xl p-8 text-white mb-6">
+      <div className="bg-gradient-to-r from-emerald-600 to-sky-600 rounded-xl p-8 text-white mb-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
           <div className="mb-6 lg:mb-0">
             <div className="flex items-center mb-3">
