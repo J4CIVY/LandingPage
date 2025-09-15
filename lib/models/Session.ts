@@ -28,14 +28,12 @@ const SessionSchema = new Schema<ISession>({
   sessionToken: {
     type: String,
     required: true,
-    unique: true,
-    index: true
+    unique: true
   },
   refreshToken: {
     type: String,
     required: true,
-    unique: true,
-    index: true
+    unique: true
   },
   deviceInfo: {
     userAgent: { type: String },

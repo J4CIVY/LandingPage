@@ -103,7 +103,7 @@ export interface IUser extends Document {
 const UserSchema = new Schema<IUser>({
   // Información personal básica
   documentType: { type: String, required: true, trim: true },
-  documentNumber: { type: String, required: true, unique: true, trim: true, index: true },
+  documentNumber: { type: String, required: true, unique: true, trim: true },
   firstName: { type: String, required: true, trim: true },
   lastName: { type: String, required: true, trim: true },
   birthDate: { type: String, required: true },
@@ -118,7 +118,6 @@ const UserSchema = new Schema<IUser>({
     unique: true, 
     lowercase: true,
     trim: true,
-    index: true,
     match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Email inválido']
   },
   address: { type: String, required: true, trim: true },

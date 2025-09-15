@@ -277,8 +277,7 @@ const MembershipSchema = new Schema<IMembership>({
   toObject: { virtuals: true }
 });
 
-// Índices para optimizar consultas
-MembershipSchema.index({ slug: 1 });
+// Índices para optimizar consultas (slug ya tiene índice único automático)
 MembershipSchema.index({ status: 1 });
 MembershipSchema.index({ 'level.tier': 1 });
 MembershipSchema.index({ 'display.featured': 1, 'display.order': 1 });
