@@ -30,7 +30,7 @@ export default function EventosPage() {
   // Verificar autenticación
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-white dark:bg-gray-950 flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-slate-950 flex items-center justify-center">
         <div className="text-center">
           <FaSpinner className="mx-auto h-8 w-8 animate-spin text-blue-600" />
           <p className="mt-2 text-gray-600 dark:text-gray-400">Verificando autenticación...</p>
@@ -41,7 +41,7 @@ export default function EventosPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-white dark:bg-gray-950 flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-slate-950 flex items-center justify-center">
         <div className="text-center">
           <FaExclamationTriangle className="mx-auto h-8 w-8 text-red-600" />
           <p className="mt-2 text-gray-600 dark:text-gray-400">
@@ -309,7 +309,7 @@ export default function EventosPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <main className="container mx-auto px-4 py-8">
         {/* Header de Eventos */}
         <EventosHeader 
