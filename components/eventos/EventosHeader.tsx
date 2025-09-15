@@ -6,45 +6,32 @@ import { FaPlus, FaCalendarAlt } from 'react-icons/fa';
 interface EventosHeaderProps {
   isAdmin: boolean;
   onCreateEvent: () => void;
+  stats?: {
+    proximosEventos: number;
+    registrosEnCurso: number;
+    misRegistros: number;
+    eventosAsistidos: number;
+    totalEventos: number;
+  };
+  loading?: boolean;
 }
 
-export default function EventosHeader({ isAdmin, onCreateEvent }: EventosHeaderProps) {
-  const [stats, setStats] = useState({
-    total: 0,
-    upcoming: 0,
-    ongoing: 0,
-    finished: 0,
-    myEvents: 0
-  });
-  const [statsLoading, setStatsLoading] = useState(false);
-
-  // Función para cargar estadísticas (placeholder)
-  const fetchStats = async () => {
-    setStatsLoading(true);
-    try {
-      // Por ahora usar datos dummy hasta que se implementen las APIs
-      setStats({
-        total: 0,
-        upcoming: 0,
-        ongoing: 0,
-        finished: 0,
-        myEvents: 0
-      });
-    } catch (error) {
-      console.error('Error loading stats:', error);
-    } finally {
-      setStatsLoading(false);
-    }
+export default function EventosHeader({ isAdmin, onCreateEvent, stats, loading }: EventosHeaderProps) {
+  // Usar estadísticas pasadas como props o valores por defecto
+  const displayStats = stats || {
+    proximosEventos: 0,
+    registrosEnCurso: 0,
+    misRegistros: 0,
+    eventosAsistidos: 0,
+    totalEventos: 0
   };
 
-  useEffect(() => {
-    fetchStats();
-  }, []);
+  const isLoading = loading || false;
 
   return (
     <div className="mb-8">
       {/* Encabezado principal */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-8 text-white mb-6">
+      <div className="bg-gradient-to-r from-emerald-600 to-purple-red-600 rounded-xl p-8 text-white mb-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
           <div className="mb-6 lg:mb-0">
             <div className="flex items-center mb-3">
@@ -84,47 +71,58 @@ export default function EventosHeader({ isAdmin, onCreateEvent }: EventosHeaderP
       </div>
 
       {/* Estadísticas rápidas */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <div className="bg-white dark:bg-slate-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-slate-700">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+        <div className="bg-gray-50 dark:bg-slate-900 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-slate-800">
           <div className="text-center">
             <div className="text-2xl font-bold text-green-600 dark:text-green-400">
-              {statsLoading ? '...' : stats.upcoming}
+              {isLoading ? '...' : displayStats.proximosEventos}
             </div>
             <div className="text-sm text-gray-600 dark:text-slate-400">
-              Próximos
+              Próximos Eventos
             </div>
           </div>
         </div>
         
-        <div className="bg-white dark:bg-slate-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-slate-700">
+        <div className="bg-gray-50 dark:bg-slate-900 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-slate-800">
           <div className="text-center">
             <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-              {statsLoading ? '...' : stats.ongoing}
+              {isLoading ? '...' : displayStats.registrosEnCurso}
             </div>
             <div className="text-sm text-gray-600 dark:text-slate-400">
-              En curso
+              Registros En Curso
             </div>
           </div>
         </div>
         
-        <div className="bg-white dark:bg-slate-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-slate-700">
+        <div className="bg-gray-50 dark:bg-slate-900 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-slate-800">
           <div className="text-center">
             <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
-              {statsLoading ? '...' : stats.myEvents}
+              {isLoading ? '...' : displayStats.misRegistros}
             </div>
             <div className="text-sm text-gray-600 dark:text-slate-400">
-              Mis eventos
+              Mis Registros
             </div>
           </div>
         </div>
-        
-        <div className="bg-white dark:bg-slate-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-slate-700">
+
+        <div className="bg-gray-50 dark:bg-slate-900 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-slate-800">
           <div className="text-center">
-            <div className="text-2xl font-bold text-gray-600 dark:text-slate-400">
-              {statsLoading ? '...' : stats.total}
+            <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">
+              {isLoading ? '...' : displayStats.eventosAsistidos}
             </div>
             <div className="text-sm text-gray-600 dark:text-slate-400">
-              Total
+              Eventos Asistidos
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-gray-50 dark:bg-slate-900 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-slate-800">
+          <div className="text-center">
+            <div className="text-2xl font-bold text-gray-600 dark:text-slate-400">
+              {isLoading ? '...' : displayStats.totalEventos}
+            </div>
+            <div className="text-sm text-gray-600 dark:text-slate-400">
+              Total de Eventos
             </div>
           </div>
         </div>

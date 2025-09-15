@@ -30,7 +30,7 @@ export default function EventosPage() {
   // Verificar autenticación
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-gray-950 flex items-center justify-center">
         <div className="text-center">
           <FaSpinner className="mx-auto h-8 w-8 animate-spin text-blue-600" />
           <p className="mt-2 text-gray-600 dark:text-gray-400">Verificando autenticación...</p>
@@ -41,7 +41,7 @@ export default function EventosPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-gray-950 flex items-center justify-center">
         <div className="text-center">
           <FaExclamationTriangle className="mx-auto h-8 w-8 text-red-600" />
           <p className="mt-2 text-gray-600 dark:text-gray-400">
@@ -69,24 +69,127 @@ export default function EventosPage() {
     }
   };
 
+  // Función para calcular estadísticas de eventos
+  const calculateEventStats = () => {
+    if (!events || !user) return {
+      proximosEventos: 0,
+      registrosEnCurso: 0,
+      misRegistros: 0,
+      eventosAsistidos: 0,
+      totalEventos: 0
+    };
+
+    const now = new Date();
+    const next90Days = new Date();
+    next90Days.setDate(now.getDate() + 90);
+
+    // 1. Próximos Eventos (en los próximos 90 días)
+    const proximosEventos = events.filter(event => {
+      const startDate = new Date(event.startDate);
+      return startDate >= now && startDate <= next90Days;
+    }).length;
+
+    // 2. Registros en Curso (eventos que están abiertos a registro)
+    const registrosEnCurso = events.filter(event => {
+      const now = new Date();
+      const startDate = new Date(event.startDate);
+      const registrationDeadline = event.registrationDeadline ? 
+        new Date(event.registrationDeadline) : startDate;
+      
+      return startDate > now && // Evento no ha empezado
+             registrationDeadline > now && // Registro aún abierto
+             (!event.maxParticipants || event.currentParticipants < event.maxParticipants); // No está lleno
+    }).length;
+
+    // 3. Mis Registros (eventos actuales del usuario - no incluye pasados)
+    const misRegistros = events.filter(event => {
+      const startDate = new Date(event.startDate);
+      const userId = user._id?.toString() || '';
+      return event.participants?.includes(userId) && startDate >= now;
+    }).length;
+
+    // 4. Eventos Asistidos (total de eventos que el usuario ha asistido)
+    const eventosAsistidos = events.filter(event => {
+      const userId = user._id?.toString() || '';
+      return event.attendedParticipants?.includes(userId);
+    }).length;
+
+    // 5. Total de Eventos organizados por el club
+    const totalEventos = events.length;
+
+    return {
+      proximosEventos,
+      registrosEnCurso,
+      misRegistros,
+      eventosAsistidos,
+      totalEventos
+    };
+  };
+
+  // Calcular estadísticas
+  const stats = calculateEventStats();
+
   // Filtrar eventos según los filtros aplicados
   const filteredEvents = events.filter(event => {
+    const userId = user?._id?.toString() || '';
+    
+    // Filtro de búsqueda por nombre
     if (filters.search && !event.name.toLowerCase().includes(filters.search.toLowerCase())) {
       return false;
     }
+    
+    // Filtro por tipo de evento
     if (filters.eventType !== 'all' && event.eventType !== filters.eventType) {
       return false;
     }
+    
+    // Filtro por estado del evento
     if (filters.status !== 'all') {
       const displayStatus = getEventDisplayStatus(event);
       if (displayStatus !== filters.status) {
         return false;
       }
     }
+    
+    // Filtro por ubicación
     if (filters.location && event.departureLocation && 
         !event.departureLocation.address.toLowerCase().includes(filters.location.toLowerCase())) {
       return false;
     }
+    
+    // Filtro "Mis Eventos" - solo eventos donde el usuario está registrado
+    if (filters.myEvents) {
+      if (!event.participants?.includes(userId)) {
+        return false;
+      }
+    }
+
+    // Filtro por fecha desde
+    if (filters.dateFrom) {
+      const eventDate = new Date(event.startDate);
+      const filterDate = new Date(filters.dateFrom);
+      if (eventDate < filterDate) {
+        return false;
+      }
+    }
+
+    // Filtro por fecha hasta
+    if (filters.dateTo) {
+      const eventDate = new Date(event.startDate);
+      const filterDate = new Date(filters.dateTo);
+      filterDate.setHours(23, 59, 59, 999); // Incluir todo el día
+      if (eventDate > filterDate) {
+        return false;
+      }
+    }
+
+    // Filtro por dificultad
+    if (filters.difficulty && filters.difficulty !== 'all') {
+      if (event.difficulty !== filters.difficulty) {
+        return false;
+      }
+    }
+    
     return true;
   });
 
@@ -206,12 +309,14 @@ export default function EventosPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-white dark:bg-gray-950">
       <main className="container mx-auto px-4 py-8">
         {/* Header de Eventos */}
         <EventosHeader 
           isAdmin={isAdmin}
           onCreateEvent={handleCreateEvent}
+          stats={stats}
+          loading={loading}
         />
 
         {/* Filtros */}

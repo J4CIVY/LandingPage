@@ -93,7 +93,7 @@ export default function EventosFilter({ filters, onFiltersChange, onClearFilters
     localFilters.dateTo;
 
   return (
-    <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6 mb-6">
+    <div className="bg-gray-50 dark:bg-slate-950 rounded-lg shadow-md p-6 mb-6">
       {/* Filtros principales */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
         {/* Búsqueda */}
