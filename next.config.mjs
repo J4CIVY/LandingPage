@@ -5,12 +5,40 @@ import withBundleAnalyzer from '@next/bundle-analyzer';
 const withPWA = withPWAInit({
   dest: "public",
   disable: process.env.NODE_ENV === "development",
+  workboxOptions: {
+    skipWaiting: true,
+    clientsClaim: true,
+    runtimeCaching: [
+      {
+        urlPattern: /^https:\/\/res\.cloudinary\.com/,
+        handler: 'CacheFirst',
+        options: {
+          cacheName: 'images-cache',
+          expiration: {
+            maxEntries: 100,
+            maxAgeSeconds: 60 * 60 * 24 * 30, // 30 días
+          },
+        },
+      },
+      {
+        urlPattern: /^https:\/\/fonts\.(googleapis|gstatic)\.com/,
+        handler: 'StaleWhileRevalidate',
+        options: {
+          cacheName: 'google-fonts',
+          expiration: {
+            maxEntries: 30,
+            maxAgeSeconds: 60 * 60 * 24 * 365, // 1 año
+          },
+        },
+      },
+    ],
+  },
   exclude: [
     /\.map$/,
     /manifest$/,
     /\.htaccess$/,
-    /^_buildManifest\.js$/,
-    /^_ssgManifest\.js$/,
+    /^sw\.js$/,
+    /^workbox-.*\.js$/,
     /_next\/static\/chunks\/webpack-.*\.js$/,
   ],
 });

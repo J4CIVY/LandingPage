@@ -42,9 +42,9 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
     cargarResumenSemanal();
   }, [usuarioId]);
 
-  const maxPuntos = Math.max(...actividades.map(a => a.puntos));
-  const totalPuntosSemana = actividades.reduce((sum, a) => sum + a.puntos, 0);
-  const totalActividadesSemana = actividades.reduce((sum, a) => sum + a.actividades, 0);
+  const maxPuntos = actividades && actividades.length > 0 ? Math.max(...actividades.map(a => a.puntos)) : 0;
+  const totalPuntosSemana = actividades ? actividades.reduce((sum, a) => sum + a.puntos, 0) : 0;
+  const totalActividadesSemana = actividades ? actividades.reduce((sum, a) => sum + a.actividades, 0) : 0;
 
   if (loading) {
     return (
@@ -82,7 +82,7 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
       {/* Gráfico de barras */}
       <div className="mb-4">
         <div className="flex justify-between items-end h-32 gap-2">
-          {actividades.map((actividad, index) => {
+          {actividades && actividades.length > 0 ? actividades.map((actividad, index) => {
             const altura = maxPuntos > 0 ? (actividad.puntos / maxPuntos) * 100 : 0;
             const esHoy = index === actividades.length - 1;
             
@@ -131,7 +131,11 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
                 )}
               </div>
             );
-          })}
+          }) : (
+            <div className="flex-1 text-center text-gray-500 py-8">
+              <p className="text-sm">No hay datos de actividad disponibles</p>
+            </div>
+          )}
         </div>
       </div>
 
