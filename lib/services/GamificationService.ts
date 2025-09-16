@@ -12,6 +12,7 @@ import {
   IRecompensa,
   ICanjeRecompensa
 } from '@/lib/models/Gamification';
+import { Achievement, UserAchievement, IAchievement, IUserAchievement } from '@/lib/models/Achievement';
 
 export interface AccionPuntos {
   tipo: 'registro_evento' | 'asistencia_evento' | 'publicacion' | 'comentario' | 'reaccion' | 'bonificacion' | 'referido';
@@ -289,6 +290,15 @@ export class GamificationService {
 
     await transaccion.save();
     await this.actualizarEstadisticasUsuario(usuarioId);
+
+    // Verificar logros después de otorgar puntos
+    try {
+      const gamificationService = new GamificationService();
+      await gamificationService.verificarLogros(usuarioId);
+    } catch (error) {
+      console.error('Error verificando logros después de otorgar puntos:', error);
+      // No interrumpir el flujo principal si falla la verificación de logros
+    }
 
     return transaccion;
   }
@@ -584,6 +594,15 @@ export class GamificationService {
 
         await session.commitTransaction();
         
+        // Verificar logros después del canje
+        try {
+          const gamificationService = new GamificationService();
+          await gamificationService.verificarLogros(usuarioId);
+        } catch (error) {
+          console.error('Error verificando logros después del canje:', error);
+          // No fallar el canje si hay error en logros
+        }
+        
         return { 
           success: true, 
           canje: {
@@ -607,6 +626,415 @@ export class GamificationService {
         success: false, 
         error: error instanceof Error ? error.message : 'Error procesando canje' 
       };
+    }
+  }
+
+  // === MÉTODOS PARA LOGROS ===
+
+  /**
+   * Inicializar logros por defecto del sistema
+   */
+  async inicializarLogros(): Promise<void> {
+    try {
+      await connectToDatabase();
+
+      const logrosDefault = [
+        {
+          id: 'primer_paso',
+          nombre: 'Primer Paso',
+          descripcion: 'Únete al sistema de puntos BSK MT',
+          icono: '🎯',
+          categoria: 'Actividad',
+          condiciones: {
+            tipo: 'puntos_acumulados',
+            valor: 1,
+            operador: 'mayor_igual'
+          },
+          recompensa: {
+            puntos: 10
+          },
+          orden: 1
+        },
+        {
+          id: 'coleccionista',
+          nombre: 'Coleccionista',
+          descripcion: 'Acumula 500 puntos',
+          icono: '💎',
+          categoria: 'Puntos',
+          condiciones: {
+            tipo: 'puntos_acumulados',
+            valor: 500,
+            operador: 'mayor_igual'
+          },
+          recompensa: {
+            puntos: 50
+          },
+          orden: 2
+        },
+        {
+          id: 'millonario',
+          nombre: 'Millonario',
+          descripcion: 'Acumula 1000 puntos',
+          icono: '💰',
+          categoria: 'Puntos',
+          condiciones: {
+            tipo: 'puntos_acumulados',
+            valor: 1000,
+            operador: 'mayor_igual'
+          },
+          recompensa: {
+            puntos: 100
+          },
+          orden: 3
+        },
+        {
+          id: 'comprador_frecuente',
+          nombre: 'Comprador Frecuente',
+          descripcion: 'Canjea 3 recompensas',
+          icono: '🛍️',
+          categoria: 'Actividad',
+          condiciones: {
+            tipo: 'recompensas_canjeadas',
+            valor: 3,
+            operador: 'mayor_igual'
+          },
+          recompensa: {
+            puntos: 75
+          },
+          orden: 4
+        },
+        {
+          id: 'piloto_social',
+          nombre: 'Piloto Social',
+          descripcion: 'Participa en 5 eventos comunitarios',
+          icono: '👥',
+          categoria: 'Social',
+          condiciones: {
+            tipo: 'eventos_participados',
+            valor: 5,
+            operador: 'mayor_igual'
+          },
+          recompensa: {
+            puntos: 125
+          },
+          orden: 5
+        },
+        {
+          id: 'miembro_veterano',
+          nombre: 'Miembro Veterano',
+          descripcion: 'Mantén tu membresía activa por 6 meses',
+          icono: '⭐',
+          categoria: 'Especial',
+          condiciones: {
+            tipo: 'meses_activo',
+            valor: 6,
+            operador: 'mayor_igual'
+          },
+          recompensa: {
+            puntos: 200
+          },
+          orden: 6
+        },
+        {
+          id: 'lider_del_pack',
+          nombre: 'Líder del Pack',
+          descripcion: 'Alcanza el Top 3 del ranking',
+          icono: '🏆',
+          categoria: 'Social',
+          condiciones: {
+            tipo: 'ranking_posicion',
+            valor: 3,
+            operador: 'menor_igual'
+          },
+          recompensa: {
+            puntos: 300
+          },
+          orden: 7
+        },
+        {
+          id: 'leyenda_bsk',
+          nombre: 'Leyenda BSK',
+          descripcion: 'Alcanza 3000 puntos',
+          icono: '👑',
+          categoria: 'Especial',
+          condiciones: {
+            tipo: 'puntos_acumulados',
+            valor: 3000,
+            operador: 'mayor_igual'
+          },
+          recompensa: {
+            puntos: 500
+          },
+          orden: 8
+        }
+      ];
+
+      for (const logroData of logrosDefault) {
+        await Achievement.findOneAndUpdate(
+          { id: logroData.id },
+          logroData,
+          { upsert: true, new: true }
+        );
+      }
+
+      console.log('✅ Logros inicializados correctamente');
+    } catch (error) {
+      console.error('Error inicializando logros:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Obtener todos los logros de un usuario con su progreso
+   */
+  async obtenerLogrosUsuario(usuarioId: string): Promise<any[]> {
+    try {
+      await connectToDatabase();
+
+      // Obtener todos los logros disponibles
+      const logros = await Achievement.find({ activo: true }).sort({ orden: 1 });
+
+      // Obtener progreso del usuario para cada logro
+      const logrosConProgreso = await Promise.all(
+        logros.map(async (logro) => {
+          // Buscar el progreso del usuario para este logro
+          let userAchievement = await UserAchievement.findOne({
+            usuarioId: new mongoose.Types.ObjectId(usuarioId),
+            achievementId: logro._id
+          });
+
+          // Si no existe, crear uno nuevo con progreso 0
+          if (!userAchievement) {
+            const progreso = await this.calcularProgresoLogro(usuarioId, logro);
+            
+            userAchievement = new UserAchievement({
+              usuarioId: new mongoose.Types.ObjectId(usuarioId),
+              achievementId: logro._id,
+              desbloqueado: progreso.desbloqueado,
+              fechaDesbloqueo: progreso.desbloqueado ? new Date() : undefined,
+              progreso: {
+                actual: progreso.actual,
+                total: progreso.total
+              }
+            });
+
+            await userAchievement.save();
+
+            // Si se desbloqueó por primera vez, dar recompensa
+            if (progreso.desbloqueado && logro.recompensa?.puntos) {
+              await this.otorgarRecompensaLogro(
+                usuarioId,
+                logro.recompensa.puntos,
+                `Logro desbloqueado: ${logro.nombre}`
+              );
+            }
+          }
+
+          return {
+            id: logro.id,
+            nombre: logro.nombre,
+            descripcion: logro.descripcion,
+            icono: logro.icono,
+            categoria: logro.categoria,
+            desbloqueado: userAchievement.desbloqueado,
+            fechaDesbloqueo: userAchievement.fechaDesbloqueo?.toISOString().split('T')[0],
+            progreso: userAchievement.progreso,
+            recompensa: logro.recompensa
+          };
+        })
+      );
+
+      return logrosConProgreso;
+    } catch (error) {
+      console.error('Error obteniendo logros usuario:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Calcular el progreso actual de un usuario para un logro específico
+   */
+  private async calcularProgresoLogro(usuarioId: string, logro: IAchievement): Promise<{
+    actual: number;
+    total: number;
+    desbloqueado: boolean;
+  }> {
+    try {
+      const { tipo, valor, operador } = logro.condiciones;
+      let valorActual = 0;
+
+      switch (tipo) {
+        case 'puntos_acumulados':
+          const estadisticas = await EstadisticasUsuario.findOne({
+            usuarioId: new mongoose.Types.ObjectId(usuarioId)
+          });
+          valorActual = estadisticas?.estadisticas?.puntos?.total || 0;
+          break;
+
+        case 'recompensas_canjeadas':
+          const canjes = await CanjeRecompensa.countDocuments({
+            usuarioId: new mongoose.Types.ObjectId(usuarioId)
+          });
+          valorActual = canjes;
+          break;
+
+        case 'eventos_participados':
+          const user = await User.findById(usuarioId).select('events');
+          valorActual = user?.events?.length || 0;
+          break;
+
+        case 'meses_activo':
+          const usuario = await User.findById(usuarioId).select('fechaRegistro');
+          if (usuario?.fechaRegistro) {
+            const mesesActivo = Math.floor(
+              (Date.now() - usuario.fechaRegistro.getTime()) / (1000 * 60 * 60 * 24 * 30)
+            );
+            valorActual = mesesActivo;
+          }
+          break;
+
+        case 'ranking_posicion':
+          // Obtener posición actual simplificada
+          valorActual = 999; // Valor por defecto para cuando no está en el ranking
+          break;
+
+        default:
+          valorActual = 0;
+      }
+
+      // Evaluar si se cumple la condición
+      let desbloqueado = false;
+      switch (operador) {
+        case 'mayor_igual':
+          desbloqueado = valorActual >= valor;
+          break;
+        case 'igual':
+          desbloqueado = valorActual === valor;
+          break;
+        case 'menor_igual':
+          desbloqueado = valorActual <= valor;
+          break;
+        default:
+          desbloqueado = valorActual >= valor;
+      }
+
+      return {
+        actual: valorActual,
+        total: valor,
+        desbloqueado
+      };
+    } catch (error) {
+      console.error('Error calculando progreso logro:', error);
+      return { actual: 0, total: logro.condiciones.valor, desbloqueado: false };
+    }
+  }
+
+  /**
+   * Verificar y actualizar logros de un usuario después de una acción
+   */
+  async verificarLogros(usuarioId: string): Promise<string[]> {
+    try {
+      await connectToDatabase();
+
+      const logrosObtenidos: string[] = [];
+      const logros = await Achievement.find({ activo: true });
+
+      for (const logro of logros) {
+        const userAchievement = await UserAchievement.findOne({
+          usuarioId: new mongoose.Types.ObjectId(usuarioId),
+          achievementId: logro._id
+        });
+
+        // Solo verificar logros no desbloqueados
+        if (!userAchievement?.desbloqueado) {
+          const progreso = await this.calcularProgresoLogro(usuarioId, logro);
+
+          if (userAchievement) {
+            // Actualizar progreso existente
+            userAchievement.progreso = {
+              actual: progreso.actual,
+              total: progreso.total
+            };
+
+            if (progreso.desbloqueado && !userAchievement.desbloqueado) {
+              userAchievement.desbloqueado = true;
+              userAchievement.fechaDesbloqueo = new Date();
+              logrosObtenidos.push(logro.nombre);
+
+              // Otorgar recompensa si la hay
+              if (logro.recompensa?.puntos) {
+                await this.otorgarRecompensaLogro(
+                  usuarioId,
+                  logro.recompensa.puntos,
+                  `Logro desbloqueado: ${logro.nombre}`
+                );
+              }
+            }
+
+            await userAchievement.save();
+          } else if (progreso.desbloqueado) {
+            // Crear nuevo logro desbloqueado
+            await UserAchievement.create({
+              usuarioId: new mongoose.Types.ObjectId(usuarioId),
+              achievementId: logro._id,
+              desbloqueado: true,
+              fechaDesbloqueo: new Date(),
+              progreso: {
+                actual: progreso.actual,
+                total: progreso.total
+              }
+            });
+
+            logrosObtenidos.push(logro.nombre);
+
+            // Otorgar recompensa si la hay
+            if (logro.recompensa?.puntos) {
+              await this.otorgarRecompensaLogro(
+                usuarioId,
+                logro.recompensa.puntos,
+                `Logro desbloqueado: ${logro.nombre}`
+              );
+            }
+          }
+        }
+      }
+
+      return logrosObtenidos;
+    } catch (error) {
+      console.error('Error verificando logros:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Otorgar puntos por recompensa de logro
+   */
+  private async otorgarRecompensaLogro(
+    usuarioId: string,
+    puntos: number,
+    descripcion: string
+  ): Promise<void> {
+    try {
+      await connectToDatabase();
+
+      const transaccion = new TransaccionPuntos({
+        usuarioId: new mongoose.Types.ObjectId(usuarioId),
+        tipo: 'ganancia',
+        cantidad: puntos,
+        razon: descripcion,
+        metadata: {
+          origen: 'logro',
+          categoria: 'recompensa'
+        }
+      });
+
+      await transaccion.save();
+      await GamificationService.actualizarEstadisticasUsuario(usuarioId);
+
+      console.log(`✅ Recompensa de logro otorgada: ${puntos} puntos a usuario ${usuarioId}`);
+    } catch (error) {
+      console.error('Error otorgando recompensa de logro:', error);
+      throw error;
     }
   }
 }

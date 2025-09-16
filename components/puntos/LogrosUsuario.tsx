@@ -14,6 +14,18 @@ interface Logro {
     actual: number;
     total: number;
   };
+  recompensa?: {
+    puntos?: number;
+    item?: string;
+  };
+}
+
+interface EstadisticasLogros {
+  total: number;
+  desbloqueados: number;
+  porcentajeCompletado: number;
+  logrosRecientes: Logro[];
+  proximosLogros: Logro[];
 }
 
 interface LogrosProps {
@@ -23,123 +35,58 @@ interface LogrosProps {
 
 export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps) {
   const [logros, setLogros] = useState<Logro[]>([]);
+  const [estadisticas, setEstadisticas] = useState<EstadisticasLogros | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [filtroCategoria, setFiltroCategoria] = useState<'Todos' | Logro['categoria']>('Todos');
 
   useEffect(() => {
-    // Simular carga de logros
     const cargarLogros = async () => {
       setLoading(true);
+      setError(null);
       
-      await new Promise(resolve => setTimeout(resolve, 600));
-      
-      const logrosData: Logro[] = [
-        {
-          id: '1',
-          nombre: 'Primer Paso',
-          descripcion: 'Únete al sistema de puntos BSK MT',
-          icono: '🎯',
-          categoria: 'Actividad',
-          desbloqueado: true,
-          fechaDesbloqueo: '2024-11-01'
-        },
-        {
-          id: '2',
-          nombre: 'Coleccionista',
-          descripcion: 'Acumula 500 puntos',
-          icono: '💎',
-          categoria: 'Puntos',
-          desbloqueado: puntosActuales >= 500,
-          fechaDesbloqueo: puntosActuales >= 500 ? '2024-11-15' : undefined,
-          progreso: {
-            actual: Math.min(puntosActuales, 500),
-            total: 500
-          }
-        },
-        {
-          id: '3',
-          nombre: 'Millonario',
-          descripcion: 'Acumula 1000 puntos',
-          icono: '💰',
-          categoria: 'Puntos',
-          desbloqueado: puntosActuales >= 1000,
-          progreso: {
-            actual: Math.min(puntosActuales, 1000),
-            total: 1000
-          }
-        },
-        {
-          id: '4',
-          nombre: 'Comprador Frecuente',
-          descripcion: 'Canjea 3 recompensas',
-          icono: '🛍️',
-          categoria: 'Actividad',
-          desbloqueado: false,
-          progreso: {
-            actual: 1,
-            total: 3
-          }
-        },
-        {
-          id: '5',
-          nombre: 'Piloto Social',
-          descripcion: 'Participa en 5 eventos comunitarios',
-          icono: '👥',
-          categoria: 'Social',
-          desbloqueado: false,
-          progreso: {
-            actual: 2,
-            total: 5
-          }
-        },
-        {
-          id: '6',
-          nombre: 'Miembro Veterano',
-          descripcion: 'Mantén tu membresía activa por 6 meses',
-          icono: '⭐',
-          categoria: 'Especial',
-          desbloqueado: true,
-          fechaDesbloqueo: '2024-12-01'
-        },
-        {
-          id: '7',
-          nombre: 'Líder del Pack',
-          descripcion: 'Alcanza el Top 3 del ranking',
-          icono: '🏆',
-          categoria: 'Social',
-          desbloqueado: false,
-          progreso: {
-            actual: 5,
-            total: 3
-          }
-        },
-        {
-          id: '8',
-          nombre: 'Leyenda BSK',
-          descripcion: 'Alcanza el nivel Legend',
-          icono: '👑',
-          categoria: 'Especial',
-          desbloqueado: false,
-          progreso: {
-            actual: puntosActuales,
-            total: 3000
-          }
+      try {
+        const response = await fetch('/api/users/achievements');
+        
+        if (!response.ok) {
+          throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
-      ];
-      
-      setLogros(logrosData);
-      setLoading(false);
+
+        const data = await response.json();
+        
+        if (data.success) {
+          setLogros(data.logros);
+          setEstadisticas(data.estadisticas);
+        } else {
+          throw new Error(data.error || 'Error cargando logros');
+        }
+      } catch (error) {
+        console.error('Error cargando logros:', error);
+        setError(error instanceof Error ? error.message : 'Error desconocido');
+        
+        // Fallback a datos vacíos en caso de error
+        setLogros([]);
+        setEstadisticas({
+          total: 0,
+          desbloqueados: 0,
+          porcentajeCompletado: 0,
+          logrosRecientes: [],
+          proximosLogros: []
+        });
+      } finally {
+        setLoading(false);
+      }
     };
 
     cargarLogros();
-  }, [usuarioId, puntosActuales]);
+  }, [usuarioId]);
 
-  const logrosFiltrados = logros.filter(logro => 
+  const logrosFiltrados = logros && logros.length > 0 ? logros.filter(logro => 
     filtroCategoria === 'Todos' || logro.categoria === filtroCategoria
-  );
+  ) : [];
 
-  const logrosDesbloqueados = logros.filter(l => l.desbloqueado).length;
-  const totalLogros = logros.length;
+  const logrosDesbloqueados = estadisticas?.desbloqueados || 0;
+  const totalLogros = estadisticas?.total || 0;
 
   const getColorCategoria = (categoria: Logro['categoria']) => {
     const colores = {
@@ -170,6 +117,25 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
     );
   }
 
+  if (error) {
+    return (
+      <div className="bg-white rounded-xl shadow-lg p-6">
+        <h3 className="text-lg font-bold text-gray-800 mb-4">�� Logros</h3>
+        <div className="text-center py-8">
+          <div className="text-4xl mb-2">❌</div>
+          <p className="text-red-500 mb-2">Error cargando logros</p>
+          <p className="text-sm text-gray-500">{error}</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+          >
+            Reintentar
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white rounded-xl shadow-lg p-6">
       <div className="flex items-center justify-between mb-4">
@@ -195,12 +161,12 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
       <div className="mb-6">
         <div className="flex items-center justify-between text-sm text-gray-600 mb-1">
           <span>Progreso general</span>
-          <span>{Math.round((logrosDesbloqueados / totalLogros) * 100)}%</span>
+          <span>{estadisticas?.porcentajeCompletado || 0}%</span>
         </div>
         <div className="bg-gray-200 rounded-full h-2">
           <div 
             className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-500"
-            style={{ width: `${(logrosDesbloqueados / totalLogros) * 100}%` }}
+            style={{ width: `${estadisticas?.porcentajeCompletado || 0}%` }}
           />
         </div>
       </div>
@@ -238,6 +204,13 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
                   <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getColorCategoria(logro.categoria)}`}>
                     {logro.categoria}
                   </span>
+
+                  {/* Recompensa */}
+                  {logro.recompensa?.puntos && (
+                    <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 border border-yellow-200">
+                      +{logro.recompensa.puntos} pts
+                    </span>
+                  )}
                 </div>
 
                 <p className={`text-sm ${
@@ -279,7 +252,9 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
       {logrosFiltrados.length === 0 && (
         <div className="text-center py-8">
           <div className="text-4xl mb-2">🎯</div>
-          <p className="text-gray-500">No hay logros en esta categoría</p>
+          <p className="text-gray-500">
+            {logros.length === 0 ? 'No hay logros disponibles' : 'No hay logros en esta categoría'}
+          </p>
         </div>
       )}
     </div>
