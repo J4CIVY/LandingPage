@@ -2,7 +2,20 @@
 
 import { useState, useEffect } from 'react';
 import { Usuario, FiltroPeriodo } from '@/types/puntos';
-import { obtenerLeaderboard } from '@/data/puntos/mockData';
+
+interface LeaderboardUser {
+  posicion: number;
+  usuario: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    profileImage?: string;
+    membershipType: string;
+  };
+  puntos: number;
+  nivel: string;
+  cambioSemanal: number;
+}
 
 export default function Leaderboard() {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
@@ -10,20 +23,86 @@ export default function Leaderboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const cargarLeaderboard = async () => {
-      setLoading(true);
-      try {
-        const data = await obtenerLeaderboard(filtro.periodo);
-        setUsuarios(data);
-      } catch (error) {
-        console.error('Error cargando leaderboard:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     cargarLeaderboard();
   }, [filtro]);
+
+  const cargarLeaderboard = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('/api/users/leaderboard?limit=20', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success) {
+          const leaderboardData: LeaderboardUser[] = result.data;
+          
+          // Mapear a formato esperado por el componente
+          const usuariosMapeados: Usuario[] = leaderboardData.map(item => ({
+            id: item.usuario._id,
+            nombre: `${item.usuario.firstName} ${item.usuario.lastName}`,
+            puntosTotales: item.puntos,
+            nivel: {
+              id: 1,
+              nombre: item.nivel,
+              puntosMinimos: 0,
+              puntosMaximos: 999999,
+              color: getNivelColor(item.nivel),
+              icono: getNivelIcon(item.nivel),
+              beneficios: []
+            },
+            posicionRanking: item.posicion,
+            avatar: item.usuario.profileImage || `/api/placeholder/50/50`,
+            esAdmin: false
+          }));
+
+          setUsuarios(usuariosMapeados);
+        } else {
+          console.error('Error en respuesta:', result.error);
+          setUsuarios([]);
+        }
+      } else {
+        console.error('Error en request:', response.status);
+        setUsuarios([]);
+      }
+    } catch (error) {
+      console.error('Error cargando leaderboard:', error);
+      setUsuarios([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getNivelColor = (nivel: string): string => {
+    const colores: Record<string, string> = {
+      'Novato': '#10B981',
+      'Bronce': '#CD7F32',
+      'Plata': '#C0C0C0',
+      'Oro': '#FFD700',
+      'Avanzado': '#4B0082',
+      'Experto': '#8A2BE2',
+      'Leyenda': '#00BFFF'
+    };
+    return colores[nivel] || '#10B981';
+  };
+
+  const getNivelIcon = (nivel: string): string => {
+    const iconos: Record<string, string> = {
+      'Novato': '🌱',
+      'Bronce': '🥉',
+      'Plata': '🥈',
+      'Oro': '🥇',
+      'Avanzado': '💎',
+      'Experto': '⭐',
+      'Leyenda': '👑'
+    };
+    return iconos[nivel] || '🌱';
+  };
 
   const getMedalIcon = (posicion: number) => {
     const medals = ['🥇', '🥈', '🥉'];
@@ -41,10 +120,13 @@ export default function Leaderboard() {
 
   const getNivelBadgeColor = (nivel: string) => {
     const colores = {
-      'Rookie': 'bg-amber-100 text-amber-800 border-amber-200',
-      'Rider': 'bg-gray-100 text-gray-800 border-gray-200',
-      'Pro Rider': 'bg-yellow-100 text-yellow-800 border-yellow-200',
-      'Legend': 'bg-blue-100 text-blue-800 border-blue-200'
+      'Novato': 'bg-green-100 text-green-800 border-green-200',
+      'Bronce': 'bg-amber-100 text-amber-800 border-amber-200',
+      'Plata': 'bg-gray-100 text-gray-800 border-gray-200',
+      'Oro': 'bg-yellow-100 text-yellow-800 border-yellow-200',
+      'Avanzado': 'bg-purple-100 text-purple-800 border-purple-200',
+      'Experto': 'bg-indigo-100 text-indigo-800 border-indigo-200',
+      'Leyenda': 'bg-blue-100 text-blue-800 border-blue-200'
     };
     return colores[nivel as keyof typeof colores] || 'bg-gray-100 text-gray-800 border-gray-200';
   };

@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import User from '@/lib/models/User';
 import Event from '@/lib/models/Event';
+import connectToDatabase from '@/lib/mongodb';
 import { 
   TransaccionPuntos, 
   EstadisticasUsuario, 
@@ -412,6 +413,123 @@ export class GamificationService {
     } catch (error) {
       console.error('Error obteniendo leaderboard:', error);
       return [];
+    }
+  }
+
+  // Obtener todas las recompensas disponibles
+  static async obtenerRecompensas(): Promise<any[]> {
+    try {
+      await connectToDatabase();
+      
+      const recompensas = await Recompensa.find({ activa: true })
+        .sort({ puntosRequeridos: 1 })
+        .lean();
+
+      return recompensas || [];
+    } catch (error) {
+      console.error('Error obteniendo recompensas:', error);
+      return [];
+    }
+  }
+
+  // Canjear una recompensa
+  static async canjearRecompensa(usuarioId: string, recompensaId: string): Promise<any> {
+    try {
+      await connectToDatabase();
+      
+      // Obtener la recompensa
+      const recompensa = await Recompensa.findById(recompensaId);
+      if (!recompensa || !recompensa.activa) {
+        return { success: false, error: 'Recompensa no disponible' };
+      }
+
+      // Verificar stock
+      if (recompensa.stock <= 0) {
+        return { success: false, error: 'Sin stock disponible' };
+      }
+
+      // Obtener estadísticas del usuario
+      const estadisticas = await EstadisticasUsuario.findOne({ usuarioId });
+      if (!estadisticas) {
+        return { success: false, error: 'Usuario no encontrado' };
+      }
+
+      // Verificar puntos suficientes
+      if (estadisticas.puntos.actual < recompensa.puntosRequeridos) {
+        return { success: false, error: 'Puntos insuficientes' };
+      }
+
+      // Procesar el canje
+      const session = await mongoose.startSession();
+      session.startTransaction();
+
+      try {
+        // Crear registro de canje
+        const canje = new CanjeRecompensa({
+          usuarioId,
+          recompensaId,
+          puntosGastados: recompensa.puntosRequeridos,
+          estado: 'completado',
+          fechaCanje: new Date()
+        });
+        await canje.save({ session });
+
+        // Restar puntos del usuario
+        await EstadisticasUsuario.findOneAndUpdate(
+          { usuarioId },
+          { 
+            $inc: { 'puntos.actual': -recompensa.puntosRequeridos },
+            $set: { fechaActualizacion: new Date() }
+          },
+          { session }
+        );
+
+        // Crear transacción de puntos
+        const transaccion = new TransaccionPuntos({
+          usuarioId,
+          tipo: 'gasto',
+          puntos: -recompensa.puntosRequeridos,
+          razon: `Canje de recompensa: ${recompensa.nombre}`,
+          metadata: {
+            recompensaId,
+            categoria: 'canje'
+          },
+          fechaTransaccion: new Date()
+        });
+        await transaccion.save({ session });
+
+        // Reducir stock de la recompensa
+        await Recompensa.findByIdAndUpdate(
+          recompensaId,
+          { $inc: { stock: -1 } },
+          { session }
+        );
+
+        await session.commitTransaction();
+        
+        return { 
+          success: true, 
+          canje: {
+            id: canje._id,
+            recompensa: recompensa.nombre,
+            puntosGastados: recompensa.puntosRequeridos,
+            fecha: new Date()
+          }
+        };
+
+      } catch (error) {
+        await session.abortTransaction();
+        throw error;
+      } finally {
+        session.endSession();
+      }
+
+    } catch (error) {
+      console.error('Error canjeando recompensa:', error);
+      return { 
+        success: false, 
+        error: error instanceof Error ? error.message : 'Error procesando canje' 
+      };
     }
   }
 }

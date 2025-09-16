@@ -2,10 +2,30 @@
 
 import { useState, useEffect } from 'react';
 import { PuntosActividad, FiltroHistorial } from '@/types/puntos';
-import { obtenerHistorialPuntos } from '@/data/puntos/mockData';
 
 interface HistorialPuntosProps {
   usuarioId: string;
+}
+
+interface TransaccionReal {
+  _id: string;
+  tipo: 'ganancia' | 'gasto';
+  puntos: number;
+  razon: string;
+  metadata: {
+    fuente?: string;
+    categoria?: string;
+    eventoId?: any;
+    recompensaId?: any;
+  };
+  fechaTransaccion: string;
+}
+
+interface HistorialResponse {
+  transacciones: TransaccionReal[];
+  total: number;
+  pagina: number;
+  totalPaginas: number;
 }
 
 export default function HistorialPuntos({ usuarioId }: HistorialPuntosProps) {
@@ -13,22 +33,91 @@ export default function HistorialPuntos({ usuarioId }: HistorialPuntosProps) {
   const [filtros, setFiltros] = useState<FiltroHistorial>({});
   const [loading, setLoading] = useState(true);
   const [historialFiltrado, setHistorialFiltrado] = useState<PuntosActividad[]>([]);
+  const [pagina, setPagina] = useState(1);
+  const [totalPaginas, setTotalPaginas] = useState(1);
+
+  const mapearTransaccionReal = (transaccion: TransaccionReal, saldoAcumulado: number): PuntosActividad => {
+    const tipoMapeado = mapearTipoTransaccion(transaccion.metadata.categoria || 'otro');
+    
+    return {
+      id: transaccion._id,
+      fecha: transaccion.fechaTransaccion,
+      tipo: tipoMapeado,
+      descripcion: transaccion.razon,
+      puntos: transaccion.puntos,
+      saldo: saldoAcumulado
+    };
+  };
+
+  const mapearTipoTransaccion = (categoria: string): PuntosActividad["tipo"] => {
+    switch (categoria) {
+      case 'evento':
+      case 'eventos':
+        return 'Evento';
+      case 'membresia':
+      case 'membership':
+        return 'Membresía';
+      case 'beneficio':
+      case 'beneficios':
+        return 'Beneficio';
+      case 'comunidad':
+      case 'community':
+        return 'Comunidad';
+      default:
+        return 'Otro';
+    }
+  };
 
   useEffect(() => {
-    const cargarHistorial = async () => {
-      try {
-        const data = await obtenerHistorialPuntos(usuarioId);
-        setHistorial(data);
-        setHistorialFiltrado(data);
-      } catch (error) {
-        console.error('Error cargando historial:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     cargarHistorial();
-  }, [usuarioId]);
+  }, [usuarioId, pagina]);
+
+  const cargarHistorial = async () => {
+    try {
+      setLoading(true);
+      
+      const response = await fetch(`/api/users/history?page=${pagina}&limit=10`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success) {
+          const historialData: HistorialResponse = result.data;
+          
+          // Calcular saldo acumulado
+          let saldoAcumulado = 0;
+          const historialMapeado = historialData.transacciones.reverse().map(transaccion => {
+            saldoAcumulado += transaccion.puntos;
+            return mapearTransaccionReal(transaccion, saldoAcumulado);
+          }).reverse();
+
+          setHistorial(historialMapeado);
+          setHistorialFiltrado(historialMapeado);
+          setTotalPaginas(historialData.totalPaginas);
+        } else {
+          console.error('Error en respuesta:', result.error);
+          // Usar datos vacíos en caso de error
+          setHistorial([]);
+          setHistorialFiltrado([]);
+        }
+      } else {
+        console.error('Error en request:', response.status);
+        setHistorial([]);
+        setHistorialFiltrado([]);
+      }
+    } catch (error) {
+      console.error('Error cargando historial:', error);
+      setHistorial([]);
+      setHistorialFiltrado([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     let resultado = [...historial];
