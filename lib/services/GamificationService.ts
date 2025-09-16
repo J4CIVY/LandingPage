@@ -394,7 +394,7 @@ export class GamificationService {
     }
   }
 
-  // Obtener leaderboard
+    // Obtener leaderboard
   static async obtenerLeaderboard(limite: number = 10): Promise<any> {
     try {
       const leaderboard = await EstadisticasUsuario.find({})
@@ -413,6 +413,83 @@ export class GamificationService {
     } catch (error) {
       console.error('Error obteniendo leaderboard:', error);
       return [];
+    }
+  }
+
+  // Obtener actividad semanal del usuario
+  static async obtenerActividadSemanal(usuarioId: string): Promise<any> {
+    try {
+      await connectToDatabase();
+      
+      // Calcular fechas de los últimos 7 días
+      const hoy = new Date();
+      const hace7Dias = new Date(hoy);
+      hace7Dias.setDate(hace7Dias.getDate() - 6);
+      hace7Dias.setHours(0, 0, 0, 0);
+
+      // Obtener transacciones de los últimos 7 días
+      const transacciones = await TransaccionPuntos.find({
+        usuarioId,
+        fechaTransaccion: {
+          $gte: hace7Dias,
+          $lte: new Date()
+        },
+        tipo: 'ganancia' // Solo puntos ganados
+      }).sort({ fechaTransaccion: 1 }).lean();
+
+      // Crear array para los últimos 7 días
+      const actividadPorDia = [];
+      for (let i = 6; i >= 0; i--) {
+        const fecha = new Date(hoy);
+        fecha.setDate(fecha.getDate() - i);
+        fecha.setHours(0, 0, 0, 0);
+
+        const fechaSiguiente = new Date(fecha);
+        fechaSiguiente.setDate(fecha.getDate() + 1);
+
+        // Filtrar transacciones de este día
+        const transaccionesDia = transacciones.filter(t => {
+          const fechaTransaccion = new Date(t.fechaTransaccion);
+          return fechaTransaccion >= fecha && fechaTransaccion < fechaSiguiente;
+        });
+
+        const puntosDia = transaccionesDia.reduce((total, t) => total + t.puntos, 0);
+        const actividadesDia = transaccionesDia.length;
+
+        actividadPorDia.push({
+          dia: fecha.toLocaleDateString('es-ES', { weekday: 'short' }),
+          fecha: fecha.toISOString().split('T')[0],
+          puntos: puntosDia,
+          actividades: actividadesDia,
+          esHoy: i === 0
+        });
+      }
+
+      // Calcular totales
+      const totalPuntos = actividadPorDia.reduce((sum, dia) => sum + dia.puntos, 0);
+      const totalActividades = actividadPorDia.reduce((sum, dia) => sum + dia.actividades, 0);
+
+      return {
+        actividades: actividadPorDia,
+        resumen: {
+          totalPuntosSemana: totalPuntos,
+          totalActividadesSemana: totalActividades,
+          promedioDiario: Math.round(totalPuntos / 7),
+          diasActivos: actividadPorDia.filter(dia => dia.actividades > 0).length
+        }
+      };
+
+    } catch (error) {
+      console.error('Error obteniendo actividad semanal:', error);
+      return {
+        actividades: [],
+        resumen: {
+          totalPuntosSemana: 0,
+          totalActividadesSemana: 0,
+          promedioDiario: 0,
+          diasActivos: 0
+        }
+      };
     }
   }
 

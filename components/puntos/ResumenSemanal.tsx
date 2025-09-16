@@ -20,25 +20,23 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
     const cargarResumenSemanal = async () => {
       setLoading(true);
       
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      // Generar datos simulados para los últimos 7 días
-      const hoy = new Date();
-      const datosSemanales: ActividadSemanal[] = [];
-      
-      for (let i = 6; i >= 0; i--) {
-        const fecha = new Date(hoy);
-        fecha.setDate(fecha.getDate() - i);
-        
-        datosSemanales.push({
-          dia: fecha.toLocaleDateString('es-ES', { weekday: 'short' }),
-          puntos: Math.floor(Math.random() * 50) + (i === 0 ? 25 : 0), // Más puntos hoy
-          actividades: Math.floor(Math.random() * 3) + (i === 0 ? 1 : 0)
-        });
+      try {
+        const response = await fetch('/api/users/weekly-activity');
+        if (response.ok) {
+          const data = await response.json();
+          setActividades(data.actividadSemanal);
+        } else {
+          console.error('Error al obtener actividad semanal:', response.statusText);
+          // Fallback a datos vacíos en caso de error
+          setActividades([]);
+        }
+      } catch (error) {
+        console.error('Error al cargar actividad semanal:', error);
+        // Fallback a datos vacíos en caso de error
+        setActividades([]);
+      } finally {
+        setLoading(false);
       }
-      
-      setActividades(datosSemanales);
-      setLoading(false);
     };
 
     cargarResumenSemanal();
