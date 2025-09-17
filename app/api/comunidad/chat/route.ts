@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
     await connectToDatabase();
     
     const session = await verifySession(request);
-    if (!session.success) {
+    if (!session.success || !session.user) {
       return NextResponse.json(
         { exito: false, error: 'No autorizado' },
         { status: 401 }
@@ -59,8 +59,7 @@ export async function GET(request: NextRequest) {
       autorAvatar: mensaje.autorId.avatar,
       fechaEnvio: mensaje.fechaEnvio,
       grupoId: mensaje.grupoId?.toString() || null,
-      esEditado: mensaje.esEditado,
-      fechaEdicion: mensaje.fechaEdicion
+      editado: mensaje.editado
     }));
 
     return NextResponse.json({
@@ -80,6 +79,7 @@ export async function GET(request: NextRequest) {
 
   } catch (error) {
     console.error('Error al obtener mensajes:', error);
+    console.error('Stack trace:', error instanceof Error ? error.stack : 'No stack trace available');
     return NextResponse.json(
       { exito: false, error: 'Error interno del servidor' },
       { status: 500 }
@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
     await connectToDatabase();
     
     const session = await verifySession(request);
-    if (!session.success) {
+    if (!session.success || !session.user) {
       return NextResponse.json(
         { exito: false, error: 'No autorizado' },
         { status: 401 }
@@ -127,11 +127,11 @@ export async function POST(request: NextRequest) {
     // Crear nuevo mensaje
     const nuevoMensaje = new ChatMensaje({
       contenido: contenido.trim(),
-      autorId: session.user?.id,
+      autorId: session.user.id,
       grupoId: grupoId || null,
       fechaEnvio: new Date(),
       activo: true,
-      esEditado: false
+      editado: false
     });
 
     await nuevoMensaje.save();
@@ -141,9 +141,12 @@ export async function POST(request: NextRequest) {
 
     // Otorgar puntos por participar en chat
     await UsuarioRanking.findOneAndUpdate(
-      { usuarioId: session.user?.id },
+      { usuarioId: session.user.id },
       { 
-        $inc: { puntos: 2 },
+        $inc: { 
+          'puntos.comentarios': 2,
+          'puntos.total': 2
+        },
         $set: { fechaActualizacion: new Date() }
       },
       { upsert: true }
@@ -157,8 +160,7 @@ export async function POST(request: NextRequest) {
       autorAvatar: nuevoMensaje.autorId.avatar,
       fechaEnvio: nuevoMensaje.fechaEnvio,
       grupoId: nuevoMensaje.grupoId?.toString() || null,
-      esEditado: nuevoMensaje.esEditado,
-      fechaEdicion: nuevoMensaje.fechaEdicion
+      editado: nuevoMensaje.editado
     };
 
     return NextResponse.json({
@@ -172,6 +174,7 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Error al enviar mensaje:', error);
+    console.error('Stack trace:', error instanceof Error ? error.stack : 'No stack trace available');
     return NextResponse.json(
       { exito: false, error: 'Error interno del servidor' },
       { status: 500 }
