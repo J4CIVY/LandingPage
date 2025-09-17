@@ -47,21 +47,27 @@ export async function POST(request: NextRequest) {
   try {
     await connectToDatabase();
     
+    console.log('POST /api/comunidad/grupos - Verificando sesión...');
+    
+    // Verificar sesión
     const session = await verifySession(request);
+    console.log('Resultado de verificación de sesión:', { 
+      success: session.success, 
+      hasUser: !!session.user,
+      userId: session.user?.id 
+    });
+    
     if (!session.success || !session.user) {
+      console.log('Error: Usuario no autorizado');
       return NextResponse.json(
         { exito: false, error: 'No autorizado' },
         { status: 401 }
       );
     }
 
-    // Verificar permisos de administrador/moderador
-    if (session.user.role !== 'admin' && session.user.role !== 'moderator') {
-      return NextResponse.json(
-        { exito: false, error: 'Sin permisos para crear grupos' },
-        { status: 403 }
-      );
-    }
+    console.log('Usuario autenticado:', session.user.email);
+
+    // Cualquier usuario autenticado puede crear grupos
 
     const { nombre, descripcion, icono, esPrivado } = await request.json();
 

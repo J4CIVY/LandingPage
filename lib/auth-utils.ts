@@ -115,23 +115,6 @@ export function hashToken(token: string): string {
 }
 
 /**
- * Extrae el token del header Authorization
- */
-export function extractTokenFromRequest(request: NextRequest): string | null {
-  const authHeader = request.headers.get('authorization');
-  
-  if (!authHeader) {
-    return null;
-  }
-
-  if (!authHeader.startsWith('Bearer ')) {
-    return null;
-  }
-
-  return authHeader.substring(7);
-}
-
-/**
  * Extrae información del dispositivo de la request
  */
 export function extractDeviceInfo(request: NextRequest) {
@@ -201,6 +184,21 @@ export function getSessionExpirationDate(): Date {
 }
 
 /**
+ * Extrae el token de la request (header Authorization o cookies)
+ */
+export function extractTokenFromRequest(request: NextRequest): string | null {
+  // Intentar extraer del header Authorization
+  const authHeader = request.headers.get('Authorization');
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    return authHeader.slice(7);
+  }
+
+  // Intentar extraer de cookies
+  const token = request.cookies.get('bsk-access-token')?.value;
+  return token || null;
+}
+
+/**
  * Valida el formato de email
  */
 export function isValidEmail(email: string): boolean {
@@ -248,28 +246,40 @@ export function validatePasswordStrength(password: string): {
  */
 export async function verifyAuth(request: NextRequest): Promise<AuthResult> {
   try {
+    console.log('verifyAuth: Iniciando verificación...');
+    
     // Extraer token del header o cookies
     let token = extractTokenFromRequest(request);
+    console.log('verifyAuth: Token extraído:', !!token);
     
     if (!token) {
       // Intentar obtener de cookies con el nombre correcto
       const cookies = request.cookies;
       token = cookies.get('bsk-access-token')?.value || null;
+      console.log('verifyAuth: Token de cookies:', !!token);
     }
 
     if (!token) {
+      console.log('verifyAuth: No se encontró token');
       return {
         success: false,
         error: 'Token de autenticación no encontrado'
       };
     }
 
+    console.log('verifyAuth: Verificando token...');
     // Verificar el token
     const payload = verifyAccessToken(token);
+    console.log('verifyAuth: Payload:', { userId: payload.userId });
     
     // Conectar a la base de datos y verificar que el usuario existe
     await connectDB();
     const user = await User.findById(payload.userId).select('email membershipType role isActive');
+    console.log('verifyAuth: Usuario encontrado:', { 
+      found: !!user, 
+      email: user?.email, 
+      isActive: user?.isActive 
+    });
     
     if (!user || !user.isActive) {
       return {
