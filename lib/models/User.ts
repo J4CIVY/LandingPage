@@ -74,6 +74,7 @@ export interface IUser extends Document {
   passwordResetToken?: string;
   passwordResetExpires?: Date;
   lastLogin?: Date;
+  lastActivity?: Date;
   loginAttempts: number;
   lockUntil?: Date;
   
@@ -208,6 +209,7 @@ const UserSchema = new Schema<IUser>({
   passwordResetToken: { type: String, select: false },
   passwordResetExpires: { type: Date, select: false },
   lastLogin: { type: Date },
+  lastActivity: { type: Date, default: Date.now },
   loginAttempts: { type: Number, default: 0, max: 5 },
   lockUntil: { type: Date },
   
@@ -241,6 +243,7 @@ UserSchema.index({ isActive: 1 });
 UserSchema.index({ city: 1 });
 UserSchema.index({ createdAt: -1 });
 UserSchema.index({ lastLogin: -1 });
+UserSchema.index({ lastActivity: -1 });
 UserSchema.index({ lockUntil: 1 }, { expireAfterSeconds: 0 });
 
 // Virtual para nombre completo

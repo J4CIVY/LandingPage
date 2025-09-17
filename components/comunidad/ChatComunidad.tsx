@@ -35,12 +35,8 @@ export default function ChatComunidad({
   grupoId
 }: ChatComunidadProps) {
   const [nuevoMensaje, setNuevoMensaje] = useState('');
-  const [usuariosEnLinea] = useState<UsuarioEnLinea[]>([
-    { id: '1', nombre: 'Carlos M.', ultimaActividad: new Date() },
-    { id: '2', nombre: 'Ana L.', ultimaActividad: new Date(Date.now() - 2 * 60 * 1000) },
-    { id: '3', nombre: 'Luis R.', ultimaActividad: new Date(Date.now() - 5 * 60 * 1000) },
-    { id: '4', nombre: 'María S.', ultimaActividad: new Date(Date.now() - 1 * 60 * 1000) }
-  ]);
+  const [usuariosEnLinea, setUsuariosEnLinea] = useState<UsuarioEnLinea[]>([]);
+  const [cargandoUsuarios, setCargandoUsuarios] = useState(false);
   const [mostrarUsuarios, setMostrarUsuarios] = useState(false);
   const [menuAbierto, setMenuAbierto] = useState<string | null>(null);
   const [enviandoMensaje, setEnviandoMensaje] = useState(false);
@@ -50,6 +46,63 @@ export default function ChatComunidad({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const esAdmin = usuarioActual?.role === 'admin' || usuarioActual?.role === 'super-admin';
+
+  // Cargar usuarios en línea
+  const cargarUsuariosEnLinea = async () => {
+    try {
+      setCargandoUsuarios(true);
+      const response = await fetch('/api/comunidad/usuarios-en-linea', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUsuariosEnLinea(data.datos || []);
+      }
+    } catch (error) {
+      console.error('Error al cargar usuarios en línea:', error);
+    } finally {
+      setCargandoUsuarios(false);
+    }
+  };
+
+  // Actualizar actividad del usuario
+  const actualizarActividad = async () => {
+    try {
+      await fetch('/api/comunidad/usuarios-en-linea', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+    } catch (error) {
+      console.error('Error al actualizar actividad:', error);
+    }
+  };
+
+  // Cargar usuarios en línea al montar el componente
+  useEffect(() => {
+    if (usuarioActual) {
+      cargarUsuariosEnLinea();
+      actualizarActividad();
+      
+      // Actualizar usuarios en línea cada 30 segundos
+      const intervaloUsuarios = setInterval(cargarUsuariosEnLinea, 30000);
+      
+      // Actualizar actividad cada 5 minutos
+      const intervaloActividad = setInterval(actualizarActividad, 5 * 60 * 1000);
+      
+      return () => {
+        clearInterval(intervaloUsuarios);
+        clearInterval(intervaloActividad);
+      };
+    }
+  }, [usuarioActual]);
 
   // Auto-scroll al final cuando llegan nuevos mensajes
   useEffect(() => {

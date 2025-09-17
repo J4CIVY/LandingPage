@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   FaShieldAlt, 
   FaExclamationTriangle, 
@@ -10,7 +10,8 @@ import {
   FaUserSlash,
   FaTrash,
   FaFlag,
-  FaClock
+  FaClock,
+  FaSpinner
 } from 'react-icons/fa';
 import { ReporteContenido } from '@/types/comunidad';
 import { IUser } from '@/lib/models/User';
@@ -21,10 +22,19 @@ interface NormasProps {
 
 interface TablaReportesProps {
   reportes: ReporteContenido[];
+  cargandoReportes: boolean;
+  errorReportes: string | null;
+  cargarReportes: () => void;
   onActualizarReporte: (reporteId: string, accion: 'resolver' | 'rechazar') => void;
 }
 
-function TablaReportes({ reportes, onActualizarReporte }: TablaReportesProps) {
+function TablaReportes({ 
+  reportes, 
+  cargandoReportes, 
+  errorReportes, 
+  cargarReportes, 
+  onActualizarReporte 
+}: TablaReportesProps) {
   const getEstadoColor = (estado: string) => {
     switch (estado) {
       case 'pendiente': return 'bg-yellow-100 text-yellow-800';
@@ -76,7 +86,30 @@ function TablaReportes({ reportes, onActualizarReporte }: TablaReportesProps) {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {reportes.length === 0 ? (
+            {cargandoReportes ? (
+              <tr>
+                <td colSpan={5} className="px-6 py-8 text-center">
+                  <div className="flex items-center justify-center">
+                    <FaSpinner className="animate-spin text-blue-600 mr-2" />
+                    <span className="text-gray-500">Cargando reportes...</span>
+                  </div>
+                </td>
+              </tr>
+            ) : errorReportes ? (
+              <tr>
+                <td colSpan={5} className="px-6 py-8 text-center">
+                  <div className="text-red-500">
+                    {errorReportes}
+                    <button
+                      onClick={cargarReportes}
+                      className="ml-4 px-3 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700"
+                    >
+                      Reintentar
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ) : reportes.length === 0 ? (
               <tr>
                 <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
                   No hay reportes pendientes
@@ -142,30 +175,48 @@ function TablaReportes({ reportes, onActualizarReporte }: TablaReportesProps) {
 
 export default function Normas({ usuarioActual }: NormasProps) {
   const [vistaActiva, setVistaActiva] = useState<'normas' | 'moderacion'>('normas');
-  const [reportes] = useState<ReporteContenido[]>([
-    // Datos de ejemplo - en producción vendrían de la API
-    {
-      id: '1',
-      reportadorId: 'user1',
-      contenidoId: 'post1',
-      tipoContenido: 'publicacion',
-      motivo: 'Contenido inapropiado',
-      descripcion: 'La publicación contiene lenguaje ofensivo',
-      estado: 'pendiente',
-      fechaReporte: new Date(),
-    },
-    {
-      id: '2',
-      reportadorId: 'user2',
-      contenidoId: 'comment1',
-      tipoContenido: 'comentario',
-      motivo: 'Spam',
-      estado: 'revisado',
-      fechaReporte: new Date(Date.now() - 24 * 60 * 60 * 1000),
-    }
-  ]);
+  const [reportes, setReportes] = useState<ReporteContenido[]>([]);
+  const [cargandoReportes, setCargandoReportes] = useState(false);
+  const [errorReportes, setErrorReportes] = useState<string | null>(null);
 
   const esAdmin = usuarioActual?.role === 'admin' || usuarioActual?.role === 'super-admin';
+
+  // Cargar reportes si es admin
+  const cargarReportes = async () => {
+    if (!esAdmin) return;
+    
+    try {
+      setCargandoReportes(true);
+      setErrorReportes(null);
+      
+      const response = await fetch('/api/comunidad/reportes?estado=pendiente', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setReportes(data.datos || []);
+      } else {
+        throw new Error('Error al cargar reportes');
+      }
+    } catch (error) {
+      console.error('Error al cargar reportes:', error);
+      setErrorReportes('Error al cargar los reportes');
+    } finally {
+      setCargandoReportes(false);
+    }
+  };
+
+  // Cargar reportes al montar el componente si es admin
+  useEffect(() => {
+    if (esAdmin) {
+      cargarReportes();
+    }
+  }, [esAdmin]);
 
   const normasComunidad = [
     {
@@ -471,6 +522,9 @@ export default function Normas({ usuarioActual }: NormasProps) {
             {/* Tabla de reportes */}
             <TablaReportes 
               reportes={reportes}
+              cargandoReportes={cargandoReportes}
+              errorReportes={errorReportes}
+              cargarReportes={cargarReportes}
               onActualizarReporte={manejarActualizarReporte}
             />
           </div>

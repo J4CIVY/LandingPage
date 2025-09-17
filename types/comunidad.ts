@@ -200,3 +200,11 @@ export interface RespuestaAPI<T> {
   mensaje?: string;
   error?: string;
 }
+
+export interface UsuarioEnLinea {
+  id: string;
+  nombre: string;
+  avatar?: string;
+  ultimaActividad: Date;
+  enLinea: boolean;
+}
