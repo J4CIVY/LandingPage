@@ -85,6 +85,12 @@ export interface UsuarioRanking {
     participacionEventos: number;
     total: number;
   };
+  contadores?: {
+    publicaciones: number;
+    comentarios: number;
+    reaccionesRecibidas: number;
+    participacionEventos: number;
+  };
   insignias: Insignia[];
   posicion: number;
   nivel: string; // 'Novato', 'Colaborador', 'Motociclista Activo', 'Leyenda BSKMT'

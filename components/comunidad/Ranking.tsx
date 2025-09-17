@@ -285,22 +285,27 @@ export default function Ranking({
                     </div>
                     
                     <div className="flex items-center space-x-4 mt-1 text-xs text-gray-500">
+                                        {/* Desglose de actividad */}
+                  <div className="space-y-1">
+                    <div className="text-xs text-gray-600 grid grid-cols-2 gap-2">
                       <span className="flex items-center">
                         <FaFire className="h-3 w-3 mr-1" />
-                        {usuario.puntos.publicaciones}
+                        {usuario.contadores?.publicaciones || 0} publicaciones ({usuario.puntos.publicaciones} pts)
                       </span>
                       <span className="flex items-center">
                         <FaComment className="h-3 w-3 mr-1" />
-                        {usuario.puntos.comentarios}
+                        {usuario.contadores?.comentarios || 0} comentarios ({usuario.puntos.comentarios} pts)
                       </span>
                       <span className="flex items-center">
                         <FaHeart className="h-3 w-3 mr-1" />
-                        {usuario.puntos.reaccionesRecibidas}
+                        {usuario.contadores?.reaccionesRecibidas || 0} reacciones ({usuario.puntos.reaccionesRecibidas} pts)
                       </span>
                       <span className="flex items-center">
                         <FaCalendarAlt className="h-3 w-3 mr-1" />
-                        {usuario.puntos.participacionEventos}
+                        {usuario.contadores?.participacionEventos || 0} eventos ({usuario.puntos.participacionEventos} pts)
                       </span>
+                    </div>
+                  </div>
                     </div>
                   </div>
 

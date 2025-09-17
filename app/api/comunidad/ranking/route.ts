@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
-import { UsuarioRanking } from '@/lib/models/Comunidad';
+import { UsuarioRanking, Publicacion, Comentario } from '@/lib/models/Comunidad';
 import { verifySession } from '@/lib/auth-utils';
 
 // GET - Obtener ranking de usuarios
@@ -36,12 +36,44 @@ export async function GET(request: NextRequest) {
       .limit(limite)
       .exec();
 
-    // Calcular badges y niveles
-    const rankingsConBadges = rankings.map((ranking, index) => {
+    // Calcular badges y niveles con contadores reales
+    const rankingsConBadges = await Promise.all(rankings.map(async (ranking, index) => {
       const puntosTotal = ranking.puntos.total || 0;
       const badges = calcularBadges(puntosTotal);
       const nivel = calcularNivel(puntosTotal);
       const progreso = calcularProgreso(puntosTotal, nivel);
+
+      // Obtener contadores reales de actividad del usuario
+      const [conteoPublicaciones, conteoComentarios, conteoReacciones] = await Promise.all([
+        Publicacion.countDocuments({ 
+          autorId: ranking.usuarioId._id, 
+          activa: true 
+        }),
+        Comentario.countDocuments({ 
+          autorId: ranking.usuarioId._id, 
+          activo: true 
+        }),
+        Publicacion.aggregate([
+          { $match: { autorId: ranking.usuarioId._id, activa: true } },
+          {
+            $project: {
+              totalReacciones: {
+                $add: [
+                  { $size: '$reacciones.meGusta' },
+                  { $size: '$reacciones.corazones' },
+                  { $size: '$reacciones.fuego' }
+                ]
+              }
+            }
+          },
+          {
+            $group: {
+              _id: null,
+              total: { $sum: '$totalReacciones' }
+            }
+          }
+        ]).then(result => result[0]?.total || 0)
+      ]);
 
       return {
         posicion: index + 1,
@@ -59,6 +91,12 @@ export async function GET(request: NextRequest) {
           participacionEventos: ranking.puntos.participacionEventos || 0,
           total: puntosTotal
         },
+        contadores: {
+          publicaciones: conteoPublicaciones,
+          comentarios: conteoComentarios,
+          reaccionesRecibidas: conteoReacciones,
+          participacionEventos: 0 // Por implementar con eventos
+        },
         nivel: nivel,
         progreso: progreso,
         insignias: badges.map(badge => ({
@@ -71,7 +109,7 @@ export async function GET(request: NextRequest) {
         })),
         fechaActualizacion: ranking.fechaActualizacion
       };
-    });
+    }));
 
     // Obtener posición del usuario actual
     const usuarioActual = rankings.find(r => 
