@@ -41,13 +41,15 @@ async function verifyAdminAuth(request: NextRequest) {
  */
 async function handlePatch(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // Verificar autenticación de administrador
   const authResult = await verifyAdminAuth(request);
   if (!authResult.success) {
     return createErrorResponse(authResult.error!, authResult.status!);
   }
+
+  const { id } = await params;
 
   await connectDB();
   
@@ -58,7 +60,7 @@ async function handlePatch(
       return createErrorResponse('La razón del rechazo es requerida', HTTP_STATUS.BAD_REQUEST);
     }
     
-    const application = await MembershipApplication.findById(params.id);
+    const application = await MembershipApplication.findById(id);
     if (!application) {
       return createErrorResponse('Solicitud de membresía no encontrada', HTTP_STATUS.NOT_FOUND);
     }
@@ -68,7 +70,7 @@ async function handlePatch(
     }
     
     const updatedApplication = await MembershipApplication.findByIdAndUpdate(
-      params.id,
+      id,
       {
         status: 'rejected',
         reviewedBy: authResult.user._id,

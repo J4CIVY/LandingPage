@@ -7,7 +7,7 @@ import { Types } from 'mongoose';
 // GET - Obtener comentarios de una publicación específica
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectToDatabase();
@@ -20,7 +20,7 @@ export async function GET(
       );
     }
 
-    const { id } = params;
+    const { id } = await params;
     
     if (!Types.ObjectId.isValid(id)) {
       return NextResponse.json(

@@ -41,7 +41,7 @@ async function verifyAdminAuth(request: NextRequest) {
  */
 async function handleGet(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // Verificar autenticación de administrador
   const authResult = await verifyAdminAuth(request);
@@ -51,8 +51,10 @@ async function handleGet(
 
   await connectDB();
   
+  const { id } = await params;
+  
   try {
-    const application = await MembershipApplication.findById(params.id)
+    const application = await MembershipApplication.findById(id)
       .populate('reviewedBy', 'firstName lastName email')
       .populate('referredByMember', 'firstName lastName email')
       .exec();
@@ -75,7 +77,7 @@ async function handleGet(
  */
 async function handlePut(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // Verificar autenticación de administrador
   const authResult = await verifyAdminAuth(request);
@@ -83,12 +85,14 @@ async function handlePut(
     return createErrorResponse(authResult.error!, authResult.status!);
   }
 
+  const { id } = await params;
+
   await connectDB();
   
   try {
     const body = await request.json();
     
-    const application = await MembershipApplication.findById(params.id);
+    const application = await MembershipApplication.findById(id);
     if (!application) {
       return createErrorResponse('Solicitud de membresía no encontrada', HTTP_STATUS.NOT_FOUND);
     }
@@ -127,7 +131,7 @@ async function handlePut(
     }
     
     const updatedApplication = await MembershipApplication.findByIdAndUpdate(
-      params.id,
+      id,
       updateData,
       { new: true, runValidators: true }
     )
@@ -157,7 +161,7 @@ async function handlePut(
  */
 async function handleDelete(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // Verificar autenticación de administrador
   const authResult = await verifyAdminAuth(request);
@@ -165,15 +169,17 @@ async function handleDelete(
     return createErrorResponse(authResult.error!, authResult.status!);
   }
 
+  const { id } = await params;
+
   await connectDB();
   
   try {
-    const application = await MembershipApplication.findById(params.id);
+    const application = await MembershipApplication.findById(id);
     if (!application) {
       return createErrorResponse('Solicitud de membresía no encontrada', HTTP_STATUS.NOT_FOUND);
     }
     
-    await MembershipApplication.findByIdAndDelete(params.id);
+    await MembershipApplication.findByIdAndDelete(id);
     
     return createSuccessResponse({
       message: 'Solicitud de membresía eliminada exitosamente'

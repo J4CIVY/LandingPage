@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { 
   withErrorHandling, 
   createSuccessResponse, 
@@ -36,9 +36,64 @@ async function verifyAdminAuth(request: NextRequest) {
 }
 
 /**
- * PATCH /api/admin/memberships/[id]/communication
+ * POST /api/admin/memberships/[id]/communication
  * Agrega una entrada al historial de comunicación
  */
+async function handlePost(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  // Verificar autenticación de administrador
+  const authResult = await verifyAdminAuth(request);
+  if (!authResult.success) {
+    return createErrorResponse(authResult.error!, authResult.status!);
+  }
+
+  const { id } = await params;
+
+  await connectDB();
+  
+  try {
+    const { type, message, notes } = await request.json();
+    
+    // Validar campos requeridos
+    if (!type || !message) {
+      return createErrorResponse('Tipo y mensaje son requeridos', HTTP_STATUS.BAD_REQUEST);
+    }
+    
+    // Buscar la aplicación de membresía
+    const application = await MembershipApplication.findById(id);
+    
+    if (!application) {
+      return createErrorResponse('Solicitud de membresía no encontrada', HTTP_STATUS.NOT_FOUND);
+    }
+    
+    // Agregar nueva entrada al historial de comunicación
+    const newCommunicationEntry = {
+      date: new Date(),
+      type: type,
+      message: message,
+      notes: notes || '',
+      adminId: authResult.user._id,
+      adminName: `${authResult.user.firstName} ${authResult.user.lastName}`
+    };
+    
+    application.communicationHistory.push(newCommunicationEntry);
+    await application.save();
+    
+    return createSuccessResponse({ 
+      communicationEntry: newCommunicationEntry,
+      message: 'Entrada de comunicación agregada exitosamente' 
+    });
+    
+  } catch (error) {
+    console.error('Error adding communication entry:', error);
+    return createErrorResponse('Error al agregar entrada de comunicación', HTTP_STATUS.INTERNAL_SERVER_ERROR);
+  }
+}
+
+// Exportar manejadores
+export const POST = withErrorHandling(handlePost);
 async function handlePatch(
   request: NextRequest,
   { params }: { params: { id: string } }
