@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { Comentario, UsuarioRanking } from '@/lib/models/Comunidad';
 import { verifySession } from '@/lib/auth-utils';
+import { actualizarPuntos } from '@/lib/services/GamificacionService';
 
 // POST - Crear nuevo comentario
 export async function POST(request: NextRequest) {
@@ -47,8 +48,8 @@ export async function POST(request: NextRequest) {
 
     await nuevoComentario.save();
 
-    // Actualizar puntos del usuario
-    await actualizarPuntosUsuario(session.user.id, 'comentario');
+    // Actualizar puntos del usuario (+2 puntos por comentario)
+    await actualizarPuntos(session.user.id, 'comentario');
 
     // Obtener datos completos para respuesta
     await nuevoComentario.populate('autorId', 'firstName lastName email role');
@@ -85,57 +86,5 @@ export async function POST(request: NextRequest) {
       { exito: false, error: 'Error interno del servidor' },
       { status: 500 }
     );
-  }
-}
-
-// Función auxiliar para actualizar puntos del usuario
-async function actualizarPuntosUsuario(usuarioId: string, accion: 'comentario') {
-  try {
-    const puntos = { comentario: 2 };
-    const puntosAgregar = puntos[accion];
-
-    let ranking = await UsuarioRanking.findOne({ usuarioId });
-    
-    if (!ranking) {
-      ranking = new UsuarioRanking({
-        usuarioId,
-        puntos: {
-          publicaciones: 0,
-          comentarios: 0,
-          reaccionesRecibidas: 0,
-          participacionEventos: 0,
-          total: 0
-        },
-        insignias: [],
-        nivel: 'Novato',
-        fechaActualizacion: new Date()
-      });
-    }
-
-    ranking.puntos.comentarios += puntosAgregar;
-    
-    // Recalcular total
-    ranking.puntos.total = 
-      ranking.puntos.publicaciones + 
-      ranking.puntos.comentarios + 
-      ranking.puntos.reaccionesRecibidas + 
-      ranking.puntos.participacionEventos;
-
-    // Actualizar nivel
-    if (ranking.puntos.total >= 1500) {
-      ranking.nivel = 'Leyenda BSKMT';
-    } else if (ranking.puntos.total >= 500) {
-      ranking.nivel = 'Motociclista Activo';
-    } else if (ranking.puntos.total >= 100) {
-      ranking.nivel = 'Colaborador';
-    } else {
-      ranking.nivel = 'Novato';
-    }
-
-    ranking.fechaActualizacion = new Date();
-    await ranking.save();
-
-  } catch (error) {
-    console.error('Error al actualizar puntos:', error);
   }
 }

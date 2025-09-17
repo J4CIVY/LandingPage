@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { Publicacion, UsuarioRanking } from '@/lib/models/Comunidad';
 import { verifySession } from '@/lib/auth-utils';
+import { actualizarPuntos } from '@/lib/services/GamificacionService';
 
 // POST - Toggle reacción en publicación
 export async function POST(
@@ -49,14 +50,16 @@ export async function POST(
       publicacion.reacciones[tipo as keyof typeof publicacion.reacciones] = 
         reacciones.filter((id: any) => id.toString() !== usuarioId);
       
-      // Restar punto al autor de la publicación
-      await actualizarPuntosReaccion(publicacion.autorId._id.toString(), -1);
+      // No descontamos puntos al quitar reacciones para evitar penalizaciones
     } else {
       // Agregar reacción
       publicacion.reacciones[tipo as keyof typeof publicacion.reacciones].push(usuarioId);
       
-      // Sumar punto al autor de la publicación
-      await actualizarPuntosReaccion(publicacion.autorId._id.toString(), 1);
+      // Solo dar puntos cuando alguien recibe una nueva reacción
+      if (publicacion.autorId._id.toString() !== usuarioId) {
+        // +1 punto al autor de la publicación por recibir reacción
+        await actualizarPuntos(publicacion.autorId._id.toString(), 'reaccionRecibida');
+      }
     }
 
     await publicacion.save();

@@ -4,6 +4,7 @@ import { Publicacion } from '@/lib/models/Comunidad';
 import { IUser } from '@/lib/models/User';
 import { UsuarioRanking } from '@/lib/models/Comunidad';
 import { verifySession } from '@/lib/auth-utils';
+import { actualizarPuntos, esPrimeraPublicacion } from '@/lib/services/GamificacionService';
 
 // GET - Obtener publicaciones
 export async function GET(request: NextRequest) {
@@ -135,8 +136,16 @@ export async function POST(request: NextRequest) {
 
     await nuevaPublicacion.save();
 
-    // Actualizar puntos del usuario
-    await actualizarPuntosUsuario(session.user.id, 'publicacion');
+    // Verificar si es primera publicación para bonus
+    const esPrimera = await esPrimeraPublicacion(session.user.id);
+    
+    // Actualizar puntos del usuario (10 puntos por publicación)
+    await actualizarPuntos(session.user.id, 'publicacion');
+    
+    // Bonus por primera publicación (+20 puntos adicionales)
+    if (esPrimera) {
+      await actualizarPuntos(session.user.id, 'primeraPublicacion');
+    }
 
     // Obtener datos completos para respuesta
     await nuevaPublicacion.populate('autorId', 'firstName lastName email role');
@@ -179,70 +188,5 @@ export async function POST(request: NextRequest) {
       },
       { status: 500 }
     );
-  }
-}
-
-// Función auxiliar para actualizar puntos del usuario
-async function actualizarPuntosUsuario(usuarioId: string, accion: 'publicacion' | 'comentario' | 'reaccion') {
-  try {
-    const puntos = {
-      publicacion: 10,
-      comentario: 2,
-      reaccion: 1
-    };
-
-    const puntosAgregar = puntos[accion];
-
-    // Buscar o crear registro de ranking
-    let ranking = await UsuarioRanking.findOne({ usuarioId });
-    
-    if (!ranking) {
-      ranking = new UsuarioRanking({
-        usuarioId,
-        puntos: {
-          publicaciones: 0,
-          comentarios: 0,
-          reaccionesRecibidas: 0,
-          participacionEventos: 0,
-          total: 0
-        },
-        insignias: [],
-        nivel: 'Novato',
-        fechaActualizacion: new Date()
-      });
-    }
-
-    // Actualizar puntos específicos
-    if (accion === 'publicacion') {
-      ranking.puntos.publicaciones += puntosAgregar;
-    } else if (accion === 'comentario') {
-      ranking.puntos.comentarios += puntosAgregar;
-    } else if (accion === 'reaccion') {
-      ranking.puntos.reaccionesRecibidas += puntosAgregar;
-    }
-
-    // Recalcular total
-    ranking.puntos.total = 
-      ranking.puntos.publicaciones + 
-      ranking.puntos.comentarios + 
-      ranking.puntos.reaccionesRecibidas + 
-      ranking.puntos.participacionEventos;
-
-    // Actualizar nivel basado en puntos totales
-    if (ranking.puntos.total >= 1500) {
-      ranking.nivel = 'Leyenda BSKMT';
-    } else if (ranking.puntos.total >= 500) {
-      ranking.nivel = 'Motociclista Activo';
-    } else if (ranking.puntos.total >= 100) {
-      ranking.nivel = 'Colaborador';
-    } else {
-      ranking.nivel = 'Novato';
-    }
-
-    ranking.fechaActualizacion = new Date();
-    await ranking.save();
-
-  } catch (error) {
-    console.error('Error al actualizar puntos:', error);
   }
 }
