@@ -21,8 +21,19 @@ export interface MembershipData {
     pricing: {
       initial: number;
       withDiscount?: number;
+      early_bird?: number;
+      student?: number;
     };
+    benefits?: any[];
+    renewalType?: string;
+    isLifetime?: boolean;
   } | null;
+  // Información adicional calculada
+  daysSinceJoining: number;
+  membershipAge: string;
+  nextRenewalDate: string;
+  canRenew: boolean;
+  isNewMember: boolean;
 }
 
 export interface MembershipBenefit {
@@ -44,6 +55,7 @@ export interface MembershipHistoryItem {
   paymentMethod: string;
   renewalNumber?: number;
   isAutoRenewal?: boolean;
+  description?: string;
 }
 
 export interface UserMembershipData {

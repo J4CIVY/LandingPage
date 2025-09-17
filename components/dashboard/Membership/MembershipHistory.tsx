@@ -10,6 +10,7 @@ interface MembershipHistoryItem {
   paymentMethod: string;
   renewalNumber?: number;
   isAutoRenewal?: boolean;
+  description?: string;
 }
 
 interface MembershipHistoryProps {
@@ -170,6 +171,11 @@ export default function MembershipHistory({ history }: MembershipHistoryProps) {
                     <FaCreditCard className="w-4 h-4 text-gray-400" />
                     <span>{item.paymentMethod}</span>
                   </div>
+                  {item.description && (
+                    <div className="text-xs text-gray-500 mt-1">
+                      {item.description}
+                    </div>
+                  )}
                   <div className="font-semibold text-gray-900">
                     {formatCurrency(item.amount)}
                   </div>
