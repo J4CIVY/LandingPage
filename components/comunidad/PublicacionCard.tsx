@@ -36,6 +36,7 @@ export default function PublicacionCard({
   const [contenidoEditado, setContenidoEditado] = useState(publicacion.contenido);
   const [cargandoReaccion, setCargandoReaccion] = useState(false);
   const [cargandoEdicion, setCargandoEdicion] = useState(false);
+  const [cantidadComentarios, setCantidadComentarios] = useState(0);
 
   const esAutor = usuarioActual?.id === publicacion.autorId;
   const esAdmin = usuarioActual?.role === 'admin' || usuarioActual?.role === 'super-admin';
@@ -357,9 +358,9 @@ export default function PublicacionCard({
               <span>{publicacion.reacciones.fuego.length}</span>
             </span>
           )}
-          {publicacion.comentarios.length > 0 && (
+          {cantidadComentarios > 0 && (
             <span className="text-sm text-gray-600 ml-auto">
-              {publicacion.comentarios.length} comentarios
+              {cantidadComentarios} comentarios
             </span>
           )}
         </div>
@@ -433,6 +434,7 @@ export default function PublicacionCard({
             comentarios={publicacion.comentarios}
             usuarioActual={usuarioActual}
             onActualizarComentarios={(comentarios) => {
+              setCantidadComentarios(comentarios.length);
               onActualizar({ ...publicacion, comentarios });
             }}
           />

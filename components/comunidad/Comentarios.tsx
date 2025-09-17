@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   FaReply, 
   FaThumbsUp, 
@@ -335,13 +335,40 @@ function ComentarioItem({
 
 export default function Comentarios({
   publicacionId,
-  comentarios,
+  comentarios: comentariosProp,
   usuarioActual,
   onActualizarComentarios
 }: ComentariosProps) {
+  const [comentarios, setComentarios] = useState<Comentario[]>(comentariosProp);
   const [nuevoComentario, setNuevoComentario] = useState('');
   const [respondiendoA, setRespondiendoA] = useState<string | null>(null);
   const [cargandoEnvio, setCargandoEnvio] = useState(false);
+  const [cargandoComentarios, setCargandoComentarios] = useState(false);
+
+  // Cargar comentarios al montar el componente
+  useEffect(() => {
+    cargarComentarios();
+  }, [publicacionId]);
+
+  // Función para cargar comentarios desde la API
+  const cargarComentarios = async () => {
+    setCargandoComentarios(true);
+    try {
+      const response = await fetch(`/api/comunidad/publicaciones/${publicacionId}/comentarios`, {
+        credentials: 'include'
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setComentarios(data.datos || []);
+        onActualizarComentarios(data.datos || []);
+      }
+    } catch (error) {
+      console.error('Error al cargar comentarios:', error);
+    } finally {
+      setCargandoComentarios(false);
+    }
+  };
 
   // Función para enviar comentario
   const enviarComentario = async (e: React.FormEvent) => {
@@ -374,7 +401,8 @@ export default function Comentarios({
         
         if (comentariosResponse.ok) {
           const comentariosData = await comentariosResponse.json();
-          onActualizarComentarios(comentariosData.datos);
+          setComentarios(comentariosData.datos || []);
+          onActualizarComentarios(comentariosData.datos || []);
         }
 
         setNuevoComentario('');
@@ -404,6 +432,7 @@ export default function Comentarios({
       });
     };
 
+    setComentarios(actualizarRecursivo(comentarios));
     onActualizarComentarios(actualizarRecursivo(comentarios));
   };
 
@@ -418,7 +447,9 @@ export default function Comentarios({
         }));
     };
 
-    onActualizarComentarios(filtrarRecursivo(comentarios));
+    const comentariosActualizados = filtrarRecursivo(comentarios);
+    setComentarios(comentariosActualizados);
+    onActualizarComentarios(comentariosActualizados);
   };
 
   // Obtener comentarios principales (sin padre)
@@ -481,7 +512,12 @@ export default function Comentarios({
       )}
 
       {/* Lista de comentarios */}
-      {comentariosPrincipales.length > 0 ? (
+      {cargandoComentarios ? (
+        <div className="text-center py-8">
+          <FaSpinner className="animate-spin h-6 w-6 mx-auto text-gray-400" />
+          <p className="text-gray-500 mt-2">Cargando comentarios...</p>
+        </div>
+      ) : comentariosPrincipales.length > 0 ? (
         <div className="space-y-4">
           {comentariosPrincipales.map((comentario) => (
             <ComentarioItem
