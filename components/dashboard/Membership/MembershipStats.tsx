@@ -1,4 +1,5 @@
-import { FaCalendarAlt, FaMedal, FaSync, FaTrophy, FaCrown, FaUsers } from 'react-icons/fa';
+import { FaCalendarAlt, FaMedal, FaSync, FaTrophy, FaCrown, FaUsers, FaSpinner } from 'react-icons/fa';
+import { useUserStats } from '@/hooks/useUserStats';
 
 interface User {
   firstName: string;
@@ -33,22 +34,50 @@ interface Badge {
 }
 
 export default function MembershipStats({ user, membershipData }: MembershipStatsProps) {
-  // Calcular tiempo como miembro
+  const { stats, loading, error } = useUserStats();
+  
+  if (loading) {
+    return (
+      <div className="bg-white rounded-xl shadow-lg p-6">
+        <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+          <FaTrophy className="w-5 h-5 text-yellow-500" />
+          Estadísticas Personales
+        </h3>
+        <div className="flex items-center justify-center py-8">
+          <FaSpinner className="animate-spin text-2xl text-gray-400" />
+          <span className="ml-2 text-gray-600">Cargando estadísticas...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !stats) {
+    return (
+      <div className="bg-white rounded-xl shadow-lg p-6">
+        <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+          <FaTrophy className="w-5 h-5 text-yellow-500" />
+          Estadísticas Personales
+        </h3>
+        <div className="text-center py-8">
+          <p className="text-gray-500">No se pudieron cargar las estadísticas</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Calcular tiempo como miembro usando datos reales
   const calculateMembershipDuration = () => {
-    const joinDate = user.joinDate || user.createdAt;
-    if (!joinDate) {
+    if (!stats.memberSince) {
       return '0 días';
     }
     
     try {
-      const joinDateObj = new Date(joinDate);
+      const joinDateObj = new Date(stats.memberSince);
       if (isNaN(joinDateObj.getTime())) {
         return '0 días';
       }
       
-      const now = new Date();
-      const diffTime = Math.abs(now.getTime() - joinDateObj.getTime());
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      const diffDays = stats.daysSinceJoining;
       
       if (diffDays < 30) {
         return `${diffDays} días`;
@@ -69,15 +98,15 @@ export default function MembershipStats({ user, membershipData }: MembershipStat
     }
   };
 
-  // Calcular estadísticas simuladas
-  const stats = {
-    membershipDuration: calculateMembershipDuration(),
-    renewalCount: Math.floor(Math.random() * 5) + 1, // Simulado
-    eventsAttended: Math.floor(Math.random() * 20) + 5, // Simulado
-    benefitsUsed: Math.floor(Math.random() * 15) + 3, // Simulado
+  // Calcular número de renovaciones basado en los datos
+  const calculateRenewals = () => {
+    // Por ahora, estimamos basándonos en el tiempo como miembro
+    // En el futuro se puede agregar un campo específico en la base de datos
+    const years = Math.floor(stats.daysSinceJoining / 365);
+    return Math.max(0, years);
   };
 
-  // Insignias/logros simulados
+  // Insignias/logros basados en datos reales
   const badges: Badge[] = [
     {
       id: 'first-renewal',
@@ -85,7 +114,7 @@ export default function MembershipStats({ user, membershipData }: MembershipStat
       description: 'Renovaste tu membresía por primera vez',
       icon: FaSync,
       color: 'text-blue-500',
-      earned: stats.renewalCount >= 1
+      earned: calculateRenewals() >= 1
     },
     {
       id: 'loyal-member',
@@ -93,17 +122,7 @@ export default function MembershipStats({ user, membershipData }: MembershipStat
       description: 'Más de 1 año como miembro',
       icon: FaMedal,
       color: 'text-gold-500',
-      earned: (() => {
-        const joinDate = user.joinDate || user.createdAt;
-        if (!joinDate) return false;
-        try {
-          const joinDateObj = new Date(joinDate);
-          if (isNaN(joinDateObj.getTime())) return false;
-          return (new Date().getTime() - joinDateObj.getTime()) > (365 * 24 * 60 * 60 * 1000);
-        } catch (error) {
-          return false;
-        }
-      })()
+      earned: stats.daysSinceJoining >= 365
     },
     {
       id: 'event-enthusiast',
@@ -132,18 +151,18 @@ export default function MembershipStats({ user, membershipData }: MembershipStat
         Estadísticas Personales
       </h3>
 
-      {/* Estadísticas principales */}
+      {/* Estadísticas principales usando datos reales */}
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg">
           <div className="text-2xl font-bold text-blue-600 mb-1">
-            {stats.membershipDuration}
+            {calculateMembershipDuration()}
           </div>
           <p className="text-sm text-blue-700">Como miembro</p>
         </div>
 
         <div className="text-center p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-lg">
           <div className="text-2xl font-bold text-green-600 mb-1">
-            {stats.renewalCount}
+            {calculateRenewals()}
           </div>
           <p className="text-sm text-green-700">Renovaciones</p>
         </div>
@@ -157,9 +176,9 @@ export default function MembershipStats({ user, membershipData }: MembershipStat
 
         <div className="text-center p-4 bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-lg">
           <div className="text-2xl font-bold text-yellow-600 mb-1">
-            {stats.benefitsUsed}
+            {stats.totalPoints}
           </div>
-          <p className="text-sm text-yellow-700">Beneficios</p>
+          <p className="text-sm text-yellow-700">Puntos</p>
         </div>
       </div>
 
@@ -203,7 +222,7 @@ export default function MembershipStats({ user, membershipData }: MembershipStat
         </div>
       </div>
 
-      {/* Ranking simulado */}
+      {/* Ranking real */}
       <div className="border-t border-gray-200 pt-4">
         <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
           <FaUsers className="w-4 h-4 text-blue-500" />
@@ -212,38 +231,41 @@ export default function MembershipStats({ user, membershipData }: MembershipStat
         
         <div className="text-center p-4 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-lg">
           <div className="text-xl font-bold text-indigo-600 mb-1">
-            #{Math.floor(Math.random() * 100) + 1}
+            #{stats.ranking.position || 'N/A'}
           </div>
           <p className="text-sm text-indigo-700 mb-2">
             En el ranking general
           </p>
           <p className="text-xs text-indigo-600">
-            ¡Sigue participando para subir posiciones!
+            {stats.ranking.totalUsers > 0 
+              ? `Entre ${stats.ranking.totalUsers} miembros` 
+              : '¡Sigue participando para subir posiciones!'
+            }
           </p>
         </div>
       </div>
 
-      {/* Progreso hacia siguiente nivel */}
+      {/* Progreso hacia siguiente nivel real */}
       <div className="mt-4 pt-4 border-t border-gray-200">
         <h4 className="font-semibold text-gray-900 mb-3">Progreso del Nivel</h4>
         
         <div className="mb-2">
           <div className="flex justify-between text-sm text-gray-600 mb-1">
-            <span>Nivel {user.membershipType === 'pro' || user.membershipType === 'pro-duo' ? 'Máximo' : 'Actual'}</span>
-            <span>{Math.floor(Math.random() * 100)}%</span>
+            <span>{stats.currentLevel} {stats.levelIcon}</span>
+            <span>{Math.round(stats.levelProgress)}%</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div 
               className="bg-gradient-to-r from-green-500 to-green-600 h-2 rounded-full transition-all duration-300"
-              style={{ width: `${Math.floor(Math.random() * 100)}%` }}
+              style={{ width: `${Math.round(stats.levelProgress)}%` }}
             ></div>
           </div>
         </div>
         
         <p className="text-xs text-gray-500">
-          {user.membershipType === 'pro' || user.membershipType === 'pro-duo' 
+          {stats.levelProgress >= 100 
             ? '¡Has alcanzado el nivel máximo!' 
-            : 'Participa en más eventos para subir de nivel'
+            : `${stats.nextLevelPoints - stats.totalPoints} puntos para el siguiente nivel`
           }
         </p>
       </div>
