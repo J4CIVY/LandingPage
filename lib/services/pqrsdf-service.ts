@@ -4,10 +4,23 @@ import {
   TimelineEvento, 
   CrearSolicitudDto,
   SolicitudCategoria,
-  SolicitudEstado
+  SolicitudEstado,
+  EstadisticasSolicitudes
 } from '@/types/pqrsdf';
 
-// Datos mock para desarrollo
+// Configuración de la API
+const API_BASE_URL = '/api/pqrsdf';
+
+// Utility function para manejar errores de fetch
+const handleFetchError = async (response: Response) => {
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({ error: 'Error desconocido' }));
+    throw new Error(errorData.error || `Error ${response.status}: ${response.statusText}`);
+  }
+  return response.json();
+};
+
+// Datos mock para desarrollo (mantenemos como fallback)
 export const SOLICITUDES_MOCK: Solicitud[] = [
   {
     id: '1',
@@ -156,46 +169,282 @@ export const SOLICITUDES_MOCK: Solicitud[] = [
   }
 ];
 
-// Servicio mock para manejo de solicitudes
+// Servicio para manejo de solicitudes PQRSDF
 export class PQRSDFService {
+  
+  // Obtener solicitudes del usuario
+  static async obtenerSolicitudes(usuarioId: string): Promise<Solicitud[]> {
+    try {
+      console.log('PQRSDFService.obtenerSolicitudes llamado con usuarioId:', usuarioId);
+      
+      const response = await fetch(`${API_BASE_URL}?usuarioId=${encodeURIComponent(usuarioId)}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        cache: 'no-cache'
+      });
+
+      const data = await handleFetchError(response);
+      console.log('Solicitudes obtenidas desde API:', data);
+      
+      return data.solicitudes || [];
+    } catch (error) {
+      console.error('Error al obtener solicitudes desde API:', error);
+      
+      // Fallback a datos mock en caso de error
+      console.log('Usando datos mock como fallback');
+      const solicitudesMock = await this.obtenerSolicitudesMock(usuarioId);
+      return solicitudesMock;
+    }
+  }
+
+  // Obtener una solicitud específica
+  static async obtenerSolicitud(id: string): Promise<Solicitud | null> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/${encodeURIComponent(id)}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        cache: 'no-cache'
+      });
+
+      if (response.status === 404) {
+        return null;
+      }
+
+      const data = await handleFetchError(response);
+      return data;
+    } catch (error) {
+      console.error('Error al obtener solicitud desde API:', error);
+      return null;
+    }
+  }
+
+  // Crear nueva solicitud
+  static async crearSolicitud(usuarioId: string, datos: CrearSolicitudDto): Promise<Solicitud> {
+    try {
+      const response = await fetch(API_BASE_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datos)
+      });
+
+      const data = await handleFetchError(response);
+      console.log('Solicitud creada:', data);
+      
+      return data.solicitud;
+    } catch (error) {
+      console.error('Error al crear solicitud:', error);
+      throw error;
+    }
+  }
+
+  // Enviar mensaje en una solicitud
+  static async enviarMensaje(solicitudId: string, contenido: string, autorNombre: string): Promise<Mensaje> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/${encodeURIComponent(solicitudId)}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          accion: 'agregar_mensaje',
+          datos: {
+            contenido,
+            autorNombre
+          }
+        })
+      });
+
+      const data = await handleFetchError(response);
+      
+      // Retornar el último mensaje agregado
+      const mensajes = data.solicitud.mensajes;
+      return mensajes[mensajes.length - 1];
+    } catch (error) {
+      console.error('Error al enviar mensaje:', error);
+      throw error;
+    }
+  }
+
+  // Cambiar estado de solicitud (solo admin)
+  static async cambiarEstado(
+    solicitudId: string, 
+    nuevoEstado: SolicitudEstado, 
+    descripcion?: string
+  ): Promise<void> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/${encodeURIComponent(solicitudId)}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          accion: 'cambiar_estado',
+          datos: {
+            estado: nuevoEstado,
+            descripcion
+          }
+        })
+      });
+
+      await handleFetchError(response);
+    } catch (error) {
+      console.error('Error al cambiar estado:', error);
+      throw error;
+    }
+  }
+
+  // Calificar solicitud
+  static async calificarSolicitud(
+    solicitudId: string, 
+    satisfaccion: number, 
+    comentario?: string
+  ): Promise<void> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/${encodeURIComponent(solicitudId)}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          accion: 'calificar',
+          datos: {
+            satisfaccion,
+            comentario
+          }
+        })
+      });
+
+      await handleFetchError(response);
+    } catch (error) {
+      console.error('Error al calificar solicitud:', error);
+      throw error;
+    }
+  }
+
+  // Cerrar solicitud
+  static async cerrarSolicitud(solicitudId: string, autorNombre: string): Promise<void> {
+    try {
+      await this.cambiarEstado(solicitudId, 'cerrada', 'Solicitud cerrada por el usuario');
+    } catch (error) {
+      console.error('Error al cerrar solicitud:', error);
+      throw error;
+    }
+  }
+
+  // Obtener estadísticas
+  static async obtenerEstadisticas(usuarioId: string): Promise<EstadisticasSolicitudes> {
+    try {
+      console.log('PQRSDFService.obtenerEstadisticas llamado con usuarioId:', usuarioId);
+      
+      const response = await fetch(`${API_BASE_URL}/estadisticas?usuarioId=${encodeURIComponent(usuarioId)}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        cache: 'no-cache'
+      });
+
+      const data = await handleFetchError(response);
+      console.log('Estadísticas obtenidas desde API:', data);
+      
+      return data;
+    } catch (error) {
+      console.error('Error al obtener estadísticas desde API:', error);
+      
+      // Fallback a estadísticas mock
+      console.log('Usando estadísticas mock como fallback');
+      return await this.obtenerEstadisticasMock(usuarioId);
+    }
+  }
+
+  // ===== MÉTODOS MOCK DE FALLBACK =====
   private static solicitudes: Solicitud[] = [...SOLICITUDES_MOCK];
   private static contadorSolicitudes = 4;
+
+  private static async obtenerSolicitudesMock(usuarioId: string): Promise<Solicitud[]> {
+    await new Promise(resolve => setTimeout(resolve, 400));
+    
+    console.log('Usando datos mock para usuario:', usuarioId);
+    
+    let solicitudesUsuario = this.solicitudes.filter(s => s.usuarioId === usuarioId);
+    
+    if (solicitudesUsuario.length === 0) {
+      // Crear solicitudes de ejemplo para este usuario
+      const solicitudesEjemplo = this.crearSolicitudesEjemplo(usuarioId);
+      this.solicitudes.push(...solicitudesEjemplo);
+      solicitudesUsuario = solicitudesEjemplo;
+    }
+    
+    return solicitudesUsuario;
+  }
+
+  private static async obtenerEstadisticasMock(usuarioId: string): Promise<EstadisticasSolicitudes> {
+    await new Promise(resolve => setTimeout(resolve, 400));
+    
+    const solicitudesUsuario = await this.obtenerSolicitudesMock(usuarioId);
+    
+    return {
+      total: solicitudesUsuario.length,
+      porEstado: {
+        en_revision: solicitudesUsuario.filter(s => s.estado === 'en_revision').length,
+        respondida: solicitudesUsuario.filter(s => s.estado === 'respondida').length,
+        cerrada: solicitudesUsuario.filter(s => s.estado === 'cerrada').length,
+        escalada: solicitudesUsuario.filter(s => s.estado === 'escalada').length
+      },
+      porCategoria: {
+        peticion: solicitudesUsuario.filter(s => s.categoria === 'peticion').length,
+        queja: solicitudesUsuario.filter(s => s.categoria === 'queja').length,
+        reclamo: solicitudesUsuario.filter(s => s.categoria === 'reclamo').length,
+        sugerencia: solicitudesUsuario.filter(s => s.categoria === 'sugerencia').length,
+        denuncia: solicitudesUsuario.filter(s => s.categoria === 'denuncia').length,
+        felicitacion: solicitudesUsuario.filter(s => s.categoria === 'felicitacion').length
+      },
+      tiempoPromedioRespuesta: 24, // horas
+      satisfaccionPromedio: 4.2
+    };
+  }
 
   // Crear solicitudes de ejemplo para un nuevo usuario
   private static crearSolicitudesEjemplo(usuarioId: string): Solicitud[] {
     const ahora = new Date();
     const hace3Dias = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
-    const haceUnaSemana = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    const hace1Semana = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 
     return [
       {
         id: `${usuarioId}_1`,
-        numeroSolicitud: `PQRS-2025-${String(this.contadorSolicitudes++).padStart(4, '0')}`,
+        numeroSolicitud: `PQRS-2025-${String(this.contadorSolicitudes + 1).padStart(4, '0')}`,
         usuarioId,
         categoria: 'peticion',
-        asunto: 'Solicitud de información sobre eventos próximos',
-        descripcion: 'Me gustaría obtener información detallada sobre los próximos eventos del club.',
+        asunto: 'Información sobre próximos eventos',
+        descripcion: 'Solicito información sobre los eventos programados para este mes.',
         estado: 'respondida',
         prioridad: 'media',
-        fechaCreacion: haceUnaSemana,
+        fechaCreacion: hace1Semana,
         fechaActualizacion: hace3Dias,
         adjuntos: [],
         mensajes: [
           {
             id: `m_${usuarioId}_1`,
             solicitudId: `${usuarioId}_1`,
-            contenido: 'Hola, me gustaría conocer más detalles sobre los eventos programados.',
+            contenido: 'Solicito información sobre los eventos programados para este mes.',
             tipo: 'usuario',
             autorNombre: 'Usuario',
-            fechaCreacion: haceUnaSemana,
+            fechaCreacion: hace1Semana,
             adjuntos: []
           },
           {
             id: `m_${usuarioId}_2`,
             solicitudId: `${usuarioId}_1`,
-            contenido: 'Hola, puedes encontrar toda la información en la sección de eventos del dashboard.',
+            contenido: 'Hola, puedes revisar el calendario de eventos en el dashboard. Se actualiza semanalmente.',
             tipo: 'admin',
-            autorNombre: 'Administrador BSK',
+            autorNombre: 'Administrador',
             fechaCreacion: hace3Dias,
             adjuntos: []
           }
@@ -206,28 +455,28 @@ export class PQRSDFService {
             solicitudId: `${usuarioId}_1`,
             tipo: 'creada',
             descripcion: 'Solicitud creada',
-            fecha: haceUnaSemana,
+            fecha: hace1Semana,
             autorNombre: 'Usuario'
           },
           {
             id: `t_${usuarioId}_2`,
             solicitudId: `${usuarioId}_1`,
             tipo: 'respondida',
-            descripcion: 'Solicitud respondida por el administrador',
+            descripcion: 'Solicitud respondida',
             fecha: hace3Dias,
-            autorNombre: 'Administrador BSK'
+            autorNombre: 'Administrador'
           }
         ]
       },
       {
         id: `${usuarioId}_2`,
-        numeroSolicitud: `PQRS-2025-${String(this.contadorSolicitudes++).padStart(4, '0')}`,
+        numeroSolicitud: `PQRS-2025-${String(this.contadorSolicitudes + 2).padStart(4, '0')}`,
         usuarioId,
         categoria: 'sugerencia',
-        asunto: 'Mejora en la aplicación móvil',
-        descripcion: 'Sería útil tener notificaciones push para eventos próximos.',
+        asunto: 'Mejora en notificaciones',
+        descripcion: 'Sería útil tener notificaciones push para eventos importantes.',
         estado: 'en_revision',
-        prioridad: 'baja',
+        prioridad: 'media',
         fechaCreacion: ahora,
         fechaActualizacion: ahora,
         adjuntos: [],
@@ -254,167 +503,5 @@ export class PQRSDFService {
         ]
       }
     ];
-  }
-
-  // Obtener todas las solicitudes del usuario
-  static async obtenerSolicitudes(usuarioId: string): Promise<Solicitud[]> {
-    // Simular latencia de red
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    console.log('PQRSDFService.obtenerSolicitudes llamado con usuarioId:', usuarioId);
-    
-    // Si no hay solicitudes para este usuario, crear algunas de ejemplo
-    const solicitudesUsuario = this.solicitudes.filter(s => s.usuarioId === usuarioId);
-    
-    if (solicitudesUsuario.length === 0) {
-      // Crear solicitudes de ejemplo para este usuario
-      const solicitudesEjemplo = this.crearSolicitudesEjemplo(usuarioId);
-      this.solicitudes.push(...solicitudesEjemplo);
-      return solicitudesEjemplo;
-    }
-    
-    return solicitudesUsuario;
-  }
-
-  // Obtener una solicitud específica
-  static async obtenerSolicitud(id: string): Promise<Solicitud | null> {
-    await new Promise(resolve => setTimeout(resolve, 300));
-    
-    return this.solicitudes.find(s => s.id === id) || null;
-  }
-
-  // Crear nueva solicitud
-  static async crearSolicitud(usuarioId: string, datos: CrearSolicitudDto): Promise<Solicitud> {
-    await new Promise(resolve => setTimeout(resolve, 800));
-
-    const numeroSolicitud = `PQRS-2025-${String(this.contadorSolicitudes).padStart(4, '0')}`;
-    const ahora = new Date();
-    
-    const nuevaSolicitud: Solicitud = {
-      id: String(this.contadorSolicitudes),
-      numeroSolicitud,
-      usuarioId,
-      categoria: datos.categoria,
-      asunto: datos.asunto,
-      descripcion: datos.descripcion,
-      estado: 'en_revision',
-      prioridad: 'media',
-      fechaCreacion: ahora,
-      fechaActualizacion: ahora,
-      adjuntos: [], // En un entorno real, se procesarían los archivos
-      mensajes: [],
-      timeline: [{
-        id: `t${this.contadorSolicitudes}`,
-        solicitudId: String(this.contadorSolicitudes),
-        tipo: 'creada',
-        descripcion: 'Solicitud creada',
-        fecha: ahora,
-        autorNombre: 'Usuario' // En un entorno real, se obtendría del contexto de usuario
-      }]
-    };
-
-    this.solicitudes.push(nuevaSolicitud);
-    this.contadorSolicitudes++;
-
-    return nuevaSolicitud;
-  }
-
-  // Enviar mensaje en una solicitud
-  static async enviarMensaje(solicitudId: string, contenido: string, autorNombre: string): Promise<Mensaje> {
-    await new Promise(resolve => setTimeout(resolve, 400));
-
-    const solicitud = this.solicitudes.find(s => s.id === solicitudId);
-    if (!solicitud) {
-      throw new Error('Solicitud no encontrada');
-    }
-
-    const nuevoMensaje: Mensaje = {
-      id: `m${Date.now()}`,
-      solicitudId,
-      contenido,
-      tipo: 'usuario',
-      autorNombre,
-      fechaCreacion: new Date(),
-      adjuntos: []
-    };
-
-    solicitud.mensajes.push(nuevoMensaje);
-    solicitud.fechaActualizacion = new Date();
-
-    // Agregar evento al timeline
-    const timelineEvento: TimelineEvento = {
-      id: `t${Date.now()}`,
-      solicitudId,
-      tipo: 'mensaje',
-      descripcion: 'Nuevo mensaje agregado',
-      fecha: new Date(),
-      autorNombre
-    };
-
-    solicitud.timeline.push(timelineEvento);
-
-    return nuevoMensaje;
-  }
-
-  // Cerrar solicitud
-  static async cerrarSolicitud(solicitudId: string, autorNombre: string): Promise<void> {
-    await new Promise(resolve => setTimeout(resolve, 300));
-
-    const solicitud = this.solicitudes.find(s => s.id === solicitudId);
-    if (!solicitud) {
-      throw new Error('Solicitud no encontrada');
-    }
-
-    solicitud.estado = 'cerrada';
-    solicitud.fechaCierre = new Date();
-    solicitud.fechaActualizacion = new Date();
-
-    // Agregar evento al timeline
-    const timelineEvento: TimelineEvento = {
-      id: `t${Date.now()}`,
-      solicitudId,
-      tipo: 'cerrada',
-      descripcion: 'Solicitud cerrada por el usuario',
-      fecha: new Date(),
-      autorNombre
-    };
-
-    solicitud.timeline.push(timelineEvento);
-  }
-
-  // Generar número de solicitud
-  static generarNumeroSolicitud(): string {
-    const año = new Date().getFullYear();
-    const numero = String(this.contadorSolicitudes).padStart(4, '0');
-    return `PQRS-${año}-${numero}`;
-  }
-
-  // Estadísticas mock
-  static async obtenerEstadisticas(usuarioId: string) {
-    await new Promise(resolve => setTimeout(resolve, 400));
-    
-    console.log('PQRSDFService.obtenerEstadisticas llamado con usuarioId:', usuarioId);
-    
-    const solicitudesUsuario = this.solicitudes.filter(s => s.usuarioId === usuarioId);
-    
-    return {
-      total: solicitudesUsuario.length,
-      porEstado: {
-        en_revision: solicitudesUsuario.filter(s => s.estado === 'en_revision').length,
-        respondida: solicitudesUsuario.filter(s => s.estado === 'respondida').length,
-        cerrada: solicitudesUsuario.filter(s => s.estado === 'cerrada').length,
-        escalada: solicitudesUsuario.filter(s => s.estado === 'escalada').length
-      },
-      porCategoria: {
-        peticion: solicitudesUsuario.filter(s => s.categoria === 'peticion').length,
-        queja: solicitudesUsuario.filter(s => s.categoria === 'queja').length,
-        reclamo: solicitudesUsuario.filter(s => s.categoria === 'reclamo').length,
-        sugerencia: solicitudesUsuario.filter(s => s.categoria === 'sugerencia').length,
-        denuncia: solicitudesUsuario.filter(s => s.categoria === 'denuncia').length,
-        felicitacion: solicitudesUsuario.filter(s => s.categoria === 'felicitacion').length
-      },
-      tiempoPromedioRespuesta: 24, // horas
-      satisfaccionPromedio: 4.2
-    };
   }
 }
