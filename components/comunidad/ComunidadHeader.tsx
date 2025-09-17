@@ -1,8 +1,26 @@
 'use client';
 
-import { useState } from 'react';
-import { FaPlus, FaUsers, FaFilter, FaSearch } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import { FaPlus, FaUsers, FaFilter, FaSearch, FaSpinner } from 'react-icons/fa';
 import { GrupoInteres } from '@/types/comunidad';
+
+interface EstadisticasComunidad {
+  hoy: {
+    publicaciones: number;
+    mensajes: number;
+    usuarios: number;
+  };
+  general: {
+    miembrosActivos: number;
+    gruposActivos: number;
+    totalPublicaciones: number;
+    totalMensajes: number;
+  };
+  cambios: {
+    publicaciones: number;
+    mensajes: number;
+  };
+}
 
 interface ComunidadHeaderProps {
   onCrearPublicacion: () => void;
@@ -19,10 +37,40 @@ export default function ComunidadHeader({
 }: ComunidadHeaderProps) {
   const [mostrarFiltros, setMostrarFiltros] = useState(false);
   const [busqueda, setBusqueda] = useState('');
+  const [estadisticas, setEstadisticas] = useState<EstadisticasComunidad | null>(null);
+  const [cargandoEstadisticas, setCargandoEstadisticas] = useState(false);
 
   const grupoActual = grupoSeleccionado 
     ? grupos.find(g => g.id === grupoSeleccionado)
     : null;
+
+  // Función para cargar estadísticas
+  const cargarEstadisticas = async () => {
+    try {
+      setCargandoEstadisticas(true);
+      const response = await fetch('/api/comunidad/estadisticas', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setEstadisticas(data.datos);
+      }
+    } catch (error) {
+      console.error('Error al cargar estadísticas:', error);
+    } finally {
+      setCargandoEstadisticas(false);
+    }
+  };
+
+  // Cargar estadísticas al montar el componente
+  useEffect(() => {
+    cargarEstadisticas();
+  }, []);
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
@@ -166,24 +214,78 @@ export default function ComunidadHeader({
       {/* Estadísticas rápidas */}
       {!grupoSeleccionado && (
         <div className="border-t border-gray-200 pt-6 mt-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600">42</div>
-              <div className="text-sm text-gray-600">Publicaciones hoy</div>
+          {cargandoEstadisticas ? (
+            <div className="flex justify-center py-8">
+              <FaSpinner className="animate-spin text-blue-600 text-2xl" />
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-green-600">128</div>
-              <div className="text-sm text-gray-600">Miembros activos</div>
+          ) : estadisticas ? (
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-blue-600">
+                  {estadisticas.hoy.publicaciones}
+                </div>
+                <div className="text-sm text-gray-600">Publicaciones hoy</div>
+                {estadisticas.cambios.publicaciones !== 0 && (
+                  <div className={`text-xs mt-1 ${
+                    estadisticas.cambios.publicaciones > 0 
+                      ? 'text-green-600' 
+                      : 'text-red-600'
+                  }`}>
+                    {estadisticas.cambios.publicaciones > 0 ? '+' : ''}
+                    {estadisticas.cambios.publicaciones}% vs ayer
+                  </div>
+                )}
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-green-600">
+                  {estadisticas.general.miembrosActivos}
+                </div>
+                <div className="text-sm text-gray-600">Miembros activos</div>
+                <div className="text-xs text-gray-500 mt-1">Últimos 7 días</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-purple-600">
+                  {estadisticas.general.gruposActivos}
+                </div>
+                <div className="text-sm text-gray-600">Grupos activos</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-orange-600">
+                  {estadisticas.hoy.mensajes}
+                </div>
+                <div className="text-sm text-gray-600">Mensajes hoy</div>
+                {estadisticas.cambios.mensajes !== 0 && (
+                  <div className={`text-xs mt-1 ${
+                    estadisticas.cambios.mensajes > 0 
+                      ? 'text-green-600' 
+                      : 'text-red-600'
+                  }`}>
+                    {estadisticas.cambios.mensajes > 0 ? '+' : ''}
+                    {estadisticas.cambios.mensajes}% vs ayer
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-purple-600">{grupos.length}</div>
-              <div className="text-sm text-gray-600">Grupos activos</div>
+          ) : (
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-gray-400">--</div>
+                <div className="text-sm text-gray-600">Publicaciones hoy</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-gray-400">--</div>
+                <div className="text-sm text-gray-600">Miembros activos</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-gray-400">--</div>
+                <div className="text-sm text-gray-600">Grupos activos</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-gray-400">--</div>
+                <div className="text-sm text-gray-600">Mensajes hoy</div>
+              </div>
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-orange-600">89</div>
-              <div className="text-sm text-gray-600">Mensajes hoy</div>
-            </div>
-          </div>
+          )}
         </div>
       )}
     </div>
