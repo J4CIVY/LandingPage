@@ -25,42 +25,21 @@ interface InsigniaInfo {
   icono: string;
   color: string;
   descripcion: string;
+  requisitos?: string;
 }
 
-const insignias: Record<string, InsigniaInfo> = {
-  'Colaborador': {
-    icono: '🤝',
-    color: 'bg-blue-100 text-blue-800',
-    descripcion: 'Ha ayudado activamente a otros miembros'
-  },
-  'Motociclista Activo': {
-    icono: '🏍️',
-    color: 'bg-green-100 text-green-800',
-    descripcion: 'Participa regularmente en eventos'
-  },
-  'Leyenda BSKMT': {
-    icono: '👑',
-    color: 'bg-purple-100 text-purple-800',
-    descripcion: 'Miembro destacado con contribución excepcional'
-  },
-  'Socializado': {
-    icono: '💬',
-    color: 'bg-yellow-100 text-yellow-800',
-    descripcion: 'Muy activo en comentarios y conversaciones'
-  },
-  'Influyente': {
-    icono: '⭐',
-    color: 'bg-orange-100 text-orange-800',
-    descripcion: 'Sus publicaciones reciben muchas reacciones'
-  }
-};
+interface NivelInfo {
+  color: string;
+  minPuntos: number;
+  descripcion?: string;
+  beneficios?: string[];
+}
 
-const nivelesInfo = {
-  'Novato': { color: 'text-gray-600', minPuntos: 0 },
-  'Colaborador': { color: 'text-blue-600', minPuntos: 100 },
-  'Motociclista Activo': { color: 'text-green-600', minPuntos: 500 },
-  'Leyenda BSKMT': { color: 'text-purple-600', minPuntos: 1500 }
-};
+interface ConfiguracionGamificacion {
+  insignias: Record<string, InsigniaInfo>;
+  niveles: Record<string, NivelInfo>;
+  sistemaPuntos: Record<string, { puntos: number; descripcion: string }>;
+}
 
 export default function Ranking({
   usuarios,
@@ -69,6 +48,41 @@ export default function Ranking({
   const [vistaActual, setVistaActual] = useState<'ranking' | 'insignias' | 'niveles'>('ranking');
   const [mostrarTodos, setMostrarTodos] = useState(false);
   const [mostrarInfo, setMostrarInfo] = useState(false);
+  const [configuracion, setConfiguracion] = useState<ConfiguracionGamificacion | null>(null);
+  const [cargandoConfiguracion, setCargandoConfiguracion] = useState(false);
+
+  // Cargar configuración de gamificación
+  const cargarConfiguracion = async () => {
+    try {
+      setCargandoConfiguracion(true);
+      const response = await fetch('/api/comunidad/gamificacion', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setConfiguracion(data.datos);
+      }
+    } catch (error) {
+      console.error('Error al cargar configuración:', error);
+    } finally {
+      setCargandoConfiguracion(false);
+    }
+  };
+
+  // Cargar configuración al montar el componente
+  useEffect(() => {
+    cargarConfiguracion();
+  }, []);
+
+  // Usar configuración cargada o valores por defecto
+  const insignias = configuracion?.insignias || {};
+  const nivelesInfo = configuracion?.niveles || {};
+  const sistemaPuntos = configuracion?.sistemaPuntos || {};
 
   // Ordenar usuarios por puntos totales
   const usuariosOrdenados = [...usuarios].sort((a, b) => b.puntos.total - a.puntos.total);
@@ -132,26 +146,16 @@ export default function Ranking({
       </div>
 
       {/* Información del sistema de puntos */}
-      {mostrarInfo && (
+      {mostrarInfo && configuracion && (
         <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
           <h4 className="font-medium text-blue-900 mb-3">¿Cómo se calculan los puntos?</h4>
           <div className="space-y-2 text-sm text-blue-800">
-            <div className="flex items-center space-x-2">
-              <FaFire className="h-4 w-4" />
-              <span>Publicación nueva: +10 puntos</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <FaComment className="h-4 w-4" />
-              <span>Comentario: +2 puntos</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <FaHeart className="h-4 w-4" />
-              <span>Reacción recibida: +1 punto</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <FaCalendarAlt className="h-4 w-4" />
-              <span>Participación en evento: +25 puntos</span>
-            </div>
+            {Object.entries(sistemaPuntos).map(([accion, info]) => (
+              <div key={accion} className="flex items-center space-x-2">
+                <FaFire className="h-4 w-4" />
+                <span>{info.descripcion}: +{info.puntos} puntos</span>
+              </div>
+            ))}
           </div>
         </div>
       )}
@@ -379,48 +383,85 @@ export default function Ranking({
       {/* Vista de Niveles */}
       {vistaActual === 'niveles' && (
         <div className="space-y-4">
-          <p className="text-sm text-gray-600 mb-4">
-            Progresa a través de los niveles acumulando puntos por tu participación.
-          </p>
-          
-          <div className="space-y-4">
-            {Object.entries(nivelesInfo).map(([nivel, info]) => {
-              const usuarioActualNivel = usuarioActual && usuariosOrdenados.find(u => u.id === usuarioActual.id);
-              const esNivelActual = usuarioActualNivel?.nivel === nivel;
-              const progreso = usuarioActualNivel ? calcularProgreso(usuarioActualNivel.puntos.total, usuarioActualNivel.nivel) : 0;
+          {cargandoConfiguracion ? (
+            <div className="text-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+              <p className="text-gray-500 mt-2">Cargando niveles...</p>
+            </div>
+          ) : configuracion ? (
+            <>
+              <p className="text-sm text-gray-600 mb-4">
+                Progresa a través de los niveles acumulando puntos por tu participación.
+              </p>
               
-              return (
-                <div
-                  key={nivel}
-                  className={`p-4 border rounded-lg ${
-                    esNivelActual ? 'border-blue-300 bg-blue-50' : 'border-gray-200'
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className={`font-medium ${info.color}`}>{nivel}</h4>
-                    <span className="text-sm text-gray-600">
-                      {info.minPuntos} puntos mínimos
-                    </span>
-                  </div>
+              <div className="space-y-4">
+                {Object.entries(nivelesInfo).map(([nivel, info]) => {
+                  const usuarioActualNivel = usuarioActual && usuariosOrdenados.find(u => u.id === usuarioActual.id);
+                  const esNivelActual = usuarioActualNivel?.nivel === nivel;
+                  const progreso = usuarioActualNivel ? calcularProgreso(usuarioActualNivel.puntos.total, usuarioActualNivel.nivel) : 0;
                   
-                  {esNivelActual && usuarioActualNivel && (
-                    <div>
-                      <div className="flex justify-between text-sm text-gray-600 mb-1">
-                        <span>Tu progreso</span>
-                        <span>{usuarioActualNivel.puntos.total} puntos</span>
+                  return (
+                    <div
+                      key={nivel}
+                      className={`p-4 border rounded-lg ${
+                        esNivelActual ? 'border-blue-300 bg-blue-50' : 'border-gray-200'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className={`font-medium ${info.color}`}>{nivel}</h4>
+                        <span className="text-sm text-gray-600">
+                          {info.minPuntos} puntos mínimos
+                        </span>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div
-                          className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                          style={{ width: `${progreso}%` }}
-                        />
-                      </div>
+                      
+                      {info.descripcion && (
+                        <p className="text-sm text-gray-600 mb-2">{info.descripcion}</p>
+                      )}
+                      
+                      {info.beneficios && info.beneficios.length > 0 && (
+                        <div className="mb-3">
+                          <p className="text-xs font-medium text-gray-700 mb-1">Beneficios:</p>
+                          <ul className="text-xs text-gray-600 space-y-1">
+                            {info.beneficios.map((beneficio, idx) => (
+                              <li key={idx} className="flex items-start">
+                                <span className="text-green-500 mr-1">•</span>
+                                {beneficio}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      
+                      {esNivelActual && usuarioActualNivel && (
+                        <div>
+                          <div className="flex justify-between text-sm text-gray-600 mb-1">
+                            <span>Tu progreso</span>
+                            <span>{usuarioActualNivel.puntos.total} puntos</span>
+                          </div>
+                          <div className="w-full bg-gray-200 rounded-full h-2">
+                            <div
+                              className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                              style={{ width: `${progreso}%` }}
+                            />
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+                  );
+                })}
+              </div>
+            </>
+          ) : (
+            <div className="text-center py-8 text-gray-500">
+              <p>No se pudo cargar la información de niveles.</p>
+              <button
+                onClick={cargarConfiguracion}
+                className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Reintentar
+              </button>
+            </div>
+          )}
         </div>
       )}
     </div>
