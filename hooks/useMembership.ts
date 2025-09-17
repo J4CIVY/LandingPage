@@ -42,6 +42,8 @@ export interface MembershipHistoryItem {
   status: string;
   amount: number;
   paymentMethod: string;
+  renewalNumber?: number;
+  isAutoRenewal?: boolean;
 }
 
 export interface UserMembershipData {

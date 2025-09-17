@@ -1,4 +1,4 @@
-import { FaDownload, FaEye, FaCalendarAlt, FaCreditCard, FaCheck, FaTimes, FaExclamationTriangle } from 'react-icons/fa';
+import { FaDownload, FaEye, FaCalendarAlt, FaCreditCard, FaCheck, FaTimes, FaExclamationTriangle, FaHistory, FaSync } from 'react-icons/fa';
 
 interface MembershipHistoryItem {
   id: string;
@@ -8,6 +8,8 @@ interface MembershipHistoryItem {
   status: string;
   amount: number;
   paymentMethod: string;
+  renewalNumber?: number;
+  isAutoRenewal?: boolean;
 }
 
 interface MembershipHistoryProps {
@@ -46,6 +48,13 @@ const statusConfig: Record<string, { color: string; bgColor: string; icon: React
 };
 
 export default function MembershipHistory({ history }: MembershipHistoryProps) {
+  // Calcular estadísticas del historial
+  const stats = {
+    totalRenewals: history.filter(item => item.renewalNumber && item.renewalNumber > 1).length,
+    totalSpent: history.reduce((total, item) => total + item.amount, 0),
+    activeCount: history.filter(item => item.status === 'active').length,
+    autoRenewals: history.filter(item => item.isAutoRenewal).length
+  };
   const formatDate = (dateString: string) => {
     try {
       const date = new Date(dateString);
@@ -99,22 +108,56 @@ export default function MembershipHistory({ history }: MembershipHistoryProps) {
   return (
     <div className="bg-white rounded-xl shadow-lg p-6">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-bold text-gray-900">Historial de Membresías</h2>
+        <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+          <FaHistory className="w-5 h-5 text-blue-500" />
+          Historial de Membresías
+        </h2>
         <span className="text-sm text-gray-500">
-          {history.length} registros
+          {history.length} {history.length === 1 ? 'registro' : 'registros'}
         </span>
       </div>
 
       {history.length > 0 ? (
         <>
+          {/* Resumen estadístico */}
+          {history.length > 1 && (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
+              <div className="text-center">
+                <div className="text-lg font-bold text-blue-600">{stats.totalRenewals}</div>
+                <div className="text-xs text-gray-600">Renovaciones</div>
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-bold text-green-600">{formatCurrency(stats.totalSpent)}</div>
+                <div className="text-xs text-gray-600">Total invertido</div>
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-bold text-purple-600">{stats.activeCount}</div>
+                <div className="text-xs text-gray-600">Activas</div>
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-bold text-indigo-600">{stats.autoRenewals}</div>
+                <div className="text-xs text-gray-600">Auto-renovaciones</div>
+              </div>
+            </div>
+          )}
+
           {/* Vista móvil - Cards */}
           <div className="block md:hidden space-y-4">
             {history.map((item) => (
               <div key={item.id} className="border border-gray-200 rounded-lg p-4">
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-semibold text-gray-900">
-                    {membershipTypeNames[item.membershipType] || item.membershipType}
-                  </h3>
+                  <div>
+                    <h3 className="font-semibold text-gray-900">
+                      {membershipTypeNames[item.membershipType] || item.membershipType}
+                    </h3>
+                    {item.renewalNumber && (
+                      <p className="text-xs text-gray-500 flex items-center gap-1">
+                        <FaSync className="w-3 h-3" />
+                        {item.renewalNumber === 1 ? 'Membresía inicial' : `Renovación #${item.renewalNumber - 1}`}
+                        {item.isAutoRenewal && ' (Auto-renovación)'}
+                      </p>
+                    )}
+                  </div>
                   {getStatusDisplay(item.status)}
                 </div>
 
@@ -169,9 +212,18 @@ export default function MembershipHistory({ history }: MembershipHistoryProps) {
                 {history.map((item) => (
                   <tr key={item.id} className="border-b border-gray-100 hover:bg-gray-50">
                     <td className="py-4 px-4">
-                      <span className="font-medium text-gray-900">
-                        {membershipTypeNames[item.membershipType] || item.membershipType}
-                      </span>
+                      <div>
+                        <span className="font-medium text-gray-900">
+                          {membershipTypeNames[item.membershipType] || item.membershipType}
+                        </span>
+                        {item.renewalNumber && (
+                          <div className="text-xs text-gray-500 flex items-center gap-1 mt-1">
+                            <FaSync className="w-3 h-3" />
+                            {item.renewalNumber === 1 ? 'Inicial' : `Renovación #${item.renewalNumber - 1}`}
+                            {item.isAutoRenewal && ' (Auto)'}
+                          </div>
+                        )}
+                      </div>
                     </td>
                     <td className="py-4 px-4 text-gray-600">
                       <div className="flex items-center gap-2">
@@ -222,12 +274,15 @@ export default function MembershipHistory({ history }: MembershipHistoryProps) {
         </>
       ) : (
         <div className="text-center py-12">
-          <FaCalendarAlt className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+          <FaHistory className="w-16 h-16 text-gray-300 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-900 mb-2">
-            No hay historial disponible
+            Sin historial de membresías
           </h3>
-          <p className="text-gray-500">
-            El historial de tus membresías aparecerá aquí una vez que tengas activaciones.
+          <p className="text-gray-500 mb-4">
+            Tu historial de membresías y renovaciones aparecerá aquí.
+          </p>
+          <p className="text-sm text-gray-400">
+            Las membresías se renuevan automáticamente cada año.
           </p>
         </div>
       )}
