@@ -12,7 +12,7 @@ import {
   FaVolumeMute,
   FaSpinner
 } from 'react-icons/fa';
-import { ChatMensaje } from '@/types/comunidad';
+import { ChatMensaje, UsuarioEnLinea } from '@/types/comunidad';
 import { IUser } from '@/lib/models/User';
 
 interface ChatComunidadProps {
@@ -20,12 +20,6 @@ interface ChatComunidadProps {
   usuarioActual: IUser | null;
   onEnviarMensaje: () => void;
   grupoId?: string | null;
-}
-
-interface UsuarioEnLinea {
-  id: string;
-  nombre: string;
-  ultimaActividad: Date;
 }
 
 export default function ChatComunidad({
@@ -112,17 +106,19 @@ export default function ChatComunidad({
   }, [mensajes]);
 
   // Función para formatear hora
-  const formatearHora = (fecha: Date) => {
-    return new Date(fecha).toLocaleTimeString('es-ES', {
+  const formatearHora = (fecha: Date | string) => {
+    const fechaObj = typeof fecha === 'string' ? new Date(fecha) : fecha;
+    return fechaObj.toLocaleTimeString('es-ES', {
       hour: '2-digit',
       minute: '2-digit'
     });
   };
 
   // Función para determinar si un usuario está en línea
-  const estaEnLinea = (ultimaActividad: Date) => {
+  const estaEnLinea = (ultimaActividad: Date | string) => {
     const ahora = new Date();
-    const diferencia = ahora.getTime() - ultimaActividad.getTime();
+    const fechaActividad = typeof ultimaActividad === 'string' ? new Date(ultimaActividad) : ultimaActividad;
+    const diferencia = ahora.getTime() - fechaActividad.getTime();
     return diferencia < 5 * 60 * 1000; // 5 minutos
   };
 

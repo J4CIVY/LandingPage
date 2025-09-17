@@ -205,6 +205,6 @@ export interface UsuarioEnLinea {
   id: string;
   nombre: string;
   avatar?: string;
-  ultimaActividad: Date;
-  enLinea: boolean;
+  ultimaActividad: Date | string;
+  enLinea?: boolean;
 }
