@@ -200,7 +200,7 @@ export default function Ranking({
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-medium">
-                {usuarioActual.firstName[0]}{usuarioActual.lastName[0]}
+                {(usuarioActual.firstName?.[0] || '?')}{(usuarioActual.lastName?.[0] || '?')}
               </div>
               <div>
                 <p className="font-medium text-gray-900">Tu posición</p>
@@ -257,7 +257,7 @@ export default function Ranking({
 
                   {/* Avatar */}
                   <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-medium flex-shrink-0">
-                    {usuario.firstName[0]}{usuario.lastName[0]}
+                    {(usuario.firstName?.[0] || '?')}{(usuario.lastName?.[0] || '?')}
                   </div>
 
                   {/* Información del usuario */}

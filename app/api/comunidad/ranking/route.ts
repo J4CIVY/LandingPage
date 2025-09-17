@@ -38,19 +38,37 @@ export async function GET(request: NextRequest) {
 
     // Calcular badges y niveles
     const rankingsConBadges = rankings.map((ranking, index) => {
-      const badges = calcularBadges(ranking.puntos);
-      const nivel = calcularNivel(ranking.puntos);
-      const progreso = calcularProgreso(ranking.puntos, nivel);
+      const puntosTotal = ranking.puntos.total || 0;
+      const badges = calcularBadges(puntosTotal);
+      const nivel = calcularNivel(puntosTotal);
+      const progreso = calcularProgreso(puntosTotal, nivel);
 
       return {
         posicion: index + 1,
+        id: ranking.usuarioId._id.toString(),
         usuarioId: ranking.usuarioId._id.toString(),
+        firstName: ranking.usuarioId.firstName,
+        lastName: ranking.usuarioId.lastName,
+        email: ranking.usuarioId.email,
         nombreCompleto: `${ranking.usuarioId.firstName} ${ranking.usuarioId.lastName}`,
         avatar: ranking.usuarioId.avatar,
-        puntos: ranking.puntos,
+        puntos: {
+          publicaciones: ranking.puntos.publicaciones || 0,
+          comentarios: ranking.puntos.comentarios || 0,
+          reaccionesRecibidas: ranking.puntos.reaccionesRecibidas || 0,
+          participacionEventos: ranking.puntos.participacionEventos || 0,
+          total: puntosTotal
+        },
         nivel: nivel,
         progreso: progreso,
-        badges: badges,
+        insignias: badges.map(badge => ({
+          id: badge,
+          nombre: badge,
+          descripcion: '',
+          icono: '',
+          criterio: '',
+          fechaObtenida: new Date()
+        })),
         fechaActualizacion: ranking.fechaActualizacion
       };
     });
