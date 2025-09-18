@@ -284,8 +284,25 @@ UserSchema.pre('save', async function(next) {
 // Método para comparar contraseñas
 UserSchema.methods.comparePassword = async function(this: IUser, candidatePassword: string): Promise<boolean> {
   try {
-    return await bcrypt.compare(candidatePassword, this.password);
+    console.log('🔍 comparePassword called with:', {
+      candidatePasswordLength: candidatePassword?.length,
+      hasStoredPassword: !!this.password,
+      storedPasswordPrefix: this.password?.substring(0, 10)
+    });
+    
+    if (!candidatePassword) {
+      throw new Error('candidatePassword is required');
+    }
+    
+    if (!this.password) {
+      throw new Error('stored password is empty');
+    }
+    
+    const result = await bcrypt.compare(candidatePassword, this.password);
+    console.log('🔍 comparePassword result:', result);
+    return result;
   } catch (error) {
+    console.error('🔍 comparePassword error:', error);
     throw new Error('Error al comparar contraseñas');
   }
 };

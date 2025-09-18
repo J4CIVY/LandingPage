@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 import { verifyAuth, validatePasswordStrength } from '@/lib/auth-utils';
+import bcrypt from 'bcryptjs';
 
 export async function POST(request: NextRequest) {
   try {
@@ -89,8 +90,42 @@ export async function POST(request: NextRequest) {
     
     // Test 7: Verificar contraseña actual
     console.log('→ Verificando contraseña actual...');
-    const isCurrentPasswordValid = await user.comparePassword(currentPassword);
-    console.log('✓ Contraseña actual válida:', isCurrentPasswordValid);
+    console.log('Usuario tiene contraseña hasheada:', !!user.password);
+    console.log('Longitud de contraseña actual recibida:', currentPassword.length);
+    console.log('Primeros 10 chars de hash guardado:', user.password.substring(0, 10));
+    
+    // Test directo de bcrypt para debugging
+    console.log('→ Probando bcrypt directamente...');
+    try {
+      const testBcrypt = await bcrypt.compare(currentPassword, user.password);
+      console.log('✓ Test directo de bcrypt:', testBcrypt);
+    } catch (bcryptError) {
+      console.error('❌ Error en bcrypt directo:', bcryptError);
+    }
+    
+    let isCurrentPasswordValid = false;
+    try {
+      console.log('→ Probando método comparePassword del modelo...');
+      isCurrentPasswordValid = await user.comparePassword(currentPassword);
+      console.log('✓ Contraseña actual válida:', isCurrentPasswordValid);
+    } catch (compareError) {
+      console.error('❌ Error en comparePassword:', compareError);
+      console.log('→ Intentando comparación directa con bcrypt...');
+      try {
+        isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password);
+        console.log('✓ Comparación directa exitosa:', isCurrentPasswordValid);
+      } catch (directBcryptError) {
+        console.error('❌ Error en bcrypt directo también:', directBcryptError);
+        return NextResponse.json(
+          { 
+            success: false, 
+            error: 'Error al verificar la contraseña actual',
+            details: compareError instanceof Error ? compareError.message : String(compareError)
+          },
+          { status: 500 }
+        );
+      }
+    }
     
     if (!isCurrentPasswordValid) {
       console.log('❌ Contraseña actual incorrecta');
@@ -105,8 +140,30 @@ export async function POST(request: NextRequest) {
 
     // Test 8: Verificar que la nueva contraseña sea diferente
     console.log('→ Verificando que la nueva contraseña sea diferente...');
-    const isSamePassword = await user.comparePassword(newPassword);
-    console.log('✓ Nueva contraseña es diferente:', !isSamePassword);
+    console.log('Longitud de nueva contraseña:', newPassword.length);
+    
+    let isSamePassword = false;
+    try {
+      isSamePassword = await user.comparePassword(newPassword);
+      console.log('✓ Nueva contraseña es diferente:', !isSamePassword);
+    } catch (compareError) {
+      console.error('❌ Error en segundo comparePassword:', compareError);
+      console.log('→ Intentando segunda comparación directa con bcrypt...');
+      try {
+        isSamePassword = await bcrypt.compare(newPassword, user.password);
+        console.log('✓ Segunda comparación directa exitosa:', !isSamePassword);
+      } catch (directBcryptError) {
+        console.error('❌ Error en segundo bcrypt directo también:', directBcryptError);
+        return NextResponse.json(
+          { 
+            success: false, 
+            error: 'Error al verificar la nueva contraseña',
+            details: compareError instanceof Error ? compareError.message : String(compareError)
+          },
+          { status: 500 }
+        );
+      }
+    }
     
     if (isSamePassword) {
       console.log('❌ Nueva contraseña igual a la actual');
