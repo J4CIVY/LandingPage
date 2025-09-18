@@ -6,21 +6,14 @@ import bcrypt from 'bcryptjs';
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('=== TEST API CHANGE PASSWORD ===');
+    console.log('=== CAMBIO DE CONTRASEÑA ===');
     
-    // Test 1: Conexión a BD
     await connectDB();
     console.log('✓ Conexión a BD establecida');
-    
-    // Test 2: Autenticación
+
+    // Verificar autenticación
     const authResult = await verifyAuth(request);
-    console.log('✓ Resultado auth:', { 
-      success: authResult.success, 
-      hasUser: !!authResult.user 
-    });
-    
     if (!authResult.success || !authResult.user) {
-      console.log('❌ Autenticación fallida');
       return NextResponse.json(
         { 
           success: false, 
@@ -29,19 +22,14 @@ export async function POST(request: NextRequest) {
         { status: 401 }
       );
     }
+    console.log('✓ Usuario autenticado:', authResult.user.id);
     
-    // Test 3: Parsear body
+    // Obtener datos del cuerpo
     const body = await request.json();
-    console.log('✓ Body recibido:', { 
-      hasCurrentPassword: !!body.currentPassword,
-      hasNewPassword: !!body.newPassword
-    });
-    
     const { currentPassword, newPassword } = body;
-    
-    // Test 4: Validaciones básicas
+
+    // Validaciones básicas
     if (!currentPassword || !newPassword) {
-      console.log('❌ Campos faltantes');
       return NextResponse.json(
         { 
           success: false, 
@@ -50,16 +38,10 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    
-    // Test 5: Validar fortaleza de contraseña
+
+    // Validar fortaleza de contraseña
     const passwordValidation = validatePasswordStrength(newPassword);
-    console.log('✓ Validación de contraseña:', { 
-      isValid: passwordValidation.isValid, 
-      errorsCount: passwordValidation.errors.length 
-    });
-    
     if (!passwordValidation.isValid) {
-      console.log('❌ Contraseña no válida:', passwordValidation.errors);
       return NextResponse.json(
         { 
           success: false, 
@@ -70,15 +52,9 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Test 6: Buscar usuario
+    // Buscar usuario
     const user = await User.findById(authResult.user.id);
-    console.log('✓ Usuario encontrado:', { 
-      id: authResult.user.id, 
-      found: !!user 
-    });
-    
     if (!user) {
-      console.log('❌ Usuario no encontrado en BD');
       return NextResponse.json(
         { 
           success: false, 
@@ -87,48 +63,11 @@ export async function POST(request: NextRequest) {
         { status: 404 }
       );
     }
-    
-    // Test 7: Verificar contraseña actual
-    console.log('→ Verificando contraseña actual...');
-    console.log('Usuario tiene contraseña hasheada:', !!user.password);
-    console.log('Longitud de contraseña actual recibida:', currentPassword.length);
-    console.log('Primeros 10 chars de hash guardado:', user.password.substring(0, 10));
-    
-    // Test directo de bcrypt para debugging
-    console.log('→ Probando bcrypt directamente...');
-    try {
-      const testBcrypt = await bcrypt.compare(currentPassword, user.password);
-      console.log('✓ Test directo de bcrypt:', testBcrypt);
-    } catch (bcryptError) {
-      console.error('❌ Error en bcrypt directo:', bcryptError);
-    }
-    
-    let isCurrentPasswordValid = false;
-    try {
-      console.log('→ Probando método comparePassword del modelo...');
-      isCurrentPasswordValid = await user.comparePassword(currentPassword);
-      console.log('✓ Contraseña actual válida:', isCurrentPasswordValid);
-    } catch (compareError) {
-      console.error('❌ Error en comparePassword:', compareError);
-      console.log('→ Intentando comparación directa con bcrypt...');
-      try {
-        isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password);
-        console.log('✓ Comparación directa exitosa:', isCurrentPasswordValid);
-      } catch (directBcryptError) {
-        console.error('❌ Error en bcrypt directo también:', directBcryptError);
-        return NextResponse.json(
-          { 
-            success: false, 
-            error: 'Error al verificar la contraseña actual',
-            details: compareError instanceof Error ? compareError.message : String(compareError)
-          },
-          { status: 500 }
-        );
-      }
-    }
-    
+    console.log('✓ Usuario encontrado en BD');
+
+    // Verificar contraseña actual usando bcrypt directamente
+    const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password);
     if (!isCurrentPasswordValid) {
-      console.log('❌ Contraseña actual incorrecta');
       return NextResponse.json(
         { 
           success: false, 
@@ -137,36 +76,11 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+    console.log('✓ Contraseña actual verificada');
 
-    // Test 8: Verificar que la nueva contraseña sea diferente
-    console.log('→ Verificando que la nueva contraseña sea diferente...');
-    console.log('Longitud de nueva contraseña:', newPassword.length);
-    
-    let isSamePassword = false;
-    try {
-      isSamePassword = await user.comparePassword(newPassword);
-      console.log('✓ Nueva contraseña es diferente:', !isSamePassword);
-    } catch (compareError) {
-      console.error('❌ Error en segundo comparePassword:', compareError);
-      console.log('→ Intentando segunda comparación directa con bcrypt...');
-      try {
-        isSamePassword = await bcrypt.compare(newPassword, user.password);
-        console.log('✓ Segunda comparación directa exitosa:', !isSamePassword);
-      } catch (directBcryptError) {
-        console.error('❌ Error en segundo bcrypt directo también:', directBcryptError);
-        return NextResponse.json(
-          { 
-            success: false, 
-            error: 'Error al verificar la nueva contraseña',
-            details: compareError instanceof Error ? compareError.message : String(compareError)
-          },
-          { status: 500 }
-        );
-      }
-    }
-    
+    // Verificar que la nueva contraseña sea diferente
+    const isSamePassword = await bcrypt.compare(newPassword, user.password);
     if (isSamePassword) {
-      console.log('❌ Nueva contraseña igual a la actual');
       return NextResponse.json(
         { 
           success: false, 
@@ -175,19 +89,16 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+    console.log('✓ Nueva contraseña es diferente');
 
-    // Test 9: Actualizar contraseña
-    console.log('→ Actualizando contraseña...');
+    // Actualizar contraseña
     user.password = newPassword;
     user.lastActivity = new Date();
-    
     await user.save();
     console.log('✓ Contraseña actualizada en BD');
     
-    // Test 10: Enviar email de notificación (de forma segura)
+    // Enviar email de notificación de forma segura
     const timestamp = new Date().toISOString();
-    
-    // Intentar enviar email pero no bloquear si falla
     try {
       const { EmailService } = await import('@/lib/email-service');
       const emailService = new EmailService();
@@ -215,9 +126,9 @@ export async function POST(request: NextRequest) {
       console.log('→ Email programado para envío asíncrono');
     } catch (emailError) {
       console.error('❌ Error inicializando servicio de email:', emailError);
-      // Continuamos sin el email
     }
     
+    console.log('✅ CAMBIO DE CONTRASEÑA EXITOSO');
     return NextResponse.json(
       { 
         success: true, 
@@ -228,14 +139,14 @@ export async function POST(request: NextRequest) {
     );
 
   } catch (error) {
-    console.error('💥 ERROR EN API TEST:', error);
+    console.error('💥 ERROR EN CAMBIO DE CONTRASEÑA:', error);
     console.error('Stack trace:', error instanceof Error ? error.stack : 'No stack trace');
     
     return NextResponse.json(
       { 
         success: false, 
-        error: 'Error en test básico',
-        details: error instanceof Error ? error.message : String(error)
+        error: 'Error interno del servidor',
+        details: process.env.NODE_ENV === 'development' ? error instanceof Error ? error.message : String(error) : undefined
       },
       { status: 500 }
     );
