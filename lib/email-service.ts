@@ -130,6 +130,36 @@ export class EmailService {
   }
 
   /**
+   * Envía una notificación de cambio de contraseña exitoso
+   */
+  async sendPasswordChangeNotification(
+    userEmail: string,
+    userName: string,
+    changeData: {
+      timestamp: string;
+      ipAddress?: string;
+      userAgent?: string;
+    }
+  ): Promise<boolean> {
+    try {
+      const emailConfig: ZohoEmailConfig = {
+        fromAddress: this.fromEmail,
+        toAddress: userEmail,
+        subject: 'Contraseña cambiada exitosamente - BSK Motorcycle Team',
+        content: this.generatePasswordChangeNotificationContent(userName, changeData),
+        mailFormat: 'html',
+        askReceipt: 'no'
+      };
+
+      const result = await this.client.sendEmail(emailConfig);
+      return result.status?.code === 200;
+    } catch (error) {
+      console.error('Error sending password change notification:', error);
+      return false;
+    }
+  }
+
+  /**
    * Envía una notificación de evento
    */
   async sendEventNotification(
@@ -527,6 +557,216 @@ export class EmailService {
         <div class="footer">
           <p><strong>BSK Motorcycle Team</strong></p>
           <p>Equipo de seguridad</p>
+        </div>
+      </body>
+      </html>
+    `;
+  }
+
+  /**
+   * Genera el contenido HTML para notificación de cambio de contraseña exitoso
+   */
+  private generatePasswordChangeNotificationContent(
+    userName: string,
+    changeData: {
+      timestamp: string;
+      ipAddress?: string;
+      userAgent?: string;
+    }
+  ): string {
+    const formatDate = (dateString: string) => {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('es-CO', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone: 'America/Bogota'
+      });
+    };
+
+    return `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Contraseña cambiada exitosamente</title>
+        <style>
+          body { 
+            font-family: Arial, sans-serif; 
+            line-height: 1.6; 
+            color: #333; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #f9fafb;
+          }
+          .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          }
+          .header { 
+            background: linear-gradient(135deg, #059669, #10b981);
+            color: white; 
+            padding: 30px 20px; 
+            text-align: center; 
+          }
+          .logo { 
+            font-size: 24px; 
+            font-weight: bold; 
+            margin-bottom: 10px; 
+          }
+          .content { 
+            padding: 40px 30px; 
+          }
+          .success-icon {
+            text-align: center;
+            margin-bottom: 30px;
+          }
+          .success-icon::before {
+            content: "✓";
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            border-radius: 50%;
+            background-color: #059669;
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+          }
+          .title { 
+            font-size: 24px; 
+            margin-bottom: 20px; 
+            color: #059669;
+            text-align: center;
+          }
+          .message { 
+            margin-bottom: 30px; 
+            font-size: 16px;
+            text-align: center;
+          }
+          .details-card { 
+            background-color: #f0fdf4; 
+            border: 1px solid #059669; 
+            border-radius: 8px; 
+            padding: 20px; 
+            margin: 25px 0; 
+          }
+          .detail-item { 
+            margin-bottom: 12px; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+          .detail-label { 
+            font-weight: bold; 
+            color: #065f46; 
+          }
+          .detail-value {
+            color: #374151;
+            font-family: monospace;
+            font-size: 14px;
+          }
+          .security-notice { 
+            background-color: #fef3c7; 
+            border-left: 4px solid #f59e0b; 
+            padding: 15px; 
+            margin: 25px 0; 
+            border-radius: 4px;
+          }
+          .security-notice-title {
+            font-weight: bold;
+            color: #92400e;
+            margin-bottom: 8px;
+          }
+          .security-notice-text {
+            color: #b45309;
+            font-size: 14px;
+          }
+          .footer { 
+            background-color: #f3f4f6; 
+            padding: 25px 20px; 
+            text-align: center; 
+            border-top: 1px solid #e5e7eb;
+          }
+          .footer-title {
+            font-weight: bold;
+            color: #374151;
+            margin-bottom: 5px;
+          }
+          .footer-subtitle {
+            color: #6b7280;
+            font-size: 14px;
+          }
+          .contact-info {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #9ca3af;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <div class="logo">🏍️ BSK Motorcycle Team</div>
+            <h1 style="margin: 0; font-size: 20px;">Seguridad de la cuenta</h1>
+          </div>
+          
+          <div class="content">
+            <div class="success-icon"></div>
+            
+            <h2 class="title">¡Contraseña cambiada exitosamente!</h2>
+            
+            <div class="message">
+              <p>Hola <strong>${userName}</strong>,</p>
+              <p>Te confirmamos que la contraseña de tu cuenta ha sido cambiada exitosamente.</p>
+            </div>
+
+            <div class="details-card">
+              <h3 style="margin-top: 0; color: #065f46;">Detalles del cambio</h3>
+              <div class="detail-item">
+                <span class="detail-label">Fecha y hora:</span>
+                <span class="detail-value">${formatDate(changeData.timestamp)}</span>
+              </div>
+              ${changeData.ipAddress ? `
+                <div class="detail-item">
+                  <span class="detail-label">Dirección IP:</span>
+                  <span class="detail-value">${changeData.ipAddress}</span>
+                </div>
+              ` : ''}
+              ${changeData.userAgent ? `
+                <div class="detail-item">
+                  <span class="detail-label">Dispositivo:</span>
+                  <span class="detail-value">${changeData.userAgent.substring(0, 50)}${changeData.userAgent.length > 50 ? '...' : ''}</span>
+                </div>
+              ` : ''}
+            </div>
+
+            <div class="security-notice">
+              <div class="security-notice-title">🔒 Aviso de seguridad importante</div>
+              <div class="security-notice-text">
+                Si no realizaste este cambio, contacta inmediatamente nuestro equipo de soporte. 
+                Tu cuenta podría estar comprometida.
+              </div>
+            </div>
+
+            <div style="text-align: center; margin: 30px 0;">
+              <p style="color: #6b7280; font-size: 14px;">
+                Este es un correo automático de seguridad. No es necesario responder.
+              </p>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div class="footer-title">BSK Motorcycle Team</div>
+            <div class="footer-subtitle">Equipo de seguridad y soporte técnico</div>
+            <div class="contact-info">
+              Si necesitas ayuda, contáctanos a través de nuestro sitio web o redes sociales oficiales.
+            </div>
+          </div>
         </div>
       </body>
       </html>

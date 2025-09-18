@@ -129,25 +129,45 @@ export default function PasswordChangeSection() {
     setIsModalOpen(false)
 
     try {
-      // Simulación de API call
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      
-      showToast({
-        title: "✅ Contraseña actualizada",
-        description: "Tu contraseña ha sido cambiada con éxito",
-        type: "success"
+      const response = await fetch('/api/auth/change-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          currentPassword: formData.currentPassword,
+          newPassword: formData.newPassword,
+        }),
       })
 
-      // Limpiar formulario
-      setFormData({
-        currentPassword: '',
-        newPassword: '',
-        confirmPassword: ''
-      })
+      const data = await response.json()
+
+      if (data.success) {
+        showToast({
+          title: "✅ Contraseña actualizada",
+          description: "Tu contraseña ha sido cambiada con éxito",
+          type: "success"
+        })
+
+        // Limpiar formulario
+        setFormData({
+          currentPassword: '',
+          newPassword: '',
+          confirmPassword: ''
+        })
+      } else {
+        showToast({
+          title: "Error",
+          description: data.error || "No se pudo actualizar la contraseña. Inténtalo de nuevo.",
+          type: "error"
+        })
+      }
     } catch (error) {
+      console.error('Error al cambiar contraseña:', error)
       showToast({
         title: "Error",
-        description: "No se pudo actualizar la contraseña. Inténtalo de nuevo.",
+        description: "Error de conexión. Verifica tu conexión a internet e inténtalo de nuevo.",
         type: "error"
       })
     } finally {
