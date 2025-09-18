@@ -2,18 +2,21 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 import { verifyAuth, validatePasswordStrength } from '@/lib/auth-utils';
-import { EmailService } from '@/lib/email-service';
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('=== INICIO CAMBIO DE CONTRASEÑA ===');
+    console.log('=== TEST API CHANGE PASSWORD ===');
     
+    // Test 1: Conexión a BD
     await connectDB();
     console.log('✓ Conexión a BD establecida');
-
-    // Verificar autenticación usando verifyAuth
+    
+    // Test 2: Autenticación
     const authResult = await verifyAuth(request);
-    console.log('✓ Resultado auth:', { success: authResult.success, hasUser: !!authResult.user });
+    console.log('✓ Resultado auth:', { 
+      success: authResult.success, 
+      hasUser: !!authResult.user 
+    });
     
     if (!authResult.success || !authResult.user) {
       console.log('❌ Autenticación fallida');
@@ -25,19 +28,19 @@ export async function POST(request: NextRequest) {
         { status: 401 }
       );
     }
-
-    // Obtener datos del cuerpo de la petición
+    
+    // Test 3: Parsear body
     const body = await request.json();
-    console.log('✓ Body recibido, tiene campos:', { 
-      hasCurrentPassword: !!body.currentPassword, 
-      hasNewPassword: !!body.newPassword 
+    console.log('✓ Body recibido:', { 
+      hasCurrentPassword: !!body.currentPassword,
+      hasNewPassword: !!body.newPassword
     });
     
     const { currentPassword, newPassword } = body;
-
-    // Validar que se proporcionaron los campos requeridos
+    
+    // Test 4: Validaciones básicas
     if (!currentPassword || !newPassword) {
-      console.log('❌ Campos faltantes:', { currentPassword: !!currentPassword, newPassword: !!newPassword });
+      console.log('❌ Campos faltantes');
       return NextResponse.json(
         { 
           success: false, 
@@ -46,11 +49,13 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.log('✓ Campos validados');
-
-    // Validar la fortaleza de la nueva contraseña
+    
+    // Test 5: Validar fortaleza de contraseña
     const passwordValidation = validatePasswordStrength(newPassword);
-    console.log('✓ Validación de contraseña:', { isValid: passwordValidation.isValid, errorsCount: passwordValidation.errors.length });
+    console.log('✓ Validación de contraseña:', { 
+      isValid: passwordValidation.isValid, 
+      errorsCount: passwordValidation.errors.length 
+    });
     
     if (!passwordValidation.isValid) {
       console.log('❌ Contraseña no válida:', passwordValidation.errors);
@@ -63,10 +68,13 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-
-    // Buscar el usuario en la base de datos
+    
+    // Test 6: Buscar usuario
     const user = await User.findById(authResult.user.id);
-    console.log('✓ Usuario encontrado:', { id: authResult.user.id, found: !!user });
+    console.log('✓ Usuario encontrado:', { 
+      id: authResult.user.id, 
+      found: !!user 
+    });
     
     if (!user) {
       console.log('❌ Usuario no encontrado en BD');
@@ -78,8 +86,8 @@ export async function POST(request: NextRequest) {
         { status: 404 }
       );
     }
-
-    // Verificar que la contraseña actual sea correcta
+    
+    // Test 7: Verificar contraseña actual
     console.log('→ Verificando contraseña actual...');
     const isCurrentPasswordValid = await user.comparePassword(currentPassword);
     console.log('✓ Contraseña actual válida:', isCurrentPasswordValid);
@@ -95,7 +103,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Verificar que la nueva contraseña sea diferente a la actual
+    // Test 8: Verificar que la nueva contraseña sea diferente
     console.log('→ Verificando que la nueva contraseña sea diferente...');
     const isSamePassword = await user.comparePassword(newPassword);
     console.log('✓ Nueva contraseña es diferente:', !isSamePassword);
@@ -111,26 +119,28 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Actualizar la contraseña
+    // Test 9: Actualizar contraseña
     console.log('→ Actualizando contraseña...');
     user.password = newPassword;
     user.lastActivity = new Date();
     
-    // El middleware pre('save') del modelo User se encargará de hashear la contraseña
     await user.save();
     console.log('✓ Contraseña actualizada en BD');
-
-    // Obtener información para el email
+    
+    // Test 10: Enviar email de notificación (de forma segura)
     const timestamp = new Date().toISOString();
-    const userAgent = request.headers.get('user-agent') || undefined;
-    const forwarded = request.headers.get('x-forwarded-for');
-    const realIp = request.headers.get('x-real-ip');
-    const ipAddress = forwarded?.split(',')[0] || realIp || request.headers.get('remote-addr') || undefined;
-
-    // Intentar enviar email de notificación (sin bloquear la respuesta)
+    
+    // Intentar enviar email pero no bloquear si falla
     try {
+      const { EmailService } = await import('@/lib/email-service');
       const emailService = new EmailService();
-      // Enviar de forma asíncrona sin bloquear
+      
+      const userAgent = request.headers.get('user-agent') || undefined;
+      const forwarded = request.headers.get('x-forwarded-for');
+      const realIp = request.headers.get('x-real-ip');
+      const ipAddress = forwarded?.split(',')[0] || realIp || request.headers.get('remote-addr') || undefined;
+      
+      // Enviar de forma asíncrona
       emailService.sendPasswordChangeNotification(
         user.email,
         `${user.firstName} ${user.lastName}`,
@@ -140,18 +150,16 @@ export async function POST(request: NextRequest) {
           userAgent
         }
       ).then(() => {
-        console.log(`Notificación de cambio de contraseña enviada a: ${user.email}`);
+        console.log(`✅ Notificación enviada a: ${user.email}`);
       }).catch((emailError) => {
-        console.error('Error enviando notificación de cambio de contraseña:', emailError);
+        console.error('❌ Error enviando email:', emailError.message);
       });
+      
+      console.log('→ Email programado para envío asíncrono');
     } catch (emailError) {
-      console.error('Error inicializando servicio de email:', emailError);
-      // Continuamos sin el email, no es crítico
+      console.error('❌ Error inicializando servicio de email:', emailError);
+      // Continuamos sin el email
     }
-
-    // Respuesta exitosa (sin incluir datos sensibles)
-    console.log('✅ CAMBIO DE CONTRASEÑA EXITOSO');
-    console.log('=== FIN CAMBIO DE CONTRASEÑA ===');
     
     return NextResponse.json(
       { 
@@ -163,14 +171,14 @@ export async function POST(request: NextRequest) {
     );
 
   } catch (error) {
-    console.error('💥 ERROR EN CAMBIO DE CONTRASEÑA:', error);
+    console.error('💥 ERROR EN API TEST:', error);
     console.error('Stack trace:', error instanceof Error ? error.stack : 'No stack trace');
     
     return NextResponse.json(
       { 
         success: false, 
-        error: 'Error interno del servidor',
-        details: process.env.NODE_ENV === 'development' ? error instanceof Error ? error.message : String(error) : undefined
+        error: 'Error en test básico',
+        details: error instanceof Error ? error.message : String(error)
       },
       { status: 500 }
     );
