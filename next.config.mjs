@@ -8,10 +8,6 @@ const withPWA = withPWAInit({
   workboxOptions: {
     skipWaiting: true,
     clientsClaim: true,
-    navigateFallback: null,
-    fallbacks: {
-      document: "/offline",
-    },
     runtimeCaching: [
       {
         urlPattern: /^https:\/\/res\.cloudinary\.com/,
