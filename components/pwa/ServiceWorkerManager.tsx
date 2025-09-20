@@ -6,6 +6,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import ServiceWorkerCleanup from './ServiceWorkerCleanup';
 
 export function useServiceWorker() {
   useEffect(() => {
@@ -161,7 +162,11 @@ export const PWAManager: React.FC = () => {
     };
   }, []);
 
-  return null;
+  return (
+    <>
+      <ServiceWorkerCleanup />
+    </>
+  );
 };
 
 // Hook para gestión de estado offline
