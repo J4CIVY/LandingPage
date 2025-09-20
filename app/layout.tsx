@@ -118,7 +118,6 @@ export const metadata: Metadata = {
 import { ThemeProvider } from '@/providers/ThemeProvider'
 import { ToastProvider } from '@/components/shared/ToastProvider'
 import { PWAManager } from '@/components/pwa/ServiceWorkerManager'
-import { StrategicPreloader, BSK_CRITICAL_RESOURCES } from '@/components/performance/StrategicPreloader'
 import { AuthProvider } from '@/hooks/useAuth'
 
 export default function RootLayout({
@@ -129,10 +128,6 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning className="">
       <head>
-        {/* Preload critical resources */}
-        <link rel="preload" href="/Logo_Letras_BSK_MT_500x500.webp" as="image" type="image/webp" />
-        <link rel="preload" href="https://res.cloudinary.com/dz0peilmu/image/upload/q_auto:best,c_fill,g_auto,f_webp,w_1366/Banner_Landing_Page_BSK_Motorcycle_Team_Julio_o2fcql" as="image" type="image/webp" />
-        
         {/* DNS prefetch for external domains */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
@@ -210,7 +205,6 @@ export default function RootLayout({
         >
           <AuthProvider>
             <ToastProvider>
-              <StrategicPreloader resources={BSK_CRITICAL_RESOURCES} />
               <PWAManager />
               <DynamicThemeColor />
               <Header />
