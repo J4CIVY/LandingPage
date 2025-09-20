@@ -1,9 +1,8 @@
 
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
+import { useState, useEffect, useCallback, createContext, useContext } from 'react';
 import { useRouter } from 'next/navigation';
-import { checkAuthSilently, suppressAuthErrors } from '@/utils/authFetch';
 import { IUser } from '@/lib/models/User';
 
 interface AuthState {
@@ -33,71 +32,57 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     error: null
   });
   const [isInitialized, setIsInitialized] = useState(false);
-  
-  // Cache para evitar llamadas repetitivas
-  const [lastAuthCheck, setLastAuthCheck] = useState<number>(0);
-  const [authCheckPromise, setAuthCheckPromise] = useState<Promise<boolean> | null>(null);
-  const AUTH_CACHE_DURATION = 30000; // 30 segundos
-  
   const router = useRouter();
 
   const updateAuthState = useCallback((updates: Partial<AuthState>) => {
     setAuthState(prev => ({ ...prev, ...updates }));
   }, []);
 
-  const checkAuth = useCallback(async (forceRefresh: boolean = false) => {
-    // Si ya hay una verificación en curso, retornar esa promesa
-    if (authCheckPromise && !forceRefresh) {
-      return authCheckPromise;
-    }
+  const checkAuth = useCallback(async () => {
+    try {
+      updateAuthState({ isLoading: true, error: null });
 
-    // Verificar si el cache es válido (excepto en refresh forzado)
-    const now = Date.now();
-    const cacheIsValid = (now - lastAuthCheck) < AUTH_CACHE_DURATION;
-    
-    if (cacheIsValid && !forceRefresh && authState.isAuthenticated) {
-      // Cache válido y usuario autenticado, no hacer nueva llamada
-      return authState.isAuthenticated;
-    }
+      const response = await fetch('/api/auth/me', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
 
-    // Crear nueva promesa de verificación
-    const checkPromise = (async () => {
-      try {
-        updateAuthState({ isLoading: true, error: null });
-
-        const result = await checkAuthSilently();
+      if (response.ok) {
+        const result = await response.json();
         
-        updateAuthState({
-          isAuthenticated: result.isAuthenticated,
-          user: result.user,
-          isLoading: false,
-          error: result.error
-        });
-        
-        // Actualizar timestamp del último check
-        setLastAuthCheck(Date.now());
-        
-        return result.isAuthenticated;
-
-      } catch (error) {
-        // Solo errores inesperados llegarán aquí
-        console.error('Error inesperado durante verificación de autenticación:', error);
-        updateAuthState({
-          isAuthenticated: false,
-          user: null,
-          isLoading: false,
-          error: 'Error inesperado'
-        });
-        return false;
-      } finally {
-        // Limpiar la promesa cuando termine
-        setAuthCheckPromise(null);
+        if (result.success && result.data?.user) {
+          updateAuthState({
+            isAuthenticated: true,
+            user: result.data.user,
+            isLoading: false,
+            error: null
+          });
+          return true;
+        }
       }
-    })();
 
-    setAuthCheckPromise(checkPromise);
-    return checkPromise;
-  }, [updateAuthState, authCheckPromise, lastAuthCheck, authState.isAuthenticated]);
+      updateAuthState({
+        isAuthenticated: false,
+        user: null,
+        isLoading: false,
+        error: null
+      });
+      return false;
+
+    } catch (error) {
+      console.error('Error verificando autenticación:', error);
+      updateAuthState({
+        isAuthenticated: false,
+        user: null,
+        isLoading: false,
+        error: 'Error de conexión'
+      });
+      return false;
+    }
+  }, [updateAuthState]);
 
   const login = useCallback(async (
     email: string, 
@@ -216,9 +201,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const initAuth = async () => {
-      // Inicializar supresión de errores 401 para auth
-      suppressAuthErrors();
-      
       await checkAuth();
       setIsInitialized(true);
     };
