@@ -8,7 +8,26 @@ const withPWA = withPWAInit({
   workboxOptions: {
     skipWaiting: true,
     clientsClaim: true,
+    cleanupOutdatedCaches: true,
+    disableDevLogs: true,
+    // Deshabilitamos el precaching automático para evitar errores 404
+    include: [],
+    exclude: [/.*/], // Excluir todo del precaching automático
     runtimeCaching: [
+      {
+        urlPattern: /^https:\/\/bskmt\.com\/_next\/static\/.*/,
+        handler: 'CacheFirst',
+        options: {
+          cacheName: 'static-assets',
+          expiration: {
+            maxEntries: 100,
+            maxAgeSeconds: 60 * 60 * 24 * 30, // 30 días
+          },
+          cacheableResponse: {
+            statuses: [0, 200],
+          },
+        },
+      },
       {
         urlPattern: /^https:\/\/res\.cloudinary\.com/,
         handler: 'CacheFirst',
@@ -31,18 +50,20 @@ const withPWA = withPWAInit({
           },
         },
       },
+      {
+        urlPattern: /^https:\/\/bskmt\.com\/api\/.*/,
+        handler: 'NetworkFirst',
+        options: {
+          cacheName: 'api-cache',
+          expiration: {
+            maxEntries: 50,
+            maxAgeSeconds: 60 * 5, // 5 minutos
+          },
+          networkTimeoutSeconds: 3,
+        },
+      },
     ],
   },
-  exclude: [
-    /\.map$/,
-    /manifest$/,
-    /\.htaccess$/,
-    /^sw\.js$/,
-    /^workbox-.*\.js$/,
-    /_next\/static\/chunks\/webpack-.*\.js$/,
-    /_next\/static\/.*\/_buildManifest\.js$/,
-    /_next\/static\/.*\/_ssgManifest\.js$/,
-  ],
 });
 
 const bundleAnalyzer = withBundleAnalyzer({
