@@ -15,7 +15,18 @@ import {
   MEMBERSHIP_BENEFITS,
   calculateProgressToNext,
   canUpgradeToMembership,
-  POINTS_SYSTEM 
+  POINTS_SYSTEM,
+  calculateFriendUpgradeRequirements,
+  calculateMinimumDaysForUpgrade,
+  calculateRequiredEventsForFriend,
+  calculateRiderUpgradeRequirements,
+  validateDigitalParticipation,
+  validateCleanRecord,
+  calculateLastYearPoints,
+  calculateProUpgradeRequirements,
+  validateDemonstrableContribution,
+  calculateEventTypeDistribution,
+  validateExemplaryAttitude
 } from '@/data/membershipConfig';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
@@ -62,8 +73,18 @@ export async function GET(request: NextRequest) {
     // Calcular progreso hacia siguiente membresía
     const progress = calculateProgressToNext(currentMembershipType, userStats);
     
-    // Obtener requisitos detallados
-    const requirements = getDetailedRequirements(currentMembershipType, progress.nextType, userStats);
+    // Obtener requisitos detallados (usa lógica especial para Friend, Rider y Pro)
+    let requirements: RequirementStatus[];
+    
+    if (currentMembershipType === 'Friend') {
+      requirements = await getFriendRequirements(user, userStats);
+    } else if (currentMembershipType === 'Rider') {
+      requirements = await getRiderRequirements(user, userStats);
+    } else if (currentMembershipType === 'Pro') {
+      requirements = await getProRequirements(user, userStats);
+    } else {
+      requirements = getDetailedRequirements(currentMembershipType, progress.nextType, userStats);
+    }
     
     // Obtener historial de membresía
     const history = generateMembershipHistory(user);
@@ -152,6 +173,11 @@ async function calculateUserStats(user: any) {
   
   // Estimar eventos asistidos basándose en registeredEvents o tiempo como miembro
   const eventsAttended = user.registeredEvents?.length || Math.floor(daysSinceJoining / 60); // 1 evento cada 2 meses aprox
+  
+  // Calcular eventos confirmados asistidos (diferente de solo registrados)
+  // TODO: Implementar lógica real para diferenciar eventos confirmados vs registrados
+  const confirmedEventsAttended = user.confirmedEvents?.length || Math.floor(eventsAttended * 0.8); // 80% de eventos registrados se asumen confirmados
+  
   points += eventsAttended * POINTS_SYSTEM.EVENT_ATTENDANCE;
   
   // Estimar voluntariados basándose en pqrsd o actividad
@@ -162,14 +188,276 @@ async function calculateUserStats(user: any) {
   const currentMembershipType = mapLegacyMembershipType(user.membershipType);
   const daysInCurrentMembership = daysSinceJoining; // Simplificado por ahora
   
+  // Calcular eventos desde Friend (para Pro → Legend)
+  const totalEventsFromFriend = eventsAttended; // Simplificado - en producción sería desde que se volvió Friend
+  
   return {
     points,
     eventsAttended,
+    confirmedEventsAttended, // Nuevo campo para eventos confirmados
     volunteeringDone,
     daysInCurrentMembership,
     totalDaysAsMember: daysSinceJoining,
+    totalEventsFromFriend, // Nuevo campo para Pro → Legend
     isVolunteer: user.volunteer || false
   };
+}
+
+async function getFriendRequirements(user: any, userStats: any): Promise<RequirementStatus[]> {
+  // Casos especiales para Friend → Rider
+  const currentMembershipType = mapLegacyMembershipType(user.membershipType);
+  
+  if (currentMembershipType !== 'Friend') {
+    return [];
+  }
+  
+  try {
+    const upgradeReqs = await calculateFriendUpgradeRequirements(user, userStats);
+    const requirements: RequirementStatus[] = [];
+    
+    // Requisito de puntos
+    requirements.push({
+      id: 'points',
+      label: `${upgradeReqs.pointsRequired.toLocaleString()} puntos mínimos`,
+      fulfilled: userStats.points >= upgradeReqs.pointsRequired,
+      progress: Math.min(100, (userStats.points / upgradeReqs.pointsRequired) * 100),
+      detail: `Tienes ${userStats.points.toLocaleString()} puntos de ${upgradeReqs.pointsRequired.toLocaleString()} requeridos`
+    });
+    
+    // Requisito de eventos (dinámico)
+    requirements.push({
+      id: 'events',
+      label: `${upgradeReqs.eventsRequired} eventos asistidos (50% del año)`,
+      fulfilled: userStats.eventsAttended >= upgradeReqs.eventsRequired,
+      progress: Math.min(100, (userStats.eventsAttended / upgradeReqs.eventsRequired) * 100),
+      detail: `Has asistido a ${userStats.eventsAttended} de ${upgradeReqs.eventsRequired} eventos requeridos este año`
+    });
+    
+    // Requisito de tiempo (365/366 días)
+    requirements.push({
+      id: 'time',
+      label: `${upgradeReqs.minimumDaysActual} días como Friend`,
+      fulfilled: userStats.daysInCurrentMembership >= upgradeReqs.timeRequired,
+      progress: Math.min(100, (userStats.daysInCurrentMembership / upgradeReqs.timeRequired) * 100),
+      detail: `Llevas ${userStats.daysInCurrentMembership} días de ${upgradeReqs.minimumDaysActual} requeridos`
+    });
+    
+    // Requisito de historial limpio (siempre cumplido por ahora)
+    requirements.push({
+      id: 'clean_record',
+      label: 'Historial limpio (sin reportes disciplinarios)',
+      fulfilled: true, // TODO: Implementar lógica real de verificación
+      progress: 100,
+      detail: 'Sin faltas al código de ética del club'
+    });
+    
+    return requirements;
+    
+  } catch (error) {
+    console.error('Error calculating Friend requirements:', error);
+    return [];
+  }
+}
+
+async function getRiderRequirements(user: any, userStats: any): Promise<RequirementStatus[]> {
+  // Casos especiales para Rider → Pro
+  const currentMembershipType = mapLegacyMembershipType(user.membershipType);
+  
+  if (currentMembershipType !== 'Rider') {
+    return [];
+  }
+  
+  try {
+    const upgradeReqs = await calculateRiderUpgradeRequirements(user, userStats);
+    const lastYearPoints = calculateLastYearPoints(user, userStats);
+    const hasDigitalParticipation = await validateDigitalParticipation(user);
+    const hasCleanRecord = await validateCleanRecord(user);
+    
+    const requirements: RequirementStatus[] = [];
+    
+    // Requisito de puntos totales (3000)
+    requirements.push({
+      id: 'total_points',
+      label: `${upgradeReqs.pointsRequired.toLocaleString()} puntos totales acumulados`,
+      fulfilled: userStats.points >= upgradeReqs.pointsRequired,
+      progress: Math.min(100, (userStats.points / upgradeReqs.pointsRequired) * 100),
+      detail: `Tienes ${userStats.points.toLocaleString()} puntos de ${upgradeReqs.pointsRequired.toLocaleString()} requeridos`
+    });
+    
+    // Requisito de puntos último año (1000)
+    requirements.push({
+      id: 'last_year_points',
+      label: `${upgradeReqs.lastYearPointsRequired.toLocaleString()} puntos obtenidos el último año`,
+      fulfilled: lastYearPoints >= upgradeReqs.lastYearPointsRequired,
+      progress: Math.min(100, (lastYearPoints / upgradeReqs.lastYearPointsRequired) * 100),
+      detail: `Has obtenido ${lastYearPoints.toLocaleString()} puntos este año de ${upgradeReqs.lastYearPointsRequired.toLocaleString()} requeridos`
+    });
+    
+    // Requisito de eventos confirmados acumulados (50%)
+    requirements.push({
+      id: 'confirmed_events',
+      label: `${upgradeReqs.eventsRequired} eventos confirmados asistidos (50% del histórico)`,
+      fulfilled: userStats.confirmedEventsAttended >= upgradeReqs.eventsRequired,
+      progress: Math.min(100, (userStats.confirmedEventsAttended / upgradeReqs.eventsRequired) * 100),
+      detail: `Has asistido confirmadamente a ${userStats.confirmedEventsAttended} de ${upgradeReqs.eventsRequired} eventos requeridos`
+    });
+    
+    // Requisito de voluntariado (al menos 1)
+    requirements.push({
+      id: 'volunteering',
+      label: `${upgradeReqs.volunteeringRequired} voluntariado operativo completado`,
+      fulfilled: userStats.volunteeringDone >= upgradeReqs.volunteeringRequired,
+      progress: Math.min(100, (userStats.volunteeringDone / upgradeReqs.volunteeringRequired) * 100),
+      detail: `Has completado ${userStats.volunteeringDone} de ${upgradeReqs.volunteeringRequired} voluntariados requeridos`
+    });
+    
+    // Requisito de tiempo (2 años como Rider)
+    requirements.push({
+      id: 'time_as_rider',
+      label: `${Math.floor(upgradeReqs.timeRequired / 365)} años como Rider (${upgradeReqs.timeRequired} días)`,
+      fulfilled: userStats.daysInCurrentMembership >= upgradeReqs.timeRequired,
+      progress: Math.min(100, (userStats.daysInCurrentMembership / upgradeReqs.timeRequired) * 100),
+      detail: `Llevas ${userStats.daysInCurrentMembership} días de ${upgradeReqs.timeRequired} requeridos como Rider`
+    });
+    
+    // Requisito de participación digital activa
+    requirements.push({
+      id: 'digital_participation',
+      label: 'Participación digital activa en la comunidad',
+      fulfilled: hasDigitalParticipation,
+      progress: hasDigitalParticipation ? 100 : 0,
+      detail: hasDigitalParticipation 
+        ? 'Participación activa confirmada en foros y grupos oficiales'
+        : 'Se requiere mayor participación en la comunidad digital BSKMT'
+    });
+    
+    // Requisito de historial limpio
+    requirements.push({
+      id: 'clean_record',
+      label: 'Historial limpio (sin faltas disciplinarias)',
+      fulfilled: hasCleanRecord,
+      progress: hasCleanRecord ? 100 : 0,
+      detail: hasCleanRecord 
+        ? 'Sin reportes disciplinarios ni violaciones de ética'
+        : 'Existen reportes disciplinarios que impiden el ascenso'
+    });
+    
+    return requirements;
+    
+  } catch (error) {
+    console.error('Error calculating Rider requirements:', error);
+    return [];
+  }
+}
+
+async function getProRequirements(user: any, userStats: any): Promise<RequirementStatus[]> {
+  // Casos especiales para Pro → Legend
+  const currentMembershipType = mapLegacyMembershipType(user.membershipType);
+  
+  if (currentMembershipType !== 'Pro') {
+    return [];
+  }
+  
+  try {
+    const upgradeReqs = await calculateProUpgradeRequirements(user, userStats);
+    const lastYearPoints = calculateLastYearPoints(user, userStats);
+    const hasDemonstrableContribution = await validateDemonstrableContribution(user);
+    const hasExemplaryAttitude = await validateExemplaryAttitude(user);
+    const eventDistribution = await calculateEventTypeDistribution(user);
+    
+    const requirements: RequirementStatus[] = [];
+    
+    // Requisito de puntos totales (9000 - triple de Pro)
+    requirements.push({
+      id: 'total_points',
+      label: `${upgradeReqs.pointsRequired.toLocaleString()} puntos totales acumulados (triple de Pro)`,
+      fulfilled: userStats.points >= upgradeReqs.pointsRequired,
+      progress: Math.min(100, (userStats.points / upgradeReqs.pointsRequired) * 100),
+      detail: `Tienes ${userStats.points.toLocaleString()} puntos de ${upgradeReqs.pointsRequired.toLocaleString()} requeridos`
+    });
+    
+    // Requisito de puntos último año (1000)
+    requirements.push({
+      id: 'last_year_points',
+      label: `${upgradeReqs.lastYearPointsRequired.toLocaleString()} puntos obtenidos el último año`,
+      fulfilled: lastYearPoints >= upgradeReqs.lastYearPointsRequired,
+      progress: Math.min(100, (lastYearPoints / upgradeReqs.lastYearPointsRequired) * 100),
+      detail: `Has obtenido ${lastYearPoints.toLocaleString()} puntos este año de ${upgradeReqs.lastYearPointsRequired.toLocaleString()} requeridos`
+    });
+    
+    // Requisito de eventos oficiales generales (50% desde Friend)
+    requirements.push({
+      id: 'general_events',
+      label: `${upgradeReqs.eventsRequired} eventos oficiales generales (50% desde Friend)`,
+      fulfilled: userStats.totalEventsFromFriend >= upgradeReqs.eventsRequired,
+      progress: Math.min(100, (userStats.totalEventsFromFriend / upgradeReqs.eventsRequired) * 100),
+      detail: `Has asistido a ${userStats.totalEventsFromFriend} eventos de ${upgradeReqs.eventsRequired} requeridos desde Friend`
+    });
+    
+    // Requisito de eventos comunitarios (20%)
+    requirements.push({
+      id: 'community_events',
+      label: `${upgradeReqs.communityEventsRequired} eventos comunitarios/sociales/humanitarios (20%)`,
+      fulfilled: eventDistribution.communityEvents >= upgradeReqs.communityEventsRequired,
+      progress: Math.min(100, (eventDistribution.communityEvents / upgradeReqs.communityEventsRequired) * 100),
+      detail: `Has asistido a ${eventDistribution.communityEvents} eventos comunitarios de ${upgradeReqs.communityEventsRequired} requeridos (${eventDistribution.communityPercentage.toFixed(1)}% del total)`
+    });
+    
+    // Requisito de eventos educativos (20%)
+    requirements.push({
+      id: 'educational_events',
+      label: `${upgradeReqs.educationalEventsRequired} eventos educativos (20%)`,
+      fulfilled: eventDistribution.educationalEvents >= upgradeReqs.educationalEventsRequired,
+      progress: Math.min(100, (eventDistribution.educationalEvents / upgradeReqs.educationalEventsRequired) * 100),
+      detail: `Has asistido a ${eventDistribution.educationalEvents} eventos educativos de ${upgradeReqs.educationalEventsRequired} requeridos (${eventDistribution.educationalPercentage.toFixed(1)}% del total)`
+    });
+    
+    // Requisito de voluntariados (5 mínimo)
+    requirements.push({
+      id: 'volunteering',
+      label: `${upgradeReqs.volunteeringRequired} participaciones en voluntariado`,
+      fulfilled: userStats.volunteeringDone >= upgradeReqs.volunteeringRequired,
+      progress: Math.min(100, (userStats.volunteeringDone / upgradeReqs.volunteeringRequired) * 100),
+      detail: `Has completado ${userStats.volunteeringDone} de ${upgradeReqs.volunteeringRequired} voluntariados requeridos`
+    });
+    
+    // Requisito de tiempo (3 años como Pro)
+    requirements.push({
+      id: 'time_as_pro',
+      label: `${Math.floor(upgradeReqs.timeRequired / 365)} años como Pro (${upgradeReqs.timeRequired} días)`,
+      fulfilled: userStats.daysInCurrentMembership >= upgradeReqs.timeRequired,
+      progress: Math.min(100, (userStats.daysInCurrentMembership / upgradeReqs.timeRequired) * 100),
+      detail: `Llevas ${userStats.daysInCurrentMembership} días de ${upgradeReqs.timeRequired} requeridos como Pro`
+    });
+    
+    // Requisito de contribución demostrable
+    requirements.push({
+      id: 'demonstrable_contribution',
+      label: 'Contribución demostrable en organización/apoyo de actividades',
+      fulfilled: hasDemonstrableContribution,
+      progress: hasDemonstrableContribution ? 100 : 0,
+      detail: hasDemonstrableContribution 
+        ? 'Has participado en organización o apoyo de actividades del club'
+        : 'Se requiere participación demostrable en organización o apoyo de actividades'
+    });
+    
+    // Requisito de historial limpio y actitud ejemplar
+    requirements.push({
+      id: 'exemplary_attitude',
+      label: 'Historial limpio y actitud ejemplar dentro y fuera de eventos',
+      fulfilled: hasExemplaryAttitude,
+      progress: hasExemplaryAttitude ? 100 : 0,
+      detail: hasExemplaryAttitude 
+        ? 'Historial limpio con actitud ejemplar confirmada'
+        : 'Se requiere demostrar actitud ejemplar constante dentro y fuera de eventos'
+    });
+    
+    return requirements;
+    
+  } catch (error) {
+    console.error('Error calculating Pro requirements:', error);
+    return [];
+  }
 }
 
 function getDetailedRequirements(

@@ -119,47 +119,74 @@ export interface LeaderboardResponse {
 }
 
 // Reglas de negocio para requisitos de cada membresía
+export interface FriendRequirements {
+  pointsRequired: 0;
+  eventsRequired: 0;
+  volunteeringRequired: 0;
+  timeRequired: 0; // días
+  // Configuración especial para Friend → Rider
+  nextLevelRequirements?: {
+    pointsRequired: number;
+    eventsRequired: number; // Se calcula dinámicamente
+    volunteeringRequired: number;
+    timeRequired: number; // 365 días normales, 366 bisiesto
+    minimumDaysForUpgrade: number;
+    leapYearDays: number;
+    eventPercentageRequired: number; // % de eventos del año
+  };
+}
+
+export interface StandardMembershipRequirements {
+  pointsRequired: number;
+  eventsRequired: number;
+  volunteeringRequired: number;
+  timeRequired: number; // días en nivel anterior
+}
+
+export interface RiderRequirements extends StandardMembershipRequirements {
+  specialRequirements?: {
+    confirmedEventsOnly: boolean; // Solo eventos con asistencia confirmada
+    cleanRecord: boolean; // Historial limpio obligatorio
+    fromMembershipType: MembershipType; // Desde qué membresía puede acceder
+  };
+}
+
+export interface ProRequirements extends StandardMembershipRequirements {
+  specialRequirements?: {
+    lastYearPoints: number; // Puntos obtenidos el último año
+    confirmedEventsOnly: boolean; // Solo eventos confirmados asistidos
+    digitalParticipation: boolean; // Participación digital activa
+    cleanRecord: boolean; // Sin faltas disciplinarias
+    fromMembershipType: MembershipType; // Desde qué membresía puede acceder
+  };
+}
+
+export interface LegendRequirements extends StandardMembershipRequirements {
+  specialRequirements?: {
+    lastYearPoints: number; // Puntos obtenidos el último año
+    confirmedEventsOnly: boolean; // Solo eventos confirmados asistidos
+    eventTypeDistribution: {
+      communityEvents: number; // % eventos comunitarios/sociales/humanitarios
+      educationalEvents: number; // % eventos educativos
+    };
+    demonstrableContribution: boolean; // Participación en organización/apoyo
+    cleanRecord: boolean; // Historial limpio y actitud ejemplar
+    fromMembershipType: MembershipType; // Desde qué membresía puede acceder
+  };
+}
+
 export interface MembershipRules {
-  Friend: {
-    pointsRequired: 0;
-    eventsRequired: 0;
-    volunteeringRequired: 0;
-    timeRequired: 0; // días
-  };
-  Rider: {
-    pointsRequired: 1000;
-    eventsRequired: 3;
-    volunteeringRequired: 0;
-    timeRequired: 30; // días como Friend
-  };
-  Pro: {
-    pointsRequired: 5000;
-    eventsRequired: 10;
-    volunteeringRequired: 1;
-    timeRequired: 90; // días como Rider
-  };
-  Legend: {
-    pointsRequired: 15000;
-    eventsRequired: 25;
-    volunteeringRequired: 5;
-    timeRequired: 180; // días como Pro
-  };
-  Master: {
-    pointsRequired: 50000;
-    eventsRequired: 50;
-    volunteeringRequired: 15;
-    timeRequired: 365; // días como Legend
-  };
+  Friend: FriendRequirements;
+  Rider: RiderRequirements;
+  Pro: ProRequirements;
+  Legend: LegendRequirements;
+  Master: StandardMembershipRequirements;
   Volunteer: {
     // Se puede agregar a cualquier tipo
     canAttachTo: MembershipType[];
     additionalBenefits: string[];
   };
-  Leader: {
-    pointsRequired: 100000;
-    eventsRequired: 100;
-    volunteeringRequired: 50;
-    timeRequired: 365; // días como Master
+  Leader: StandardMembershipRequirements & {
     mustBeVolunteer: true;
     mustBeMaster: true;
     requiresApplication: true;
