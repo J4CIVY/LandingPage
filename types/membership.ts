@@ -58,11 +58,52 @@ export interface UserRanking {
   points: number;
 }
 
+export interface VolunteerContributions {
+  totalContributions: number;
+  monthlyAverage: number;
+  meetsMinimumContribution: boolean;
+  breakdown: {
+    eventOrganization: number;
+    logisticsSupport: number;
+    communityProjects: number;
+    safetyPrograms: number;
+    socialCampaigns: number;
+    mentorshipActivities: number;
+  };
+  impactClassification: {
+    highImpact: number;
+    mediumImpact: number;
+    lowImpact: number;
+  };
+}
+
+export interface VolunteerBenefitsEligibility {
+  eligibleBenefits: string[];
+  contributionLevel: 'low' | 'medium' | 'high';
+  hasFullAccess: boolean;
+  mainMembershipBonus: boolean;
+}
+
+export interface VolunteerStatus {
+  isVolunteer: boolean;
+  status: 'active' | 'pending' | 'inactive';
+  requirements: RequirementStatus[];
+  contributions: VolunteerContributions;
+  benefitsEligibility: VolunteerBenefitsEligibility;
+  specialFeatures: {
+    isComplementary: boolean;
+    enhancesMainMembership: boolean;
+    flexibleDuration: boolean;
+    additionalPoints: boolean;
+  };
+}
+
 export interface MembershipResponse {
   userId: string;
   membership: Membership;
   ranking: UserRanking;
   achievements: Achievement[];
+  volunteerInfo?: VolunteerStatus | null; // Información de membresía complementaria Volunteer
 }
 
 // Request/Response types para los endpoints
@@ -175,22 +216,106 @@ export interface LegendRequirements extends StandardMembershipRequirements {
   };
 }
 
+export interface MasterRequirements extends StandardMembershipRequirements {
+  specialRequirements?: {
+    lastYearPoints: number; // Puntos obtenidos el último año
+    confirmedEventsOnly: boolean; // Solo eventos confirmados asistidos
+    eventTypeDistribution: {
+      communityEvents: number; // % eventos comunitarios/sociales/humanitarios
+      educationalEvents: number; // % eventos educativos
+      organizedEvents: number; // % eventos organizados directamente por el miembro
+    };
+    outstandingProjectParticipation: boolean; // Proyectos comunitarios destacados
+    officialRecognition: boolean; // Reconocimiento oficial del club
+    fromMembershipType: MembershipType; // Desde qué membresía puede acceder
+  };
+}
+
+export interface LeaderRequirements extends StandardMembershipRequirements {
+  specialRequirements?: {
+    // Requisitos básicos obligatorios
+    mustBeMaster: boolean; // Obligatorio ser Master
+    mustBeActiveVolunteer: boolean; // Obligatorio estar activo como Volunteer
+    pointsMinimum: number; // Puntos mínimos al momento de postulación
+    
+    // Historial de eventos
+    eventAttendanceRate: number; // 80% asistencia a eventos oficiales en total
+    leadershipEventsRequired: number; // Porcentaje de eventos donde demostró liderazgo
+    leadershipEventsSuccessRate: number; // Resultado positivo en eventos liderados
+    
+    // Voluntariado alto impacto
+    highImpactVolunteering: boolean; // Requiere voluntariado en roles de alto impacto
+    highImpactVolunteeringRequired: number; // 30 participaciones en roles de alto impacto
+    highImpactRoles: string[]; // Roles específicos de alto impacto
+    
+    // Historial disciplinario
+    cleanDisciplinaryRecord: boolean; // Expediente limpio
+    noSuspensions: boolean; // Sin suspensiones
+    noGraveWarnings: boolean; // Sin amonestaciones graves
+    noRuleViolations: boolean; // Sin incumplimientos de normas
+    
+    // Proceso de postulación formal
+    formalApplication: {
+      leadershipPlanRequired: boolean; // Plan de Liderazgo requerido
+      applicationFormRequired: boolean; // Formulario de postulación
+      endorsements: {
+        activeLeadersRequired: number; // Mínimo Leaders activos
+        activeMastersRequired: number; // Mínimo Masters activos
+      };
+    };
+    
+    // Proceso de evaluación
+    evaluationProcess: {
+      evaluationCommittee: boolean; // Revisión por Comisión Evaluadora
+      publicInterview: boolean; // Entrevista/presentación pública
+      consultativeVoting: boolean; // Votación consultiva
+      presidentialRatification: boolean; // Ratificación final presidencia
+      boardConfirmation: boolean; // Confirmación Directiva del club
+    };
+    
+    // Disponibilidad operativa
+    minimumAvailability: {
+      hoursPerMonth: number; // Horas mínimas por mes
+      maxHoursPerMonth: number; // Horas máximas por mes
+      meetingsRequired: boolean; // Disponibilidad para reuniones
+      coordinationRequired: boolean; // Coordinación operativa
+      eventPresenceRequired: boolean; // Presencia en eventos oficiales
+    };
+    
+    // Condiciones especiales
+    mandateDuration: number; // Duración del mandato en meses
+    renewable: boolean; // Renovable mediante evaluación
+    vacancyRequired: boolean; // Debe existir vacante
+    exemplaryConduct: boolean; // Conducta ejemplar obligatoria
+    
+    fromMembershipType: MembershipType; // Solo desde Master
+  };
+}
+
 export interface MembershipRules {
   Friend: FriendRequirements;
   Rider: RiderRequirements;
   Pro: ProRequirements;
   Legend: LegendRequirements;
-  Master: StandardMembershipRequirements;
+  Master: MasterRequirements;
   Volunteer: {
     // Se puede agregar a cualquier tipo
     canAttachTo: MembershipType[];
+    requirements?: {
+      activeCommitment: boolean;
+      clubValuesAlignment: boolean;
+      minimumContribution: number;
+      flexibleDuration: boolean;
+    };
     additionalBenefits: string[];
+    specialFeatures?: {
+      isComplementary: boolean;
+      doesNotCompete: boolean;
+      flexibleCommitment: boolean;
+      enhancesProgression: boolean;
+    };
   };
-  Leader: StandardMembershipRequirements & {
-    mustBeVolunteer: true;
-    mustBeMaster: true;
-    requiresApplication: true;
-  };
+  Leader: LeaderRequirements;
 }
 
 // Beneficios por tipo de membresía
