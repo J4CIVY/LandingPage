@@ -123,8 +123,29 @@ export default function MembershipStatus({ user, stats }: MembershipStatusProps)
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user) {
+    if (user && user._id) {
       fetchMembershipData();
+    } else {
+      // Si no hay usuario autenticado, usar datos básicos
+      setLoading(false);
+      const defaultConfig = membershipConfig['friend'];
+      setMembershipInfo({
+        current: 'friend',
+        displayName: defaultConfig.displayName,
+        icon: defaultConfig.icon,
+        color: defaultConfig.color,
+        bgColor: defaultConfig.bgColor,
+        isVolunteer: false,
+        isLeader: false,
+        nextUpgrade: defaultConfig.nextUpgrade,
+        canUpgrade: false
+      });
+      setUserPoints({
+        totalPoints: 0,
+        monthlyPoints: 0,
+        level: 1,
+        nextLevelPoints: 100
+      });
     }
   }, [user]);
 
@@ -132,31 +153,88 @@ export default function MembershipStatus({ user, stats }: MembershipStatusProps)
     try {
       setLoading(true);
       
-      // Obtener información de puntos
-      const pointsResponse = await fetch('/api/users/points');
-      if (pointsResponse.ok) {
-        const pointsData = await pointsResponse.json();
-        setUserPoints(pointsData.data);
+      // Obtener información de puntos con headers de autenticación
+      try {
+        const pointsResponse = await fetch('/api/users/points', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include'
+        });
+        
+        if (pointsResponse.ok) {
+          const pointsData = await pointsResponse.json();
+          setUserPoints(pointsData.data || {
+            totalPoints: 0,
+            monthlyPoints: 0,
+            level: 1,
+            nextLevelPoints: 100
+          });
+        } else {
+          // Si falla, usar valores por defecto
+          setUserPoints({
+            totalPoints: 0,
+            monthlyPoints: 0,
+            level: 1,
+            nextLevelPoints: 100
+          });
+        }
+      } catch (pointsError) {
+        console.warn('Error fetching points, using defaults:', pointsError);
+        setUserPoints({
+          totalPoints: 0,
+          monthlyPoints: 0,
+          level: 1,
+          nextLevelPoints: 100
+        });
       }
 
       // Obtener estado de membresía completo
-      const membershipResponse = await fetch('/api/membership/status');
-      if (membershipResponse.ok) {
-        const membershipData = await membershipResponse.json();
+      try {
+        const membershipResponse = await fetch('/api/membership/status', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include'
+        });
+        
+        let canUpgrade = false;
+        if (membershipResponse.ok) {
+          const membershipData = await membershipResponse.json();
+          canUpgrade = membershipData.data?.canUpgrade || false;
+        }
         
         // Procesar información de membresía
-        const config = membershipConfig[user.membershipType] || membershipConfig['friend'];
+        const config = membershipConfig[user?.membershipType || 'friend'] || membershipConfig['friend'];
         
         setMembershipInfo({
-          current: user.membershipType,
+          current: user?.membershipType || 'friend',
           displayName: config.displayName,
           icon: config.icon,
           color: config.color,
           bgColor: config.bgColor,
-          isVolunteer: (user as any).isVolunteer || false,
-          isLeader: (user as any).membershipType === 'leader' || (user as any).isLeader || false,
+          isVolunteer: (user as any)?.isVolunteer || false,
+          isLeader: (user as any)?.membershipType === 'leader' || (user as any)?.isLeader || false,
           nextUpgrade: config.nextUpgrade,
-          canUpgrade: membershipData.data?.canUpgrade || false
+          canUpgrade: canUpgrade
+        });
+      } catch (membershipError) {
+        console.warn('Error fetching membership status, using user data:', membershipError);
+        // Usar datos básicos del usuario si falla la API
+        const config = membershipConfig[user?.membershipType || 'friend'] || membershipConfig['friend'];
+        
+        setMembershipInfo({
+          current: user?.membershipType || 'friend',
+          displayName: config.displayName,
+          icon: config.icon,
+          color: config.color,
+          bgColor: config.bgColor,
+          isVolunteer: (user as any)?.isVolunteer || false,
+          isLeader: (user as any)?.membershipType === 'leader' || (user as any)?.isLeader || false,
+          nextUpgrade: config.nextUpgrade,
+          canUpgrade: false
         });
       }
     } catch (error) {
@@ -167,7 +245,18 @@ export default function MembershipStatus({ user, stats }: MembershipStatusProps)
   };
 
   if (!user) {
-    return null;
+    return (
+      <div className="bg-gray-50 dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800 p-6">
+        <div className="flex items-center justify-center h-32">
+          <div className="text-center">
+            <FaUser className="mx-auto text-3xl text-gray-400 mb-2" />
+            <p className="text-sm text-gray-500 dark:text-slate-400">
+              No hay información de usuario disponible
+            </p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (loading) {
@@ -181,14 +270,14 @@ export default function MembershipStatus({ user, stats }: MembershipStatusProps)
   }
 
   const config = membershipInfo || {
-    current: user.membershipType,
-    displayName: membershipConfig[user.membershipType]?.displayName || 'Friend',
-    icon: membershipConfig[user.membershipType]?.icon || FaHeart,
-    color: membershipConfig[user.membershipType]?.color || 'text-pink-600',
-    bgColor: membershipConfig[user.membershipType]?.bgColor || 'bg-pink-50',
-    isVolunteer: (user as any).isVolunteer || false,
-    isLeader: (user as any).membershipType === 'leader' || (user as any).isLeader || false,
-    nextUpgrade: membershipConfig[user.membershipType]?.nextUpgrade,
+    current: user?.membershipType || 'friend',
+    displayName: membershipConfig[user?.membershipType || 'friend']?.displayName || 'Friend',
+    icon: membershipConfig[user?.membershipType || 'friend']?.icon || FaHeart,
+    color: membershipConfig[user?.membershipType || 'friend']?.color || 'text-pink-600',
+    bgColor: membershipConfig[user?.membershipType || 'friend']?.bgColor || 'bg-pink-50',
+    isVolunteer: (user as any)?.isVolunteer || false,
+    isLeader: (user as any)?.membershipType === 'leader' || (user as any)?.isLeader || false,
+    nextUpgrade: membershipConfig[user?.membershipType || 'friend']?.nextUpgrade,
     canUpgrade: false
   };
 
@@ -268,19 +357,19 @@ export default function MembershipStatus({ user, stats }: MembershipStatusProps)
         )}
 
         {/* Información de Puntos */}
-        {userPoints && (
+        {userPoints && userPoints.totalPoints !== undefined && (
           <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm font-medium text-blue-800 dark:text-blue-200">
                 Puntos Totales
               </span>
               <span className="text-lg font-bold text-blue-900 dark:text-blue-100">
-                {userPoints.totalPoints.toLocaleString()}
+                {(userPoints.totalPoints || 0).toLocaleString()}
               </span>
             </div>
             <div className="flex justify-between text-xs text-blue-700 dark:text-blue-300">
-              <span>Este mes: {userPoints.monthlyPoints}</span>
-              <span>Nivel: {userPoints.level}</span>
+              <span>Este mes: {userPoints.monthlyPoints || 0}</span>
+              <span>Nivel: {userPoints.level || 1}</span>
             </div>
           </div>
         )}
