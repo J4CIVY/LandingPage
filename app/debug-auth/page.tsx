@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { authFetch } from '@/utils/authFetch';
 
 export default function DebugAuthPage() {
   const [authResult, setAuthResult] = useState<any>(null);
@@ -9,9 +10,10 @@ export default function DebugAuthPage() {
   const checkAuth = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/auth/me', {
+      // Usar authFetch con silentAuth para evitar errores en consola
+      const response = await authFetch('/api/auth/me', {
         method: 'GET',
-        credentials: 'include',
+        silentAuth: true
       });
       const result = await response.json();
       setAuthResult({ status: response.status, data: result });

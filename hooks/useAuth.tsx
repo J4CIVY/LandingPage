@@ -3,7 +3,7 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
-import { checkAuthSilently } from '@/utils/authFetch';
+import { checkAuthSilently, suppressAuthErrors } from '@/utils/authFetch';
 import { IUser } from '@/lib/models/User';
 
 interface AuthState {
@@ -216,6 +216,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const initAuth = async () => {
+      // Inicializar supresión de errores 401 para auth
+      suppressAuthErrors();
+      
       await checkAuth();
       setIsInitialized(true);
     };

@@ -10,30 +10,66 @@ interface FetchOptions extends RequestInit {
 /**
  * Fetch personalizado que maneja silenciosamente los errores 401 de autenticación
  */
-export const authFetch = async (url: string, options: FetchOptions = {}): Promise<Response> => {
+export async function authFetch(
+  url: string,
+  options: FetchOptions = {}
+): Promise<Response> {
   const { silentAuth = false, ...fetchOptions } = options;
-  
-  // Para rutas de autenticación, interceptamos los errores de consola
+
+  // Configurar opciones por defecto
+  const defaultOptions: RequestInit = {
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      ...fetchOptions.headers
+    }
+  };
+
+  // Combinar opciones
+  const finalOptions = { ...defaultOptions, ...fetchOptions };
+
+  // Hacer fetch silencioso para auth/me si se especifica
   if (silentAuth || url.includes('/api/auth/me')) {
     try {
-      const response = await fetch(url, fetchOptions);
+      const response = await fetch(url, finalOptions);
       
-      // Si es 401 en una ruta de auth, no es realmente un "error"
+      // No mostrar errores 401 en consola para auth endpoints
       if (response.status === 401 && (silentAuth || url.includes('/api/auth/me'))) {
-        // Creamos una respuesta que no genere errores en consola
         return response;
       }
       
       return response;
     } catch (error) {
-      // Solo re-lanzar errores reales de red
-      throw error;
+      // Capturar errores silenciosamente para auth
+      return new Response(null, { status: 500 });
     }
   }
-  
-  // Para otras rutas, usar fetch normal
-  return fetch(url, fetchOptions);
-};
+
+  // Para otros endpoints, comportamiento normal
+  return fetch(url, finalOptions);
+}
+
+// Función global para interceptar errores de consola relacionados con auth
+export function suppressAuthErrors() {
+  if (typeof window !== 'undefined') {
+    const originalError = console.error;
+    console.error = function(...args: any[]) {
+      const message = args.join(' ');
+      
+      // Suprimir errores 401 específicos de /api/auth/me
+      if (message.includes('401') && message.includes('/api/auth/me')) {
+        return;
+      }
+      
+      // Suprimir otros errores de fetch de auth
+      if (message.includes('Failed to fetch') && message.includes('auth')) {
+        return;
+      }
+      
+      originalError.apply(console, args);
+    };
+  }
+}
 
 /**
  * Hook para verificar autenticación sin generar errores en consola
