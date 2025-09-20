@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
-import { verifyJWT } from '@/lib/auth-utils';
+import { verifyAuth } from '@/lib/auth-utils';
 import { 
   calculateLeadershipEligibility,
   validateLeaderRequirements,
@@ -13,33 +13,25 @@ import {
 export async function GET(request: NextRequest) {
   try {
     // Verificar autenticación
-    const token = request.headers.get('authorization')?.replace('Bearer ', '') ||
-                 request.cookies.get('token')?.value;
-
-    if (!token) {
+    const authResult = await verifyAuth(request);
+    if (!authResult.success || !authResult.user) {
       return NextResponse.json(
-        { success: false, message: 'Token de autenticación requerido' },
+        { success: false, message: 'No autorizado' },
         { status: 401 }
       );
     }
 
-    const payload = verifyJWT(token);
-    if (!payload?.userId) {
-      return NextResponse.json(
-        { success: false, message: 'Token inválido' },
-        { status: 401 }
-      );
-    }
+    const user = authResult.user;
 
     // Conectar a la base de datos
     const { db } = await connectToDatabase();
     
-    // Buscar el usuario
-    const user = await db.collection('users').findOne({ 
-      _id: payload.userId 
+    // Buscar el usuario completo en la base de datos
+    const fullUser = await db.collection('users').findOne({ 
+      _id: user.id 
     });
 
-    if (!user) {
+    if (!fullUser) {
       return NextResponse.json(
         { success: false, message: 'Usuario no encontrado' },
         { status: 404 }
@@ -47,13 +39,13 @@ export async function GET(request: NextRequest) {
     }
 
     // Calcular elegibilidad completa para Leader
-    const eligibilityData = await calculateLeadershipEligibility(user);
+    const eligibilityData = await calculateLeadershipEligibility(fullUser);
     
     // Obtener requisitos detallados
-    const basicRequirements = await validateLeaderRequirements(user);
-    const leadershipHistory = await validateLeadershipHistory(user);
-    const disciplinaryRecord = await validateDisciplinaryRecord(user);
-    const highImpactVolunteering = await validateLeaderHighImpactVolunteering(user);
+    const basicRequirements = await validateLeaderRequirements(fullUser);
+    const leadershipHistory = await validateLeadershipHistory(fullUser);
+    const disciplinaryRecord = await validateDisciplinaryRecord(fullUser);
+    const highImpactVolunteering = await validateLeaderHighImpactVolunteering(fullUser);
     
     // Construir lista de requisitos con formato esperado por el componente
     const requirements = [
@@ -79,8 +71,8 @@ export async function GET(request: NextRequest) {
         id: 'minimum_points',
         label: '40,000 puntos acumulados mínimos',
         fulfilled: basicRequirements.hasMinimumPoints,
-        progress: Math.min(100, ((user.points || 0) / 40000) * 100),
-        detail: `Tienes ${(user.points || 0).toLocaleString()} puntos de 40,000 requeridos`
+        progress: Math.min(100, ((fullUser.points || 0) / 40000) * 100),
+        detail: `Tienes ${(fullUser.points || 0).toLocaleString()} puntos de 40,000 requeridos`
       },
       {
         id: 'years_as_master',

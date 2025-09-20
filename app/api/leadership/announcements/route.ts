@@ -171,7 +171,7 @@ export async function GET(request: NextRequest) {
     // Contar total para paginación
     const total = await db.collection('leadership_announcements').countDocuments(filters);
 
-    const formattedAnnouncements = announcements.map((announcement) => ({
+    const formattedAnnouncements = announcements.map((announcement: any) => ({
       id: announcement._id.toString(),
       title: announcement.title,
       content: announcement.content,
