@@ -5,9 +5,11 @@ import { ObjectId } from 'mongodb';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id: processId } = await params;
+    
     // Verificar autenticación
     const authResult = await verifyAuth(request);
     if (!authResult.success || !authResult.user) {
@@ -28,7 +30,6 @@ export async function POST(
     }
 
     const { vote, comment } = await request.json();
-    const processId = params.id;
 
     // Validar voto
     if (!vote || !['for', 'against', 'abstain'].includes(vote)) {
