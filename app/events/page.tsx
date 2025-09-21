@@ -1,20 +1,9 @@
 'use client';
 
-import React, { useEffect, useState, useCallback } from "react";
-import { format, parseISO, isAfter, isBefore } from "date-fns";
-import { es } from "date-fns/locale";
-import Image from "next/image";
-/**
- * @typedef {Object} EventLocation
- * @property {string} address - The full address of the event location.
- * @property {string} city - The city of the event location.
- * @property {string} country - The country of the event location.
- */
-interface EventLocation {
-  address: string;
-  city: string;
-  country: string;
-}
+import React, { useState } from "react";
+import { parseISO } from "date-fns";
+import PublicEventCard from "@/components/eventos/PublicEventCard";
+import { usePublicEvents } from "@/hooks/usePublicEvents";
 
 /**
  * @typedef {Object} Event
@@ -33,144 +22,42 @@ interface Event {
   description: string;
   mainImage: string;
   eventType: string;
-  departureLocation?: EventLocation;
-}
-
-/**
- * @typedef {Object} EventsApiResponse
- * @property {string} status - Status of the API response (e.g., 'success').
- * @property {Object} data - Data payload.
- * @property {Event[]} data.events - Array of events.
- */
-interface EventsApiResponse {
-  status: string;
-  data: {
-    events: Event[];
+  departureLocation?: {
+    address: string;
+    city: string;
+    country: string;
   };
 }
 
 /**
- * Events component displays a list of upcoming and past events.
- * It includes filtering, sorting, and a detailed view for each event.
+ * Events component displays a list of upcoming events within the next 6 months for public view.
+ * It includes filtering and sorting for public visitors.
  * @returns {JSX.Element}
  */
 const Events: React.FC = () => {
-  const [events, setEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"upcoming" | "past">("upcoming");
+  const { upcomingEventsInSixMonths, loading, error, fetchEvents } = usePublicEvents();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filterLocation, setFilterLocation] = useState<string>("all");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
-  /**
-   * Simulate loading events (removed external API dependency).
-   * This function is memoized using useCallback.
-   */
-  const fetchEvents = useCallback(async () => {
-    setLoading(true);
-    setError(null); // Reset error state before new fetch
-    try {
-      // Simulate loading time
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      // Set empty events array since external API is removed
-      setEvents([]); 
-    } catch (err) {
-      setError("Error al cargar los eventos. Intenta nuevamente.");
-      console.error("Error fetching events:", err);
-    } finally {
-      setLoading(false);
-    }
-  }, []); // Empty dependency array means this function is created once
+  // Get unique locations for the filter
+  const locations: string[] = ["all", ...new Set(upcomingEventsInSixMonths.map((event: Event) => 
+    event.departureLocation?.city
+  ).filter(Boolean) as string[])];
 
-  useEffect(() => {
-    fetchEvents();
-  }, [fetchEvents]); // Depend on fetchEvents to re-run when it changes (which it won't due to useCallback)
-
-  // Classify events into past/future - these should be derived states, not re-calculated on every render
-  const now = new Date();
-  const upcomingEvents = events.filter(event => 
-    isAfter(parseISO(event.startDate), now)
-  );
-  const pastEvents = events.filter(event => 
-    isBefore(parseISO(event.startDate), now)
-  );
-
-  // Get unique locations for the filter - also a derived state
-  // Using a Set to ensure uniqueness and then spreading into an array
-  const locations: string[] = ["all", ...new Set(events.map(event => 
-    event.departureLocation?.city // Added optional chaining for safety
-  ).filter(Boolean) as string[])]; // Filter out any undefined or null cities and assert type
-
-  // Filter and sort events - this logic is fine, but consider memoizing if `events` array is very large
-  const filteredEvents = (activeTab === "upcoming" ? upcomingEvents : pastEvents)
-    .filter(event => {
+  // Filter and sort events - only upcoming events for public view
+  const filteredEvents = upcomingEventsInSixMonths
+    .filter((event: Event) => {
       const matchesSearch = event.name.toLowerCase().includes(searchTerm.toLowerCase());
-      // Added optional chaining for safety
       const matchesLocation = filterLocation === "all" || 
         event.departureLocation?.city === filterLocation; 
       return matchesSearch && matchesLocation;
     })
-    .sort((a, b) => {
+    .sort((a: Event, b: Event) => {
       const dateA = parseISO(a.startDate);
       const dateB = parseISO(b.startDate);
       return sortOrder === "asc" ? dateA.getTime() - dateB.getTime() : dateB.getTime() - dateA.getTime();
     });
-
-  /**
-   * Renders an individual event card.
-   * This function is memoized using useCallback.
-   * @param {Event} event - The event object to render.
-   * @returns {JSX.Element}
-   */
-  const renderEventCard = useCallback((event: Event): JSX.Element => {
-    const eventDate = parseISO(event.startDate);
-    
-    return (
-      <div key={event._id} className="bg-white dark:bg-slate-950 text-slate-950 dark:text-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-        <div className="relative h-48">
-          <Image
-            src={event.mainImage || "/default-event-image.webp"}
-            alt={event.name}
-            className="w-full h-full object-cover"
-            loading="lazy"
-            layout="fill"
-          />
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black dark:from-black to-transparent opacity-60 dark:opacity-30"></div>
-          <div className="absolute bottom-0 left-0 p-4 text-white dark:text-gray-400">
-            <p className="text-sm font-medium">
-              {format(eventDate, "PPPP", { locale: es })}
-            </p>
-          </div>
-        </div>
-        
-        <div className="p-6">
-          <h3 className="text-xl font-bold text-slate-950 dark:text-white mb-2">{event.name}</h3>
-          <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-3">
-            <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-            {event.departureLocation?.address} {/* Added optional chaining */}
-          </div>
-          
-          <p className="text-gray-700 dark:text-gray-300 mb-4 line-clamp-3">{event.description}</p>
-          
-          <div className="flex justify-between items-center">
-            <span className="text-sm font-medium text-green-500 dark:text-green-400">
-              {event.eventType === 'Ride' ? 'Rodada' : 'Evento'}
-            </span>
-            <button 
-              className="bg-slate-950 hover:bg-green-500 text-white dark:bg-green-500 dark:hover:bg-green-600 py-2 px-4 rounded-lg transition"
-              aria-label={`Ver detalles de ${event.name}`}
-            >
-              Ver detalles
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }, []); // Empty dependency array means this function is created once
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
@@ -178,46 +65,12 @@ const Events: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-slate-950 dark:text-white mb-4">
-            Eventos BSK Motorcycle Team
+            Próximos Eventos BSK Motorcycle Team
           </h1>
           
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Descubre nuestras próximas aventuras y revive los mejores momentos
+            Descubre nuestras próximas aventuras de los próximos 6 meses. Únete como miembro para acceder a todos los detalles y participar.
           </p>
-        </div>
-
-        {/* Tabs */}
-        <div className="flex justify-center mb-8">
-          <div className="inline-flex rounded-md shadow-sm" role="tablist">
-            <button
-              onClick={() => setActiveTab("upcoming")}
-              className={`px-6 py-2 rounded-l-full border transition-colors ${
-                activeTab === "upcoming"
-                  ? "bg-slate-950 text-white border-slate-950 dark:bg-green-500 dark:border-green-500"
-                  : "bg-white text-slate-950 border-gray-300 hover:bg-gray-100 dark:bg-slate-700 dark:text-white dark:border-slate-600 dark:hover:bg-slate-600"
-              } transition`}
-              role="tab"
-              aria-selected={activeTab === "upcoming"}
-              id="tab-upcoming"
-              aria-controls="panel-upcoming"
-            >
-              Próximos Eventos
-            </button>
-            <button
-              onClick={() => setActiveTab("past")}
-              className={`px-6 py-2 rounded-r-full border transition-colors ${
-                activeTab === "past"
-                  ? "bg-slate-950 text-white border-slate-950 dark:bg-green-500 dark:border-green-500"
-                  : "bg-white text-slate-950 border-gray-300 hover:bg-gray-100 dark:bg-slate-700 dark:text-white dark:border-slate-600 dark:hover:bg-slate-600"
-              } transition`}
-              role="tab"
-              aria-selected={activeTab === "past"}
-              id="tab-past"
-              aria-controls="panel-past"
-            >
-              Eventos Pasados
-            </button>
-          </div>
         </div>
 
         {/* Filters */}
@@ -269,9 +122,8 @@ const Events: React.FC = () => {
 
         {/* Event List Panel */}
         <div 
-          role="tabpanel"
-          id={`panel-${activeTab}`}
-          aria-labelledby={`tab-${activeTab}`}
+          role="main"
+          aria-label="Lista de próximos eventos"
         >
           {loading ? (
             <div className="flex justify-center items-center h-64" aria-live="polite">
@@ -290,14 +142,33 @@ const Events: React.FC = () => {
               </button>
             </div>
           ) : filteredEvents.length === 0 ? (
-            <div className="text-center py-10">
-              <p className="text-gray-500 dark:text-gray-400 text-lg">
-                Funcionalidad de eventos temporalmente deshabilitada. La API externa ha sido removida.
+            <div className="text-center py-16">
+              <svg className="mx-auto h-24 w-24 text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <h3 className="text-xl font-medium text-gray-900 dark:text-gray-100 mb-2">
+                No hay eventos próximos
+              </h3>
+              <p className="text-gray-500 dark:text-gray-400 mb-6">
+                No hay eventos programados para los próximos 6 meses que coincidan con tus filtros.
               </p>
+              <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-slate-800 dark:to-slate-700 p-6 rounded-xl max-w-md mx-auto">
+                <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
+                  ¡Únete al BSK Motorcycle Team para estar al tanto de futuros eventos!
+                </p>
+                <a 
+                  href="/register"
+                  className="inline-block bg-slate-950 hover:bg-green-500 dark:bg-green-500 dark:hover:bg-green-600 text-white py-2 px-6 rounded-lg transition-colors duration-300 font-medium"
+                >
+                  Ser Miembro
+                </a>
+              </div>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredEvents.map(renderEventCard)}
+              {filteredEvents.map((event: Event) => (
+                <PublicEventCard key={event._id} event={event} />
+              ))}
             </div>
           )}
         </div>
