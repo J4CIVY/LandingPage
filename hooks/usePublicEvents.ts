@@ -16,7 +16,7 @@ interface Event {
 }
 
 interface EventsApiResponse {
-  status: string;
+  success: boolean;
   data: {
     events: Event[];
   };
@@ -54,9 +54,13 @@ export const usePublicEvents = (): UsePublicEventsReturn => {
       
       const data: EventsApiResponse = await response.json();
       
-      if (data.status === 'success' && data.data?.events) {
+      console.log('📊 API Response:', data); // Debug log
+      
+      if (data.success && data.data?.events) {
+        console.log('✅ Events loaded:', data.data.events.length); // Debug log
         setEvents(data.data.events);
       } else {
+        console.log('❌ No events found in response'); // Debug log
         setEvents([]);
       }
     } catch (err) {
@@ -77,8 +81,23 @@ export const usePublicEvents = (): UsePublicEventsReturn => {
     const now = new Date();
     const sixMonthsFromNow = addMonths(now, 6);
     const eventDate = parseISO(event.startDate);
-    return isAfter(eventDate, now) && isBefore(eventDate, sixMonthsFromNow);
+    
+    // Debug logs
+    console.log('🗓️ Event:', event.name);
+    console.log('📅 Event date:', eventDate);
+    console.log('⏰ Now:', now);
+    console.log('📆 Six months from now:', sixMonthsFromNow);
+    console.log('✅ Is after now:', isAfter(eventDate, now));
+    console.log('✅ Is before 6 months:', isBefore(eventDate, sixMonthsFromNow));
+    
+    const isUpcoming = isAfter(eventDate, now) && isBefore(eventDate, sixMonthsFromNow);
+    console.log('🎯 Final result:', isUpcoming);
+    
+    return isUpcoming;
   });
+
+  console.log('📋 Total events:', events.length);
+  console.log('🎯 Filtered events (6 months):', upcomingEventsInSixMonths.length);
 
   return {
     events,
