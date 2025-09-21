@@ -54,13 +54,9 @@ export const usePublicEvents = (): UsePublicEventsReturn => {
       
       const data: EventsApiResponse = await response.json();
       
-      console.log('📊 API Response:', data); // Debug log
-      
       if (data.success && data.data?.events) {
-        console.log('✅ Events loaded:', data.data.events.length); // Debug log
         setEvents(data.data.events);
       } else {
-        console.log('❌ No events found in response'); // Debug log
         setEvents([]);
       }
     } catch (err) {
@@ -76,25 +72,14 @@ export const usePublicEvents = (): UsePublicEventsReturn => {
     fetchEvents();
   }, [fetchEvents]);
 
-  // Temporalmente sin filtro de 6 meses para debug
+  // Filter events to show only those within the next 6 months
   const upcomingEventsInSixMonths = events.filter(event => {
     const now = new Date();
+    const sixMonthsFromNow = addMonths(now, 6);
     const eventDate = parseISO(event.startDate);
     
-    // Solo verificar que sea futuro
-    const isAfterNow = isAfter(eventDate, now);
-    
-    console.log('�️ Event:', event.name);
-    console.log('📅 Event date:', eventDate.toISOString());
-    console.log('⏰ Now:', now.toISOString());
-    console.log('✅ Is after now:', isAfterNow);
-    console.log('---');
-    
-    return isAfterNow; // Temporalmente solo filtrar por futuro
+    return isAfter(eventDate, now) && isBefore(eventDate, sixMonthsFromNow);
   });
-
-  console.log('📋 Total events loaded:', events.length);
-  console.log('🎯 Future events:', upcomingEventsInSixMonths.length);
 
   return {
     events,
