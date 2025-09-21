@@ -76,28 +76,25 @@ export const usePublicEvents = (): UsePublicEventsReturn => {
     fetchEvents();
   }, [fetchEvents]);
 
-  // Filter events to show only those within the next 6 months
+  // Temporalmente sin filtro de 6 meses para debug
   const upcomingEventsInSixMonths = events.filter(event => {
     const now = new Date();
-    const sixMonthsFromNow = addMonths(now, 6);
     const eventDate = parseISO(event.startDate);
     
-    // Debug logs
-    console.log('🗓️ Event:', event.name);
-    console.log('📅 Event date:', eventDate);
-    console.log('⏰ Now:', now);
-    console.log('📆 Six months from now:', sixMonthsFromNow);
-    console.log('✅ Is after now:', isAfter(eventDate, now));
-    console.log('✅ Is before 6 months:', isBefore(eventDate, sixMonthsFromNow));
+    // Solo verificar que sea futuro
+    const isAfterNow = isAfter(eventDate, now);
     
-    const isUpcoming = isAfter(eventDate, now) && isBefore(eventDate, sixMonthsFromNow);
-    console.log('🎯 Final result:', isUpcoming);
+    console.log('�️ Event:', event.name);
+    console.log('📅 Event date:', eventDate.toISOString());
+    console.log('⏰ Now:', now.toISOString());
+    console.log('✅ Is after now:', isAfterNow);
+    console.log('---');
     
-    return isUpcoming;
+    return isAfterNow; // Temporalmente solo filtrar por futuro
   });
 
-  console.log('📋 Total events:', events.length);
-  console.log('🎯 Filtered events (6 months):', upcomingEventsInSixMonths.length);
+  console.log('📋 Total events loaded:', events.length);
+  console.log('🎯 Future events:', upcomingEventsInSixMonths.length);
 
   return {
     events,
