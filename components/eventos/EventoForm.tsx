@@ -14,7 +14,10 @@ import {
   FaMoneyBillWave,
   FaRoute,
   FaTachometerAlt,
-  FaSave
+  FaSave,
+  FaAward,
+  FaCalendarCheck,
+  FaFileDownload
 } from 'react-icons/fa';
 import { Event, EventType, EventStatus, EventDifficulty, CreateEventData } from '@/types/events';
 import ImageUpload from '@/components/shared/ImageUpload';
@@ -68,6 +71,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
       country: 'Colombia'
     },
     maxParticipants: undefined,
+    registrationOpenDate: '', // Fecha de apertura de inscripciones
     registrationDeadline: '',
     price: 0,
     includedServices: [''],
@@ -75,6 +79,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
     difficulty: 'beginner',
     distance: undefined,
     duration: undefined,
+    pointsAwarded: 0, // Puntos que otorga este evento
     organizer: {
       name: '',
       phone: '',
@@ -164,6 +169,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
           country: 'Colombia'
         },
         maxParticipants: event.maxParticipants,
+        registrationOpenDate: event.registrationOpenDate ? formatDateForInput(event.registrationOpenDate) : '',
         registrationDeadline: event.registrationDeadline ? formatDateForInput(event.registrationDeadline) : '',
         price: event.price || 0,
         includedServices: event.includedServices?.length ? event.includedServices : [''],
@@ -171,6 +177,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
         difficulty: event.difficulty || 'beginner',
         distance: event.distance,
         duration: event.duration,
+        pointsAwarded: event.pointsAwarded || 0,
         organizer: event.organizer,
         tags: event.tags?.length ? event.tags : ['']
       });
@@ -198,6 +205,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
           country: 'Colombia'
         },
         maxParticipants: undefined,
+        registrationOpenDate: '',
         registrationDeadline: '',
         price: 0,
         includedServices: [''],
@@ -205,6 +213,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
         difficulty: 'beginner',
         distance: undefined,
         duration: undefined,
+        pointsAwarded: 0,
         organizer: {
           name: '',
           phone: '',
@@ -648,7 +657,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
           </div>
 
           {/* Detalles del evento */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                 <FaUsers className="inline mr-1" />
@@ -679,6 +688,53 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
               />
             </div>
 
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+                <FaAward className="inline mr-1" />
+                Puntos que otorga
+              </label>
+              <input
+                type="number"
+                min="0"
+                value={formData.pointsAwarded}
+                onChange={(e) => updateField('pointsAwarded', parseFloat(e.target.value) || 0)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
+                placeholder="10"
+              />
+            </div>
+          </div>
+
+          {/* Fechas de registro */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+                <FaCalendarCheck className="inline mr-1" />
+                Apertura de inscripciones
+              </label>
+              <input
+                type="datetime-local"
+                value={formData.registrationOpenDate}
+                onChange={(e) => updateField('registrationOpenDate', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+                <FaClock className="inline mr-1" />
+                Cierre de inscripciones
+              </label>
+              <input
+                type="datetime-local"
+                value={formData.registrationDeadline}
+                onChange={(e) => updateField('registrationDeadline', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
+              />
+            </div>
+          </div>
+
+          {/* Duración y distancia */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                 <FaClock className="inline mr-1" />
