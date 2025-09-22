@@ -15,7 +15,10 @@ import {
   FaMapMarkerAlt,
   FaInfoCircle,
   FaUsers,
-  FaClock
+  FaClock,
+  FaFileUpload,
+  FaAward,
+  FaCalendarCheck
 } from 'react-icons/fa';
 
 interface EventFormData {
@@ -49,6 +52,10 @@ interface EventFormData {
     };
   };
   maxParticipants?: number | '';
+  registrationOpenDate: string; // Fecha de apertura de inscripciones
+  registrationDeadline: string; // Fecha límite de inscripciones
+  pointsAwarded: number | ''; // Puntos que otorga este evento
+  detailsPdf: string; // URL del PDF con detalles del evento
   price: number | '';
   requirements: string[];
   includes: string[];
@@ -78,6 +85,10 @@ const initialFormData: EventFormData = {
     country: 'Colombia'
   },
   maxParticipants: '',
+  registrationOpenDate: '', // Fecha de apertura de inscripciones
+  registrationDeadline: '', // Fecha límite de inscripciones
+  pointsAwarded: '', // Puntos que otorga este evento
+  detailsPdf: '', // URL del PDF con detalles del evento
   price: '',
   requirements: [],
   includes: [],
@@ -194,6 +205,37 @@ export default function NewEventPage() {
       newErrors.maxParticipants = 'El número máximo de participantes debe ser mayor a 0';
     }
 
+    // Validación de fechas de registro
+    if (formData.registrationOpenDate && formData.registrationDeadline) {
+      const openDate = new Date(formData.registrationOpenDate);
+      const deadlineDate = new Date(formData.registrationDeadline);
+      if (deadlineDate < openDate) {
+        newErrors.registrationDeadline = 'La fecha límite debe ser posterior a la fecha de apertura';
+      }
+    }
+
+    if (formData.registrationDeadline && formData.startDate) {
+      const deadlineDate = new Date(formData.registrationDeadline);
+      const startDate = new Date(formData.startDate);
+      if (deadlineDate > startDate) {
+        newErrors.registrationDeadline = 'La fecha límite debe ser anterior al inicio del evento';
+      }
+    }
+
+    // Validación de puntos
+    if (formData.pointsAwarded !== '' && Number(formData.pointsAwarded) < 0) {
+      newErrors.pointsAwarded = 'Los puntos no pueden ser negativos';
+    }
+
+    // Validación de URL del PDF
+    if (formData.detailsPdf && formData.detailsPdf.trim()) {
+      try {
+        new URL(formData.detailsPdf);
+      } catch {
+        newErrors.detailsPdf = 'La URL del PDF no es válida';
+      }
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -216,6 +258,10 @@ export default function NewEventPage() {
         endDate: formData.endDate ? `${formData.endDate}T${formData.endTime || '23:59'}:00.000Z` : undefined,
         // Convertir strings vacíos a undefined para campos opcionales
         maxParticipants: formData.maxParticipants === '' ? undefined : Number(formData.maxParticipants),
+        registrationOpenDate: formData.registrationOpenDate ? `${formData.registrationOpenDate}:00.000Z` : undefined,
+        registrationDeadline: formData.registrationDeadline ? `${formData.registrationDeadline}:00.000Z` : undefined,
+        pointsAwarded: formData.pointsAwarded === '' ? 0 : Number(formData.pointsAwarded),
+        detailsPdf: formData.detailsPdf.trim() || undefined,
         price: formData.price === '' ? 0 : Number(formData.price),
         // Limpiar ubicación de llegada si está vacía
         arrivalLocation: formData.arrivalLocation?.address.trim() ? formData.arrivalLocation : undefined
@@ -612,6 +658,69 @@ export default function NewEventPage() {
                   min="0"
                 />
                 {errors.price && <p className="mt-1 text-sm text-red-600">{errors.price}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <FaCalendarCheck className="inline mr-2 text-green-500" />
+                  Fecha de Apertura de Inscripciones
+                </label>
+                <input
+                  type="datetime-local"
+                  name="registrationOpenDate"
+                  value={formData.registrationOpenDate}
+                  onChange={handleInputChange}
+                  className={inputClassName('registrationOpenDate')}
+                />
+                {errors.registrationOpenDate && <p className="mt-1 text-sm text-red-600">{errors.registrationOpenDate}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <FaClock className="inline mr-2 text-orange-500" />
+                  Fecha Límite de Inscripciones
+                </label>
+                <input
+                  type="datetime-local"
+                  name="registrationDeadline"
+                  value={formData.registrationDeadline}
+                  onChange={handleInputChange}
+                  className={inputClassName('registrationDeadline')}
+                />
+                {errors.registrationDeadline && <p className="mt-1 text-sm text-red-600">{errors.registrationDeadline}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <FaAward className="inline mr-2 text-yellow-500" />
+                  Puntos que Otorga el Evento
+                </label>
+                <input
+                  type="number"
+                  name="pointsAwarded"
+                  value={formData.pointsAwarded}
+                  onChange={handleInputChange}
+                  className={inputClassName('pointsAwarded')}
+                  placeholder="10"
+                  min="0"
+                />
+                {errors.pointsAwarded && <p className="mt-1 text-sm text-red-600">{errors.pointsAwarded}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <FaFileUpload className="inline mr-2 text-blue-500" />
+                  URL del PDF de Detalles
+                </label>
+                <input
+                  type="url"
+                  name="detailsPdf"
+                  value={formData.detailsPdf}
+                  onChange={handleInputChange}
+                  className={inputClassName('detailsPdf')}
+                  placeholder="https://..."
+                />
+                {errors.detailsPdf && <p className="mt-1 text-sm text-red-600">{errors.detailsPdf}</p>}
               </div>
             </div>
           </div>

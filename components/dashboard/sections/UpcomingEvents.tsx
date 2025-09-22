@@ -32,6 +32,10 @@ interface Event {
   };
   currentParticipants: number;
   maxParticipants?: number;
+  registrationOpenDate?: string;
+  registrationDeadline?: string;
+  pointsAwarded?: number;
+  detailsPdf?: string;
 }
 
 export default function UpcomingEvents() {

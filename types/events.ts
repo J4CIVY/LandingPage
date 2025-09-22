@@ -15,6 +15,7 @@ export interface Event {
   arrivalLocation?: EventLocation;
   maxParticipants?: number;
   currentParticipants: number;
+  registrationOpenDate?: string; // Fecha de apertura de inscripciones  
   registrationDeadline?: string;
   price?: number;
   includedServices?: string[];
@@ -22,6 +23,7 @@ export interface Event {
   difficulty?: EventDifficulty;
   distance?: number;
   duration?: number;
+  pointsAwarded?: number; // Puntos que otorga este evento
   organizer: EventOrganizer;
   participants?: string[];
   attendedParticipants?: string[];

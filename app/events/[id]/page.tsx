@@ -20,7 +20,12 @@ import {
   FaTag,
   FaDollarSign,
   FaRoute,
-  FaCogs
+  FaCogs,
+  FaAward,
+  FaFileDownload,
+  FaCalendarCheck,
+  FaClipboardList,
+  FaExclamationCircle
 } from 'react-icons/fa';
 
 interface Event {
@@ -46,6 +51,7 @@ interface Event {
   };
   currentParticipants: number;
   maxParticipants?: number;
+  registrationOpenDate?: string; // Fecha de apertura de inscripciones
   registrationDeadline?: string;
   price?: number;
   includedServices?: string[];
@@ -53,6 +59,8 @@ interface Event {
   difficulty?: string;
   distance?: number;
   duration?: number;
+  pointsAwarded?: number; // Puntos que otorga este evento
+  detailsPdf?: string; // URL del PDF con detalles del evento
   organizer?: {
     name: string;
     phone: string;
@@ -191,6 +199,21 @@ export default function EventDetailsPage() {
       alert('Error de conexión. Inténtalo de nuevo.');
     } finally {
       setProcessing(false);
+    }
+  };
+
+  const handlePdfDownload = () => {
+    if (event?.detailsPdf) {
+      const link = document.createElement('a');
+      link.href = event.detailsPdf;
+      // Agregar la extensión .pdf si no la tiene
+      const fileName = event.detailsPdf.includes('.pdf') 
+        ? event.detailsPdf.split('/').pop() || 'evento-detalles.pdf'
+        : 'evento-detalles.pdf';
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
   };
 
@@ -346,6 +369,108 @@ export default function EventDetailsPage() {
                       </div>
                     )}
                   </div>
+
+                  {/* Información de registro y puntos */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    {event.registrationOpenDate && (
+                      <div className="flex items-center text-gray-600 dark:text-slate-400">
+                        <FaCalendarCheck className="mr-3 text-green-500" />
+                        <div>
+                          <p className="font-medium">Apertura de Inscripciones</p>
+                          <p>{new Date(event.registrationOpenDate).toLocaleDateString('es-ES', {
+                            weekday: 'short',
+                            day: '2-digit',
+                            month: 'short',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {event.registrationDeadline && (
+                      <div className="flex items-center text-gray-600 dark:text-slate-400">
+                        <FaClock className="mr-3 text-orange-500" />
+                        <div>
+                          <p className="font-medium">Cierre de Inscripciones</p>
+                          <p>{new Date(event.registrationDeadline).toLocaleDateString('es-ES', {
+                            weekday: 'short',
+                            day: '2-digit',
+                            month: 'short',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {event.pointsAwarded && event.pointsAwarded > 0 && (
+                      <div className="flex items-center text-gray-600 dark:text-slate-400">
+                        <FaAward className="mr-3 text-yellow-500" />
+                        <div>
+                          <p className="font-medium">Puntos que Otorga</p>
+                          <p className="font-bold text-yellow-600 dark:text-yellow-400">{event.pointsAwarded} puntos</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {event.detailsPdf && (
+                      <div className="flex items-center text-gray-600 dark:text-slate-400">
+                        <FaFileDownload className="mr-3 text-blue-500" />
+                        <div>
+                          <p className="font-medium">Documento de Detalles</p>
+                          <button 
+                            onClick={handlePdfDownload}
+                            className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors"
+                          >
+                            Descargar PDF
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Servicios incluidos */}
+                  {event.includedServices && event.includedServices.length > 0 && (
+                    <div className="mb-6">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-3 flex items-center">
+                        <FaClipboardList className="mr-2 text-blue-500" />
+                        Servicios Incluidos
+                      </h3>
+                      <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+                        <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                          {event.includedServices.map((service, index) => (
+                            <li key={index} className="flex items-center text-gray-700 dark:text-slate-300">
+                              <span className="w-2 h-2 bg-blue-500 rounded-full mr-3 flex-shrink-0"></span>
+                              {service}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Requisitos */}
+                  {event.requirements && event.requirements.length > 0 && (
+                    <div className="mb-6">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-3 flex items-center">
+                        <FaExclamationCircle className="mr-2 text-orange-500" />
+                        Requisitos
+                      </h3>
+                      <div className="bg-orange-50 dark:bg-orange-900/20 rounded-lg p-4">
+                        <ul className="space-y-2">
+                          {event.requirements.map((requirement, index) => (
+                            <li key={index} className="flex items-start text-gray-700 dark:text-slate-300">
+                              <span className="w-2 h-2 bg-orange-500 rounded-full mr-3 mt-2 flex-shrink-0"></span>
+                              {requirement}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Descripción */}
                   <div className="mb-6">

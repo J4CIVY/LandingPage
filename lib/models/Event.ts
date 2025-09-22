@@ -31,6 +31,7 @@ export interface IEvent extends Document {
   };
   maxParticipants?: number;
   currentParticipants: number;
+  registrationOpenDate?: Date; // Fecha de apertura de inscripciones
   registrationDeadline?: Date;
   price?: number;
   includedServices?: string[];
@@ -38,6 +39,7 @@ export interface IEvent extends Document {
   difficulty?: 'beginner' | 'intermediate' | 'advanced' | 'expert';
   distance?: number; // en kilómetros
   duration?: number; // en horas
+  pointsAwarded?: number; // Puntos que otorga este evento
   organizer: {
     name: string;
     phone: string;
@@ -87,6 +89,7 @@ const EventSchema = new Schema<IEvent>({
   },
   maxParticipants: { type: Number, min: 1 },
   currentParticipants: { type: Number, default: 0, min: 0 },
+  registrationOpenDate: { type: Date }, // Fecha de apertura de inscripciones
   registrationDeadline: { type: Date },
   price: { type: Number, min: 0, default: 0 },
   includedServices: [{ type: String, trim: true }],
@@ -97,6 +100,7 @@ const EventSchema = new Schema<IEvent>({
   },
   distance: { type: Number, min: 0 },
   duration: { type: Number, min: 0 },
+  pointsAwarded: { type: Number, min: 0, default: 0 }, // Puntos que otorga este evento
   organizer: {
     name: { type: String, required: true },
     phone: { type: String, required: true },

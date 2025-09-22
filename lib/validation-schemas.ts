@@ -88,7 +88,13 @@ export const eventSchema = z.object({
     address: z.string().min(1, 'Dirección requerida').max(200, 'Dirección demasiado larga'),
     city: z.string().min(1, 'Ciudad requerida').max(100, 'Ciudad demasiado larga'),
     country: z.string().min(1, 'País requerido').max(100, 'País demasiado largo')
-  }).optional()
+  }).optional(),
+  registrationOpenDate: z.string().datetime('Fecha de apertura inválida').optional(),
+  registrationDeadline: z.string().datetime('Fecha límite inválida').optional(),
+  pointsAwarded: z.number().min(0, 'Los puntos deben ser positivos').optional(),
+  detailsPdf: z.string().url('URL del PDF inválida').optional(),
+  includedServices: z.array(z.string().max(100, 'Servicio demasiado largo')).optional(),
+  requirements: z.array(z.string().max(200, 'Requisito demasiado largo')).optional()
 });
 
 export type EventInput = z.infer<typeof eventSchema>;
