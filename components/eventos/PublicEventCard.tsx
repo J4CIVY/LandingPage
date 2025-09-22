@@ -35,11 +35,11 @@ const PublicEventCard: React.FC<PublicEventCardProps> = ({ event }) => {
 
   return (
     <div className="bg-white dark:bg-slate-950 text-slate-950 dark:text-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-      <div className="relative aspect-video">
+      <div className="relative aspect-video bg-gray-100 dark:bg-gray-800">
         <Image
           src={event.mainImage || "/default-event-image.webp"}
           alt={event.name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain"
           loading="lazy"
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
