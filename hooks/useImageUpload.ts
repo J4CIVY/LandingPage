@@ -11,7 +11,7 @@ export interface ImageUploadResult {
 
 export interface UseImageUploadReturn {
   uploading: boolean;
-  uploadImage: (file: File, folder?: string, publicId?: string) => Promise<ImageUploadResult>;
+  uploadImage: (file: File, folder?: string, publicId?: string, preserveOriginalSize?: boolean) => Promise<ImageUploadResult>;
   uploadError: string | null;
   clearError: () => void;
 }
@@ -23,7 +23,8 @@ export const useImageUpload = (): UseImageUploadReturn => {
   const uploadImage = async (
     file: File, 
     folder: string = 'user-profiles', 
-    publicId?: string
+    publicId?: string,
+    preserveOriginalSize: boolean = false
   ): Promise<ImageUploadResult> => {
     setUploading(true);
     setUploadError(null);
@@ -33,6 +34,7 @@ export const useImageUpload = (): UseImageUploadReturn => {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('folder', folder);
+      formData.append('preserveOriginalSize', preserveOriginalSize.toString());
       if (publicId) {
         formData.append('publicId', publicId);
       }

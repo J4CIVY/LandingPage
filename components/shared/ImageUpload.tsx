@@ -9,6 +9,7 @@ interface ImageUploadProps {
   className?: string;
   folder?: string;
   publicIdPrefix?: string;
+  preserveOriginalSize?: boolean;
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
@@ -18,6 +19,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   className = '',
   folder = 'user-profiles',
   publicIdPrefix,
+  preserveOriginalSize = false,
 }) => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(currentImageUrl || null);
   const [dragOver, setDragOver] = useState(false);
@@ -55,7 +57,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       const publicId = publicIdPrefix ? `${publicIdPrefix}_${Date.now()}` : undefined;
       
       // Subir a Cloudinary
-      const result = await uploadImage(file, folder, publicId);
+      const result = await uploadImage(file, folder, publicId, preserveOriginalSize);
       
       // Notificar al componente padre
       onImageUploaded(result.url);

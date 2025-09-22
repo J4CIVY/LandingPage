@@ -22,6 +22,7 @@ export async function POST(request: NextRequest) {
     const file = formData.get('file') as File;
     const folder = formData.get('folder') as string || 'user-profiles';
     const publicId = formData.get('publicId') as string || undefined;
+    const preserveOriginalSize = formData.get('preserveOriginalSize') === 'true';
 
     if (!file) {
       return NextResponse.json(
@@ -43,7 +44,7 @@ export async function POST(request: NextRequest) {
     const base64File = await fileToBase64(file);
 
     // Subir a Cloudinary
-    const result = await uploadToCloudinary(base64File, folder, publicId);
+    const result = await uploadToCloudinary(base64File, folder, publicId, preserveOriginalSize);
 
     return NextResponse.json({
       success: true,

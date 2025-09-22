@@ -23,12 +23,14 @@ export interface CloudinaryUploadResult {
  * @param file - Archivo a subir como string base64
  * @param folder - Carpeta donde almacenar la imagen
  * @param publicId - ID público personalizado (opcional)
+ * @param preserveOriginalSize - Si es true, mantiene las dimensiones originales
  * @returns Resultado de la subida con URL y metadatos
  */
 export async function uploadToCloudinary(
   file: string,
   folder: string = 'user-profiles',
-  publicId?: string
+  publicId?: string,
+  preserveOriginalSize: boolean = false
 ): Promise<CloudinaryUploadResult> {
   try {
     const uploadOptions: any = {
@@ -38,18 +40,27 @@ export async function uploadToCloudinary(
       fetch_format: 'auto',
     };
 
-    // Configurar transformaciones específicas según la carpeta
-    if (folder.includes('events')) {
-      // Para eventos: mejor para paisajes y imágenes de eventos
-      uploadOptions.transformation = [
-        { width: 1200, height: 800, crop: 'fill', gravity: 'center' },
-        { quality: 'auto:good' },
-        { format: 'webp' }
-      ];
+    // Solo aplicar transformaciones si no se quiere preservar el tamaño original
+    if (!preserveOriginalSize) {
+      // Configurar transformaciones específicas según la carpeta
+      if (folder.includes('events')) {
+        // Para eventos: mejor para paisajes y imágenes de eventos
+        uploadOptions.transformation = [
+          { width: 1200, height: 800, crop: 'fill', gravity: 'center' },
+          { quality: 'auto:good' },
+          { format: 'webp' }
+        ];
+      } else {
+        // Para perfiles de usuario: optimizado para fotos de personas
+        uploadOptions.transformation = [
+          { width: 500, height: 500, crop: 'fill', gravity: 'face' },
+          { quality: 'auto:good' },
+          { format: 'webp' }
+        ];
+      }
     } else {
-      // Para perfiles de usuario: optimizado para fotos de personas
+      // Solo optimizar calidad y formato, mantener dimensiones originales
       uploadOptions.transformation = [
-        { width: 500, height: 500, crop: 'fill', gravity: 'face' },
         { quality: 'auto:good' },
         { format: 'webp' }
       ];

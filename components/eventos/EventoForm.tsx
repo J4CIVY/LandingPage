@@ -528,6 +528,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
                 currentImageUrl={formData.mainImage}
                 folder="events"
                 publicIdPrefix={`event_${Date.now()}`}
+                preserveOriginalSize={true}
                 className="mb-4"
               />
               <p className="text-sm text-gray-500 dark:text-slate-400 mt-2">
@@ -547,6 +548,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
                 folder="events/gallery"
                 publicIdPrefix={`event_gallery_${Date.now()}`}
                 maxImages={10}
+                preserveOriginalSize={true}
                 className="mb-4"
               />
               <p className="text-sm text-gray-500 dark:text-slate-400">

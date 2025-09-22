@@ -9,6 +9,7 @@ interface ImageGalleryUploadProps {
   publicIdPrefix?: string;
   maxImages?: number;
   className?: string;
+  preserveOriginalSize?: boolean;
 }
 
 const ImageGalleryUpload: React.FC<ImageGalleryUploadProps> = ({
@@ -18,6 +19,7 @@ const ImageGalleryUpload: React.FC<ImageGalleryUploadProps> = ({
   publicIdPrefix,
   maxImages = 10,
   className = '',
+  preserveOriginalSize = false,
 }) => {
   const [dragOver, setDragOver] = useState(false);
   const { uploading, uploadImage, uploadError, clearError } = useImageUpload();
@@ -52,7 +54,7 @@ const ImageGalleryUpload: React.FC<ImageGalleryUploadProps> = ({
         const publicId = publicIdPrefix ? `${publicIdPrefix}_gallery_${timestamp}_${i}` : undefined;
         
         // Subir imagen
-        const result = await uploadImage(file, folder, publicId);
+        const result = await uploadImage(file, folder, publicId, preserveOriginalSize);
         
         // Agregar a la lista
         const newImages = [...images, result.url];
