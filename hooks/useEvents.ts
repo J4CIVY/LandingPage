@@ -15,15 +15,23 @@ export const useEvents = (upcoming = false, limit = 10) => {
       if (upcoming) params.append('upcoming', 'true');
       if (limit) params.append('limit', limit.toString());
       
+      console.log('🔍 useEvents: Fetching events with params:', params.toString());
+      
       const response = await fetch(`/api/events?${params.toString()}`);
       const data = await response.json();
       
+      console.log('📋 useEvents: Response data:', data);
+      
       if (response.ok) {
-        setEvents(data.events || []);
+        const eventsArray = data.data?.events || [];
+        console.log('✅ useEvents: Events array:', eventsArray);
+        setEvents(eventsArray);
       } else {
+        console.error('❌ useEvents: Error response:', data);
         setError(data.message || 'Error al cargar eventos');
       }
     } catch (err: any) {
+      console.error('❌ useEvents: Fetch error:', err);
       if (process.env.NODE_ENV === 'development') {
         console.error('Error fetching events:', err);
       }

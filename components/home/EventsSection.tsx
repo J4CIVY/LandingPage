@@ -27,6 +27,14 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
+  // Debug logs
+  console.log('📋 EventsSection: Received props:', { 
+    eventsCount: events.length, 
+    loading, 
+    error,
+    events: events.slice(0, 2) 
+  });
+
   /**
    * Handles the click event on an event card or calendar event, setting the selected event
    * and opening the event modal.
