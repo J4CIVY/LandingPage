@@ -57,6 +57,7 @@ interface EventFormData {
   pointsAwarded: number | ''; // Puntos que otorga este evento
   detailsPdf: string; // URL del PDF con detalles del evento
   price: number | '';
+  nonMemberPrice: number | ''; // Precio para no miembros
   requirements: string[];
   includes: string[];
   tags: string[];
@@ -90,6 +91,7 @@ const initialFormData: EventFormData = {
   pointsAwarded: '', // Puntos que otorga este evento
   detailsPdf: '', // URL del PDF con detalles del evento
   price: '',
+  nonMemberPrice: '', // Precio para no miembros
   requirements: [],
   includes: [],
   tags: []
@@ -200,6 +202,11 @@ export default function NewEventPage() {
       newErrors.price = 'El precio no puede ser negativo';
     }
 
+    // Validación de precio para no miembros
+    if (formData.nonMemberPrice !== '' && Number(formData.nonMemberPrice) < 0) {
+      newErrors.nonMemberPrice = 'El precio para no miembros no puede ser negativo';
+    }
+
     // Validación de participantes
     if (formData.maxParticipants !== '' && Number(formData.maxParticipants) <= 0) {
       newErrors.maxParticipants = 'El número máximo de participantes debe ser mayor a 0';
@@ -263,6 +270,7 @@ export default function NewEventPage() {
         pointsAwarded: formData.pointsAwarded === '' ? 0 : Number(formData.pointsAwarded),
         detailsPdf: formData.detailsPdf.trim() || undefined,
         price: formData.price === '' ? 0 : Number(formData.price),
+        nonMemberPrice: formData.nonMemberPrice === '' ? undefined : Number(formData.nonMemberPrice),
         // Limpiar ubicación de llegada si está vacía
         arrivalLocation: formData.arrivalLocation?.address.trim() ? formData.arrivalLocation : undefined
       };
@@ -646,7 +654,7 @@ export default function NewEventPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Precio (COP)
+                  Precio Miembros (COP)
                 </label>
                 <input
                   type="number"
@@ -657,7 +665,25 @@ export default function NewEventPage() {
                   placeholder="50000"
                   min="0"
                 />
+                <p className="text-xs text-gray-500 mt-1">Precio preferencial para miembros del club</p>
                 {errors.price && <p className="mt-1 text-sm text-red-600">{errors.price}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Precio No Miembros (COP)
+                </label>
+                <input
+                  type="number"
+                  name="nonMemberPrice"
+                  value={formData.nonMemberPrice}
+                  onChange={handleInputChange}
+                  className={inputClassName('nonMemberPrice')}
+                  placeholder="75000"
+                  min="0"
+                />
+                <p className="text-xs text-gray-500 mt-1">Precio estándar para personas que no son miembros</p>
+                {errors.nonMemberPrice && <p className="mt-1 text-sm text-red-600">{errors.nonMemberPrice}</p>}
               </div>
 
               <div>

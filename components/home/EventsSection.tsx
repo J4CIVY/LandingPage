@@ -6,7 +6,7 @@ import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { FaCalendarAlt } from 'react-icons/fa';
 import Calendar from "./Calendar";
-import EventModal from "./EventModal";
+import PublicEventModal from "./PublicEventModal";
 import { Event } from '@/types/events'; // Import the Event interface
 import Image from "next/image";
 
@@ -139,15 +139,14 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
               events={events} 
               currentMonth={currentMonth} 
               setCurrentMonth={setCurrentMonth} 
-              onEventClick={handleEventClick} // Pass the handler to Calendar
             />
           </div>
         )}
       </div>
 
-      {/* Render EventModal conditionally */}
+      {/* Render PublicEventModal conditionally */}
       {selectedEvent && (
-        <EventModal 
+        <PublicEventModal 
           event={selectedEvent} 
           onClose={handleCloseModal} // Pass the close handler
         />

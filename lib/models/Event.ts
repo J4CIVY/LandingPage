@@ -34,6 +34,7 @@ export interface IEvent extends Document {
   registrationOpenDate?: Date; // Fecha de apertura de inscripciones
   registrationDeadline?: Date;
   price?: number;
+  nonMemberPrice?: number; // Precio para no miembros
   includedServices?: string[];
   requirements?: string[];
   difficulty?: 'beginner' | 'intermediate' | 'advanced' | 'expert';
@@ -92,6 +93,7 @@ const EventSchema = new Schema<IEvent>({
   registrationOpenDate: { type: Date }, // Fecha de apertura de inscripciones
   registrationDeadline: { type: Date },
   price: { type: Number, min: 0, default: 0 },
+  nonMemberPrice: { type: Number, min: 0 }, // Precio para no miembros
   includedServices: [{ type: String, trim: true }],
   requirements: [{ type: String, trim: true }],
   difficulty: {

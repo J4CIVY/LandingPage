@@ -11,16 +11,14 @@ import { Event } from '@/types/events';
  * @property {Event[]} events - An array of event objects to display on the calendar.
  * @property {Date} currentMonth - The currently displayed month in the calendar.
  * @property {React.Dispatch<React.SetStateAction<Date>>} setCurrentMonth - Function to update the current month.
- * @property {(event: Event) => void} onEventClick - Callback function when an event on the calendar is clicked.
  */
 interface CalendarProps {
   events: Event[];
   currentMonth: Date;
   setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>;
-  onEventClick: (event: Event) => void;
 }
 
-const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMonth, onEventClick }) => {
+const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMonth }) => {
   /**
    * Navigates to the next month in the calendar.
    */
@@ -124,15 +122,13 @@ const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMon
             <span className="text-sm font-medium self-end">{format(currentDay, 'd')}</span>
             <div className="flex-1 overflow-y-auto custom-scrollbar"> {/* Added custom-scrollbar class */}
               {dayEvents.map((event: any) => (
-                <button 
+                <div 
                   key={event._id} // Use event ID for unique key
-                  className="text-xs p-1 my-0.5 rounded bg-red-600 text-white truncate w-full text-left"
+                  className="text-xs p-1 my-0.5 rounded bg-red-600 text-white truncate w-full pointer-events-none"
                   title={event.name}
-                  onClick={() => onEventClick(event)} // Pass event to handler
-                  aria-label={`Ver detalles del evento ${event.name}`}
                 >
                   {event.name}
-                </button>
+                </div>
               ))}
             </div>
           </div>

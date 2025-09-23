@@ -74,6 +74,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
     registrationOpenDate: '', // Fecha de apertura de inscripciones
     registrationDeadline: '',
     price: 0,
+    nonMemberPrice: 0, // Precio para no miembros
     includedServices: [''],
     requirements: [''],
     difficulty: 'beginner',
@@ -172,6 +173,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
         registrationOpenDate: event.registrationOpenDate ? formatDateForInput(event.registrationOpenDate) : '',
         registrationDeadline: event.registrationDeadline ? formatDateForInput(event.registrationDeadline) : '',
         price: event.price || 0,
+        nonMemberPrice: (event as any).nonMemberPrice || 0, // Precio para no miembros
         includedServices: event.includedServices?.length ? event.includedServices : [''],
         requirements: event.requirements?.length ? event.requirements : [''],
         difficulty: event.difficulty || 'beginner',
@@ -208,6 +210,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
         registrationOpenDate: '',
         registrationDeadline: '',
         price: 0,
+        nonMemberPrice: 0, // Precio para no miembros
         includedServices: [''],
         requirements: [''],
         difficulty: 'beginner',
@@ -657,7 +660,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
           </div>
 
           {/* Detalles del evento */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                 <FaUsers className="inline mr-1" />
@@ -676,7 +679,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                 <FaMoneyBillWave className="inline mr-1" />
-                Precio ($)
+                Precio Miembros ($)
               </label>
               <input
                 type="number"
@@ -686,6 +689,27 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
                 className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
                 placeholder="0"
               />
+              <p className="text-xs text-gray-500 dark:text-slate-400 mt-1">
+                Precio preferencial para miembros del club
+              </p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+                <FaMoneyBillWave className="inline mr-1" />
+                Precio No Miembros ($)
+              </label>
+              <input
+                type="number"
+                min="0"
+                value={(formData as any).nonMemberPrice || 0}
+                onChange={(e) => updateField('nonMemberPrice' as any, parseFloat(e.target.value) || 0)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
+                placeholder="0"
+              />
+              <p className="text-xs text-gray-500 dark:text-slate-400 mt-1">
+                Precio estándar para personas que no son miembros
+              </p>
             </div>
 
             <div>

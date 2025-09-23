@@ -18,6 +18,7 @@ export interface Event {
   registrationOpenDate?: string; // Fecha de apertura de inscripciones  
   registrationDeadline?: string;
   price?: number;
+  nonMemberPrice?: number; // Precio para no miembros
   includedServices?: string[];
   requirements?: string[];
   difficulty?: EventDifficulty;
@@ -131,6 +132,7 @@ export interface CreateEventData {
   registrationOpenDate?: string; // Fecha de apertura de inscripciones
   registrationDeadline?: string;
   price?: number;
+  nonMemberPrice?: number; // Precio para no miembros
   includedServices?: string[];
   requirements?: string[];
   difficulty?: EventDifficulty;
