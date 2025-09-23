@@ -29,7 +29,14 @@ async function handleGet(request: NextRequest) {
     const mongoFilters: any = { isActive: true };
     
     if (upcoming) {
-      mongoFilters.startDate = { $gte: new Date() };
+      const now = new Date();
+      const sixMonthsFromNow = new Date();
+      sixMonthsFromNow.setMonth(now.getMonth() + 6);
+      
+      mongoFilters.startDate = { 
+        $gte: now,
+        $lte: sixMonthsFromNow
+      };
     }
     
     console.log('🔎 API Events: Filtros MongoDB:', mongoFilters);

@@ -22,7 +22,7 @@ import {
 const HermandadSection = React.lazy(() => import("@/components/home/HermandadSection"));
 
 export default function HomeContent() {
-  const { events, loading, error } = useEvents();
+  const { events, loading, error } = useEvents(true, 6); // Solo eventos futuros, máximo 6
   const { shouldLazyLoad, shouldPreloadImages } = useAdaptiveLoading();
   const { isMobile } = useDeviceInfo();
 

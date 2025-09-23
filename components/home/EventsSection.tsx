@@ -89,7 +89,11 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
               <div className="grid md:grid-cols-3 gap-8">
                 {events.length > 0 ? (
                   events.map((event: any, index: number) => (
-                    <div className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105">
+                    <div 
+                      key={event._id || index}
+                      className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105 cursor-pointer"
+                      onClick={() => handleEventClick(event)}
+                    >
                       <div className="relative" style={{ aspectRatio: '16/9' }}>
                         <Image
                           src={event.mainImage || "/default-event-image.webp"}
@@ -99,27 +103,13 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
                           layout="fill"
                         />
                       </div>
-                      <div className="p-6">
-                        <h3 className="text-xl font-bold mb-2">{event.name}</h3>
-                        <p className="text-red-600 font-semibold mb-3">
-                          {/* Ensure event.startDate is a valid ISO string before parsing */}
+                      <div className="p-4">
+                        <p className="text-red-600 font-semibold text-sm mb-2">
                           {event.startDate ? format(parseISO(event.startDate), "EEEE d 'de' MMMM yyyy", { locale: es }) : 'Fecha no disponible'}
                         </p>
-                        <p className="text-gray-700 dark:text-gray-300 mb-4">{event.description}</p>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center">
-                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                          </svg>
-                          {event.departureLocation?.address || 'Ubicación no disponible'}
+                        <p className="text-gray-700 dark:text-gray-300 text-sm line-clamp-3">
+                          {event.description || 'Sin descripción disponible'}
                         </p>
-                        <button 
-                          onClick={() => handleEventClick(event)}
-                          className="mt-4 w-full py-2 rounded-full bg-red-600 hover:bg-red-700 text-white transition-colors"
-                          aria-label={`Más información sobre ${event.name}`}
-                        >
-                          Más información
-                        </button>
                       </div>
                     </div>
                   ))
