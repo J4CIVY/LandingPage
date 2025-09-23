@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { 
@@ -66,6 +67,9 @@ interface PublicEventModalProps {
 const PublicEventModal: React.FC<PublicEventModalProps> = ({ event, onClose }) => {
   if (!event) return null;
 
+  // Solo renderizar en el cliente
+  if (typeof document === 'undefined') return null;
+
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     
@@ -129,18 +133,18 @@ const PublicEventModal: React.FC<PublicEventModalProps> = ({ event, onClose }) =
     }).format(amount);
   };
 
-  return (
-    <div>
+  return createPortal(
+    <>
       {/* Overlay */}
       <div 
-        className="fixed inset-0 bg-black bg-opacity-75 z-40"
+        className="fixed inset-0 bg-black bg-opacity-75 z-[9998]"
         onClick={onClose}
         aria-hidden="true"
       />
 
       {/* Modal */}
       <div 
-        className="fixed inset-0 z-50 overflow-y-auto"
+        className="fixed inset-0 z-[9999] overflow-y-auto"
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
@@ -457,7 +461,8 @@ const PublicEventModal: React.FC<PublicEventModalProps> = ({ event, onClose }) =
           </div>
         </div>
       </div>
-    </div>
+    </>,
+    document.body
   );
 };
 
