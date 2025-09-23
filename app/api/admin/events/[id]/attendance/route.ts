@@ -9,6 +9,7 @@ import connectDB from '@/lib/mongodb';
 import Event from '@/lib/models/Event';
 import User from '@/lib/models/User';
 import { AdminRequest, requireAdmin } from '@/lib/auth-admin';
+import { otorgarPuntosPorAsistencia, revocarPuntosPorAsistencia } from '@/lib/gamification-utils';
 import mongoose from 'mongoose';
 
 /**
@@ -99,6 +100,15 @@ export async function PATCH(
         await user.save();
       }
 
+      // Otorgar puntos por asistencia al evento
+      try {
+        const puntosOtorgados = await otorgarPuntosPorAsistencia(participantId, id);
+        console.log(`Puntos otorgados por asistencia: ${puntosOtorgados}`);
+      } catch (error) {
+        console.error('Error otorgando puntos por asistencia:', error);
+        // No fallar la operación por errores en puntos, solo registrar el error
+      }
+
       return createSuccessResponse(
         {
           eventId: id,
@@ -124,6 +134,15 @@ export async function PATCH(
           (eventId: mongoose.Types.ObjectId) => !eventId.equals(id)
         );
         await user.save();
+      }
+
+      // Revocar puntos por cancelación de asistencia
+      try {
+        const puntosRevocados = await revocarPuntosPorAsistencia(participantId, id);
+        console.log(`Puntos revocados por cancelación de asistencia: ${puntosRevocados}`);
+      } catch (error) {
+        console.error('Error revocando puntos por asistencia:', error);
+        // No fallar la operación por errores en puntos, solo registrar el error
       }
 
       return createSuccessResponse(
