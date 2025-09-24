@@ -15,7 +15,7 @@ import {
 import { Achievement, UserAchievement, IAchievement, IUserAchievement } from '@/lib/models/Achievement';
 
 export interface AccionPuntos {
-  tipo: 'registro_evento' | 'asistencia_evento' | 'publicacion' | 'comentario' | 'reaccion' | 'bonificacion' | 'referido';
+  tipo: 'registro_evento' | 'asistencia_evento' | 'publicacion' | 'comentario' | 'reaccion' | 'bonificacion' | 'referido' | 'voluntariado' | 'organizacion_evento' | 'liderazgo_proyecto' | 'mentoría';
   puntos: number;
   descripcion: string;
 }
@@ -23,17 +23,17 @@ export interface AccionPuntos {
 export const ACCIONES_PUNTOS: Record<string, AccionPuntos> = {
   registro_evento: {
     tipo: 'registro_evento',
-    puntos: 10,
+    puntos: 50, // Actualizado para alinear con sistema de eventos
     descripcion: 'Registro en evento'
   },
   asistencia_evento: {
     tipo: 'asistencia_evento',
-    puntos: 25,
+    puntos: 100, // Actualizado para alinear con sistema de eventos
     descripcion: 'Asistencia confirmada a evento'
   },
   publicacion: {
     tipo: 'publicacion',
-    puntos: 5,
+    puntos: 10, // Incrementado para balance con nuevos valores
     descripcion: 'Publicación en comunidad'
   },
   comentario: {
@@ -53,22 +53,50 @@ export const ACCIONES_PUNTOS: Record<string, AccionPuntos> = {
   },
   referido: {
     tipo: 'referido',
-    puntos: 50,
+    puntos: 300, // Incrementado para alinear con sistema de membresías
     descripcion: 'Usuario referido se registró'
+  },
+  // Nuevas acciones alineadas con sistema de membresías
+  voluntariado: {
+    tipo: 'voluntariado',
+    puntos: 200,
+    descripcion: 'Participación en actividad de voluntariado'
+  },
+  organizacion_evento: {
+    tipo: 'organizacion_evento',
+    puntos: 500,
+    descripcion: 'Organización de evento oficial'
+  },
+  liderazgo_proyecto: {
+    tipo: 'liderazgo_proyecto',
+    puntos: 1000,
+    descripcion: 'Liderazgo en proyecto comunitario'
+  },
+  mentoría: {
+    tipo: 'mentoría',
+    puntos: 150,
+    descripcion: 'Mentoría a nuevos miembros'
   }
 };
 
+// Niveles alineados con el sistema de membresías
 export const NIVELES = [
-  { nombre: 'Novato', puntos: 0, icono: '🌱', color: '#10B981' },
-  { nombre: 'Principiante', puntos: 100, icono: '🚀', color: '#3B82F6' },
-  { nombre: 'Motociclista', puntos: 300, icono: '🏍️', color: '#8B5CF6' },
-  { nombre: 'Aventurero', puntos: 600, icono: '🗺️', color: '#F59E0B' },
-  { nombre: 'Explorador', puntos: 1000, icono: '🧭', color: '#EF4444' },
-  { nombre: 'Veterano', puntos: 1500, icono: '🏆', color: '#84CC16' },
-  { nombre: 'Experto', puntos: 2500, icono: '⭐', color: '#06B6D4' },
-  { nombre: 'Maestro', puntos: 4000, icono: '👑', color: '#8B5CF6' },
-  { nombre: 'Leyenda', puntos: 6000, icono: '💎', color: '#F97316' },
-  { nombre: 'Mito BSK', puntos: 10000, icono: '🔥', color: '#DC2626' }
+  // Niveles iniciales de gamificación (antes de membresías oficiales)
+  { nombre: 'Aspirante', puntos: 0, icono: '🌱', color: '#10B981', descripcion: 'Nuevo en la comunidad BSK' },
+  { nombre: 'Explorador', puntos: 250, icono: '🔍', color: '#6B7280', descripcion: 'Comenzando a participar' },
+  { nombre: 'Participante', puntos: 500, icono: '🚀', color: '#3B82F6', descripcion: 'Participante activo' },
+  
+  // Niveles alineados con membresías oficiales
+  { nombre: 'Friend', puntos: 1000, icono: '🤝', color: '#8B5CF6', descripcion: 'Miembro Friend del BSK MT' },
+  { nombre: 'Rider', puntos: 1500, icono: '🏍️', color: '#059669', descripcion: 'Rider activo y comprometido' },
+  { nombre: 'Pro', puntos: 3000, icono: '⚡', color: '#F59E0B', descripcion: 'Motociclista experimentado' },
+  { nombre: 'Legend', puntos: 9000, icono: '🏆', color: '#DC2626', descripcion: 'Leyenda de la comunidad' },
+  { nombre: 'Master', puntos: 18000, icono: '👑', color: '#7C3AED', descripcion: 'Maestro del motociclismo' },
+  
+  // Niveles especiales y de élite
+  { nombre: 'Volunteer', puntos: 25000, icono: '🤲', color: '#059669', descripcion: 'Voluntario comprometido' },
+  { nombre: 'Leader', puntos: 40000, icono: '💎', color: '#1F2937', descripcion: 'Líder de la comunidad BSK' },
+  { nombre: 'Mito BSK', puntos: 60000, icono: '🔥', color: '#DC2626', descripcion: 'Leyenda viviente del BSK MT' }
 ];
 
 export class GamificationService {
@@ -639,124 +667,95 @@ export class GamificationService {
       await connectToDatabase();
 
       const logrosDefault = [
+        // Logros básicos de inicio
         {
           id: 'primer_paso',
           nombre: 'Primer Paso',
           descripcion: 'Únete al sistema de puntos BSK MT',
           icono: '🎯',
-          categoria: 'Actividad',
+          categoria: 'Bienvenida',
           condiciones: {
             tipo: 'puntos_acumulados',
             valor: 1,
             operador: 'mayor_igual'
           },
           recompensa: {
-            puntos: 10
+            puntos: 50
           },
           orden: 1
         },
         {
-          id: 'coleccionista',
-          nombre: 'Coleccionista',
-          descripcion: 'Acumula 500 puntos',
-          icono: '💎',
-          categoria: 'Puntos',
+          id: 'explorador_activo',
+          nombre: 'Explorador Activo',
+          descripcion: 'Alcanza el nivel Explorador',
+          icono: '🔍',
+          categoria: 'Progreso',
+          condiciones: {
+            tipo: 'puntos_acumulados',
+            valor: 250,
+            operador: 'mayor_igual'
+          },
+          recompensa: {
+            puntos: 100
+          },
+          orden: 2
+        },
+        {
+          id: 'participante_comprometido',
+          nombre: 'Participante Comprometido',
+          descripcion: 'Alcanza el nivel Participante',
+          icono: '�',
+          categoria: 'Progreso',
           condiciones: {
             tipo: 'puntos_acumulados',
             valor: 500,
             operador: 'mayor_igual'
           },
           recompensa: {
-            puntos: 50
+            puntos: 150
           },
-          orden: 2
+          orden: 3
         },
+        
+        // Logros de membresías oficiales
         {
-          id: 'millonario',
-          nombre: 'Millonario',
-          descripcion: 'Acumula 1000 puntos',
-          icono: '💰',
-          categoria: 'Puntos',
+          id: 'friend_bsk',
+          nombre: 'Friend BSK',
+          descripcion: 'Alcanza la membresía Friend',
+          icono: '🤝',
+          categoria: 'Membresía',
           condiciones: {
             tipo: 'puntos_acumulados',
             valor: 1000,
             operador: 'mayor_igual'
           },
           recompensa: {
-            puntos: 100
-          },
-          orden: 3
-        },
-        {
-          id: 'comprador_frecuente',
-          nombre: 'Comprador Frecuente',
-          descripcion: 'Canjea 3 recompensas',
-          icono: '🛍️',
-          categoria: 'Actividad',
-          condiciones: {
-            tipo: 'recompensas_canjeadas',
-            valor: 3,
-            operador: 'mayor_igual'
-          },
-          recompensa: {
-            puntos: 75
+            puntos: 200
           },
           orden: 4
         },
         {
-          id: 'piloto_social',
-          nombre: 'Piloto Social',
-          descripcion: 'Participa en 5 eventos comunitarios',
-          icono: '👥',
-          categoria: 'Social',
+          id: 'rider_oficial',
+          nombre: 'Rider Oficial',
+          descripcion: 'Alcanza la membresía Rider',
+          icono: '🏍️',
+          categoria: 'Membresía',
           condiciones: {
-            tipo: 'eventos_participados',
-            valor: 5,
+            tipo: 'puntos_acumulados',
+            valor: 1500,
             operador: 'mayor_igual'
-          },
-          recompensa: {
-            puntos: 125
-          },
-          orden: 5
-        },
-        {
-          id: 'miembro_veterano',
-          nombre: 'Miembro Veterano',
-          descripcion: 'Mantén tu membresía activa por 6 meses',
-          icono: '⭐',
-          categoria: 'Especial',
-          condiciones: {
-            tipo: 'meses_activo',
-            valor: 6,
-            operador: 'mayor_igual'
-          },
-          recompensa: {
-            puntos: 200
-          },
-          orden: 6
-        },
-        {
-          id: 'lider_del_pack',
-          nombre: 'Líder del Pack',
-          descripcion: 'Alcanza el Top 3 del ranking',
-          icono: '🏆',
-          categoria: 'Social',
-          condiciones: {
-            tipo: 'ranking_posicion',
-            valor: 3,
-            operador: 'menor_igual'
           },
           recompensa: {
             puntos: 300
           },
-          orden: 7
+          orden: 5
         },
         {
-          id: 'leyenda_bsk',
-          nombre: 'Leyenda BSK',
-          descripcion: 'Alcanza 3000 puntos',
-          icono: '👑',
-          categoria: 'Especial',
+          id: 'pro_experiente',
+          nombre: 'Pro Experiente',
+          descripcion: 'Alcanza la membresía Pro',
+          icono: '⚡',
+          categoria: 'Membresía',
           condiciones: {
             tipo: 'puntos_acumulados',
             valor: 3000,
@@ -765,7 +764,121 @@ export class GamificationService {
           recompensa: {
             puntos: 500
           },
+          orden: 6
+        },
+        {
+          id: 'legend_mitologica',
+          nombre: 'Legend Mitológica',
+          descripcion: 'Alcanza la membresía Legend',
+          icono: '🏆',
+          categoria: 'Membresía',
+          condiciones: {
+            tipo: 'puntos_acumulados',
+            valor: 9000,
+            operador: 'mayor_igual'
+          },
+          recompensa: {
+            puntos: 1000
+          },
+          orden: 7
+        },
+        {
+          id: 'master_supremo',
+          nombre: 'Master Supremo',
+          descripcion: 'Alcanza la membresía Master',
+          icono: '�',
+          categoria: 'Membresía',
+          condiciones: {
+            tipo: 'puntos_acumulados',
+            valor: 18000,
+            operador: 'mayor_igual'
+          },
+          recompensa: {
+            puntos: 2000
+          },
           orden: 8
+        },
+        
+        // Logros de actividad comunitaria
+        {
+          id: 'voluntario_comprometido',
+          nombre: 'Voluntario Comprometido',
+          descripcion: 'Participa en 5 actividades de voluntariado',
+          icono: '🤲',
+          categoria: 'Voluntariado',
+          condiciones: {
+            tipo: 'voluntariados_participados',
+            valor: 5,
+            operador: 'mayor_igual'
+          },
+          recompensa: {
+            puntos: 500
+          },
+          orden: 9
+        },
+        {
+          id: 'organizador_eventos',
+          nombre: 'Organizador de Eventos',
+          descripcion: 'Organiza 3 eventos oficiales',
+          icono: '📅',
+          categoria: 'Liderazgo',
+          condiciones: {
+            tipo: 'eventos_organizados',
+            valor: 3,
+            operador: 'mayor_igual'
+          },
+          recompensa: {
+            puntos: 750
+          },
+          orden: 10
+        },
+        {
+          id: 'mentor_sabio',
+          nombre: 'Mentor Sabio',
+          descripcion: 'Mentoriza a 10 nuevos miembros',
+          icono: '🧙‍♂️',
+          categoria: 'Mentoría',
+          condiciones: {
+            tipo: 'mentorias_realizadas',
+            valor: 10,
+            operador: 'mayor_igual'
+          },
+          recompensa: {
+            puntos: 1000
+          },
+          orden: 11
+        },
+        {
+          id: 'lider_nato',
+          nombre: 'Líder Nato',
+          descripcion: 'Alcanza la membresía Leader',
+          icono: '💎',
+          categoria: 'Elite',
+          condiciones: {
+            tipo: 'puntos_acumulados',
+            valor: 40000,
+            operador: 'mayor_igual'
+          },
+          recompensa: {
+            puntos: 5000
+          },
+          orden: 12
+        },
+        {
+          id: 'mito_bsk',
+          nombre: 'Mito BSK',
+          descripcion: 'Conviértete en leyenda viviente',
+          icono: '�',
+          categoria: 'Elite',
+          condiciones: {
+            tipo: 'puntos_acumulados',
+            valor: 60000,
+            operador: 'mayor_igual'
+          },
+          recompensa: {
+            puntos: 10000
+          },
+          orden: 13
         }
       ];
 

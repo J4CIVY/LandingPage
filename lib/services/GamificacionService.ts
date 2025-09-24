@@ -16,16 +16,16 @@ export interface PuntosConfig {
   invitarAmigo: number;
 }
 
-// Configuración de puntos (debe coincidir con /api/comunidad/gamificacion)
+// Configuración de puntos actualizada para alinear con sistema de membresías
 export const PUNTOS_CONFIG: PuntosConfig = {
   publicacion: 10,
   comentario: 2,
   reaccionRecibida: 1,
-  participacionEvento: 25,
-  creaEvento: 15,
-  primeraPublicacion: 20,
+  participacionEvento: 100, // Actualizado de 25 a 100 para alinear con asistencia_evento
+  creaEvento: 500, // Actualizado de 15 a 500 para alinear con organizacion_evento
+  primeraPublicacion: 50, // Incrementado para dar mejor bienvenida
   comentarioUtil: 5,
-  invitarAmigo: 30
+  invitarAmigo: 300 // Actualizado de 30 a 300 para alinear con referidos
 };
 
 /**

@@ -68,43 +68,81 @@ export async function GET(request: NextRequest) {
     };
 
     // Configuración de niveles
+    // Niveles de gamificación alineados con membresías
     const niveles = {
-      'Novato': { 
-        color: 'text-gray-600', 
+      'Aspirante': { 
+        color: 'text-gray-500', 
         minPuntos: 0,
-        descripcion: 'Nuevo en la comunidad, ¡bienvenido!',
-        beneficios: ['Acceso básico a la comunidad', 'Crear publicaciones']
+        descripcion: 'Nuevo en la comunidad BSK',
+        beneficios: ['Acceso básico', 'Participación limitada']
       },
-      'Colaborador': { 
-        color: 'text-blue-600', 
-        minPuntos: 100,
-        descripcion: 'Miembro activo que contribuye regularmente',
-        beneficios: ['Reaccionar a publicaciones', 'Unirse a grupos', 'Crear eventos básicos']
+      'Explorador': { 
+        color: 'text-blue-500', 
+        minPuntos: 250,
+        descripcion: 'Comenzando a participar',
+        beneficios: ['Crear publicaciones', 'Comentar libremente']
       },
-      'Motociclista Activo': { 
-        color: 'text-green-600', 
+      'Participante': { 
+        color: 'text-indigo-600', 
         minPuntos: 500,
-        descripcion: 'Miembro experimentado y comprometido',
-        beneficios: ['Moderar grupos propios', 'Crear grupos de interés', 'Promocionar eventos']
+        descripcion: 'Participante activo',
+        beneficios: ['Crear grupos', 'Moderar contenido propio']
       },
-      'Leyenda BSKMT': { 
+      'Friend': { 
         color: 'text-purple-600', 
+        minPuntos: 1000,
+        descripcion: 'Miembro Friend del BSK MT',
+        beneficios: ['Acceso a eventos gratuitos', 'Beneficios básicos de membresía']
+      },
+      'Rider': { 
+        color: 'text-green-600', 
         minPuntos: 1500,
-        descripcion: 'Miembro élite de la comunidad',
-        beneficios: ['Privilegios especiales', 'Moderación avanzada', 'Acceso exclusivo']
+        descripcion: 'Rider activo y comprometido',
+        beneficios: ['Descuentos en eventos', 'Acceso a talleres', 'Equipamiento básico']
+      },
+      'Pro': { 
+        color: 'text-yellow-600', 
+        minPuntos: 3000,
+        descripcion: 'Motociclista experimentado',
+        beneficios: ['Equipamiento gratuito', 'Eventos exclusivos', 'Mentoría avanzada']
+      },
+      'Legend': { 
+        color: 'text-red-600', 
+        minPuntos: 9000,
+        descripcion: 'Leyenda de la comunidad',
+        beneficios: ['Eventos VIP', 'Reconocimiento especial', 'Acceso premium']
+      },
+      'Master': { 
+        color: 'text-purple-700', 
+        minPuntos: 18000,
+        descripcion: 'Maestro del motociclismo',
+        beneficios: ['Todos los beneficios', 'Acceso completo', 'Status élite']
+      },
+      'Volunteer': { 
+        color: 'text-green-700', 
+        minPuntos: 25000,
+        descripcion: 'Voluntario comprometido',
+        beneficios: ['Puntos extra', 'Reconocimiento especial', 'Acceso administrativo']
+      },
+      'Leader': { 
+        color: 'text-gray-900', 
+        minPuntos: 40000,
+        descripcion: 'Líder de la comunidad BSK',
+        beneficios: ['Liderazgo de proyectos', 'Toma de decisiones', 'Máximo privilegio']
       }
-    };
-
-    // Sistema de puntos
+    };    // Sistema de puntos actualizado para alinear con membresías
     const sistemaPuntos = {
       publicacion: { puntos: 10, descripcion: 'Crear una nueva publicación' },
       comentario: { puntos: 2, descripcion: 'Comentar en una publicación' },
       reaccionRecibida: { puntos: 1, descripcion: 'Recibir una reacción en tu contenido' },
-      participacionEvento: { puntos: 25, descripcion: 'Participar en un evento confirmado' },
-      creaEvento: { puntos: 15, descripcion: 'Crear y organizar un evento' },
-      primeraPublicacion: { puntos: 20, descripcion: 'Bonus por tu primera publicación' },
+      participacionEvento: { puntos: 100, descripcion: 'Participar en un evento confirmado' },
+      creaEvento: { puntos: 500, descripcion: 'Crear y organizar un evento' },
+      primeraPublicacion: { puntos: 50, descripcion: 'Bonus por tu primera publicación' },
       comentarioUtil: { puntos: 5, descripcion: 'Comentario marcado como útil por moderador' },
-      invitarAmigo: { puntos: 30, descripcion: 'Invitar a un nuevo miembro que se registre' }
+      invitarAmigo: { puntos: 300, descripcion: 'Invitar a un nuevo miembro que se registre' },
+      voluntariado: { puntos: 200, descripcion: 'Participar en actividad de voluntariado' },
+      mentoría: { puntos: 150, descripcion: 'Mentorizar a nuevos miembros' },
+      liderazgoProyecto: { puntos: 1000, descripcion: 'Liderar proyecto comunitario' }
     };
 
     return NextResponse.json({
