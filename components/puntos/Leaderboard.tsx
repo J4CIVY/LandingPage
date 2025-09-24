@@ -2,6 +2,21 @@
 
 import { useState, useEffect } from 'react';
 import { Usuario, FiltroPeriodo } from '@/types/puntos';
+import { 
+  FaSeedling, 
+  FaSearch, 
+  FaRocket, 
+  FaHandshake, 
+  FaMotorcycle, 
+  FaBolt, 
+  FaTrophy, 
+  FaCrown, 
+  FaHandsHelping, 
+  FaGem, 
+  FaFire,
+  FaMedal,
+  FaUser
+} from 'react-icons/fa';
 
 interface LeaderboardUser {
   posicion: number;
@@ -43,7 +58,7 @@ export default function Leaderboard() {
           const leaderboardData: LeaderboardUser[] = result.data;
           
           // Mapear a formato esperado por el componente
-          const usuariosMapeados: Usuario[] = leaderboardData.map(item => ({
+          const usuariosMapeados: any[] = leaderboardData.map(item => ({
             id: item.usuario._id,
             nombre: `${item.usuario.firstName} ${item.usuario.lastName}`,
             puntosTotales: item.puntos,
@@ -95,25 +110,29 @@ export default function Leaderboard() {
     return colores[nivel] || '#10B981';
   };
 
-  const getNivelIcon = (nivel: string): string => {
-    const iconos: Record<string, string> = {
-      'Aspirante': '🌱',
-      'Explorador': '🔍',
-      'Participante': '🚀',
-      'Friend': '�',
-      'Rider': '🏍️',
-      'Pro': '⚡',
-      'Legend': '🏆',
-      'Master': '👑',
-      'Volunteer': '🤲',
-      'Leader': '💎',
-      'Mito BSK': '🔥'
+  const getNivelIcon = (nivel: string) => {
+    const iconos: Record<string, JSX.Element> = {
+      'Aspirante': <FaSeedling className="inline text-green-500" />,
+      'Explorador': <FaSearch className="inline text-gray-500" />,
+      'Participante': <FaRocket className="inline text-blue-500" />,
+      'Friend': <FaHandshake className="inline text-purple-500" />,
+      'Rider': <FaMotorcycle className="inline text-emerald-500" />,
+      'Pro': <FaBolt className="inline text-yellow-500" />,
+      'Legend': <FaTrophy className="inline text-red-500" />,
+      'Master': <FaCrown className="inline text-purple-700" />,
+      'Volunteer': <FaHandsHelping className="inline text-emerald-700" />,
+      'Leader': <FaGem className="inline text-gray-700" />,
+      'Mito BSK': <FaFire className="inline text-red-600" />
     };
-    return iconos[nivel] || '🌱';
+    return iconos[nivel] || <FaSeedling className="inline text-green-500" />;
   };
 
   const getMedalIcon = (posicion: number) => {
-    const medals = ['🥇', '🥈', '🥉'];
+    const medals = [
+      <FaTrophy className="text-yellow-500" />,
+      <FaMedal className="text-gray-400" />,
+      <FaMedal className="text-amber-600" />
+    ];
     return medals[posicion - 1] || `#${posicion}`;
   };
 
@@ -160,8 +179,9 @@ export default function Leaderboard() {
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
-        <h3 className="text-xl font-bold text-gray-800 mb-4 sm:mb-0">
-          🏆 Ranking de Miembros
+        <h3 className="text-xl font-bold text-gray-800 mb-4 sm:mb-0 flex items-center gap-2">
+          <FaTrophy className="text-yellow-500" />
+          Ranking de Miembros
         </h3>
         
         {/* Filtro de periodo */}
@@ -212,7 +232,7 @@ export default function Leaderboard() {
                       />
                     ) : (
                       <div className="w-16 h-16 rounded-full mx-auto bg-white/30 flex items-center justify-center text-2xl">
-                        👤
+                        <FaUser className="text-white" />
                       </div>
                     )}
                   </div>
@@ -227,8 +247,9 @@ export default function Leaderboard() {
                     </p>
                   )}
                   
-                  <div className="text-2xl font-bold mb-1">
-                    🏍️ {usuario.puntosTotales.toLocaleString()}
+                  <div className="text-2xl font-bold mb-1 flex items-center justify-center gap-2">
+                    <FaMotorcycle className="text-white" />
+                    {usuario.puntosTotales.toLocaleString()}
                   </div>
                   
                   <div className="text-sm opacity-90">
@@ -279,7 +300,7 @@ export default function Leaderboard() {
                         />
                       ) : (
                         <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
-                          <span className="text-lg">👤</span>
+                          <FaUser className="text-gray-500" />
                         </div>
                       )}
                       
@@ -303,8 +324,9 @@ export default function Leaderboard() {
                     </div>
                     
                     <div className="text-right">
-                      <div className="font-bold text-gray-800">
-                        🏍️ {usuario.puntosTotales.toLocaleString()}
+                      <div className="font-bold text-gray-800 flex items-center gap-2">
+                        <FaMotorcycle className="text-blue-600" />
+                        {usuario.puntosTotales.toLocaleString()}
                       </div>
                       <div className="text-sm text-gray-500">
                         puntos
@@ -328,8 +350,9 @@ export default function Leaderboard() {
             </div>
             
             <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-green-600">
-                🏍️ {usuarios[0]?.puntosTotales.toLocaleString() || 0}
+              <div className="text-2xl font-bold text-green-600 flex items-center justify-center gap-2">
+                <FaMotorcycle />
+                {usuarios[0]?.puntosTotales.toLocaleString() || 0}
               </div>
               <div className="text-sm text-green-700">
                 Puntos del líder
@@ -337,8 +360,9 @@ export default function Leaderboard() {
             </div>
             
             <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-purple-600">
-                🏍️ {Math.round(usuarios.reduce((sum, u) => sum + u.puntosTotales, 0) / usuarios.length).toLocaleString()}
+              <div className="text-2xl font-bold text-purple-600 flex items-center justify-center gap-2">
+                <FaMotorcycle />
+                {Math.round(usuarios.reduce((sum, u) => sum + u.puntosTotales, 0) / usuarios.length).toLocaleString()}
               </div>
               <div className="text-sm text-purple-700">
                 Promedio de puntos
@@ -348,7 +372,7 @@ export default function Leaderboard() {
         </div>
       ) : (
         <div className="text-center py-12">
-          <div className="text-6xl mb-4">🏆</div>
+          <FaTrophy className="text-6xl mb-4 text-yellow-500 mx-auto" />
           <h4 className="text-lg font-semibold text-gray-600 mb-2">
             No hay datos disponibles
           </h4>
