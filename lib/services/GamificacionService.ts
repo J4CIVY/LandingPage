@@ -16,16 +16,16 @@ export interface PuntosConfig {
   invitarAmigo: number;
 }
 
-// Configuración de puntos actualizada para alinear con sistema de membresías
+// Configuración de puntos CORREGIDA
 export const PUNTOS_CONFIG: PuntosConfig = {
   publicacion: 10,
   comentario: 2,
   reaccionRecibida: 1,
-  participacionEvento: 100, // Actualizado de 25 a 100 para alinear con asistencia_evento
-  creaEvento: 500, // Actualizado de 15 a 500 para alinear con organizacion_evento
-  primeraPublicacion: 50, // Incrementado para dar mejor bienvenida
+  participacionEvento: 0, // CORREGIDO: Los puntos vienen del evento específico
+  creaEvento: 500, // Organizar evento sí otorga puntos fijos
+  primeraPublicacion: 50, // Bono por primera publicación
   comentarioUtil: 5,
-  invitarAmigo: 300 // Actualizado de 30 a 300 para alinear con referidos
+  invitarAmigo: 300 // Referir nuevo miembro
 };
 
 /**
@@ -121,9 +121,7 @@ function calcularNivel(puntosTotal: number): string {
   if (puntosTotal >= 3000) return 'pro';
   if (puntosTotal >= 1500) return 'rider';
   if (puntosTotal >= 1000) return 'friend';
-  if (puntosTotal >= 500) return 'participante';
-  if (puntosTotal >= 250) return 'explorador';
-  return 'aspirante';
+  return 'friend'; // CORREGIDO: Mínimo nivel es Friend, no niveles inventados
 }
 
 /**

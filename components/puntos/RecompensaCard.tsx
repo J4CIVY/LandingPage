@@ -7,7 +7,7 @@ import RecompensaModal from './RecompensaModal';
 interface RecompensaCardProps {
   recompensa: Recompensa;
   usuario: Usuario;
-  onCanje: () => void;
+  onCanje: (recompensaId: string, costoPuntos: number) => Promise<boolean>;
 }
 
 export default function RecompensaCard({ recompensa, usuario, onCanje }: RecompensaCardProps) {

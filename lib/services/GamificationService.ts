@@ -23,13 +23,13 @@ export interface AccionPuntos {
 export const ACCIONES_PUNTOS: Record<string, AccionPuntos> = {
   registro_evento: {
     tipo: 'registro_evento',
-    puntos: 50, // Actualizado para alinear con sistema de eventos
-    descripcion: 'Registro en evento'
+    puntos: 0, // CORREGIDO: Solo registrarse NO otorga puntos
+    descripcion: 'Registro en evento (sin puntos)'
   },
   asistencia_evento: {
     tipo: 'asistencia_evento',
-    puntos: 100, // Actualizado para alinear con sistema de eventos
-    descripcion: 'Asistencia confirmada a evento'
+    puntos: 0, // CORREGIDO: Los puntos vienen del evento específico, no de aquí
+    descripcion: 'Asistencia confirmada a evento (puntos según evento)'
   },
   publicacion: {
     tipo: 'publicacion',
@@ -79,24 +79,18 @@ export const ACCIONES_PUNTOS: Record<string, AccionPuntos> = {
   }
 };
 
-// Niveles alineados con el sistema de membresías
+// Niveles ÚNICAMENTE de membresías oficiales BSK MT
 export const NIVELES = [
-  // Niveles iniciales de gamificación (antes de membresías oficiales)
-  { nombre: 'Aspirante', puntos: 0, icono: '🌱', color: '#10B981', descripcion: 'Nuevo en la comunidad BSK' },
-  { nombre: 'Explorador', puntos: 250, icono: '🔍', color: '#6B7280', descripcion: 'Comenzando a participar' },
-  { nombre: 'Participante', puntos: 500, icono: '🚀', color: '#3B82F6', descripcion: 'Participante activo' },
-  
-  // Niveles alineados con membresías oficiales
+  // Solo membresías oficiales reales de BSK Motorcycle Team
   { nombre: 'Friend', puntos: 1000, icono: '🤝', color: '#8B5CF6', descripcion: 'Miembro Friend del BSK MT' },
   { nombre: 'Rider', puntos: 1500, icono: '🏍️', color: '#059669', descripcion: 'Rider activo y comprometido' },
   { nombre: 'Pro', puntos: 3000, icono: '⚡', color: '#F59E0B', descripcion: 'Motociclista experimentado' },
   { nombre: 'Legend', puntos: 9000, icono: '🏆', color: '#DC2626', descripcion: 'Leyenda de la comunidad' },
   { nombre: 'Master', puntos: 18000, icono: '👑', color: '#7C3AED', descripcion: 'Maestro del motociclismo' },
   
-  // Niveles especiales y de élite
+  // Roles especiales oficiales
   { nombre: 'Volunteer', puntos: 25000, icono: '🤲', color: '#059669', descripcion: 'Voluntario comprometido' },
-  { nombre: 'Leader', puntos: 40000, icono: '💎', color: '#1F2937', descripcion: 'Líder de la comunidad BSK' },
-  { nombre: 'Mito BSK', puntos: 60000, icono: '🔥', color: '#DC2626', descripcion: 'Leyenda viviente del BSK MT' }
+  { nombre: 'Leader', puntos: 40000, icono: '💎', color: '#1F2937', descripcion: 'Líder de la comunidad BSK' }
 ];
 
 export class GamificationService {

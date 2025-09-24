@@ -68,26 +68,8 @@ export async function GET(request: NextRequest) {
     };
 
     // Configuración de niveles
-    // Niveles de gamificación alineados con membresías
+    // Niveles ÚNICAMENTE de membresías oficiales BSK MT
     const niveles = {
-      'Aspirante': { 
-        color: 'text-gray-500', 
-        minPuntos: 0,
-        descripcion: 'Nuevo en la comunidad BSK',
-        beneficios: ['Acceso básico', 'Participación limitada']
-      },
-      'Explorador': { 
-        color: 'text-blue-500', 
-        minPuntos: 250,
-        descripcion: 'Comenzando a participar',
-        beneficios: ['Crear publicaciones', 'Comentar libremente']
-      },
-      'Participante': { 
-        color: 'text-indigo-600', 
-        minPuntos: 500,
-        descripcion: 'Participante activo',
-        beneficios: ['Crear grupos', 'Moderar contenido propio']
-      },
       'Friend': { 
         color: 'text-purple-600', 
         minPuntos: 1000,
@@ -130,12 +112,12 @@ export async function GET(request: NextRequest) {
         descripcion: 'Líder de la comunidad BSK',
         beneficios: ['Liderazgo de proyectos', 'Toma de decisiones', 'Máximo privilegio']
       }
-    };    // Sistema de puntos actualizado para alinear con membresías
+    };    // Sistema de puntos CORREGIDO
     const sistemaPuntos = {
       publicacion: { puntos: 10, descripcion: 'Crear una nueva publicación' },
       comentario: { puntos: 2, descripcion: 'Comentar en una publicación' },
       reaccionRecibida: { puntos: 1, descripcion: 'Recibir una reacción en tu contenido' },
-      participacionEvento: { puntos: 100, descripcion: 'Participar en un evento confirmado' },
+      participacionEvento: { puntos: 0, descripcion: 'Los puntos los define cada evento específico' },
       creaEvento: { puntos: 500, descripcion: 'Crear y organizar un evento' },
       primeraPublicacion: { puntos: 50, descripcion: 'Bonus por tu primera publicación' },
       comentarioUtil: { puntos: 5, descripcion: 'Comentario marcado como útil por moderador' },

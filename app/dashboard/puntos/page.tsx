@@ -334,7 +334,7 @@ export default function PuntosPage() {
     progresoNivel: gamificationData.level.progress
   };
 
-  const handleCanje = async (recompensaId: string, costoPuntos: number) => {
+  const handleCanje = async (recompensaId: string, costoPuntos: number): Promise<boolean> => {
     try {
       const response = await fetch('/api/rewards/redeem', {
         method: 'POST',
@@ -372,6 +372,8 @@ export default function PuntosPage() {
           
           // Recargar datos para asegurar consistencia
           setTimeout(() => cargarDatos(), 1000);
+          
+          return true; // Canje exitoso
         } else {
           throw new Error(result.error || 'Error en el canje');
         }
@@ -384,6 +386,7 @@ export default function PuntosPage() {
         'Error en canje',
         error instanceof Error ? error.message : 'No se pudo completar el canje'
       );
+      return false; // Canje fallido
     }
   };
 
@@ -455,7 +458,7 @@ export default function PuntosPage() {
                         key={recompensa._id}
                         recompensa={recompensaMapeada}
                         usuario={usuarioCompatible}
-                        onCanje={() => handleCanje(recompensa._id, recompensa.puntosRequeridos)}
+                        onCanje={handleCanje}
                       />
                     );
                   })}
