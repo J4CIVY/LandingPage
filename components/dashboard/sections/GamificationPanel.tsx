@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { FaTrophy, FaChartLine, FaMedal, FaStar, FaSpinner, FaArrowRight, FaFireAlt, FaCalendarCheck } from 'react-icons/fa';
+import { FaTrophy, FaChartLine, FaMedal, FaStar, FaSpinner, FaArrowRight, FaFireAlt, FaCalendarCheck, FaSeedling, FaArrowUp, FaArrowDown, FaArrowRight as FaArrowStraight, FaBolt, FaCheckCircle } from 'react-icons/fa';
 import Link from 'next/link';
 
 interface StatsData {
@@ -163,14 +163,17 @@ export default function GamificationPanel() {
   };
 
   const getLevelIcon = (level: string) => {
-    return gamificationData?.level?.icon || '🌱';
-  };
+    // Usar FaSeedling como icono de Novato, se pueden agregar más niveles si es necesario
+    if (level === 'Novato') return <FaSeedling className="text-green-500 dark:text-green-400" />;
+    // Otros niveles pueden mapearse a otros íconos si se definen
+    return <FaTrophy className="text-yellow-600 dark:text-yellow-400" />;
+  }
 
   const getRankingChangeIcon = (change: number) => {
-    if (change > 0) return '📈';
-    if (change < 0) return '📉';
-    return '➡️';
-  };
+    if (change > 0) return <FaArrowUp className="inline text-green-600 dark:text-green-400" />;
+    if (change < 0) return <FaArrowDown className="inline text-red-600 dark:text-red-400" />;
+    return <FaArrowStraight className="inline text-gray-600 dark:text-gray-400" />;
+  }
 
   const getRankingChangeColor = (change: number) => {
     if (change > 0) return 'text-green-600 dark:text-green-400';
@@ -367,14 +370,14 @@ export default function GamificationPanel() {
           </h5>
           <div className="space-y-2">
             <div className="flex items-center text-sm">
-              <span className="mr-2">🏆</span>
+              <FaTrophy className="mr-2 text-yellow-600 dark:text-yellow-400" />
               <span className="text-gray-600 dark:text-slate-400">
                 Nivel {level.current} alcanzado
               </span>
             </div>
             {stats.currentStreak > 0 && (
               <div className="flex items-center text-sm">
-                <span className="mr-2">🔥</span>
+                <FaBolt className="mr-2 text-orange-500 dark:text-orange-400" />
                 <span className="text-gray-600 dark:text-slate-400">
                   Racha actual: {stats.currentStreak} días
                 </span>
@@ -382,7 +385,7 @@ export default function GamificationPanel() {
             )}
             {stats.eventsAttended > 0 && (
               <div className="flex items-center text-sm">
-                <span className="mr-2">⭐</span>
+                <FaCheckCircle className="mr-2 text-purple-500 dark:text-purple-400" />
                 <span className="text-gray-600 dark:text-slate-400">
                   {stats.eventsAttended} eventos completados
                 </span>
