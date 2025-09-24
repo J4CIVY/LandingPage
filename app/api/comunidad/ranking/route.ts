@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
     // Calcular badges y niveles con contadores reales
     const rankingsConBadges = await Promise.all(rankings.map(async (ranking, index) => {
       const puntosTotal = ranking.puntos.total || 0;
-      const badges = calcularBadges(puntosTotal);
+      const badges = generarBadges(puntosTotal);
       const nivel = calcularNivel(puntosTotal);
       const progreso = calcularProgreso(puntosTotal, nivel);
 
@@ -153,42 +153,44 @@ export async function GET(request: NextRequest) {
 }
 
 // Función para calcular badges basado en puntos
-function calcularBadges(puntos: number): string[] {
+function generarBadges(puntos: number): string[] {
   const badges: string[] = [];
   
-  if (puntos >= 1000) badges.push('🏆 Leyenda');
-  else if (puntos >= 500) badges.push('🥇 Experto');
-  else if (puntos >= 200) badges.push('🥈 Avanzado');
-  else if (puntos >= 100) badges.push('🥉 Intermedio');
-  else if (puntos >= 50) badges.push('🎖️ Principiante');
-  
-  if (puntos >= 300) badges.push('💬 Comunicador');
-  if (puntos >= 150) badges.push('👥 Sociable');
-  if (puntos >= 75) badges.push('📝 Colaborador');
+  if (puntos >= 40000) badges.push('💎 Leader');
+  else if (puntos >= 25000) badges.push('� Volunteer');
+  else if (puntos >= 18000) badges.push('👑 Master');
+  else if (puntos >= 9000) badges.push('🏆 Legend');
+  else if (puntos >= 3000) badges.push('⚡ Pro');
+  else if (puntos >= 1500) badges.push('�️ Rider');
+  else if (puntos >= 1000) badges.push('🤝 Friend');
+  else if (puntos >= 500) badges.push('� Participante');
+  else if (puntos >= 250) badges.push('� Explorador');
+  else badges.push('🌱 Aspirante');
   
   return badges;
 }
 
-// Función para calcular nivel basado en puntos
+// Función para calcular nivel basado en puntos (alineado con membresías)
 function calcularNivel(puntos: number): number {
-  if (puntos >= 1000) return 10;
-  if (puntos >= 800) return 9;
-  if (puntos >= 600) return 8;
-  if (puntos >= 450) return 7;
-  if (puntos >= 350) return 6;
-  if (puntos >= 250) return 5;
-  if (puntos >= 175) return 4;
-  if (puntos >= 100) return 3;
-  if (puntos >= 50) return 2;
-  return 1;
+  if (puntos >= 40000) return 11; // Leader
+  if (puntos >= 25000) return 10; // Volunteer
+  if (puntos >= 18000) return 9;  // Master
+  if (puntos >= 9000) return 8;   // Legend
+  if (puntos >= 3000) return 7;   // Pro
+  if (puntos >= 1500) return 6;   // Rider
+  if (puntos >= 1000) return 5;   // Friend
+  if (puntos >= 500) return 4;    // Participante
+  if (puntos >= 250) return 3;    // Explorador
+  if (puntos >= 50) return 2;     // Inicial
+  return 1;                       // Aspirante
 }
 
-// Función para calcular progreso al siguiente nivel
+// Función para calcular progreso al siguiente nivel (alineado con membresías)
 function calcularProgreso(puntos: number, nivelActual: number): { actual: number; siguiente: number; porcentaje: number } {
-  const nivelesRequeridos = [0, 50, 100, 175, 250, 350, 450, 600, 800, 1000];
+  const nivelesRequeridos = [0, 50, 250, 500, 1000, 1500, 3000, 9000, 18000, 25000, 40000, 60000];
   
-  if (nivelActual >= 10) {
-    return { actual: puntos, siguiente: 1000, porcentaje: 100 };
+  if (nivelActual >= 11) {
+    return { actual: puntos, siguiente: 60000, porcentaje: 100 };
   }
   
   const puntosActuales = nivelesRequeridos[nivelActual - 1];

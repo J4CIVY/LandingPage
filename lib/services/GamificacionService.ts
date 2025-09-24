@@ -114,10 +114,16 @@ export async function actualizarPuntos(
  * Calcular nivel basado en puntos totales
  */
 function calcularNivel(puntosTotal: number): string {
-  if (puntosTotal >= 1500) return 'leyenda';
-  if (puntosTotal >= 500) return 'activo';
-  if (puntosTotal >= 100) return 'colaborador';
-  return 'novato';
+  if (puntosTotal >= 40000) return 'leader';
+  if (puntosTotal >= 25000) return 'volunteer';
+  if (puntosTotal >= 18000) return 'master';
+  if (puntosTotal >= 9000) return 'legend';
+  if (puntosTotal >= 3000) return 'pro';
+  if (puntosTotal >= 1500) return 'rider';
+  if (puntosTotal >= 1000) return 'friend';
+  if (puntosTotal >= 500) return 'participante';
+  if (puntosTotal >= 250) return 'explorador';
+  return 'aspirante';
 }
 
 /**
