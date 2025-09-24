@@ -14,16 +14,20 @@ import LogrosUsuario from '@/components/puntos/LogrosUsuario';
 import ResumenSemanal from '@/components/puntos/ResumenSemanal';
 import { useNotificaciones } from '@/hooks/useNotificacionesPuntos';
 import { Nivel } from '@/types/puntos';
+import { ReactNode } from 'react';
+
+import { FaSeedling, FaSearch, FaRocket, FaHandshake, FaMotorcycle, FaBolt, FaTrophy, FaCrown, FaHandsHelping, FaGem, FaFire, FaGift, FaChartBar, FaMedal, FaCog } from 'react-icons/fa';
 
 // Niveles del sistema actualizados para alinear con membresías
-const NIVELES: Nivel[] = [
+type NivelConIcono = Omit<Nivel, 'icono'> & { icono: ReactNode };
+const NIVELES: NivelConIcono[] = [
   {
     id: 1,
     nombre: "Aspirante",
     puntosMinimos: 0,
     puntosMaximos: 249,
     color: "#10B981",
-    icono: "🌱",
+    icono: <FaSeedling className="inline text-green-500" />,
     beneficios: ["Acceso básico", "Nuevo en la comunidad BSK"]
   },
   {
@@ -32,7 +36,7 @@ const NIVELES: Nivel[] = [
     puntosMinimos: 250,
     puntosMaximos: 499,
     color: "#6B7280",
-    icono: "🔍",
+    icono: <FaSearch className="inline text-gray-500" />,
     beneficios: ["Comenzando a participar", "Acceso a eventos básicos"]
   },
   {
@@ -41,7 +45,7 @@ const NIVELES: Nivel[] = [
     puntosMinimos: 500,
     puntosMaximos: 999,
     color: "#3B82F6",
-    icono: "🚀",
+    icono: <FaRocket className="inline text-blue-500" />,
     beneficios: ["Participante activo", "Crear publicaciones"]
   },
   {
@@ -50,7 +54,7 @@ const NIVELES: Nivel[] = [
     puntosMinimos: 1000,
     puntosMaximos: 1499,
     color: "#8B5CF6",
-    icono: "🤝",
+    icono: <FaHandshake className="inline text-purple-500" />,
     beneficios: ["Miembro Friend BSK MT", "Eventos gratuitos limitados"]
   },
   {
@@ -59,7 +63,7 @@ const NIVELES: Nivel[] = [
     puntosMinimos: 1500,
     puntosMaximos: 2999,
     color: "#059669",
-    icono: "🏍️",
+    icono: <FaMotorcycle className="inline text-emerald-500" />,
     beneficios: ["Rider activo", "Descuentos en eventos", "Acceso a talleres"]
   },
   {
@@ -68,7 +72,7 @@ const NIVELES: Nivel[] = [
     puntosMinimos: 3000,
     puntosMaximos: 8999,
     color: "#F59E0B",
-    icono: "⚡",
+    icono: <FaBolt className="inline text-yellow-500" />,
     beneficios: ["Motociclista experimentado", "Equipamiento gratuito", "Eventos exclusivos"]
   },
   {
@@ -77,7 +81,7 @@ const NIVELES: Nivel[] = [
     puntosMinimos: 9000,
     puntosMaximos: 17999,
     color: "#DC2626",
-    icono: "🏆",
+    icono: <FaTrophy className="inline text-red-500" />,
     beneficios: ["Leyenda de la comunidad", "Mentoría", "Eventos VIP"]
   },
   {
@@ -86,7 +90,7 @@ const NIVELES: Nivel[] = [
     puntosMinimos: 18000,
     puntosMaximos: 24999,
     color: "#7C3AED",
-    icono: "�",
+    icono: <FaCrown className="inline text-purple-700" />,
     beneficios: ["Maestro del motociclismo", "Todos los beneficios", "Acceso completo"]
   },
   {
@@ -95,7 +99,7 @@ const NIVELES: Nivel[] = [
     puntosMinimos: 25000,
     puntosMaximos: 39999,
     color: "#059669",
-    icono: "🤲",
+    icono: <FaHandsHelping className="inline text-emerald-700" />,
     beneficios: ["Voluntario comprometido", "Puntos extra", "Reconocimiento especial"]
   },
   {
@@ -104,7 +108,7 @@ const NIVELES: Nivel[] = [
     puntosMinimos: 40000,
     puntosMaximos: 59999,
     color: "#1F2937",
-    icono: "�",
+    icono: <FaGem className="inline text-gray-700" />,
     beneficios: ["Líder de la comunidad", "Liderazgo de proyectos", "Toma de decisiones"]
   },
   {
@@ -113,7 +117,7 @@ const NIVELES: Nivel[] = [
     puntosMinimos: 60000,
     puntosMaximos: 999999,
     color: "#DC2626",
-    icono: "🔥",
+    icono: <FaFire className="inline text-red-600" />,
     beneficios: ["Leyenda viviente del BSK MT", "Máximo reconocimiento", "Estado élite"]
   }
 ];
@@ -298,12 +302,13 @@ export default function PuntosPage() {
   // Verificar si el usuario es admin
   const isAdmin = user.email?.includes('admin') || false; // Ajusta según tu lógica de admin
 
+// Importar los íconos al inicio del archivo (ya están importados arriba)
   const tabs = [
-    { id: 'recompensas', label: 'Recompensas', icon: '🎁' },
-    { id: 'historial', label: 'Historial', icon: '📊' },
-    { id: 'ranking', label: 'Ranking', icon: '🏆' },
-    { id: 'logros', label: 'Logros', icon: '🏅' },
-    ...(isAdmin ? [{ id: 'admin', label: 'Admin', icon: '⚙️' }] : [])
+    { id: 'recompensas', label: 'Recompensas', icon: <FaGift className="inline text-pink-500" /> },
+    { id: 'historial', label: 'Historial', icon: <FaChartBar className="inline text-blue-500" /> },
+    { id: 'ranking', label: 'Ranking', icon: <FaTrophy className="inline text-yellow-500" /> },
+    { id: 'logros', label: 'Logros', icon: <FaMedal className="inline text-green-500" /> },
+    ...(isAdmin ? [{ id: 'admin', label: 'Admin', icon: <FaCog className="inline text-gray-700" /> }] : [])
   ];
 
   // Convertir datos de gamificación al formato esperado por los componentes
@@ -321,7 +326,7 @@ export default function PuntosPage() {
       puntosMinimos: gamificationData.level.points,
       puntosMaximos: gamificationData.level.nextLevelPoints,
       color: gamificationData.level.color,
-      icono: gamificationData.level.icon,
+      icono: gamificationData.level.icon, // Puede ser string o ReactNode según la fuente
       beneficios: [`Nivel ${gamificationData.level.current}`] // Datos reales de la API
     },
     ranking: gamificationData.ranking.position,
