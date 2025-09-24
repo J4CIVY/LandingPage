@@ -2,13 +2,13 @@
 
 import { useState } from 'react';
 import { Recompensa, Usuario } from '@/types/puntos';
-import { canjearRecompensa } from '@/data/puntos/mockData';
+// Ya no usamos mock data - el canje se maneja por props
 
 interface RecompensaModalProps {
   recompensa: Recompensa;
   usuario: Usuario;
   onClose: () => void;
-  onConfirmarCanje: () => void;
+  onConfirmarCanje: (recompensaId: string, costoPuntos: number) => Promise<boolean>;
 }
 
 export default function RecompensaModal({ 
@@ -33,10 +33,9 @@ export default function RecompensaModal({
 
     setCanjeando(true);
     try {
-      const exito = await canjearRecompensa(recompensa.id, usuario.id);
+      const exito = await onConfirmarCanje(recompensa.id, recompensa.costoPuntos);
       if (exito) {
         setCanjeExitoso(true);
-        onConfirmarCanje();
         
         // Cerrar modal después de mostrar confirmación
         setTimeout(() => {

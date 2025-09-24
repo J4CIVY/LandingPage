@@ -280,8 +280,8 @@ const UsuarioRankingSchema = new Schema<IUsuarioRanking>({
   }],
   nivel: {
     type: String,
-    enum: ['Novato', 'Colaborador', 'Motociclista Activo', 'Leyenda BSKMT'],
-    default: 'Novato'
+    enum: ['aspirante', 'explorador', 'participante', 'friend', 'rider', 'pro', 'legend', 'master', 'volunteer', 'leader'],
+    default: 'aspirante'
   },
   fechaActualizacion: {
     type: Date,

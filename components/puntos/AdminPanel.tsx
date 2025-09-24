@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { EstadisticasAdmin, Recompensa, Usuario } from '@/types/puntos';
-import { obtenerEstadisticasAdmin, obtenerRecompensas } from '@/data/puntos/mockData';
+// Panel administrativo - usar APIs reales en lugar de mocks
 
 export default function AdminPanel() {
   const [estadisticas, setEstadisticas] = useState<EstadisticasAdmin | null>(null);
@@ -29,13 +29,31 @@ export default function AdminPanel() {
   useEffect(() => {
     const cargarDatos = async () => {
       try {
-        const [estadisticasData, recompensasData] = await Promise.all([
-          obtenerEstadisticasAdmin(),
-          obtenerRecompensas()
+        // Usar APIs reales para estadísticas administrativas
+        const [recompensasResponse] = await Promise.all([
+          fetch('/api/rewards', {
+            method: 'GET',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' }
+          })
         ]);
+
+        if (recompensasResponse.ok) {
+          const recompensasResult = await recompensasResponse.json();
+          if (recompensasResult.success) {
+            setRecompensas(recompensasResult.data || []);
+          }
+        }
+
+        // Estadísticas básicas (pueden expandirse con APIs administrativas reales)
+        setEstadisticas({
+          puntosGeneradosMes: 0,
+          recompensasMasCanjeadas: [],
+          topMiembrosActivos: [],
+          totalCanjes: 0,
+          totalPuntosCirculacion: 0
+        });
         
-        setEstadisticas(estadisticasData);
-        setRecompensas(recompensasData);
       } catch (error) {
         console.error('Error cargando datos administrativos:', error);
       } finally {

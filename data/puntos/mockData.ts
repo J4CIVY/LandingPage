@@ -1,61 +1,144 @@
 import { Usuario, Nivel, PuntosActividad, Recompensa, EstadisticasAdmin } from '@/types/puntos';
 
-// Niveles del sistema
+// Niveles del sistema actualizados
 export const niveles: Nivel[] = [
   {
     id: 1,
-    nombre: "Rookie",
+    nombre: "Aspirante",
     puntosMinimos: 0,
-    puntosMaximos: 499,
-    color: "#CD7F32", // Bronce
-    icono: "🥉",
+    puntosMaximos: 249,
+    color: "#10B981",
+    icono: "🌱",
     beneficios: [
-      "Acceso a eventos básicos",
-      "Descuento 5% en tienda",
-      "Foro comunitario"
+      "Acceso básico",
+      "Nuevo en la comunidad BSK"
     ]
   },
   {
     id: 2,
-    nombre: "Rider",
-    puntosMinimos: 500,
-    puntosMaximos: 1499,
-    color: "#C0C0C0", // Plata
-    icono: "🥈",
+    nombre: "Explorador",
+    puntosMinimos: 250,
+    puntosMaximos: 499,
+    color: "#6B7280",
+    icono: "🔍",
     beneficios: [
-      "Todos los beneficios anteriores",
-      "Acceso a eventos intermedios",
-      "Descuento 10% en tienda",
-      "Soporte prioritario"
+      "Comenzando a participar",
+      "Acceso a eventos básicos"
     ]
   },
   {
     id: 3,
-    nombre: "Pro Rider",
-    puntosMinimos: 1500,
-    puntosMaximos: 2999,
-    color: "#FFD700", // Oro
-    icono: "🥇",
+    nombre: "Participante",
+    puntosMinimos: 500,
+    puntosMaximos: 999,
+    color: "#3B82F6",
+    icono: "🚀",
     beneficios: [
-      "Todos los beneficios anteriores",
-      "Acceso a eventos premium",
-      "Descuento 15% en tienda",
-      "Invitaciones a eventos exclusivos"
+      "Participante activo",
+      "Crear publicaciones"
     ]
   },
   {
     id: 4,
-    nombre: "Legend",
+    nombre: "Friend",
+    puntosMinimos: 1000,
+    puntosMaximos: 1499,
+    color: "#8B5CF6",
+    icono: "�",
+    beneficios: [
+      "Miembro Friend BSK MT",
+      "Eventos gratuitos limitados"
+    ]
+  },
+  {
+    id: 5,
+    nombre: "Rider",
+    puntosMinimos: 1500,
+    puntosMaximos: 2999,
+    color: "#059669",
+    icono: "🏍️",
+    beneficios: [
+      "Rider activo",
+      "Descuentos en eventos",
+      "Acceso a talleres"
+    ]
+  },
+  {
+    id: 6,
+    nombre: "Pro",
     puntosMinimos: 3000,
-    puntosMaximos: 9999999,
-    color: "#00BFFF", // Platino
+    puntosMaximos: 8999,
+    color: "#F59E0B",
+    icono: "⚡",
+    beneficios: [
+      "Motociclista experimentado",
+      "Equipamiento gratuito",
+      "Eventos exclusivos"
+    ]
+  },
+  {
+    id: 7,
+    nombre: "Legend",
+    puntosMinimos: 9000,
+    puntosMaximos: 17999,
+    color: "#DC2626",
+    icono: "🏆",
+    beneficios: [
+      "Leyenda de la comunidad",
+      "Mentoría",
+      "Eventos VIP"
+    ]
+  },
+  {
+    id: 8,
+    nombre: "Master",
+    puntosMinimos: 18000,
+    puntosMaximos: 24999,
+    color: "#7C3AED",
     icono: "👑",
     beneficios: [
-      "Todos los beneficios anteriores",
-      "Acceso total a eventos VIP",
-      "Descuento 20% en tienda",
-      "Asesoría personalizada",
-      "Productos exclusivos"
+      "Maestro del motociclismo",
+      "Todos los beneficios",
+      "Acceso completo"
+    ]
+  },
+  {
+    id: 9,
+    nombre: "Volunteer",
+    puntosMinimos: 25000,
+    puntosMaximos: 39999,
+    color: "#059669",
+    icono: "🤲",
+    beneficios: [
+      "Voluntario comprometido",
+      "Puntos extra",
+      "Reconocimiento especial"
+    ]
+  },
+  {
+    id: 10,
+    nombre: "Leader",
+    puntosMinimos: 40000,
+    puntosMaximos: 59999,
+    color: "#1F2937",
+    icono: "💎",
+    beneficios: [
+      "Líder de la comunidad",
+      "Liderazgo de proyectos",
+      "Toma de decisiones"
+    ]
+  },
+  {
+    id: 11,
+    nombre: "Mito BSK",
+    puntosMinimos: 60000,
+    puntosMaximos: 9999999,
+    color: "#DC2626",
+    icono: "🔥",
+    beneficios: [
+      "Leyenda viviente del BSK MT",
+      "Máximo reconocimiento",
+      "Estado élite"
     ]
   }
 ];
@@ -202,7 +285,7 @@ export const usuarioActual: Usuario = {
   nombre: "Carlos Rodríguez",
   alias: "CarlosR_BSK",
   puntosTotales: 850,
-  nivel: niveles[1], // Rider
+  nivel: niveles[2], // Participante
   posicionRanking: 5,
   avatar: "/images/avatars/carlos.jpg",
   esAdmin: true // Cambio a true para probar funcionalidades admin

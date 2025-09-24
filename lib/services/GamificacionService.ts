@@ -55,7 +55,7 @@ export async function actualizarPuntos(
           participacionEventos: 0,
           total: 0
         },
-        nivel: 'novato',
+        nivel: 'aspirante',
         insignias: [],
         fechaActualizacion: new Date()
       });
@@ -162,7 +162,7 @@ export async function obtenerEstadisticasUsuario(usuarioId: string) {
           participacionEventos: 0,
           total: 0
         },
-        nivel: 'novato',
+        nivel: 'aspirante',
         insignias: []
       };
     }

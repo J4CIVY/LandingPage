@@ -80,26 +80,34 @@ export default function Leaderboard() {
 
   const getNivelColor = (nivel: string): string => {
     const colores: Record<string, string> = {
-      'Novato': '#10B981',
-      'Bronce': '#CD7F32',
-      'Plata': '#C0C0C0',
-      'Oro': '#FFD700',
-      'Avanzado': '#4B0082',
-      'Experto': '#8A2BE2',
-      'Leyenda': '#00BFFF'
+      'Aspirante': '#10B981',
+      'Explorador': '#6B7280',
+      'Participante': '#3B82F6',
+      'Friend': '#8B5CF6',
+      'Rider': '#059669',
+      'Pro': '#F59E0B',
+      'Legend': '#DC2626',
+      'Master': '#7C3AED',
+      'Volunteer': '#059669',
+      'Leader': '#1F2937',
+      'Mito BSK': '#DC2626'
     };
     return colores[nivel] || '#10B981';
   };
 
   const getNivelIcon = (nivel: string): string => {
     const iconos: Record<string, string> = {
-      'Novato': '🌱',
-      'Bronce': '🥉',
-      'Plata': '🥈',
-      'Oro': '🥇',
-      'Avanzado': '💎',
-      'Experto': '⭐',
-      'Leyenda': '👑'
+      'Aspirante': '🌱',
+      'Explorador': '🔍',
+      'Participante': '🚀',
+      'Friend': '�',
+      'Rider': '🏍️',
+      'Pro': '⚡',
+      'Legend': '🏆',
+      'Master': '👑',
+      'Volunteer': '🤲',
+      'Leader': '💎',
+      'Mito BSK': '🔥'
     };
     return iconos[nivel] || '🌱';
   };
@@ -120,13 +128,17 @@ export default function Leaderboard() {
 
   const getNivelBadgeColor = (nivel: string) => {
     const colores = {
-      'Novato': 'bg-green-100 text-green-800 border-green-200',
-      'Bronce': 'bg-amber-100 text-amber-800 border-amber-200',
-      'Plata': 'bg-gray-100 text-gray-800 border-gray-200',
-      'Oro': 'bg-yellow-100 text-yellow-800 border-yellow-200',
-      'Avanzado': 'bg-purple-100 text-purple-800 border-purple-200',
-      'Experto': 'bg-indigo-100 text-indigo-800 border-indigo-200',
-      'Leyenda': 'bg-blue-100 text-blue-800 border-blue-200'
+      'Aspirante': 'bg-green-100 text-green-800 border-green-200',
+      'Explorador': 'bg-gray-100 text-gray-800 border-gray-200',
+      'Participante': 'bg-blue-100 text-blue-800 border-blue-200',
+      'Friend': 'bg-purple-100 text-purple-800 border-purple-200',
+      'Rider': 'bg-emerald-100 text-emerald-800 border-emerald-200',
+      'Pro': 'bg-yellow-100 text-yellow-800 border-yellow-200',
+      'Legend': 'bg-red-100 text-red-800 border-red-200',
+      'Master': 'bg-purple-100 text-purple-800 border-purple-200',
+      'Volunteer': 'bg-emerald-100 text-emerald-800 border-emerald-200',
+      'Leader': 'bg-gray-100 text-gray-800 border-gray-200',
+      'Mito BSK': 'bg-red-100 text-red-800 border-red-200'
     };
     return colores[nivel as keyof typeof colores] || 'bg-gray-100 text-gray-800 border-gray-200';
   };

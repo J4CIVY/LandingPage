@@ -15,77 +15,110 @@ import ResumenSemanal from '@/components/puntos/ResumenSemanal';
 import { useNotificaciones } from '@/hooks/useNotificacionesPuntos';
 import { Nivel } from '@/types/puntos';
 
-// Niveles del sistema para mapear string a objeto
+// Niveles del sistema actualizados para alinear con membresías
 const NIVELES: Nivel[] = [
   {
     id: 1,
-    nombre: "Novato",
+    nombre: "Aspirante",
     puntosMinimos: 0,
-    puntosMaximos: 149,
-    color: "#CD7F32",
+    puntosMaximos: 249,
+    color: "#10B981",
     icono: "🌱",
-    beneficios: ["Acceso básico", "Eventos principiantes"]
+    beneficios: ["Acceso básico", "Nuevo en la comunidad BSK"]
   },
   {
     id: 2,
-    nombre: "Bronce",
-    puntosMinimos: 150,
-    puntosMaximos: 349,
-    color: "#CD7F32",
-    icono: "🥉",
-    beneficios: ["Eventos intermedios", "Descuento 5%"]
+    nombre: "Explorador",
+    puntosMinimos: 250,
+    puntosMaximos: 499,
+    color: "#6B7280",
+    icono: "🔍",
+    beneficios: ["Comenzando a participar", "Acceso a eventos básicos"]
   },
   {
     id: 3,
-    nombre: "Plata",
-    puntosMinimos: 350,
-    puntosMaximos: 749,
-    color: "#C0C0C0",
-    icono: "🥈",
-    beneficios: ["Eventos avanzados", "Descuento 10%"]
+    nombre: "Participante",
+    puntosMinimos: 500,
+    puntosMaximos: 999,
+    color: "#3B82F6",
+    icono: "🚀",
+    beneficios: ["Participante activo", "Crear publicaciones"]
   },
   {
     id: 4,
-    nombre: "Oro",
-    puntosMinimos: 750,
+    nombre: "Friend",
+    puntosMinimos: 1000,
     puntosMaximos: 1499,
-    color: "#FFD700",
-    icono: "🥇",
-    beneficios: ["Eventos premium", "Descuento 15%"]
+    color: "#8B5CF6",
+    icono: "🤝",
+    beneficios: ["Miembro Friend BSK MT", "Eventos gratuitos limitados"]
   },
   {
     id: 5,
-    nombre: "Avanzado",
+    nombre: "Rider",
     puntosMinimos: 1500,
     puntosMaximos: 2999,
-    color: "#4B0082",
-    icono: "💎",
-    beneficios: ["Eventos VIP", "Descuento 20%"]
+    color: "#059669",
+    icono: "🏍️",
+    beneficios: ["Rider activo", "Descuentos en eventos", "Acceso a talleres"]
   },
   {
     id: 6,
-    nombre: "Experto",
+    nombre: "Pro",
     puntosMinimos: 3000,
-    puntosMaximos: 4999,
-    color: "#8A2BE2",
-    icono: "⭐",
-    beneficios: ["Acceso total", "Descuento 25%"]
+    puntosMaximos: 8999,
+    color: "#F59E0B",
+    icono: "⚡",
+    beneficios: ["Motociclista experimentado", "Equipamiento gratuito", "Eventos exclusivos"]
   },
   {
     id: 7,
-    nombre: "Leyenda",
-    puntosMinimos: 5000,
+    nombre: "Legend",
+    puntosMinimos: 9000,
+    puntosMaximos: 17999,
+    color: "#DC2626",
+    icono: "🏆",
+    beneficios: ["Leyenda de la comunidad", "Mentoría", "Eventos VIP"]
+  },
+  {
+    id: 8,
+    nombre: "Master",
+    puntosMinimos: 18000,
+    puntosMaximos: 24999,
+    color: "#7C3AED",
+    icono: "�",
+    beneficios: ["Maestro del motociclismo", "Todos los beneficios", "Acceso completo"]
+  },
+  {
+    id: 9,
+    nombre: "Volunteer",
+    puntosMinimos: 25000,
+    puntosMaximos: 39999,
+    color: "#059669",
+    icono: "🤲",
+    beneficios: ["Voluntario comprometido", "Puntos extra", "Reconocimiento especial"]
+  },
+  {
+    id: 10,
+    nombre: "Leader",
+    puntosMinimos: 40000,
+    puntosMaximos: 59999,
+    color: "#1F2937",
+    icono: "�",
+    beneficios: ["Líder de la comunidad", "Liderazgo de proyectos", "Toma de decisiones"]
+  },
+  {
+    id: 11,
+    nombre: "Mito BSK",
+    puntosMinimos: 60000,
     puntosMaximos: 999999,
-    color: "#00BFFF",
-    icono: "👑",
-    beneficios: ["Acceso exclusivo", "Descuento 30%"]
+    color: "#DC2626",
+    icono: "🔥",
+    beneficios: ["Leyenda viviente del BSK MT", "Máximo reconocimiento", "Estado élite"]
   }
 ];
 
-// Función helper para obtener objeto Nivel desde string
-const obtenerNivelPorNombre = (nombreNivel: string): Nivel => {
-  return NIVELES.find(n => n.nombre === nombreNivel) || NIVELES[0];
-};
+// Esta función ya no es necesaria - usamos datos reales de la API
 
 // Función helper para mapear recompensa real a tipo esperado
 const mapearRecompensa = (recompensaReal: RealRecompensa) => ({
@@ -274,6 +307,7 @@ export default function PuntosPage() {
   ];
 
   // Convertir datos de gamificación al formato esperado por los componentes
+  // Usar datos reales de la API en lugar de valores hardcodeados
   const usuarioCompatible = {
     id: user.id,
     nombre: `${user.firstName} ${user.lastName}`,
@@ -281,7 +315,15 @@ export default function PuntosPage() {
     avatar: `/api/placeholder/80/80`,
     puntosTotales: gamificationData.stats.totalPoints,
     puntosDisponibles: gamificationData.stats.totalPoints,
-    nivel: obtenerNivelPorNombre(gamificationData.level.current),
+    nivel: {
+      id: 1, // ID genérico, lo importante son los datos reales
+      nombre: gamificationData.level.current,
+      puntosMinimos: gamificationData.level.points,
+      puntosMaximos: gamificationData.level.nextLevelPoints,
+      color: gamificationData.level.color,
+      icono: gamificationData.level.icon,
+      beneficios: [`Nivel ${gamificationData.level.current}`] // Datos reales de la API
+    },
     ranking: gamificationData.ranking.position,
     posicionRanking: gamificationData.ranking.position,
     totalUsuarios: gamificationData.ranking.totalUsers,

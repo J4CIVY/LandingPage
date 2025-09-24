@@ -178,8 +178,8 @@ export class GamificationService {
         cambioSemanal: 0
       },
       nivel: {
-        actual: 'Novato',
-        puntosSiguienteNivel: 100,
+        actual: 'Aspirante',
+        puntosSiguienteNivel: 250,
         progreso: 0,
         experienciaTotal: 0
       },
