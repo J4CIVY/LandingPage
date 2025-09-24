@@ -87,7 +87,7 @@ export const MEMBERSHIP_RULES: MembershipRules = {
   },
   Leader: {
     // Requisitos para obtener Leader (desde Master) - Membresía de liderazgo/cargo
-    pointsRequired: 40000, // 40000 puntos totales acumulados (requisito mínimo)
+    pointsRequired: 30000, // 30000 puntos totales acumulados (requisito mínimo)
     eventsRequired: 0, // Se calcula dinámicamente (80% eventos oficiales + liderazgo demostrado)
     volunteeringRequired: 30, // Mínimo 30 participaciones en roles de alto impacto
     timeRequired: 1825, // 5 años como Master (1825 días)

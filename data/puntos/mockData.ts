@@ -41,8 +41,8 @@ export const niveles: Nivel[] = [
   {
     id: 4,
     nombre: "Friend",
-    puntosMinimos: 1000,
-    puntosMaximos: 1499,
+    puntosMinimos: 0,
+    puntosMaximos: 1000,
     color: "#8B5CF6",
     icono: "�",
     beneficios: [
@@ -53,8 +53,8 @@ export const niveles: Nivel[] = [
   {
     id: 5,
     nombre: "Rider",
-    puntosMinimos: 1500,
-    puntosMaximos: 2999,
+    puntosMinimos: 1000,
+    puntosMaximos: 1000000,
     color: "#059669",
     icono: "🏍️",
     beneficios: [
@@ -67,7 +67,7 @@ export const niveles: Nivel[] = [
     id: 6,
     nombre: "Pro",
     puntosMinimos: 3000,
-    puntosMaximos: 8999,
+    puntosMaximos: 1000000,
     color: "#F59E0B",
     icono: "⚡",
     beneficios: [
@@ -80,7 +80,7 @@ export const niveles: Nivel[] = [
     id: 7,
     nombre: "Legend",
     puntosMinimos: 9000,
-    puntosMaximos: 17999,
+    puntosMaximos: 1000000,
     color: "#DC2626",
     icono: "🏆",
     beneficios: [
@@ -93,7 +93,7 @@ export const niveles: Nivel[] = [
     id: 8,
     nombre: "Master",
     puntosMinimos: 18000,
-    puntosMaximos: 24999,
+    puntosMaximos: 1000000,
     color: "#7C3AED",
     icono: "👑",
     beneficios: [
@@ -105,8 +105,8 @@ export const niveles: Nivel[] = [
   {
     id: 9,
     nombre: "Volunteer",
-    puntosMinimos: 25000,
-    puntosMaximos: 39999,
+    puntosMinimos: 0,
+    puntosMaximos: 1000000,
     color: "#059669",
     icono: "🤲",
     beneficios: [
@@ -118,8 +118,8 @@ export const niveles: Nivel[] = [
   {
     id: 10,
     nombre: "Leader",
-    puntosMinimos: 40000,
-    puntosMaximos: 59999,
+    puntosMinimos: 30000,
+    puntosMaximos: 1000000,
     color: "#1F2937",
     icono: "💎",
     beneficios: [
@@ -131,12 +131,12 @@ export const niveles: Nivel[] = [
   {
     id: 11,
     nombre: "Mito BSK",
-    puntosMinimos: 60000,
-    puntosMaximos: 9999999,
+    puntosMinimos: 90000,
+    puntosMaximos: 1000000,
     color: "#DC2626",
     icono: "🔥",
     beneficios: [
-      "Leyenda viviente del BSK MT",
+      "Leyenda viviente de BSK MT",
       "Máximo reconocimiento",
       "Estado élite"
     ]
