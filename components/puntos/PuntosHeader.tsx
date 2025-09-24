@@ -1,6 +1,7 @@
 'use client';
 
 import { Usuario } from '@/types/puntos';
+import { FaMotorcycle, FaUser, FaRegHandPeace } from 'react-icons/fa';
 
 interface PuntosHeaderProps {
   usuario: Usuario;
@@ -11,8 +12,9 @@ export default function PuntosHeader({ usuario }: PuntosHeaderProps) {
     <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-6 text-white shadow-lg">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold mb-2">
-            Hola, {usuario.nombre}! 👋
+          <h2 className="text-2xl font-bold mb-2 flex items-center gap-2">
+            Hola, {usuario.nombre}!
+            <FaRegHandPeace className="inline text-yellow-200" />
           </h2>
           <p className="text-blue-100 mb-4">
             Bienvenido a tu panel de puntos BSK MT
@@ -21,7 +23,7 @@ export default function PuntosHeader({ usuario }: PuntosHeaderProps) {
           {/* Puntos actuales */}
           <div className="flex items-center gap-3">
             <div className="bg-white/20 rounded-full p-3">
-              <span className="text-2xl">🏍️</span>
+              <FaMotorcycle className="text-2xl text-white" />
             </div>
             <div>
               <p className="text-blue-100 text-sm">Puntos totales</p>
@@ -42,7 +44,7 @@ export default function PuntosHeader({ usuario }: PuntosHeaderProps) {
                 className="w-12 h-12 rounded-full object-cover"
               />
             ) : (
-              <span className="text-2xl">👤</span>
+              <FaUser className="text-2xl text-white" />
             )}
           </div>
           <div 

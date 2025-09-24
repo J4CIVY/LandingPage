@@ -1,6 +1,7 @@
 'use client';
 
 import { Usuario } from '@/types/puntos';
+import { FaCrown, FaStar } from 'react-icons/fa';
 
 interface ProgresoNivelProps {
   usuario: Usuario;
@@ -88,7 +89,7 @@ export default function ProgresoNivel({ usuario }: ProgresoNivelProps) {
       ) : (
         /* Nivel máximo alcanzado */
         <div className="text-center py-8">
-          <div className="text-6xl mb-4">👑</div>
+          <FaCrown className="text-6xl mb-4 text-yellow-500 mx-auto" />
           <h4 className="text-xl font-bold text-gray-800 mb-2">
             ¡Felicitaciones!
           </h4>
@@ -98,7 +99,6 @@ export default function ProgresoNivel({ usuario }: ProgresoNivelProps) {
           <p className="text-2xl font-bold text-yellow-600">
             {usuario.puntosTotales.toLocaleString()} puntos
           </p>
-          
           {/* Beneficios del nivel actual */}
           <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-lg p-4 mt-4">
             <h5 className="font-semibold text-gray-800 mb-2">
@@ -107,7 +107,7 @@ export default function ProgresoNivel({ usuario }: ProgresoNivelProps) {
             <ul className="space-y-1">
               {usuario.nivel.beneficios.map((beneficio: string, index: number) => (
                 <li key={index} className="flex items-center justify-center gap-2 text-sm text-gray-700">
-                  <span className="text-yellow-500">⭐</span>
+                  <FaStar className="text-yellow-500" />
                   {beneficio}
                 </li>
               ))}

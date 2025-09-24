@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { FaBoxOpen, FaWrench, FaMagic, FaMoneyBillWave, FaMotorcycle } from 'react-icons/fa';
 import { Recompensa, Usuario } from '@/types/puntos';
 import RecompensaModal from './RecompensaModal';
 
@@ -36,10 +37,10 @@ export default function RecompensaCard({ recompensa, usuario, onCanje }: Recompe
 
   const getIconoCategoria = (categoria: Recompensa['categoria']) => {
     const iconos = {
-      Producto: '📦',
-      Servicio: '🔧',
-      Experiencia: '✨',
-      Descuento: '💰'
+      Producto: <FaBoxOpen className="inline text-blue-800" />,
+      Servicio: <FaWrench className="inline text-green-800" />,
+      Experiencia: <FaMagic className="inline text-purple-800" />,
+      Descuento: <FaMoneyBillWave className="inline text-yellow-800" />
     };
     return iconos[categoria];
   };
@@ -107,8 +108,8 @@ export default function RecompensaCard({ recompensa, usuario, onCanje }: Recompe
           <div className="space-y-2 mb-4">
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-500">Costo:</span>
-              <span className="text-lg font-bold text-blue-600">
-                🏍️ {recompensa.costoPuntos.toLocaleString()}
+              <span className="text-lg font-bold text-blue-600 flex items-center gap-1">
+                <FaMotorcycle className="inline text-blue-600" /> {recompensa.costoPuntos.toLocaleString()}
               </span>
             </div>
             

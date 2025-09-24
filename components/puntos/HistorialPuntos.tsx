@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { FaMotorcycle, FaUsers, FaGift, FaComments, FaStar, FaChartBar } from 'react-icons/fa';
 import { PuntosActividad, FiltroHistorial } from '@/types/puntos';
 
 interface HistorialPuntosProps {
@@ -147,11 +148,11 @@ export default function HistorialPuntos({ usuarioId }: HistorialPuntosProps) {
 
   const getIconoActividad = (tipo: PuntosActividad['tipo']) => {
     const iconos = {
-      Evento: '🏍️',
-      Membresía: '👥',
-      Beneficio: '🎁',
-      Comunidad: '💬',
-      Otro: '⭐'
+      Evento: <FaMotorcycle className="text-blue-600" />,
+      Membresía: <FaUsers className="text-purple-600" />,
+      Beneficio: <FaGift className="text-green-600" />,
+      Comunidad: <FaComments className="text-emerald-600" />,
+      Otro: <FaStar className="text-yellow-500" />
     };
     return iconos[tipo];
   };
@@ -294,7 +295,7 @@ export default function HistorialPuntos({ usuarioId }: HistorialPuntosProps) {
           </>
         ) : (
           <div className="text-center py-12">
-            <div className="text-6xl mb-4">📊</div>
+            <FaChartBar className="text-6xl mb-4 text-blue-400 mx-auto" />
             <h4 className="text-lg font-semibold text-gray-600 mb-2">
               No se encontraron actividades
             </h4>
