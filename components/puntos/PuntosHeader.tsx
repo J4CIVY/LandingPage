@@ -1,7 +1,8 @@
 'use client';
 
 import { Usuario } from '@/types/puntos';
-import { FaMotorcycle, FaUser, FaRegHandPeace } from 'react-icons/fa';
+import { FaMotorcycle, FaUser } from 'react-icons/fa';
+import { PiHandWavingLight } from "react-icons/pi";
 
 interface PuntosHeaderProps {
   usuario: Usuario;
@@ -14,7 +15,7 @@ export default function PuntosHeader({ usuario }: PuntosHeaderProps) {
         <div>
           <h2 className="text-2xl font-bold mb-2 flex items-center gap-2">
             Hola, {usuario.nombre}!
-            <FaRegHandPeace className="inline text-yellow-200" />
+            <PiHandWavingLight className="inline text-yellow-200" />
           </h2>
           <p className="text-blue-100 mb-4">
             Bienvenido a tu panel de puntos BSK MT
