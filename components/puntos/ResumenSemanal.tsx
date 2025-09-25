@@ -1,6 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { 
+  FaChartLine, 
+  FaFire, 
+  FaThumbsUp, 
+  FaDumbbell 
+} from 'react-icons/fa';
 
 interface ActividadSemanal {
   dia: string;
@@ -49,7 +55,10 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
   if (loading) {
     return (
       <div className="bg-white rounded-xl shadow-lg p-6">
-        <h3 className="text-lg font-bold text-gray-800 mb-4">📈 Actividad Semanal</h3>
+        <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <FaChartLine className="text-blue-500" />
+          Actividad Semanal
+        </h3>
         <div className="animate-pulse">
           <div className="flex justify-between items-end h-32 gap-2">
             {[1, 2, 3, 4, 5, 6, 7].map(i => (
@@ -63,8 +72,9 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
 
   return (
     <div className="bg-white rounded-xl shadow-lg p-6">
-      <h3 className="text-lg font-bold text-gray-800 mb-4">
-        📈 Actividad de esta Semana
+      <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+        <FaChartLine className="text-blue-500" />
+        Actividad de esta Semana
       </h3>
 
       {/* Resumen */}
@@ -154,12 +164,12 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
       {/* Motivación */}
       {totalPuntosSemana > 0 && (
         <div className="mt-4 p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border border-green-200">
-          <p className="text-sm text-green-800 text-center">
+          <p className="text-sm text-green-800 text-center flex items-center justify-center gap-2">
             {totalPuntosSemana >= 100 
-              ? '🔥 ¡Semana increíble! Sigues en racha'
+              ? <><FaFire className="text-orange-500" /> ¡Semana increíble! Sigues en racha</>
               : totalPuntosSemana >= 50
-              ? '👍 ¡Buen trabajo esta semana!'
-              : '💪 ¡Vamos por más puntos!'
+              ? <><FaThumbsUp className="text-green-600" /> ¡Buen trabajo esta semana!</>
+              : <><FaDumbbell className="text-blue-600" /> ¡Vamos por más puntos!</>
             }
           </p>
         </div>

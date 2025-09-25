@@ -2,6 +2,16 @@
 
 import { useState } from 'react';
 import { Recompensa, Usuario } from '@/types/puntos';
+import { 
+  FaBoxOpen, 
+  FaWrench, 
+  FaMagic, 
+  FaMoneyBillWave, 
+  FaMotorcycle,
+  FaGift,
+  FaExclamationTriangle,
+  FaInfoCircle
+} from 'react-icons/fa';
 // Ya no usamos mock data - el canje se maneja por props
 
 interface RecompensaModalProps {
@@ -51,10 +61,10 @@ export default function RecompensaModal({
 
   const getIconoCategoria = (categoria: Recompensa['categoria']) => {
     const iconos = {
-      Producto: '📦',
-      Servicio: '🔧',
-      Experiencia: '✨',
-      Descuento: '💰'
+      Producto: <FaBoxOpen className="inline text-blue-800" />,
+      Servicio: <FaWrench className="inline text-green-800" />,
+      Experiencia: <FaMagic className="inline text-purple-800" />,
+      Descuento: <FaMoneyBillWave className="inline text-yellow-800" />
     };
     return iconos[categoria];
   };
@@ -73,7 +83,7 @@ export default function RecompensaModal({
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
         <div className="bg-white rounded-2xl max-w-md w-full p-8 text-center">
-          <div className="text-6xl mb-4">🎉</div>
+          <FaGift className="text-6xl mb-4 text-green-500 mx-auto" />
           <h3 className="text-2xl font-bold text-green-600 mb-2">
             ¡Canje exitoso!
           </h3>
@@ -141,27 +151,30 @@ export default function RecompensaModal({
               <div className="bg-gray-50 rounded-lg p-4 space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600">Costo:</span>
-                  <span className="text-xl font-bold text-blue-600">
-                    🏍️ {recompensa.costoPuntos.toLocaleString()}
+                  <span className="text-xl font-bold text-blue-600 flex items-center gap-1">
+                    <FaMotorcycle />
+                    {recompensa.costoPuntos.toLocaleString()}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600">Tus puntos:</span>
-                  <span className={`font-bold ${
+                  <span className={`font-bold flex items-center gap-1 ${
                     usuario.puntosTotales >= recompensa.costoPuntos 
                       ? 'text-green-600' 
                       : 'text-red-600'
                   }`}>
-                    🏍️ {usuario.puntosTotales.toLocaleString()}
+                    <FaMotorcycle />
+                    {usuario.puntosTotales.toLocaleString()}
                   </span>
                 </div>
 
                 {usuario.puntosTotales >= recompensa.costoPuntos && (
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Puntos restantes:</span>
-                    <span className="font-bold text-gray-800">
-                      🏍️ {(usuario.puntosTotales - recompensa.costoPuntos).toLocaleString()}
+                    <span className="font-bold text-gray-800 flex items-center gap-1">
+                      <FaMotorcycle />
+                      {(usuario.puntosTotales - recompensa.costoPuntos).toLocaleString()}
                     </span>
                   </div>
                 )}
@@ -197,7 +210,7 @@ export default function RecompensaModal({
           {!puedeCanjar() && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
               <div className="flex items-center gap-2">
-                <span className="text-red-500">⚠️</span>
+                <FaExclamationTriangle className="text-red-500" />
                 <span className="font-medium text-red-800">No puedes canjear esta recompensa</span>
               </div>
               <ul className="mt-2 text-sm text-red-700 space-y-1">
@@ -219,7 +232,10 @@ export default function RecompensaModal({
 
           {/* Información adicional */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-            <h5 className="font-medium text-blue-800 mb-2">ℹ️ Información importante:</h5>
+            <h5 className="font-medium text-blue-800 mb-2 flex items-center gap-2">
+              <FaInfoCircle />
+              Información importante:
+            </h5>
             <ul className="text-sm text-blue-700 space-y-1">
               <li>• Una vez canjeada, la recompensa no puede ser reembolsada</li>
               <li>• Recibirás instrucciones por correo electrónico</li>

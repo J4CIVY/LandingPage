@@ -1,6 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { 
+  FaMedal, 
+  FaTimes, 
+  FaCheckCircle, 
+  FaBullseye,
+  FaExclamationCircle
+} from 'react-icons/fa';
 
 interface Logro {
   id: string;
@@ -101,7 +108,10 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
   if (loading) {
     return (
       <div className="bg-white rounded-xl shadow-lg p-6">
-        <h3 className="text-lg font-bold text-gray-800 mb-4">🏅 Logros</h3>
+        <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <FaMedal className="text-yellow-500" />
+          Logros
+        </h3>
         <div className="animate-pulse space-y-4">
           {[1, 2, 3].map(i => (
             <div key={i} className="flex items-center gap-4">
@@ -120,9 +130,12 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
   if (error) {
     return (
       <div className="bg-white rounded-xl shadow-lg p-6">
-        <h3 className="text-lg font-bold text-gray-800 mb-4">�� Logros</h3>
+        <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <FaMedal className="text-yellow-500" />
+          Logros
+        </h3>
         <div className="text-center py-8">
-          <div className="text-4xl mb-2">❌</div>
+          <FaTimes className="text-4xl mb-2 text-red-500 mx-auto" />
           <p className="text-red-500 mb-2">Error cargando logros</p>
           <p className="text-sm text-gray-500">{error}</p>
           <button 
@@ -139,8 +152,9 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
   return (
     <div className="bg-white rounded-xl shadow-lg p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-bold text-gray-800">
-          🏅 Logros ({logrosDesbloqueados}/{totalLogros})
+        <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2">
+          <FaMedal className="text-yellow-500" />
+          Logros ({logrosDesbloqueados}/{totalLogros})
         </h3>
         
         {/* Filtros */}
@@ -221,8 +235,9 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
 
                 {/* Fecha de desbloqueo */}
                 {logro.desbloqueado && logro.fechaDesbloqueo && (
-                  <p className="text-xs text-green-600 mt-1">
-                    ✅ Desbloqueado el {new Date(logro.fechaDesbloqueo).toLocaleDateString('es-ES')}
+                  <p className="text-xs text-green-600 mt-1 flex items-center gap-1">
+                    <FaCheckCircle />
+                    Desbloqueado el {new Date(logro.fechaDesbloqueo).toLocaleDateString('es-ES')}
                   </p>
                 )}
 
@@ -251,7 +266,7 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
 
       {logrosFiltrados.length === 0 && (
         <div className="text-center py-8">
-          <div className="text-4xl mb-2">🎯</div>
+          <FaBullseye className="text-4xl mb-2 text-blue-400 mx-auto" />
           <p className="text-gray-500">
             {logros.length === 0 ? 'No hay logros disponibles' : 'No hay logros en esta categoría'}
           </p>

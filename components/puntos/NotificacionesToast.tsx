@@ -2,6 +2,12 @@
 
 import { useEffect } from 'react';
 import { Notificacion } from '@/types/puntos';
+import { 
+  FaCheckCircle, 
+  FaTimesCircle, 
+  FaExclamationTriangle, 
+  FaInfoCircle 
+} from 'react-icons/fa';
 
 interface NotificacionesToastProps {
   notificaciones: Notificacion[];
@@ -11,10 +17,10 @@ interface NotificacionesToastProps {
 export default function NotificacionesToast({ notificaciones, onEliminar }: NotificacionesToastProps) {
   const getIcono = (tipo: Notificacion['tipo']) => {
     const iconos = {
-      success: '✅',
-      error: '❌',
-      warning: '⚠️',
-      info: 'ℹ️'
+      success: <FaCheckCircle className="text-green-600" />,
+      error: <FaTimesCircle className="text-red-600" />,
+      warning: <FaExclamationTriangle className="text-yellow-600" />,
+      info: <FaInfoCircle className="text-blue-600" />
     };
     return iconos[tipo];
   };
@@ -42,7 +48,7 @@ export default function NotificacionesToast({ notificaciones, onEliminar }: Noti
         >
           <div className="flex items-start justify-between">
             <div className="flex items-start gap-3">
-              <span className="text-lg">{getIcono(notificacion.tipo)}</span>
+              <div className="text-lg">{getIcono(notificacion.tipo)}</div>
               <div className="flex-1">
                 <h4 className="font-medium text-sm">
                   {notificacion.titulo}

@@ -2,6 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import { EstadisticasAdmin, Recompensa, Usuario } from '@/types/puntos';
+import { 
+  FaCog, 
+  FaChartBar, 
+  FaGift, 
+  FaStar, 
+  FaMotorcycle,
+  FaTrophy,
+  FaMedal
+} from 'react-icons/fa';
 // Panel administrativo - usar APIs reales en lugar de mocks
 
 export default function AdminPanel() {
@@ -117,9 +126,9 @@ export default function AdminPanel() {
   };
 
   const tabs = [
-    { id: 'estadisticas', label: 'Estadísticas', icon: '📊' },
-    { id: 'recompensas', label: 'Recompensas', icon: '🎁' },
-    { id: 'puntos', label: 'Asignar Puntos', icon: '⭐' }
+    { id: 'estadisticas', label: 'Estadísticas', icon: <FaChartBar className="text-blue-500" /> },
+    { id: 'recompensas', label: 'Recompensas', icon: <FaGift className="text-pink-500" /> },
+    { id: 'puntos', label: 'Asignar Puntos', icon: <FaStar className="text-yellow-500" /> }
   ];
 
   if (loading) {

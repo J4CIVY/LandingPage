@@ -1,6 +1,23 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { 
+  FaChartLine, 
+  FaSync, 
+  FaBullseye, 
+  FaCalendarAlt, 
+  FaFire, 
+  FaGift, 
+  FaTrophy, 
+  FaArrowUp, 
+  FaArrowDown, 
+  FaArrowRight,
+  FaCircle,
+  FaExclamationTriangle,
+  FaDumbbell,
+  FaRocket,
+  FaStar
+} from 'react-icons/fa';
 
 interface EstadisticasRapidas {
   puntosHoy: number;
@@ -99,7 +116,10 @@ export default function EstadisticasRapidas({ usuarioId, puntosActuales = 0 }: E
   if (loading) {
     return (
       <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">
-        <h3 className="text-lg font-bold text-gray-800 dark:text-slate-100 mb-4">📈 Estadísticas Rápidas</h3>
+        <h3 className="text-lg font-bold text-gray-800 dark:text-slate-100 mb-4 flex items-center gap-2">
+          <FaChartLine className="text-blue-500" />
+          Estadísticas Rápidas
+        </h3>
         <div className="space-y-4">
           {[1, 2, 3, 4].map((i) => (
             <div key={i} className="animate-pulse">
@@ -115,9 +135,9 @@ export default function EstadisticasRapidas({ usuarioId, puntosActuales = 0 }: E
   if (!estadisticas) return null;
 
   const getRankingIcon = (cambio: number) => {
-    if (cambio > 0) return '📈';
-    if (cambio < 0) return '📉';
-    return '➡️';
+    if (cambio > 0) return <FaArrowUp className="inline" />;
+    if (cambio < 0) return <FaArrowDown className="inline" />;
+    return <FaArrowRight className="inline" />;
   };
 
   const getRankingColor = (cambio: number) => {
@@ -128,11 +148,11 @@ export default function EstadisticasRapidas({ usuarioId, puntosActuales = 0 }: E
 
   const getMotivationalMessage = () => {
     const messages = [
-      '💪 ¡Sigue así! Estás en una buena racha',
-      '🚀 ¡Vas por buen camino! Sigue participando',
-      '⭐ ¡Excelente progreso! Mantén el ritmo',
-      '🏆 ¡Tu esfuerzo está dando frutos!',
-      '🔥 ¡Imparable! Sigue acumulando puntos'
+      { icon: <FaDumbbell className="inline mr-2" />, text: '¡Sigue así! Estás en una buena racha' },
+      { icon: <FaRocket className="inline mr-2" />, text: '¡Vas por buen camino! Sigue participando' },
+      { icon: <FaStar className="inline mr-2" />, text: '¡Excelente progreso! Mantén el ritmo' },
+      { icon: <FaTrophy className="inline mr-2" />, text: '¡Tu esfuerzo está dando frutos!' },
+      { icon: <FaFire className="inline mr-2" />, text: '¡Imparable! Sigue acumulando puntos' }
     ];
     
     return messages[Math.floor(Math.random() * messages.length)];
@@ -141,16 +161,18 @@ export default function EstadisticasRapidas({ usuarioId, puntosActuales = 0 }: E
   return (
     <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-bold text-gray-800 dark:text-slate-100">
-          📈 Estadísticas Rápidas
+        <h3 className="text-lg font-bold text-gray-800 dark:text-slate-100 flex items-center gap-2">
+          <FaChartLine className="text-blue-500" />
+          Estadísticas Rápidas
         </h3>
         {error && (
           <button 
             onClick={cargarEstadisticas}
-            className="text-xs text-blue-600 dark:text-blue-400 hover:underline"
+            className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
             title="Actualizar datos"
           >
-            🔄 Actualizar
+            <FaSync className="inline" />
+            Actualizar
           </button>
         )}
       </div>
@@ -164,7 +186,7 @@ export default function EstadisticasRapidas({ usuarioId, puntosActuales = 0 }: E
               +{estadisticas.puntosHoy}
             </p>
           </div>
-          <div className="text-2xl">🎯</div>
+          <FaBullseye className="text-2xl text-blue-500" />
         </div>
 
         {/* Puntos del mes */}
@@ -175,7 +197,7 @@ export default function EstadisticasRapidas({ usuarioId, puntosActuales = 0 }: E
               +{estadisticas.puntosEsteMes}
             </p>
           </div>
-          <div className="text-2xl">📅</div>
+          <FaCalendarAlt className="text-2xl text-green-500" />
         </div>
 
         {/* Racha actual */}
@@ -191,7 +213,7 @@ export default function EstadisticasRapidas({ usuarioId, puntosActuales = 0 }: E
               </p>
             )}
           </div>
-          <div className="text-2xl">🔥</div>
+          <FaFire className="text-2xl text-orange-500" />
         </div>
 
         {/* Próxima recompensa */}
@@ -212,7 +234,7 @@ export default function EstadisticasRapidas({ usuarioId, puntosActuales = 0 }: E
                 </p>
               )}
             </div>
-            <div className="text-2xl">🎁</div>
+            <FaGift className="text-2xl text-purple-500" />
           </div>
         )}
 
@@ -234,22 +256,31 @@ export default function EstadisticasRapidas({ usuarioId, puntosActuales = 0 }: E
               )}
             </div>
           </div>
-          <div className="text-2xl">🏆</div>
+          <FaTrophy className="text-2xl text-yellow-500" />
         </div>
       </div>
 
       {/* Motivación */}
       <div className="mt-4 p-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg text-white text-center">
-        <p className="text-sm font-medium">
-          {getMotivationalMessage()}
+        <p className="text-sm font-medium flex items-center justify-center">
+          {(() => {
+            const message = getMotivationalMessage();
+            return (
+              <>
+                {message.icon}
+                {message.text}
+              </>
+            );
+          })()}
         </p>
       </div>
 
       {/* Indicador de datos en vivo */}
       {!error && (
         <div className="mt-2 text-center">
-          <p className="text-xs text-gray-500 dark:text-gray-400">
-            🟢 Datos actualizados en tiempo real
+          <p className="text-xs text-gray-500 dark:text-gray-400 flex items-center justify-center gap-1">
+            <FaCircle className="text-green-500 text-xs" />
+            Datos actualizados en tiempo real
           </p>
         </div>
       )}
@@ -257,8 +288,9 @@ export default function EstadisticasRapidas({ usuarioId, puntosActuales = 0 }: E
       {/* Indicador de error */}
       {error && (
         <div className="mt-2 text-center">
-          <p className="text-xs text-amber-600 dark:text-amber-400">
-            ⚠️ Mostrando datos básicos - {error}
+          <p className="text-xs text-amber-600 dark:text-amber-400 flex items-center justify-center gap-1">
+            <FaExclamationTriangle />
+            Mostrando datos básicos - {error}
           </p>
         </div>
       )}
