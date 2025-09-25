@@ -400,8 +400,8 @@ export default function PuntosPage() {
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">
-            🏍️ Puntos y Recompensas
+          <h1 className="text-4xl font-bold text-gray-800 mb-2 flex items-center justify-center gap-3">
+            <FaMotorcycle className="text-blue-600" /> Puntos y Recompensas
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Acumula puntos con tus actividades y canjéalos por recompensas exclusivas del BSK Motorcycle Team
@@ -470,7 +470,9 @@ export default function PuntosPage() {
                 </div>
                 {recompensas.length === 0 && (
                   <div className="text-center py-12">
-                    <div className="text-6xl mb-4">🎁</div>
+                    <div className="text-6xl mb-4">
+                      <FaGift className="mx-auto text-pink-500" />
+                    </div>
                     <h3 className="text-xl font-semibold text-gray-600 mb-2">
                       No hay recompensas disponibles
                     </h3>
