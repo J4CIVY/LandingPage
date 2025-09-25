@@ -142,8 +142,8 @@ export default function AdminPanel() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-xl font-bold text-gray-800">
-          ⚙️ Panel de Administración
+        <h3 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+          <FaCog className="text-blue-600" /> Panel de Administración
         </h3>
         <div className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm font-medium">
           Solo administradores
@@ -175,8 +175,8 @@ export default function AdminPanel() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
               <h4 className="text-blue-800 font-medium mb-2">Puntos Generados (Mes)</h4>
-              <p className="text-2xl font-bold text-blue-600">
-                🏍️ {estadisticas.puntosGeneradosMes.toLocaleString()}
+              <p className="text-2xl font-bold text-blue-600 flex items-center gap-2">
+                <FaMotorcycle /> {estadisticas.puntosGeneradosMes.toLocaleString()}
               </p>
             </div>
             
@@ -189,8 +189,8 @@ export default function AdminPanel() {
             
             <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
               <h4 className="text-purple-800 font-medium mb-2">Puntos en Circulación</h4>
-              <p className="text-2xl font-bold text-purple-600">
-                🏍️ {estadisticas.totalPuntosCirculacion.toLocaleString()}
+              <p className="text-2xl font-bold text-purple-600 flex items-center gap-2">
+                <FaMotorcycle /> {estadisticas.totalPuntosCirculacion.toLocaleString()}
               </p>
             </div>
             
@@ -212,7 +212,10 @@ export default function AdminPanel() {
                 <div key={item.recompensa.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                   <div className="flex items-center gap-3">
                     <span className="text-2xl">
-                      {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `#${index + 1}`}
+                      {index === 0 ? <FaTrophy className="text-yellow-500" /> : 
+                       index === 1 ? <FaMedal className="text-gray-400" /> : 
+                       index === 2 ? <FaMedal className="text-orange-600" /> : 
+                       `#${index + 1}`}
                     </span>
                     <div>
                       <p className="font-medium">{item.recompensa.nombre}</p>
@@ -246,8 +249,8 @@ export default function AdminPanel() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-bold text-gray-800">
-                      🏍️ {usuario.puntosTotales.toLocaleString()}
+                    <p className="font-bold text-gray-800 flex items-center gap-2">
+                      <FaMotorcycle className="text-blue-600" /> {usuario.puntosTotales.toLocaleString()}
                     </p>
                   </div>
                 </div>
