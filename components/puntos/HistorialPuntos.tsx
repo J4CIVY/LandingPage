@@ -170,9 +170,9 @@ export default function HistorialPuntos({ usuarioId }: HistorialPuntosProps) {
   }
 
   return (
-    <div>
+  <div>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
-        <h3 className="text-xl font-bold text-gray-800 mb-4 sm:mb-0">
+        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-0">
           Historial de Puntos
         </h3>
         
@@ -232,11 +232,11 @@ export default function HistorialPuntos({ usuarioId }: HistorialPuntosProps) {
       </div>
 
       {/* Tabla de historial */}
-      <div className="bg-white rounded-lg border overflow-hidden">
+  <div className="bg-white dark:bg-slate-900 rounded-lg border dark:border-slate-800 overflow-hidden">
         {historialFiltrado.length > 0 ? (
           <>
             {/* Header para desktop */}
-            <div className="hidden md:grid md:grid-cols-5 bg-gray-50 px-6 py-3 text-sm font-medium text-gray-700">
+            <div className="hidden md:grid md:grid-cols-5 bg-gray-50 dark:bg-slate-800 px-6 py-3 text-sm font-medium text-gray-700 dark:text-gray-200">
               <div>Fecha</div>
               <div>Actividad</div>
               <div>Descripción</div>
@@ -245,13 +245,13 @@ export default function HistorialPuntos({ usuarioId }: HistorialPuntosProps) {
             </div>
 
             {/* Filas */}
-            <div className="divide-y divide-gray-200">
+            <div className="divide-y divide-gray-200 dark:divide-slate-800">
               {historialFiltrado.map((item) => (
-                <div key={item.id} className="md:grid md:grid-cols-5 md:items-center px-6 py-4 hover:bg-gray-50 transition-colors">
+                <div key={item.id} className="md:grid md:grid-cols-5 md:items-center px-6 py-4 hover:bg-gray-50 dark:hover:bg-slate-800">
                   {/* Versión móvil */}
                   <div className="md:hidden space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-500">
+                      <span className="text-sm text-gray-500 dark:text-gray-400">
                         {new Date(item.fecha).toLocaleDateString('es-ES')}
                       </span>
                       <span className={`text-lg font-bold ${getColorActividad(item.puntos)}`}>
@@ -260,16 +260,16 @@ export default function HistorialPuntos({ usuarioId }: HistorialPuntosProps) {
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-lg">{getIconoActividad(item.tipo)}</span>
-                      <span className="font-medium">{item.tipo}</span>
+                      <span className="font-medium dark:text-gray-200">{item.tipo}</span>
                     </div>
-                    <p className="text-sm text-gray-600">{item.descripcion}</p>
-                    <div className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-600 dark:text-gray-300">{item.descripcion}</p>
+                    <div className="text-sm text-gray-500 dark:text-gray-400">
                       Saldo: {item.saldo.toLocaleString()} puntos
                     </div>
                   </div>
 
                   {/* Versión desktop */}
-                  <div className="hidden md:block text-sm text-gray-600">
+                  <div className="hidden md:block text-sm text-gray-600 dark:text-gray-300">
                     {new Date(item.fecha).toLocaleDateString('es-ES')}
                   </div>
 
@@ -278,7 +278,7 @@ export default function HistorialPuntos({ usuarioId }: HistorialPuntosProps) {
                     <span className="text-sm font-medium">{item.tipo}</span>
                   </div>
 
-                  <div className="hidden md:block text-sm text-gray-600">
+                  <div className="hidden md:block text-sm text-gray-600 dark:text-gray-300">
                     {item.descripcion}
                   </div>
 
@@ -286,7 +286,7 @@ export default function HistorialPuntos({ usuarioId }: HistorialPuntosProps) {
                     {item.puntos > 0 ? '+' : ''}{item.puntos}
                   </div>
 
-                  <div className="hidden md:block text-center text-sm text-gray-600">
+                  <div className="hidden md:block text-center text-sm text-gray-600 dark:text-gray-300">
                     {item.saldo.toLocaleString()}
                   </div>
                 </div>
@@ -295,11 +295,11 @@ export default function HistorialPuntos({ usuarioId }: HistorialPuntosProps) {
           </>
         ) : (
           <div className="text-center py-12">
-            <FaChartBar className="text-6xl mb-4 text-blue-400 mx-auto" />
-            <h4 className="text-lg font-semibold text-gray-600 mb-2">
+            <FaChartBar className="text-6xl mb-4 text-blue-400 dark:text-blue-600 mx-auto" />
+            <h4 className="text-lg font-semibold text-gray-600 dark:text-gray-300 mb-2">
               No se encontraron actividades
             </h4>
-            <p className="text-gray-500">
+            <p className="text-gray-500 dark:text-gray-400">
               {Object.keys(filtros).length > 0 
                 ? 'Intenta ajustar los filtros para ver más resultados'
                 : 'Aún no tienes actividades registradas'
@@ -312,31 +312,31 @@ export default function HistorialPuntos({ usuarioId }: HistorialPuntosProps) {
       {/* Resumen */}
       {historialFiltrado.length > 0 && (
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-            <p className="text-2xl font-bold text-green-600">
+          <div className="bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 rounded-lg p-4 text-center">
+            <p className="text-2xl font-bold text-green-600 dark:text-green-400">
               +{historialFiltrado
                 .filter(item => item.puntos > 0)
                 .reduce((sum, item) => sum + item.puntos, 0)
                 .toLocaleString()}
             </p>
-            <p className="text-sm text-green-700">Puntos ganados</p>
+            <p className="text-sm text-green-700 dark:text-green-300">Puntos ganados</p>
           </div>
 
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
-            <p className="text-2xl font-bold text-red-600">
+          <div className="bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-lg p-4 text-center">
+            <p className="text-2xl font-bold text-red-600 dark:text-red-400">
               {historialFiltrado
                 .filter(item => item.puntos < 0)
                 .reduce((sum, item) => sum + item.puntos, 0)
                 .toLocaleString()}
             </p>
-            <p className="text-sm text-red-700">Puntos gastados</p>
+            <p className="text-sm text-red-700 dark:text-red-300">Puntos gastados</p>
           </div>
 
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
-            <p className="text-2xl font-bold text-blue-600">
+          <div className="bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg p-4 text-center">
+            <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
               {historialFiltrado.length}
             </p>
-            <p className="text-sm text-blue-700">Total actividades</p>
+            <p className="text-sm text-blue-700 dark:text-blue-300">Total actividades</p>
           </div>
         </div>
       )}

@@ -54,7 +54,7 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-xl shadow-lg p-6">
+  <div className="bg-white dark:bg-slate-900 rounded-xl shadow-lg p-6">
         <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
           <FaChartLine className="text-blue-500" />
           Actividad Semanal
@@ -71,21 +71,21 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6">
-      <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-        <FaChartLine className="text-blue-500" />
+  <div className="bg-white dark:bg-slate-900 rounded-xl shadow-lg p-6">
+      <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
+        <FaChartLine className="text-blue-500 dark:text-blue-400" />
         Actividad de esta Semana
       </h3>
 
       {/* Resumen */}
       <div className="grid grid-cols-2 gap-4 mb-6">
-        <div className="text-center p-3 bg-blue-50 rounded-lg">
-          <p className="text-2xl font-bold text-blue-600">{totalPuntosSemana}</p>
-          <p className="text-sm text-blue-700">Puntos ganados</p>
+        <div className="text-center p-3 bg-blue-50 dark:bg-blue-950 rounded-lg">
+          <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">{totalPuntosSemana}</p>
+          <p className="text-sm text-blue-700 dark:text-blue-300">Puntos ganados</p>
         </div>
-        <div className="text-center p-3 bg-green-50 rounded-lg">
-          <p className="text-2xl font-bold text-green-600">{totalActividadesSemana}</p>
-          <p className="text-sm text-green-700">Actividades</p>
+        <div className="text-center p-3 bg-green-50 dark:bg-green-950 rounded-lg">
+          <p className="text-2xl font-bold text-green-600 dark:text-green-400">{totalActividadesSemana}</p>
+          <p className="text-sm text-green-700 dark:text-green-300">Actividades</p>
         </div>
       </div>
 
@@ -101,10 +101,10 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
                 {/* Barra */}
                 <div className="relative w-full flex flex-col justify-end" style={{ height: '120px' }}>
                   <div
-                    className={`w-full rounded-t transition-all duration-500 delay-${index * 100} ${
+                    className={`w-full rounded-t ${
                       esHoy 
-                        ? 'bg-gradient-to-t from-blue-500 to-blue-400' 
-                        : 'bg-gradient-to-t from-gray-300 to-gray-200'
+                        ? 'bg-gradient-to-t from-blue-500 to-blue-400 dark:from-blue-700 dark:to-blue-400' 
+                        : 'bg-gradient-to-t from-gray-300 to-gray-200 dark:from-slate-700 dark:to-slate-800'
                     }`}
                     style={{ height: `${altura}%` }}
                   />
@@ -112,7 +112,7 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
                   {/* Valor de puntos */}
                   {actividad.puntos > 0 && (
                     <div className={`absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs font-medium ${
-                      esHoy ? 'text-blue-600' : 'text-gray-600'
+                      esHoy ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300'
                     }`}>
                       {actividad.puntos}
                     </div>
@@ -121,7 +121,7 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
                 
                 {/* Día */}
                 <p className={`text-xs mt-2 font-medium ${
-                  esHoy ? 'text-blue-600' : 'text-gray-500'
+                  esHoy ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-300'
                 }`}>
                   {actividad.dia}
                 </p>
@@ -133,7 +133,7 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
                       <div
                         key={i}
                         className={`w-1 h-1 rounded-full ${
-                          esHoy ? 'bg-blue-400' : 'bg-gray-400'
+                          esHoy ? 'bg-blue-400 dark:bg-blue-600' : 'bg-gray-400 dark:bg-slate-700'
                         }`}
                       />
                     ))}
@@ -142,7 +142,7 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
               </div>
             );
           }) : (
-            <div className="flex-1 text-center text-gray-500 py-8">
+            <div className="flex-1 text-center text-gray-500 dark:text-gray-300 py-8">
               <p className="text-sm">No hay datos de actividad disponibles</p>
             </div>
           )}
@@ -150,26 +150,26 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
       </div>
 
       {/* Leyenda */}
-      <div className="text-xs text-gray-500 space-y-1">
+      <div className="text-xs text-gray-500 dark:text-gray-300 space-y-1">
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 bg-gradient-to-t from-blue-500 to-blue-400 rounded"></div>
+          <div className="w-3 h-3 bg-gradient-to-t from-blue-500 to-blue-400 dark:from-blue-700 dark:to-blue-400 rounded"></div>
           <span>Hoy</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+          <div className="w-1 h-1 bg-gray-400 dark:bg-slate-700 rounded-full"></div>
           <span>• = 1 actividad</span>
         </div>
       </div>
 
       {/* Motivación */}
       {totalPuntosSemana > 0 && (
-        <div className="mt-4 p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border border-green-200">
-          <p className="text-sm text-green-800 text-center flex items-center justify-center gap-2">
+        <div className="mt-4 p-3 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-950 dark:to-blue-950 rounded-lg border border-green-200 dark:border-green-800">
+          <p className="text-sm text-green-800 dark:text-green-300 text-center flex items-center justify-center gap-2">
             {totalPuntosSemana >= 100 
-              ? <><FaFire className="text-orange-500" /> ¡Semana increíble! Sigues en racha</>
+              ? <><FaFire className="text-orange-500 dark:text-orange-400" /> ¡Semana increíble! Sigues en racha</>
               : totalPuntosSemana >= 50
-              ? <><FaThumbsUp className="text-green-600" /> ¡Buen trabajo esta semana!</>
-              : <><FaDumbbell className="text-blue-600" /> ¡Vamos por más puntos!</>
+              ? <><FaThumbsUp className="text-green-600 dark:text-green-400" /> ¡Buen trabajo esta semana!</>
+              : <><FaDumbbell className="text-blue-600 dark:text-blue-400" /> ¡Vamos por más puntos!</>
             }
           </p>
         </div>

@@ -82,15 +82,15 @@ export default function RecompensaModal({
   if (canjeExitoso) {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-        <div className="bg-white rounded-2xl max-w-md w-full p-8 text-center">
-          <FaGift className="text-6xl mb-4 text-green-500 mx-auto" />
-          <h3 className="text-2xl font-bold text-green-600 mb-2">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-8 text-center">
+          <FaGift className="text-6xl mb-4 text-green-500 dark:text-green-400 mx-auto" />
+          <h3 className="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">
             ¡Canje exitoso!
           </h3>
-          <p className="text-gray-600 mb-4">
+          <p className="text-gray-600 dark:text-gray-300 mb-4">
             Has canjeado <strong>{recompensa.nombre}</strong> por {recompensa.costoPuntos} puntos.
           </p>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
             Recibirás más información por correo electrónico.
           </p>
         </div>
@@ -100,15 +100,15 @@ export default function RecompensaModal({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-          <h3 className="text-xl font-bold text-gray-800">
+        <div className="sticky top-0 bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800 px-6 py-4 flex items-center justify-between">
+          <h3 className="text-xl font-bold text-gray-800 dark:text-white">
             Detalles de la recompensa
           </h3>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
+            className="text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-white"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -132,37 +132,37 @@ export default function RecompensaModal({
               />
               
               {/* Badge de categoría */}
-              <div className={`absolute top-3 left-3 px-3 py-1 rounded-full text-sm font-medium ${getColorCategoria(recompensa.categoria)}`}>
+              <div className={`absolute top-3 left-3 px-3 py-1 rounded-full text-sm font-medium ${getColorCategoria(recompensa.categoria)} dark:bg-opacity-80 dark:text-opacity-90`}>
                 {getIconoCategoria(recompensa.categoria)} {recompensa.categoria}
               </div>
             </div>
 
             <div className="space-y-4">
               <div>
-                <h4 className="text-2xl font-bold text-gray-800 mb-2">
+                <h4 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
                   {recompensa.nombre}
                 </h4>
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-gray-300">
                   {recompensa.descripcion}
                 </p>
               </div>
 
               {/* Información de canje */}
-              <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+              <div className="bg-gray-50 dark:bg-slate-800 rounded-lg p-4 space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-600">Costo:</span>
-                  <span className="text-xl font-bold text-blue-600 flex items-center gap-1">
+                  <span className="text-gray-600 dark:text-gray-300">Costo:</span>
+                  <span className="text-xl font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1">
                     <FaMotorcycle />
                     {recompensa.costoPuntos.toLocaleString()}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-600">Tus puntos:</span>
+                  <span className="text-gray-600 dark:text-gray-300">Tus puntos:</span>
                   <span className={`font-bold flex items-center gap-1 ${
                     usuario.puntosTotales >= recompensa.costoPuntos 
-                      ? 'text-green-600' 
-                      : 'text-red-600'
+                      ? 'text-green-600 dark:text-green-400' 
+                      : 'text-red-600 dark:text-red-400'
                   }`}>
                     <FaMotorcycle />
                     {usuario.puntosTotales.toLocaleString()}
@@ -171,8 +171,8 @@ export default function RecompensaModal({
 
                 {usuario.puntosTotales >= recompensa.costoPuntos && (
                   <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Puntos restantes:</span>
-                    <span className="font-bold text-gray-800 flex items-center gap-1">
+                    <span className="text-gray-600 dark:text-gray-300">Puntos restantes:</span>
+                    <span className="font-bold text-gray-800 dark:text-white flex items-center gap-1">
                       <FaMotorcycle />
                       {(usuario.puntosTotales - recompensa.costoPuntos).toLocaleString()}
                     </span>
@@ -181,11 +181,11 @@ export default function RecompensaModal({
 
                 {recompensa.nivelMinimo && (
                   <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Nivel requerido:</span>
+                    <span className="text-gray-600 dark:text-gray-300">Nivel requerido:</span>
                     <span className={`font-medium ${
                       usuario.nivel.id >= recompensa.nivelMinimo
-                        ? 'text-green-600'
-                        : 'text-red-600'
+                        ? 'text-green-600 dark:text-green-400'
+                        : 'text-red-600 dark:text-red-400'
                     }`}>
                       Nivel {recompensa.nivelMinimo}
                     </span>
@@ -194,9 +194,9 @@ export default function RecompensaModal({
 
                 {recompensa.stock && (
                   <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Stock disponible:</span>
+                    <span className="text-gray-600 dark:text-gray-300">Stock disponible:</span>
                     <span className={`font-medium ${
-                      recompensa.stock > 0 ? 'text-green-600' : 'text-red-600'
+                      recompensa.stock > 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
                     }`}>
                       {recompensa.stock} unidades
                     </span>
@@ -208,12 +208,12 @@ export default function RecompensaModal({
 
           {/* Restricciones o advertencias */}
           {!puedeCanjar() && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+            <div className="bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
               <div className="flex items-center gap-2">
-                <FaExclamationTriangle className="text-red-500" />
-                <span className="font-medium text-red-800">No puedes canjear esta recompensa</span>
+                <FaExclamationTriangle className="text-red-500 dark:text-red-400" />
+                <span className="font-medium text-red-800 dark:text-red-300">No puedes canjear esta recompensa</span>
               </div>
-              <ul className="mt-2 text-sm text-red-700 space-y-1">
+              <ul className="mt-2 text-sm text-red-700 dark:text-red-300 space-y-1">
                 {usuario.puntosTotales < recompensa.costoPuntos && (
                   <li>• Te faltan {recompensa.costoPuntos - usuario.puntosTotales} puntos</li>
                 )}
@@ -231,12 +231,12 @@ export default function RecompensaModal({
           )}
 
           {/* Información adicional */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-            <h5 className="font-medium text-blue-800 mb-2 flex items-center gap-2">
+          <div className="bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6">
+            <h5 className="font-medium text-blue-800 dark:text-blue-300 mb-2 flex items-center gap-2">
               <FaInfoCircle />
               Información importante:
             </h5>
-            <ul className="text-sm text-blue-700 space-y-1">
+            <ul className="text-sm text-blue-700 dark:text-blue-300 space-y-1">
               <li>• Una vez canjeada, la recompensa no puede ser reembolsada</li>
               <li>• Recibirás instrucciones por correo electrónico</li>
               <li>• El canje puede tardar hasta 24 horas en procesarse</li>
@@ -248,10 +248,10 @@ export default function RecompensaModal({
         </div>
 
         {/* Footer con botones */}
-        <div className="sticky bottom-0 bg-white border-t border-gray-200 px-6 py-4 flex gap-3">
+        <div className="sticky bottom-0 bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800 px-6 py-4 flex gap-3">
           <button
             onClick={onClose}
-            className="flex-1 py-3 px-4 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+            className="flex-1 py-3 px-4 border border-gray-300 dark:border-slate-700 text-gray-700 dark:text-gray-200 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-slate-800"
           >
             Cancelar
           </button>
@@ -259,10 +259,10 @@ export default function RecompensaModal({
           <button
             onClick={handleCanje}
             disabled={!puedeCanjar() || canjeando}
-            className={`flex-1 py-3 px-4 rounded-lg font-medium transition-colors ${
+            className={`flex-1 py-3 px-4 rounded-lg font-medium ${
               puedeCanjar() && !canjeando
-                ? 'bg-blue-600 text-white hover:bg-blue-700'
-                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                ? 'bg-blue-600 dark:bg-blue-700 text-white hover:bg-blue-700 dark:hover:bg-blue-800'
+                : 'bg-gray-300 dark:bg-slate-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
             }`}
           >
             {canjeando ? (

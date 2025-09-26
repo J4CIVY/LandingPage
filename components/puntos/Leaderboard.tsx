@@ -177,10 +177,10 @@ export default function Leaderboard() {
   }
 
   return (
-    <div>
+  <div className="dark:bg-slate-950">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
-        <h3 className="text-xl font-bold text-gray-800 mb-4 sm:mb-0 flex items-center gap-2">
-          <FaTrophy className="text-yellow-500" />
+        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-0 flex items-center gap-2">
+          <FaTrophy className="text-yellow-500 dark:text-yellow-400" />
           Ranking de Miembros
         </h3>
         
@@ -190,10 +190,10 @@ export default function Leaderboard() {
             <button
               key={periodo.value}
               onClick={() => setFiltro({ periodo: periodo.value })}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              className={`px-4 py-2 rounded-lg text-sm font-medium ${
                 filtro.periodo === periodo.value
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  ? 'bg-blue-600 dark:bg-blue-700 text-white'
+                  : 'bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-slate-700'
               }`}
             >
               {periodo.label}
@@ -209,7 +209,7 @@ export default function Leaderboard() {
             {usuarios.slice(0, 3).map((usuario, index) => (
               <div
                 key={usuario.id}
-                className={`${getMedalColor(usuario.posicionRanking)} rounded-xl p-6 text-white text-center relative overflow-hidden`}
+                className={`${getMedalColor(usuario.posicionRanking)} rounded-xl p-6 text-white text-center relative overflow-hidden dark:border dark:border-slate-800`}
               >
                 {/* Efecto de brillo */}
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-10 -skew-x-12 animate-pulse"></div>
@@ -237,7 +237,7 @@ export default function Leaderboard() {
                     )}
                   </div>
                   
-                  <h4 className="font-bold text-lg mb-1">
+                  <h4 className="font-bold text-lg mb-1 text-white">
                     {usuario.nombre}
                   </h4>
                   
@@ -261,16 +261,16 @@ export default function Leaderboard() {
           </div>
 
           {/* Lista completa */}
-          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-            <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
-              <h4 className="font-semibold text-gray-800">Ranking completo</h4>
+          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-lg overflow-hidden">
+            <div className="px-6 py-4 bg-gray-50 dark:bg-slate-800 border-b border-gray-200 dark:border-slate-800">
+              <h4 className="font-semibold text-gray-800 dark:text-white">Ranking completo</h4>
             </div>
             
-            <div className="divide-y divide-gray-200">
+            <div className="divide-y divide-gray-200 dark:divide-slate-800">
               {usuarios.map((usuario) => (
                 <div
                   key={usuario.id}
-                  className="px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+                  className="px-6 py-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-800"
                 >
                   <div className="flex items-center gap-4 flex-1">
                     {/* Posición */}
@@ -280,7 +280,7 @@ export default function Leaderboard() {
                           {getMedalIcon(usuario.posicionRanking)}
                         </span>
                       ) : (
-                        <span className="text-lg font-bold text-gray-600">
+                        <span className="text-lg font-bold text-gray-600 dark:text-gray-300">
                           #{usuario.posicionRanking}
                         </span>
                       )}
@@ -305,11 +305,11 @@ export default function Leaderboard() {
                       )}
                       
                       <div>
-                        <div className="font-medium text-gray-800">
+                        <div className="font-medium text-gray-800 dark:text-white">
                           {usuario.nombre}
                         </div>
                         {usuario.alias && (
-                          <div className="text-sm text-gray-500">
+                          <div className="text-sm text-gray-500 dark:text-gray-300">
                             @{usuario.alias}
                           </div>
                         )}
@@ -319,16 +319,16 @@ export default function Leaderboard() {
 
                   {/* Nivel y puntos */}
                   <div className="flex items-center gap-4">
-                    <div className={`px-3 py-1 rounded-full text-xs font-medium border ${getNivelBadgeColor(usuario.nivel.nombre)}`}>
+                    <div className={`px-3 py-1 rounded-full text-xs font-medium border ${getNivelBadgeColor(usuario.nivel.nombre)} dark:bg-opacity-80 dark:text-opacity-90`}>
                       {usuario.nivel.icono} {usuario.nivel.nombre}
                     </div>
                     
                     <div className="text-right">
-                      <div className="font-bold text-gray-800 flex items-center gap-2">
-                        <FaMotorcycle className="text-blue-600" />
+                      <div className="font-bold text-gray-800 dark:text-white flex items-center gap-2">
+                        <FaMotorcycle className="text-blue-600 dark:text-blue-400" />
                         {usuario.puntosTotales.toLocaleString()}
                       </div>
-                      <div className="text-sm text-gray-500">
+                      <div className="text-sm text-gray-500 dark:text-gray-300">
                         puntos
                       </div>
                     </div>
@@ -340,31 +340,31 @@ export default function Leaderboard() {
 
           {/* Estadísticas del periodo */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-blue-600">
+            <div className="bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg p-4 text-center">
+              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
                 {usuarios.length}
               </div>
-              <div className="text-sm text-blue-700">
+              <div className="text-sm text-blue-700 dark:text-blue-300">
                 Miembros activos
               </div>
             </div>
             
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-green-600 flex items-center justify-center gap-2">
+            <div className="bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 rounded-lg p-4 text-center">
+              <div className="text-2xl font-bold text-green-600 dark:text-green-400 flex items-center justify-center gap-2">
                 <FaMotorcycle />
                 {usuarios[0]?.puntosTotales.toLocaleString() || 0}
               </div>
-              <div className="text-sm text-green-700">
+              <div className="text-sm text-green-700 dark:text-green-300">
                 Puntos del líder
               </div>
             </div>
             
-            <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-purple-600 flex items-center justify-center gap-2">
+            <div className="bg-purple-50 dark:bg-purple-950 border border-purple-200 dark:border-purple-800 rounded-lg p-4 text-center">
+              <div className="text-2xl font-bold text-purple-600 dark:text-purple-400 flex items-center justify-center gap-2">
                 <FaMotorcycle />
                 {Math.round(usuarios.reduce((sum, u) => sum + u.puntosTotales, 0) / usuarios.length).toLocaleString()}
               </div>
-              <div className="text-sm text-purple-700">
+              <div className="text-sm text-purple-700 dark:text-purple-300">
                 Promedio de puntos
               </div>
             </div>
@@ -372,11 +372,11 @@ export default function Leaderboard() {
         </div>
       ) : (
         <div className="text-center py-12">
-          <FaTrophy className="text-6xl mb-4 text-yellow-500 mx-auto" />
-          <h4 className="text-lg font-semibold text-gray-600 mb-2">
+          <FaTrophy className="text-6xl mb-4 text-yellow-500 dark:text-yellow-400 mx-auto" />
+          <h4 className="text-lg font-semibold text-gray-600 dark:text-gray-300 mb-2">
             No hay datos disponibles
           </h4>
-          <p className="text-gray-500">
+          <p className="text-gray-500 dark:text-gray-400">
             No se encontraron miembros para el periodo seleccionado
           </p>
         </div>

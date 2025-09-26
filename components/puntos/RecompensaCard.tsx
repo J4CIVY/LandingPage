@@ -57,9 +57,9 @@ export default function RecompensaCard({ recompensa, usuario, onCanje }: Recompe
 
   return (
     <>
-      <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+  <div className="bg-white dark:bg-slate-900 rounded-xl shadow-lg overflow-hidden hover:shadow-xl hover:-translate-y-1">
         {/* Imagen */}
-        <div className="relative">
+  <div className="relative">
           <img
             src={recompensa.imagen}
             alt={recompensa.nombre}
@@ -71,21 +71,21 @@ export default function RecompensaCard({ recompensa, usuario, onCanje }: Recompe
           />
           
           {/* Badge de categoría */}
-          <div className={`absolute top-3 left-3 px-2 py-1 rounded-full text-xs font-medium ${getColorCategoria(recompensa.categoria)}`}>
+          <div className={`absolute top-3 left-3 px-2 py-1 rounded-full text-xs font-medium ${getColorCategoria(recompensa.categoria)} dark:bg-opacity-80 dark:text-opacity-90`}> 
             {getIconoCategoria(recompensa.categoria)} {recompensa.categoria}
           </div>
 
           {/* Badge de stock limitado */}
           {recompensa.stock && recompensa.stock <= 5 && (
-            <div className="absolute top-3 right-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+            <div className="absolute top-3 right-3 bg-red-500 dark:bg-red-700 text-white px-2 py-1 rounded-full text-xs font-medium">
               Solo {recompensa.stock} disponibles
             </div>
           )}
 
           {/* Overlay si no se puede canjear */}
           {!puedeCanjar() && (
-            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-              <div className="bg-white rounded-lg px-3 py-2 text-sm font-medium text-center">
+            <div className="absolute inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center">
+              <div className="bg-white dark:bg-slate-900 dark:text-white rounded-lg px-3 py-2 text-sm font-medium text-center">
                 {getMensajeRestriccion()}
               </div>
             </div>
@@ -93,30 +93,30 @@ export default function RecompensaCard({ recompensa, usuario, onCanje }: Recompe
         </div>
 
         {/* Contenido */}
-        <div className="p-6">
+  <div className="p-6">
           {/* Título */}
-          <h4 className="text-lg font-bold text-gray-800 mb-2 line-clamp-2">
+          <h4 className="text-lg font-bold text-gray-800 dark:text-white mb-2 line-clamp-2">
             {recompensa.nombre}
           </h4>
 
           {/* Descripción corta */}
-          <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+          <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3">
             {recompensa.descripcion}
           </p>
 
           {/* Costo y nivel mínimo */}
           <div className="space-y-2 mb-4">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-500">Costo:</span>
-              <span className="text-lg font-bold text-blue-600 flex items-center gap-1">
-                <FaMotorcycle className="inline text-blue-600" /> {recompensa.costoPuntos.toLocaleString()}
+              <span className="text-sm text-gray-500 dark:text-gray-400">Costo:</span>
+              <span className="text-lg font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1">
+                <FaMotorcycle className="inline text-blue-600 dark:text-blue-400" /> {recompensa.costoPuntos.toLocaleString()}
               </span>
             </div>
             
             {recompensa.nivelMinimo && (
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-500">Nivel mínimo:</span>
-                <span className="text-sm font-medium">
+                <span className="text-sm text-gray-500 dark:text-gray-400">Nivel mínimo:</span>
+                <span className="text-sm font-medium dark:text-gray-200">
                   Nivel {recompensa.nivelMinimo}
                 </span>
               </div>
@@ -124,8 +124,8 @@ export default function RecompensaCard({ recompensa, usuario, onCanje }: Recompe
 
             {recompensa.stock && (
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-500">Disponibles:</span>
-                <span className="text-sm font-medium">
+                <span className="text-sm text-gray-500 dark:text-gray-400">Disponibles:</span>
+                <span className="text-sm font-medium dark:text-gray-200">
                   {recompensa.stock} unidades
                 </span>
               </div>
@@ -136,7 +136,7 @@ export default function RecompensaCard({ recompensa, usuario, onCanje }: Recompe
           <div className="flex gap-2">
             <button
               onClick={() => setModalAbierto(true)}
-              className="flex-1 bg-gray-100 text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-gray-200 transition-colors"
+              className="flex-1 bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-gray-200 py-2 px-4 rounded-lg font-medium hover:bg-gray-200 dark:hover:bg-slate-700"
             >
               Ver detalles
             </button>
@@ -144,10 +144,10 @@ export default function RecompensaCard({ recompensa, usuario, onCanje }: Recompe
             <button
               onClick={() => setModalAbierto(true)}
               disabled={!puedeCanjar()}
-              className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
+              className={`flex-1 py-2 px-4 rounded-lg font-medium ${
                 puedeCanjar()
-                  ? 'bg-blue-600 text-white hover:bg-blue-700'
-                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  ? 'bg-blue-600 dark:bg-blue-700 text-white hover:bg-blue-700 dark:hover:bg-blue-800'
+                  : 'bg-gray-300 dark:bg-slate-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
               }`}
             >
               {puedeCanjar() ? 'Canjear' : 'No disponible'}
