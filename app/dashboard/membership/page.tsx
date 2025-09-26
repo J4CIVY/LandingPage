@@ -228,46 +228,46 @@ export default function MembershipPage() {
   const canApplyLeader = membership.type === 'Master' && membership.volunteer;
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-slate-950">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 transition-colors duration-300">
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 transition-colors duration-300">
             Mi Membresía
           </h1>
-          <p className="text-gray-600 dark:text-gray-300">
+          <p className="text-gray-600 dark:text-gray-300 transition-colors duration-300">
             Gestiona tu membresía, progreso y beneficios en BSK Motorcycle Team
           </p>
         </div>
 
         {/* Alertas importantes */}
         {membership.status === 'expired' && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+          <div className="mb-6 p-4 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-lg transition-colors duration-300">
             <div className="flex items-center space-x-2">
-              <FaExclamationTriangle className="h-5 w-5 text-red-600" />
-              <span className="font-medium text-red-800">Membresía Expirada</span>
+              <FaExclamationTriangle className="h-5 w-5 text-red-600 dark:text-red-400" />
+              <span className="font-medium text-red-800 dark:text-red-200">Membresía Expirada</span>
             </div>
-            <p className="text-red-700 text-sm mt-1">
+            <p className="text-red-700 dark:text-red-300 text-sm mt-1">
               Tu membresía ha expirado. Renueva para mantener tus beneficios activos.
             </p>
           </div>
         )}
 
         {canUpgrade && (
-          <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+          <div className="mb-6 p-4 bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 rounded-lg transition-colors duration-300">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                <FaArrowUp className="h-5 w-5 text-green-600" />
-                <span className="font-medium text-green-800">¡Listo para ascender!</span>
+                <FaArrowUp className="h-5 w-5 text-green-600 dark:text-green-400" />
+                <span className="font-medium text-green-800 dark:text-green-200">¡Listo para ascender!</span>
               </div>
               <button
                 onClick={() => setShowUpgradeModal(true)}
-                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm"
+                className="px-4 py-2 bg-green-600 dark:bg-green-700 text-white rounded-lg hover:bg-green-700 dark:hover:bg-green-800 transition-colors text-sm"
               >
                 Solicitar Ascenso
               </button>
             </div>
-            <p className="text-green-700 text-sm mt-1">
+            <p className="text-green-700 dark:text-green-300 text-sm mt-1">
               Cumples todos los requisitos para {nextType}. ¡Felicitaciones!
             </p>
           </div>
@@ -290,8 +290,8 @@ export default function MembershipPage() {
 
             {/* Requisitos pendientes */}
             {membership.progress.requirements.length > 0 && (
-              <div className="bg-white border border-gray-200 rounded-xl p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-xl p-6 transition-colors duration-300">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 transition-colors duration-300">
                   Requisitos Pendientes
                 </h3>
                 <div className="space-y-4">
@@ -318,8 +318,8 @@ export default function MembershipPage() {
           {/* Sidebar */}
           <div className="lg:col-span-4 space-y-8">
             {/* Acciones de membresía */}
-            <div className="bg-white border border-gray-200 rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Acciones</h3>
+            <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-xl p-6 transition-colors duration-300">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 transition-colors duration-300">Acciones</h3>
               <div className="space-y-3">
                 {/* Renovar */}
                 <button
@@ -369,28 +369,30 @@ export default function MembershipPage() {
             <VolunteerToggle 
               isVolunteer={membership.volunteer || false}
               onToggle={() => fetchMembershipData()} // Refrescar datos después del cambio
+              className="transition-colors duration-300"
             />
 
             {/* Ranking */}
             <RankingWidget 
               userRanking={ranking}
               showLeaderboard={true}
+              className="transition-colors duration-300"
             />
 
             {/* Información adicional */}
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
+            <div className="bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-xl p-6 transition-colors duration-300">
               <div className="flex items-start space-x-3">
-                <FaInfoCircle className="h-5 w-5 text-blue-600 mt-0.5" />
+                <FaInfoCircle className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5" />
                 <div>
-                  <h4 className="text-sm font-medium text-blue-900 mb-2">
+                  <h4 className="text-sm font-medium text-blue-900 dark:text-blue-200 mb-2 transition-colors duration-300">
                     ¿Necesitas ayuda?
                   </h4>
-                  <p className="text-sm text-blue-800 mb-3">
+                  <p className="text-sm text-blue-800 dark:text-blue-300 mb-3 transition-colors duration-300">
                     Si tienes preguntas sobre tu membresía o el proceso de ascenso, contáctanos.
                   </p>
                   <a 
                     href="/contact"
-                    className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+                    className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium transition-colors duration-300"
                   >
                     Contactar Soporte →
                   </a>
