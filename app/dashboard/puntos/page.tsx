@@ -290,7 +290,7 @@ export default function PuntosPage() {
           <p className="text-gray-600">No se pudo cargar la información del usuario</p>
           <button 
             onClick={cargarDatos}
-            className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
+            className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg"
           >
             Reintentar
           </button>
@@ -396,14 +396,14 @@ export default function PuntosPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-slate-950 dark:to-slate-900 transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-slate-950 dark:to-slate-900">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-2 flex items-center justify-center gap-3 transition-colors duration-300">
+          <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-2 flex items-center justify-center gap-3">
             <FaMotorcycle className="text-blue-600 dark:text-blue-400" /> Puntos y Recompensas
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto transition-colors duration-300">
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             Acumula puntos con tus actividades y canjéalos por recompensas exclusivas del BSK Motorcycle Team
           </p>
         </div>
@@ -430,8 +430,8 @@ export default function PuntosPage() {
         </div>
 
         {/* Navegación por pestañas */}
-  <div className="bg-white dark:bg-slate-900 rounded-xl shadow-lg p-6 mb-8 transition-colors duration-300">
-          <div className="flex flex-wrap gap-2 mb-6 border-b dark:border-slate-800 transition-colors duration-300">
+  <div className="bg-white dark:bg-slate-900 rounded-xl shadow-lg p-6 mb-8 ">
+          <div className="flex flex-wrap gap-2 mb-6 border-b dark:border-slate-800">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
@@ -452,7 +452,7 @@ export default function PuntosPage() {
           <div className="min-h-[400px]">
             {tabActiva === 'recompensas' && (
               <div>
-                <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4 transition-colors duration-300">
+                <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4 ">
                   Recompensas Disponibles
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -473,10 +473,10 @@ export default function PuntosPage() {
                     <div className="text-6xl mb-4">
                       <FaGift className="mx-auto text-pink-500 dark:text-pink-400" />
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-600 dark:text-gray-300 mb-2 transition-colors duration-300">
+                    <h3 className="text-xl font-semibold text-gray-600 dark:text-gray-300 mb-2">
                       No hay recompensas disponibles
                     </h3>
-                    <p className="text-gray-500 dark:text-gray-400 transition-colors duration-300">
+                    <p className="text-gray-500 dark:text-gray-400">
                       Pronto tendremos nuevas recompensas para ti
                     </p>
                   </div>
