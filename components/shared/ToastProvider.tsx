@@ -86,17 +86,17 @@ interface ToastItemProps {
 
 const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
   const icons = {
-    success: <FaCheckCircle className="w-5 h-5" />,
-    error: <FaExclamationTriangle className="w-5 h-5" />,
-    warning: <FaExclamationTriangle className="w-5 h-5" />,
-    info: <FaInfoCircle className="w-5 h-5" />
+    success: <FaCheckCircle className="w-5 h-5 text-white dark:text-green-200" />, 
+    error: <FaExclamationTriangle className="w-5 h-5 text-white dark:text-red-200" />, 
+    warning: <FaExclamationTriangle className="w-5 h-5 text-yellow-900 dark:text-yellow-200" />, 
+    info: <FaInfoCircle className="w-5 h-5 text-white dark:text-blue-200" />
   };
 
   const colors = {
-    success: 'bg-green-500 text-white border-green-600',
-    error: 'bg-red-500 text-white border-red-600',
-    warning: 'bg-yellow-500 text-yellow-900 border-yellow-600',
-    info: 'bg-blue-500 text-white border-blue-600'
+    success: 'bg-green-500 text-white border-green-600 dark:bg-green-700 dark:text-green-100 dark:border-green-800',
+    error: 'bg-red-500 text-white border-red-600 dark:bg-red-700 dark:text-red-100 dark:border-red-800',
+    warning: 'bg-yellow-500 text-yellow-900 border-yellow-600 dark:bg-yellow-600 dark:text-yellow-100 dark:border-yellow-700',
+    info: 'bg-blue-500 text-white border-blue-600 dark:bg-blue-700 dark:text-blue-100 dark:border-blue-800'
   };
 
   return (
@@ -120,7 +120,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
           className="flex-shrink-0 ml-2 opacity-70 hover:opacity-100 focus:opacity-100 focus:outline-none"
           aria-label="Cerrar notificación"
         >
-          <FaTimes className="w-4 h-4" />
+          <FaTimes className="w-4 h-4 text-white dark:text-gray-200" />
         </button>
       </div>
     </div>

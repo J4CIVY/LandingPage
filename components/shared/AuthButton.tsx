@@ -40,7 +40,7 @@ export default function AuthButton({ isMobile = false, onMobileAction }: AuthBut
         <Link
           href="/login"
           onClick={onMobileAction}
-          className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg text-center transition-colors"
+          className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg text-center"
         >
           <FaUser className="inline mr-2" />
           Iniciar Sesión
@@ -51,7 +51,7 @@ export default function AuthButton({ isMobile = false, onMobileAction }: AuthBut
     return (
       <Link
         href="/login"
-        className="inline-flex items-center justify-center w-10 h-10 rounded-lg text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+        className="inline-flex items-center justify-center w-10 h-10 rounded-lg text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
         aria-label="Iniciar sesión"
       >
         <FaUser className="w-5 h-5" />
@@ -67,7 +67,8 @@ export default function AuthButton({ isMobile = false, onMobileAction }: AuthBut
           logout();
           if (onMobileAction) onMobileAction();
         }}
-        className="block w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-lg text-center transition-colors"
+        className="block w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-lg text-center"
+        type="button"
       >
         <FaSignOutAlt className="inline mr-2" />
         Cerrar Sesión
@@ -79,8 +80,9 @@ export default function AuthButton({ isMobile = false, onMobileAction }: AuthBut
     <div className="relative">
       <button
         onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className="flex items-center space-x-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg p-1 transition-colors"
+        className="flex items-center space-x-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg p-1"
         aria-label={`Menú de usuario - ${user.firstName} ${user.lastName}`}
+        type="button"
       >
         <div className="relative w-8 h-8 rounded-full overflow-hidden bg-gradient-to-br from-blue-500 to-blue-600 border-2 border-gray-300 dark:border-slate-600 flex items-center justify-center">
           <span className="text-white text-sm font-semibold">
@@ -88,7 +90,7 @@ export default function AuthButton({ isMobile = false, onMobileAction }: AuthBut
           </span>
         </div>
         <svg
-          className={`w-3 h-3 transition-transform ${isMenuOpen ? 'rotate-180' : ''} hidden md:block`}
+          className={`w-3 h-3 ${isMenuOpen ? 'rotate-180' : ''} hidden md:block`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -99,7 +101,7 @@ export default function AuthButton({ isMobile = false, onMobileAction }: AuthBut
 
       {/* Menú desplegable */}
       {isMenuOpen && (
-        <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-600 py-2 z-50">
+  <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-600 py-2 z-50">
           {/* Información del usuario */}
           <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-600">
             <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
@@ -115,7 +117,7 @@ export default function AuthButton({ isMobile = false, onMobileAction }: AuthBut
           <div className="py-1">
             <Link
               href="/dashboard"
-              className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
               onClick={() => setIsMenuOpen(false)}
             >
               <FaTachometerAlt className="mr-3 w-4 h-4" />
@@ -123,7 +125,7 @@ export default function AuthButton({ isMobile = false, onMobileAction }: AuthBut
             </Link>
             <Link
               href="/profile"
-              className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
               onClick={() => setIsMenuOpen(false)}
             >
               <FaUser className="mr-3 w-4 h-4" />
@@ -140,7 +142,8 @@ export default function AuthButton({ isMobile = false, onMobileAction }: AuthBut
               logout();
               setIsMenuOpen(false);
             }}
-            className="flex items-center w-full px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+            className="flex items-center w-full px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
+            type="button"
           >
             <FaSignOutAlt className="mr-3 w-4 h-4" />
             Cerrar Sesión

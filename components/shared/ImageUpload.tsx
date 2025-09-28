@@ -129,10 +129,10 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         className={`
-          relative group cursor-pointer transition-all duration-300
+          relative group cursor-pointer
           w-32 h-32 mx-auto rounded-full border-4 overflow-hidden
-          ${dragOver ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'border-gray-300 dark:border-gray-600'}
-          ${disabled ? 'cursor-not-allowed opacity-50' : 'hover:border-blue-400 hover:shadow-lg'}
+          ${dragOver ? 'border-blue-500 bg-blue-50 dark:border-blue-400 dark:bg-slate-900' : 'border-gray-300 dark:border-gray-600 dark:bg-slate-950'}
+          ${disabled ? 'cursor-not-allowed opacity-50' : 'hover:border-blue-400 dark:hover:border-blue-400 hover:shadow-lg'}
           ${uploading ? 'pointer-events-none' : ''}
         `}
       >
@@ -147,18 +147,18 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             />
             
             {/* Overlay con botones */}
-            <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <div className="absolute inset-0 bg-black/60 dark:bg-slate-900/80 opacity-0 group-hover:opacity-100 flex items-center justify-center">
               <div className="flex space-x-2">
                 <button
                   onClick={handleClick}
-                  className="p-2 bg-white text-gray-800 rounded-full hover:bg-gray-100 transition-colors"
+                  className="p-2 bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200 rounded-full hover:bg-gray-100 dark:hover:bg-slate-700"
                   disabled={disabled || uploading}
                 >
                   <FaCamera className="w-4 h-4" />
                 </button>
                 <button
                   onClick={handleRemoveImage}
-                  className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                  className="p-2 bg-red-500 dark:bg-red-700 text-white rounded-full hover:bg-red-600 dark:hover:bg-red-800"
                   disabled={disabled || uploading}
                 >
                   <FaTimes className="w-4 h-4" />
@@ -185,7 +185,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
         {/* Spinner de carga overlay */}
         {uploading && (
-          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/60 dark:bg-slate-900/80 flex items-center justify-center">
             <div className="text-center text-white">
               <FaSpinner className="w-6 h-6 animate-spin mx-auto mb-1" />
               <span className="text-xs">Subiendo...</span>
@@ -196,10 +196,10 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
       {/* Texto de instrucciones */}
       <div className="text-center mt-3">
-        <p className="text-sm text-gray-600 dark:text-gray-400">
+        <p className="text-sm text-gray-600 dark:text-gray-300">
           {uploading ? 'Subiendo imagen...' : 'Haz clic o arrastra una imagen'}
         </p>
-        <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
           JPEG, PNG, WebP • Máx. 5MB
         </p>
       </div>
@@ -207,7 +207,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       {/* Error */}
       {uploadError && (
         <div className="mt-2 text-center">
-          <p className="text-sm text-red-500">{uploadError}</p>
+          <p className="text-sm text-red-500 dark:text-red-400">{uploadError}</p>
         </div>
       )}
     </div>

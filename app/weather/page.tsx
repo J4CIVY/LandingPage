@@ -169,7 +169,7 @@ const Weather: React.FC = () => {
           {currentTabs.map(tab => (
             <button
               key={tab.id}
-              className={`py-4 px-6 font-medium text-sm flex items-center whitespace-nowrap ${activeTab === tab.id ? 'border-b-2 border-green-400 text-green-400' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}
+              className={`py-4 px-6 font-medium text-sm flex items-center whitespace-nowrap focus:outline-none ${activeTab === tab.id ? 'border-b-2 border-green-400 text-green-400 dark:text-green-400' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}
               onClick={() => setActiveTab(tab.id)}
               role="tab"
               aria-selected={activeTab === tab.id}
@@ -213,24 +213,24 @@ const Weather: React.FC = () => {
         {/* Recommendations for motorcyclists */}
         <div className="mt-12 bg-white dark:bg-slate-900 border border-green-400 dark:border-green-500 rounded-xl p-6">
           <h3 className="text-2xl font-bold text-slate-950 dark:text-white mb-4 flex items-center">
-            <FaExclamationTriangle className="w-6 h-6 mr-2 text-green-400" aria-hidden="true" />
+            <FaExclamationTriangle className="w-6 h-6 mr-2 text-green-400 dark:text-green-300" aria-hidden="true" />
             Recomendaciones para Motociclistas
           </h3>
           <ul className="grid md:grid-cols-2 gap-4">
             <li className="flex items-start">
-              <span className="text-green-400 mr-2" aria-hidden="true">•</span>
+              <span className="text-green-400 dark:text-green-300 mr-2" aria-hidden="true">•</span>
               <span className="text-slate-950 dark:text-white">En lluvia intensa, reduce velocidad y aumenta distancia de frenado</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2" aria-hidden="true">•</span>
+              <span className="text-green-400 dark:text-green-300 mr-2" aria-hidden="true">•</span>
               <span className="text-slate-950 dark:text-white">Evita zonas marcadas en rojo/naranja en los mapas</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2" aria-hidden="true">•</span>
+              <span className="text-green-400 dark:text-green-300 mr-2" aria-hidden="true">•</span>
               <span className="text-slate-950 dark:text-white">Usa equipo impermeable y con buena visibilidad</span>
             </li>
             <li className="flex items-start">
-              <span className="text-green-400 mr-2" aria-hidden="true">•</span>
+              <span className="text-green-400 dark:text-green-300 mr-2" aria-hidden="true">•</span>
               <span className="text-slate-950 dark:text-white">Precaución con hidroplaneo en vías como Autopista Norte o Calle 80</span>
             </li>
           </ul>

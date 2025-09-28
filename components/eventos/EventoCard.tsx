@@ -136,7 +136,7 @@ export default function EventoCard({
     <div 
       className="
         bg-white dark:bg-slate-800 rounded-lg shadow-md hover:shadow-lg 
-        transition-all duration-300 cursor-pointer transform hover:scale-105
+        cursor-pointer transform hover:scale-105
         border border-gray-200 dark:border-slate-700 overflow-hidden
       "
       onClick={onClick}
@@ -276,7 +276,7 @@ export default function EventoCard({
               className="
                 flex-1 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 
                 text-gray-700 dark:text-slate-200 px-3 py-2 rounded-lg text-sm font-medium 
-                transition-colors flex items-center justify-center space-x-1
+                flex items-center justify-center space-x-1
               "
             >
               <FaEye className="text-xs" />
@@ -291,7 +291,7 @@ export default function EventoCard({
                 className="
                   flex-1 bg-green-600 hover:bg-green-700 disabled:bg-green-400 
                   text-white px-3 py-2 rounded-lg text-sm font-medium 
-                  transition-colors flex items-center justify-center space-x-1
+                  flex items-center justify-center space-x-1
                 "
               >
                 <FaUser className="text-xs" />
@@ -306,7 +306,7 @@ export default function EventoCard({
                 className="
                   flex-1 bg-red-600 hover:bg-red-700 disabled:bg-red-400 
                   text-white px-3 py-2 rounded-lg text-sm font-medium 
-                  transition-colors flex items-center justify-center space-x-1
+                  flex items-center justify-center space-x-1
                 "
               >
                 <FaTimes className="text-xs" />
@@ -323,7 +323,7 @@ export default function EventoCard({
                 className="
                   flex-1 bg-blue-600 hover:bg-blue-700 
                   text-white px-3 py-2 rounded-lg text-sm font-medium 
-                  transition-colors flex items-center justify-center space-x-1
+                  flex items-center justify-center space-x-1
                 "
               >
                 <FaEdit className="text-xs" />
@@ -335,7 +335,7 @@ export default function EventoCard({
                 className="
                   flex-1 bg-red-600 hover:bg-red-700 
                   text-white px-3 py-2 rounded-lg text-sm font-medium 
-                  transition-colors flex items-center justify-center space-x-1
+                  flex items-center justify-center space-x-1
                 "
               >
                 <FaTrash className="text-xs" />

@@ -116,23 +116,23 @@ const ImageGalleryUpload: React.FC<ImageGalleryUploadProps> = ({
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           className={`
-            border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-all duration-300
-            ${dragOver ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-blue-400'}
-            ${uploading ? 'pointer-events-none opacity-50' : ''}
-          `}
+              border-2 border-dashed rounded-lg p-6 text-center cursor-pointer
+              ${dragOver ? 'border-blue-500 bg-blue-50 dark:border-blue-400 dark:bg-slate-900' : 'border-gray-300 hover:border-blue-400 dark:border-gray-600 dark:hover:border-blue-400 dark:bg-slate-950'}
+              ${uploading ? 'pointer-events-none opacity-50' : ''}
+            `}
         >
           {uploading ? (
             <div className="flex flex-col items-center">
-              <FaSpinner className="w-8 h-8 text-blue-500 animate-spin mb-2" />
-              <span className="text-gray-600">Subiendo imagen...</span>
+              <FaSpinner className="w-8 h-8 text-blue-500 dark:text-blue-400 animate-spin mb-2" />
+              <span className="text-gray-600 dark:text-gray-300">Subiendo imagen...</span>
             </div>
           ) : (
             <div className="flex flex-col items-center">
-              <FaPlus className="w-8 h-8 text-gray-400 mb-2" />
-              <span className="text-gray-600 font-medium">
+              <FaPlus className="w-8 h-8 text-gray-400 dark:text-gray-500 mb-2" />
+              <span className="text-gray-600 dark:text-gray-300 font-medium">
                 Haz clic o arrastra imágenes aquí
               </span>
-              <span className="text-sm text-gray-500 mt-1">
+              <span className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                 JPEG, PNG, WebP • Máx. 5MB • {maxImages - images.length} restantes
               </span>
             </div>
@@ -142,11 +142,11 @@ const ImageGalleryUpload: React.FC<ImageGalleryUploadProps> = ({
 
       {/* Preview de imágenes */}
       {images.length > 0 && (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {images.map((imageUrl, index) => (
             <div
               key={index}
-              className="relative group aspect-square rounded-lg overflow-hidden border border-gray-200"
+              className="relative group aspect-square rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
             >
               <img
                 src={imageUrl}
@@ -157,14 +157,14 @@ const ImageGalleryUpload: React.FC<ImageGalleryUploadProps> = ({
               {/* Botón eliminar */}
               <button
                 onClick={() => removeImage(index)}
-                className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-600"
+                className="absolute top-2 right-2 p-1 bg-red-500 dark:bg-red-700 text-white rounded-full opacity-0 group-hover:opacity-100 hover:bg-red-600 dark:hover:bg-red-800"
                 disabled={uploading}
               >
                 <FaTimes className="w-3 h-3" />
               </button>
 
               {/* Número de imagen */}
-              <div className="absolute bottom-2 left-2 px-2 py-1 bg-black bg-opacity-50 text-white text-xs rounded">
+              <div className="absolute bottom-2 left-2 px-2 py-1 bg-black/60 dark:bg-slate-900/80 text-white text-xs rounded">
                 {index + 1}
               </div>
             </div>
@@ -173,17 +173,17 @@ const ImageGalleryUpload: React.FC<ImageGalleryUploadProps> = ({
       )}
 
       {/* Información */}
-      <div className="text-sm text-gray-600">
+      <div className="text-sm text-gray-600 dark:text-gray-300">
         <p>{images.length} de {maxImages} imágenes</p>
         {!canAddMore && (
-          <p className="text-orange-600">Has alcanzado el límite máximo de imágenes</p>
+          <p className="text-orange-600 dark:text-orange-400">Has alcanzado el límite máximo de imágenes</p>
         )}
       </div>
 
       {/* Error */}
       {uploadError && (
-        <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-sm text-red-600">{uploadError}</p>
+        <div className="p-3 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-700 rounded-lg">
+          <p className="text-sm text-red-600 dark:text-red-400">{uploadError}</p>
         </div>
       )}
     </div>

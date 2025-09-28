@@ -37,27 +37,27 @@ export default function RecompensaCard({ recompensa, usuario, onCanje }: Recompe
 
   const getIconoCategoria = (categoria: Recompensa['categoria']) => {
     const iconos = {
-      Producto: <FaBoxOpen className="inline text-blue-800" />,
-      Servicio: <FaWrench className="inline text-green-800" />,
-      Experiencia: <FaMagic className="inline text-purple-800" />,
-      Descuento: <FaMoneyBillWave className="inline text-yellow-800" />
+      Producto: <FaBoxOpen className="inline text-blue-800 dark:text-blue-400" />, 
+      Servicio: <FaWrench className="inline text-green-800 dark:text-green-400" />, 
+      Experiencia: <FaMagic className="inline text-purple-800 dark:text-purple-400" />, 
+      Descuento: <FaMoneyBillWave className="inline text-yellow-800 dark:text-yellow-400" />
     };
     return iconos[categoria];
   };
 
   const getColorCategoria = (categoria: Recompensa['categoria']) => {
     const colores = {
-      Producto: 'bg-blue-100 text-blue-800',
-      Servicio: 'bg-green-100 text-green-800',
-      Experiencia: 'bg-purple-100 text-purple-800',
-      Descuento: 'bg-yellow-100 text-yellow-800'
+      Producto: 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300',
+      Servicio: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300',
+      Experiencia: 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-300',
+      Descuento: 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-300'
     };
     return colores[categoria];
   };
 
   return (
     <>
-  <div className="bg-white dark:bg-slate-900 rounded-xl shadow-lg overflow-hidden hover:shadow-xl hover:-translate-y-1">
+  <div className="bg-white dark:bg-slate-900 rounded-xl shadow-lg overflow-hidden hover:shadow-xl">
         {/* Imagen */}
   <div className="relative">
           <img

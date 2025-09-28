@@ -150,7 +150,7 @@ export default function RecentActivities() {
             {activities.map((activity) => (
               <div
                 key={activity.id}
-                className="flex items-start space-x-4 p-4 border border-gray-200 dark:border-slate-700 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors"
+                className="flex items-start space-x-4 p-4 border border-gray-200 dark:border-slate-700 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700/50"
               >
                 <div className="flex-shrink-0 mt-1">
                   {getActivityIcon(activity.type, activity.status)}
@@ -183,7 +183,7 @@ export default function RecentActivities() {
             <div className="text-center pt-4">
               <button
                 onClick={() => console.log('Ver historial completo')}
-                className="inline-flex items-center px-4 py-2 bg-orange-600 dark:bg-orange-500 text-white rounded-lg hover:bg-orange-700 dark:hover:bg-orange-600 transition-colors"
+                className="inline-flex items-center px-4 py-2 bg-orange-600 dark:bg-orange-500 text-white rounded-lg hover:bg-orange-700 dark:hover:bg-orange-600"
               >
                 Ver historial completo
               </button>

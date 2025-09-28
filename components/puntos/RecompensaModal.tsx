@@ -61,20 +61,20 @@ export default function RecompensaModal({
 
   const getIconoCategoria = (categoria: Recompensa['categoria']) => {
     const iconos = {
-      Producto: <FaBoxOpen className="inline text-blue-800" />,
-      Servicio: <FaWrench className="inline text-green-800" />,
-      Experiencia: <FaMagic className="inline text-purple-800" />,
-      Descuento: <FaMoneyBillWave className="inline text-yellow-800" />
+      Producto: <FaBoxOpen className="inline text-blue-800 dark:text-blue-400" />, 
+      Servicio: <FaWrench className="inline text-green-800 dark:text-green-400" />, 
+      Experiencia: <FaMagic className="inline text-purple-800 dark:text-purple-400" />, 
+      Descuento: <FaMoneyBillWave className="inline text-yellow-800 dark:text-yellow-400" />
     };
     return iconos[categoria];
   };
 
   const getColorCategoria = (categoria: Recompensa['categoria']) => {
     const colores = {
-      Producto: 'bg-blue-100 text-blue-800',
-      Servicio: 'bg-green-100 text-green-800',
-      Experiencia: 'bg-purple-100 text-purple-800',
-      Descuento: 'bg-yellow-100 text-yellow-800'
+      Producto: 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300',
+      Servicio: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300',
+      Experiencia: 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-300',
+      Descuento: 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-300'
     };
     return colores[categoria];
   };
@@ -108,7 +108,8 @@ export default function RecompensaModal({
           </h3>
           <button
             onClick={onClose}
-            className="text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-white"
+            className="text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-white focus:outline-none"
+            type="button"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -251,7 +252,8 @@ export default function RecompensaModal({
         <div className="sticky bottom-0 bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800 px-6 py-4 flex gap-3">
           <button
             onClick={onClose}
-            className="flex-1 py-3 px-4 border border-gray-300 dark:border-slate-700 text-gray-700 dark:text-gray-200 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-slate-800"
+            className="flex-1 py-3 px-4 border border-gray-300 dark:border-slate-700 text-gray-700 dark:text-gray-200 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-slate-800 focus:outline-none"
+            type="button"
           >
             Cancelar
           </button>
@@ -259,15 +261,16 @@ export default function RecompensaModal({
           <button
             onClick={handleCanje}
             disabled={!puedeCanjar() || canjeando}
-            className={`flex-1 py-3 px-4 rounded-lg font-medium ${
+            className={`flex-1 py-3 px-4 rounded-lg font-medium focus:outline-none ${
               puedeCanjar() && !canjeando
                 ? 'bg-blue-600 dark:bg-blue-700 text-white hover:bg-blue-700 dark:hover:bg-blue-800'
                 : 'bg-gray-300 dark:bg-slate-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
             }`}
+            type="button"
           >
             {canjeando ? (
               <span className="flex items-center justify-center gap-2">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white dark:border-blue-400"></div>
                 Canjeando...
               </span>
             ) : puedeCanjar() ? (

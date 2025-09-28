@@ -194,23 +194,23 @@ const Store: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+  <div className="container mx-auto px-4 py-8 bg-gray-50 dark:bg-gray-900 min-h-screen">
       <SEOComponent
         title="Tienda - BSK Motorcycle Team"
         description="Encuentra la mercancía oficial de BSK Motorcycle Team. Ropa, accesorios y más para los verdaderos amantes de las motos."
       />
       {/* Header */}
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-2">
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
           BSK MT Store
         </h1>
-        <p className="text-lg text-gray-600">
+        <p className="text-lg text-gray-600 dark:text-gray-300">
           Official merchandise for motorcycle enthusiasts
         </p>
       </div>
 
       {/* Search and Filters */}
-      <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md mb-8">
+  <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md mb-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* Search */}
           <div className="md:col-span-2">
@@ -221,7 +221,7 @@ const Store: React.FC = () => {
               type="text"
               id="search"
               placeholder="Search by product name..."
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 dark:bg-gray-900 dark:text-white"
               value={searchTerm}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
               aria-label="Search products by name"
@@ -230,12 +230,12 @@ const Store: React.FC = () => {
 
           {/* Category Filter */}
           <div>
-            <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="category" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Category
             </label>
             <select
               id="category"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 dark:bg-gray-900 dark:text-white"
               value={categoryFilter}
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setCategoryFilter(e.target.value)}
               aria-label="Filter products by category"
@@ -250,12 +250,12 @@ const Store: React.FC = () => {
 
           {/* Availability Filter */}
           <div>
-            <label htmlFor="availability" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="availability" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Availability
             </label>
             <select
               id="availability"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 dark:bg-gray-900 dark:text-white"
               value={availabilityFilter}
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setAvailabilityFilter(e.target.value)}
               aria-label="Filter products by availability"
@@ -269,7 +269,7 @@ const Store: React.FC = () => {
 
         {/* Price Range Filter */}
         <div className="mt-4">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Price Range: {formatPrice(priceRange[0])} - {formatPrice(priceRange[1])}
           </label>
           <div className="flex items-center space-x-4">
@@ -280,7 +280,7 @@ const Store: React.FC = () => {
               step="10000"
               value={priceRange[0]}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPriceRange([parseInt(e.target.value, 10), priceRange[1]])}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+              className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer"
               aria-label="Minimum price"
             />
             <input
@@ -290,7 +290,7 @@ const Store: React.FC = () => {
               step="10000"
               value={priceRange[1]}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPriceRange([priceRange[0], parseInt(e.target.value, 10)])}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+              className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer"
               aria-label="Maximum price"
             />
           </div>
@@ -300,7 +300,7 @@ const Store: React.FC = () => {
       {/* Products Grid */}
       {filteredProducts.length === 0 ? (
         <div className="text-center py-12">
-          <h3 className="text-xl font-semibold text-gray-700">Tienda temporalmente deshabilitada. La API externa ha sido removida.</h3>
+          <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200">Tienda temporalmente deshabilitada. La API externa ha sido removida.</h3>
           <button
             onClick={() => {
               setSearchTerm('');
@@ -308,7 +308,7 @@ const Store: React.FC = () => {
               setAvailabilityFilter('all');
               setPriceRange([0, 200000]);
             }}
-            className="mt-4 px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
+            className="mt-4 px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 dark:hover:bg-red-400"
             aria-label="Reset all filters"
           >
             Reset Filters
@@ -319,12 +319,12 @@ const Store: React.FC = () => {
           {filteredProducts.map((product) => (
             <div
               key={product.id}
-              className="bg-white dark:bg-slate-800 text-slate-950 dark:text-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+              className="bg-white dark:bg-slate-800 text-slate-950 dark:text-white rounded-lg shadow-md overflow-hidden hover:shadow-xl"
               role="listitem"
             >
               {/* Product Image */}
               <div
-                className="h-64 bg-gray-100 relative overflow-hidden cursor-pointer"
+                className="h-64 bg-gray-100 dark:bg-gray-900 relative overflow-hidden cursor-pointer"
                 onClick={() => openProductModal(product)}
                 onKeyPress={(e: React.KeyboardEvent<HTMLDivElement>) => {
                   if (e.key === 'Enter' || e.key === ' ') {
@@ -338,7 +338,7 @@ const Store: React.FC = () => {
                 <Image
                   src={product.featuredImage}
                   alt={product.name}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  className="w-full h-full object-cover"
                   onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
                     // Fallback image for broken links
                     (e.target as HTMLImageElement).src = 'https://via.placeholder.com/300x300?text=Image+Not+Available';
@@ -348,7 +348,7 @@ const Store: React.FC = () => {
                   layout="fill"
                 />
                 {product.newProduct && (
-                  <div className="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded">
+                  <div className="absolute top-2 left-2 bg-red-500 dark:bg-red-400 text-white dark:text-gray-900 px-2 py-1 text-xs font-bold rounded">
                     NEW
                   </div>
                 )}
@@ -357,7 +357,7 @@ const Store: React.FC = () => {
               {/* Product Info */}
               <div className="p-4">
                 <h3
-                  className="font-bold text-lg mb-1 cursor-pointer hover:text-red-500"
+                  className="font-bold text-lg mb-1 cursor-pointer hover:text-red-500 dark:hover:text-red-400"
                   onClick={() => openProductModal(product)}
                   onKeyPress={(e: React.KeyboardEvent<HTMLHeadingElement>) => {
                     if (e.key === 'Enter' || e.key === ' ') {
@@ -370,16 +370,16 @@ const Store: React.FC = () => {
                 >
                   {product.name}
                 </h3>
-                <p className="text-gray-600 text-sm mb-2 line-clamp-2">
+                <p className="text-gray-600 dark:text-gray-300 text-sm mb-2 line-clamp-2">
                   {product.shortDescription}
                 </p>
                 <div className="flex justify-between items-center mt-3">
-                  <span className="font-bold text-red-500">
+                  <span className="font-bold text-red-500 dark:text-red-400">
                     {formatPrice(product.finalPrice)}
                   </span>
                   <span className={`text-xs px-2 py-1 rounded ${product.availability === 'in-stock' ?
-                    'bg-green-100 text-green-800' :
-                    'bg-red-100 text-red-800'
+                    'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-400' :
+                    'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-400'
                     }`}>
                     {product.availability === 'in-stock' ? 'In Stock' : 'Out of Stock'}
                   </span>
@@ -389,7 +389,7 @@ const Store: React.FC = () => {
                 <div className="mt-4 flex space-x-2">
                   <button
                     onClick={() => openProductModal(product)}
-                    className="flex-1 py-2 bg-gray-100 text-gray-800 rounded hover:bg-gray-200 transition-colors"
+                    className="flex-1 py-2 bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
                     aria-label={`Open details for ${product.name}`}
                   >
                     Details
@@ -398,9 +398,9 @@ const Store: React.FC = () => {
                     href={`https://tienda.bskmt.com/producto/${product.slug || generateSlug(product.name)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`flex-1 py-2 text-center rounded transition-colors ${product.availability === 'in-stock' ?
-                      'bg-red-500 text-white hover:bg-red-600' :
-                      'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    className={`flex-1 py-2 text-center rounded ${product.availability === 'in-stock' ?
+                      'bg-red-500 dark:bg-red-400 text-white dark:text-gray-900 hover:bg-red-600 dark:hover:bg-red-500' :
+                      'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
                       }`}
                     aria-disabled={product.availability !== 'in-stock'}
                     tabIndex={product.availability !== 'in-stock' ? -1 : 0}
@@ -419,7 +419,7 @@ const Store: React.FC = () => {
         <>
           {/* Background overlay */}
           <div
-            className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity z-40"
+            className="fixed inset-0 bg-gray-500 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-80 z-40"
             onClick={closeProductModal}
           ></div>
 
@@ -431,12 +431,12 @@ const Store: React.FC = () => {
             aria-labelledby="product-modal-title"
           >
             <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-              <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
-                <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+              <div className="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+                <div className="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                   <div className="sm:flex sm:items-start">
                     {/* Product Images */}
                     <div className="w-full sm:w-1/2 mb-4 sm:mb-0 sm:pr-4">
-                      <div className="h-64 sm:h-96 bg-gray-100 rounded-lg overflow-hidden mb-2">
+                      <div className="h-64 sm:h-96 bg-gray-100 dark:bg-gray-900 rounded-lg overflow-hidden mb-2">
                         <Image
                           src={selectedProduct.featuredImage}
                           alt={selectedProduct.name}
@@ -450,7 +450,7 @@ const Store: React.FC = () => {
                       </div>
                       <div className="grid grid-cols-3 gap-2">
                         {selectedProduct.gallery && Array.isArray(selectedProduct.gallery) && selectedProduct.gallery.slice(0, 3).map((image, index) => (
-                          <div key={index} className="h-24 bg-gray-100 rounded overflow-hidden">
+                          <div key={index} className="h-24 bg-gray-100 dark:bg-gray-900 rounded overflow-hidden">
                             <Image
                               src={image}
                               alt={`${selectedProduct.name} thumbnail ${index + 1}`}
@@ -468,30 +468,30 @@ const Store: React.FC = () => {
 
                     {/* Product Details */}
                     <div className="w-full sm:w-1/2">
-                      <h3 id="product-modal-title" className="text-2xl font-bold text-gray-900 mb-2">
+                      <h3 id="product-modal-title" className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
                         {selectedProduct.name}
                       </h3>
                       <div className="flex items-center mb-4">
-                        <span className="text-xl font-bold text-red-500 mr-4">
+                        <span className="text-xl font-bold text-red-500 dark:text-red-400 mr-4">
                           {formatPrice(selectedProduct.finalPrice)}
                         </span>
                         <span className={`text-sm px-2 py-1 rounded ${selectedProduct.availability === 'in-stock' ?
-                            'bg-green-100 text-green-800' :
-                            'bg-red-100 text-red-800'
+                            'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-400' :
+                            'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-400'
                           }`}>
                           {selectedProduct.availability === 'in-stock' ? 'In Stock' : 'Out of Stock'}
                         </span>
                       </div>
 
                       <div className="mb-4">
-                        <h4 className="font-semibold text-gray-800 mb-1">Description</h4>
-                        <p className="text-gray-600">{selectedProduct.longDescription}</p>
+                        <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-1">Description</h4>
+                        <p className="text-gray-600 dark:text-gray-300">{selectedProduct.longDescription}</p>
                       </div>
 
                       {selectedProduct.technicalSpecifications && Object.keys(selectedProduct.technicalSpecifications).length > 0 && (
                         <div className="mb-4">
-                          <h4 className="font-semibold text-gray-800 mb-1">Technical Specifications</h4>
-                          <ul className="text-gray-600">
+                          <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-1">Technical Specifications</h4>
+                          <ul className="text-gray-600 dark:text-gray-300">
                             {Object.entries(selectedProduct.technicalSpecifications).map(([key, value]) => (
                               <li key={key} className="flex">
                                 <span className="font-medium w-32 capitalize">{key}:</span>
@@ -504,8 +504,8 @@ const Store: React.FC = () => {
 
                       {selectedProduct.features && Array.isArray(selectedProduct.features) && selectedProduct.features.length > 0 && (
                         <div className="mb-4">
-                          <h4 className="font-semibold text-gray-800 mb-1">Features</h4>
-                          <ul className="list-disc list-inside text-gray-600">
+                          <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-1">Features</h4>
+                          <ul className="list-disc list-inside text-gray-600 dark:text-gray-300">
                             {selectedProduct.features.map((feature, index) => (
                               <li key={index}>{feature}</li>
                             ))}
@@ -518,22 +518,22 @@ const Store: React.FC = () => {
                           href={`https://tienda.bskmt.com/producto/${selectedProduct.slug || generateSlug(selectedProduct.name)}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className={`flex-1 py-3 text-center rounded transition-colors ${selectedProduct.availability === 'in-stock' ?
-                              'bg-red-500 text-white hover:bg-red-600' :
-                              'bg-gray-300 text-gray-500 cursor-not-allowed'
-                            }`}
-                          aria-disabled={selectedProduct.availability !== 'in-stock'}
-                          tabIndex={selectedProduct.availability !== 'in-stock' ? -1 : 0}
-                        >
-                          Buy Now
-                        </a>
-                        <button
-                          onClick={closeProductModal}
-                          className="flex-1 py-3 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition-colors"
-                          aria-label="Close product details modal"
-                        >
-                          Close
-                        </button>
+                          className={`flex-1 py-3 text-center rounded ${selectedProduct.availability === 'in-stock' ?
+                                'bg-red-500 dark:bg-red-400 text-white dark:text-gray-900 hover:bg-red-600 dark:hover:bg-red-500' :
+                                'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+                              }`}
+                            aria-disabled={selectedProduct.availability !== 'in-stock'}
+                            tabIndex={selectedProduct.availability !== 'in-stock' ? -1 : 0}
+                          >
+                            Buy Now
+                          </a>
+                          <button
+                            onClick={closeProductModal}
+                            className="flex-1 py-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded hover:bg-gray-300 dark:hover:bg-gray-600"
+                            aria-label="Close product details modal"
+                          >
+                            Close
+                          </button>
                       </div>
                     </div>
                   </div>

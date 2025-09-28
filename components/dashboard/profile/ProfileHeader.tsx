@@ -96,7 +96,7 @@ export default function ProfileHeader({ user, onEdit, onAvatarChange, isEditing 
               
               {/* Hover overlay */}
               {isHovering && !imageLoading && onAvatarChange && (
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-full cursor-pointer transition-all duration-200">
+                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-full cursor-pointer">
                   <FaCamera className="w-6 h-6 text-white" />
                 </div>
               )}
@@ -166,7 +166,7 @@ export default function ProfileHeader({ user, onEdit, onAvatarChange, isEditing 
             <button
               onClick={onEdit}
               disabled={isEditing}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white rounded-lg font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white rounded-lg font-medium focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
             >
               <FaEdit className="w-4 h-4" />
               {isEditing ? 'Editando...' : 'Editar Perfil'}

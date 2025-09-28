@@ -249,7 +249,7 @@ export default function EventDetailsPage() {
           <p className="text-gray-600 dark:text-slate-400 mb-4">{error}</p>
           <button
             onClick={() => router.back()}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800"
           >
             Volver
           </button>
@@ -423,7 +423,7 @@ export default function EventDetailsPage() {
                           <p className="font-medium">Documento de Detalles</p>
                           <button 
                             onClick={handlePdfDownload}
-                            className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors"
+                            className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium"
                           >
                             Descargar PDF
                           </button>
@@ -528,7 +528,7 @@ export default function EventDetailsPage() {
                           <button
                             onClick={() => handleEventRegistration('unregister')}
                             disabled={processing}
-                            className="w-full inline-flex items-center justify-center px-4 py-3 bg-red-600 dark:bg-red-500 text-white font-medium rounded-lg hover:bg-red-700 dark:hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full inline-flex items-center justify-center px-4 py-3 bg-red-600 dark:bg-red-500 text-white font-medium rounded-lg hover:bg-red-700 dark:hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             {processing ? (
                               <FaSpinner className="mr-2 animate-spin" />
@@ -541,7 +541,7 @@ export default function EventDetailsPage() {
                           <button
                             onClick={() => handleEventRegistration('register')}
                             disabled={processing || isEventFull || isRegistrationClosed}
-                            className="w-full inline-flex items-center justify-center px-4 py-3 bg-green-600 dark:bg-green-500 text-white font-medium rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full inline-flex items-center justify-center px-4 py-3 bg-green-600 dark:bg-green-500 text-white font-medium rounded-lg hover:bg-green-700 dark:hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             {processing ? (
                               <FaSpinner className="mr-2 animate-spin" />
@@ -556,7 +556,7 @@ export default function EventDetailsPage() {
                         <button
                           onClick={handleFavoriteToggle}
                           disabled={processing}
-                          className={`w-full inline-flex items-center justify-center px-4 py-3 font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
+                          className={`w-full inline-flex items-center justify-center px-4 py-3 font-medium rounded-lg disabled:opacity-50 disabled:cursor-not-allowed ${
                             isFavorite
                               ? 'bg-pink-600 dark:bg-pink-500 text-white hover:bg-pink-700 dark:hover:bg-pink-600'
                               : 'bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500'
@@ -579,7 +579,7 @@ export default function EventDetailsPage() {
                         </p>
                         <button
                           onClick={() => router.push('/login')}
-                          className="w-full px-4 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                          className="w-full px-4 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800"
                         >
                           Iniciar Sesión
                         </button>

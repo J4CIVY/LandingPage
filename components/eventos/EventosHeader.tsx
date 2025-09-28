@@ -54,15 +54,13 @@ export default function EventosHeader({ isAdmin, onCreateEvent, stats, loading }
               <button
                 onClick={onCreateEvent}
                 className="
-                  bg-white text-blue-600 hover:bg-blue-50 
+                  bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-800 
                   px-6 py-3 rounded-lg font-semibold 
                   flex items-center space-x-2 
-                  transition-all duration-200 
                   shadow-lg hover:shadow-xl
-                  transform hover:scale-105
                 "
               >
-                <FaPlus className="text-lg" />
+                <FaPlus className="text-lg text-blue-600 dark:text-blue-400" />
                 <span>Crear Evento</span>
               </button>
             </div>

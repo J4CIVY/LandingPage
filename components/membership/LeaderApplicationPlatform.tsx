@@ -664,9 +664,9 @@ const LeaderApplicationPlatform: React.FC<LeaderApplicationPlatformProps> = ({
   };
 
   return (
-    <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-lg ${className}`}>
+  <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-lg ${className}`}>
       {/* Header */}
-      <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+      <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
           Postulación para Membresía Leader
         </h1>
@@ -676,27 +676,27 @@ const LeaderApplicationPlatform: React.FC<LeaderApplicationPlatformProps> = ({
       </div>
 
       {/* Progress Steps */}
-      <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+      <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
         <div className="flex items-center justify-between">
           {steps.map((step, index) => (
             <div key={step.id} className="flex items-center">
               <div className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${
                 currentStep >= step.id 
                   ? 'bg-purple-600 border-purple-600 text-white' 
-                  : 'border-gray-300 text-gray-500'
+                  : 'border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400'
               }`}>
                 <step.icon className="w-4 h-4" />
               </div>
               <div className="ml-3">
                 <p className={`text-sm font-medium ${
-                  currentStep >= step.id ? 'text-purple-600' : 'text-gray-500'
+                  currentStep >= step.id ? 'text-purple-600 dark:text-purple-400' : 'text-gray-500 dark:text-gray-400'
                 }`}>
                   {step.title}
                 </p>
               </div>
               {index < steps.length - 1 && (
                 <div className={`w-16 h-0.5 mx-4 ${
-                  currentStep > step.id ? 'bg-purple-600' : 'bg-gray-300'
+                  currentStep > step.id ? 'bg-purple-600 dark:bg-purple-400' : 'bg-gray-300 dark:bg-gray-700'
                 }`} />
               )}
             </div>
@@ -705,17 +705,17 @@ const LeaderApplicationPlatform: React.FC<LeaderApplicationPlatformProps> = ({
       </div>
 
       {/* Content */}
-      <div className="p-6">
+  <div className="p-6 bg-white dark:bg-gray-800">
         {error && (
           <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-center">
-            <FaExclamationTriangle className="text-red-600 mr-2" />
+            <FaExclamationTriangle className="text-red-600 dark:text-red-400 mr-2" />
             <span className="text-red-800 dark:text-red-200">{error}</span>
           </div>
         )}
 
         {success && (
           <div className="mb-4 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg flex items-center">
-            <FaCheckCircle className="text-green-600 mr-2" />
+            <FaCheckCircle className="text-green-600 dark:text-green-400 mr-2" />
             <span className="text-green-800 dark:text-green-200">{success}</span>
           </div>
         )}
@@ -727,7 +727,7 @@ const LeaderApplicationPlatform: React.FC<LeaderApplicationPlatformProps> = ({
           <button
             onClick={() => setCurrentStep(Math.max(1, currentStep - 1))}
             disabled={currentStep === 1}
-            className="px-4 py-2 text-gray-600 hover:text-gray-800 disabled:text-gray-400 disabled:cursor-not-allowed"
+            className="px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white disabled:text-gray-400 dark:disabled:text-gray-500 disabled:cursor-not-allowed"
           >
             Anterior
           </button>
@@ -736,7 +736,7 @@ const LeaderApplicationPlatform: React.FC<LeaderApplicationPlatformProps> = ({
             <button
               onClick={saveAsDraft}
               disabled={saving}
-              className="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 disabled:opacity-50 flex items-center"
+              className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 flex items-center"
             >
               {saving ? <FaSpinner className="animate-spin mr-2" /> : <FaSave className="mr-2" />}
               Guardar Borrador
@@ -745,7 +745,7 @@ const LeaderApplicationPlatform: React.FC<LeaderApplicationPlatformProps> = ({
             {currentStep < steps.length ? (
               <button
                 onClick={() => setCurrentStep(Math.min(steps.length, currentStep + 1))}
-                className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+                className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 dark:hover:bg-purple-500"
               >
                 Siguiente
               </button>
@@ -753,7 +753,7 @@ const LeaderApplicationPlatform: React.FC<LeaderApplicationPlatformProps> = ({
               <button
                 onClick={submitApplication}
                 disabled={loading}
-                className="px-6 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 disabled:opacity-50 flex items-center"
+                className="px-6 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 dark:hover:bg-purple-500 disabled:opacity-50 flex items-center"
               >
                 {loading ? <FaSpinner className="animate-spin mr-2" /> : <FaPaperPlane className="mr-2" />}
                 Enviar Postulación

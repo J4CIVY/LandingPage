@@ -27,20 +27,20 @@ export default function HomeContent() {
   const { isMobile } = useDeviceInfo();
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950">
+  <div className="min-h-screen bg-white dark:bg-slate-950">
       {/* Indicadores de estado de conexión */}
       <OfflineIndicator />
       <SlowConnectionIndicator />
       
-      {/* Sección About */}
-      <section className="lazy-container intersection-stable">
+  {/* Sección About */}
+  <section className="lazy-container intersection-stable bg-white dark:bg-slate-950">
         <Suspense fallback={<SkeletonCard className="h-64" />}>
           <LazyAboutSection />
         </Suspense>
       </section>
 
-      {/* Sección Events */}
-      <section className="lazy-container intersection-stable">
+  {/* Sección Events */}
+  <section className="lazy-container intersection-stable bg-gray-50 dark:bg-slate-900">
         <LazyEventsSection 
           events={events} 
           loading={loading} 
@@ -48,20 +48,20 @@ export default function HomeContent() {
         />
       </section>
 
-      {/* Sección Gallery */}
-      <section className="lazy-container intersection-stable">
+  {/* Sección Gallery */}
+  <section className="lazy-container intersection-stable bg-white dark:bg-slate-950">
         <LazyGallerySection />
       </section>
 
-      {/* Sección Benefits */}
-      <section className="lazy-container intersection-stable">
+  {/* Sección Benefits */}
+  <section className="lazy-container intersection-stable bg-gray-50 dark:bg-slate-900">
         <Suspense fallback={<SkeletonCard className="h-64" />}>
           <LazyBenefitsSection />
         </Suspense>
       </section>
 
-      {/* Sección Hermandad */}
-      <section className="lazy-container intersection-stable">
+  {/* Sección Hermandad */}
+  <section className="lazy-container intersection-stable bg-white dark:bg-slate-950">
         <Suspense fallback={<SkeletonCard className="h-64" />}>
           <HermandadSection />
         </Suspense>
@@ -69,18 +69,18 @@ export default function HomeContent() {
 
       {/* Sección Store */}
       {(!isMobile || shouldPreloadImages) && (
-        <section className="lazy-container intersection-stable">
+        <section className="lazy-container intersection-stable bg-gray-50 dark:bg-slate-900">
           <LazyStoreSection />
         </section>
       )}
 
       {/* Sección Blog */}
-      <section className="lazy-container intersection-stable">
+      <section className="lazy-container intersection-stable bg-white dark:bg-slate-950">
         <LazyBlogSection />
       </section>
 
       {/* Sección FAQ */}
-      <section className="lazy-container intersection-stable">
+      <section className="lazy-container intersection-stable bg-gray-50 dark:bg-slate-900">
         <LazyFAQSection />
       </section>
     </div>

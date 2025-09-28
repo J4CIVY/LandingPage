@@ -151,23 +151,21 @@ const WelcomeContent: React.FC = () => {
         <div className="flex flex-col sm:flex-row justify-center gap-4">
           <Link
             href="/dashboard"
-            className="inline-flex items-center justify-center px-6 py-3 bg-red-600 hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600 text-white font-medium rounded-lg transition-colors"
+            className="inline-flex items-center justify-center px-6 py-3 bg-red-600 hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600 text-white font-medium rounded-lg"
           >
             <FaMedal className="mr-2" />
             Ir a mi Dashboard
           </Link>
-          
           <Link
             href="/profile"
-            className="inline-flex items-center justify-center px-6 py-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white font-medium rounded-lg transition-colors"
+            className="inline-flex items-center justify-center px-6 py-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white font-medium rounded-lg"
           >
             <FaUsers className="mr-2" />
             Completar Perfil
           </Link>
-          
           <Link
             href="/events"
-            className="inline-flex items-center justify-center px-6 py-3 bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 text-white font-medium rounded-lg transition-colors"
+            className="inline-flex items-center justify-center px-6 py-3 bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 text-white font-medium rounded-lg"
           >
             <FaCalendarAlt className="mr-2" />
             Ver Eventos

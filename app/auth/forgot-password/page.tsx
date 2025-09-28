@@ -100,7 +100,7 @@ export default function ForgotPasswordPage() {
             <div className="flex flex-col sm:flex-row gap-3 mt-6">
               <Link
                 href="/login"
-                className="flex-1 flex items-center justify-center px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+                className="flex-1 flex items-center justify-center px-4 py-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-medium rounded-lg"
               >
                 <FaArrowLeft className="mr-2 text-sm" />
                 Volver al Login
@@ -110,7 +110,7 @@ export default function ForgotPasswordPage() {
                   setIsSuccess(false);
                   setError('');
                 }}
-                className="flex-1 px-4 py-3 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 font-medium rounded-lg transition-colors"
+                className="flex-1 px-4 py-3 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 font-medium rounded-lg"
               >
                 Enviar Otro Correo
               </button>
@@ -185,10 +185,10 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={isLoading || !isValid}
-              className={`w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white transition-all duration-200 ${
+              className={`w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white ${
                 isLoading || !isValid
                   ? 'bg-gray-400 dark:bg-slate-600 cursor-not-allowed'
-                  : 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 hover:shadow-lg active:transform active:scale-[0.98]'
+                  : 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700'
               }`}
             >
               {isLoading ? (
@@ -209,7 +209,7 @@ export default function ForgotPasswordPage() {
           <div className="mt-6 text-center space-y-3">
             <Link
               href="/login"
-              className="inline-flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-medium transition-colors"
+              className="inline-flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-medium"
             >
               <FaArrowLeft className="mr-2 text-xs" />
               Volver al inicio de sesión
@@ -219,7 +219,7 @@ export default function ForgotPasswordPage() {
               ¿No tienes una cuenta?{' '}
               <Link
                 href="/register"
-                className="text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-medium transition-colors"
+                className="text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-medium"
               >
                 Regístrate aquí
               </Link>

@@ -144,12 +144,12 @@ const CookieBanner: React.FC = () => {
 
   return (
     <>
-      <div className={`fixed bottom-0 left-0 right-0 z-50 transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-        <div className="bg-slate-950 text-white p-4 shadow-lg">
+      <div className={`fixed bottom-0 left-0 right-0 z-50 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+        <div className="bg-slate-950 dark:bg-slate-800 text-white dark:text-gray-100 p-4 shadow-lg">
           <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex-1">
-              <h3 className="text-lg font-bold mb-1">Política de Cookies</h3>
-              <p className="text-sm">
+              <h3 className="text-lg font-bold mb-1 text-slate-950 dark:text-white">Política de Cookies</h3>
+              <p className="text-sm text-slate-800 dark:text-gray-300">
                 Nosotros y nuestros socios utilizamos cookies para almacenar y acceder a datos personales como los datos de navegación 
                 para fines como servir y personalizar el contenido y analizar el tráfico del sitio. Puede elegir qué tipo de cookies permitir.
               </p>
@@ -157,14 +157,14 @@ const CookieBanner: React.FC = () => {
             <div className="flex items-center gap-3 flex-wrap justify-center">
               <button 
                 onClick={acceptAll}
-                className="bg-green-400 hover:bg-[#00e68a] text-slate-950 font-bold py-2 px-4 rounded transition-colors duration-200 text-sm md:text-base"
+                className="bg-green-400 hover:bg-[#00e68a] text-slate-950 font-bold py-2 px-4 rounded text-sm md:text-base dark:bg-green-500 dark:hover:bg-green-600 dark:text-slate-900"
                 aria-label="Aceptar todas las cookies"
               >
                 Aceptar todas
               </button>
               <button 
                 onClick={toggleSettings}
-                className="border border-white hover:bg-white hover:text-slate-950 font-bold py-2 px-4 rounded transition-colors duration-200 text-sm md:text-base"
+                className="border border-white dark:border-gray-400 hover:bg-white hover:text-slate-950 dark:hover:bg-gray-700 dark:hover:text-white font-bold py-2 px-4 rounded text-sm md:text-base dark:text-gray-200"
                 aria-label="Configurar preferencias de cookies"
               >
                 Configurar
@@ -176,14 +176,14 @@ const CookieBanner: React.FC = () => {
 
       {showSettings && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/50 dark:bg-black/70 z-50 flex items-center justify-center p-4"
           role="dialog"
           aria-modal="true"
           aria-labelledby="cookie-settings-title"
           ref={settingsRef}
           tabIndex={-1}
         >
-          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-gray-200 dark:border-gray-700">
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 id="cookie-settings-title" className="text-2xl font-bold text-slate-950 dark:text-white">Configuración de Cookies</h3>
@@ -199,10 +199,10 @@ const CookieBanner: React.FC = () => {
               </div>
 
               <div className="space-y-6">
-                <div className="border-b pb-4 dark:border-gray-700">
+                <div className="border-b pb-4 border-gray-200 dark:border-gray-700">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="font-semibold text-lg dark:text-white">Cookies esenciales</h4>
+                      <h4 className="font-semibold text-lg text-slate-950 dark:text-white">Cookies esenciales</h4>
                       <p className="text-gray-600 dark:text-gray-400 text-sm">
                         Necesarias para el funcionamiento básico del sitio web. No se pueden desactivar.
                       </p>
@@ -219,10 +219,10 @@ const CookieBanner: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="border-b pb-4 dark:border-gray-700">
+                <div className="border-b pb-4 border-gray-200 dark:border-gray-700">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="font-semibold text-lg dark:text-white">Cookies de rendimiento</h4>
+                      <h4 className="font-semibold text-lg text-slate-950 dark:text-white">Cookies de rendimiento</h4>
                       <p className="text-gray-600 dark:text-gray-400 text-sm">
                         Nos ayudan a entender cómo interactúan los visitantes con nuestro sitio web.
                       </p>
@@ -239,10 +239,10 @@ const CookieBanner: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="border-b pb-4 dark:border-gray-700">
+                <div className="border-b pb-4 border-gray-200 dark:border-gray-700">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="font-semibold text-lg dark:text-white">Cookies funcionales</h4>
+                      <h4 className="font-semibold text-lg text-slate-950 dark:text-white">Cookies funcionales</h4>
                       <p className="text-gray-600 dark:text-gray-400 text-sm">
                         Permiten recordar tus preferencias y personalizar tu experiencia.
                       </p>
@@ -259,10 +259,10 @@ const CookieBanner: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="border-b pb-4 dark:border-gray-700">
+                <div className="border-b pb-4 border-gray-200 dark:border-gray-700">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="font-semibold text-lg dark:text-white">Cookies de marketing</h4>
+                      <h4 className="font-semibold text-lg text-slate-950 dark:text-white">Cookies de marketing</h4>
                       <p className="text-gray-600 dark:text-gray-400 text-sm">
                         Utilizadas para rastrear visitantes a través de webs y mostrar anuncios relevantes.
                       </p>
@@ -279,10 +279,10 @@ const CookieBanner: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="border-b pb-4 dark:border-gray-700">
+                <div className="border-b pb-4 border-gray-200 dark:border-gray-700">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="font-semibold text-lg dark:text-white">Cookies de redes sociales</h4>
+                      <h4 className="font-semibold text-lg text-slate-950 dark:text-white">Cookies de redes sociales</h4>
                       <p className="text-gray-600 dark:text-gray-400 text-sm">
                         Permiten compartir contenido en redes sociales y rastrear tu actividad.
                       </p>
@@ -303,7 +303,7 @@ const CookieBanner: React.FC = () => {
               <div className="mt-6 flex justify-end space-x-4">
                 <button 
                   onClick={toggleSettings}
-                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
                   aria-label="Cancelar y cerrar configuración"
                 >
                   Cancelar

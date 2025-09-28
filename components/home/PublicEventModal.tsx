@@ -196,7 +196,7 @@ const PublicEventModal: React.FC<PublicEventModalProps> = ({ event, onClose }) =
                   src={event.mainImage || "/default-event-image.webp"}
                   alt={event.name}
                   fill
-                  className="object-cover"
+                  className="object-cover bg-gray-100 dark:bg-slate-900"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
@@ -228,7 +228,7 @@ const PublicEventModal: React.FC<PublicEventModalProps> = ({ event, onClose }) =
                       <ul className="space-y-2">
                         {event.includedServices.map((service, index) => (
                           <li key={index} className="flex items-start">
-                            <span className="text-green-500 mr-2 mt-1">✓</span>
+                            <span className="text-green-500 dark:text-green-400 mr-2 mt-1">✓</span>
                             <span className="text-gray-700 dark:text-gray-300">{service}</span>
                           </li>
                         ))}
@@ -245,7 +245,7 @@ const PublicEventModal: React.FC<PublicEventModalProps> = ({ event, onClose }) =
                       <ul className="space-y-2">
                         {event.requirements.map((requirement, index) => (
                           <li key={index} className="flex items-start">
-                            <span className="text-blue-500 mr-2 mt-1">•</span>
+                            <span className="text-blue-500 dark:text-blue-400 mr-2 mt-1">•</span>
                             <span className="text-gray-700 dark:text-gray-300">{requirement}</span>
                           </li>
                         ))}
@@ -381,7 +381,7 @@ const PublicEventModal: React.FC<PublicEventModalProps> = ({ event, onClose }) =
                     
                     {isRegistrationOpen() ? (
                       <div className="space-y-3">
-                        <p className="text-gray-300 text-sm">
+                        <p className="text-gray-300 dark:text-gray-300 text-sm">
                           Si ya eres miembro, inicia sesión para registrarte con tarifa preferencial. 
                           Si no eres miembro, regístrate y obtén beneficios exclusivos.
                         </p>
@@ -389,7 +389,7 @@ const PublicEventModal: React.FC<PublicEventModalProps> = ({ event, onClose }) =
                         <div className="space-y-2">
                           <button
                             onClick={() => window.location.href = '/login'}
-                            className="w-full flex items-center justify-center px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors"
+                            className="w-full flex items-center justify-center px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg"
                           >
                             <FaSignInAlt className="mr-2" />
                             Iniciar sesión (Miembros)
@@ -397,7 +397,7 @@ const PublicEventModal: React.FC<PublicEventModalProps> = ({ event, onClose }) =
                           
                           <button
                             onClick={() => window.location.href = '/register'}
-                            className="w-full flex items-center justify-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
+                            className="w-full flex items-center justify-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
                           >
                             <FaUserPlus className="mr-2" />
                             Registrarse (Nuevos miembros)
@@ -407,7 +407,7 @@ const PublicEventModal: React.FC<PublicEventModalProps> = ({ event, onClose }) =
                         <div className="text-center">
                           <a
                             href="/memberships"
-                            className="text-sm text-blue-400 hover:text-blue-300 hover:underline"
+                            className="text-sm text-blue-400 dark:text-blue-300 hover:underline"
                           >
                             Conocer beneficios de las membresías
                           </a>
@@ -415,7 +415,7 @@ const PublicEventModal: React.FC<PublicEventModalProps> = ({ event, onClose }) =
                       </div>
                     ) : (
                       <div className="text-center">
-                        <p className="text-gray-300 text-sm mb-3">
+                        <p className="text-gray-300 dark:text-gray-300 text-sm mb-3">
                           {event.maxParticipants && event.currentParticipants >= event.maxParticipants
                             ? 'Este evento está lleno'
                             : 'Las inscripciones para este evento han cerrado'
@@ -423,7 +423,7 @@ const PublicEventModal: React.FC<PublicEventModalProps> = ({ event, onClose }) =
                         </p>
                         <button
                           disabled
-                          className="w-full px-4 py-2 bg-gray-600 text-gray-400 rounded-lg cursor-not-allowed"
+                          className="w-full px-4 py-2 bg-gray-600 dark:bg-gray-700 text-gray-400 dark:text-gray-300 rounded-lg cursor-not-allowed"
                         >
                           Inscripciones cerradas
                         </button>

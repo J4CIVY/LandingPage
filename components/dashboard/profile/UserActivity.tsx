@@ -203,7 +203,7 @@ export default function UserActivity({ user }: UserActivityProps) {
       <div className="flex border-b border-slate-200 dark:border-slate-600 mb-6">
         <button
           onClick={() => setSelectedTab('activity')}
-          className={`px-4 py-2 text-sm font-medium transition-colors duration-200 border-b-2 ${
+          className={`px-4 py-2 text-sm font-medium border-b-2 ${
             selectedTab === 'activity'
               ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400'
               : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
@@ -213,7 +213,7 @@ export default function UserActivity({ user }: UserActivityProps) {
         </button>
         <button
           onClick={() => setSelectedTab('sessions')}
-          className={`px-4 py-2 text-sm font-medium transition-colors duration-200 border-b-2 ${
+          className={`px-4 py-2 text-sm font-medium border-b-2 ${
             selectedTab === 'sessions'
               ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400'
               : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
@@ -367,7 +367,7 @@ export default function UserActivity({ user }: UserActivityProps) {
                         // Aquí iría la lógica para cerrar sesión
                         setSessions(prev => prev.filter(s => s.id !== session.id));
                       }}
-                      className="px-3 py-1 bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-800/50 text-red-600 dark:text-red-400 rounded-lg text-sm font-medium transition-colors duration-200"
+                      className="px-3 py-1 bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-800/50 text-red-600 dark:text-red-400 rounded-lg text-sm font-medium"
                     >
                       Cerrar Sesión
                     </button>

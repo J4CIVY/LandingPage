@@ -117,7 +117,7 @@ export default function EstadisticasRapidas({ usuarioId, puntosActuales = 0 }: E
     return (
       <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">
         <h3 className="text-lg font-bold text-gray-800 dark:text-slate-100 mb-4 flex items-center gap-2">
-          <FaChartLine className="text-blue-500" />
+          <FaChartLine className="text-blue-500 dark:text-blue-400" />
           Estadísticas Rápidas
         </h3>
         <div className="space-y-4">
@@ -162,46 +162,47 @@ export default function EstadisticasRapidas({ usuarioId, puntosActuales = 0 }: E
     <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-bold text-gray-800 dark:text-slate-100 flex items-center gap-2">
-          <FaChartLine className="text-blue-500" />
+          <FaChartLine className="text-blue-500 dark:text-blue-400" />
           Estadísticas Rápidas
         </h3>
         {error && (
           <button 
             onClick={cargarEstadisticas}
-            className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
+            className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 font-semibold"
             title="Actualizar datos"
+            type="button"
           >
-            <FaSync className="inline" />
+            <FaSync className="inline text-blue-500 dark:text-blue-400" />
             Actualizar
           </button>
         )}
       </div>
-      
+
       <div className="space-y-4">
         {/* Puntos de hoy */}
-        <div className="flex items-center justify-between p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+        <div className="flex items-center justify-between p-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
           <div>
             <p className="text-sm text-blue-700 dark:text-blue-300">Puntos ganados hoy</p>
             <p className="text-xl font-bold text-blue-800 dark:text-blue-200">
               +{estadisticas.puntosHoy}
             </p>
           </div>
-          <FaBullseye className="text-2xl text-blue-500" />
+          <FaBullseye className="text-2xl text-blue-500 dark:text-blue-400" />
         </div>
 
         {/* Puntos del mes */}
-        <div className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+        <div className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-900/30 rounded-lg">
           <div>
             <p className="text-sm text-green-700 dark:text-green-300">Puntos este mes</p>
             <p className="text-xl font-bold text-green-800 dark:text-green-200">
               +{estadisticas.puntosEsteMes}
             </p>
           </div>
-          <FaCalendarAlt className="text-2xl text-green-500" />
+          <FaCalendarAlt className="text-2xl text-green-500 dark:text-green-400" />
         </div>
 
         {/* Racha actual */}
-        <div className="flex items-center justify-between p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
+        <div className="flex items-center justify-between p-3 bg-orange-50 dark:bg-orange-900/30 rounded-lg">
           <div>
             <p className="text-sm text-orange-700 dark:text-orange-300">Racha actual</p>
             <p className="text-xl font-bold text-orange-800 dark:text-orange-200">
@@ -213,12 +214,12 @@ export default function EstadisticasRapidas({ usuarioId, puntosActuales = 0 }: E
               </p>
             )}
           </div>
-          <FaFire className="text-2xl text-orange-500" />
+          <FaFire className="text-2xl text-orange-500 dark:text-orange-400" />
         </div>
 
         {/* Próxima recompensa */}
         {estadisticas.proximaRecompensa && (
-          <div className="flex items-center justify-between p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+          <div className="flex items-center justify-between p-3 bg-purple-50 dark:bg-purple-900/30 rounded-lg">
             <div className="flex-1">
               <p className="text-sm text-purple-700 dark:text-purple-300">Próxima recompensa</p>
               <p className="text-sm font-medium text-purple-800 dark:text-purple-200">
@@ -234,12 +235,12 @@ export default function EstadisticasRapidas({ usuarioId, puntosActuales = 0 }: E
                 </p>
               )}
             </div>
-            <FaGift className="text-2xl text-purple-500" />
+            <FaGift className="text-2xl text-purple-500 dark:text-purple-400" />
           </div>
         )}
 
         {/* Posición en ranking */}
-        <div className="flex items-center justify-between p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
+        <div className="flex items-center justify-between p-3 bg-yellow-50 dark:bg-yellow-900/30 rounded-lg">
           <div>
             <p className="text-sm text-yellow-700 dark:text-yellow-300">Posición en ranking</p>
             <div className="flex items-center gap-2">
@@ -256,12 +257,12 @@ export default function EstadisticasRapidas({ usuarioId, puntosActuales = 0 }: E
               )}
             </div>
           </div>
-          <FaTrophy className="text-2xl text-yellow-500" />
+          <FaTrophy className="text-2xl text-yellow-500 dark:text-yellow-400" />
         </div>
       </div>
 
       {/* Motivación */}
-      <div className="mt-4 p-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg text-white text-center">
+      <div className="mt-4 p-3 bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-700 dark:to-purple-800 rounded-lg text-white text-center">
         <p className="text-sm font-medium flex items-center justify-center">
           {(() => {
             const message = getMotivationalMessage();
@@ -279,7 +280,7 @@ export default function EstadisticasRapidas({ usuarioId, puntosActuales = 0 }: E
       {!error && (
         <div className="mt-2 text-center">
           <p className="text-xs text-gray-500 dark:text-gray-400 flex items-center justify-center gap-1">
-            <FaCircle className="text-green-500 text-xs" />
+            <FaCircle className="text-green-500 dark:text-green-400 text-xs" />
             Datos actualizados en tiempo real
           </p>
         </div>
@@ -289,7 +290,7 @@ export default function EstadisticasRapidas({ usuarioId, puntosActuales = 0 }: E
       {error && (
         <div className="mt-2 text-center">
           <p className="text-xs text-amber-600 dark:text-amber-400 flex items-center justify-center gap-1">
-            <FaExclamationTriangle />
+            <FaExclamationTriangle className="text-amber-600 dark:text-amber-400" />
             Mostrando datos básicos - {error}
           </p>
         </div>

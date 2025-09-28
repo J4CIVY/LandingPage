@@ -216,46 +216,46 @@ export default function PqrsdfHistorial() {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+  <div className="bg-white dark:bg-slate-950 rounded-lg shadow-sm border border-gray-200 dark:border-slate-800 p-6">
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
         <div>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Historial PQRSDF</h2>
-          <p className="text-gray-600">Peticiones, Quejas, Reclamos, Sugerencias, Denuncias y Felicitaciones</p>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Historial PQRSDF</h2>
+          <p className="text-gray-600 dark:text-gray-300">Peticiones, Quejas, Reclamos, Sugerencias, Denuncias y Felicitaciones</p>
         </div>
         
         {/* Estadísticas rápidas */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-4 lg:mt-0">
           <div className="text-center">
-            <div className="text-2xl font-bold text-blue-600">{stats.total}</div>
-            <div className="text-xs text-gray-600">Total</div>
+            <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{stats.total}</div>
+            <div className="text-xs text-gray-600 dark:text-gray-400">Total</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-yellow-600">{stats.abiertas}</div>
-            <div className="text-xs text-gray-600">Abiertas</div>
+            <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">{stats.abiertas}</div>
+            <div className="text-xs text-gray-600 dark:text-gray-400">Abiertas</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-green-600">{stats.cerradas}</div>
-            <div className="text-xs text-gray-600">Cerradas</div>
+            <div className="text-2xl font-bold text-green-600 dark:text-green-400">{stats.cerradas}</div>
+            <div className="text-xs text-gray-600 dark:text-gray-400">Cerradas</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-purple-600">{stats.tiempoPromedio}</div>
-            <div className="text-xs text-gray-600">Días promedio</div>
+            <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">{stats.tiempoPromedio}</div>
+            <div className="text-xs text-gray-600 dark:text-gray-400">Días promedio</div>
           </div>
         </div>
       </div>
 
       {/* Filtros y búsqueda */}
-      <div className="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:space-x-4 mb-6">
+  <div className="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:space-x-4 mb-6">
         {/* Búsqueda */}
         <div className="relative flex-1">
-          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" />
           <input
             type="text"
             placeholder="Buscar por asunto o número de ticket..."
             value={busqueda}
             onChange={(e) => setBusqueda(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
           />
         </div>
 
@@ -263,7 +263,7 @@ export default function PqrsdfHistorial() {
         <select
           value={filtroCategoria}
           onChange={(e) => setFiltroCategoria(e.target.value as any)}
-          className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
         >
           <option value="todos">Todas las categorías</option>
           <option value="peticion">Petición</option>
@@ -278,7 +278,7 @@ export default function PqrsdfHistorial() {
         <select
           value={filtroEstado}
           onChange={(e) => setFiltroEstado(e.target.value as any)}
-          className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
         >
           <option value="todos">Todos los estados</option>
           <option value="abierto">Abierto</option>
@@ -305,7 +305,7 @@ export default function PqrsdfHistorial() {
             return (
               <div
                 key={item.id}
-                className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+                className="border border-gray-200 dark:border-slate-700 rounded-lg p-4 hover:shadow-md"
               >
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
                   <div className="flex-1">
@@ -316,35 +316,35 @@ export default function PqrsdfHistorial() {
                       
                       <div className="flex-1">
                         <div className="flex items-center space-x-2 mb-1">
-                          <h3 className="font-semibold text-gray-900">{item.asunto}</h3>
-                          <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                          <h3 className="font-semibold text-gray-900 dark:text-white">{item.asunto}</h3>
+                          <span className="text-xs text-gray-500 dark:text-gray-300 bg-gray-100 dark:bg-slate-800 px-2 py-1 rounded">
                             {item.numeroTicket}
                           </span>
                         </div>
                         
                         <div className="flex flex-wrap items-center gap-2 mb-2">
-                          <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getCategoriaColor(item.categoria)}`}>
+                          <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getCategoriaColor(item.categoria)} dark:bg-slate-800 dark:border-slate-700`}>
                             <CategoriaIcon className="mr-1 text-xs" />
                             {item.categoria.charAt(0).toUpperCase() + item.categoria.slice(1)}
                           </span>
-                          <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getEstadoColor(item.estado)}`}>
+                          <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getEstadoColor(item.estado)} dark:bg-slate-800`}>
                             <EstadoIcon className={`mr-1 text-xs ${item.estado === 'en_proceso' ? 'animate-spin' : ''}`} />
                             {item.estado === 'en_proceso' ? 'En proceso' : 
                              item.estado.charAt(0).toUpperCase() + item.estado.slice(1)}
                           </span>
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPrioridadColor(item.prioridad)}`}>
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPrioridadColor(item.prioridad)} dark:bg-slate-800`}>
                             Prioridad {item.prioridad}
                           </span>
                         </div>
                         
-                        <div className="space-y-1 text-sm text-gray-600">
+                        <div className="space-y-1 text-sm text-gray-600 dark:text-gray-300">
                           <div className="flex items-center">
-                            <FaClock className="mr-2 text-gray-400" />
+                            <FaClock className="mr-2 text-gray-400 dark:text-gray-500" />
                             Creado el {formatDate(item.fechaCreacion)}
                           </div>
                           {item.fechaRespuesta && (
                             <div className="flex items-center">
-                              <FaReply className="mr-2 text-gray-400" />
+                              <FaReply className="mr-2 text-gray-400 dark:text-gray-500" />
                               Respondido el {formatDate(item.fechaRespuesta)}
                               {tiempoRespuesta && (
                                 <span className="ml-2 text-green-600">
@@ -359,7 +359,7 @@ export default function PqrsdfHistorial() {
                   </div>
                   
                   <div className="flex items-center space-x-2 mt-3 lg:mt-0">
-                    <button className="flex items-center space-x-1 px-3 py-1 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                    <button className="flex items-center space-x-1 px-3 py-1 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-800 rounded-lg">
                       <FaEye />
                       <span className="text-sm">Ver detalles</span>
                     </button>

@@ -178,7 +178,7 @@ export default function AdvancedSettingsSection() {
     <div className="space-y-6">
       {/* Toast Notification */}
       {toast && (
-        <div className={`fixed top-4 right-4 z-50 p-4 rounded-lg border shadow-lg transition-all duration-300 ${
+  <div className={`fixed top-4 right-4 z-50 p-4 rounded-lg border shadow-lg ${
           toast.type === 'success' ? 'bg-green-50 border-green-200 text-green-800' :
           toast.type === 'error' ? 'bg-red-50 border-red-200 text-red-800' :
           'bg-yellow-50 border-yellow-200 text-yellow-800'
@@ -193,7 +193,7 @@ export default function AdvancedSettingsSection() {
             </div>
             <button
               onClick={() => setToast(null)}
-              className="ml-4 text-gray-400 hover:text-gray-600"
+                className="ml-4 text-gray-400 hover:text-gray-600"
             >
               <FaTimesCircle className="h-4 w-4" />
             </button>
@@ -247,7 +247,7 @@ export default function AdvancedSettingsSection() {
               <button
                 onClick={() => handleSocialToggle(account.provider)}
                 disabled={isLoading}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-colors ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm ${
                   account.isConnected
                     ? 'bg-red-600 hover:bg-red-700 text-white'
                     : 'bg-blue-600 hover:bg-blue-700 text-white'
@@ -354,7 +354,7 @@ export default function AdvancedSettingsSection() {
               <button
                 key={theme.value}
                 onClick={() => handleThemeChange(theme.value as 'light' | 'dark' | 'system')}
-                className={`flex flex-col items-center gap-2 p-4 border rounded-lg transition-all ${
+                className={`flex flex-col items-center gap-2 p-4 border rounded-lg ${
                   themeMode === theme.value
                     ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
                     : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'

@@ -95,47 +95,47 @@ export default function MembershipAlerts({ membershipData }: MembershipAlertsPro
     switch (type) {
       case 'error':
         return {
-          bgColor: 'bg-red-50',
-          borderColor: 'border-red-200',
-          textColor: 'text-red-800',
-          iconColor: 'text-red-500',
-          buttonColor: 'bg-red-600 hover:bg-red-700',
+          bgColor: 'bg-red-50 dark:bg-red-950',
+          borderColor: 'border-red-200 dark:border-red-800',
+          textColor: 'text-red-800 dark:text-red-200',
+          iconColor: 'text-red-500 dark:text-red-400',
+          buttonColor: 'bg-red-600 dark:bg-red-700 hover:bg-red-700 dark:hover:bg-red-800',
           icon: FaExclamationTriangle
         };
       case 'warning':
         return {
-          bgColor: 'bg-yellow-50',
-          borderColor: 'border-yellow-200',
-          textColor: 'text-yellow-800',
-          iconColor: 'text-yellow-500',
-          buttonColor: 'bg-yellow-600 hover:bg-yellow-700',
+          bgColor: 'bg-yellow-50 dark:bg-yellow-950',
+          borderColor: 'border-yellow-200 dark:border-yellow-800',
+          textColor: 'text-yellow-800 dark:text-yellow-200',
+          iconColor: 'text-yellow-500 dark:text-yellow-400',
+          buttonColor: 'bg-yellow-600 dark:bg-yellow-700 hover:bg-yellow-700 dark:hover:bg-yellow-800',
           icon: FaExclamationTriangle
         };
       case 'info':
         return {
-          bgColor: 'bg-blue-50',
-          borderColor: 'border-blue-200',
-          textColor: 'text-blue-800',
-          iconColor: 'text-blue-500',
-          buttonColor: 'bg-blue-600 hover:bg-blue-700',
+          bgColor: 'bg-blue-50 dark:bg-blue-950',
+          borderColor: 'border-blue-200 dark:border-blue-800',
+          textColor: 'text-blue-800 dark:text-blue-200',
+          iconColor: 'text-blue-500 dark:text-blue-400',
+          buttonColor: 'bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-800',
           icon: FaInfoCircle
         };
       case 'success':
         return {
-          bgColor: 'bg-green-50',
-          borderColor: 'border-green-200',
-          textColor: 'text-green-800',
-          iconColor: 'text-green-500',
-          buttonColor: 'bg-green-600 hover:bg-green-700',
+          bgColor: 'bg-green-50 dark:bg-green-950',
+          borderColor: 'border-green-200 dark:border-green-800',
+          textColor: 'text-green-800 dark:text-green-200',
+          iconColor: 'text-green-500 dark:text-green-400',
+          buttonColor: 'bg-green-600 dark:bg-green-700 hover:bg-green-700 dark:hover:bg-green-800',
           icon: FaCheckCircle
         };
       default:
         return {
-          bgColor: 'bg-gray-50',
-          borderColor: 'border-gray-200',
-          textColor: 'text-gray-800',
-          iconColor: 'text-gray-500',
-          buttonColor: 'bg-gray-600 hover:bg-gray-700',
+          bgColor: 'bg-gray-50 dark:bg-slate-900',
+          borderColor: 'border-gray-200 dark:border-slate-700',
+          textColor: 'text-gray-800 dark:text-gray-200',
+          iconColor: 'text-gray-500 dark:text-gray-400',
+          buttonColor: 'bg-gray-600 dark:bg-slate-700 hover:bg-gray-700 dark:hover:bg-slate-800',
           icon: FaInfoCircle
         };
     }
@@ -176,7 +176,7 @@ export default function MembershipAlerts({ membershipData }: MembershipAlertsPro
                   <div className="flex items-center gap-3">
                     <button
                       onClick={alert.actionHandler}
-                      className={`${config.buttonColor} text-white font-medium py-2 px-4 rounded-lg text-sm transition-colors duration-200`}
+                      className={`${config.buttonColor} text-white font-medium py-2 px-4 rounded-lg text-sm`}
                     >
                       {alert.actionText}
                     </button>
@@ -187,7 +187,7 @@ export default function MembershipAlerts({ membershipData }: MembershipAlertsPro
               {alert.dismissible && (
                 <button
                   onClick={() => handleDismiss(alert.id)}
-                  className={`p-1 rounded-md ${config.textColor} hover:bg-black hover:bg-opacity-10 transition-colors duration-200`}
+                  className={`p-1 rounded-md ${config.textColor} hover:bg-black/10 dark:hover:bg-white/10`}
                   aria-label="Cerrar alerta"
                 >
                   <FaTimes className="w-4 h-4" />

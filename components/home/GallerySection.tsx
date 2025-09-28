@@ -76,10 +76,10 @@ const GallerySection: React.FC = () => {
   }, [galleryImages.length]);
 
   return (
-    <section className="py-20 px-4 bg-white dark:bg-slate-950">
+  <section className="py-20 px-4 bg-white dark:bg-slate-950">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
-          GALERÍA <span className="text-red-600">MULTIMEDIA</span>
+          GALERÍA <span className="text-red-600 dark:text-red-400">MULTIMEDIA</span>
         </h2>
 
         <div className="relative mb-8 rounded-xl overflow-hidden shadow-xl group">
@@ -104,8 +104,8 @@ const GallerySection: React.FC = () => {
             ))}
           </div>
 
-          <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50"></div>
-          <div className="absolute bottom-0 left-0 p-6 text-white">
+          <div className="absolute inset-0 bg-gradient-to-t from-black dark:from-slate-950 to-transparent opacity-50"></div>
+          <div className="absolute bottom-0 left-0 p-6 text-white dark:text-gray-200">
             <p className="text-xl">{galleryImages[activeGalleryImage].alt}</p>
           </div>
         </div>
@@ -115,8 +115,7 @@ const GallerySection: React.FC = () => {
             <button
               key={`dot-${index}`}
               onClick={() => setActiveGalleryImage(index)}
-              
-              className={`w-3 h-3 rounded-full transition-colors ${index === activeGalleryImage ? 'bg-red-600' : 'bg-gray-300 dark:bg-gray-600 hover:bg-red-400'}`}
+              className={`w-3 h-3 rounded-full ${index === activeGalleryImage ? 'bg-red-600 dark:bg-red-400' : 'bg-gray-300 dark:bg-gray-600 hover:bg-red-400 dark:hover:bg-red-400'}`}
               aria-label={`Ir a la imagen ${index + 1}`}
               aria-current={index === activeGalleryImage}
             >

@@ -32,10 +32,10 @@ const AboutSection: React.FC = () => {
   const fallbackSrc: string = `https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_1366/${imagePath}`;
 
   return (
-    <section className="py-20 px-4 bg-white dark:bg-slate-950">
+  <section className="py-20 px-4 bg-white dark:bg-slate-950">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
-          SOBRE <span className="text-red-600">NOSOTROS</span>
+          SOBRE <span className="text-red-600 dark:text-red-400">NOSOTROS</span>
         </h2>
 
         <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -59,19 +59,19 @@ const AboutSection: React.FC = () => {
             <ul className="space-y-3">
               <li className="flex items-start">
                 <div className="flex items-start">
-                  <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
+                  <span className="text-green-400 dark:text-green-300 mr-2" aria-hidden="true">✔</span>
                   <span className="text-gray-700 dark:text-gray-300">Comunidad: Más que un club, somos una familia de motociclistas unida por la confianza, la lealtad y el apoyo dentro y fuera de la carretera.</span>
                 </div>
               </li>
               <li className="flex items-start">
                 <div className="flex items-start">
-                  <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
+                  <span className="text-green-400 dark:text-green-300 mr-2" aria-hidden="true">✔</span>
                   <span className="text-gray-700 dark:text-gray-300">Espíritu: Alimentamos la pasión y el espíritu aventurero, disfrutando cada ruta con alegría, disciplina y energía para descubrir nuevos caminos.</span>
                 </div>
               </li>
               <li className="flex items-start">
                 <div className="flex items-start">
-                  <span className="text-green-400 mr-2" aria-hidden="true">✔</span>
+                  <span className="text-green-400 dark:text-green-300 mr-2" aria-hidden="true">✔</span>
                   <span className="text-gray-700 dark:text-gray-300">Respeto: Promovemos la seguridad, la tolerancia y la responsabilidad, cuidando a nuestros miembros y a las comunidades que visitamos.</span>
                 </div>
               </li>
@@ -92,8 +92,8 @@ const AboutSection: React.FC = () => {
                 height={768}
               />
             </picture>
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent opacity-70"></div>
-            <div className="absolute bottom-0 left-0 p-6 text-white">
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 dark:from-slate-950 dark:to-transparent to-transparent opacity-70"></div>
+            <div className="absolute bottom-0 left-0 p-6 text-white dark:text-gray-200">
               <p className="text-xl italic">
                 "Más que rutas, creamos recuerdos. Desde el primer día, eres parte de algo más grande."
               </p>

@@ -87,7 +87,7 @@ export default function SolicitudTable({ solicitudes, className = '' }: Solicitu
                   {getSortIcon('numeroSolicitud')}
                 </div>
               </th>
-              <th 
+              <th
                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors duration-200"
                 onClick={() => handleSort('categoria')}
               >
@@ -108,7 +108,7 @@ export default function SolicitudTable({ solicitudes, className = '' }: Solicitu
                   {getSortIcon('estado')}
                 </div>
               </th>
-              <th 
+              <th
                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors duration-200"
                 onClick={() => handleSort('fechaCreacion')}
               >
@@ -133,7 +133,7 @@ export default function SolicitudTable({ solicitudes, className = '' }: Solicitu
           </thead>
           <tbody className="bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-slate-700">
             {sortedSolicitudes.map((solicitud) => (
-              <tr key={solicitud.id} className="hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors duration-200">
+              <tr key={solicitud.id} className="hover:bg-gray-50 dark:hover:bg-slate-700">
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-slate-100">
                   {solicitud.numeroSolicitud}
                 </td>
@@ -157,7 +157,7 @@ export default function SolicitudTable({ solicitudes, className = '' }: Solicitu
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   <Link
                     href={`/dashboard/pqrsdf/${solicitud.id}`}
-                    className="inline-flex items-center space-x-1 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-200"
+                    className="inline-flex items-center space-x-1 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
                   >
                     <FaEye className="w-4 h-4" />
                     <span>Ver</span>
@@ -196,7 +196,7 @@ export default function SolicitudTable({ solicitudes, className = '' }: Solicitu
               </span>
               <Link
                 href={`/dashboard/pqrsdf/${solicitud.id}`}
-                className="inline-flex items-center space-x-1 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium transition-colors duration-200"
+                className="inline-flex items-center space-x-1 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
               >
                 <FaEye className="w-3 h-3" />
                 <span>Ver</span>

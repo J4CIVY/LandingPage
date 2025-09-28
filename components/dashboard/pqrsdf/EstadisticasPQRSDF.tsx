@@ -22,7 +22,7 @@ export default function EstadisticasPQRSDF({ estadisticas, className = '' }: Est
     : 0;
 
   return (
-    <div className={`bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6 ${className}`}>
+  <div className={`bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6 ${className}`}>
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100">
           Estadísticas PQRSDF
@@ -61,7 +61,7 @@ export default function EstadisticasPQRSDF({ estadisticas, className = '' }: Est
           <div className="space-y-2">
             <div className="flex items-center justify-between text-sm">
               <div className="flex items-center space-x-2">
-                <FaClock className="w-4 h-4 text-blue-600" />
+                <FaClock className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                 <span className="text-gray-600 dark:text-slate-400">En Revisión</span>
               </div>
               <span className="font-medium text-gray-900 dark:text-slate-100">
@@ -71,7 +71,7 @@ export default function EstadisticasPQRSDF({ estadisticas, className = '' }: Est
             
             <div className="flex items-center justify-between text-sm">
               <div className="flex items-center space-x-2">
-                <FaComments className="w-4 h-4 text-green-600" />
+                <FaComments className="w-4 h-4 text-green-600 dark:text-green-400" />
                 <span className="text-gray-600 dark:text-slate-400">Respondidas</span>
               </div>
               <span className="font-medium text-gray-900 dark:text-slate-100">
@@ -81,7 +81,7 @@ export default function EstadisticasPQRSDF({ estadisticas, className = '' }: Est
             
             <div className="flex items-center justify-between text-sm">
               <div className="flex items-center space-x-2">
-                <FaCheck className="w-4 h-4 text-gray-600" />
+                <FaCheck className="w-4 h-4 text-gray-600 dark:text-gray-300" />
                 <span className="text-gray-600 dark:text-slate-400">Cerradas</span>
               </div>
               <span className="font-medium text-gray-900 dark:text-slate-100">
@@ -92,7 +92,7 @@ export default function EstadisticasPQRSDF({ estadisticas, className = '' }: Est
             {estadisticas.porEstado.escalada > 0 && (
               <div className="flex items-center justify-between text-sm">
                 <div className="flex items-center space-x-2">
-                  <FaFileAlt className="w-4 h-4 text-yellow-600" />
+                  <FaFileAlt className="w-4 h-4 text-yellow-600 dark:text-yellow-400" />
                   <span className="text-gray-600 dark:text-slate-400">Escaladas</span>
                 </div>
                 <span className="font-medium text-gray-900 dark:text-slate-100">
@@ -104,11 +104,11 @@ export default function EstadisticasPQRSDF({ estadisticas, className = '' }: Est
         </div>
 
         {/* Métricas adicionales */}
-        <div className="pt-4 border-t border-gray-200 dark:border-slate-700">
+  <div className="pt-4 border-t border-gray-200 dark:border-slate-700">
           <div className="space-y-3">
             <div className="flex items-center justify-between text-sm">
               <div className="flex items-center space-x-2">
-                <FaClock className="w-4 h-4 text-purple-600" />
+                <FaClock className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                 <span className="text-gray-600 dark:text-slate-400">Tiempo Promedio</span>
               </div>
               <span className="font-medium text-gray-900 dark:text-slate-100">
@@ -118,7 +118,7 @@ export default function EstadisticasPQRSDF({ estadisticas, className = '' }: Est
             
             <div className="flex items-center justify-between text-sm">
               <div className="flex items-center space-x-2">
-                <FaStar className="w-4 h-4 text-yellow-500" />
+                <FaStar className="w-4 h-4 text-yellow-500 dark:text-yellow-400" />
                 <span className="text-gray-600 dark:text-slate-400">Satisfacción</span>
               </div>
               <span className="font-medium text-gray-900 dark:text-slate-100">

@@ -168,7 +168,7 @@ ${JSON.stringify(userData, null, 2)}`
     <div className="space-y-6">
       {/* Toast Notification */}
       {toast && (
-        <div className={`fixed top-4 right-4 z-50 p-4 rounded-lg border shadow-lg transition-all duration-300 ${
+  <div className={`fixed top-4 right-4 z-50 p-4 rounded-lg border shadow-lg ${
           toast.type === 'success' ? 'bg-green-50 border-green-200 text-green-800' :
           toast.type === 'error' ? 'bg-red-50 border-red-200 text-red-800' :
           'bg-yellow-50 border-yellow-200 text-yellow-800'
@@ -347,7 +347,7 @@ ${JSON.stringify(userData, null, 2)}`
             <button
               onClick={handleDownloadData}
               disabled={isLoading}
-              className="w-full sm:w-auto flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg transition-colors"
+              className="w-full sm:w-auto flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg"
             >
               <FaDownload className="h-4 w-4" />
               {isLoading ? 'Generando archivo...' : 'Descargar datos personales'}
@@ -379,7 +379,7 @@ ${JSON.stringify(userData, null, 2)}`
                 </div>
                 <button
                   onClick={() => setIsDeleteModalOpen(true)}
-                  className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm rounded-lg transition-colors"
+                  className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm rounded-lg"
                 >
                   Eliminar mi cuenta
                 </button>
@@ -437,7 +437,7 @@ ${JSON.stringify(userData, null, 2)}`
               <button
                 onClick={handleDeleteAccount}
                 disabled={deleteConfirmPassword !== 'eliminar-cuenta' || isLoading}
-                className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white rounded-lg transition-colors"
+                className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white rounded-lg"
               >
                 {isLoading ? 'Procesando...' : 'Eliminar cuenta'}
               </button>

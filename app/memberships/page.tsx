@@ -136,12 +136,12 @@ const Memberships: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100">
+  <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
       <SEOComponent
         title="Membresías - BSK Motorcycle Team"
         description="Únete a BSK Motorcycle Team. Conoce nuestros planes de membresía, beneficios, y cómo puedes formar parte de nuestra comunidad de motociclistas."
       />
-      <div className="relative bg-slate-950 text-white py-20">
+  <div className="relative bg-slate-950 dark:bg-gray-900 text-white dark:text-white py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 flex items-center justify-center">
             Únete a BSK Motorcycle Team
@@ -153,7 +153,7 @@ const Memberships: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a 
               href="#memberships" 
-              className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-flex items-center"
+              className="bg-red-600 dark:bg-red-500 hover:bg-red-700 dark:hover:bg-red-400 text-white font-bold py-3 px-8 rounded-full text-lg inline-flex items-center"
               aria-label="Ver nuestras opciones de membresía"
             >
               Ver Membresías <FaChevronRight className="ml-2" aria-hidden="true" />
@@ -161,7 +161,7 @@ const Memberships: React.FC = () => {
             
             <button 
               onClick={() => router.push('/dashboard/membership')}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-flex items-center"
+              className="bg-blue-600 dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-400 text-white font-bold py-3 px-8 rounded-full text-lg inline-flex items-center"
               aria-label="Ver estado de mi membresía"
             >
               Mi Membresía <FaUser className="ml-2" aria-hidden="true" />
@@ -170,39 +170,39 @@ const Memberships: React.FC = () => {
         </div>
       </div>
 
-      <div className="py-16 bg-white">
+  <div className="py-16 bg-white dark:bg-gray-800">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">
+          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800 dark:text-white">
             ¿Por qué elegir BSK Motorcycle Team?
           </h2>
           
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
+            <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg shadow-sm">
               <div className="text-green-400 mb-4">
                 <FaUsers className="h-12 w-12" aria-hidden="true" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-800">Comunidad</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold mb-3 text-gray-800 dark:text-white">Comunidad</h3>
+              <p className="text-gray-600 dark:text-gray-200">
                 En BSK creemos en la camaradería y la unidad como base de todo lo que hacemos. Te sentirás parte de una gran familia motera.
               </p>
             </div>
             
-            <div className="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
+            <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg shadow-sm">
               <div className="text-green-400 mb-4">
                 <FaBolt className="h-12 w-12" aria-hidden="true" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-800">Espíritu Aventurero</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold mb-3 text-gray-800 dark:text-white">Espíritu Aventurero</h3>
+              <p className="text-gray-600 dark:text-gray-200">
                 La pasión por la aventura nos une. Exploramos nuevos horizontes, desafiamos nuestros límites y descubrimos lugares emocionantes.
               </p>
             </div>
             
-            <div className="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
+            <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg shadow-sm">
               <div className="text-green-400 mb-4">
                 <FaLock className="h-12 w-12" aria-hidden="true" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-800">Respeto y Seguridad</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold mb-3 text-gray-800 dark:text-white">Respeto y Seguridad</h3>
+              <p className="text-gray-600 dark:text-gray-200">
                 Promovemos un profundo respeto hacia todos los miembros y la seguridad como prioridad en todas nuestras actividades.
               </p>
             </div>
@@ -210,49 +210,49 @@ const Memberships: React.FC = () => {
         </div>
       </div>
 
-      <div className="py-16 bg-slate-950">
+  <div className="py-16 bg-slate-950 dark:bg-gray-900">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12 text-white">Beneficios de ser miembro</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 text-white dark:text-white">Beneficios de ser miembro</h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-              <div className="bg-slate-950 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm text-center">
+              <div className="bg-slate-950 dark:bg-gray-700 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
                 <FaCalendarAlt className="h-8 w-8 text-green-400" aria-hidden="true" />
               </div>
-              <h3 className="font-semibold mb-2 text-gray-800">Eventos exclusivos</h3>
-              <p className="text-gray-600 text-sm">Participa en rodadas, tours y actividades sociales organizadas por el club.</p>
+              <h3 className="font-semibold mb-2 text-gray-800 dark:text-white">Eventos exclusivos</h3>
+              <p className="text-gray-600 dark:text-gray-200 text-sm">Participa en rodadas, tours y actividades sociales organizadas por el club.</p>
             </div>
             
-            <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-              <div className="bg-slate-950 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm text-center">
+              <div className="bg-slate-950 dark:bg-gray-700 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
                 <FaShieldAlt className="h-8 w-8 text-green-400" aria-hidden="true" />
               </div>
-              <h3 className="font-semibold mb-2 text-gray-800">Asistencia en ruta</h3>
-              <p className="text-gray-600 text-sm">Servicio de asistencia técnica y emergencias disponible 24/7 según tu membresía.</p>
+              <h3 className="font-semibold mb-2 text-gray-800 dark:text-white">Asistencia en ruta</h3>
+              <p className="text-gray-600 dark:text-gray-200 text-sm">Servicio de asistencia técnica y emergencias disponible 24/7 según tu membresía.</p>
             </div>
             
-            <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-              <div className="bg-slate-950 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm text-center">
+              <div className="bg-slate-950 dark:bg-gray-700 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
                 <TbDiscount className="h-8 w-8 text-green-400" aria-hidden="true" />
               </div>
-              <h3 className="font-semibold mb-2 text-gray-800">Descuentos exclusivos</h3>
-              <p className="text-gray-600 text-sm">Accede a descuentos en merchandising, talleres y servicios aliados.</p>
+              <h3 className="font-semibold mb-2 text-gray-800 dark:text-white">Descuentos exclusivos</h3>
+              <p className="text-gray-600 dark:text-gray-200 text-sm">Accede a descuentos en merchandising, talleres y servicios aliados.</p>
             </div>
             
-            <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-              <div className="bg-slate-950 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm text-center">
+              <div className="bg-slate-950 dark:bg-gray-700 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
                 <FaGift className="h-8 w-8 text-green-400" aria-hidden="true" />
               </div>
-              <h3 className="font-semibold mb-2 text-gray-800">Kit de bienvenida</h3>
-              <p className="text-gray-600 text-sm">Recibe un kit con indumentaria y accesorios según tu tipo de membresía.</p>
+              <h3 className="font-semibold mb-2 text-gray-800 dark:text-white">Kit de bienvenida</h3>
+              <p className="text-gray-600 dark:text-gray-200 text-sm">Recibe un kit con indumentaria y accesorios según tu tipo de membresía.</p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="py-16 bg-white">
+  <div className="py-16 bg-white dark:bg-gray-800">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">Requisitos para ser miembro</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800 dark:text-white">Requisitos para ser miembro</h2>
           
           <div className="max-w-3xl mx-auto">
             <div className="space-y-4">
@@ -261,7 +261,7 @@ const Memberships: React.FC = () => {
                   <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" />
                 </div>
                 <div className="ml-3">
-                  <p className="text-gray-700">Pasión por el motociclismo y alineación con los valores del club</p>
+                  <p className="text-gray-700 dark:text-gray-200">Pasión por el motociclismo y alineación con los valores del club</p>
                 </div>
               </div>
               
@@ -270,7 +270,7 @@ const Memberships: React.FC = () => {
                   <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" />
                 </div>
                 <div className="ml-3">
-                  <p className="text-gray-700">Ser mayor de 18 años</p>
+                  <p className="text-gray-700 dark:text-gray-200">Ser mayor de 18 años</p>
                 </div>
               </div>
               
@@ -279,7 +279,7 @@ const Memberships: React.FC = () => {
                   <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" />
                 </div>
                 <div className="ml-3">
-                  <p className="text-gray-700">Licencia de conducir motocicletas tipo A1 o A2 vigente</p>
+                  <p className="text-gray-700 dark:text-gray-200">Licencia de conducir motocicletas tipo A1 o A2 vigente</p>
                 </div>
               </div>
               
@@ -288,7 +288,7 @@ const Memberships: React.FC = () => {
                   <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" />
                 </div>
                 <div className="ml-3">
-                  <p className="text-gray-700">Motocicleta propia en buen estado y debidamente registrada</p>
+                  <p className="text-gray-700 dark:text-gray-200">Motocicleta propia en buen estado y debidamente registrada</p>
                 </div>
               </div>
               
@@ -297,14 +297,14 @@ const Memberships: React.FC = () => {
                   <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" />
                 </div>
                 <div className="ml-3">
-                  <p className="text-gray-700">Compromiso de cumplir con el código de ética del club</p>
+                  <p className="text-gray-700 dark:text-gray-200">Compromiso de cumplir con el código de ética del club</p>
                 </div>
               </div>
             </div>
             
-            <div className="mt-12 bg-slate-950 p-6 rounded-lg border border-blue-200">
-              <h3 className="text-xl font-semibold mb-4 text-white">Proceso de admisión</h3>
-              <ol className="list-decimal list-inside space-y-2 text-gray-400">
+            <div className="mt-12 bg-slate-950 dark:bg-gray-900 p-6 rounded-lg border border-blue-200 dark:border-blue-400">
+              <h3 className="text-xl font-semibold mb-4 text-white dark:text-white">Proceso de admisión</h3>
+              <ol className="list-decimal list-inside space-y-2 text-gray-400 dark:text-gray-300">
                 <li>Completar formulario de solicitud</li>
                 <li>Entrevista personal con el Comité de Membresía</li>
                 <li>Participación en rodada de prueba</li>
@@ -316,39 +316,39 @@ const Memberships: React.FC = () => {
         </div>
       </div>
 
-      <div id="memberships" className="py-16 bg-slate-950">
+  <div id="memberships" className="py-16 bg-slate-950 dark:bg-gray-900">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12 text-white">Nuestras Membresías</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 text-white dark:text-white">Nuestras Membresías</h2>
           
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {membershipTypes.map((plan, index) => (
               <div 
                 key={index} 
-                className={`relative rounded-lg shadow-md overflow-hidden ${plan.popular ? 'border-2 border-slate-950 transform md:-translate-y-4' : 'border border-slate-950'}`}
+                className={`relative rounded-lg shadow-md overflow-hidden ${plan.popular ? 'border-2 border-slate-950 dark:border-green-400 md:-translate-y-4' : 'border border-slate-950 dark:border-gray-700'}`}
               >
                 {plan.popular && (
-                  <div className="absolute top-0 right-0 bg-blue-500 text-white text-xs font-bold px-3 py-1 transform translate-x-2 -translate-y-2 rotate-12">
+                  <div className="absolute top-0 right-0 bg-blue-500 dark:bg-green-400 text-white dark:text-gray-900 text-xs font-bold px-3 py-1 translate-x-2 -translate-y-2 rotate-12">
                     MÁS POPULAR
                   </div>
                 )}
-                <div className="p-6 bg-white">
-                  <h3 className="text-2xl font-bold text-center mb-2 text-slate-950">{plan.name}</h3>
+                <div className="p-6 bg-white dark:bg-gray-800">
+                  <h3 className="text-2xl font-bold text-center mb-2 text-slate-950 dark:text-white">{plan.name}</h3>
                   <div className="text-center mb-6">
                     <span className="text-3xl font-bold text-green-400">{plan.price}</span>
-                    {plan.period && <span className="text-gray-600"> / {plan.period}</span>}
+                    {plan.period && <span className="text-gray-600 dark:text-gray-200"> / {plan.period}</span>}
                   </div>
                   
                   <ul className="space-y-3 mb-8">
                     {plan.features.map((feature, i) => (
                       <li key={i} className="flex items-start">
                         <FaCheck className="h-5 w-5 text-green-400 mr-2 mt-0.5" aria-hidden="true" />
-                        <span className="text-slate-950">{feature}</span>
+                        <span className="text-slate-950 dark:text-white">{feature}</span>
                       </li>
                     ))}
                   </ul>
                   
                   <button 
-                    className={`w-full py-3 px-4 rounded-md font-bold text-white ${plan.popular ? 'bg-green-400 hover:bg-green-500' : 'bg-slate-950 hover:bg-slate-900'} transition duration-300 flex items-center justify-center`}
+                    className={`w-full py-3 px-4 rounded-md font-bold text-white ${plan.popular ? 'bg-green-400 dark:bg-green-500 hover:bg-green-500 dark:hover:bg-green-400' : 'bg-slate-950 dark:bg-gray-900 hover:bg-slate-900 dark:hover:bg-gray-700'} flex items-center justify-center`}
                     onClick={plan.onClick}
                     aria-label={`Seleccionar membresía ${plan.name}`}
                   >
@@ -361,12 +361,12 @@ const Memberships: React.FC = () => {
         </div>
       </div>
 
-      <div className="py-16 bg-blue-900 text-white">
+  <div className="py-16 bg-blue-900 dark:bg-blue-950 text-white dark:text-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">Lo que dicen nuestros miembros</h2>
           
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="bg-blue-800 p-6 rounded-lg">
+            <div className="bg-blue-800 dark:bg-blue-900 p-6 rounded-lg">
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mr-4">
                   <GiFullMotorcycleHelmet className="text-xl text-white" aria-hidden="true" />
@@ -379,7 +379,7 @@ const Memberships: React.FC = () => {
               <p className="italic">"Unirme a BSK fue la mejor decisión. La asistencia en ruta me ha salvado más de una vez, y las rodadas son experiencias inolvidables con una gran familia."</p>
             </div>
             
-            <div className="bg-blue-800 p-6 rounded-lg">
+            <div className="bg-blue-800 dark:bg-blue-900 p-6 rounded-lg">
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mr-4">
                   <GiSteeringWheel className="text-xl text-white" aria-hidden="true" />
@@ -392,7 +392,7 @@ const Memberships: React.FC = () => {
               <p className="italic">"La comunidad que se vive aquí es real. No solo es un club de motos, es una familia que se apoya en las buenas y en las malas."</p>
             </div>
             
-            <div className="bg-blue-800 p-6 rounded-lg">
+            <div className="bg-blue-800 dark:bg-blue-900 p-6 rounded-lg">
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mr-4">
                   <GiRoad className="text-xl text-white" aria-hidden="true" />
@@ -408,9 +408,9 @@ const Memberships: React.FC = () => {
         </div>
       </div>
 
-      <div className="py-16 bg-white">
+  <div className="py-16 bg-white dark:bg-gray-800">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">Vive la experiencia BSK</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800 dark:text-white">Vive la experiencia BSK</h2>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="aspect-w-16 aspect-h-9">
@@ -450,7 +450,7 @@ const Memberships: React.FC = () => {
           <div className="text-center mt-8">
             <a 
               href="#" 
-              className="inline-flex items-center text-blue-600 font-semibold hover:text-blue-800"
+              className="inline-flex items-center text-blue-600 dark:text-blue-400 font-semibold hover:text-blue-800 dark:hover:text-blue-300"
               aria-label="Ver más fotos de nuestras actividades"
             >
               Ver más fotos de nuestras actividades
@@ -460,85 +460,85 @@ const Memberships: React.FC = () => {
         </div>
       </div>
 
-      <div className="py-16 bg-gray-100">
+  <div className="py-16 bg-gray-100 dark:bg-gray-900">
         <div className="container mx-auto px-4 max-w-4xl">
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
             <div className="md:flex">
-              <div className="md:w-1/2 bg-blue-900 text-white p-8 md:p-12">
+              <div className="md:w-1/2 bg-blue-900 dark:bg-blue-950 text-white dark:text-white p-8 md:p-12">
                 <h2 className="text-2xl font-bold mb-4">¿Tienes preguntas?</h2>
                 <p className="mb-6">Estamos aquí para ayudarte. Completa el formulario y nos pondremos en contacto contigo para resolver todas tus dudas sobre el club y el proceso de membresía.</p>
                 
                 <div className="space-y-4">
                   <div className="flex items-start">
-                    <FaEnvelope className="h-6 w-6 mr-3 text-blue-300" aria-hidden="true" />
-                    <span><a href="mailto:soporte@bskmt.xyz" className="text-blue-300 hover:underline">soporte@bskmt.xyz</a></span>
+                    <FaEnvelope className="h-6 w-6 mr-3 text-blue-300 dark:text-blue-200" aria-hidden="true" />
+                    <span><a href="mailto:soporte@bskmt.xyz" className="text-blue-300 dark:text-blue-200 hover:underline">soporte@bskmt.xyz</a></span>
                   </div>
                   
                   <div className="flex items-start">
-                    <FaPhone className="h-6 w-6 mr-3 text-blue-300" aria-hidden="true" />
-                    <span><a href="tel:+573182941684" className="text-blue-300 hover:underline">+57 318 294 1684</a></span>
+                    <FaPhone className="h-6 w-6 mr-3 text-blue-300 dark:text-blue-200" aria-hidden="true" />
+                    <span><a href="tel:+573182941684" className="text-blue-300 dark:text-blue-200 hover:underline">+57 318 294 1684</a></span>
                   </div>
                   
                   <div className="flex items-start">
-                    <FaMapMarkerAlt className="h-6 w-6 mr-3 text-blue-300" aria-hidden="true" />
-                    <span>Carrera 5 A No. 36 A Sur 28, Ayacucho, San Cristóbal, Bogotá</span>
+                    <FaMapMarkerAlt className="h-6 w-6 mr-3 text-blue-300 dark:text-blue-200" aria-hidden="true" />
+                    <span className="dark:text-blue-200">Carrera 5 A No. 36 A Sur 28, Ayacucho, San Cristóbal, Bogotá</span>
                   </div>
                 </div>
               </div>
               
               <div className="md:w-1/2 p-8 md:p-12">
-                <h3 className="text-2xl font-bold mb-6 text-gray-800">Contáctanos</h3>
+                <h3 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Contáctanos</h3>
                 <form onSubmit={handleSubmit} aria-label="Formulario de contacto para membresías">
                   <div className="mb-4">
-                    <label htmlFor="contact-name-membership" className="block text-gray-700 font-medium mb-2">Nombre completo</label>
+                    <label htmlFor="contact-name-membership" className="block text-gray-700 dark:text-gray-200 font-medium mb-2">Nombre completo</label>
                     <input 
                       type="text" 
                       id="contact-name-membership" 
                       name="name" 
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-900 dark:text-white" 
                       required 
                       aria-required="true"
                     />
                   </div>
                   
                   <div className="mb-4">
-                    <label htmlFor="contact-email-membership" className="block text-gray-700 font-medium mb-2">Correo electrónico</label>
+                    <label htmlFor="contact-email-membership" className="block text-gray-700 dark:text-gray-200 font-medium mb-2">Correo electrónico</label>
                     <input 
                       type="email" 
                       id="contact-email-membership" 
                       name="email" 
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-900 dark:text-white" 
                       required 
                       aria-required="true"
                     />
                   </div>
                   
                   <div className="mb-4">
-                    <label htmlFor="contact-phone-membership" className="block text-gray-700 font-medium mb-2">Teléfono</label>
+                    <label htmlFor="contact-phone-membership" className="block text-gray-700 dark:text-gray-200 font-medium mb-2">Teléfono</label>
                     <input 
                       type="tel" 
                       id="contact-phone-membership" 
                       name="phone" 
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-900 dark:text-white" 
                       required 
                       aria-required="true"
                     />
                   </div>
                   
                   <div className="mb-4">
-                    <label htmlFor="membershipType" className="block text-gray-700 font-medium mb-2">Membresía de interés</label>
+                    <label htmlFor="membershipType" className="block text-gray-700 dark:text-gray-200 font-medium mb-2">Membresía de interés</label>
                     <select 
                       id="membershipType" 
                       name="membershipType" 
                       value={formData.membershipType}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-900 dark:text-white"
                     >
                       <option value="">Selecciona una opción</option>
                       <option value="Friend">Membresía Friend</option>
@@ -548,20 +548,20 @@ const Memberships: React.FC = () => {
                   </div>
                   
                   <div className="mb-6">
-                    <label htmlFor="contact-message-membership" className="block text-gray-700 font-medium mb-2">Mensaje</label>
+                    <label htmlFor="contact-message-membership" className="block text-gray-700 dark:text-gray-200 font-medium mb-2">Mensaje</label>
                     <textarea 
                       id="contact-message-membership" 
                       name="message" 
                       rows={4} 
                       value={formData.message}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-900 dark:text-white"
                     ></textarea>
                   </div>
                   
                   <button 
                     type="submit" 
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-md transition duration-300 flex items-center justify-center"
+                    className="w-full bg-blue-600 dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-400 text-white font-bold py-3 px-4 rounded-md flex items-center justify-center"
                   >
                     Enviar mensaje <FaPaperPlane className="ml-2" aria-hidden="true" />
                   </button>
@@ -572,13 +572,13 @@ const Memberships: React.FC = () => {
         </div>
       </div>
 
-      <div className="py-16 bg-blue-800 text-white">
+  <div className="py-16 bg-blue-800 dark:bg-blue-900 text-white dark:text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-6">¿Listo para unirte a nuestra familia motera?</h2>
           <p className="text-xl mb-8 max-w-3xl mx-auto">Elige la membresía que mejor se adapte a ti y comienza a vivir experiencias inolvidables sobre dos ruedas.</p>
           <a 
             href="#memberships" 
-            className="bg-white hover:bg-gray-100 text-blue-800 font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-flex items-center"
+            className="bg-white dark:bg-gray-100 hover:bg-gray-100 dark:hover:bg-gray-200 text-blue-800 dark:text-blue-900 font-bold py-3 px-8 rounded-full text-lg inline-flex items-center"
             aria-label="Ver nuestras opciones de membresía"
           >
             Ver Membresías <FaChevronRight className="ml-2" aria-hidden="true" />

@@ -302,7 +302,7 @@ const About: React.FC = () => {
             Descubre la emoción de formar parte de un club donde la pasión por las motos va de la mano con la amistad y el respeto.
           </p>
           <button
-            className="bg-accent text-slate-950 font-bold py-3 px-8 rounded-full text-lg hover:bg-accent-dark transition-colors"
+            className="bg-accent text-slate-950 font-bold py-3 px-8 rounded-full text-lg hover:bg-accent-dark dark:bg-green-500 dark:hover:bg-green-600"
             aria-label="Únete a BSK Motorcycle Team"
           >
             Únete a BSK Motorcycle Team

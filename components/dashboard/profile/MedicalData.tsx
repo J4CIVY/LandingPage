@@ -192,7 +192,7 @@ export default function MedicalData({ user, onSave, isEditing = false, onEditTog
           {!localIsEditing && (
             <button
               onClick={toggleDataVisibility}
-              className="inline-flex items-center gap-2 px-3 py-2 bg-blue-100 hover:bg-blue-200 dark:bg-blue-900/30 dark:hover:bg-blue-800/50 text-blue-700 dark:text-blue-300 rounded-lg text-sm font-medium transition-colors duration-200"
+              className="inline-flex items-center gap-2 px-3 py-2 bg-blue-100 hover:bg-blue-200 dark:bg-blue-900/30 dark:hover:bg-blue-800/50 text-blue-700 dark:text-blue-300 rounded-lg text-sm font-medium"
             >
               {isDataVisible ? (
                 <>
@@ -213,7 +213,7 @@ export default function MedicalData({ user, onSave, isEditing = false, onEditTog
               <button
                 onClick={handleSave}
                 disabled={isSaving}
-                className="inline-flex items-center gap-2 px-3 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg text-sm font-medium transition-colors duration-200"
+                className="inline-flex items-center gap-2 px-3 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg text-sm font-medium"
               >
                 <FaSave className="w-4 h-4" />
                 {isSaving ? 'Guardando...' : 'Guardar'}
@@ -221,7 +221,7 @@ export default function MedicalData({ user, onSave, isEditing = false, onEditTog
               <button
                 onClick={handleCancel}
                 disabled={isSaving}
-                className="inline-flex items-center gap-2 px-3 py-2 bg-slate-500 hover:bg-slate-600 disabled:bg-slate-400 text-white rounded-lg text-sm font-medium transition-colors duration-200"
+                className="inline-flex items-center gap-2 px-3 py-2 bg-slate-500 hover:bg-slate-600 disabled:bg-slate-400 text-white rounded-lg text-sm font-medium"
               >
                 <FaTimes className="w-4 h-4" />
                 Cancelar
@@ -230,7 +230,7 @@ export default function MedicalData({ user, onSave, isEditing = false, onEditTog
           ) : (
             <button
               onClick={handleEditToggle}
-              className="inline-flex items-center gap-2 px-3 py-2 bg-blue-100 hover:bg-blue-200 dark:bg-blue-900/30 dark:hover:bg-blue-800/50 text-blue-700 dark:text-blue-300 rounded-lg text-sm font-medium transition-colors duration-200"
+              className="inline-flex items-center gap-2 px-3 py-2 bg-blue-100 hover:bg-blue-200 dark:bg-blue-900/30 dark:hover:bg-blue-800/50 text-blue-700 dark:text-blue-300 rounded-lg text-sm font-medium"
             >
               <FaEdit className="w-4 h-4" />
               Editar
@@ -253,7 +253,7 @@ export default function MedicalData({ user, onSave, isEditing = false, onEditTog
               </p>
               <button
                 onClick={() => setHasAcceptedPrivacy(true)}
-                className="inline-flex items-center gap-2 px-3 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-sm font-medium transition-colors duration-200"
+                className="inline-flex items-center gap-2 px-3 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-sm font-medium"
               >
                 <FaLock className="w-4 h-4" />
                 Entiendo y Acepto

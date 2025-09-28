@@ -46,11 +46,11 @@ const Testimonials: React.FC = () => {
 
   return (
     <div className="mt-16">
-      <h3 className="text-2xl font-semibold text-slate-950 dark:text-white mb-4 text-center">TESTIMONIOS DE MIEMBROS</h3>
-      <p className="text-center text-gray-600 dark:text-gray-400 mb-8">39 miembros activos, miles de kilómetros, una sola pasión</p>
-      <div className="grid md:grid-cols-2 gap-8">
+  <h3 className="text-2xl font-semibold text-slate-950 dark:text-white mb-4 text-center">TESTIMONIOS DE MIEMBROS</h3>
+  <p className="text-center text-gray-600 dark:text-gray-400 mb-8">39 miembros activos, miles de kilómetros, una sola pasión</p>
+  <div className="grid md:grid-cols-2 gap-8">
         {/* Primer testimonio */}
-        <div className="bg-white dark:bg-slate-900 p-8 rounded-xl shadow-lg">
+  <div className="bg-white dark:bg-slate-900 p-8 rounded-xl shadow-lg">
           <div className="flex items-center mb-6">
             <picture>
               <source type="image/avif" srcSet={srcSetAvif1} />
@@ -67,14 +67,14 @@ const Testimonials: React.FC = () => {
             </picture>
             <div>
               <h4 className="text-xl font-bold text-slate-950 dark:text-white">Carlos Méndez</h4>
-              <p className="text-green-400">Miembro desde 2024</p>
+              <p className="text-green-400 dark:text-green-400">Miembro desde 2024</p>
             </div>
           </div>
           <p className="text-gray-700 dark:text-gray-300 italic">"Cuando mi moto se varó a 200 km de Bogotá en pleno Tour Andino, recibí asistencia por parte del club y fue suficiente para continuar y no perdermne de la rodada. No es solo un seguro, es tener una familia que te respalda en cada kilómetro."</p>
         </div>
 
         {/* Segundo testimonio */}
-        <div className="bg-white dark:bg-slate-900 p-8 rounded-xl shadow-lg">
+  <div className="bg-white dark:bg-slate-900 p-8 rounded-xl shadow-lg">
           <div className="flex items-center mb-6">
             <picture>
               <source type="image/avif" srcSet={srcSetAvif2} />
@@ -91,7 +91,7 @@ const Testimonials: React.FC = () => {
             </picture>
             <div>
               <h4 className="text-xl font-bold text-slate-950 dark:text-white">Laura Torres</h4>
-              <p className="text-green-400">Miembro desde 2022</p>
+              <p className="text-green-400 dark:text-green-400">Miembro desde 2022</p>
             </div>
           </div>
           <p className="text-gray-700 dark:text-gray-300 italic">"Los ahorros en repuestos ya cubrieron mi membresía tres veces. Pero lo que realmente vale es la comunidad: he encontrado amigos para toda la vida y una segunda familia sobre ruedas."</p>

@@ -84,7 +84,7 @@ export default function HistorialHeader({ estadisticas, onExportPDF, historialIt
   return (
     <div className="mb-8">
       {/* Encabezado principal */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg shadow-lg text-white p-8 mb-6">
+  <div className="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-slate-900 dark:to-slate-800 rounded-lg shadow-lg text-white p-8 mb-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
           <div className="mb-6 lg:mb-0">
             <h1 className="text-3xl lg:text-4xl font-bold mb-2">
@@ -99,7 +99,7 @@ export default function HistorialHeader({ estadisticas, onExportPDF, historialIt
             <button
               onClick={handleExportPDF}
               disabled={isExporting}
-              className="bg-white text-blue-600 font-semibold py-3 px-6 rounded-lg hover:bg-blue-50 transition-colors duration-200 flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+              className="bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 font-semibold py-3 px-6 rounded-lg hover:bg-blue-50 dark:hover:bg-slate-800 flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
             >
               {isExporting ? (
                 <FaSpinner className="animate-spin" />
@@ -113,23 +113,23 @@ export default function HistorialHeader({ estadisticas, onExportPDF, historialIt
       </div>
 
       {/* Tarjetas de estadísticas */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
         {estadisticasCards.map((card, index) => {
           const IconComponent = card.icon;
           return (
             <div
               key={index}
-              className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200"
+              className="bg-white dark:bg-slate-950 rounded-lg shadow-sm border border-gray-200 dark:border-slate-800 p-6 hover:shadow-md"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <div className={`w-12 h-12 ${card.bgColor} rounded-lg flex items-center justify-center mb-3`}>
-                    <IconComponent className={`text-xl ${card.color}`} />
+                  <div className={`w-12 h-12 ${card.bgColor} dark:bg-slate-800 rounded-lg flex items-center justify-center mb-3`}>
+                    <IconComponent className={`text-xl ${card.color} dark:text-blue-400`} />
                   </div>
-                  <h3 className="text-sm font-medium text-gray-600 mb-1">
+                  <h3 className="text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">
                     {card.titulo}
                   </h3>
-                  <p className="text-2xl font-bold text-gray-900">
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">
                     {card.valor}
                     {card.total && (
                       <span className="text-sm font-normal text-gray-500">
@@ -137,7 +137,7 @@ export default function HistorialHeader({ estadisticas, onExportPDF, historialIt
                       </span>
                     )}
                   </p>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                     {card.descripcion}
                   </p>
                 </div>
@@ -149,27 +149,27 @@ export default function HistorialHeader({ estadisticas, onExportPDF, historialIt
 
       {/* Información adicional */}
       {estadisticas && (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+  <div className="bg-white dark:bg-slate-950 rounded-lg shadow-sm border border-gray-200 dark:border-slate-800 p-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600 mb-1">
+              <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-1">
                 {estadisticas.puntosAcumulados}
               </div>
-              <div className="text-sm text-gray-600">Puntos Acumulados</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Puntos Acumulados</div>
             </div>
             
             <div className="text-center">
-              <div className="text-3xl font-bold text-green-600 mb-1">
+              <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-1">
                 {Math.round((estadisticas.eventosAsistidos / estadisticas.totalEventos) * 100)}%
               </div>
-              <div className="text-sm text-gray-600">Participación en Eventos</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Participación en Eventos</div>
             </div>
             
             <div className="text-center">
-              <div className="text-3xl font-bold text-purple-600 mb-1">
+              <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-1">
                 {estadisticas.añosMembresia}
               </div>
-              <div className="text-sm text-gray-600">Años en el Motoclub</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Años en el Motoclub</div>
             </div>
           </div>
         </div>

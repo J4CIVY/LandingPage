@@ -208,7 +208,7 @@ export default function EventoModal({
             {/* Botón cerrar */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 bg-black bg-opacity-50 hover:bg-opacity-70 text-white p-2 rounded-full transition-colors"
+              className="absolute top-4 right-4 bg-black bg-opacity-50 hover:bg-opacity-70 text-white p-2 rounded-full"
             >
               <FaTimes className="text-xl" />
             </button>
@@ -452,7 +452,7 @@ export default function EventoModal({
                   className="
                     flex-1 bg-green-600 hover:bg-green-700 disabled:bg-green-400 
                     text-white px-6 py-3 rounded-lg font-medium 
-                    transition-colors flex items-center justify-center space-x-2
+                    flex items-center justify-center space-x-2
                   "
                 >
                   <FaUser />
@@ -467,7 +467,7 @@ export default function EventoModal({
                   className="
                     flex-1 bg-red-600 hover:bg-red-700 disabled:bg-red-400 
                     text-white px-6 py-3 rounded-lg font-medium 
-                    transition-colors flex items-center justify-center space-x-2
+                    flex items-center justify-center space-x-2
                   "
                 >
                   <FaTimes />
@@ -482,7 +482,7 @@ export default function EventoModal({
                     onClick={onEdit}
                     className="
                       bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg 
-                      font-medium transition-colors flex items-center justify-center space-x-2
+                      font-medium flex items-center justify-center space-x-2
                     "
                   >
                     <FaEdit />
@@ -493,7 +493,7 @@ export default function EventoModal({
                     onClick={onDelete}
                     className="
                       bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg 
-                      font-medium transition-colors flex items-center justify-center space-x-2
+                      font-medium flex items-center justify-center space-x-2
                     "
                   >
                     <FaTrash />

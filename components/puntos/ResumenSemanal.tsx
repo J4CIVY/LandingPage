@@ -54,15 +54,15 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
 
   if (loading) {
     return (
-  <div className="bg-white dark:bg-slate-900 rounded-xl shadow-lg p-6">
-        <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-          <FaChartLine className="text-blue-500" />
+      <div className="bg-white dark:bg-slate-900 rounded-xl shadow-lg p-6">
+        <h3 className="text-lg font-bold text-gray-800 dark:text-slate-100 mb-4 flex items-center gap-2">
+          <FaChartLine className="text-blue-500 dark:text-blue-400" />
           Actividad Semanal
         </h3>
         <div className="animate-pulse">
           <div className="flex justify-between items-end h-32 gap-2">
             {[1, 2, 3, 4, 5, 6, 7].map(i => (
-              <div key={i} className="flex-1 bg-gray-200 rounded" style={{ height: `${Math.random() * 100 + 20}px` }}></div>
+              <div key={i} className="flex-1 bg-gray-200 dark:bg-slate-700 rounded" style={{ height: `${Math.random() * 100 + 20}px` }}></div>
             ))}
           </div>
         </div>
@@ -72,18 +72,18 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
 
   return (
   <div className="bg-white dark:bg-slate-900 rounded-xl shadow-lg p-6">
-      <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
+      <h3 className="text-lg font-bold text-gray-800 dark:text-slate-100 mb-4 flex items-center gap-2">
         <FaChartLine className="text-blue-500 dark:text-blue-400" />
         Actividad de esta Semana
       </h3>
 
       {/* Resumen */}
       <div className="grid grid-cols-2 gap-4 mb-6">
-        <div className="text-center p-3 bg-blue-50 dark:bg-blue-950 rounded-lg">
+        <div className="text-center p-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
           <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">{totalPuntosSemana}</p>
           <p className="text-sm text-blue-700 dark:text-blue-300">Puntos ganados</p>
         </div>
-        <div className="text-center p-3 bg-green-50 dark:bg-green-950 rounded-lg">
+        <div className="text-center p-3 bg-green-50 dark:bg-green-900/30 rounded-lg">
           <p className="text-2xl font-bold text-green-600 dark:text-green-400">{totalActividadesSemana}</p>
           <p className="text-sm text-green-700 dark:text-green-300">Actividades</p>
         </div>
@@ -150,7 +150,7 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
       </div>
 
       {/* Leyenda */}
-      <div className="text-xs text-gray-500 dark:text-gray-300 space-y-1">
+  <div className="text-xs text-gray-500 dark:text-gray-300 space-y-1">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 bg-gradient-to-t from-blue-500 to-blue-400 dark:from-blue-700 dark:to-blue-400 rounded"></div>
           <span>Hoy</span>
@@ -163,7 +163,7 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
 
       {/* Motivación */}
       {totalPuntosSemana > 0 && (
-        <div className="mt-4 p-3 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-950 dark:to-blue-950 rounded-lg border border-green-200 dark:border-green-800">
+        <div className="mt-4 p-3 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900 dark:to-blue-900 rounded-lg border border-green-200 dark:border-green-700">
           <p className="text-sm text-green-800 dark:text-green-300 text-center flex items-center justify-center gap-2">
             {totalPuntosSemana >= 100 
               ? <><FaFire className="text-orange-500 dark:text-orange-400" /> ¡Semana increíble! Sigues en racha</>

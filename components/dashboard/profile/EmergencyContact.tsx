@@ -197,7 +197,7 @@ export default function EmergencyContact({ user, onSave, isEditing = false, onEd
               <button
                 onClick={handleSave}
                 disabled={isSaving}
-                className="inline-flex items-center gap-2 px-3 py-2 bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white rounded-lg text-sm font-medium transition-colors duration-200"
+                className="inline-flex items-center gap-2 px-3 py-2 bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white rounded-lg text-sm font-medium"
               >
                 <FaSave className="w-4 h-4" />
                 {isSaving ? 'Guardando...' : 'Guardar'}
@@ -205,7 +205,7 @@ export default function EmergencyContact({ user, onSave, isEditing = false, onEd
               <button
                 onClick={handleCancel}
                 disabled={isSaving}
-                className="inline-flex items-center gap-2 px-3 py-2 bg-slate-500 hover:bg-slate-600 disabled:bg-slate-400 text-white rounded-lg text-sm font-medium transition-colors duration-200"
+                className="inline-flex items-center gap-2 px-3 py-2 bg-slate-500 hover:bg-slate-600 disabled:bg-slate-400 text-white rounded-lg text-sm font-medium"
               >
                 <FaTimes className="w-4 h-4" />
                 Cancelar
@@ -214,7 +214,7 @@ export default function EmergencyContact({ user, onSave, isEditing = false, onEd
           ) : (
             <button
               onClick={handleEditToggle}
-              className="inline-flex items-center gap-2 px-3 py-2 bg-red-100 hover:bg-red-200 dark:bg-red-900/30 dark:hover:bg-red-800/50 text-red-700 dark:text-red-300 rounded-lg text-sm font-medium transition-colors duration-200"
+              className="inline-flex items-center gap-2 px-3 py-2 bg-red-100 hover:bg-red-200 dark:bg-red-900/30 dark:hover:bg-red-800/50 text-red-700 dark:text-red-300 rounded-lg text-sm font-medium"
             >
               <FaEdit className="w-4 h-4" />
               Editar

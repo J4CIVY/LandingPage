@@ -24,10 +24,7 @@ const BenefitsHeader: React.FC<BenefitsHeaderProps> = ({
         {isAdmin && (
           <button
             onClick={onAddBenefit}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 
-                     text-white font-medium rounded-lg transition-colors duration-200 
-                     shadow-md hover:shadow-lg focus:outline-none focus:ring-2 
-                     focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
           >
             <FaPlus size={20} />
             <span className="hidden sm:inline">Add Benefit</span>

@@ -197,46 +197,46 @@ export default function EventosHistorial() {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+  <div className="bg-white dark:bg-slate-950 rounded-lg shadow-sm border border-gray-200 dark:border-slate-800 p-6">
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
         <div>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Historial de Eventos</h2>
-          <p className="text-gray-600">Revisa tu participación en eventos del motoclub</p>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Historial de Eventos</h2>
+          <p className="text-gray-600 dark:text-gray-300">Revisa tu participación en eventos del motoclub</p>
         </div>
         
         {/* Estadísticas rápidas */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-4 lg:mt-0">
           <div className="text-center">
-            <div className="text-2xl font-bold text-blue-600">{stats.total}</div>
-            <div className="text-xs text-gray-600">Total eventos</div>
+            <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{stats.total}</div>
+            <div className="text-xs text-gray-600 dark:text-gray-400">Total eventos</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-green-600">{stats.asistidos}</div>
-            <div className="text-xs text-gray-600">Asistidos</div>
+            <div className="text-2xl font-bold text-green-600 dark:text-green-400">{stats.asistidos}</div>
+            <div className="text-xs text-gray-600 dark:text-gray-400">Asistidos</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-yellow-600">{stats.organizados}</div>
-            <div className="text-xs text-gray-600">Organizados</div>
+            <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">{stats.organizados}</div>
+            <div className="text-xs text-gray-600 dark:text-gray-400">Organizados</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-purple-600">{stats.puntosTotales}</div>
-            <div className="text-xs text-gray-600">Puntos</div>
+            <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">{stats.puntosTotales}</div>
+            <div className="text-xs text-gray-600 dark:text-gray-400">Puntos</div>
           </div>
         </div>
       </div>
 
       {/* Filtros y búsqueda */}
-      <div className="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:space-x-4 mb-6">
+  <div className="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:space-x-4 mb-6">
         {/* Búsqueda */}
         <div className="relative flex-1">
-          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" />
           <input
             type="text"
             placeholder="Buscar eventos..."
             value={busqueda}
             onChange={(e) => setBusqueda(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
           />
         </div>
 
@@ -244,7 +244,7 @@ export default function EventosHistorial() {
         <select
           value={filtroEstado}
           onChange={(e) => setFiltroEstado(e.target.value as any)}
-          className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
         >
           <option value="todos">Todos los estados</option>
           <option value="inscrito">Inscrito</option>
@@ -257,7 +257,7 @@ export default function EventosHistorial() {
         <select
           value={filtroTipo}
           onChange={(e) => setFiltroTipo(e.target.value as any)}
-          className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
         >
           <option value="todos">Todos los tipos</option>
           <option value="ruta">Rutas</option>
@@ -283,7 +283,7 @@ export default function EventosHistorial() {
             return (
               <div
                 key={evento.id}
-                className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+                className="border border-gray-200 dark:border-slate-700 rounded-lg p-4 hover:shadow-md"
               >
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
                   <div className="flex-1">
@@ -293,7 +293,7 @@ export default function EventosHistorial() {
                       </div>
                       
                       <div className="flex-1">
-                        <h3 className="font-semibold text-gray-900 mb-1">{evento.nombre}</h3>
+                        <h3 className="font-semibold text-gray-900 dark:text-white mb-1">{evento.nombre}</h3>
                         <div className="flex flex-wrap items-center gap-2 mb-2">
                           <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getRolColor(evento.rol)}`}>
                             <RolIcon className="mr-1" />
@@ -310,18 +310,18 @@ export default function EventosHistorial() {
                           </span>
                         </div>
                         
-                        <div className="space-y-1 text-sm text-gray-600">
+                        <div className="space-y-1 text-sm text-gray-600 dark:text-gray-300">
                           <div className="flex items-center">
-                            <FaCalendarAlt className="mr-2 text-gray-400" />
+                            <FaCalendarAlt className="mr-2 text-gray-400 dark:text-gray-500" />
                             {formatDate(evento.fecha)}
                           </div>
                           <div className="flex items-center">
-                            <FaMapMarkerAlt className="mr-2 text-gray-400" />
+                            <FaMapMarkerAlt className="mr-2 text-gray-400 dark:text-gray-500" />
                             {evento.ubicacion}
                           </div>
                           {evento.puntos && evento.puntos > 0 && (
                             <div className="flex items-center">
-                              <FaStar className="mr-2 text-yellow-400" />
+                              <FaStar className="mr-2 text-yellow-400 dark:text-yellow-300" />
                               {evento.puntos} puntos obtenidos
                             </div>
                           )}
@@ -331,7 +331,7 @@ export default function EventosHistorial() {
                   </div>
                   
                   <div className="flex items-center space-x-2 mt-3 lg:mt-0">
-                    <button className="flex items-center space-x-1 px-3 py-1 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                    <button className="flex items-center space-x-1 px-3 py-1 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-800 rounded-lg">
                       <FaEye />
                       <span className="text-sm">Ver detalles</span>
                     </button>

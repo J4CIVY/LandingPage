@@ -69,7 +69,7 @@ const HeroSection: React.FC = () => {
   };
 
   return (
-    <section className="relative h-screen flex items-center justify-center bg-white dark:bg-slate-950 overflow-hidden" role="banner" aria-label="Sección principal de BSK Motorcycle Team">
+  <section className="relative h-screen flex items-center justify-center bg-white dark:bg-slate-950 overflow-hidden" role="banner" aria-label="Sección principal de BSK Motorcycle Team">
       <div className="absolute inset-0 w-full h-full">
         <picture>
           {/* AVIF source for best compression and quality */}
@@ -100,18 +100,18 @@ const HeroSection: React.FC = () => {
           />
         </picture>
         {/* Overlay to darken the image and improve text readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/60" aria-hidden="true"></div>
+  <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/60 dark:from-slate-950/80 dark:via-slate-900/60 dark:to-slate-950/80" aria-hidden="true"></div>
       </div>
 
       {/* Hero content: title, description, and call-to-action button */}
-      <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+  <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
         <header>
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white dark:text-white mb-6 leading-tight">
-            <span className="text-green-400">BSK</span> MOTORCYCLE TEAM
+            <span className="text-green-400 dark:text-green-300">BSK</span> <span className="text-white dark:text-gray-100">MOTORCYCLE TEAM</span>
           </h1>
           
-          <p className="text-lg sm:text-xl md:text-2xl text-white dark:text-gray-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Únete al <strong className="text-green-400">motoclub líder en Colombia</strong>, donde la comunidad se vive sobre dos ruedas. 
+          <p className="text-lg sm:text-xl md:text-2xl text-white dark:text-gray-200 mb-8 max-w-3xl mx-auto leading-relaxed">
+            Únete al <strong className="text-green-400 dark:text-green-300">motoclub líder en Colombia</strong>, donde la comunidad se vive sobre dos ruedas. 
             Pasión motociclista, rutas épicas, eventos emocionantes y hermandad verdadera.
           </p>
         </header>
@@ -120,34 +120,34 @@ const HeroSection: React.FC = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <button 
             onClick={handleJoinClick}
-            className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-full font-bold text-lg transition-colors"
+            className="bg-red-600 dark:bg-red-700 text-white dark:text-white px-8 py-4 rounded-full font-bold text-lg"
             aria-label="Únete a BSK Motorcycle Team - Accede a membresías exclusivas del motoclub"
           >
-            🏍️ ÚNETE AL CLUB
+            <span role="img" aria-label="moto" className="mr-2 align-middle">🏍️</span> ÚNETE AL CLUB
           </button>
           
           <button
             onClick={() => router.push("/events")}
-            className="border-2 border-white text-white hover:bg-white hover:text-slate-950 px-8 py-4 rounded-full font-bold text-lg transition-colors"
+            className="border-2 border-white dark:border-gray-200 text-white dark:text-gray-200 bg-transparent dark:bg-transparent px-8 py-4 rounded-full font-bold text-lg"
             aria-label="Descubre nuestros eventos motociclísticos y rutas por Colombia"
           >
-            📅 VER EVENTOS
+            <span role="img" aria-label="calendario" className="mr-2 align-middle">📅</span> VER EVENTOS
           </button>
         </div>
 
         {/* Indicadores adicionales */}
         <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
-          <div className="bg-black/30 backdrop-blur-sm rounded-lg p-4">
-            <div className="text-2xl font-bold text-green-400">500+</div>
-            <div className="text-sm text-gray-200">Miembros Activos</div>
+          <div className="bg-black/30 dark:bg-slate-900/60 backdrop-blur-sm rounded-lg p-4">
+            <div className="text-2xl font-bold text-green-400 dark:text-green-300">500+</div>
+            <div className="text-sm text-gray-200 dark:text-gray-300">Miembros Activos</div>
           </div>
-          <div className="bg-black/30 backdrop-blur-sm rounded-lg p-4">
-            <div className="text-2xl font-bold text-green-400">100+</div>
-            <div className="text-sm text-gray-200">Rutas Realizadas</div>
+          <div className="bg-black/30 dark:bg-slate-900/60 backdrop-blur-sm rounded-lg p-4">
+            <div className="text-2xl font-bold text-green-400 dark:text-green-300">100+</div>
+            <div className="text-sm text-gray-200 dark:text-gray-300">Rutas Realizadas</div>
           </div>
-          <div className="bg-black/30 backdrop-blur-sm rounded-lg p-4">
-            <div className="text-2xl font-bold text-green-400">3+</div>
-            <div className="text-sm text-gray-200">Años de Experiencia</div>
+          <div className="bg-black/30 dark:bg-slate-900/60 backdrop-blur-sm rounded-lg p-4">
+            <div className="text-2xl font-bold text-green-400 dark:text-green-300">3+</div>
+            <div className="text-sm text-gray-200 dark:text-gray-300">Años de Experiencia</div>
           </div>
         </div>
       </div>
@@ -156,7 +156,7 @@ const HeroSection: React.FC = () => {
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-30">
         <div className="flex flex-col items-center space-y-2">
           {/* Texto indicativo */}
-          <span className="text-white/80 text-xs font-medium tracking-wider uppercase">
+          <span className="text-white/80 dark:text-gray-300 text-xs font-medium tracking-wider uppercase">
             Descubre más
           </span>
           
@@ -164,15 +164,13 @@ const HeroSection: React.FC = () => {
           <button
             onClick={handleScrollToNext}
             disabled={isScrolling}
-            className={`p-4 rounded-full text-white/80 hover:text-white transition-colors ${
+            className={`p-4 rounded-full text-white/80 dark:text-gray-300 ${
               isScrolling ? 'opacity-75 scale-95 cursor-not-allowed' : ''
             }`}
             aria-label="Desplázate hacia abajo para conocer más sobre BSK Motorcycle Team"
           >
             <svg 
-              className={`w-5 h-5 transition-all duration-300 ${
-                isScrolling ? 'animate-spin' : ''
-              }`}
+              className={`w-5 h-5 ${isScrolling ? 'animate-spin' : ''}`}
               fill="none" 
               stroke="currentColor" 
               viewBox="0 0 24 24" 
@@ -189,8 +187,8 @@ const HeroSection: React.FC = () => {
           </button>
 
           {/* Línea indicadora */}
-          <div className="w-0.5 h-12 bg-gradient-to-b from-white/60 via-white/30 to-transparent relative overflow-hidden">
-            <div className="absolute top-0 w-full h-4 bg-gradient-to-b from-green-400/60 to-transparent opacity-80"></div>
+          <div className="w-0.5 h-12 bg-gradient-to-b from-white/60 dark:from-gray-300/60 via-white/30 dark:via-gray-300/30 to-transparent relative overflow-hidden">
+            <div className="absolute top-0 w-full h-4 bg-gradient-to-b from-green-400/60 dark:from-green-300/60 to-transparent opacity-80"></div>
           </div>
         </div>
       </div>

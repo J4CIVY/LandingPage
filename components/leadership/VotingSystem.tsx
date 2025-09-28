@@ -193,7 +193,7 @@ const VotingSystem: React.FC<VotingSystemProps> = ({
     const hasVoted = hasUserVoted(process.id);
 
     return (
-      <div key={process.id} className="bg-white dark:bg-gray-700 rounded-lg shadow-md p-6 border-l-4 border-purple-500">
+  <div key={process.id} className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6 border-l-4 border-purple-500 dark:border-purple-700">
         <div className="flex justify-between items-start mb-4">
           <div className="flex-1">
             <div className="flex items-center mb-2">
@@ -202,10 +202,10 @@ const VotingSystem: React.FC<VotingSystemProps> = ({
                 {process.title}
               </h3>
               <span className={`ml-3 px-2 py-1 rounded-full text-xs font-medium ${
-                process.status === 'active' ? 'bg-green-100 text-green-800' :
-                process.status === 'completed' ? 'bg-blue-100 text-blue-800' :
-                process.status === 'cancelled' ? 'bg-red-100 text-red-800' :
-                'bg-gray-100 text-gray-800'
+                process.status === 'active' ? 'bg-green-100 dark:bg-green-900 dark:text-green-200 text-green-800' :
+                process.status === 'completed' ? 'bg-blue-100 dark:bg-blue-900 dark:text-blue-200 text-blue-800' :
+                process.status === 'cancelled' ? 'bg-red-100 dark:bg-red-900 dark:text-red-200 text-red-800' :
+                'bg-gray-100 dark:bg-gray-800 dark:text-gray-200 text-gray-800'
               }`}>
                 {process.status === 'active' ? 'Activo' :
                  process.status === 'completed' ? 'Completado' :
@@ -218,7 +218,7 @@ const VotingSystem: React.FC<VotingSystemProps> = ({
             </p>
 
             {process.candidateName && (
-              <div className="flex items-center mb-3 p-2 bg-gray-50 dark:bg-gray-600 rounded">
+              <div className="flex items-center mb-3 p-2 bg-gray-50 dark:bg-gray-800 rounded">
                 <FaUserCheck className="text-purple-600 mr-2" />
                 <span className="text-sm font-medium">
                   Candidato: {process.candidateName} ({process.candidateEmail})
@@ -228,20 +228,20 @@ const VotingSystem: React.FC<VotingSystemProps> = ({
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-sm">
               <div className="text-center">
-                <div className="text-2xl font-bold text-green-600">{process.votes.for}</div>
-                <div className="text-gray-500">A Favor</div>
+                <div className="text-2xl font-bold text-green-600 dark:text-green-400">{process.votes.for}</div>
+                <div className="text-gray-500 dark:text-gray-300">A Favor</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-red-600">{process.votes.against}</div>
-                <div className="text-gray-500">En Contra</div>
+                <div className="text-2xl font-bold text-red-600 dark:text-red-400">{process.votes.against}</div>
+                <div className="text-gray-500 dark:text-gray-300">En Contra</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-yellow-600">{process.votes.abstain}</div>
-                <div className="text-gray-500">Abstención</div>
+                <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">{process.votes.abstain}</div>
+                <div className="text-gray-500 dark:text-gray-300">Abstención</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">{process.votes.total}</div>
-                <div className="text-gray-500">Total</div>
+                <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{process.votes.total}</div>
+                <div className="text-gray-500 dark:text-gray-300">Total</div>
               </div>
             </div>
 
@@ -251,9 +251,9 @@ const VotingSystem: React.FC<VotingSystemProps> = ({
                 <span>Participación</span>
                 <span>{progress.toFixed(1)}% ({process.votes.total}/{process.eligibleVoters.total})</span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-2">
                 <div 
-                  className="bg-purple-600 h-2 rounded-full transition-all duration-300"
+                  className="bg-purple-600 dark:bg-purple-500 h-2 rounded-full"
                   style={{ width: `${Math.min(progress, 100)}%` }}
                 ></div>
               </div>
@@ -273,7 +273,7 @@ const VotingSystem: React.FC<VotingSystemProps> = ({
 
             {/* Estado de voto del usuario */}
             {hasVoted && userVote && (
-              <div className="mt-3 p-2 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded">
+              <div className="mt-3 p-2 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded">
                 <div className="flex items-center">
                   <FaCheckCircle className="text-green-600 mr-2" />
                   <span className="text-sm font-medium text-green-800 dark:text-green-200">
@@ -294,7 +294,7 @@ const VotingSystem: React.FC<VotingSystemProps> = ({
           <div className="flex flex-col space-y-2 ml-4">
             <button 
               onClick={() => setSelectedProcess(process)}
-              className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 flex items-center"
+              className="px-3 py-1 bg-blue-600 dark:bg-blue-700 text-white rounded text-sm hover:bg-blue-700 dark:hover:bg-blue-800 flex items-center"
             >
               <FaEye className="mr-1" />
               Ver Detalles
@@ -304,23 +304,23 @@ const VotingSystem: React.FC<VotingSystemProps> = ({
               <div className="flex flex-col space-y-1">
                 <button 
                   onClick={() => castVote(process.id, 'for')}
-                  className="px-3 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700"
+                  className="px-3 py-1 bg-green-600 dark:bg-green-700 text-white rounded text-sm hover:bg-green-700 dark:hover:bg-green-800"
                 >
                   <FaCheckCircle className="mr-1 inline" />
                   A Favor
                 </button>
                 <button 
                   onClick={() => castVote(process.id, 'against')}
-                  className="px-3 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700"
+                  className="px-3 py-1 bg-red-600 dark:bg-red-700 text-white rounded text-sm hover:bg-red-700 dark:hover:bg-red-800"
                 >
                   <FaTimesCircle className="mr-1 inline" />
                   En Contra
                 </button>
                 {process.settings.allowAbstention && (
-                  <button 
-                    onClick={() => castVote(process.id, 'abstain')}
-                    className="px-3 py-1 bg-yellow-600 text-white rounded text-sm hover:bg-yellow-700"
-                  >
+                    <button 
+                      onClick={() => castVote(process.id, 'abstain')}
+                      className="px-3 py-1 bg-yellow-600 dark:bg-yellow-700 text-white rounded text-sm hover:bg-yellow-700 dark:hover:bg-yellow-800"
+                    >
                     <FaQuestionCircle className="mr-1 inline" />
                     Abstención
                   </button>
@@ -331,7 +331,7 @@ const VotingSystem: React.FC<VotingSystemProps> = ({
             {process.status === 'draft' && (
               <button 
                 onClick={() => controlVotingProcess(process.id, 'start')}
-                className="px-3 py-1 bg-purple-600 text-white rounded text-sm hover:bg-purple-700 flex items-center"
+                className="px-3 py-1 bg-purple-600 dark:bg-purple-700 text-white rounded text-sm hover:bg-purple-700 dark:hover:bg-purple-800 flex items-center"
               >
                 <FaPlay className="mr-1" />
                 Iniciar
@@ -341,7 +341,7 @@ const VotingSystem: React.FC<VotingSystemProps> = ({
             {process.status === 'active' && (
               <button 
                 onClick={() => controlVotingProcess(process.id, 'stop')}
-                className="px-3 py-1 bg-orange-600 text-white rounded text-sm hover:bg-orange-700 flex items-center"
+                className="px-3 py-1 bg-orange-600 dark:bg-orange-700 text-white rounded text-sm hover:bg-orange-700 dark:hover:bg-orange-800 flex items-center"
               >
                 <FaStop className="mr-1" />
                 Finalizar
@@ -357,8 +357,8 @@ const VotingSystem: React.FC<VotingSystemProps> = ({
     if (!selectedProcess) return null;
 
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-        <div className="bg-white dark:bg-gray-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center z-50 p-4">
+        <div className="bg-white dark:bg-gray-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-gray-200 dark:border-gray-700 shadow-xl">
           <div className="p-6 border-b border-gray-200 dark:border-gray-700">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -366,7 +366,8 @@ const VotingSystem: React.FC<VotingSystemProps> = ({
               </h2>
               <button 
                 onClick={() => setSelectedProcess(null)}
-                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 rounded-full"
+                aria-label="Cerrar"
               >
                 ✕
               </button>
@@ -549,7 +550,7 @@ const VotingSystem: React.FC<VotingSystemProps> = ({
   }
 
   return (
-    <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-lg ${className}`}>
+  <div className={`bg-white dark:bg-gray-900 rounded-lg shadow-lg ${className}`}>
       {/* Header */}
       <div className="p-6 border-b border-gray-200 dark:border-gray-700">
         <div className="flex justify-between items-center">
@@ -566,7 +567,7 @@ const VotingSystem: React.FC<VotingSystemProps> = ({
           </div>
           <button 
             onClick={() => setShowCreateModal(true)}
-            className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 flex items-center"
+            className="px-4 py-2 bg-purple-600 dark:bg-purple-700 text-white rounded hover:bg-purple-700 dark:hover:bg-purple-800 flex items-center"
           >
             <FaPlus className="mr-2" />
             Nueva Votación

@@ -136,7 +136,7 @@ const Events: React.FC = () => {
               <p className="text-red-500 dark:text-red-400 mb-4">{error}</p>
               <button
                 onClick={fetchEvents}
-                className="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 text-white font-bold py-2 px-6 rounded-lg transition"
+                className="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 text-white font-bold py-2 px-6 rounded-lg"
               >
                 Reintentar
               </button>
@@ -158,7 +158,7 @@ const Events: React.FC = () => {
                 </p>
                 <a 
                   href="/register"
-                  className="inline-block bg-slate-950 hover:bg-green-500 dark:bg-green-500 dark:hover:bg-green-600 text-white py-2 px-6 rounded-lg transition-colors duration-300 font-medium"
+                  className="inline-block bg-slate-950 hover:bg-green-500 dark:bg-green-500 dark:hover:bg-green-600 text-white py-2 px-6 rounded-lg font-medium"
                 >
                   Ser Miembro
                 </a>

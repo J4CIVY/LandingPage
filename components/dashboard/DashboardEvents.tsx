@@ -331,7 +331,7 @@ const DashboardEvents: React.FC<DashboardEventsProps> = ({ onViewEvent }) => {
                 const canRegister = event.isRegistrationOpen && !isRegistered && !event.isFull;
                 
                 return (
-                  <div key={event._id} className="border border-gray-200 dark:border-slate-700 rounded-lg p-4 hover:shadow-md transition-shadow">
+                  <div key={event._id} className="border border-gray-200 dark:border-slate-700 rounded-lg p-4 hover:shadow-md">
                     <div className="flex flex-col sm:flex-row sm:items-start space-y-4 sm:space-y-0 sm:space-x-4">
                       {/* Imagen del evento */}
                       <div className="flex-shrink-0">
@@ -408,7 +408,7 @@ const DashboardEvents: React.FC<DashboardEventsProps> = ({ onViewEvent }) => {
                         <div className="flex flex-wrap gap-2">
                           <button
                             onClick={() => handleViewEvent(event)}
-                            className="inline-flex items-center px-3 py-1.5 bg-blue-600 dark:bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
+                            className="inline-flex items-center px-3 py-1.5 bg-blue-600 dark:bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600"
                           >
                             <FaEye className="mr-1" />
                             Ver Detalles
@@ -418,7 +418,7 @@ const DashboardEvents: React.FC<DashboardEventsProps> = ({ onViewEvent }) => {
                             <button
                               onClick={() => handleRegisterEvent(event._id)}
                               disabled={actionLoading[`register_${event._id}`]}
-                              className="inline-flex items-center px-3 py-1.5 bg-green-600 dark:bg-green-500 text-white text-sm rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors disabled:opacity-50"
+                              className="inline-flex items-center px-3 py-1.5 bg-green-600 dark:bg-green-500 text-white text-sm rounded-lg hover:bg-green-700 dark:hover:bg-green-600 disabled:opacity-50"
                             >
                               {actionLoading[`register_${event._id}`] ? (
                                 <FaSpinner className="animate-spin mr-1" />
@@ -433,7 +433,7 @@ const DashboardEvents: React.FC<DashboardEventsProps> = ({ onViewEvent }) => {
                             <button
                               onClick={() => handleUnregisterEvent(event._id)}
                               disabled={actionLoading[`unregister_${event._id}`]}
-                              className="inline-flex items-center px-3 py-1.5 bg-red-600 dark:bg-red-500 text-white text-sm rounded-lg hover:bg-red-700 dark:hover:bg-red-600 transition-colors disabled:opacity-50"
+                              className="inline-flex items-center px-3 py-1.5 bg-red-600 dark:bg-red-500 text-white text-sm rounded-lg hover:bg-red-700 dark:hover:bg-red-600 disabled:opacity-50"
                             >
                               {actionLoading[`unregister_${event._id}`] ? (
                                 <FaSpinner className="animate-spin mr-1" />
@@ -448,7 +448,7 @@ const DashboardEvents: React.FC<DashboardEventsProps> = ({ onViewEvent }) => {
                             <button
                               onClick={() => handleToggleFavorite(event._id)}
                               disabled={actionLoading[`favorite_${event._id}`]}
-                              className={`inline-flex items-center px-3 py-1.5 text-sm rounded-lg transition-colors disabled:opacity-50 ${
+                              className={`inline-flex items-center px-3 py-1.5 text-sm rounded-lg disabled:opacity-50 ${
                                 isFavorite
                                   ? 'bg-pink-600 dark:bg-pink-500 text-white hover:bg-pink-700 dark:hover:bg-pink-600'
                                   : 'bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-slate-300 hover:bg-gray-300 dark:hover:bg-slate-600'
@@ -475,7 +475,7 @@ const DashboardEvents: React.FC<DashboardEventsProps> = ({ onViewEvent }) => {
                 <div className="text-center pt-4">
                   <button
                     onClick={() => setShowEventModal(true)}
-                    className="inline-flex items-center px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
+                    className="inline-flex items-center px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600"
                   >
                     Ver Todos los Eventos ({events.length})
                   </button>
@@ -632,7 +632,7 @@ const DashboardEvents: React.FC<DashboardEventsProps> = ({ onViewEvent }) => {
                         <button
                           onClick={() => handleRegisterEvent(selectedEvent._id)}
                           disabled={actionLoading[`register_${selectedEvent._id}`]}
-                          className="w-full inline-flex items-center justify-center px-4 py-3 bg-green-600 dark:bg-green-500 text-white rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors disabled:opacity-50"
+                          className="w-full inline-flex items-center justify-center px-4 py-3 bg-green-600 dark:bg-green-500 text-white rounded-lg hover:bg-green-700 dark:hover:bg-green-600 disabled:opacity-50"
                         >
                           {actionLoading[`register_${selectedEvent._id}`] ? (
                             <FaSpinner className="animate-spin mr-2" />
@@ -647,7 +647,7 @@ const DashboardEvents: React.FC<DashboardEventsProps> = ({ onViewEvent }) => {
                         <button
                           onClick={() => handleUnregisterEvent(selectedEvent._id)}
                           disabled={actionLoading[`unregister_${selectedEvent._id}`]}
-                          className="w-full inline-flex items-center justify-center px-4 py-3 bg-red-600 dark:bg-red-500 text-white rounded-lg hover:bg-red-700 dark:hover:bg-red-600 transition-colors disabled:opacity-50"
+                          className="w-full inline-flex items-center justify-center px-4 py-3 bg-red-600 dark:bg-red-500 text-white rounded-lg hover:bg-red-700 dark:hover:bg-red-600 disabled:opacity-50"
                         >
                           {actionLoading[`unregister_${selectedEvent._id}`] ? (
                             <FaSpinner className="animate-spin mr-2" />
@@ -661,7 +661,7 @@ const DashboardEvents: React.FC<DashboardEventsProps> = ({ onViewEvent }) => {
                       <button
                         onClick={() => handleToggleFavorite(selectedEvent._id)}
                         disabled={actionLoading[`favorite_${selectedEvent._id}`]}
-                        className={`w-full inline-flex items-center justify-center px-4 py-3 rounded-lg transition-colors disabled:opacity-50 ${
+                        className={`w-full inline-flex items-center justify-center px-4 py-3 rounded-lg disabled:opacity-50 ${
                           userFavorites.includes(selectedEvent._id)
                             ? 'bg-pink-600 dark:bg-pink-500 text-white hover:bg-pink-700 dark:hover:bg-pink-600'
                             : 'bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-slate-300 hover:bg-gray-300 dark:hover:bg-slate-600'

@@ -51,7 +51,7 @@ const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMon
       <div className="flex items-center justify-between mb-4">
         <button 
           onClick={goToPrevMonth}
-          className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"
+          className="p-2 rounded-full bg-white dark:bg-slate-900 hover:bg-gray-200 dark:hover:bg-slate-700"
           aria-label="Mes anterior"
         >
           <FaArrowLeft className="text-slate-950 dark:text-white" />
@@ -61,7 +61,7 @@ const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMon
         </h3>
         <button 
           onClick={goToNextMonth}
-          className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"
+          className="p-2 rounded-full bg-white dark:bg-slate-900 hover:bg-gray-200 dark:hover:bg-slate-700"
           aria-label="Mes siguiente"
         >
           <FaArrowRight className="text-slate-950 dark:text-white" />
@@ -80,7 +80,7 @@ const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMon
     return (
       <div className="grid grid-cols-7 mb-2">
         {dayNames.map((day, i) => (
-          <div className="text-center font-semibold text-sm py-2 dark:text-gray-300" key={i}>
+          <div className="text-center font-semibold text-sm py-2 text-slate-950 dark:text-gray-300" key={i}>
             {day}
           </div>
         ))}
@@ -119,12 +119,12 @@ const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMon
             } ${isSameDay(currentDay, new Date()) ? 'bg-green-400 bg-opacity-20 dark:bg-green-400/30' : ''}`}
             key={currentDay.toISOString()} // Use ISO string for unique and stable key
           >
-            <span className="text-sm font-medium self-end">{format(currentDay, 'd')}</span>
-            <div className="flex-1 overflow-y-auto custom-scrollbar"> {/* Added custom-scrollbar class */}
+            <span className="text-sm font-medium self-end text-slate-950 dark:text-white">{format(currentDay, 'd')}</span>
+            <div className="flex-1 overflow-y-auto custom-scrollbar">
               {dayEvents.map((event: any) => (
                 <div 
-                  key={event._id} // Use event ID for unique key
-                  className="text-xs p-1 my-0.5 rounded bg-red-600 text-white truncate w-full pointer-events-none"
+                  key={event._id}
+                  className="text-xs p-1 my-0.5 rounded bg-red-600 dark:bg-red-700 text-white dark:text-white truncate w-full pointer-events-none"
                   title={event.name}
                 >
                   {event.name}

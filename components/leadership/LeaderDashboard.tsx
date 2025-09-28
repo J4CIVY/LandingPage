@@ -241,26 +241,26 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+  <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
           Acciones Rápidas
         </h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <button className="flex flex-col items-center p-4 bg-white dark:bg-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-500 transition-colors">
+          <button className="flex flex-col items-center p-4 bg-white dark:bg-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
             <FaPlus className="text-2xl text-purple-600 mb-2" />
-            <span className="text-sm font-medium">Nuevo Anuncio</span>
+            <span className="text-sm font-medium text-gray-900 dark:text-white">Nuevo Anuncio</span>
           </button>
-          <button className="flex flex-col items-center p-4 bg-white dark:bg-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-500 transition-colors">
+          <button className="flex flex-col items-center p-4 bg-white dark:bg-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
             <FaGavel className="text-2xl text-green-600 mb-2" />
-            <span className="text-sm font-medium">Nueva Votación</span>
+            <span className="text-sm font-medium text-gray-900 dark:text-white">Nueva Votación</span>
           </button>
-          <button className="flex flex-col items-center p-4 bg-white dark:bg-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-500 transition-colors">
+          <button className="flex flex-col items-center p-4 bg-white dark:bg-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
             <FaUsers className="text-2xl text-blue-600 mb-2" />
-            <span className="text-sm font-medium">Gestionar Equipo</span>
+            <span className="text-sm font-medium text-gray-900 dark:text-white">Gestionar Equipo</span>
           </button>
-          <button className="flex flex-col items-center p-4 bg-white dark:bg-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-500 transition-colors">
+          <button className="flex flex-col items-center p-4 bg-white dark:bg-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
             <FaFileAlt className="text-2xl text-orange-600 mb-2" />
-            <span className="text-sm font-medium">Reportes</span>
+            <span className="text-sm font-medium text-gray-900 dark:text-white">Reportes</span>
           </button>
         </div>
       </div>
@@ -273,15 +273,15 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
           Gestión de Equipo
         </h3>
-        <button className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 flex items-center">
+  <button className="px-4 py-2 bg-purple-600 dark:bg-purple-700 text-white rounded hover:bg-purple-700 dark:hover:bg-purple-800 flex items-center">
           <FaPlus className="mr-2" />
           Agregar Miembro
         </button>
       </div>
 
-      <div className="bg-white dark:bg-gray-700 rounded-lg overflow-hidden">
+  <div className="bg-white dark:bg-gray-900 rounded-lg overflow-hidden">
         <table className="w-full">
-          <thead className="bg-gray-50 dark:bg-gray-600">
+          <thead className="bg-gray-50 dark:bg-gray-800">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                 Miembro
@@ -300,7 +300,7 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
+          <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
             {teamMembers.map((member) => (
               <tr key={member.id}>
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -319,8 +319,8 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                     member.status === 'active' 
-                      ? 'bg-green-100 text-green-800' 
-                      : 'bg-red-100 text-red-800'
+                      ? 'bg-green-100 dark:bg-green-900 dark:text-green-200 text-green-800' 
+                      : 'bg-red-100 dark:bg-red-900 dark:text-red-200 text-red-800'
                   }`}>
                     {member.status === 'active' ? 'Activo' : 'Inactivo'}
                   </span>
@@ -329,13 +329,13 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
                   {member.assignedTasks}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                  <button className="text-purple-600 hover:text-purple-900">
+                  <button className="text-purple-600 hover:text-purple-900 dark:hover:text-purple-300">
                     <FaEdit />
                   </button>
-                  <button className="text-blue-600 hover:text-blue-900">
+                  <button className="text-blue-600 hover:text-blue-900 dark:hover:text-blue-300">
                     <FaEye />
                   </button>
-                  <button className="text-red-600 hover:text-red-900">
+                  <button className="text-red-600 hover:text-red-900 dark:hover:text-red-300">
                     <FaTimes />
                   </button>
                 </td>
@@ -355,7 +355,7 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
 
       <div className="space-y-4">
         {pendingDecisions.map((decision) => (
-          <div key={decision.id} className="bg-white dark:bg-gray-700 rounded-lg p-6 border-l-4 border-purple-500">
+          <div key={decision.id} className="bg-white dark:bg-gray-900 rounded-lg p-6 border-l-4 border-purple-500 dark:border-purple-700">
             <div className="flex justify-between items-start">
               <div className="flex-1">
                 <div className="flex items-center mb-2">
@@ -363,10 +363,10 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
                     {decision.title}
                   </h4>
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    decision.priority === 'urgent' ? 'bg-red-100 text-red-800' :
-                    decision.priority === 'high' ? 'bg-orange-100 text-orange-800' :
-                    decision.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                    'bg-green-100 text-green-800'
+                    decision.priority === 'urgent' ? 'bg-red-100 dark:bg-red-900 dark:text-red-200 text-red-800' :
+                    decision.priority === 'high' ? 'bg-orange-100 dark:bg-orange-900 dark:text-orange-200 text-orange-800' :
+                    decision.priority === 'medium' ? 'bg-yellow-100 dark:bg-yellow-900 dark:text-yellow-200 text-yellow-800' :
+                    'bg-green-100 dark:bg-green-900 dark:text-green-200 text-green-800'
                   }`}>
                     {decision.priority === 'urgent' ? 'Urgente' :
                      decision.priority === 'high' ? 'Alta' :
@@ -386,20 +386,20 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
                 {decision.votes && (
                   <div className="mt-3 grid grid-cols-4 gap-4 text-sm">
                     <div className="text-center">
-                      <div className="text-green-600 font-semibold">{decision.votes.for}</div>
-                      <div className="text-gray-500">A Favor</div>
+                      <div className="text-green-600 dark:text-green-400 font-semibold">{decision.votes.for}</div>
+                      <div className="text-gray-500 dark:text-gray-300">A Favor</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-red-600 font-semibold">{decision.votes.against}</div>
-                      <div className="text-gray-500">En Contra</div>
+                      <div className="text-red-600 dark:text-red-400 font-semibold">{decision.votes.against}</div>
+                      <div className="text-gray-500 dark:text-gray-300">En Contra</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-yellow-600 font-semibold">{decision.votes.abstain}</div>
-                      <div className="text-gray-500">Abstención</div>
+                      <div className="text-yellow-600 dark:text-yellow-400 font-semibold">{decision.votes.abstain}</div>
+                      <div className="text-gray-500 dark:text-gray-300">Abstención</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-blue-600 font-semibold">{decision.votes.total}</div>
-                      <div className="text-gray-500">Total</div>
+                      <div className="text-blue-600 dark:text-blue-400 font-semibold">{decision.votes.total}</div>
+                      <div className="text-gray-500 dark:text-gray-300">Total</div>
                     </div>
                   </div>
                 )}
@@ -408,14 +408,14 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
               <div className="flex space-x-2 ml-4">
                 <button 
                   onClick={() => handleDecision(decision.id, 'approve')}
-                  className="px-3 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700 flex items-center"
+                  className="px-3 py-1 bg-green-600 dark:bg-green-700 text-white rounded text-sm hover:bg-green-700 dark:hover:bg-green-800 flex items-center"
                 >
                   <FaCheck className="mr-1" />
                   Aprobar
                 </button>
                 <button 
                   onClick={() => handleDecision(decision.id, 'reject')}
-                  className="px-3 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700 flex items-center"
+                  className="px-3 py-1 bg-red-600 dark:bg-red-700 text-white rounded text-sm hover:bg-red-700 dark:hover:bg-red-800 flex items-center"
                 >
                   <FaTimes className="mr-1" />
                   Rechazar
@@ -434,7 +434,7 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
           Comunicaciones
         </h3>
-        <button className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 flex items-center">
+  <button className="px-4 py-2 bg-purple-600 dark:bg-purple-700 text-white rounded hover:bg-purple-700 dark:hover:bg-purple-800 flex items-center">
           <FaPlus className="mr-2" />
           Nuevo Anuncio
         </button>
@@ -442,7 +442,7 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
 
       <div className="space-y-4">
         {announcements.map((announcement) => (
-          <div key={announcement.id} className="bg-white dark:bg-gray-700 rounded-lg p-6">
+          <div key={announcement.id} className="bg-white dark:bg-gray-900 rounded-lg p-6">
             <div className="flex justify-between items-start">
               <div className="flex-1">
                 <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
@@ -454,20 +454,20 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
                 <div className="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
                   <span>Audiencia: {announcement.targetAudience.join(', ')}</span>
                   <span className={`px-2 py-1 rounded-full text-xs ${
-                    announcement.status === 'sent' ? 'bg-green-100 text-green-800' :
-                    announcement.status === 'scheduled' ? 'bg-yellow-100 text-yellow-800' :
-                    'bg-gray-100 text-gray-800'
-                  }`}>
+                      announcement.status === 'sent' ? 'bg-green-100 dark:bg-green-900 dark:text-green-200 text-green-800' :
+                      announcement.status === 'scheduled' ? 'bg-yellow-100 dark:bg-yellow-900 dark:text-yellow-200 text-yellow-800' :
+                      'bg-gray-100 dark:bg-gray-800 dark:text-gray-200 text-gray-800'
+                    }`}>
                     {announcement.status === 'sent' ? 'Enviado' :
                      announcement.status === 'scheduled' ? 'Programado' : 'Borrador'}
                   </span>
                 </div>
               </div>
               <div className="flex space-x-2 ml-4">
-                <button className="p-2 text-blue-600 hover:text-blue-800">
+                <button className="p-2 text-blue-600 hover:text-blue-800 dark:hover:text-blue-300">
                   <FaEdit />
                 </button>
-                <button className="p-2 text-red-600 hover:text-red-800">
+                <button className="p-2 text-red-600 hover:text-red-800 dark:hover:text-red-300">
                   <FaTimes />
                 </button>
               </div>
@@ -485,7 +485,7 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
       </h3>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="bg-white dark:bg-gray-700 rounded-lg p-6">
+  <div className="bg-white dark:bg-gray-900 rounded-lg p-6">
           <FaFileAlt className="text-3xl text-blue-600 mb-4" />
           <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
             Documentos Oficiales
@@ -493,12 +493,12 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
             Acceso a estatutos, reglamentos y documentos administrativos
           </p>
-          <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
+          <button className="text-blue-600 hover:text-blue-800 dark:hover:text-blue-300 text-sm font-medium">
             Ver Documentos →
           </button>
         </div>
 
-        <div className="bg-white dark:bg-gray-700 rounded-lg p-6">
+  <div className="bg-white dark:bg-gray-900 rounded-lg p-6">
           <FaChartLine className="text-3xl text-green-600 mb-4" />
           <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
             Reportes y Analytics
@@ -506,12 +506,12 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
             Estadísticas del club, métricas de participación y reportes
           </p>
-          <button className="text-green-600 hover:text-green-800 text-sm font-medium">
+          <button className="text-green-600 hover:text-green-800 dark:hover:text-green-300 text-sm font-medium">
             Ver Reportes →
           </button>
         </div>
 
-        <div className="bg-white dark:bg-gray-700 rounded-lg p-6">
+  <div className="bg-white dark:bg-gray-900 rounded-lg p-6">
           <FaComments className="text-3xl text-purple-600 mb-4" />
           <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
             Canal Directivo
@@ -519,12 +519,12 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
             Comunicación privada entre Leaders y Directiva
           </p>
-          <button className="text-purple-600 hover:text-purple-800 text-sm font-medium">
+          <button className="text-purple-600 hover:text-purple-800 dark:hover:text-purple-300 text-sm font-medium">
             Abrir Canal →
           </button>
         </div>
 
-        <div className="bg-white dark:bg-gray-700 rounded-lg p-6">
+  <div className="bg-white dark:bg-gray-900 rounded-lg p-6">
           <FaCogs className="text-3xl text-orange-600 mb-4" />
           <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
             Herramientas Admin
@@ -532,12 +532,12 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
             Gestión de usuarios, permisos y configuraciones
           </p>
-          <button className="text-orange-600 hover:text-orange-800 text-sm font-medium">
+          <button className="text-orange-600 hover:text-orange-800 dark:hover:text-orange-300 text-sm font-medium">
             Acceder →
           </button>
         </div>
 
-        <div className="bg-white dark:bg-gray-700 rounded-lg p-6">
+  <div className="bg-white dark:bg-gray-900 rounded-lg p-6">
           <FaHandshake className="text-3xl text-teal-600 mb-4" />
           <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
             Convenios y Aliados
@@ -545,12 +545,12 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
             Gestión de convenios con marcas y aliados estratégicos
           </p>
-          <button className="text-teal-600 hover:text-teal-800 text-sm font-medium">
+          <button className="text-teal-600 hover:text-teal-800 dark:hover:text-teal-300 text-sm font-medium">
             Gestionar →
           </button>
         </div>
 
-        <div className="bg-white dark:bg-gray-700 rounded-lg p-6">
+  <div className="bg-white dark:bg-gray-900 rounded-lg p-6">
           <FaCalendarAlt className="text-3xl text-indigo-600 mb-4" />
           <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
             Calendario Ejecutivo
@@ -558,7 +558,7 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
             Reuniones, eventos y compromisos oficiales
           </p>
-          <button className="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+          <button className="text-indigo-600 hover:text-indigo-800 dark:hover:text-indigo-300 text-sm font-medium">
             Ver Calendario →
           </button>
         </div>

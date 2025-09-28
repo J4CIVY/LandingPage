@@ -88,7 +88,7 @@ export default function NotificationDropdown({ className = '' }: NotificationDro
       {/* Botón de notificaciones */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 text-gray-400 dark:text-slate-500 hover:text-gray-600 dark:hover:text-slate-300 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800 rounded-lg"
+        className="relative p-2 text-gray-400 dark:text-slate-500 hover:text-gray-600 dark:hover:text-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800 rounded-lg"
       >
         <FaBell className="text-lg sm:text-xl" />
         {unreadCount > 0 && (
@@ -161,7 +161,7 @@ export default function NotificationDropdown({ className = '' }: NotificationDro
                   {visibleNotifications.map((notification) => (
                     <div
                       key={notification._id}
-                      className={`p-4 hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors cursor-pointer ${
+                      className={`p-4 hover:bg-gray-50 dark:hover:bg-slate-700/50 cursor-pointer ${
                         !notification.isRead ? 'bg-blue-50 dark:bg-blue-900/10' : ''
                       }`}
                       onClick={() => handleNotificationClick(notification)}

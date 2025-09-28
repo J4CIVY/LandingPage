@@ -38,14 +38,14 @@ export default function MembershipStats({ user, membershipData }: MembershipStat
   
   if (loading) {
     return (
-      <div className="bg-white rounded-xl shadow-lg p-6">
-        <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-          <FaTrophy className="w-5 h-5 text-yellow-500" />
+  <div className="bg-white dark:bg-slate-950 rounded-xl shadow-lg p-6">
+        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+          <FaTrophy className="w-5 h-5 text-yellow-500 dark:text-yellow-400" />
           Estadísticas Personales
         </h3>
         <div className="flex items-center justify-center py-8">
-          <FaSpinner className="animate-spin text-2xl text-gray-400" />
-          <span className="ml-2 text-gray-600">Cargando estadísticas...</span>
+          <FaSpinner className="animate-spin text-2xl text-gray-400 dark:text-gray-500" />
+          <span className="ml-2 text-gray-600 dark:text-gray-300">Cargando estadísticas...</span>
         </div>
       </div>
     );
@@ -53,13 +53,13 @@ export default function MembershipStats({ user, membershipData }: MembershipStat
 
   if (error || !stats) {
     return (
-      <div className="bg-white rounded-xl shadow-lg p-6">
-        <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-          <FaTrophy className="w-5 h-5 text-yellow-500" />
+  <div className="bg-white dark:bg-slate-950 rounded-xl shadow-lg p-6">
+        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+          <FaTrophy className="w-5 h-5 text-yellow-500 dark:text-yellow-400" />
           Estadísticas Personales
         </h3>
         <div className="text-center py-8">
-          <p className="text-gray-500">No se pudieron cargar las estadísticas</p>
+          <p className="text-gray-500 dark:text-gray-400">No se pudieron cargar las estadísticas</p>
         </div>
       </div>
     );
@@ -145,47 +145,47 @@ export default function MembershipStats({ user, membershipData }: MembershipStat
   const earnedBadges = badges.filter(badge => badge.earned);
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6">
-      <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-        <FaTrophy className="w-5 h-5 text-yellow-500" />
+  <div className="bg-white dark:bg-slate-950 rounded-xl shadow-lg p-6">
+      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+        <FaTrophy className="w-5 h-5 text-yellow-500 dark:text-yellow-400" />
         Estadísticas Personales
       </h3>
 
       {/* Estadísticas principales usando datos reales */}
       <div className="grid grid-cols-2 gap-4 mb-6">
-        <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg">
-          <div className="text-2xl font-bold text-blue-600 mb-1">
+        <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 rounded-lg">
+          <div className="text-2xl font-bold text-blue-600 dark:text-blue-300 mb-1">
             {calculateMembershipDuration()}
           </div>
-          <p className="text-sm text-blue-700">Como miembro</p>
+          <p className="text-sm text-blue-700 dark:text-blue-200">Como miembro</p>
         </div>
 
-        <div className="text-center p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-lg">
-          <div className="text-2xl font-bold text-green-600 mb-1">
+        <div className="text-center p-4 bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900 dark:to-green-800 rounded-lg">
+          <div className="text-2xl font-bold text-green-600 dark:text-green-300 mb-1">
             {calculateRenewals()}
           </div>
-          <p className="text-sm text-green-700">Renovaciones</p>
+          <p className="text-sm text-green-700 dark:text-green-200">Renovaciones</p>
         </div>
 
-        <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg">
-          <div className="text-2xl font-bold text-purple-600 mb-1">
+        <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900 dark:to-purple-800 rounded-lg">
+          <div className="text-2xl font-bold text-purple-600 dark:text-purple-300 mb-1">
             {stats.eventsAttended}
           </div>
-          <p className="text-sm text-purple-700">Eventos</p>
+          <p className="text-sm text-purple-700 dark:text-purple-200">Eventos</p>
         </div>
 
-        <div className="text-center p-4 bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-lg">
-          <div className="text-2xl font-bold text-yellow-600 mb-1">
+        <div className="text-center p-4 bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900 dark:to-yellow-800 rounded-lg">
+          <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-300 mb-1">
             {stats.totalPoints}
           </div>
-          <p className="text-sm text-yellow-700">Puntos</p>
+          <p className="text-sm text-yellow-700 dark:text-yellow-200">Puntos</p>
         </div>
       </div>
 
       {/* Insignias/Logros */}
       <div className="mb-6">
-        <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
-          <FaMedal className="w-4 h-4 text-yellow-500" />
+        <h4 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+          <FaMedal className="w-4 h-4 text-yellow-500 dark:text-yellow-400" />
           Logros Desbloqueados ({earnedBadges.length}/{badges.length})
         </h4>
 
@@ -195,24 +195,24 @@ export default function MembershipStats({ user, membershipData }: MembershipStat
             return (
               <div
                 key={badge.id}
-                className={`p-3 rounded-lg border transition-all duration-200 ${
+                className={`p-3 rounded-lg border ${
                   badge.earned
-                    ? 'bg-white border-gray-200 shadow-sm'
-                    : 'bg-gray-50 border-gray-100 opacity-60'
+                    ? 'bg-white dark:bg-slate-900 border-gray-200 dark:border-slate-700 shadow-sm'
+                    : 'bg-gray-50 dark:bg-slate-800 border-gray-100 dark:border-slate-700 opacity-60'
                 }`}
               >
                 <div className="flex items-center gap-2 mb-2">
                   <BadgeIcon 
-                    className={`w-4 h-4 ${badge.earned ? badge.color : 'text-gray-400'}`} 
+                    className={`w-4 h-4 ${badge.earned ? badge.color : 'text-gray-400 dark:text-gray-500'}`} 
                   />
                   <span className={`text-sm font-medium ${
-                    badge.earned ? 'text-gray-900' : 'text-gray-500'
+                    badge.earned ? 'text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400'
                   }`}>
                     {badge.name}
                   </span>
                 </div>
                 <p className={`text-xs ${
-                  badge.earned ? 'text-gray-600' : 'text-gray-400'
+                  badge.earned ? 'text-gray-600 dark:text-gray-300' : 'text-gray-400 dark:text-gray-500'
                 }`}>
                   {badge.description}
                 </p>
@@ -223,20 +223,20 @@ export default function MembershipStats({ user, membershipData }: MembershipStat
       </div>
 
       {/* Ranking real */}
-      <div className="border-t border-gray-200 pt-4">
-        <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
-          <FaUsers className="w-4 h-4 text-blue-500" />
+      <div className="border-t border-gray-200 dark:border-slate-700 pt-4">
+        <h4 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+          <FaUsers className="w-4 h-4 text-blue-500 dark:text-blue-400" />
           Tu Posición
         </h4>
         
-        <div className="text-center p-4 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-lg">
-          <div className="text-xl font-bold text-indigo-600 mb-1">
+        <div className="text-center p-4 bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-900 dark:to-indigo-800 rounded-lg">
+          <div className="text-xl font-bold text-indigo-600 dark:text-indigo-300 mb-1">
             #{stats.ranking.position || 'N/A'}
           </div>
-          <p className="text-sm text-indigo-700 mb-2">
+          <p className="text-sm text-indigo-700 dark:text-indigo-200 mb-2">
             En el ranking general
           </p>
-          <p className="text-xs text-indigo-600">
+          <p className="text-xs text-indigo-600 dark:text-indigo-300">
             {stats.ranking.totalUsers > 0 
               ? `Entre ${stats.ranking.totalUsers} miembros` 
               : '¡Sigue participando para subir posiciones!'
@@ -246,23 +246,23 @@ export default function MembershipStats({ user, membershipData }: MembershipStat
       </div>
 
       {/* Progreso hacia siguiente nivel real */}
-      <div className="mt-4 pt-4 border-t border-gray-200">
-        <h4 className="font-semibold text-gray-900 mb-3">Progreso del Nivel</h4>
+      <div className="mt-4 pt-4 border-t border-gray-200 dark:border-slate-700">
+        <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Progreso del Nivel</h4>
         
         <div className="mb-2">
-          <div className="flex justify-between text-sm text-gray-600 mb-1">
+          <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300 mb-1">
             <span>{stats.currentLevel} {stats.levelIcon}</span>
             <span>{Math.round(stats.levelProgress)}%</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
             <div 
-              className="bg-gradient-to-r from-green-500 to-green-600 h-2 rounded-full transition-all duration-300"
+              className="bg-gradient-to-r from-green-500 to-green-600 dark:from-green-700 dark:to-green-500 h-2 rounded-full"
               style={{ width: `${Math.round(stats.levelProgress)}%` }}
             ></div>
           </div>
         </div>
         
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-gray-500 dark:text-gray-400">
           {stats.levelProgress >= 100 
             ? '¡Has alcanzado el nivel máximo!' 
             : `${stats.nextLevelPoints - stats.totalPoints} puntos para el siguiente nivel`

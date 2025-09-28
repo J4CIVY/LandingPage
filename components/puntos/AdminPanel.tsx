@@ -263,14 +263,14 @@ export default function AdminPanel() {
       {tabActiva === 'recompensas' && (
         <div className="space-y-6">
           {/* Formulario para crear nueva recompensa */}
-          <div className="bg-white rounded-lg border p-6">
-            <h4 className="text-lg font-bold text-gray-800 mb-4">
+          <div className="bg-white dark:bg-slate-900 rounded-lg border dark:border-slate-800 p-6">
+            <h4 className="text-lg font-bold text-gray-800 dark:text-white mb-4">
               Crear Nueva Recompensa
             </h4>
             <form onSubmit={handleCrearRecompensa} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Nombre
                   </label>
                   <input
@@ -278,12 +278,12 @@ export default function AdminPanel() {
                     required
                     value={nuevaRecompensa.nombre}
                     onChange={(e) => setNuevaRecompensa(prev => ({ ...prev, nombre: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-200"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Costo en Puntos
                   </label>
                   <input
@@ -292,18 +292,18 @@ export default function AdminPanel() {
                     min="1"
                     value={nuevaRecompensa.costoPuntos}
                     onChange={(e) => setNuevaRecompensa(prev => ({ ...prev, costoPuntos: parseInt(e.target.value) || 0 }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-200"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Categoría
                   </label>
                   <select
                     value={nuevaRecompensa.categoria}
                     onChange={(e) => setNuevaRecompensa(prev => ({ ...prev, categoria: e.target.value as Recompensa['categoria'] }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-200"
                   >
                     <option value="Producto">Producto</option>
                     <option value="Servicio">Servicio</option>
@@ -313,7 +313,7 @@ export default function AdminPanel() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Stock (opcional)
                   </label>
                   <input
@@ -321,13 +321,13 @@ export default function AdminPanel() {
                     min="0"
                     value={nuevaRecompensa.stock || ''}
                     onChange={(e) => setNuevaRecompensa(prev => ({ ...prev, stock: e.target.value ? parseInt(e.target.value) : undefined }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-200"
                   />
                 </div>
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Descripción
                 </label>
                 <textarea
@@ -335,13 +335,13 @@ export default function AdminPanel() {
                   rows={3}
                   value={nuevaRecompensa.descripcion}
                   onChange={(e) => setNuevaRecompensa(prev => ({ ...prev, descripcion: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-200"
                 />
               </div>
               
               <button
                 type="submit"
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                className="bg-blue-600 dark:bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-800"
               >
                 Crear Recompensa
               </button>
@@ -349,16 +349,16 @@ export default function AdminPanel() {
           </div>
 
           {/* Lista de recompensas existentes */}
-          <div className="bg-white rounded-lg border p-6">
-            <h4 className="text-lg font-bold text-gray-800 mb-4">
+          <div className="bg-white dark:bg-slate-900 rounded-lg border dark:border-slate-800 p-6">
+            <h4 className="text-lg font-bold text-gray-800 dark:text-white mb-4">
               Gestionar Recompensas
             </h4>
             <div className="space-y-3">
               {recompensas.map((recompensa) => (
-                <div key={recompensa.id} className="flex items-center justify-between p-4 border rounded-lg">
+                <div key={recompensa.id} className="flex items-center justify-between p-4 border dark:border-slate-700 rounded-lg">
                   <div className="flex-1">
-                    <h5 className="font-medium">{recompensa.nombre}</h5>
-                    <p className="text-sm text-gray-600">
+                    <h5 className="font-medium dark:text-white">{recompensa.nombre}</h5>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">
                       {recompensa.costoPuntos} puntos • {recompensa.categoria}
                       {recompensa.stock && ` • Stock: ${recompensa.stock}`}
                     </p>
@@ -366,14 +366,14 @@ export default function AdminPanel() {
                   <div className="flex items-center gap-2">
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                       recompensa.disponible 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-red-100 text-red-800'
+                        ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
+                        : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
                     }`}>
                       {recompensa.disponible ? 'Activa' : 'Inactiva'}
                     </span>
                     <button
                       onClick={() => toggleDisponibilidadRecompensa(recompensa.id)}
-                      className="px-3 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors text-sm"
+                      className="px-3 py-1 bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-gray-200 rounded hover:bg-gray-200 dark:hover:bg-slate-700 text-sm"
                     >
                       {recompensa.disponible ? 'Desactivar' : 'Activar'}
                     </button>

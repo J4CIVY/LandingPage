@@ -194,9 +194,9 @@ export default function QuickActions() {
               key={action.id}
               onClick={() => handleActionClick(action)}
               className={`
-                p-4 rounded-lg border-2 border-transparent transition-all duration-200 text-left
+                p-4 rounded-lg border-2 border-transparent text-left
                 ${action.bgColor} ${action.hoverColor}
-                hover:border-current hover:shadow-md transform hover:-translate-y-1
+                hover:border-current hover:shadow-md hover:-translate-y-1
                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800
               `}
             >

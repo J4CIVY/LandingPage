@@ -52,24 +52,24 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
   };
 
   return (
-    <section className="py-20 px-4 bg-white dark:bg-slate-950 text-slate-900 dark:text-white">
+  <section className="py-20 px-4 bg-white dark:bg-slate-950 text-slate-900 dark:text-white">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-4xl font-bold text-center mb-12">
-          PRÓXIMOS <span className="text-green-400">EVENTOS</span>
+          PRÓXIMOS <span className="text-green-400 dark:text-green-300">EVENTOS</span>
         </h2>
 
         <div className="mb-8 flex justify-center space-x-4">
           <button
             onClick={() => setActiveTab('events')}
-            className={`px-6 py-2 rounded-full transition-colors ${activeTab === 'events' ? 'bg-red-600 text-white' : 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white'}`}
-            aria-pressed={activeTab === 'events'} // ARIA attribute for toggle buttons
+            className={`px-6 py-2 rounded-full ${activeTab === 'events' ? 'bg-red-600 text-white' : 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white'}`}
+            aria-pressed={activeTab === 'events'}
           >
             Lista de Eventos
           </button>
           <button
             onClick={() => setActiveTab('calendar')}
-            className={`px-6 py-2 rounded-full transition-colors ${activeTab === 'calendar' ? 'bg-red-600 text-white' : 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white'}`}
-            aria-pressed={activeTab === 'calendar'} // ARIA attribute for toggle buttons
+            className={`px-6 py-2 rounded-full ${activeTab === 'calendar' ? 'bg-red-600 text-white' : 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white'}`}
+            aria-pressed={activeTab === 'calendar'}
           >
             Calendario
           </button>
@@ -99,7 +99,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
                   events.map((event: any, index: number) => (
                     <div 
                       key={event._id || index}
-                      className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105 cursor-pointer"
+                      className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl overflow-hidden shadow-lg cursor-pointer"
                       onClick={() => handleEventClick(event)}
                     >
                       <div className="relative" style={{ aspectRatio: '16/9' }}>
@@ -112,7 +112,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
                         />
                       </div>
                       <div className="p-4">
-                        <p className="text-red-600 font-semibold text-sm mb-2">
+                        <p className="text-red-600 dark:text-red-400 font-semibold text-sm mb-2">
                           {event.startDate ? format(parseISO(event.startDate), "EEEE d 'de' MMMM yyyy", { locale: es }) : 'Fecha no disponible'}
                         </p>
                         <p className="text-gray-700 dark:text-gray-300 text-sm line-clamp-3">
@@ -132,7 +132,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
         ) : (
           <div className="bg-white dark:bg-slate-800 rounded-xl p-6 text-slate-900 dark:text-white">
             <div className="flex items-center justify-center mb-4">
-              <FaCalendarAlt className="text-red-600 mr-2" aria-hidden="true" />
+              <FaCalendarAlt className="text-red-600 dark:text-red-400 mr-2" aria-hidden="true" />
               <h3 className="text-xl font-bold">Calendario de Eventos</h3>
             </div>
             <Calendar 

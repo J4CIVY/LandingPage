@@ -175,7 +175,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
       <div className="relative">
         <button
           onClick={handleSearchIconClick}
-          className="p-2 text-gray-700 dark:text-gray-200 hover:text-green-400 dark:hover:text-green-400 focus:outline-none focus:ring-2 focus:ring-green-400 rounded-lg transition-colors"
+          className="p-2 text-gray-700 dark:text-gray-200 hover:text-green-400 dark:hover:text-green-400 focus:outline-none focus:ring-2 focus:ring-green-400 rounded-lg"
           aria-label="Abrir búsqueda"
         >
           <FaSearch className="w-5 h-5" />
@@ -222,7 +222,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
 
       {/* Resultados de búsqueda */}
       {isOpen && (query.length > 0 || results.length > 0) && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto">
+  <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto">
           {isLoading ? (
             <div className="p-4 text-center">
               <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-green-400 mx-auto"></div>

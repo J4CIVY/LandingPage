@@ -216,7 +216,7 @@ export default function UpcomingEvents() {
           <p className="text-red-600 dark:text-red-400 mb-2">{error}</p>
           <button
             onClick={fetchUpcomingEvents}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
           >
             Reintentar
           </button>
@@ -252,7 +252,7 @@ export default function UpcomingEvents() {
               const isEventFull = Boolean(event.maxParticipants && event.currentParticipants >= event.maxParticipants);
               
               return (
-                <div key={event._id} className="border border-gray-200 dark:border-slate-700 rounded-lg p-4 hover:shadow-md transition-shadow">
+                <div key={event._id} className="border border-gray-200 dark:border-slate-700 rounded-lg p-4 hover:shadow-md">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between space-y-3 sm:space-y-0">
                     <div className="flex-1">
                       <h4 className="font-medium text-gray-900 dark:text-slate-100 mb-2">
@@ -305,7 +305,7 @@ export default function UpcomingEvents() {
                       {/* Ver detalles */}
                       <button 
                         onClick={() => window.location.href = `/events/${event._id}`}
-                        className="inline-flex items-center px-3 py-1.5 bg-blue-600 dark:bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
+                        className="inline-flex items-center px-3 py-1.5 bg-blue-600 dark:bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600"
                       >
                         <FaEye className="mr-1" />
                         Ver
@@ -318,7 +318,7 @@ export default function UpcomingEvents() {
                             <button
                               onClick={() => handleEventRegistration(event._id, 'unregister')}
                               disabled={isProcessing}
-                              className="inline-flex items-center px-3 py-1.5 bg-red-600 dark:bg-red-500 text-white text-sm rounded-lg hover:bg-red-700 dark:hover:bg-red-600 transition-colors disabled:opacity-50"
+                              className="inline-flex items-center px-3 py-1.5 bg-red-600 dark:bg-red-500 text-white text-sm rounded-lg hover:bg-red-700 dark:hover:bg-red-600 disabled:opacity-50"
                             >
                               {isProcessing ? (
                                 <FaSpinner className="animate-spin mr-1" />
@@ -331,7 +331,7 @@ export default function UpcomingEvents() {
                             <button
                               onClick={() => handleEventRegistration(event._id, 'register')}
                               disabled={isProcessing}
-                              className="inline-flex items-center px-3 py-1.5 bg-green-600 dark:bg-green-500 text-white text-sm rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors disabled:opacity-50"
+                              className="inline-flex items-center px-3 py-1.5 bg-green-600 dark:bg-green-500 text-white text-sm rounded-lg hover:bg-green-700 dark:hover:bg-green-600 disabled:opacity-50"
                             >
                               {isProcessing ? (
                                 <FaSpinner className="animate-spin mr-1" />
@@ -346,7 +346,7 @@ export default function UpcomingEvents() {
                           <button
                             onClick={() => handleToggleFavorite(event._id)}
                             disabled={isProcessing}
-                            className={`inline-flex items-center px-3 py-1.5 text-sm rounded-lg transition-colors disabled:opacity-50 ${
+                            className={`inline-flex items-center px-3 py-1.5 text-sm rounded-lg disabled:opacity-50 ${
                               isFavorite
                                 ? 'bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-900/30'
                                 : 'bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-slate-300 hover:bg-gray-200 dark:hover:bg-slate-600'
@@ -372,7 +372,7 @@ export default function UpcomingEvents() {
             <div className="text-center pt-4">
               <a
                 href="/events"
-                className="inline-flex items-center px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
+                className="inline-flex items-center px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600"
               >
                 Ver todos los eventos
               </a>

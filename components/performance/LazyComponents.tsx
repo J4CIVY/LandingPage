@@ -69,12 +69,12 @@ export function withLazyLoading<T extends Record<string, any>>(
 
     if (hasError) {
       return (
-        <div className="text-center p-4">
-          <p className="text-red-500 mb-2">Error cargando componente</p>
+        <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
+          <p className="text-red-500 dark:text-red-300 mb-2">Error cargando componente</p>
           {retryCount < (options.retryCount || 3) && (
             <button 
               onClick={handleRetry}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+              className="px-4 py-2 bg-blue-500 dark:bg-blue-700 text-white rounded hover:bg-blue-600 dark:hover:bg-blue-800"
             >
               Reintentar
             </button>
@@ -84,10 +84,10 @@ export function withLazyLoading<T extends Record<string, any>>(
     }
     
     return (
-      <div className="lazy-container prevent-layout-shift">
+      <div className="lazy-container prevent-layout-shift bg-white dark:bg-gray-800">
         <Suspense 
           fallback={
-            <div className="stable-height">
+            <div className="stable-height bg-white dark:bg-gray-800">
               <SkeletonComponent />
             </div>
           }

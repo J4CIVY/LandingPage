@@ -331,7 +331,7 @@ const DashboardEventsSimple: React.FC = () => {
               const isEventFull = Boolean(event.maxParticipants && event.currentParticipants >= event.maxParticipants);
               
               return (
-                <div key={event._id} className="border border-gray-200 dark:border-slate-700 rounded-lg p-4 hover:shadow-md transition-shadow">
+                <div key={event._id} className="border border-gray-200 dark:border-slate-700 rounded-lg p-4 hover:shadow-md">
                   <div className="flex flex-col sm:flex-row sm:items-start space-y-4 sm:space-y-0 sm:space-x-4">
                     {/* Imagen del evento */}
                     <div className="flex-shrink-0">
@@ -397,7 +397,7 @@ const DashboardEventsSimple: React.FC = () => {
                         {/* Ver detalles */}
                         <button 
                           onClick={() => window.location.href = `/events/${event._id}`}
-                          className="inline-flex items-center px-3 py-1.5 bg-blue-600 dark:bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
+                          className="inline-flex items-center px-3 py-1.5 bg-blue-600 dark:bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600"
                         >
                           <FaEye className="mr-1" />
                           Ver Detalles
@@ -410,7 +410,7 @@ const DashboardEventsSimple: React.FC = () => {
                               <button
                                 onClick={() => handleEventRegistration(event._id, 'unregister')}
                                 disabled={isProcessing}
-                                className="inline-flex items-center px-3 py-1.5 bg-red-600 dark:bg-red-500 text-white text-sm rounded-lg hover:bg-red-700 dark:hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="inline-flex items-center px-3 py-1.5 bg-red-600 dark:bg-red-500 text-white text-sm rounded-lg hover:bg-red-700 dark:hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
                               >
                                 {isProcessing ? (
                                   <FaSpinner className="mr-1 animate-spin" />
@@ -423,7 +423,7 @@ const DashboardEventsSimple: React.FC = () => {
                               <button
                                 onClick={() => handleEventRegistration(event._id, 'register')}
                                 disabled={isProcessing || isEventFull}
-                                className="inline-flex items-center px-3 py-1.5 bg-green-600 dark:bg-green-500 text-white text-sm rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="inline-flex items-center px-3 py-1.5 bg-green-600 dark:bg-green-500 text-white text-sm rounded-lg hover:bg-green-700 dark:hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
                               >
                                 {isProcessing ? (
                                   <FaSpinner className="mr-1 animate-spin" />
@@ -438,7 +438,7 @@ const DashboardEventsSimple: React.FC = () => {
                             <button
                               onClick={() => handleFavoriteToggle(event._id)}
                               disabled={isProcessing}
-                              className={`inline-flex items-center px-3 py-1.5 text-sm rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
+                              className={`inline-flex items-center px-3 py-1.5 text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed ${
                                 isFavorite
                                   ? 'bg-pink-600 dark:bg-pink-500 text-white hover:bg-pink-700 dark:hover:bg-pink-600'
                                   : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
@@ -465,7 +465,7 @@ const DashboardEventsSimple: React.FC = () => {
             <div className="text-center pt-4">
               <a
                 href="/events"
-                className="inline-flex items-center px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
+                className="inline-flex items-center px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600"
               >
                 Ver Todos los Eventos
               </a>

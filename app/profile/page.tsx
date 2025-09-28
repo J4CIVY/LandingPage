@@ -170,9 +170,9 @@ export default function ProfilePage() {
           }`}>
             <div className="flex items-center">
               {message.type === 'success' ? (
-                <FaCheck className="mr-2" />
+                <FaCheck className="mr-2 text-green-700 dark:text-green-400" />
               ) : (
-                <FaExclamationTriangle className="mr-2" />
+                <FaExclamationTriangle className="mr-2 text-red-700 dark:text-red-400" />
               )}
               {message.text}
             </div>
@@ -187,7 +187,7 @@ export default function ProfilePage() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`py-4 px-6 text-sm font-medium whitespace-nowrap border-b-2 transition-colors ${
+                  className={`py-4 px-6 text-sm font-medium whitespace-nowrap border-b-2 ${
                     activeTab === tab.id
                       ? 'border-blue-500 text-blue-600 dark:text-blue-400'
                       : 'border-transparent text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 hover:border-gray-300 dark:hover:border-slate-600'

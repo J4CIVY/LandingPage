@@ -143,7 +143,7 @@ const LeaderRequirements: React.FC<LeaderRequirementsProps> = ({
         </div>
         <button 
           onClick={fetchLeaderRequirements}
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800"
         >
           Reintentar
         </button>
@@ -170,12 +170,12 @@ const LeaderRequirements: React.FC<LeaderRequirementsProps> = ({
   }, {} as Record<string, RequirementStatus[]>);
 
   return (
-    <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-lg ${className}`}>
+  <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-lg ${className}`}>
       {/* Header */}
-      <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+  <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <FaCrown className="text-3xl text-purple-600 mr-3" />
+            <FaCrown className="text-3xl text-purple-600 dark:text-purple-400 mr-3" />
             <div>
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                 Requisitos para Membresía Leader
@@ -208,9 +208,7 @@ const LeaderRequirements: React.FC<LeaderRequirementsProps> = ({
           </div>
           <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
             <div 
-              className={`h-3 rounded-full transition-all duration-300 ${
-                getProgressColor(data.eligibility.completionPercentage, data.eligibility.isEligible)
-              }`}
+              className={`h-3 rounded-full ${getProgressColor(data.eligibility.completionPercentage, data.eligibility.isEligible)}`}
               style={{ width: `${data.eligibility.completionPercentage}%` }}
             ></div>
           </div>
@@ -218,7 +216,7 @@ const LeaderRequirements: React.FC<LeaderRequirementsProps> = ({
       </div>
 
       {/* Contenido principal */}
-      <div className="p-6">
+  <div className="p-6 bg-white dark:bg-gray-800">
         {Object.entries(groupedRequirements).map(([category, requirements]) => (
           <div key={category} className="mb-8 last:mb-0">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 border-l-4 border-purple-500 pl-3">
@@ -242,11 +240,10 @@ const LeaderRequirements: React.FC<LeaderRequirementsProps> = ({
                           <h4 className="font-medium text-gray-900 dark:text-white mr-2">
                             {requirement.label}
                           </h4>
-                          
                           {requirement.fulfilled ? (
-                            <FaCheckCircle className="text-green-500 text-sm" />
+                            <FaCheckCircle className="text-green-500 dark:text-green-400 text-sm" />
                           ) : (
-                            <FaTimesCircle className="text-red-500 text-sm" />
+                            <FaTimesCircle className="text-red-500 dark:text-red-400 text-sm" />
                           )}
                         </div>
                         
@@ -257,9 +254,7 @@ const LeaderRequirements: React.FC<LeaderRequirementsProps> = ({
                         {/* Barra de progreso individual */}
                         <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
                           <div 
-                            className={`h-2 rounded-full transition-all duration-300 ${
-                              getProgressColor(requirement.progress, requirement.fulfilled)
-                            }`}
+                            className={`h-2 rounded-full ${getProgressColor(requirement.progress, requirement.fulfilled)}`}
                             style={{ width: `${Math.min(100, requirement.progress)}%` }}
                           ></div>
                         </div>
@@ -288,7 +283,7 @@ const LeaderRequirements: React.FC<LeaderRequirementsProps> = ({
         {/* Nota informativa */}
         <div className="mt-8 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
           <div className="flex items-start">
-            <FaInfoCircle className="text-blue-500 mt-1 mr-3" />
+            <FaInfoCircle className="text-blue-500 dark:text-blue-300 mt-1 mr-3" />
             <div>
               <h4 className="font-medium text-blue-900 dark:text-blue-100 mb-1">
                 Información Importante
@@ -305,7 +300,7 @@ const LeaderRequirements: React.FC<LeaderRequirementsProps> = ({
         {/* Botón de acción */}
         {data.eligibility.isEligible && (
           <div className="mt-6 text-center">
-            <button className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium">
+            <button className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 dark:bg-purple-700 dark:hover:bg-purple-800 font-medium">
               Iniciar Proceso de Postulación
             </button>
           </div>

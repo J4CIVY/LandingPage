@@ -160,7 +160,7 @@ export default function SessionManagementSection() {
     <div className="space-y-6">
       {/* Toast Notification */}
       {toast && (
-        <div className={`fixed top-4 right-4 z-50 p-4 rounded-lg border shadow-lg transition-all duration-300 ${
+  <div className={`fixed top-4 right-4 z-50 p-4 rounded-lg border shadow-lg ${
           toast.type === 'success' ? 'bg-green-50 border-green-200 text-green-800' :
           toast.type === 'error' ? 'bg-red-50 border-red-200 text-red-800' :
           'bg-yellow-50 border-yellow-200 text-yellow-800'
@@ -197,7 +197,7 @@ export default function SessionManagementSection() {
           {activeSessions.length > 0 && (
             <button
               onClick={() => setIsTerminateAllModalOpen(true)}
-              className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm rounded-lg transition-colors"
+              className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm rounded-lg"
             >
               Cerrar todas las demás
             </button>
@@ -260,7 +260,7 @@ export default function SessionManagementSection() {
               {!session.isCurrent && (
                 <button
                   onClick={() => setSessionToTerminate(session.id)}
-                  className="flex items-center gap-1 px-3 py-1 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors text-sm"
+                  className="flex items-center gap-1 px-3 py-1 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md text-sm"
                 >
                   <FaSignOutAlt className="h-3 w-3" />
                   Cerrar sesión
@@ -294,7 +294,7 @@ export default function SessionManagementSection() {
               <button
                 onClick={() => handleTerminateSession(sessionToTerminate)}
                 disabled={isLoading}
-                className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white rounded-lg transition-colors"
+                className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white rounded-lg"
               >
                 {isLoading ? 'Cerrando...' : 'Cerrar sesión'}
               </button>

@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-white dark:bg-slate-950 text-slate-950 dark:text-gray-500" role="contentinfo">
+  <footer className="bg-white dark:bg-slate-950 text-slate-950 dark:text-gray-300" role="contentinfo">
       {/* First Section - Logo and Motto */}
       <section className="py-8 px-4">
         <div className="max-w-6xl mx-auto flex flex-col items-center justify-center space-y-4">
@@ -126,7 +126,7 @@ const Footer: React.FC = () => {
                 <a
                   href="https://facebook.com/bskmotorcycleteam"
                   aria-label="Facebook BSK Motorcycle Team"
-                  className="text-slate-950 dark:text-white hover:text-blue-400 transition-colors flex items-center gap-2"
+                  className="text-slate-950 dark:text-white hover:text-blue-500 dark:hover:text-blue-300 flex items-center gap-2"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -136,7 +136,7 @@ const Footer: React.FC = () => {
                 <a
                   href="https://instagram.com/bskmotorcycleteam"
                   aria-label="Instagram BSK Motorcycle Team"
-                  className="text-slate-950 dark:text-white hover:text-blue-400 transition-colors flex items-center gap-2"
+                  className="text-slate-950 dark:text-white hover:text-pink-500 dark:hover:text-pink-300 flex items-center gap-2"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -146,7 +146,7 @@ const Footer: React.FC = () => {
                 <a
                   href="https://twitter.com/bskmotorcycleteam"
                   aria-label="Twitter BSK Motorcycle Team"
-                  className="text-slate-950 dark:text-white hover:text-blue-400 transition-colors flex items-center gap-2"
+                  className="text-slate-950 dark:text-white hover:text-sky-500 dark:hover:text-sky-300 flex items-center gap-2"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -156,7 +156,7 @@ const Footer: React.FC = () => {
                 <a
                   href="https://youtube.com/bskmotorcycleteam"
                   aria-label="YouTube BSK Motorcycle Team"
-                  className="text-slate-950 dark:text-white hover:text-blue-400 transition-colors flex items-center gap-2"
+                  className="text-slate-950 dark:text-white hover:text-red-600 dark:hover:text-red-400 flex items-center gap-2"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -170,13 +170,13 @@ const Footer: React.FC = () => {
             <nav aria-label="Menú legal">
               <ul className="flex flex-wrap justify-center gap-4 md:gap-6">
                 <li>
-                  <Link href="/documents#terms-conditions" className="text-sm hover:underline text-slate-900 dark:text-white">Condiciones</Link>
+                  <Link href="/documents#terms-conditions" className="text-sm hover:underline text-slate-900 dark:text-gray-200">Condiciones</Link>
                 </li>
                 <li>
-                  <Link href="/documents#privacy-policy" className="text-sm hover:underline text-slate-900 dark:text-white">Privacidad</Link>
+                  <Link href="/documents#privacy-policy" className="text-sm hover:underline text-slate-900 dark:text-gray-200">Privacidad</Link>
                 </li>
                 <li>
-                  <Link href="/sitemap.xml" className="text-sm hover:underline text-slate-900 dark:text-white" target="_blank" rel="noopener">Mapa web</Link>
+                  <Link href="/sitemap.xml" className="text-sm hover:underline text-slate-900 dark:text-gray-200" target="_blank" rel="noopener">Mapa web</Link>
                 </li>
               </ul>
             </nav>
@@ -187,7 +187,7 @@ const Footer: React.FC = () => {
       {/* Fourth Section - Copyright */}
       <section className="py-6 px-4">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center text-xs md:text-sm space-y-2 text-slate-900 dark:text-white">
+          <div className="text-center text-xs md:text-sm space-y-2 text-slate-900 dark:text-gray-300">
             <p>
               © {currentYear} BSK Motorcycle Team™ es una marca registrada de Organización Motear S.A.S., OMSAS. Todos los derechos reservados.
             </p>

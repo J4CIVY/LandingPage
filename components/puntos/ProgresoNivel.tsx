@@ -28,9 +28,9 @@ export default function ProgresoNivel({ usuario }: ProgresoNivelProps) {
 
   return (
   <div className="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-lg">
-  <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4">
-        {esNivelMaximo ? 'Nivel Máximo Alcanzado' : 'Progreso en tu Nivel'}
-      </h3>
+    <h3 className="text-xl font-bold text-gray-800 dark:text-slate-100 mb-4">
+      {esNivelMaximo ? 'Nivel Máximo Alcanzado' : 'Progreso en tu Nivel'}
+    </h3>
 
       {!esNivelMaximo ? (
         <>
@@ -90,7 +90,7 @@ export default function ProgresoNivel({ usuario }: ProgresoNivelProps) {
         /* Nivel máximo alcanzado */
         <div className="text-center py-8">
           <FaCrown className="text-6xl mb-4 text-yellow-500 dark:text-yellow-400 mx-auto" />
-          <h4 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
+          <h4 className="text-xl font-bold text-gray-800 dark:text-slate-100 mb-2">
             ¡Felicitaciones!
           </h4>
           <p className="text-gray-600 dark:text-gray-300 mb-4">
@@ -101,7 +101,7 @@ export default function ProgresoNivel({ usuario }: ProgresoNivelProps) {
           </p>
           {/* Beneficios del nivel actual */}
           <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 dark:from-yellow-900 dark:to-yellow-800 rounded-lg p-4 mt-4">
-            <h5 className="font-semibold text-gray-800 dark:text-white mb-2">
+            <h5 className="font-semibold text-gray-800 dark:text-slate-100 mb-2">
               Beneficios de tu nivel:
             </h5>
             <ul className="space-y-1">

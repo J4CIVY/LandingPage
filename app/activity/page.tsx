@@ -160,7 +160,7 @@ export default function ActivityPage() {
         <div className="mb-6">
           <button
             onClick={() => router.back()}
-            className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 mb-4 transition-colors"
+            className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 mb-4"
           >
             <FaArrowLeft className="mr-2" />
             Volver al Dashboard
@@ -250,7 +250,7 @@ export default function ActivityPage() {
                     return (
                       <div
                         key={activity.id}
-                        className="flex items-start space-x-4 p-4 bg-gray-50 dark:bg-slate-700/50 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700/70 transition-colors"
+                        className="flex items-start space-x-4 p-4 bg-gray-50 dark:bg-slate-700/50 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700/70"
                       >
                         <div className={`${activity.bgColor} p-3 rounded-full flex-shrink-0`}>
                           <IconComponent className={`${activity.iconColor} text-lg`} />
@@ -303,7 +303,7 @@ export default function ActivityPage() {
                       <button
                         onClick={() => handlePageChange(pagination.current - 1)}
                         disabled={!pagination.hasPrev}
-                        className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg text-sm font-medium text-gray-700 dark:text-slate-300 bg-white dark:bg-slate-700 hover:bg-gray-50 dark:hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg text-sm font-medium text-gray-700 dark:text-slate-300 bg-white dark:bg-slate-700 hover:bg-gray-50 dark:hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         <FaChevronLeft className="mr-1" />
                         Anterior
@@ -318,7 +318,7 @@ export default function ActivityPage() {
                             <button
                               key={pageNumber}
                               onClick={() => handlePageChange(pageNumber)}
-                              className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                              className={`px-3 py-2 text-sm font-medium rounded-lg ${
                                 pageNumber === pagination.current
                                   ? 'bg-blue-600 text-white'
                                   : 'text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-600'
@@ -333,7 +333,7 @@ export default function ActivityPage() {
                       <button
                         onClick={() => handlePageChange(pagination.current + 1)}
                         disabled={!pagination.hasNext}
-                        className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg text-sm font-medium text-gray-700 dark:text-slate-300 bg-white dark:bg-slate-700 hover:bg-gray-50 dark:hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg text-sm font-medium text-gray-700 dark:text-slate-300 bg-white dark:bg-slate-700 hover:bg-gray-50 dark:hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         Siguiente
                         <FaChevronRight className="ml-1" />

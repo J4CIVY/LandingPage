@@ -57,7 +57,7 @@ export default function PuntosHeader({ usuario }: PuntosHeaderProps) {
       </div>
 
       {/* Estadísticas rápidas */}
-  <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-white/20 dark:border-slate-700/40">
+      <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-white/20 dark:border-slate-700/40">
         <div className="text-center">
           <p className="text-blue-100 dark:text-blue-300 text-sm">Ranking</p>
           <p className="text-xl font-bold text-white dark:text-blue-100">#{usuario.posicionRanking}</p>

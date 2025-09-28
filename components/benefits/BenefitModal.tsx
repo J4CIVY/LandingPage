@@ -84,14 +84,14 @@ const BenefitModal: React.FC<BenefitModalProps> = ({
     <div className="fixed inset-0 z-50 overflow-y-auto">
       {/* Overlay */}
       <div 
-        className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
+        className="fixed inset-0 bg-black bg-opacity-50"
         onClick={onClose}
       ></div>
 
       {/* Modal */}
       <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-        <div className="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 
-                       text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl">
+  <div className="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 
+           text-left shadow-xl sm:my-8 sm:w-full sm:max-w-2xl">
           
           {/* Header with image */}
           <div className="relative h-64 sm:h-80">
@@ -107,7 +107,7 @@ const BenefitModal: React.FC<BenefitModalProps> = ({
             <button
               onClick={onClose}
               className="absolute top-4 right-4 p-2 bg-black bg-opacity-50 text-white 
-                       rounded-full hover:bg-opacity-75 transition-all duration-200 z-10"
+                       rounded-full hover:bg-opacity-75 z-10"
             >
               <FaTimes className="w-5 h-5" />
             </button>
@@ -211,7 +211,7 @@ const BenefitModal: React.FC<BenefitModalProps> = ({
                   <button
                     onClick={copyCode}
                     className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 text-white 
-                             rounded-md hover:bg-blue-700 transition-colors duration-200 text-sm"
+                             rounded-md hover:bg-blue-700 text-sm"
                   >
                     <FaCopy className="w-4 h-4" />
                     Copy
@@ -229,7 +229,7 @@ const BenefitModal: React.FC<BenefitModalProps> = ({
                   onClick={downloadQR}
                   className="w-full mt-3 flex items-center justify-center gap-2 px-4 py-2 
                            border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 
-                           rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
+                           rounded-md hover:bg-gray-50 dark:hover:bg-gray-700"
                 >
                   <FaDownload className="w-4 h-4" />
                   Download QR
@@ -260,18 +260,16 @@ const BenefitModal: React.FC<BenefitModalProps> = ({
               <button
                 onClick={() => onShare(benefit)}
                 className="flex-1 flex items-center justify-center gap-2 px-4 py-3 
-                         bg-green-600 text-white rounded-lg hover:bg-green-700 
-                         transition-colors duration-200 font-medium"
+                         bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium"
               >
                 <FaShare className="w-4 h-4" />
                 Share with Community
               </button>
-              
               <button
                 onClick={onClose}
                 className="px-6 py-3 border border-gray-300 dark:border-gray-600 
                          text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 
-                         dark:hover:bg-gray-700 transition-colors duration-200 font-medium"
+                         dark:hover:bg-gray-700 font-medium"
               >
                 Close
               </button>

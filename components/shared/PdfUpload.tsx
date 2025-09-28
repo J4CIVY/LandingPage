@@ -126,12 +126,12 @@ const PdfUpload: React.FC<PdfUploadProps> = ({
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         className={`
-          relative group cursor-pointer transition-all duration-300
+          relative group cursor-pointer
           border-2 border-dashed rounded-lg p-6
-          ${dragOver ? 'border-red-500 bg-red-50 dark:bg-red-900/20' : 'border-gray-300 dark:border-gray-600'}
-          ${disabled ? 'cursor-not-allowed opacity-50' : 'hover:border-red-400 hover:bg-red-50 dark:hover:bg-red-900/10'}
+          ${dragOver ? 'border-red-500 bg-red-50 dark:border-red-400 dark:bg-slate-900' : 'border-gray-300 dark:border-gray-600 dark:bg-slate-950'}
+          ${disabled ? 'cursor-not-allowed opacity-50' : 'hover:border-red-400 dark:hover:border-red-400 hover:bg-red-50 dark:hover:bg-red-900/10'}
           ${uploading ? 'pointer-events-none' : ''}
-          ${pdfUrl ? 'bg-red-50 dark:bg-red-900/10 border-red-300' : 'bg-gray-50 dark:bg-gray-800'}
+          ${pdfUrl ? 'bg-red-50 dark:bg-red-900/10 border-red-300 dark:border-red-700' : 'bg-gray-50 dark:bg-gray-800'}
         `}
       >
         {/* Contenido del área */}
@@ -139,14 +139,14 @@ const PdfUpload: React.FC<PdfUploadProps> = ({
           <>
             {/* PDF cargado */}
             <div className="flex flex-col items-center">
-              <FaFilePdf className="w-12 h-12 text-red-500 mb-3" />
+              <FaFilePdf className="w-12 h-12 text-red-500 dark:text-red-400 mb-3" />
               <span className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 PDF del Evento
               </span>
               <div className="flex space-x-2">
                 <button
                   onClick={openPdf}
-                  className="flex items-center space-x-1 px-3 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600 transition-colors"
+                  className="flex items-center space-x-1 px-3 py-1 bg-blue-500 dark:bg-blue-700 text-white rounded text-xs hover:bg-blue-600 dark:hover:bg-blue-800"
                   disabled={disabled || uploading}
                 >
                   <FaEye className="w-3 h-3" />
@@ -154,7 +154,7 @@ const PdfUpload: React.FC<PdfUploadProps> = ({
                 </button>
                 <button
                   onClick={handleRemovePdf}
-                  className="flex items-center space-x-1 px-3 py-1 bg-red-500 text-white rounded text-xs hover:bg-red-600 transition-colors"
+                  className="flex items-center space-x-1 px-3 py-1 bg-red-500 dark:bg-red-700 text-white rounded text-xs hover:bg-red-600 dark:hover:bg-red-800"
                   disabled={disabled || uploading}
                 >
                   <FaTimes className="w-3 h-3" />
@@ -168,14 +168,14 @@ const PdfUpload: React.FC<PdfUploadProps> = ({
             {/* Estado de carga o vacío */}
             {uploading ? (
               <div className="flex flex-col items-center">
-                <FaSpinner className="w-8 h-8 text-red-500 animate-spin mb-2" />
-                <span className="text-sm text-gray-600 dark:text-gray-400">
+                <FaSpinner className="w-8 h-8 text-red-500 dark:text-red-400 animate-spin mb-2" />
+                <span className="text-sm text-gray-600 dark:text-gray-300">
                   Subiendo PDF...
                 </span>
               </div>
             ) : (
               <div className="flex flex-col items-center">
-                <FaUpload className="w-8 h-8 text-gray-400 mb-2" />
+                <FaUpload className="w-8 h-8 text-gray-400 dark:text-gray-500 mb-2" />
                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Subir PDF del Evento
                 </span>
@@ -194,7 +194,7 @@ const PdfUpload: React.FC<PdfUploadProps> = ({
       {/* Error */}
       {uploadError && (
         <div className="mt-2">
-          <p className="text-sm text-red-500">{uploadError}</p>
+          <p className="text-sm text-red-500 dark:text-red-400">{uploadError}</p>
         </div>
       )}
     </div>

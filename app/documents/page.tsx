@@ -169,7 +169,7 @@ const Documents: React.FC = () => {
                     .map(([key, doc]) => (
                       <button
                         key={key}
-                        className={`w-full text-left px-4 py-2 rounded-lg transition ${
+                        className={`w-full text-left px-4 py-2 rounded-lg ${
                           activeDoc === key 
                             ? "bg-slate-950 text-white dark:bg-green-500 dark:text-slate-950" 
                             : "text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700"
@@ -190,7 +190,7 @@ const Documents: React.FC = () => {
                     .map(([key, doc]) => (
                       <button
                         key={key}
-                        className={`w-full text-left px-4 py-2 rounded-lg transition ${
+                        className={`w-full text-left px-4 py-2 rounded-lg ${
                           activeDoc === key 
                             ? "bg-slate-950 text-white dark:bg-green-500 dark:text-slate-950" 
                             : "text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700"
@@ -219,7 +219,7 @@ const Documents: React.FC = () => {
                     </p>
                   </div>
                   <button 
-                    className="bg-green-400 text-slate-950 font-bold py-2 px-4 rounded-lg hover:bg-opacity-90 transition flex items-center"
+                    className="bg-green-400 text-slate-950 font-bold py-2 px-4 rounded-lg hover:bg-opacity-90 flex items-center"
                     aria-label={`Descargar PDF de ${currentDoc.title}`}
                   >
                     <FaDownload className="mr-2" aria-hidden="true" />

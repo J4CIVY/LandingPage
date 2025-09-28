@@ -109,7 +109,7 @@ export default function ChatBox({
                   }`}>
                     {/* Header del mensaje */}
                     <div className="flex items-center space-x-2 mb-2">
-                      <div className={`w-6 h-6 rounded-full flex items-center justify-center ${esUsuario ? 'bg-blue-500' : color}`}>
+                      <div className={`w-6 h-6 rounded-full flex items-center justify-center ${esUsuario ? 'bg-blue-500 dark:bg-blue-700' : color}`}> 
                         <IconComponent className="w-3 h-3 text-white" />
                       </div>
                       <span className="text-xs font-medium opacity-90">
@@ -167,7 +167,7 @@ export default function ChatBox({
                   </div>
                   <button
                     onClick={() => removerAdjunto(index)}
-                    className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+                    className="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300"
                   >
                     ×
                   </button>
@@ -198,7 +198,7 @@ export default function ChatBox({
                   className="hidden"
                   disabled={enviando}
                 />
-                <div className="p-3 text-gray-600 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors duration-200">
+                <div className="p-3 text-gray-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700">
                   <FaPaperclip className="w-4 h-4" />
                 </div>
               </label>
@@ -207,7 +207,7 @@ export default function ChatBox({
               <button
                 onClick={handleEnviar}
                 disabled={!nuevoMensaje.trim() || enviando}
-                className="p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors duration-200"
+                className="p-3 bg-blue-600 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-800 disabled:bg-gray-400 dark:disabled:bg-slate-700 disabled:cursor-not-allowed"
               >
                 <FaPaperPlane className="w-4 h-4" />
               </button>

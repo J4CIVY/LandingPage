@@ -39,7 +39,7 @@ const StoreSection: React.FC = () => {
       <section className="py-20 px-4 bg-white dark:bg-slate-950">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
-            TIENDA <span className="text-red-600">EN LÍNEA</span>
+            TIENDA <span className="text-red-600 dark:text-red-400">EN LÍNEA</span>
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {Array.from({ length: 3 }).map((_, index) => (
@@ -56,13 +56,13 @@ const StoreSection: React.FC = () => {
       <section className="py-20 px-4 bg-white dark:bg-slate-950">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
-            TIENDA <span className="text-red-600">EN LÍNEA</span>
+            TIENDA <span className="text-red-600 dark:text-red-400">EN LÍNEA</span>
           </h2>
-          <div className="text-center py-12 text-red-500">
+          <div className="text-center py-12 text-red-500 dark:text-red-400">
             <p>Error al cargar los productos: {error}</p>
             <button 
               onClick={() => window.location.reload()}
-              className="mt-4 py-2 px-4"
+              className="mt-4 py-2 px-4 bg-white dark:bg-slate-800 text-slate-950 dark:text-white border border-slate-300 dark:border-slate-700 rounded-lg"
             >
               Reintentar
             </button>
@@ -76,41 +76,39 @@ const StoreSection: React.FC = () => {
     <section className="py-20 px-4 bg-white dark:bg-slate-950">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
-          TIENDA <span className="text-red-600">EN LÍNEA</span>
+          TIENDA <span className="text-red-600 dark:text-red-400">EN LÍNEA</span>
         </h2>
 
         {featuredProducts.length > 0 ? (
           <>
             <div className="grid md:grid-cols-3 gap-8">
               {featuredProducts.map((product: any, index: number) => (
-                <div className="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105">
+                <div className="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg hover:scale-105">
                   <div className="relative" style={{ aspectRatio: '1/1' }}>
                     <Image
                       src={product.featuredImage}
                       alt={product.name}
-                      className="w-full h-full object-contain p-4 bg-white dark:bg-gray-200"
+                      className="w-full h-full object-contain p-4 bg-white dark:bg-slate-900"
                       loading="lazy"
                       layout="fill"
                     />
                   </div>
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-slate-950 dark:text-white mb-2">{product.name}</h3>
-                    <p className="text-2xl font-bold text-red-600 mb-4">
+                    <p className="text-2xl font-bold text-red-600 dark:text-red-400 mb-4">
                       {/* Use toLocaleString for currency formatting */}
                       ${product.discountPrice ? product.discountPrice.toLocaleString('es-CO') : product.price.toLocaleString('es-CO')}
                     </p>
                     <div className="flex space-x-3">
                       <button 
                         onClick={() => alert(`Comprar ${product.name}`)}
-                        
-                        className="flex-1 py-2 rounded-full"
+                        className="flex-1 py-2 rounded-full bg-green-500 dark:bg-green-600 text-white hover:bg-green-600 dark:hover:bg-green-700"
                       >
                         Comprar
                       </button>
                       <button 
                         onClick={() => router.push(`/products/${product.slug}`)}
-                        
-                        className="flex-1 bg-white border border-slate-950 text-slate-950 dark:bg-slate-700 dark:text-white dark:border-slate-600 dark:hover:bg-slate-600 py-2 rounded-full hover:bg-gray-100"
+                        className="flex-1 bg-white border border-slate-950 text-slate-950 dark:bg-slate-700 dark:text-white dark:border-slate-600 dark:hover:bg-slate-600 py-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-600"
                       >
                         Detalles
                       </button>
@@ -123,7 +121,7 @@ const StoreSection: React.FC = () => {
             <div className="text-center mt-12">
               <button 
                 onClick={() => router.push('/products')}
-                className="py-3 px-8 rounded-full text-lg inline-flex items-center"
+                className="py-3 px-8 rounded-full text-lg inline-flex items-center bg-blue-500 dark:bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-700"
               >
                 Ver todos los productos
                 <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

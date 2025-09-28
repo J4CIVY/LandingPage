@@ -68,11 +68,11 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
         // Placeholder cuando no hay imagen
         <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
           {name ? (
-            <span className={`font-semibold text-gray-600 dark:text-gray-300 ${iconSizes[size]}`}>
+            <span className={`font-semibold text-gray-600 dark:text-gray-200 ${iconSizes[size]}`}>
               {initials}
             </span>
           ) : (
-            <FaUser className={`text-gray-500 dark:text-gray-400 ${iconSizes[size]}`} />
+            <FaUser className={`text-gray-500 dark:text-gray-300 ${iconSizes[size]}`} />
           )}
         </div>
       )}

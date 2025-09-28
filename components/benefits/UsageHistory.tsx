@@ -183,7 +183,7 @@ const UsageHistory: React.FC<UsageHistoryProps> = ({
             {/* Simple pagination */}
             {history.length >= 10 && (
               <div className="mt-6 flex justify-center">
-                <button className="px-4 py-2 text-sm text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors duration-200">
+                <button className="px-4 py-2 text-sm text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg">
                   View More
                 </button>
               </div>

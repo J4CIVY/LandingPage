@@ -167,14 +167,14 @@ const BenefitForm: React.FC<BenefitFormProps> = ({
     <div className="fixed inset-0 z-50 overflow-y-auto">
       {/* Overlay */}
       <div 
-        className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
+        className="fixed inset-0 bg-black bg-opacity-50"
         onClick={onClose}
       ></div>
 
       {/* Modal */}
       <div className="flex min-h-full items-center justify-center p-4">
-        <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-800 
-                       rounded-lg shadow-xl">
+  <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-800 
+           rounded-lg shadow-xl">
           
           {/* Header */}
           <div className="sticky top-0 bg-white dark:bg-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
@@ -184,8 +184,7 @@ const BenefitForm: React.FC<BenefitFormProps> = ({
               </h2>
               <button
                 onClick={onClose}
-                className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 
-                         transition-colors duration-200"
+                className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
               >
                 <FaTimes className="w-6 h-6" />
               </button>
@@ -449,7 +448,7 @@ const BenefitForm: React.FC<BenefitFormProps> = ({
                         type="button"
                         onClick={() => removeRequirement(index)}
                         className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 
-                                 rounded-lg transition-colors duration-200"
+                                 rounded-lg"
                       >
                         <FaTrash className="w-4 h-4" />
                       </button>
@@ -460,7 +459,7 @@ const BenefitForm: React.FC<BenefitFormProps> = ({
                   type="button"
                   onClick={addRequirement}
                   className="flex items-center gap-2 px-3 py-2 text-blue-600 dark:text-blue-400 
-                           hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors duration-200"
+                           hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg"
                 >
                   <FaPlus className="w-4 h-4" />
                   Add requirement
@@ -475,7 +474,7 @@ const BenefitForm: React.FC<BenefitFormProps> = ({
                 onClick={onClose}
                 className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 
                          text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 
-                         dark:hover:bg-gray-700 transition-colors duration-200 font-medium"
+                         dark:hover:bg-gray-700 font-medium"
               >
                 Cancel
               </button>
@@ -484,7 +483,7 @@ const BenefitForm: React.FC<BenefitFormProps> = ({
                 disabled={isLoading}
                 className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg 
                          hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed 
-                         transition-colors duration-200 font-medium"
+                         font-medium"
               >
                 {isLoading 
                   ? 'Saving...' 

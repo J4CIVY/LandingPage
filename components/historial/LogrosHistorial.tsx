@@ -214,12 +214,12 @@ export default function LogrosHistorial() {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+  <div className="bg-white dark:bg-slate-950 rounded-lg shadow-sm border border-gray-200 dark:border-slate-800 p-6">
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
         <div>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Logros y Reconocimientos</h2>
-          <p className="text-gray-600">Insignias y reconocimientos obtenidos en tu trayectoria</p>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Logros y Reconocimientos</h2>
+          <p className="text-gray-600 dark:text-gray-300">Insignias y reconocimientos obtenidos en tu trayectoria</p>
         </div>
         
         {/* Estadísticas rápidas */}
@@ -248,7 +248,7 @@ export default function LogrosHistorial() {
       </div>
 
       {/* Resumen de puntos */}
-      <div className="bg-gradient-to-r from-purple-600 to-purple-700 rounded-xl p-6 text-white mb-6">
+  <div className="bg-gradient-to-r from-purple-600 to-purple-700 dark:from-slate-900 dark:to-slate-800 rounded-xl p-6 text-white mb-6">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold mb-1">Puntos por Logros</h3>
@@ -262,16 +262,16 @@ export default function LogrosHistorial() {
       </div>
 
       {/* Filtros y búsqueda */}
-      <div className="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:space-x-4 mb-6">
+  <div className="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:space-x-4 mb-6">
         {/* Búsqueda */}
         <div className="relative flex-1">
-          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" />
           <input
             type="text"
             placeholder="Buscar logros..."
             value={busqueda}
             onChange={(e) => setBusqueda(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
           />
         </div>
 
@@ -279,7 +279,7 @@ export default function LogrosHistorial() {
         <select
           value={filtroCategoria}
           onChange={(e) => setFiltroCategoria(e.target.value as any)}
-          className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
         >
           <option value="todos">Todas las categorías</option>
           <option value="participacion">Participación</option>
@@ -293,7 +293,7 @@ export default function LogrosHistorial() {
         <select
           value={filtroNivel}
           onChange={(e) => setFiltroNivel(e.target.value as any)}
-          className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
         >
           <option value="todos">Todos los niveles</option>
           <option value="bronce">Bronce</option>
@@ -319,47 +319,47 @@ export default function LogrosHistorial() {
             return (
               <div
                 key={logro.id}
-                className="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all duration-200 bg-gradient-to-br from-white to-gray-50"
+                className="border border-gray-200 dark:border-slate-700 rounded-lg p-6 hover:shadow-lg bg-gradient-to-br from-white to-gray-50 dark:from-slate-900 dark:to-slate-800"
               >
                 {/* Header del logro */}
                 <div className="flex items-center justify-between mb-4">
-                  <div className={`w-16 h-16 rounded-full flex items-center justify-center ${getNivelColor(logro.nivel)} border-2 ${logro.nivel === 'oro' ? 'border-yellow-300' : logro.nivel === 'platino' ? 'border-purple-300' : logro.nivel === 'plata' ? 'border-gray-300' : 'border-amber-300'}`}>
+                  <div className={`w-16 h-16 rounded-full flex items-center justify-center ${getNivelColor(logro.nivel)} border-2 ${logro.nivel === 'oro' ? 'border-yellow-300 dark:border-yellow-400' : logro.nivel === 'platino' ? 'border-purple-300 dark:border-purple-400' : logro.nivel === 'plata' ? 'border-gray-300 dark:border-gray-500' : 'border-amber-300 dark:border-amber-400'}`}>
                     <NivelIcon className="text-2xl" />
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl font-bold text-gray-900">{logro.puntos}</div>
-                    <div className="text-xs text-gray-600">puntos</div>
+                    <div className="text-2xl font-bold text-gray-900 dark:text-white">{logro.puntos}</div>
+                    <div className="text-xs text-gray-600 dark:text-gray-300">puntos</div>
                   </div>
                 </div>
 
                 {/* Información del logro */}
                 <div className="mb-4">
-                  <h3 className="font-bold text-gray-900 mb-2 text-lg">{logro.nombre}</h3>
-                  <p className="text-gray-600 text-sm mb-3">{logro.descripcion}</p>
+                  <h3 className="font-bold text-gray-900 dark:text-white mb-2 text-lg">{logro.nombre}</h3>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-3">{logro.descripcion}</p>
                   
                   <div className="flex items-center justify-between">
-                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${getCategoriaColor(logro.categoria)}`}>
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${getCategoriaColor(logro.categoria)} dark:bg-slate-800 dark:border-slate-700`}>
                       <CategoriaIcon className="mr-1 text-xs" />
                       {getCategoriaLabel(logro.categoria)}
                     </span>
-                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getNivelColor(logro.nivel)}`}>
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getNivelColor(logro.nivel)} dark:bg-slate-800`}>
                       {logro.nivel.charAt(0).toUpperCase() + logro.nivel.slice(1)}
                     </span>
                   </div>
                 </div>
 
                 {/* Fecha de obtención */}
-                <div className="border-t border-gray-200 pt-4">
+                <div className="border-t border-gray-200 dark:border-slate-700 pt-4">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center text-sm text-gray-600">
-                      <FaCalendarAlt className="mr-2 text-gray-400" />
+                    <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
+                      <FaCalendarAlt className="mr-2 text-gray-400 dark:text-gray-500" />
                       {formatDate(logro.fechaObtencion)}
                     </div>
                     <div className="flex items-center space-x-2">
-                      <button className="text-blue-600 hover:text-blue-700 transition-colors">
+                      <button className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
                         <FaEye className="text-sm" />
                       </button>
-                      <button className="text-green-600 hover:text-green-700 transition-colors">
+                      <button className="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300">
                         <FaDownload className="text-sm" />
                       </button>
                     </div>

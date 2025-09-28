@@ -310,7 +310,7 @@ const FAQSection: React.FC = () => {
   }, [faqQuestions, faqFilter]); // Memoize filteredQuestions
 
   return (
-    <div className="bg-white dark:bg-slate-950 rounded-xl p-8 shadow-lg text-slate-950 dark:text-white">
+  <div className="bg-white dark:bg-slate-950 rounded-xl p-8 shadow-lg text-slate-950 dark:text-white">
       <h3 className="text-2xl font-bold text-slate-950 dark:text-white mb-6 text-center">
         PREGUNTAS FRECUENTES
       </h3>
@@ -321,7 +321,7 @@ const FAQSection: React.FC = () => {
           <button
             key={filter}
             onClick={() => setFaqFilter(filter as 'all' | 'membership' | 'events' | 'benefits' | 'general' | 'organization')}
-            className={`px-4 py-2 rounded-full text-sm transition-colors ${faqFilter === filter ? 'bg-slate-950 text-white dark:bg-red-600' : 'bg-gray-200 text-slate-950 hover:bg-gray-300 dark:bg-slate-900 dark:text-gray-300 dark:hover:bg-slate-800'}`}
+            className={`px-4 py-2 rounded-full text-sm ${faqFilter === filter ? 'bg-slate-950 text-white dark:bg-red-600 dark:text-white' : 'bg-gray-200 text-slate-950 hover:bg-gray-300 dark:bg-slate-900 dark:text-gray-300 dark:hover:bg-slate-800'}`}
             aria-pressed={faqFilter === filter} // ARIA attribute for toggle buttons
           >
             {filter === 'all' && 'Todas'}
@@ -347,7 +347,7 @@ const FAQSection: React.FC = () => {
               >
                 <span className="font-semibold text-slate-950 dark:text-white text-sm md:text-base">{question.q}</span>
                 <svg 
-                  className={`w-5 h-5 text-red-600 transition-transform ${activeFaq === index ? 'rotate-180' : ''}`}
+                  className={`w-5 h-5 text-red-600 dark:text-red-400 ${activeFaq === index ? 'rotate-180' : ''}`}
                   fill="none" 
                   stroke="currentColor" 
                   viewBox="0 0 24 24"

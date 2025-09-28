@@ -222,13 +222,13 @@ const Sos: React.FC = () => {
   }, [formData]); // Dependency on formData to ensure latest state is captured
 
   return (
-    <div className="min-h-screen bg-[#ffffff]">
+  <div className="min-h-screen bg-white dark:bg-gray-900">
       <SEOComponent
         title="SOS Asistencia - BSK Motorcycle Team"
         description="Servicio de asistencia en carretera para miembros de BSK Motorcycle Team. Contactos de emergencia, formulario de solicitud y mapa de talleres."
       />
       {/* Hero Section */}
-      <section className="bg-slate-950 text-white py-16 px-4 md:px-20">
+  <section className="bg-slate-950 dark:bg-gray-900 text-white dark:text-white py-16 px-4 md:px-20">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 flex items-center justify-center">
             <FaMotorcycle className="mr-4" aria-hidden="true" /> SOS BSK
@@ -241,9 +241,9 @@ const Sos: React.FC = () => {
 
       {/* Tabs */}
       <div className="max-w-7xl mx-auto px-4 md:px-8 mt-8">
-        <div className="flex border-b border-gray-200" role="tablist">
+  <div className="flex border-b border-gray-200 dark:border-gray-700" role="tablist">
           <button
-            className={`py-4 px-6 font-medium flex items-center ${activeTab === "emergency" ? "text-green-400 border-b-2 border-green-400" : "text-gray-500"}`}
+            className={`py-4 px-6 font-medium flex items-center ${activeTab === "emergency" ? "text-green-400 border-b-2 border-green-400" : "text-gray-500 dark:text-gray-400"}`}
             onClick={() => setActiveTab("emergency")}
             role="tab"
             aria-selected={activeTab === "emergency"}
@@ -254,7 +254,7 @@ const Sos: React.FC = () => {
             Contacto de Emergencia
           </button>
           <button
-            className={`py-4 px-6 font-medium flex items-center ${activeTab === "form" ? "text-green-400 border-b-2 border-green-400" : "text-gray-500"}`}
+            className={`py-4 px-6 font-medium flex items-center ${activeTab === "form" ? "text-green-400 border-b-2 border-green-400" : "text-gray-500 dark:text-gray-400"}`}
             onClick={() => setActiveTab("form")}
             role="tab"
             aria-selected={activeTab === "form"}
@@ -265,7 +265,7 @@ const Sos: React.FC = () => {
             Formulario de Emergencia
           </button>
           <button
-            className={`py-4 px-6 font-medium flex items-center ${activeTab === "workshops" ? "text-green-400 border-b-2 border-green-400" : "text-gray-500"}`}
+            className={`py-4 px-6 font-medium flex items-center ${activeTab === "workshops" ? "text-green-400 border-b-2 border-green-400" : "text-gray-500 dark:text-gray-400"}`}
             onClick={() => setActiveTab("workshops")}
             role="tab"
             aria-selected={activeTab === "workshops"}
@@ -287,7 +287,7 @@ const Sos: React.FC = () => {
       >
         {activeTab === "emergency" && (
           <div className="py-12 px-4 md:px-8 max-w-7xl mx-auto">
-            <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 mb-8 flex items-start" role="alert">
+            <div className="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 dark:border-red-400 text-red-700 dark:text-red-300 p-4 mb-8 flex items-start" role="alert">
               <FaExclamationTriangle className="text-xl mr-2 mt-0.5" aria-hidden="true" />
               <div>
                 <p className="font-bold">¡Importante!</p>
@@ -350,25 +350,25 @@ const Sos: React.FC = () => {
                   ]
                 }
               ].map((service, index) => (
-                <div key={index} className="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                <div key={index} className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 shadow-sm">
                   <div className="flex items-center mb-4">
                     {service.icon}
                     <h2 className="text-2xl font-bold text-slate-950 ml-3">{service.type}</h2>
                   </div>
-                  <p className="text-gray-700 mb-6">{service.description}</p>
+                  <p className="text-gray-700 dark:text-gray-200 mb-6">{service.description}</p>
 
                   <div className="space-y-4">
                     {service.contacts.map((contact, idx) => (
-                      <div key={idx} className="bg-white p-4 rounded-lg">
+                      <div key={idx} className="bg-white dark:bg-gray-900 p-4 rounded-lg">
                         <div className="flex items-center mb-2">
                           {contact.icon}
                           <span className="font-semibold ml-2">{contact.method}</span>
                         </div>
-                        <p className="text-gray-800 mb-3">{contact.number}</p>
+                        <p className="text-gray-800 dark:text-gray-200 mb-3">{contact.number}</p>
                         {contact.link ? (
                           <a 
                             href={contact.link} 
-                            className="inline-flex items-center bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
+                            className="inline-flex items-center bg-green-500 dark:bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-600 dark:hover:bg-green-500"
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label={`Contactar por WhatsApp para ${service.type}`}
@@ -379,7 +379,7 @@ const Sos: React.FC = () => {
                         ) : (
                           <a 
                             href={`tel:${contact.number.replace(/\s/g, '')}`} 
-                            className="inline-flex items-center bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+                            className="inline-flex items-center bg-blue-500 dark:bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-600 dark:hover:bg-blue-500"
                             aria-label={`Llamar a ${service.type} al número ${contact.number}`}
                           >
                             <FaPhone className="mr-2" aria-hidden="true" />
@@ -405,8 +405,8 @@ const Sos: React.FC = () => {
       >
         {activeTab === "form" && (
           <div className="py-12 px-4 md:px-8 max-w-3xl mx-auto">
-            <div className="bg-white rounded-xl shadow-md p-6 md:p-8">
-              <h2 className="text-2xl font-bold text-slate-950 mb-6 flex items-center">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 md:p-8">
+              <h2 className="text-2xl font-bold text-slate-950 dark:text-white mb-6 flex items-center">
                 <FaPaperPlane className="mr-2 text-green-400" aria-hidden="true" />
                 Formulario de Emergencia
               </h2>
@@ -414,7 +414,7 @@ const Sos: React.FC = () => {
               <form onSubmit={handleSubmit} aria-label="Formulario de Solicitud de Emergencia">
                 <div className="grid md:grid-cols-2 gap-6 mb-6">
                   <div>
-                    <label htmlFor="full-name" className="block text-gray-700 mb-2 flex items-center">
+                    <label htmlFor="full-name" className="block text-gray-700 dark:text-gray-200 mb-2 flex items-center">
                       <FaUserAlt className="mr-2 text-gray-500" aria-hidden="true" />
                       Nombre Completo
                     </label>
@@ -424,13 +424,13 @@ const Sos: React.FC = () => {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-400 focus:border-green-400"
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-green-400 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
                       required
                       aria-required="true"
                     />
                   </div>
                   <div>
-                    <label htmlFor="member-id" className="block text-gray-700 mb-2 flex items-center">
+                    <label htmlFor="member-id" className="block text-gray-700 dark:text-gray-200 mb-2 flex items-center">
                       <FaUserShield className="mr-2 text-gray-500" aria-hidden="true" />
                       Número de Socio BSK
                     </label>
@@ -440,7 +440,7 @@ const Sos: React.FC = () => {
                       name="memberId"
                       value={formData.memberId}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-400 focus:border-green-400"
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-green-400 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
                       required
                       aria-required="true"
                     />
@@ -448,7 +448,7 @@ const Sos: React.FC = () => {
                 </div>
 
                 <div className="mb-6">
-                  <label htmlFor="emergency-type" className="block text-gray-700 mb-2 flex items-center">
+                  <label htmlFor="emergency-type" className="block text-gray-700 dark:text-gray-200 mb-2 flex items-center">
                     <FaShieldAlt className="mr-2 text-gray-500" aria-hidden="true" />
                     Tipo de Emergencia
                   </label>
@@ -457,7 +457,7 @@ const Sos: React.FC = () => {
                     name="emergencyType"
                     value={formData.emergencyType}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-400 focus:border-green-400"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-green-400 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
                     required
                     aria-required="true"
                   >
@@ -469,13 +469,13 @@ const Sos: React.FC = () => {
                 </div>
 
                 <div className="mb-6">
-                  <label htmlFor="description" className="block text-gray-700 mb-2">Descripción</label>
+                  <label htmlFor="description" className="block text-gray-700 dark:text-gray-200 mb-2">Descripción</label>
                   <textarea
                     id="description"
                     name="description"
                     value={formData.description}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-400 focus:border-green-400"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-green-400 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
                     rows={4}
                     required
                     aria-required="true"
@@ -483,7 +483,7 @@ const Sos: React.FC = () => {
                 </div>
 
                 <div className="mb-6">
-                  <label htmlFor="location" className="block text-gray-700 mb-2 flex items-center">
+                  <label htmlFor="location" className="block text-gray-700 dark:text-gray-200 mb-2 flex items-center">
                     <FaMapMarkerAlt className="mr-2 text-gray-500" aria-hidden="true" />
                     Ubicación
                   </label>
@@ -493,9 +493,9 @@ const Sos: React.FC = () => {
                       <span className="text-sm">Detectada: {userLocation.lat.toFixed(4)}, {userLocation.lng.toFixed(4)}</span>
                     </div>
                   ) : locationError ? (
-                    <p className="text-red-500 mb-2" role="alert">{locationError}</p>
+                    <p className="text-red-500 dark:text-red-400 mb-2" role="alert">{locationError}</p>
                   ) : (
-                    <p className="text-gray-500 mb-2">Cargando ubicación...</p>
+                    <p className="text-gray-500 dark:text-gray-400 mb-2">Cargando ubicación...</p>
                   )}
                   <input
                     type="text"
@@ -504,7 +504,7 @@ const Sos: React.FC = () => {
                     value={formData.location}
                     onChange={handleChange}
                     placeholder="Describe tu ubicación (ciudad, dirección, puntos de referencia)"
-                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-400 focus:border-green-400"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-green-400 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
                     required
                     aria-required="true"
                   />
@@ -512,7 +512,7 @@ const Sos: React.FC = () => {
 
                 <button
                   type="submit"
-                  className="bg-slate-950 text-white font-bold py-3 px-6 rounded-lg hover:bg-opacity-90 transition flex items-center justify-center"
+                  className="bg-slate-950 dark:bg-gray-900 text-white font-bold py-3 px-6 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-700 flex items-center justify-center"
                 >
                   <FaPaperPlane className="mr-2" aria-hidden="true" />
                   Enviar Solicitud
@@ -537,8 +537,8 @@ const Sos: React.FC = () => {
               Talleres Asociados
             </h2>
 
-            <div className="mb-8 bg-white rounded-xl shadow-md p-6">
-              <h3 className="text-xl font-semibold text-slate-950 mb-4 flex items-center">
+            <div className="mb-8 bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+              <h3 className="text-xl font-semibold text-slate-950 dark:text-white mb-4 flex items-center">
                 <FaMapMarkerAlt className="text-red-500 mr-2" aria-hidden="true" />
                 Talleres más cercanos a tu ubicación
               </h3>
@@ -597,41 +597,41 @@ const Sos: React.FC = () => {
                   </GoogleMap>
                 </LoadScript>
               ) : (
-                <div className="text-center py-10 bg-gray-100 rounded-lg">
-                  <p className="text-red-500">La clave de la API de Google Maps no está configurada. El mapa no se mostrará.</p>
-                  <p className="text-gray-600 text-sm mt-2">Por favor, configura `GOOGLE_MAPS_API_KEY` en tu entorno.</p>
+                <div className="text-center py-10 bg-gray-100 dark:bg-gray-900 rounded-lg">
+                  <p className="text-red-500 dark:text-red-400">La clave de la API de Google Maps no está configurada. El mapa no se mostrará.</p>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mt-2">Por favor, configura `GOOGLE_MAPS_API_KEY` en tu entorno.</p>
                 </div>
               )}
             </div>
 
             <div className="grid md:grid-cols-3 gap-6">
               {nearestWorkshops.map((workshop) => (
-                <div key={workshop.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
+                <div key={workshop.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
                   <div className="p-6">
-                    <h3 className="text-xl font-bold text-slate-950 mb-2">{workshop.name}</h3>
-                    <p className="text-gray-600 mb-4 flex items-center">
+                    <h3 className="text-xl font-bold text-slate-950 dark:text-white mb-2">{workshop.name}</h3>
+                    <p className="text-gray-600 dark:text-gray-300 mb-4 flex items-center">
                       <FaMapMarkerAlt className="mr-2 text-red-500" aria-hidden="true" />
                       {workshop.address}
                     </p>
-                    <p className="text-gray-600 mb-4 flex items-center">
+                    <p className="text-gray-600 dark:text-gray-300 mb-4 flex items-center">
                       <FaPhone className="mr-2 text-blue-500" aria-hidden="true" />
                       {workshop.phone}
                     </p>
                     <div className="mb-4">
-                      <h4 className="font-semibold text-gray-700 mb-2 flex items-center">
+                      <h4 className="font-semibold text-gray-700 dark:text-gray-200 mb-2 flex items-center">
                         <FaWrench className="mr-2 text-green-500" aria-hidden="true" />
                         Servicios:
                       </h4>
                       <ul className="list-disc pl-5">
                         {workshop.services.map((service, idx) => (
-                          <li key={idx} className="text-gray-600">{service}</li>
+                          <li key={idx} className="text-gray-600 dark:text-gray-300">{service}</li>
                         ))}
                       </ul>
                     </div>
                     <div className="flex space-x-3">
                       <a
                         href={`tel:${workshop.phone.replace(/\s/g, '')}`}
-                        className="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-blue-600 transition"
+                        className="bg-blue-500 dark:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center hover:bg-blue-600 dark:hover:bg-blue-500"
                         aria-label={`Llamar a ${workshop.name}`}
                       >
                         <FaPhone className="mr-2" aria-hidden="true" />
@@ -641,7 +641,7 @@ const Sos: React.FC = () => {
                         href={`https://www.google.com/maps/dir/?api=1&destination=${workshop.location.lat},${workshop.location.lng}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-slate-950 text-white px-4 py-2 rounded-lg flex items-center hover:bg-opacity-90 transition"
+                        className="bg-slate-950 dark:bg-gray-900 text-white px-4 py-2 rounded-lg flex items-center hover:bg-gray-800 dark:hover:bg-gray-700"
                         aria-label={`Cómo llegar a ${workshop.name}`}
                       >
                         <FaMapMarkerAlt className="mr-2" aria-hidden="true" />

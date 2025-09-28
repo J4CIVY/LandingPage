@@ -123,13 +123,13 @@ const VerifyEmailContent: React.FC = () => {
             <>
               <Link
                 href="/login"
-                className="block w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+                className="block w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white font-medium py-3 px-4 rounded-lg"
               >
                 Iniciar Sesión
               </Link>
               <Link
                 href="/"
-                className="block w-full bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-900 dark:text-slate-100 font-medium py-3 px-4 rounded-lg transition-colors"
+                className="block w-full bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-900 dark:text-slate-100 font-medium py-3 px-4 rounded-lg"
               >
                 Ir al Inicio
               </Link>
@@ -139,7 +139,7 @@ const VerifyEmailContent: React.FC = () => {
               <ResendVerificationSection />
               <Link
                 href="/"
-                className="block w-full bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-900 dark:text-slate-100 font-medium py-3 px-4 rounded-lg transition-colors"
+                className="block w-full bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-900 dark:text-slate-100 font-medium py-3 px-4 rounded-lg"
               >
                 Ir al Inicio
               </Link>
@@ -189,12 +189,11 @@ const ResendVerificationSection: React.FC = () => {
   return (
     <div className="border-t border-gray-200 dark:border-slate-700 pt-6">
       <div className="mb-4">
-        <FaEnvelope className="text-2xl text-gray-400 mx-auto mb-2" />
+        <FaEnvelope className="text-2xl text-gray-400 dark:text-gray-300 mx-auto mb-2" />
         <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-2">
           ¿Necesitas un nuevo email de verificación?
         </h3>
       </div>
-      
       <form onSubmit={handleResend} className="space-y-3">
         <input
           type="email"
@@ -204,11 +203,10 @@ const ResendVerificationSection: React.FC = () => {
           className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-slate-100"
           disabled={isResending}
         />
-        
         <button
           type="submit"
           disabled={isResending}
-          className="w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white font-medium py-3 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+          className="w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white font-medium py-3 px-4 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
         >
           {isResending ? (
             <>
@@ -220,7 +218,6 @@ const ResendVerificationSection: React.FC = () => {
           )}
         </button>
       </form>
-      
       {resendMessage && (
         <p className="mt-3 text-sm text-center text-gray-600 dark:text-slate-400">
           {resendMessage}

@@ -110,11 +110,11 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
     return (
       <div 
         ref={setRef}
-        className={`${className} bg-gray-200 dark:bg-gray-700 flex items-center justify-center`}
+        className={`${className} bg-gray-200 dark:bg-gray-800 flex items-center justify-center`}
         style={{ width, height }}
         aria-label={`Error cargando imagen: ${alt}`}
       >
-        <svg className="w-8 h-8 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+        <svg className="w-8 h-8 text-gray-400 dark:text-gray-500" fill="currentColor" viewBox="0 0 20 20">
           <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
         </svg>
       </div>
@@ -126,7 +126,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
     return (
       <div 
         ref={setRef}
-        className={`${className} bg-gray-200 dark:bg-gray-700 animate-pulse`}
+        className={`${className} bg-gray-200 dark:bg-gray-800 animate-pulse`}
         style={{ width, height }}
         aria-label={`Cargando imagen: ${alt}`}
       />
@@ -136,7 +136,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   // Renderizar imagen responsiva
   if (responsive) {
     return (
-      <div ref={setRef} className="relative overflow-hidden">
+      <div ref={setRef} className="relative overflow-hidden bg-white dark:bg-gray-800">
         <Image
           src={currentSrc}
           fill
@@ -149,7 +149,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
 
   // Renderizar imagen con dimensiones fijas
   return (
-    <div ref={setRef}>
+    <div ref={setRef} className="bg-white dark:bg-gray-800">
       <Image
         src={currentSrc}
         width={width}

@@ -97,28 +97,28 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
 
   const getColorCategoria = (categoria: Logro['categoria']) => {
     const colores = {
-      'Actividad': 'bg-blue-100 text-blue-800 border-blue-200',
-      'Puntos': 'bg-green-100 text-green-800 border-green-200',
-      'Social': 'bg-purple-100 text-purple-800 border-purple-200',
-      'Especial': 'bg-yellow-100 text-yellow-800 border-yellow-200'
+      'Actividad': 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300 border-blue-200 dark:border-blue-700',
+      'Puntos': 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 border-green-200 dark:border-green-700',
+      'Social': 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-300 border-purple-200 dark:border-purple-700',
+      'Especial': 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-300 border-yellow-200 dark:border-yellow-700'
     };
     return colores[categoria];
   };
 
   if (loading) {
     return (
-  <div className="bg-white dark:bg-slate-900 rounded-xl shadow-lg p-6">
-        <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
+      <div className="bg-white dark:bg-slate-900 rounded-xl shadow-lg p-6">
+        <h3 className="text-lg font-bold text-gray-800 dark:text-slate-100 mb-4 flex items-center gap-2">
           <FaMedal className="text-yellow-500 dark:text-yellow-400" />
           Logros
         </h3>
         <div className="animate-pulse space-y-4">
           {[1, 2, 3].map(i => (
             <div key={i} className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-gray-200 rounded-full"></div>
+              <div className="w-12 h-12 bg-gray-200 dark:bg-slate-700 rounded-full"></div>
               <div className="flex-1">
-                <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
-                <div className="h-3 bg-gray-200 rounded w-3/4"></div>
+                <div className="h-4 bg-gray-200 dark:bg-slate-700 rounded w-1/2 mb-2"></div>
+                <div className="h-3 bg-gray-200 dark:bg-slate-700 rounded w-3/4"></div>
               </div>
             </div>
           ))}
@@ -129,8 +129,8 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
 
   if (error) {
     return (
-  <div className="bg-white dark:bg-slate-900 rounded-xl shadow-lg p-6">
-        <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
+      <div className="bg-white dark:bg-slate-900 rounded-xl shadow-lg p-6">
+        <h3 className="text-lg font-bold text-gray-800 dark:text-slate-100 mb-4 flex items-center gap-2">
           <FaMedal className="text-yellow-500 dark:text-yellow-400" />
           Logros
         </h3>
@@ -141,6 +141,7 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
           <button 
             onClick={() => window.location.reload()}
             className="mt-4 px-4 py-2 bg-blue-500 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-800"
+            type="button"
           >
             Reintentar
           </button>
@@ -152,7 +153,7 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
   return (
   <div className="bg-white dark:bg-slate-900 rounded-xl shadow-lg p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-bold text-gray-800 dark:text-white flex items-center gap-2">
+  <h3 className="text-lg font-bold text-gray-800 dark:text-slate-100 flex items-center gap-2">
           <FaMedal className="text-yellow-500 dark:text-yellow-400" />
           Logros ({logrosDesbloqueados}/{totalLogros})
         </h3>
@@ -172,7 +173,7 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
 
       {/* Barra de progreso general */}
       <div className="mb-6">
-        <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 mb-1">
+  <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 mb-1">
           <span>Progreso general</span>
           <span>{estadisticas?.porcentajeCompletado || 0}%</span>
         </div>
@@ -209,7 +210,7 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
                   <h4 className={`font-semibold ${
-                    logro.desbloqueado ? 'text-gray-800 dark:text-white' : 'text-gray-500 dark:text-gray-400'
+                    logro.desbloqueado ? 'text-gray-800 dark:text-slate-100' : 'text-gray-500 dark:text-gray-400'
                   }`}>
                     {logro.nombre}
                   </h4>
@@ -265,7 +266,7 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
 
       {logrosFiltrados.length === 0 && (
         <div className="text-center py-8">
-          <FaBullseye className="text-4xl mb-2 text-blue-400 dark:text-blue-600 mx-auto" />
+          <FaBullseye className="text-4xl mb-2 text-blue-400 dark:text-blue-500 mx-auto" />
           <p className="text-gray-500 dark:text-gray-300">
             {logros.length === 0 ? 'No hay logros disponibles' : 'No hay logros en esta categoría'}
           </p>

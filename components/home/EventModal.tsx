@@ -81,9 +81,9 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
     <div>
       {/* Overlay for the modal, covers the entire screen and handles closing when clicked */}
       <div 
-        className="fixed inset-0 bg-black bg-opacity-75 z-40"
-        onClick={onClose} // Close modal when overlay is clicked
-        aria-hidden="true" // Hide from accessibility tree as it's just a backdrop
+        className="fixed inset-0 bg-black bg-opacity-75 dark:bg-slate-950 dark:bg-opacity-90 z-40"
+        onClick={onClose}
+        aria-hidden="true"
       />
 
       {/* Modal container */}
@@ -97,7 +97,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
         <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           {/* Actual modal content area */}
           <div 
-            className="inline-block align-bottom bg-white dark:bg-slate-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl w-full"
+            className="inline-block align-bottom bg-white dark:bg-slate-800 rounded-lg text-left overflow-hidden shadow-xl transform sm:my-8 sm:align-middle sm:max-w-4xl w-full"
           >
             <div className="bg-white dark:bg-slate-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
               <div className="sm:flex sm:items-start">
@@ -125,8 +125,8 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
                     {/* Close button */}
                     <button
                       onClick={onClose}
-                      className="text-gray-400 hover:text-gray-500 dark:text-gray-400 dark:hover:text-white focus:outline-none"
-                      aria-label="Cerrar modal" // Accessibility label for the close button
+                      className="text-gray-400 dark:text-gray-300 hover:text-gray-500 dark:hover:text-white focus:outline-none"
+                      aria-label="Cerrar modal"
                     >
                       <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
@@ -314,21 +314,21 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
                   <div className="mt-8 bg-slate-950 dark:bg-slate-900 p-6 rounded-lg">
                     <div className="flex flex-col md:flex-row justify-between items-center">
                       <div className="mb-4 md:mb-0">
-                        <h4 className="text-xl font-bold text-white">¿Te gustaría participar en este evento?</h4>
+                        <h4 className="text-xl font-bold text-white dark:text-white">¿Te gustaría participar en este evento?</h4>
                         <p className="text-gray-300 dark:text-gray-400 mt-1">
                           Regístrate ahora y únete a la comunidad BSK Motorcycle Team
                         </p>
                       </div>
                       <div className="flex space-x-3">
                         <a
-                          href="/register" // Changed to /register as per App.jsx routes
-                          className="px-6 py-3 bg-green-400 hover:bg-green-500 text-slate-950 font-bold rounded-full transition duration-300"
+                          href="/register"
+                          className="px-6 py-3 bg-green-400 dark:bg-green-500 text-slate-950 dark:text-slate-900 font-bold rounded-full"
                         >
                           Regístrate ahora
                         </a>
                         <a
                           href="/memberships"
-                          className="px-6 py-3 bg-white hover:bg-gray-200 text-slate-950 dark:bg-gray-300 dark:hover:bg-gray-400 font-bold rounded-full transition duration-300"
+                          className="px-6 py-3 bg-white dark:bg-gray-300 text-slate-950 dark:text-slate-900 font-bold rounded-full"
                         >
                           Conoce las membresías
                         </a>

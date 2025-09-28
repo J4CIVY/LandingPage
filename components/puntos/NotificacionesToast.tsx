@@ -44,7 +44,7 @@ export default function NotificacionesToast({ notificaciones, onEliminar }: Noti
       {notificaciones.map((notificacion) => (
         <div
           key={notificacion.id}
-          className={`border rounded-lg p-4 shadow-lg animate-in slide-in-from-right-2 fade-in-0 duration-300 ${getColores(notificacion.tipo)}`}
+          className={`border rounded-lg p-4 shadow-lg animate-in slide-in-from-right-2 fade-in-0 ${getColores(notificacion.tipo)}`}
         >
           <div className="flex items-start justify-between">
             <div className="flex items-start gap-3">
@@ -61,7 +61,8 @@ export default function NotificacionesToast({ notificaciones, onEliminar }: Noti
             
             <button
               onClick={() => onEliminar(notificacion.id)}
-              className="ml-2 text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-white"
+              className="ml-2 text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-white focus:outline-none"
+              type="button"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

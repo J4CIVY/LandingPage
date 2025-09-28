@@ -55,12 +55,12 @@ export default function RankingWidget({
   };
 
   return (
-    <div className={`bg-white border border-gray-200 rounded-xl p-6 ${className}`}>
+  <div className={`bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 ${className}`}>
       {/* Ranking personal */}
       <div className="mb-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Tu Ranking</h3>
+  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Tu Ranking</h3>
         
-        <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-lg">
+  <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900 dark:to-purple-900 p-4 rounded-lg">
           <div className="flex items-center justify-between">
             <div>
               <div className="flex items-center space-x-2">
@@ -69,31 +69,31 @@ export default function RankingWidget({
                   return badge.icon ? (
                     <badge.icon className={`h-6 w-6 ${badge.color}`} />
                   ) : (
-                    <span className="text-lg font-bold text-gray-600">#{userRanking.position}</span>
+                    <span className="text-lg font-bold text-gray-600 dark:text-gray-300">#{userRanking.position}</span>
                   );
                 })()}
-                <span className="text-lg font-bold text-gray-900">
+                <span className="text-lg font-bold text-gray-900 dark:text-white">
                   Posición {userRanking.position}
                 </span>
               </div>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
                 de {userRanking.totalMembers.toLocaleString()} miembros totales
               </p>
             </div>
             <div className="text-right">
-              <div className="text-2xl font-bold text-blue-600">
+              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
                 {userRanking.points.toLocaleString()}
               </div>
-              <p className="text-sm text-gray-600">puntos</p>
+              <p className="text-sm text-gray-600 dark:text-gray-300">puntos</p>
             </div>
           </div>
           
           <div className="mt-3">
-            <div className="flex justify-between text-sm text-gray-600 mb-1">
+            <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300 mb-1">
               <span>Percentil</span>
               <span>{getPercentile(userRanking.position, userRanking.totalMembers)}%</span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
+            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
               <div 
                 className="h-2 rounded-full bg-gradient-to-r from-blue-400 to-purple-500"
                 style={{ width: `${getPercentile(userRanking.position, userRanking.totalMembers)}%` }}
@@ -107,7 +107,7 @@ export default function RankingWidget({
       {showLeaderboard && (
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h4 className="text-md font-medium text-gray-900">Top 5 Miembros</h4>
+            <h4 className="text-md font-medium text-gray-900 dark:text-white">Top 5 Miembros</h4>
             {loading && <FaSpinner className="animate-spin h-4 w-4 text-blue-500" />}
           </div>
 
@@ -128,27 +128,27 @@ export default function RankingWidget({
               {leaderboard.map((member, index) => {
                 const badge = getRankingBadge(member.position);
                 const memberConfig = MEMBERSHIP_CONFIG[member.membershipType];
-                
                 return (
                   <div 
                     key={member.userId} 
-                    className={`flex items-center space-x-3 p-3 rounded-lg transition-colors ${
-                      index < 3 ? 'bg-gradient-to-r from-yellow-50 to-orange-50' : 'bg-gray-50 hover:bg-gray-100'
+                    className={`flex items-center space-x-3 p-3 rounded-lg ${
+                      index < 3 
+                        ? 'bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900 dark:to-orange-900' 
+                        : 'bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600'
                     }`}
                   >
                     <div className="flex-shrink-0 w-8 text-center">
                       {badge.icon ? (
                         <badge.icon className={`h-5 w-5 ${badge.color} mx-auto`} />
                       ) : (
-                        <span className="text-sm font-bold text-gray-600">
+                        <span className="text-sm font-bold text-gray-600 dark:text-gray-300">
                           #{member.position}
                         </span>
                       )}
                     </div>
-                    
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center space-x-2">
-                        <p className="text-sm font-medium text-gray-900 truncate">
+                        <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
                           {member.name}
                         </p>
                         <span 
@@ -162,19 +162,17 @@ export default function RankingWidget({
                         </span>
                       </div>
                     </div>
-                    
                     <div className="text-right">
-                      <p className="text-sm font-medium text-gray-900">
+                      <p className="text-sm font-medium text-gray-900 dark:text-white">
                         {member.points.toLocaleString()}
                       </p>
-                      <p className="text-xs text-gray-500">pts</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-300">pts</p>
                     </div>
                   </div>
                 );
               })}
-              
               {leaderboard.length === 0 && !loading && (
-                <div className="text-center py-4 text-gray-500">
+                <div className="text-center py-4 text-gray-500 dark:text-gray-400">
                   <p className="text-sm">No hay datos de ranking disponibles</p>
                 </div>
               )}
@@ -182,8 +180,8 @@ export default function RankingWidget({
           )}
 
           {/* Link para ver ranking completo */}
-          <div className="mt-4 pt-4 border-t border-gray-200">
-            <button className="w-full text-center text-sm text-blue-600 hover:text-blue-800 font-medium">
+          <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <button className="w-full text-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium">
               Ver ranking completo →
             </button>
           </div>

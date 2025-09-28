@@ -147,10 +147,10 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center z-50 p-4">
+      <div className="bg-white dark:bg-gray-900 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-gray-200 dark:border-gray-700 shadow-xl">
         {/* Header */}
-        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+  <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/80 rounded-t-lg">
           <div className="flex justify-between items-center">
             <div>
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -162,7 +162,8 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
             </div>
             <button 
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 rounded-full"
+              aria-label="Cerrar"
             >
               <FaTimes className="text-xl" />
             </button>
@@ -174,8 +175,8 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
               {[1, 2, 3].map((stepNumber) => (
                 <div
                   key={stepNumber}
-                  className={`flex-1 h-2 rounded ${
-                    stepNumber <= step ? 'bg-purple-600' : 'bg-gray-200 dark:bg-gray-600'
+                  className={`flex-1 h-2 rounded-full ${
+                    stepNumber <= step ? 'bg-purple-600 dark:bg-purple-500' : 'bg-gray-200 dark:bg-gray-700'
                   }`}
                 />
               ))}
@@ -184,9 +185,9 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
         </div>
 
         {/* Content */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+  <form onSubmit={handleSubmit} className="p-6 space-y-6 bg-white dark:bg-gray-900 rounded-b-lg">
           {error && (
-            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+            <div className="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg p-4">
               <p className="text-red-800 dark:text-red-200">{error}</p>
             </div>
           )}
@@ -194,27 +195,27 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
           {step === 1 && (
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                   Título de la Votación
                 </label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 dark:bg-gray-800 dark:text-white"
                   placeholder="Ej. Votación para Leader - Juan Pérez"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                   Tipo de Votación
                 </label>
                 <select
                   value={formData.type}
                   onChange={(e) => setFormData({ ...formData, type: e.target.value, candidateId: '' })}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 dark:bg-gray-800 dark:text-white"
                   required
                 >
                   <option value="general_proposal">Propuesta General</option>
@@ -226,7 +227,7 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
 
               {formData.type === 'leader_application' && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                     <FaUserCheck className="inline mr-2" />
                     Candidato
                   </label>
@@ -237,18 +238,18 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
                         type="text"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 dark:bg-gray-700 dark:text-white"
+                        className="w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 dark:bg-gray-800 dark:text-white"
                         placeholder="Buscar candidato..."
                       />
                     </div>
-                    <div className="max-h-40 overflow-y-auto border border-gray-300 dark:border-gray-600 rounded-lg">
+                    <div className="max-h-40 overflow-y-auto border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900">
                       {filteredCandidates.map((candidate) => (
                         <button
                           key={candidate.id}
                           type="button"
                           onClick={() => setFormData({ ...formData, candidateId: candidate.id })}
-                          className={`w-full text-left p-3 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-600 last:border-b-0 ${
-                            formData.candidateId === candidate.id ? 'bg-purple-50 dark:bg-purple-900/20' : ''
+                          className={`w-full text-left p-3 hover:bg-gray-100 dark:hover:bg-gray-800 border-b border-gray-200 dark:border-gray-700 last:border-b-0 ${
+                            formData.candidateId === candidate.id ? 'bg-purple-50 dark:bg-purple-900/30' : ''
                           }`}
                         >
                           <div className="flex justify-between items-center">
@@ -260,7 +261,7 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
                                 {candidate.email}
                               </p>
                             </div>
-                            <span className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-600 rounded">
+                            <span className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 rounded">
                               {candidate.membershipType}
                             </span>
                           </div>
@@ -272,14 +273,14 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
               )}
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                   Descripción
                 </label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 dark:bg-gray-800 dark:text-white"
                   placeholder="Describe el propósito y detalles de esta votación..."
                   required
                 />
@@ -291,7 +292,7 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                     <FaCalendarAlt className="inline mr-2" />
                     Fecha y Hora de Inicio
                   </label>
@@ -299,13 +300,13 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
                     type="datetime-local"
                     value={formData.startDate}
                     onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 dark:bg-gray-800 dark:text-white"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                     <FaCalendarAlt className="inline mr-2" />
                     Fecha y Hora de Fin
                   </label>
@@ -313,17 +314,17 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
                     type="datetime-local"
                     value={formData.endDate}
                     onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 dark:bg-gray-800 dark:text-white"
                     required
                   />
                 </div>
               </div>
 
-              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-                <h4 className="font-medium text-blue-900 dark:text-blue-200 mb-2">
+              <div className="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                <h4 className="font-medium text-blue-900 dark:text-blue-100 mb-2">
                   Información sobre Fechas
                 </h4>
-                <ul className="text-sm text-blue-800 dark:text-blue-300 space-y-1">
+                <ul className="text-sm text-blue-800 dark:text-blue-200 space-y-1">
                   <li>• La votación se iniciará automáticamente en la fecha programada</li>
                   <li>• Solo Leaders y Masters pueden votar</li>
                   <li>• Se pueden extender las fechas si es necesario</li>
@@ -343,7 +344,7 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
                       Requiere Quórum
                     </label>
                     <p className="text-xs text-gray-600 dark:text-gray-400">
@@ -357,13 +358,13 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
                       ...formData,
                       settings: { ...formData.settings, requiresQuorum: e.target.checked }
                     })}
-                    className="h-4 w-4 text-purple-600 rounded focus:ring-purple-500"
+                    className="h-4 w-4 text-purple-600 rounded focus:ring-2 focus:ring-purple-500 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900"
                   />
                 </div>
 
                 {formData.settings.requiresQuorum && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                       Porcentaje de Quórum (%)
                     </label>
                     <input
@@ -375,14 +376,14 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
                         ...formData,
                         settings: { ...formData.settings, quorumPercentage: parseInt(e.target.value) }
                       })}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 dark:bg-gray-700 dark:text-white"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 dark:bg-gray-800 dark:text-white"
                     />
                   </div>
                 )}
 
                 <div className="flex items-center justify-between">
                   <div>
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
                       Permitir Abstención
                     </label>
                     <p className="text-xs text-gray-600 dark:text-gray-400">
@@ -396,13 +397,13 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
                       ...formData,
                       settings: { ...formData.settings, allowAbstention: e.target.checked }
                     })}
-                    className="h-4 w-4 text-purple-600 rounded focus:ring-purple-500"
+                    className="h-4 w-4 text-purple-600 rounded focus:ring-2 focus:ring-purple-500 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900"
                   />
                 </div>
 
                 <div className="flex items-center justify-between">
                   <div>
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
                       Votación Secreta
                     </label>
                     <p className="text-xs text-gray-600 dark:text-gray-400">
@@ -416,13 +417,13 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
                       ...formData,
                       settings: { ...formData.settings, isSecret: e.target.checked }
                     })}
-                    className="h-4 w-4 text-purple-600 rounded focus:ring-purple-500"
+                    className="h-4 w-4 text-purple-600 rounded focus:ring-2 focus:ring-purple-500 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900"
                   />
                 </div>
 
                 <div className="flex items-center justify-between">
                   <div>
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
                       Resultados Visibles
                     </label>
                     <p className="text-xs text-gray-600 dark:text-gray-400">
@@ -436,7 +437,7 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
                       ...formData,
                       settings: { ...formData.settings, resultsVisible: e.target.checked }
                     })}
-                    className="h-4 w-4 text-purple-600 rounded focus:ring-purple-500"
+                    className="h-4 w-4 text-purple-600 rounded focus:ring-2 focus:ring-purple-500 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900"
                   />
                 </div>
               </div>
@@ -450,7 +451,7 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
                 <button
                   type="button"
                   onClick={() => setStep(step - 1)}
-                  className="px-4 py-2 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+                  className="px-4 py-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                 >
                   Anterior
                 </button>
@@ -461,14 +462,14 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+                className="px-4 py-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               >
                 Cancelar
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                className="px-6 py-2 bg-purple-600 dark:bg-purple-700 text-white rounded-lg hover:bg-purple-700 dark:hover:bg-purple-800 disabled:opacity-50 disabled:cursor-not-allowed flex items-center font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500"
               >
                 {loading ? (
                   <FaSpinner className="animate-spin mr-2" />

@@ -54,10 +54,10 @@ const BlogSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-20 px-4 bg-white dark:bg-slate-950">
+  <section className="py-20 px-4 bg-white dark:bg-slate-950">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-12">
-          BLOG & <span className="text-green-400">NOTICIAS</span>
+          BLOG & <span className="text-green-400 dark:text-green-300">NOTICIAS</span>
         </h2>
 
         <div className="grid md:grid-cols-2 gap-8 mb-12">
@@ -67,7 +67,7 @@ const BlogSection: React.FC = () => {
             return (
               <div
                 key={post.id}
-                className="bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+                className="bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-lg text-gray-700 dark:text-gray-300"
               >
                 <Link href={`/blog/${post.slug}`} aria-label={`Leer más sobre ${post.title}`}>
                   <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
@@ -89,7 +89,7 @@ const BlogSection: React.FC = () => {
                     <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{post.date}</p>
                     <h3 className="text-xl font-bold text-slate-950 dark:text-white mb-3">{post.title}</h3>
                     <p className="text-gray-700 dark:text-gray-300 mb-4">{post.excerpt}</p>
-                    <div className="text-red-600 font-semibold flex items-center hover:underline">
+                    <div className="text-red-600 dark:text-red-400 font-semibold flex items-center hover:underline">
                       Leer más
                       <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7m0 0l-7 7m7-7H3" />
@@ -105,7 +105,7 @@ const BlogSection: React.FC = () => {
         <div className="text-center">
           <a
             href="/blog"
-            className="bg-red-600 hover:bg-red-700 text-white inline-block py-3 px-6 rounded-full transition-colors"
+            className="bg-red-600 dark:bg-red-700 text-white dark:text-white inline-block py-3 px-6 rounded-full"
           >
             Ver todas las noticias
           </a>

@@ -56,7 +56,7 @@ export default function FiltrosSolicitudes({
             {hayFiltrosActivos && (
               <button
                 onClick={limpiarFiltros}
-                className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 dark:text-slate-400 hover:text-gray-900 dark:hover:text-slate-100 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors duration-200"
+                className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 dark:text-slate-400 hover:text-gray-900 dark:hover:text-slate-100 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700"
               >
                 <FaTimes className="w-4 h-4 mr-1" />
                 Limpiar
@@ -65,7 +65,7 @@ export default function FiltrosSolicitudes({
             
             <button
               onClick={() => setMostrarFiltros(!mostrarFiltros)}
-              className={`inline-flex items-center px-3 py-2 text-sm font-medium border rounded-lg transition-colors duration-200 ${
+              className={`inline-flex items-center px-3 py-2 text-sm font-medium border rounded-lg ${
                 mostrarFiltros || hayFiltrosActivos
                   ? 'text-blue-600 border-blue-300 bg-blue-50 dark:text-blue-400 dark:border-blue-600 dark:bg-blue-900/20'
                   : 'text-gray-600 border-gray-300 hover:bg-gray-50 dark:text-slate-400 dark:border-slate-600 dark:hover:bg-slate-700'
@@ -74,7 +74,7 @@ export default function FiltrosSolicitudes({
               <FaFilter className="w-4 h-4 mr-1" />
               Filtros
               {hayFiltrosActivos && (
-                <span className="ml-1 px-1.5 py-0.5 text-xs bg-blue-600 text-white rounded-full">
+                <span className="ml-1 px-1.5 py-0.5 text-xs bg-blue-600 dark:bg-blue-700 text-white rounded-full">
                   {Object.values(filtros).filter(v => v !== undefined && v !== '').length}
                 </span>
               )}

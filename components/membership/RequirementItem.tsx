@@ -19,25 +19,25 @@ export default function RequirementItem({
     if (requirement.fulfilled) {
       return {
         icon: FaCheck,
-        iconClass: 'text-green-600 bg-green-100',
-        textClass: 'text-green-700',
-        bgClass: 'bg-green-50 border-green-200',
+        iconClass: 'text-green-600 dark:text-green-300 bg-green-100 dark:bg-green-900',
+        textClass: 'text-green-700 dark:text-green-300',
+        bgClass: 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800',
         statusText: 'Completado'
       };
     } else if (requirement.progress > 0) {
       return {
         icon: FaClock,
-        iconClass: 'text-yellow-600 bg-yellow-100',
-        textClass: 'text-yellow-700',
-        bgClass: 'bg-yellow-50 border-yellow-200',
+        iconClass: 'text-yellow-600 dark:text-yellow-300 bg-yellow-100 dark:bg-yellow-900',
+        textClass: 'text-yellow-700 dark:text-yellow-300',
+        bgClass: 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800',
         statusText: 'En progreso'
       };
     } else {
       return {
         icon: FaLock,
-        iconClass: 'text-gray-400 bg-gray-100',
-        textClass: 'text-gray-600',
-        bgClass: 'bg-gray-50 border-gray-200',
+        iconClass: 'text-gray-400 dark:text-gray-300 bg-gray-100 dark:bg-gray-800',
+        textClass: 'text-gray-600 dark:text-gray-300',
+        bgClass: 'bg-gray-50 dark:bg-gray-800/60 border-gray-200 dark:border-gray-700',
         statusText: 'Pendiente'
       };
     }
@@ -59,7 +59,7 @@ export default function RequirementItem({
   const shouldShowAction = !requirement.fulfilled && onActionClick;
 
   return (
-    <div className={`border rounded-lg p-4 transition-all duration-200 ${statusInfo.bgClass} ${className}`}>
+    <div className={`border rounded-lg p-4 ${statusInfo.bgClass} ${className}`}>
       <div className="flex items-start space-x-3">
         {/* Icono de estado */}
         <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${statusInfo.iconClass}`}>
@@ -74,7 +74,7 @@ export default function RequirementItem({
                 {requirement.label}
               </h4>
               {requirement.detail && (
-                <p className="text-sm text-gray-600 mt-1">
+                <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
                   {requirement.detail}
                 </p>
               )}
@@ -91,14 +91,14 @@ export default function RequirementItem({
 
           {/* Barra de progreso */}
           <div className="mt-3">
-            <div className="w-full bg-gray-200 rounded-full h-2">
+            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
               <div 
-                className={`h-2 rounded-full transition-all duration-500 ${
+                className={`h-2 rounded-full ${
                   requirement.fulfilled 
-                    ? 'bg-green-500' 
+                    ? 'bg-green-500 dark:bg-green-400' 
                     : requirement.progress > 0 
-                      ? 'bg-yellow-500'
-                      : 'bg-gray-300'
+                      ? 'bg-yellow-500 dark:bg-yellow-400'
+                      : 'bg-gray-300 dark:bg-gray-600'
                 }`}
                 style={{ width: `${requirement.progress}%` }}
               ></div>
@@ -110,7 +110,7 @@ export default function RequirementItem({
             <div className="mt-3">
               <button
                 onClick={() => onActionClick(requirement.id)}
-                className="inline-flex items-center space-x-1 text-sm text-blue-600 hover:text-blue-800 font-medium transition-colors"
+                className="inline-flex items-center space-x-1 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium"
               >
                 <span>{getActionText(requirement.id)}</span>
                 <FaExternalLinkAlt className="h-3 w-3" />
@@ -120,8 +120,8 @@ export default function RequirementItem({
 
           {/* Información adicional para eventos relacionados */}
           {requirement.relatedEventId && (
-            <div className="mt-2 p-2 bg-white/50 rounded border border-gray-300">
-              <p className="text-xs text-gray-600">
+            <div className="mt-2 p-2 bg-white/50 dark:bg-gray-900/30 rounded border border-gray-300 dark:border-gray-700">
+              <p className="text-xs text-gray-600 dark:text-gray-300">
                 Relacionado con evento: {requirement.relatedEventId}
               </p>
             </div>
@@ -131,10 +131,10 @@ export default function RequirementItem({
 
       {/* Información de ayuda para requisitos bloqueados */}
       {!requirement.fulfilled && requirement.progress === 0 && (
-        <div className="mt-4 pt-3 border-t border-gray-300">
+        <div className="mt-4 pt-3 border-t border-gray-300 dark:border-gray-700">
           <div className="flex items-start space-x-2">
-            <FaLock className="h-4 w-4 text-gray-400 mt-0.5" />
-            <div className="text-xs text-gray-600">
+            <FaLock className="h-4 w-4 text-gray-400 dark:text-gray-300 mt-0.5" />
+            <div className="text-xs text-gray-600 dark:text-gray-300">
               {(() => {
                 switch (requirement.id) {
                   case 'events':

@@ -375,7 +375,7 @@ const UserRegister: React.FC = () => {
       <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
         <div className="p-8">
           <div className="flex items-center justify-center mb-6">
-            <GiSteelwingEmblem className="text-red-600 text-5xl mr-3" aria-hidden="true" />
+            <GiSteelwingEmblem className="text-red-600 dark:text-red-400 text-5xl mr-3" aria-hidden="true" />
             <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
               Registro de Miembro
             </h1>
@@ -384,7 +384,7 @@ const UserRegister: React.FC = () => {
           {renderStepIndicator()}
           
           {submitError && (
-            <div className="bg-red-100 dark:bg-red-900/20 border-l-4 border-red-500 text-red-700 dark:text-red-300 p-4 mb-6" role="alert">
+            <div className="bg-red-100 dark:bg-red-900/20 border-l-4 border-red-500 dark:border-red-400 text-red-700 dark:text-red-300 p-4 mb-6" role="alert">
               <p className="font-bold">Error de Registro</p>
               <p>{submitError}</p>
             </div>
@@ -868,13 +868,13 @@ const UserRegister: React.FC = () => {
             <div className="mt-8 flex justify-between">
               {currentStep > 1 && (
                 <button type="button" onClick={prevStep}
-                        className="bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-800 dark:text-gray-200 font-bold py-2 px-4 rounded-md transition duration-300">
+                        className="bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500 text-gray-800 dark:text-gray-200 font-bold py-2 px-4 rounded-md">
                   Anterior
                 </button>
               )}
               {currentStep < totalSteps && (
                 <button type="button" onClick={handleNextStep}
-                        className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md transition duration-300 ml-auto">
+                        className="bg-red-600 dark:bg-red-500 hover:bg-red-700 dark:hover:bg-red-400 text-white font-bold py-2 px-4 rounded-md ml-auto">
                   Siguiente
                 </button>
               )}
@@ -890,7 +890,7 @@ const UserRegister: React.FC = () => {
                       formValid: Object.keys(errors).length === 0
                     });
                   }}
-                  className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 ml-auto disabled:bg-gray-400 dark:disabled:bg-gray-600">
+                  className="bg-green-500 dark:bg-green-600 hover:bg-green-600 dark:hover:bg-green-500 text-white font-bold py-2 px-4 rounded-md ml-auto disabled:bg-gray-400 dark:disabled:bg-gray-600">
                   {isSubmitting ? 'Enviando...' : 'Finalizar Registro'}
                 </button>
               )}

@@ -138,7 +138,7 @@ const Courses: React.FC = () => {
           </h1>
           <a
             href="#inscripciones"
-            className="inline-flex items-center bg-slate-950 dark:bg-white text-white dark:text-slate-950 font-bold py-3 px-8 rounded-xl hover:bg-gray-800 dark:hover:bg-gray-200 transition text-lg"
+            className="inline-flex items-center bg-slate-950 dark:bg-white text-white dark:text-slate-950 font-bold py-3 px-8 rounded-xl hover:bg-gray-800 dark:hover:bg-gray-200 text-lg"
             aria-label="Inscríbete ahora en nuestros cursos"
           >
             <FaCalendarAlt className="mr-2" aria-hidden="true" />
@@ -180,7 +180,7 @@ const Courses: React.FC = () => {
                   ))}
                 </ul>
                 <button 
-                  className="mt-6 w-full bg-slate-950 dark:bg-green-500 text-white dark:text-white py-2 px-4 rounded-lg hover:bg-opacity-90 dark:hover:bg-green-600 transition"
+                  className="mt-6 w-full bg-slate-950 dark:bg-green-500 text-white dark:text-white py-2 px-4 rounded-lg hover:bg-opacity-90 dark:hover:bg-green-600"
                   aria-label={`Más información sobre ${course.title}`}
                 >
                   Más Información
@@ -221,7 +221,7 @@ const Courses: React.FC = () => {
           <div className="flex flex-col md:flex-row justify-center gap-4">
             <a
               href="#inscripciones"
-              className="flex items-center justify-center bg-green-400 text-slate-950 font-bold py-3 px-8 rounded-xl hover:bg-green-500 transition text-lg"
+              className="flex items-center justify-center bg-green-400 text-slate-950 font-bold py-3 px-8 rounded-xl hover:bg-green-500 text-lg"
               aria-label="Inscríbete hoy en nuestros cursos"
             >
               <FaCalendarAlt className="mr-2" aria-hidden="true" />
@@ -229,7 +229,7 @@ const Courses: React.FC = () => {
             </a>
             <a
               href="#contacto"
-              className="flex items-center justify-center bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-xl hover:bg-white hover:text-slate-950 transition text-lg"
+              className="flex items-center justify-center bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-xl hover:bg-white hover:text-slate-950 text-lg"
               aria-label="Contáctanos para más información"
             >
               <FaPhone className="mr-2" aria-hidden="true" />

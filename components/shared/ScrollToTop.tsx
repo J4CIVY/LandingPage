@@ -57,16 +57,14 @@ const ScrollToTop: React.FC = () => {
     <button
       onClick={scrollToTop}
       disabled={isScrolling}
-      className={`fixed bottom-8 right-8 z-50 p-4 bg-green-500 hover:bg-green-600 active:bg-green-700 text-white rounded-full shadow-lg transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-green-500/50 ${
-        isScrolling ? 'scale-95 opacity-75' : 'scale-100 opacity-100 hover:scale-105'
-      } disabled:pointer-events-none`}
+      className={`fixed bottom-8 right-8 z-50 p-4 bg-green-500 dark:bg-green-600 hover:bg-green-600 dark:hover:bg-green-700 active:bg-green-700 dark:active:bg-green-800 text-white rounded-full shadow-lg focus:outline-none focus:ring-4 focus:ring-green-500/50 disabled:pointer-events-none ${
+        isScrolling ? 'opacity-75' : 'opacity-100'
+      }`}
       aria-label="Volver al inicio de la página"
       title="Volver arriba"
     >
       <FaChevronUp 
-        className={`w-5 h-5 transition-transform duration-200 ${
-          isScrolling ? 'animate-pulse scale-110' : ''
-        }`} 
+        className={`w-5 h-5 ${isScrolling ? 'animate-pulse' : ''}`} 
       />
     </button>
   );

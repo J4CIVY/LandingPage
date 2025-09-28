@@ -13,7 +13,7 @@ interface SolicitudCardProps {
 
 export default function SolicitudCard({ solicitud, className = '' }: SolicitudCardProps) {
   return (
-    <div className={`bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-4 hover:shadow-md transition-shadow duration-200 ${className}`}>
+  <div className={`bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-4 hover:shadow-md ${className}`}>
       {/* Header con número y estado */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center space-x-2">
@@ -24,7 +24,7 @@ export default function SolicitudCard({ solicitud, className = '' }: SolicitudCa
             {solicitud.numeroSolicitud}
           </h3>
         </div>
-        <span className={`px-2 py-1 rounded-full text-xs font-medium border ${COLORES_ESTADO[solicitud.estado]}`}>
+  <span className={`px-2 py-1 rounded-full text-xs font-medium border ${COLORES_ESTADO[solicitud.estado]}`}>
           {ESTADOS_SOLICITUD[solicitud.estado]}
         </span>
       </div>
@@ -64,7 +64,7 @@ export default function SolicitudCard({ solicitud, className = '' }: SolicitudCa
       <div className="mt-4 pt-3 border-t border-gray-200 dark:border-slate-600">
         <Link
           href={`/dashboard/pqrsdf/${solicitud.id}`}
-          className="inline-flex items-center space-x-2 text-sm font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-200"
+          className="inline-flex items-center space-x-2 text-sm font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
         >
           <FaEye className="w-4 h-4" />
           <span>Ver Detalles</span>

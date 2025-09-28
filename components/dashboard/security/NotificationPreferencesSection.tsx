@@ -145,7 +145,7 @@ export default function NotificationPreferencesSection() {
     <div className="space-y-6">
       {/* Toast Notification */}
       {toast && (
-        <div className={`fixed top-4 right-4 z-50 p-4 rounded-lg border shadow-lg transition-all duration-300 ${
+  <div className={`fixed top-4 right-4 z-50 p-4 rounded-lg border shadow-lg ${
           toast.type === 'success' ? 'bg-green-50 border-green-200 text-green-800' :
           toast.type === 'error' ? 'bg-red-50 border-red-200 text-red-800' :
           'bg-yellow-50 border-yellow-200 text-yellow-800'

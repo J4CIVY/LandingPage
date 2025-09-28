@@ -263,7 +263,7 @@ export default function GamificationPanel() {
             </div>
             <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
               <div 
-                className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-500"
+                className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full"
                 style={{ width: `${Math.min(Math.max(level.progress || 0, 0), 100)}%` }}
               ></div>
             </div>
@@ -315,12 +315,12 @@ export default function GamificationPanel() {
               {getParticipationPercentage()}%
             </span>
           </div>
-          <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-3">
-            <div 
-              className="bg-gradient-to-r from-green-400 to-blue-500 h-3 rounded-full transition-all duration-500"
-              style={{ width: `${getParticipationPercentage()}%` }}
-            ></div>
-          </div>
+            <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-3">
+              <div 
+                className="bg-gradient-to-r from-green-400 to-blue-500 h-3 rounded-full"
+                style={{ width: `${getParticipationPercentage()}%` }}
+              ></div>
+            </div>
         </div>
 
         {/* Estadísticas */}
@@ -398,11 +398,11 @@ export default function GamificationPanel() {
         <div className="border-t border-gray-200 dark:border-slate-700 pt-4">
           <Link 
             href="/dashboard/puntos"
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-2 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 group"
+            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-2 px-4 rounded-lg flex items-center justify-center gap-2 group"
           >
             <FaTrophy className="w-4 h-4" />
             <span>Ver Sistema Completo de Puntos</span>
-            <FaArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+            <FaArrowRight className="w-3 h-3 group-hover:translate-x-1" />
           </Link>
         </div>
       </div>

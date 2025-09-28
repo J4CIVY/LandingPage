@@ -43,7 +43,7 @@ export default function WelcomeHeader({ user }: WelcomeHeaderProps) {
   }
 
   return (
-    <div className="bg-gray-50 dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800 p-6">
+  <div className="bg-gray-50 dark:bg-slate-900 rounded-xl shadow-sm border border-gray-200 dark:border-slate-800 p-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-4 sm:space-y-0">
         {/* Usuario Info */}
         <div className="flex items-center space-x-4">

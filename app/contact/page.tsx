@@ -139,7 +139,7 @@ const Contact: React.FC = () => {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`py-2 px-4 text-sm font-medium rounded-lg transition ${
+                  className={`py-2 px-4 text-sm font-medium rounded-lg ${
                     activeTab === tab.id
                       ? "bg-slate-950 dark:bg-green-500 text-white"
                       : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
@@ -366,7 +366,7 @@ const Contact: React.FC = () => {
                   </div>
 
                   <div>
-                    <button type="submit" className="w-full bg-red-600 text-white py-3 px-6 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition">
+                    <button type="submit" className="w-full bg-red-600 text-white py-3 px-6 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                       Enviar Denuncia
                     </button>
                   </div>
@@ -446,7 +446,7 @@ const Contact: React.FC = () => {
                   </div>
 
                   <div>
-                    <button type="submit" className="w-full bg-slate-950 dark:bg-green-500 text-white py-3 px-6 rounded-md hover:bg-opacity-90 dark:hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-400 transition">
+                    <button type="submit" className="w-full bg-slate-950 dark:bg-green-500 text-white py-3 px-6 rounded-md hover:bg-opacity-90 dark:hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-400">
                       Enviar PQRSDF
                     </button>
                   </div>

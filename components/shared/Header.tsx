@@ -44,7 +44,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
   return (
     <header
       ref={ref}
-      className={`fixed top-0 left-0 right-0 w-full bg-white dark:bg-slate-950 py-1 z-50 shadow-sm border-b border-gray-200/50 dark:border-gray-800/50 ${className}`}
+  className={`fixed top-0 left-0 right-0 w-full bg-white dark:bg-slate-950 py-1 z-50 shadow-sm border-b border-gray-200/50 dark:border-gray-800/50 ${className}`}
       role="banner"
       {...props}
     >
@@ -56,28 +56,28 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
             <picture className="block dark:hidden">
               <source srcSet={logoBlueUrl.avif} type="image/avif" />
               <source srcSet={logoBlueUrl.webp} type="image/webp" />
-              <Image
-                src={logoBlueUrl.png}
-                alt="Logo BSK Motorcycle Team - Motoclub líder en Colombia con comunidad unida por la pasión motociclista"
-                className="w-[55px] md:w-[55px] h-auto object-contain transition-transform hover:scale-105"
-                width={55}
-                height={55}
-                priority
-              />
+                <Image
+                  src={logoBlueUrl.png}
+                  alt="Logo BSK Motorcycle Team - Motoclub líder en Colombia con comunidad unida por la pasión motociclista"
+                  className="w-[55px] md:w-[55px] h-auto object-contain hover:scale-105"
+                  width={55}
+                  height={55}
+                  priority
+                />
             </picture>
             
             {/* Logo para modo oscuro (blanco) */}
             <picture className="hidden dark:block">
               <source srcSet={logoWhiteUrl.avif} type="image/avif" />
               <source srcSet={logoWhiteUrl.webp} type="image/webp" />
-              <Image
-                src={logoWhiteUrl.png}
-                alt="Logo BSK Motorcycle Team - Motoclub líder en Colombia con comunidad unida por la pasión motociclista"
-                className="w-[55px] md:w-[55px] h-auto object-contain transition-transform hover:scale-105"
-                width={55}
-                height={55}
-                priority
-              />
+                <Image
+                  src={logoWhiteUrl.png}
+                  alt="Logo BSK Motorcycle Team - Motoclub líder en Colombia con comunidad unida por la pasión motociclista"
+                  className="w-[55px] md:w-[55px] h-auto object-contain hover:scale-105"
+                  width={55}
+                  height={55}
+                  priority
+                />
             </picture>
           </Link>
 
@@ -88,7 +88,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
                 <li key={item.name}>
                   <Link
                     href={item.path}
-                    className={`text-slate-950 dark:text-white hover:text-green-400 transition-colors focus-enhanced touch-target ${pathname === item.path ? 'text-green-400 font-bold' : ''
+                    className={`text-slate-950 dark:text-white hover:text-green-400 focus-enhanced touch-target ${pathname === item.path ? 'text-green-400 font-bold' : ''
                       }`}
                     aria-current={pathname === item.path ? 'page' : undefined}
                   >
@@ -113,8 +113,8 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
             aria-label="Menú"
           >
             <div className="w-6 flex flex-col items-end">
-              <span className={`block h-0.5 w-6 bg-slate-950 dark:bg-white rounded-full transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-1.5' : 'mb-1.5'}`}></span>
-              <span className={`block h-0.5 bg-slate-950 dark:bg-white rounded-full transition-all duration-300 ${isMenuOpen ? 'w-6 -rotate-45' : 'w-4'}`}></span>
+              <span className={`block h-0.5 w-6 bg-slate-950 dark:bg-white rounded-full ${isMenuOpen ? 'rotate-45 translate-y-1.5' : 'mb-1.5'}`}></span>
+              <span className={`block h-0.5 bg-slate-950 dark:bg-white rounded-full ${isMenuOpen ? 'w-6 -rotate-45' : 'w-4'}`}></span>
             </div>
           </button>
         </div>
@@ -138,7 +138,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
                   <Link
                     href={item.path}
                     onClick={() => setIsMenuOpen(false)}
-                    className={`text-slate-950 dark:text-white text-xl font-medium hover:text-green-400 transition-colors ${pathname === item.path ? 'text-green-400 font-bold' : ''
+                    className={`text-slate-950 dark:text-white text-xl font-medium hover:text-green-400 ${pathname === item.path ? 'text-green-400 font-bold' : ''
                       }`}
                     aria-current={pathname === item.path ? 'page' : undefined}
                   >
@@ -154,7 +154,7 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
                 <Link
                   href="/sos"
                   onClick={() => setIsMenuOpen(false)}
-                  className="block w-full bg-red-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-red-700 transition-colors mb-4 text-center"
+                  className="block w-full bg-red-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-red-700 mb-4 text-center"
                 >
                   Solicitar Asistencia Técnica O De Emergencias
                 </Link>

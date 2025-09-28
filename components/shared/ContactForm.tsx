@@ -179,7 +179,7 @@ export default function ContactForm({
               name="name"
               value={formData.name}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              className="w-full px-4 py-3 border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-slate-100"
               placeholder="Tu nombre completo"
               disabled={isLoading || isSubmitting}
             />
@@ -198,7 +198,7 @@ export default function ContactForm({
               name="email"
               value={formData.email}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              className="w-full px-4 py-3 border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-slate-100"
               placeholder="tu@email.com"
               disabled={isLoading || isSubmitting}
             />
@@ -220,7 +220,7 @@ export default function ContactForm({
               name="phone"
               value={formData.phone}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              className="w-full px-4 py-3 border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-slate-100"
               placeholder="+1 234 567 8900"
               disabled={isLoading || isSubmitting}
             />
@@ -239,7 +239,7 @@ export default function ContactForm({
               name="company"
               value={formData.company}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              className="w-full px-4 py-3 border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-slate-100"
               placeholder="Nombre de tu empresa"
               disabled={isLoading || isSubmitting}
             />
@@ -260,7 +260,7 @@ export default function ContactForm({
               name="category"
               value={formData.category}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              className="w-full px-4 py-3 border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-slate-100"
               disabled={isLoading || isSubmitting}
             >
               <option value="general">Información general</option>
@@ -283,7 +283,7 @@ export default function ContactForm({
               name="priority"
               value={formData.priority}
               onChange={handleInputChange}
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${getPriorityColor(formData.priority)}`}
+              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100 ${getPriorityColor(formData.priority)}`}
               disabled={isLoading || isSubmitting}
             >
               <option value="low">Baja</option>
@@ -308,7 +308,7 @@ export default function ContactForm({
             name="subject"
             value={formData.subject}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            className="w-full px-4 py-3 border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-slate-100"
             placeholder="Describe brevemente tu consulta"
             disabled={isLoading || isSubmitting}
           />
@@ -328,7 +328,7 @@ export default function ContactForm({
             value={formData.message}
             onChange={handleInputChange}
             rows={6}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-y"
+            className="w-full px-4 py-3 border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-slate-100 resize-y"
             placeholder="Escribe tu mensaje aquí. Proporciona todos los detalles relevantes..."
             disabled={isLoading || isSubmitting}
           />
@@ -339,13 +339,13 @@ export default function ContactForm({
 
         {/* Resumen de la solicitud */}
         {(formData.category || formData.priority) && (
-          <div className="bg-gray-50 p-4 rounded-lg border">
-            <h4 className="text-sm font-medium text-gray-700 mb-2">Resumen de tu solicitud:</h4>
+          <div className="bg-gray-50 dark:bg-slate-800 p-4 rounded-lg border dark:border-slate-700">
+            <h4 className="text-sm font-medium text-gray-700 dark:text-slate-100 mb-2">Resumen de tu solicitud:</h4>
             <div className="flex flex-wrap gap-2">
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300">
                 {getCategoryLabel(formData.category)}
               </span>
-              <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${getPriorityColor(formData.priority)}`}>
+              <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${getPriorityColor(formData.priority)} dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100`}>
                 Prioridad: {getPriorityLabel(formData.priority)}
               </span>
             </div>
@@ -354,7 +354,7 @@ export default function ContactForm({
 
         {/* Mensajes de estado */}
         {isError && error && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+          <div className="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg p-4">
             <div className="flex">
               <div className="flex-shrink-0">
                 <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
@@ -362,15 +362,15 @@ export default function ContactForm({
                 </svg>
               </div>
               <div className="ml-3">
-                <h3 className="text-sm font-medium text-red-800">Error al enviar mensaje</h3>
-                <p className="mt-1 text-sm text-red-700">{error}</p>
+                <h3 className="text-sm font-medium text-red-800 dark:text-red-300">Error al enviar mensaje</h3>
+                <p className="mt-1 text-sm text-red-700 dark:text-red-300">{error}</p>
               </div>
             </div>
           </div>
         )}
 
         {isSuccess && message && (
-          <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+          <div className="bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700 rounded-lg p-4">
             <div className="flex">
               <div className="flex-shrink-0">
                 <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
@@ -378,8 +378,8 @@ export default function ContactForm({
                 </svg>
               </div>
               <div className="ml-3">
-                <h3 className="text-sm font-medium text-green-800">Mensaje enviado</h3>
-                <p className="mt-1 text-sm text-green-700">{message}</p>
+                <h3 className="text-sm font-medium text-green-800 dark:text-green-300">Mensaje enviado</h3>
+                <p className="mt-1 text-sm text-green-700 dark:text-green-300">{message}</p>
               </div>
             </div>
           </div>
@@ -390,7 +390,7 @@ export default function ContactForm({
           <button
             type="submit"
             disabled={isLoading || isSubmitting}
-            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading || isSubmitting ? (
               <>

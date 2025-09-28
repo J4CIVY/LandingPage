@@ -193,14 +193,14 @@ export default function EventosFilter({ filters, onFiltersChange, onClearFilters
           className="
             flex items-center space-x-2 text-blue-600 dark:text-blue-400 
             hover:text-blue-800 dark:hover:text-blue-300 
-            font-medium text-sm transition-colors
+            font-medium text-sm
           "
           disabled={loading}
         >
-          <FaFilter className="text-sm" />
+          <FaFilter className="text-sm text-blue-600 dark:text-blue-400" />
           <span>Filtros avanzados</span>
           <FaChevronDown 
-            className={`text-sm transition-transform ${showAdvancedFilters ? 'rotate-180' : ''}`} 
+            className={`text-sm ${showAdvancedFilters ? 'rotate-180' : ''} text-blue-600 dark:text-blue-400`} 
           />
         </button>
 
@@ -211,11 +211,11 @@ export default function EventosFilter({ filters, onFiltersChange, onClearFilters
             className="
               flex items-center space-x-2 text-red-600 dark:text-red-400 
               hover:text-red-800 dark:hover:text-red-300 
-              font-medium text-sm transition-colors
+              font-medium text-sm
             "
             disabled={loading}
           >
-            <FaTimes className="text-sm" />
+            <FaTimes className="text-sm text-red-600 dark:text-red-400" />
             <span>Limpiar filtros</span>
           </button>
         )}

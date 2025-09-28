@@ -190,7 +190,7 @@ export const OfflineIndicator: React.FC = () => {
   if (isOnline) return null;
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 bg-red-500 text-white text-center py-2 text-sm">
+    <div className="fixed top-0 left-0 right-0 z-50 bg-red-500 dark:bg-red-800 text-white dark:text-red-100 text-center py-2 text-sm">
       <span>📡 Sin conexión a internet</span>
     </div>
   );
@@ -212,7 +212,7 @@ export const SlowConnectionIndicator: React.FC = () => {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-40 bg-yellow-500 text-white text-center py-2 text-sm">
+    <div className="fixed top-0 left-0 right-0 z-40 bg-yellow-500 dark:bg-yellow-800 text-white dark:text-yellow-100 text-center py-2 text-sm">
       <span>🐌 Conexión lenta detectada - Se está optimizando el contenido</span>
     </div>
   );
