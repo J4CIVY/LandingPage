@@ -69,7 +69,7 @@ const HeroSection: React.FC = () => {
   };
 
   return (
-  <section className="relative h-screen flex items-center justify-center bg-white dark:bg-slate-950 overflow-hidden" role="banner" aria-label="Sección principal de BSK Motorcycle Team">
+  <section className="relative h-screen flex items-center justify-center bg-gray-50 dark:bg-slate-950 overflow-hidden" role="banner" aria-label="Sección principal de BSK Motorcycle Team">
       <div className="absolute inset-0 w-full h-full">
         <picture>
           {/* AVIF source for best compression and quality */}

@@ -52,7 +52,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
   };
 
   return (
-  <section className="py-20 px-4 bg-white dark:bg-slate-950 text-slate-900 dark:text-white">
+  <section className="py-20 px-4 bg-gray-50 dark:bg-slate-900 text-slate-900 dark:text-white">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-4xl font-bold text-center mb-12">
           PRÓXIMOS <span className="text-green-400 dark:text-green-300">EVENTOS</span>
