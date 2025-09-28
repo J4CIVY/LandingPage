@@ -234,16 +234,16 @@ export default function ChatComunidad({
     : (Array.isArray(mensajes) ? mensajes.filter(m => !m.grupoId) : []);
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 h-96 flex flex-col">
+  <div className="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 h-96 flex flex-col">
       {/* Header del chat */}
-      <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+  <div className="p-4 border-b border-gray-200 dark:border-slate-700 flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <h3 className="font-medium text-gray-900">
+          <h3 className="font-medium text-gray-900 dark:text-white">
             {grupoId ? 'Chat del Grupo' : 'Chat General'}
           </h3>
           <button
             onClick={() => setMostrarUsuarios(!mostrarUsuarios)}
-            className="flex items-center space-x-1 text-sm text-gray-500 hover:text-blue-600 transition-colors"
+            className="flex items-center space-x-1 text-sm text-gray-500 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
           >
             <FaUsers className="h-4 w-4" />
             <span>{(Array.isArray(usuariosEnLinea) ? usuariosEnLinea.filter(u => estaEnLinea(u.ultimaActividad)) : []).length} en línea</span>
@@ -253,10 +253,10 @@ export default function ChatComunidad({
         <div className="flex items-center space-x-2">
           <button
             onClick={() => setSilenciado(!silenciado)}
-            className={`p-2 rounded transition-colors ${
+            className={`p-2 rounded ${
               silenciado 
-                ? 'text-gray-400 hover:text-gray-600' 
-                : 'text-blue-600 hover:text-blue-700'
+                ? 'text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300' 
+                : 'text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300'
             }`}
             title={silenciado ? 'Activar sonidos' : 'Silenciar sonidos'}
           >
@@ -267,19 +267,19 @@ export default function ChatComunidad({
 
       {/* Lista de usuarios en línea */}
       {mostrarUsuarios && (
-        <div className="p-3 border-b border-gray-200 bg-gray-50">
-          <h4 className="text-sm font-medium text-gray-700 mb-2">Usuarios conectados</h4>
+        <div className="p-3 border-b border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800">
+          <h4 className="text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Usuarios conectados</h4>
           <div className="space-y-1">
             {usuariosEnLinea.map((usuario) => (
               <div key={usuario.id} className="flex items-center space-x-2 text-sm">
                 <FaCircle 
                   className={`h-2 w-2 ${
-                    estaEnLinea(usuario.ultimaActividad) ? 'text-green-500' : 'text-gray-400'
+                    estaEnLinea(usuario.ultimaActividad) ? 'text-green-500' : 'text-gray-400 dark:text-gray-500'
                   }`} 
                 />
-                <span className="text-gray-700">{usuario.nombre}</span>
+                <span className="text-gray-700 dark:text-gray-200">{usuario.nombre}</span>
                 {estaEnLinea(usuario.ultimaActividad) && (
-                  <span className="text-xs text-green-600">En línea</span>
+                  <span className="text-xs text-green-600 dark:text-green-400">En línea</span>
                 )}
               </div>
             ))}
@@ -293,7 +293,7 @@ export default function ChatComunidad({
         className="flex-1 overflow-y-auto p-4 space-y-3"
       >
         {mensajesFiltrados.length === 0 ? (
-          <div className="text-center text-gray-500 py-8">
+          <div className="text-center text-gray-500 dark:text-gray-300 py-8">
             <p>No hay mensajes aún.</p>
             <p className="text-sm">¡Sé el primero en escribir algo!</p>
           </div>
@@ -308,7 +308,7 @@ export default function ChatComunidad({
                 <div className={`flex max-w-xs lg:max-w-md ${esPropio ? 'flex-row-reverse' : 'flex-row'} items-end space-x-2`}>
                   {/* Avatar */}
                   {!esPropio && mostrarAvatar && (
-                    <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-medium flex-shrink-0">
+                    <div className="h-8 w-8 rounded-full bg-blue-600 dark:bg-blue-700 flex items-center justify-center text-white text-xs font-medium flex-shrink-0">
                       {mensaje.autor.firstName[0]}{mensaje.autor.lastName[0]}
                     </div>
                   )}
@@ -319,7 +319,7 @@ export default function ChatComunidad({
                   {/* Burbuja del mensaje */}
                   <div className="relative group">
                     {!esPropio && mostrarAvatar && (
-                      <div className="text-xs text-gray-600 mb-1 px-3">
+                      <div className="text-xs text-gray-600 dark:text-gray-300 mb-1 px-3">
                         {mensaje.autor.firstName} {mensaje.autor.lastName}
                       </div>
                     )}
@@ -327,7 +327,7 @@ export default function ChatComunidad({
                     <div className={`px-4 py-2 rounded-lg ${
                       esPropio 
                         ? 'bg-blue-600 text-white' 
-                        : 'bg-gray-100 text-gray-900'
+                        : 'bg-gray-100 dark:bg-slate-800 text-gray-900 dark:text-gray-100'
                     }`}>
                       <p className="text-sm">{mensaje.contenido}</p>
                       {mensaje.editado && (
@@ -338,22 +338,22 @@ export default function ChatComunidad({
                     <div className={`flex items-center space-x-2 mt-1 ${
                       esPropio ? 'justify-end' : 'justify-start'
                     }`}>
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-gray-500 dark:text-gray-300">
                         {formatearHora(mensaje.fechaEnvio)}
                       </span>
 
                       {/* Menú de opciones */}
                       {usuarioActual && (
-                        <div className="relative opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="relative opacity-0 group-hover:opacity-100">
                           <button
                             onClick={() => setMenuAbierto(menuAbierto === mensaje.id ? null : mensaje.id)}
-                            className="p-1 text-gray-400 hover:text-gray-600 transition-colors"
+                            className="p-1 text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-100"
                           >
                             <FaEllipsisV className="h-3 w-3" />
                           </button>
 
                           {menuAbierto === mensaje.id && (
-                            <div className={`absolute bottom-full mb-1 w-32 bg-white rounded-lg shadow-lg border border-gray-200 z-10 ${
+                            <div className={`absolute bottom-full mb-1 w-32 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-gray-200 dark:border-slate-600 z-10 ${
                               esPropio ? 'right-0' : 'left-0'
                             }`}>
                               <div className="py-1">
@@ -363,7 +363,7 @@ export default function ChatComunidad({
                                       eliminarMensaje(mensaje.id);
                                       setMenuAbierto(null);
                                     }}
-                                    className="flex items-center space-x-2 w-full px-3 py-1 text-xs text-red-600 hover:bg-red-50"
+                                    className="flex items-center space-x-2 w-full px-3 py-1 text-xs text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900"
                                   >
                                     <FaTrash className="h-3 w-3" />
                                     <span>Eliminar</span>
@@ -376,7 +376,7 @@ export default function ChatComunidad({
                                       reportarMensaje(mensaje.id);
                                       setMenuAbierto(null);
                                     }}
-                                    className="flex items-center space-x-2 w-full px-3 py-1 text-xs text-gray-700 hover:bg-gray-100"
+                                    className="flex items-center space-x-2 w-full px-3 py-1 text-xs text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700"
                                   >
                                     <FaFlag className="h-3 w-3" />
                                     <span>Reportar</span>
@@ -389,7 +389,7 @@ export default function ChatComunidad({
                                       silenciarUsuario(mensaje.autorId);
                                       setMenuAbierto(null);
                                     }}
-                                    className="flex items-center space-x-2 w-full px-3 py-1 text-xs text-orange-600 hover:bg-orange-50"
+                                    className="flex items-center space-x-2 w-full px-3 py-1 text-xs text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900"
                                   >
                                     <FaVolumeMute className="h-3 w-3" />
                                     <span>Silenciar</span>
@@ -411,7 +411,7 @@ export default function ChatComunidad({
 
       {/* Input para enviar mensajes */}
       {usuarioActual && (
-        <div className="p-4 border-t border-gray-200">
+        <div className="p-4 border-t border-gray-200 dark:border-slate-700">
           <form onSubmit={enviarMensaje} className="flex space-x-3">
             <input
               ref={inputRef}
@@ -419,14 +419,14 @@ export default function ChatComunidad({
               value={nuevoMensaje}
               onChange={(e) => setNuevoMensaje(e.target.value)}
               placeholder="Escribe un mensaje..."
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+              className="flex-1 px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
               maxLength={1000}
               disabled={enviandoMensaje}
             />
             <button
               type="submit"
               disabled={!nuevoMensaje.trim() || enviandoMensaje}
-              className="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="p-2 bg-blue-600 dark:bg-blue-700 text-white rounded-full hover:bg-blue-700 dark:hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {enviandoMensaje ? (
                 <FaSpinner className="animate-spin h-4 w-4" />
@@ -437,10 +437,10 @@ export default function ChatComunidad({
           </form>
           
           <div className="flex justify-between items-center mt-2">
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-gray-500 dark:text-gray-300">
               {nuevoMensaje.length}/1000 caracteres
             </span>
-            <span className="text-xs text-gray-400">
+            <span className="text-xs text-gray-400 dark:text-gray-400">
               Presiona Enter para enviar
             </span>
           </div>
@@ -449,8 +449,8 @@ export default function ChatComunidad({
 
       {/* Mensaje si no está autenticado */}
       {!usuarioActual && (
-        <div className="p-4 border-t border-gray-200 text-center">
-          <p className="text-gray-500 text-sm">
+        <div className="p-4 border-t border-gray-200 dark:border-slate-700 text-center">
+          <p className="text-gray-500 dark:text-gray-300 text-sm">
             Inicia sesión para participar en el chat
           </p>
         </div>

@@ -56,19 +56,19 @@ function TablaReportes({
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-200">
-        <h3 className="text-lg font-medium text-gray-900 flex items-center space-x-2">
+  <div className="bg-white dark:bg-slate-900 rounded-lg border border-gray-200 dark:border-slate-700 overflow-hidden">
+      <div className="px-6 py-4 border-b border-gray-200 dark:border-slate-700">
+        <h3 className="text-lg font-medium text-gray-900 dark:text-white flex items-center space-x-2">
           <FaFlag className="h-5 w-5 text-red-500" />
           <span>Reportes de Contenido</span>
         </h3>
       </div>
       
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+  <table className="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
+          <thead className="bg-gray-50 dark:bg-slate-800">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                 Contenido
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -85,24 +85,24 @@ function TablaReportes({
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white dark:bg-slate-900 divide-y divide-gray-200 dark:divide-slate-700">
             {cargandoReportes ? (
               <tr>
                 <td colSpan={5} className="px-6 py-8 text-center">
                   <div className="flex items-center justify-center">
-                    <FaSpinner className="animate-spin text-blue-600 mr-2" />
-                    <span className="text-gray-500">Cargando reportes...</span>
+                    <FaSpinner className="animate-spin text-blue-600 dark:text-blue-400 mr-2" />
+                    <span className="text-gray-500 dark:text-gray-300">Cargando reportes...</span>
                   </div>
                 </td>
               </tr>
             ) : errorReportes ? (
               <tr>
                 <td colSpan={5} className="px-6 py-8 text-center">
-                  <div className="text-red-500">
+                  <div className="text-red-500 dark:text-red-400">
                     {errorReportes}
                     <button
                       onClick={cargarReportes}
-                      className="ml-4 px-3 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700"
+                      className="ml-4 px-3 py-1 bg-red-600 dark:bg-red-700 text-white rounded text-sm hover:bg-red-700 dark:hover:bg-red-800"
                     >
                       Reintentar
                     </button>
@@ -111,25 +111,25 @@ function TablaReportes({
               </tr>
             ) : reportes.length === 0 ? (
               <tr>
-                <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
+                <td colSpan={5} className="px-6 py-8 text-center text-gray-500 dark:text-gray-300">
                   No hay reportes pendientes
                 </td>
               </tr>
             ) : (
               reportes.map((reporte) => (
-                <tr key={reporte.id} className="hover:bg-gray-50">
+                <tr key={reporte.id} className="hover:bg-gray-50 dark:hover:bg-slate-800">
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">
+                    <div className="text-sm text-gray-900 dark:text-white">
                       {reporte.tipoContenido.charAt(0).toUpperCase() + reporte.tipoContenido.slice(1)}
                     </div>
-                    <div className="text-sm text-gray-500 truncate max-w-xs">
+                    <div className="text-sm text-gray-500 dark:text-gray-300 truncate max-w-xs">
                       ID: {reporte.contenidoId}
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-sm text-gray-900">{reporte.motivo}</div>
+                    <div className="text-sm text-gray-900 dark:text-white">{reporte.motivo}</div>
                     {reporte.descripcion && (
-                      <div className="text-sm text-gray-500 mt-1 max-w-xs truncate">
+                      <div className="text-sm text-gray-500 dark:text-gray-300 mt-1 max-w-xs truncate">
                         {reporte.descripcion}
                       </div>
                     )}
@@ -140,7 +140,7 @@ function TablaReportes({
                       <span>{reporte.estado.charAt(0).toUpperCase() + reporte.estado.slice(1)}</span>
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                     {new Date(reporte.fechaReporte).toLocaleDateString('es-ES')}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm space-x-2">
@@ -148,14 +148,14 @@ function TablaReportes({
                       <div className="flex space-x-2">
                         <button
                           onClick={() => onActualizarReporte(reporte.id, 'resolver')}
-                          className="text-green-600 hover:text-green-700 transition-colors"
+                          className="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300"
                           title="Marcar como resuelto"
                         >
                           <FaCheckCircle className="h-4 w-4" />
                         </button>
                         <button
                           onClick={() => onActualizarReporte(reporte.id, 'rechazar')}
-                          className="text-red-600 hover:text-red-700 transition-colors"
+                          className="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300"
                           title="Rechazar reporte"
                         >
                           <FaTimes className="h-4 w-4" />
@@ -320,27 +320,27 @@ export default function Normas({ usuarioActual }: NormasProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
+  <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 flex items-center space-x-3">
-            <FaShieldAlt className="h-8 w-8 text-blue-600" />
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center space-x-3">
+            <FaShieldAlt className="h-8 w-8 text-blue-600 dark:text-blue-400" />
             <span>Normas de la Comunidad</span>
           </h1>
-          <p className="mt-2 text-lg text-gray-600">
+          <p className="mt-2 text-lg text-gray-600 dark:text-gray-300">
             Mantengamos un ambiente seguro y respetuoso para todos los miembros de BSKMT
           </p>
         </div>
 
         {/* Navegación */}
-        <div className="flex space-x-1 mb-8 bg-white rounded-lg p-1 shadow-sm border border-gray-200">
+        <div className="flex space-x-1 mb-8 bg-white dark:bg-slate-800 rounded-lg p-1 shadow-sm border border-gray-200 dark:border-slate-700">
           <button
             onClick={() => setVistaActiva('normas')}
-            className={`flex-1 px-4 py-3 rounded-md font-medium transition-colors ${
+            className={`flex-1 px-4 py-3 rounded-md font-medium ${
               vistaActiva === 'normas'
-                ? 'bg-blue-600 text-white'
-                : 'text-gray-700 hover:bg-gray-100'
+                ? 'bg-blue-600 text-white dark:bg-blue-700 dark:text-white'
+                : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700'
             }`}
           >
             Normas de Convivencia
@@ -348,10 +348,10 @@ export default function Normas({ usuarioActual }: NormasProps) {
           {esAdmin && (
             <button
               onClick={() => setVistaActiva('moderacion')}
-              className={`flex-1 px-4 py-3 rounded-md font-medium transition-colors ${
+              className={`flex-1 px-4 py-3 rounded-md font-medium ${
                 vistaActiva === 'moderacion'
-                  ? 'bg-blue-600 text-white'
-                  : 'text-gray-700 hover:bg-gray-100'
+                  ? 'bg-blue-600 text-white dark:bg-blue-700 dark:text-white'
+                  : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700'
               }`}
             >
               Panel de Moderación
@@ -363,11 +363,11 @@ export default function Normas({ usuarioActual }: NormasProps) {
         {vistaActiva === 'normas' && (
           <div className="space-y-8">
             {/* Introducción */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-              <h2 className="text-xl font-semibold text-blue-900 mb-4">
+            <div className="bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg p-6">
+              <h2 className="text-xl font-semibold text-blue-900 dark:text-blue-200 mb-4">
                 Bienvenido a la Comunidad BSKMT
               </h2>
-              <p className="text-blue-800">
+              <p className="text-blue-800 dark:text-blue-100">
                 Estas normas están diseñadas para crear un ambiente positivo donde todos los motociclistas 
                 puedan compartir experiencias, aprender y crear vínculos duraderos. Al participar en nuestra 
                 comunidad, aceptas seguir estas pautas.
@@ -379,12 +379,12 @@ export default function Normas({ usuarioActual }: NormasProps) {
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Normas de Comportamiento</h2>
               <div className="grid gap-6 md:grid-cols-2">
                 {normasComunidad.map((norma, indice) => (
-                  <div key={indice} className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+                  <div key={indice} className="bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 p-6 shadow-sm">
                     <div className="flex items-start space-x-4">
                       <span className="text-3xl">{norma.icono}</span>
                       <div>
-                        <h3 className="font-semibold text-gray-900 mb-2">{norma.titulo}</h3>
-                        <p className="text-gray-700">{norma.descripcion}</p>
+                        <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{norma.titulo}</h3>
+                        <p className="text-gray-700 dark:text-gray-300">{norma.descripcion}</p>
                       </div>
                     </div>
                   </div>
@@ -395,8 +395,8 @@ export default function Normas({ usuarioActual }: NormasProps) {
             {/* Consecuencias */}
             <div>
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Consecuencias por Infracciones</h2>
-              <div className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
-                <div className="divide-y divide-gray-200">
+              <div className="bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 overflow-hidden shadow-sm">
+                <div className="divide-y divide-gray-200 dark:divide-slate-700">
                   {consecuencias.map((consecuencia, indice) => (
                     <div key={indice} className="p-6">
                       <div className="flex items-center justify-between">
@@ -404,9 +404,9 @@ export default function Normas({ usuarioActual }: NormasProps) {
                           <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${consecuencia.color} mb-2`}>
                             {consecuencia.nivel}
                           </span>
-                          <p className="text-gray-700">{consecuencia.descripcion}</p>
+                          <p className="text-gray-700 dark:text-gray-300">{consecuencia.descripcion}</p>
                         </div>
-                        <span className="text-2xl font-bold text-gray-400">
+                        <span className="text-2xl font-bold text-gray-400 dark:text-gray-500">
                           {indice + 1}
                         </span>
                       </div>
@@ -417,12 +417,12 @@ export default function Normas({ usuarioActual }: NormasProps) {
             </div>
 
             {/* Cómo reportar */}
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-yellow-900 mb-4 flex items-center space-x-2">
+            <div className="bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-yellow-900 dark:text-yellow-200 mb-4 flex items-center space-x-2">
                 <FaFlag className="h-5 w-5" />
                 <span>¿Cómo Reportar Contenido Inapropiado?</span>
               </h3>
-              <div className="text-yellow-800 space-y-2">
+              <div className="text-yellow-800 dark:text-yellow-100 space-y-2">
                 <p>1. Haz clic en el menú de tres puntos (⋯) en cualquier publicación, comentario o mensaje</p>
                 <p>2. Selecciona "Reportar" del menú desplegable</p>
                 <p>3. Describe brevemente el motivo del reporte</p>
@@ -431,19 +431,19 @@ export default function Normas({ usuarioActual }: NormasProps) {
             </div>
 
             {/* Contacto */}
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            <div className="bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                 ¿Tienes Preguntas sobre las Normas?
               </h3>
-              <p className="text-gray-700 mb-4">
+              <p className="text-gray-700 dark:text-gray-300 mb-4">
                 Si tienes dudas sobre alguna norma o necesitas aclaración sobre una decisión de moderación, 
                 no dudes en contactarnos.
               </p>
               <div className="flex space-x-4">
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                <button className="px-4 py-2 bg-blue-600 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-800">
                   Contactar Moderadores
                 </button>
-                <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                <button className="px-4 py-2 border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700">
                   Ver FAQ
                 </button>
               </div>
@@ -456,46 +456,46 @@ export default function Normas({ usuarioActual }: NormasProps) {
           <div className="space-y-8">
             {/* Estadísticas rápidas */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+              <div className="bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 p-6 shadow-sm">
                 <div className="flex items-center">
                   <FaFlag className="h-8 w-8 text-red-500" />
                   <div className="ml-4">
-                    <p className="text-2xl font-bold text-gray-900">
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">
                       {reportes.filter(r => r.estado === 'pendiente').length}
                     </p>
-                    <p className="text-gray-600">Reportes Pendientes</p>
+                    <p className="text-gray-600 dark:text-gray-300">Reportes Pendientes</p>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+              <div className="bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 p-6 shadow-sm">
                 <div className="flex items-center">
                   <FaCheckCircle className="h-8 w-8 text-green-500" />
                   <div className="ml-4">
-                    <p className="text-2xl font-bold text-gray-900">
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">
                       {reportes.filter(r => r.estado === 'resuelto').length}
                     </p>
-                    <p className="text-gray-600">Reportes Resueltos</p>
+                    <p className="text-gray-600 dark:text-gray-300">Reportes Resueltos</p>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+              <div className="bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 p-6 shadow-sm">
                 <div className="flex items-center">
                   <FaUserSlash className="h-8 w-8 text-orange-500" />
                   <div className="ml-4">
-                    <p className="text-2xl font-bold text-gray-900">0</p>
-                    <p className="text-gray-600">Usuarios Suspendidos</p>
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">0</p>
+                    <p className="text-gray-600 dark:text-gray-300">Usuarios Suspendidos</p>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+              <div className="bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 p-6 shadow-sm">
                 <div className="flex items-center">
                   <FaTrash className="h-8 w-8 text-red-500" />
                   <div className="ml-4">
-                    <p className="text-2xl font-bold text-gray-900">3</p>
-                    <p className="text-gray-600">Contenido Eliminado</p>
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">3</p>
+                    <p className="text-gray-600 dark:text-gray-300">Contenido Eliminado</p>
                   </div>
                 </div>
               </div>
@@ -506,12 +506,12 @@ export default function Normas({ usuarioActual }: NormasProps) {
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Herramientas de Moderación</h2>
               <div className="grid gap-6 md:grid-cols-2">
                 {accionesModerador.map((accion, indice) => (
-                  <div key={indice} className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow">
+                  <div key={indice} className="bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 p-6 shadow-sm">
                     <div className="flex items-start space-x-4">
                       {accion.icono}
                       <div>
-                        <h3 className="font-semibold text-gray-900 mb-2">{accion.nombre}</h3>
-                        <p className="text-gray-700">{accion.descripcion}</p>
+                        <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{accion.nombre}</h3>
+                        <p className="text-gray-700 dark:text-gray-300">{accion.descripcion}</p>
                       </div>
                     </div>
                   </div>
@@ -533,11 +533,11 @@ export default function Normas({ usuarioActual }: NormasProps) {
         {/* Mensaje para usuarios no autorizados */}
         {vistaActiva === 'moderacion' && !esAdmin && (
           <div className="text-center py-12">
-            <FaShieldAlt className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">
+            <FaShieldAlt className="h-16 w-16 text-gray-300 dark:text-gray-500 mx-auto mb-4" />
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
               Acceso Restringido
             </h2>
-            <p className="text-gray-600">
+            <p className="text-gray-600 dark:text-gray-300">
               Solo los moderadores y administradores pueden acceder a esta sección.
             </p>
           </div>

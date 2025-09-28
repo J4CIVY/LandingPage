@@ -141,24 +141,24 @@ export default function PublicacionForm({
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+  <div className="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-medium text-gray-900">
+        <h3 className="text-lg font-medium text-gray-900 dark:text-white">
           {grupoId ? 'Nueva publicación en grupo' : 'Nueva publicación'}
         </h3>
         <button
           onClick={onCancelar}
-          className="text-gray-400 hover:text-gray-600 transition-colors"
+          className="text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-100"
         >
           <FaTimes className="h-5 w-5" />
         </button>
       </div>
 
-      <form onSubmit={enviarPublicacion} className="space-y-4">
+  <form onSubmit={enviarPublicacion} className="space-y-4">
         {/* Error */}
         {estado.error && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-3">
-            <p className="text-red-600 text-sm">{estado.error}</p>
+          <div className="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg p-3">
+            <p className="text-red-600 dark:text-red-200 text-sm">{estado.error}</p>
           </div>
         )}
 
@@ -173,12 +173,12 @@ export default function PublicacionForm({
             value={formulario.contenido}
             onChange={manejarCambioContenido}
             placeholder="¿Qué quieres compartir con la comunidad?"
-            className="w-full min-h-[120px] p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+            className="w-full min-h-[120px] p-4 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
             maxLength={5000}
             disabled={estado.cargando}
           />
           <div className="flex justify-between items-center mt-2">
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-gray-500 dark:text-gray-300">
               {formulario.contenido.length}/5000 caracteres
             </span>
           </div>
@@ -187,7 +187,7 @@ export default function PublicacionForm({
         {/* Vista previa de imágenes */}
         {previsualizaciones.length > 0 && (
           <div className="space-y-3">
-            <h4 className="text-sm font-medium text-gray-700">
+            <h4 className="text-sm font-medium text-gray-700 dark:text-gray-200">
               Imágenes seleccionadas ({previsualizaciones.length}/4)
             </h4>
             <div className="grid grid-cols-2 gap-3">
@@ -196,12 +196,12 @@ export default function PublicacionForm({
                   <img
                     src={preview}
                     alt={`Preview ${indice + 1}`}
-                    className="w-full h-32 object-cover rounded-lg border border-gray-200"
+                    className="w-full h-32 object-cover rounded-lg border border-gray-200 dark:border-slate-600"
                   />
                   <button
                     type="button"
                     onClick={() => eliminarImagen(indice)}
-                    className="absolute top-2 right-2 p-1 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors"
+                    className="absolute top-2 right-2 p-1 bg-red-600 text-white rounded-full hover:bg-red-700 dark:bg-red-800"
                   >
                     <FaTimes className="h-3 w-3" />
                   </button>
@@ -212,14 +212,14 @@ export default function PublicacionForm({
         )}
 
         {/* Botones de acción */}
-        <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+  <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-slate-700">
           <div className="flex items-center space-x-3">
             {/* Botón agregar imágenes */}
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
               disabled={formulario.imagenes.length >= 4 || estado.cargando}
-              className="flex items-center space-x-2 px-3 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center space-x-2 px-3 py-2 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <FaImage className="h-4 w-4" />
               <span className="text-sm">
@@ -237,7 +237,7 @@ export default function PublicacionForm({
             />
 
             {formulario.imagenes.length > 0 && (
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-gray-500 dark:text-gray-300">
                 {4 - formulario.imagenes.length} restantes
               </span>
             )}
@@ -248,14 +248,14 @@ export default function PublicacionForm({
               type="button"
               onClick={onCancelar}
               disabled={estado.cargando}
-              className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
+              className="px-4 py-2 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 disabled:opacity-50"
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={!formulario.contenido.trim() || estado.cargando}
-              className="flex items-center space-x-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center space-x-2 px-6 py-2 bg-blue-600 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {estado.cargando ? (
                 <FaSpinner className="h-4 w-4 animate-spin" />

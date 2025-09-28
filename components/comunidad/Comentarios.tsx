@@ -139,36 +139,36 @@ function ComentarioItem({
   const yaReacciono = comentario.reacciones.meGusta.includes(usuarioActual?.id || '');
 
   return (
-    <div className={`${nivel > 0 ? 'ml-8 pl-4 border-l-2 border-gray-200' : ''}`}>
+    <div className={`${nivel > 0 ? 'ml-8 pl-4 border-l-2 border-gray-200 dark:border-slate-700' : ''}`}>
       <div className="flex space-x-3">
         {/* Avatar */}
-        <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-medium flex-shrink-0">
+        <div className="h-8 w-8 rounded-full bg-blue-600 dark:bg-blue-700 flex items-center justify-center text-white text-sm font-medium flex-shrink-0">
           {comentario.autor.firstName[0]}{comentario.autor.lastName[0]}
         </div>
 
         <div className="flex-1 min-w-0">
           {/* Header del comentario */}
           <div className="flex items-center space-x-2">
-            <span className="font-medium text-gray-900 text-sm">
+            <span className="font-medium text-gray-900 dark:text-white text-sm">
               {comentario.autor.firstName} {comentario.autor.lastName}
             </span>
             {comentario.autor.role && (
               <span className={`px-1.5 py-0.5 text-xs font-medium rounded ${
                 comentario.autor.role === 'admin' 
-                  ? 'bg-red-100 text-red-800'
+                  ? 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300'
                   : comentario.autor.role === 'super-admin'
-                  ? 'bg-purple-100 text-purple-800'
-                  : 'bg-gray-100 text-gray-800'
+                  ? 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-300'
+                  : 'bg-gray-100 dark:bg-slate-700 text-gray-800 dark:text-gray-200'
               }`}>
                 {comentario.autor.role === 'admin' ? 'Admin' : 
                  comentario.autor.role === 'super-admin' ? 'S.Admin' : 'Miembro'}
               </span>
             )}
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-gray-500 dark:text-gray-300">
               {formatearFecha(comentario.fechaCreacion)}
             </span>
             {comentario.fechaActualizacion && (
-              <span className="text-xs text-gray-500">• editado</span>
+              <span className="text-xs text-gray-500 dark:text-gray-300">• editado</span>
             )}
 
             {/* Menú de opciones */}
@@ -176,13 +176,13 @@ function ComentarioItem({
               <div className="relative ml-auto">
                 <button
                   onClick={() => setMostrarMenu(!mostrarMenu)}
-                  className="p-1 text-gray-400 hover:text-gray-600 transition-colors"
+                  className="p-1 text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-100"
                 >
                   <FaEllipsisV className="h-3 w-3" />
                 </button>
 
                 {mostrarMenu && (
-                  <div className="absolute right-0 mt-1 w-40 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                  <div className="absolute right-0 mt-1 w-40 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-gray-200 dark:border-slate-600 z-10">
                     <div className="py-1">
                       {esAutor && (
                         <>
@@ -191,7 +191,7 @@ function ComentarioItem({
                               setEditando(true);
                               setMostrarMenu(false);
                             }}
-                            className="flex items-center space-x-2 w-full px-3 py-1 text-xs text-gray-700 hover:bg-gray-100"
+                            className="flex items-center space-x-2 w-full px-3 py-1 text-xs text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700"
                           >
                             <FaEdit className="h-3 w-3" />
                             <span>Editar</span>
@@ -201,7 +201,7 @@ function ComentarioItem({
                               eliminarComentario();
                               setMostrarMenu(false);
                             }}
-                            className="flex items-center space-x-2 w-full px-3 py-1 text-xs text-red-600 hover:bg-red-50"
+                            className="flex items-center space-x-2 w-full px-3 py-1 text-xs text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900"
                           >
                             <FaTrash className="h-3 w-3" />
                             <span>Eliminar</span>
@@ -215,7 +215,7 @@ function ComentarioItem({
                             eliminarComentario();
                             setMostrarMenu(false);
                           }}
-                          className="flex items-center space-x-2 w-full px-3 py-1 text-xs text-red-600 hover:bg-red-50"
+                          className="flex items-center space-x-2 w-full px-3 py-1 text-xs text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900"
                         >
                           <FaTrash className="h-3 w-3" />
                           <span>Eliminar</span>
@@ -225,7 +225,7 @@ function ComentarioItem({
                       {!esAutor && (
                         <button
                           onClick={() => setMostrarMenu(false)}
-                          className="flex items-center space-x-2 w-full px-3 py-1 text-xs text-gray-700 hover:bg-gray-100"
+                          className="flex items-center space-x-2 w-full px-3 py-1 text-xs text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700"
                         >
                           <FaFlag className="h-3 w-3" />
                           <span>Reportar</span>
@@ -245,12 +245,12 @@ function ComentarioItem({
                 <textarea
                   value={contenidoEditado}
                   onChange={(e) => setContenidoEditado(e.target.value)}
-                  className="w-full p-2 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+                  className="w-full p-2 text-sm border border-gray-300 dark:border-slate-600 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
                   rows={2}
                   maxLength={1000}
                 />
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-gray-500 dark:text-gray-300">
                     {contenidoEditado.length}/1000
                   </span>
                   <div className="flex space-x-2">
@@ -260,14 +260,14 @@ function ComentarioItem({
                         setContenidoEditado(comentario.contenido);
                       }}
                       disabled={cargandoEdicion}
-                      className="px-2 py-1 text-xs text-gray-600 border border-gray-300 rounded hover:bg-gray-50"
+                      className="px-2 py-1 text-xs text-gray-600 dark:text-gray-200 border border-gray-300 dark:border-slate-600 rounded hover:bg-gray-50 dark:hover:bg-slate-700"
                     >
                       Cancelar
                     </button>
                     <button
                       onClick={guardarEdicion}
                       disabled={!contenidoEditado.trim() || cargandoEdicion}
-                      className="flex items-center space-x-1 px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+                      className="flex items-center space-x-1 px-2 py-1 text-xs bg-blue-600 dark:bg-blue-700 text-white rounded hover:bg-blue-700 dark:hover:bg-blue-800 disabled:opacity-50"
                     >
                       {cargandoEdicion && <FaSpinner className="animate-spin h-2 w-2" />}
                       <span>Guardar</span>
@@ -276,7 +276,7 @@ function ComentarioItem({
                 </div>
               </div>
             ) : (
-              <p className="text-sm text-gray-900 whitespace-pre-wrap">
+              <p className="text-sm text-gray-900 dark:text-gray-100 whitespace-pre-wrap">
                 {comentario.contenido}
               </p>
             )}
@@ -288,8 +288,8 @@ function ComentarioItem({
               <button
                 onClick={manejarReaccion}
                 disabled={cargandoReaccion}
-                className={`flex items-center space-x-1 text-xs transition-colors ${
-                  yaReacciono ? 'text-blue-600' : 'text-gray-500 hover:text-blue-600'
+                className={`flex items-center space-x-1 text-xs ${
+                  yaReacciono ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
                 }`}
               >
                 <FaThumbsUp className="h-3 w-3" />
@@ -302,7 +302,7 @@ function ComentarioItem({
               {nivel < 2 && (
                 <button
                   onClick={() => onResponder(comentario.id)}
-                  className="flex items-center space-x-1 text-xs text-gray-500 hover:text-blue-600 transition-colors"
+                  className="flex items-center space-x-1 text-xs text-gray-500 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
                 >
                   <FaReply className="h-3 w-3" />
                   <span>Responder</span>
@@ -456,19 +456,19 @@ export default function Comentarios({
   const comentariosPrincipales = comentarios.filter(c => !c.comentarioPadreId);
 
   return (
-    <div className="space-y-4">
+  <div className="space-y-4">
       {/* Formulario para nuevo comentario */}
       {usuarioActual && (
         <form onSubmit={enviarComentario} className="space-y-3">
           {respondiendoA && (
-            <div className="flex items-center justify-between bg-blue-50 p-2 rounded">
-              <span className="text-sm text-blue-700">
+            <div className="flex items-center justify-between bg-blue-50 dark:bg-blue-900 p-2 rounded">
+              <span className="text-sm text-blue-700 dark:text-blue-200">
                 Respondiendo a un comentario
               </span>
               <button
                 type="button"
                 onClick={() => setRespondiendoA(null)}
-                className="text-blue-600 hover:text-blue-800"
+                className="text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-400"
               >
                 Cancelar
               </button>
@@ -476,7 +476,7 @@ export default function Comentarios({
           )}
           
           <div className="flex space-x-3">
-            <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-medium flex-shrink-0">
+            <div className="h-8 w-8 rounded-full bg-blue-600 dark:bg-blue-700 flex items-center justify-center text-white text-sm font-medium flex-shrink-0">
               {usuarioActual.firstName[0]}{usuarioActual.lastName[0]}
             </div>
             <div className="flex-1">
@@ -484,19 +484,19 @@ export default function Comentarios({
                 value={nuevoComentario}
                 onChange={(e) => setNuevoComentario(e.target.value)}
                 placeholder="Escribe un comentario..."
-                className="w-full p-3 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+                className="w-full p-3 text-sm border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
                 rows={2}
                 maxLength={1000}
                 disabled={cargandoEnvio}
               />
               <div className="flex items-center justify-between mt-2">
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-gray-500 dark:text-gray-300">
                   {nuevoComentario.length}/1000 caracteres
                 </span>
                 <button
                   type="submit"
                   disabled={!nuevoComentario.trim() || cargandoEnvio}
-                  className="flex items-center space-x-1 px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors disabled:opacity-50"
+                  className="flex items-center space-x-1 px-3 py-1 bg-blue-600 dark:bg-blue-700 text-white text-sm rounded hover:bg-blue-700 dark:hover:bg-blue-800 disabled:opacity-50"
                 >
                   {cargandoEnvio ? (
                     <FaSpinner className="animate-spin h-3 w-3" />
@@ -514,8 +514,8 @@ export default function Comentarios({
       {/* Lista de comentarios */}
       {cargandoComentarios ? (
         <div className="text-center py-8">
-          <FaSpinner className="animate-spin h-6 w-6 mx-auto text-gray-400" />
-          <p className="text-gray-500 mt-2">Cargando comentarios...</p>
+          <FaSpinner className="animate-spin h-6 w-6 mx-auto text-gray-400 dark:text-gray-300" />
+          <p className="text-gray-500 dark:text-gray-300 mt-2">Cargando comentarios...</p>
         </div>
       ) : comentariosPrincipales.length > 0 ? (
         <div className="space-y-4">
@@ -532,7 +532,7 @@ export default function Comentarios({
           ))}
         </div>
       ) : (
-        <div className="text-center py-8 text-gray-500">
+        <div className="text-center py-8 text-gray-500 dark:text-gray-300">
           <p>No hay comentarios aún.</p>
           <p className="text-sm">¡Sé el primero en comentar!</p>
         </div>

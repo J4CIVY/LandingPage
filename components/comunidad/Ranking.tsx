@@ -129,16 +129,16 @@ export default function Ranking({
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+  <div className="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-medium text-gray-900 flex items-center space-x-2">
+        <h3 className="text-lg font-medium text-gray-900 dark:text-white flex items-center space-x-2">
           <FaTrophy className="h-5 w-5 text-yellow-500" />
           <span>Ranking</span>
         </h3>
         <button
           onClick={() => setMostrarInfo(!mostrarInfo)}
-          className="p-2 text-gray-400 hover:text-blue-600 transition-colors"
+          className="p-2 text-gray-400 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
           title="Información sobre el sistema de puntos"
         >
           <FaInfoCircle className="h-4 w-4" />
@@ -147,9 +147,9 @@ export default function Ranking({
 
       {/* Información del sistema de puntos */}
       {mostrarInfo && configuracion && (
-        <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-          <h4 className="font-medium text-blue-900 mb-3">¿Cómo se calculan los puntos?</h4>
-          <div className="space-y-2 text-sm text-blue-800">
+        <div className="mb-6 p-4 bg-blue-50 dark:bg-slate-800 rounded-lg border border-blue-200 dark:border-slate-600">
+          <h4 className="font-medium text-blue-900 dark:text-blue-200 mb-3">¿Cómo se calculan los puntos?</h4>
+          <div className="space-y-2 text-sm text-blue-800 dark:text-blue-300">
             {Object.entries(sistemaPuntos).map(([accion, info]) => (
               <div key={accion} className="flex items-center space-x-2">
                 <FaFire className="h-4 w-4" />
@@ -161,33 +161,33 @@ export default function Ranking({
       )}
 
       {/* Navegación de vistas */}
-      <div className="flex space-x-1 mb-6 bg-gray-100 rounded-lg p-1">
+  <div className="flex space-x-1 mb-6 bg-gray-100 dark:bg-slate-800 rounded-lg p-1">
         <button
           onClick={() => setVistaActual('ranking')}
-          className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+          className={`flex-1 px-3 py-2 rounded-md text-sm font-medium ${
             vistaActual === 'ranking'
-              ? 'bg-white text-blue-600 shadow-sm'
-              : 'text-gray-600 hover:text-gray-900'
+              ? 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm'
+              : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
           }`}
         >
           Ranking
         </button>
         <button
           onClick={() => setVistaActual('insignias')}
-          className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+          className={`flex-1 px-3 py-2 rounded-md text-sm font-medium ${
             vistaActual === 'insignias'
-              ? 'bg-white text-blue-600 shadow-sm'
-              : 'text-gray-600 hover:text-gray-900'
+              ? 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm'
+              : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
           }`}
         >
           Insignias
         </button>
         <button
           onClick={() => setVistaActual('niveles')}
-          className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+          className={`flex-1 px-3 py-2 rounded-md text-sm font-medium ${
             vistaActual === 'niveles'
-              ? 'bg-white text-blue-600 shadow-sm'
-              : 'text-gray-600 hover:text-gray-900'
+              ? 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm'
+              : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
           }`}
         >
           Niveles
@@ -196,15 +196,15 @@ export default function Ranking({
 
       {/* Tu posición actual */}
       {usuarioActual && posicionUsuarioActual > 0 && vistaActual === 'ranking' && (
-        <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-200">
+  <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-slate-800 dark:to-slate-900 rounded-lg border border-blue-200 dark:border-slate-600">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-medium">
+              <div className="h-10 w-10 rounded-full bg-blue-600 dark:bg-blue-700 flex items-center justify-center text-white font-medium">
                 {(usuarioActual.firstName?.[0] || '?')}{(usuarioActual.lastName?.[0] || '?')}
               </div>
               <div>
-                <p className="font-medium text-gray-900">Tu posición</p>
-                <p className="text-sm text-gray-600">
+                <p className="font-medium text-gray-900 dark:text-white">Tu posición</p>
+                <p className="text-sm text-gray-600 dark:text-gray-300">
                   {usuarioActual.firstName} {usuarioActual.lastName}
                 </p>
               </div>
@@ -217,7 +217,7 @@ export default function Ranking({
               {(() => {
                 const usuario = usuariosOrdenados.find(u => u.id === usuarioActual.id);
                 return usuario && (
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
                     {usuario.puntos.total} puntos
                   </p>
                 );
@@ -231,7 +231,7 @@ export default function Ranking({
       {vistaActual === 'ranking' && (
         <div className="space-y-3">
           {usuariosMostrados.length === 0 ? (
-            <div className="text-center py-8 text-gray-500">
+            <div className="text-center py-8 text-gray-500 dark:text-gray-400">
               <FaTrophy className="h-12 w-12 mx-auto mb-4 text-gray-300" />
               <p>No hay datos de ranking aún.</p>
               <p className="text-sm">¡Participa en la comunidad para aparecer aquí!</p>
@@ -244,10 +244,10 @@ export default function Ranking({
               return (
                 <div
                   key={usuario.id}
-                  className={`flex items-center space-x-4 p-4 rounded-lg border transition-colors ${
+                  className={`flex items-center space-x-4 p-4 rounded-lg border ${
                     esUsuarioActual 
-                      ? 'border-blue-300 bg-blue-50' 
-                      : 'border-gray-200 hover:border-gray-300'
+                      ? 'border-blue-300 bg-blue-50 dark:bg-slate-800' 
+                      : 'border-gray-200 dark:border-slate-700 hover:border-gray-300 dark:hover:border-slate-500'
                   }`}
                 >
                   {/* Posición */}
@@ -256,38 +256,38 @@ export default function Ranking({
                   </div>
 
                   {/* Avatar */}
-                  <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-medium flex-shrink-0">
+                  <div className="h-10 w-10 rounded-full bg-blue-600 dark:bg-blue-700 flex items-center justify-center text-white font-medium flex-shrink-0">
                     {(usuario.firstName?.[0] || '?')}{(usuario.lastName?.[0] || '?')}
                   </div>
 
                   {/* Información del usuario */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center space-x-2">
-                      <p className="font-medium text-gray-900 truncate">
+                      <p className="font-medium text-gray-900 dark:text-white truncate">
                         {usuario.firstName} {usuario.lastName}
                       </p>
                       <span className={`px-2 py-1 text-xs font-medium rounded-full ${
                         nivelesInfo[usuario.nivel as keyof typeof nivelesInfo]?.color === 'text-purple-600' 
-                          ? 'bg-purple-100 text-purple-800'
+                          ? 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-300'
                           : nivelesInfo[usuario.nivel as keyof typeof nivelesInfo]?.color === 'text-green-600'
-                          ? 'bg-green-100 text-green-800'
+                          ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300'
                           : nivelesInfo[usuario.nivel as keyof typeof nivelesInfo]?.color === 'text-blue-600'
-                          ? 'bg-blue-100 text-blue-800'
-                          : 'bg-gray-100 text-gray-800'
+                          ? 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300'
+                          : 'bg-gray-100 dark:bg-slate-700 text-gray-800 dark:text-gray-200'
                       }`}>
                         {usuario.nivel}
                       </span>
                       {esUsuarioActual && (
-                        <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
+                        <span className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-2 py-1 rounded">
                           Tú
                         </span>
                       )}
                     </div>
                     
-                    <div className="flex items-center space-x-4 mt-1 text-xs text-gray-500">
+                    <div className="flex items-center space-x-4 mt-1 text-xs text-gray-500 dark:text-gray-300">
                                         {/* Desglose de actividad */}
                   <div className="space-y-1">
-                    <div className="text-xs text-gray-600 grid grid-cols-2 gap-2">
+                    <div className="text-xs text-gray-600 dark:text-gray-300 grid grid-cols-2 gap-2">
                       <span className="flex items-center">
                         <FaFire className="h-3 w-3 mr-1" />
                         {usuario.contadores?.publicaciones || 0} publicaciones ({usuario.puntos.publicaciones} pts)
@@ -311,10 +311,10 @@ export default function Ranking({
 
                   {/* Puntos totales */}
                   <div className="text-right">
-                    <p className="font-bold text-lg text-gray-900">
+                    <p className="font-bold text-lg text-gray-900 dark:text-white">
                       {usuario.puntos.total}
                     </p>
-                    <p className="text-xs text-gray-500">puntos</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-300">puntos</p>
                   </div>
 
                   {/* Insignias */}
@@ -329,7 +329,7 @@ export default function Ranking({
                       </span>
                     ))}
                     {usuario.insignias.length > 3 && (
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-gray-500 dark:text-gray-300">
                         +{usuario.insignias.length - 3}
                       </span>
                     )}
@@ -343,7 +343,7 @@ export default function Ranking({
           {usuarios.length > 10 && (
             <button
               onClick={() => setMostrarTodos(!mostrarTodos)}
-              className="w-full flex items-center justify-center space-x-2 py-3 text-blue-600 hover:text-blue-700 transition-colors"
+              className="w-full flex items-center justify-center space-x-2 py-3 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
             >
               {mostrarTodos ? (
                 <>
@@ -364,17 +364,17 @@ export default function Ranking({
       {/* Vista de Insignias */}
       {vistaActual === 'insignias' && (
         <div className="space-y-4">
-          <p className="text-sm text-gray-600 mb-4">
+          <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
             Las insignias se otorgan por logros especiales en la comunidad.
           </p>
           
           <div className="grid gap-4">
             {Object.entries(insignias).map(([nombre, info]) => (
-              <div key={nombre} className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg">
+              <div key={nombre} className="flex items-center space-x-4 p-4 border border-gray-200 dark:border-slate-700 rounded-lg">
                 <span className="text-3xl">{info.icono}</span>
                 <div className="flex-1">
-                  <h4 className="font-medium text-gray-900">{nombre}</h4>
-                  <p className="text-sm text-gray-600">{info.descripcion}</p>
+                  <h4 className="font-medium text-gray-900 dark:text-white">{nombre}</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">{info.descripcion}</p>
                 </div>
                 <span className={`px-3 py-1 text-xs font-medium rounded-full ${info.color}`}>
                   Insignia
@@ -395,7 +395,7 @@ export default function Ranking({
             </div>
           ) : configuracion ? (
             <>
-              <p className="text-sm text-gray-600 mb-4">
+              <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
                 Progresa a través de los niveles acumulando puntos por tu participación.
               </p>
               
@@ -409,24 +409,24 @@ export default function Ranking({
                     <div
                       key={nivel}
                       className={`p-4 border rounded-lg ${
-                        esNivelActual ? 'border-blue-300 bg-blue-50' : 'border-gray-200'
+                        esNivelActual ? 'border-blue-300 bg-blue-50 dark:bg-slate-800' : 'border-gray-200 dark:border-slate-700'
                       }`}
                     >
                       <div className="flex items-center justify-between mb-2">
                         <h4 className={`font-medium ${info.color}`}>{nivel}</h4>
-                        <span className="text-sm text-gray-600">
+                        <span className="text-sm text-gray-600 dark:text-gray-300">
                           {info.minPuntos} puntos mínimos
                         </span>
                       </div>
                       
                       {info.descripcion && (
-                        <p className="text-sm text-gray-600 mb-2">{info.descripcion}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">{info.descripcion}</p>
                       )}
                       
                       {info.beneficios && info.beneficios.length > 0 && (
                         <div className="mb-3">
-                          <p className="text-xs font-medium text-gray-700 mb-1">Beneficios:</p>
-                          <ul className="text-xs text-gray-600 space-y-1">
+                          <p className="text-xs font-medium text-gray-700 dark:text-gray-200 mb-1">Beneficios:</p>
+                          <ul className="text-xs text-gray-600 dark:text-gray-300 space-y-1">
                             {info.beneficios.map((beneficio, idx) => (
                               <li key={idx} className="flex items-start">
                                 <span className="text-green-500 mr-1">•</span>
@@ -439,13 +439,13 @@ export default function Ranking({
                       
                       {esNivelActual && usuarioActualNivel && (
                         <div>
-                          <div className="flex justify-between text-sm text-gray-600 mb-1">
+                          <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300 mb-1">
                             <span>Tu progreso</span>
                             <span>{usuarioActualNivel.puntos.total} puntos</span>
                           </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
                             <div
-                              className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                              className="bg-blue-600 dark:bg-blue-400 h-2 rounded-full"
                               style={{ width: `${progreso}%` }}
                             />
                           </div>
@@ -457,11 +457,11 @@ export default function Ranking({
               </div>
             </>
           ) : (
-            <div className="text-center py-8 text-gray-500">
+            <div className="text-center py-8 text-gray-500 dark:text-gray-400">
               <p>No se pudo cargar la información de niveles.</p>
               <button
                 onClick={cargarConfiguracion}
-                className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="mt-2 px-4 py-2 bg-blue-600 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-800"
               >
                 Reintentar
               </button>

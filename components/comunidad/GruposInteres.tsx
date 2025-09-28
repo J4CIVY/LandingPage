@@ -189,16 +189,16 @@ export default function GruposInteres({
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+  <div className="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-medium text-gray-900">
+  <h3 className="text-lg font-medium text-gray-900 dark:text-white">
           Grupos de Interés
         </h3>
         {esAdmin && (
           <button
             onClick={() => setMostrarFormulario(true)}
-            className="flex items-center space-x-1 px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors"
+            className="flex items-center space-x-1 px-3 py-1 bg-blue-600 dark:bg-blue-700 text-white text-sm rounded hover:bg-blue-700 dark:hover:bg-blue-800"
           >
             <FaPlus className="h-3 w-3" />
             <span>Crear</span>
@@ -208,14 +208,14 @@ export default function GruposInteres({
 
       {/* Formulario crear/editar grupo */}
       {mostrarFormulario && (
-        <div className="mb-6 p-4 border border-gray-200 rounded-lg bg-gray-50">
+        <div className="mb-6 p-4 border border-gray-200 dark:border-slate-700 rounded-lg bg-gray-50 dark:bg-slate-800">
           <div className="flex items-center justify-between mb-4">
-            <h4 className="font-medium text-gray-900">
+            <h4 className="font-medium text-gray-900 dark:text-white">
               {editandoGrupo ? 'Editar Grupo' : 'Crear Nuevo Grupo'}
             </h4>
             <button
               onClick={cancelarFormulario}
-              className="text-gray-400 hover:text-gray-600"
+              className="text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-100"
             >
               <FaTimes className="h-4 w-4" />
             </button>
@@ -230,7 +230,7 @@ export default function GruposInteres({
 
             {/* Selección de icono */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                 Icono del grupo
               </label>
               <div className="grid grid-cols-8 gap-2">
@@ -239,10 +239,10 @@ export default function GruposInteres({
                     key={icono}
                     type="button"
                     onClick={() => manejarCambioFormulario('icono', icono)}
-                    className={`p-2 text-lg rounded border-2 transition-colors ${
+                    className={`p-2 text-lg rounded border-2 ${
                       formulario.icono === icono
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-200 hover:border-gray-300'
+                        ? 'border-blue-500 bg-blue-50 dark:bg-blue-900'
+                        : 'border-gray-200 dark:border-slate-700 hover:border-gray-300 dark:hover:border-slate-500'
                     }`}
                   >
                     {icono}
@@ -253,7 +253,7 @@ export default function GruposInteres({
 
             {/* Nombre */}
             <div>
-              <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                 Nombre del grupo
               </label>
               <input
@@ -261,7 +261,7 @@ export default function GruposInteres({
                 type="text"
                 value={formulario.nombre}
                 onChange={(e) => manejarCambioFormulario('nombre', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
                 placeholder="Ej: Aventureros de Montaña"
                 maxLength={100}
                 disabled={estado.cargando}
@@ -270,14 +270,14 @@ export default function GruposInteres({
 
             {/* Descripción */}
             <div>
-              <label htmlFor="descripcion" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="descripcion" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                 Descripción
               </label>
               <textarea
                 id="descripcion"
                 value={formulario.descripcion}
                 onChange={(e) => manejarCambioFormulario('descripcion', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
                 rows={3}
                 placeholder="Describe de qué trata este grupo..."
                 maxLength={500}
@@ -292,10 +292,10 @@ export default function GruposInteres({
                 type="checkbox"
                 checked={formulario.esPrivado}
                 onChange={(e) => manejarCambioFormulario('esPrivado', e.target.checked)}
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-slate-600 rounded"
                 disabled={estado.cargando}
               />
-              <label htmlFor="esPrivado" className="ml-2 text-sm text-gray-700">
+              <label htmlFor="esPrivado" className="ml-2 text-sm text-gray-700 dark:text-gray-200">
                 Grupo privado (solo por invitación)
               </label>
             </div>
@@ -306,14 +306,14 @@ export default function GruposInteres({
                 type="button"
                 onClick={cancelarFormulario}
                 disabled={estado.cargando}
-                className="px-4 py-2 text-gray-700 border border-gray-300 rounded hover:bg-gray-50 transition-colors"
+                className="px-4 py-2 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-slate-600 rounded hover:bg-gray-50 dark:hover:bg-slate-700"
               >
                 Cancelar
               </button>
               <button
                 type="submit"
                 disabled={estado.cargando}
-                className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors disabled:opacity-50"
+                className="flex items-center space-x-2 px-4 py-2 bg-blue-600 dark:bg-blue-700 text-white rounded hover:bg-blue-700 dark:hover:bg-blue-800 disabled:opacity-50"
               >
                 {estado.cargando && <FaSpinner className="animate-spin h-4 w-4" />}
                 <span>{editandoGrupo ? 'Actualizar' : 'Crear'}</span>
@@ -326,21 +326,21 @@ export default function GruposInteres({
       {/* Lista de grupos */}
       {cargando ? (
         <div className="flex justify-center py-8">
-          <FaSpinner className="animate-spin text-blue-600 text-2xl" />
+          <FaSpinner className="animate-spin text-blue-600 dark:text-blue-400 text-2xl" />
         </div>
       ) : error ? (
         <div className="text-center py-8">
-          <p className="text-red-600 mb-2">{error}</p>
+          <p className="text-red-600 dark:text-red-400 mb-2">{error}</p>
           <button
             onClick={onActualizarGrupos}
-            className="text-blue-600 hover:text-blue-700 text-sm"
+            className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm"
           >
             Reintentar
           </button>
         </div>
       ) : grupos.length === 0 ? (
-        <div className="text-center py-8 text-gray-500">
-          <FaUsers className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+        <div className="text-center py-8 text-gray-500 dark:text-gray-300">
+          <FaUsers className="h-12 w-12 mx-auto mb-4 text-gray-300 dark:text-gray-500" />
           <p>No hay grupos creados aún.</p>
           {esAdmin && (
             <p className="text-sm">¡Crea el primer grupo para la comunidad!</p>
@@ -356,10 +356,10 @@ export default function GruposInteres({
             return (
               <div
                 key={grupo.id}
-                className={`border rounded-lg p-4 transition-colors cursor-pointer ${
+                className={`border rounded-lg p-4 cursor-pointer ${
                   grupoSeleccionado === grupo.id
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 hover:border-gray-300'
+                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-900'
+                    : 'border-gray-200 dark:border-slate-700 hover:border-gray-300 dark:hover:border-slate-500'
                 }`}
                 onClick={() => puedeAcceder ? onSeleccionarGrupo(grupo.id) : null}
               >
@@ -368,21 +368,21 @@ export default function GruposInteres({
                     <span className="text-2xl">{grupo.icono}</span>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center space-x-2">
-                        <h4 className="font-medium text-gray-900">{grupo.nombre}</h4>
+                        <h4 className="font-medium text-gray-900 dark:text-white">{grupo.nombre}</h4>
                         {grupo.esPrivado && (
-                          <FaLock className="h-3 w-3 text-gray-400" />
+                          <FaLock className="h-3 w-3 text-gray-400 dark:text-gray-300" />
                         )}
                       </div>
-                      <p className="text-sm text-gray-600 mt-1 line-clamp-2">
+                      <p className="text-sm text-gray-600 dark:text-gray-300 mt-1 line-clamp-2">
                         {grupo.descripcion}
                       </p>
-                      <div className="flex items-center space-x-4 mt-2 text-xs text-gray-500">
+                      <div className="flex items-center space-x-4 mt-2 text-xs text-gray-500 dark:text-gray-300">
                         <span className="flex items-center">
                           <FaUsers className="h-3 w-3 mr-1" />
                           {grupo.miembros.length} miembros
                         </span>
                         {esAdminGrupo && (
-                          <span className="text-blue-600 font-medium">
+                          <span className="text-blue-600 dark:text-blue-400 font-medium">
                             Administrador
                           </span>
                         )}
@@ -399,7 +399,7 @@ export default function GruposInteres({
                             e.stopPropagation();
                             iniciarEdicion(grupo);
                           }}
-                          className="p-1 text-gray-400 hover:text-blue-600 transition-colors"
+                          className="p-1 text-gray-400 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
                           title="Editar grupo"
                         >
                           <FaEdit className="h-3 w-3" />
@@ -409,7 +409,7 @@ export default function GruposInteres({
                             e.stopPropagation();
                             eliminarGrupo(grupo.id);
                           }}
-                          className="p-1 text-gray-400 hover:text-red-600 transition-colors"
+                          className="p-1 text-gray-400 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400"
                           title="Eliminar grupo"
                         >
                           <FaTrash className="h-3 w-3" />
@@ -425,10 +425,10 @@ export default function GruposInteres({
                           toggleMiembroGrupo(grupo.id, esmiembro);
                         }}
                         disabled={gruposCargandoAccion.has(grupo.id)}
-                        className={`px-3 py-1 text-xs font-medium rounded transition-colors ${
+                        className={`px-3 py-1 text-xs font-medium rounded ${
                           esmiembro
-                            ? 'bg-red-100 text-red-700 hover:bg-red-200'
-                            : 'bg-blue-100 text-blue-700 hover:bg-blue-200'
+                            ? 'bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800'
+                            : 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800'
                         }`}
                       >
                         {gruposCargandoAccion.has(grupo.id) ? (
@@ -450,10 +450,10 @@ export default function GruposInteres({
 
       {/* Botón ver todas las publicaciones */}
       {grupoSeleccionado && (
-        <div className="mt-4 pt-4 border-t border-gray-200">
+        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-slate-700">
           <button
             onClick={() => onSeleccionarGrupo(null)}
-            className="w-full px-4 py-2 text-gray-600 border border-gray-300 rounded hover:bg-gray-50 transition-colors text-sm"
+            className="w-full px-4 py-2 text-gray-600 dark:text-gray-200 border border-gray-300 dark:border-slate-600 rounded hover:bg-gray-50 dark:hover:bg-slate-700 text-sm"
           >
             Ver todas las publicaciones
           </button>
