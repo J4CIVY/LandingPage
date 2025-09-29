@@ -22,7 +22,7 @@ export function useNotificaciones() {
 
     setNotificaciones(prev => [...prev, nuevaNotificacion]);
 
-    // Auto-eliminar después de la duración especificada
+  // Auto-eliminar después de la duración especificada (mantener si hay contexto útil)
     if (duracion > 0) {
       setTimeout(() => {
         eliminarNotificacion(nuevaNotificacion.id);
@@ -40,7 +40,7 @@ export function useNotificaciones() {
     setNotificaciones([]);
   }, []);
 
-  // Métodos de conveniencia
+  // Métodos de conveniencia (mantener si hay contexto útil)
   const notificarExito = useCallback((titulo: string, mensaje: string, duracion?: number) => {
     return agregarNotificacion('success', titulo, mensaje, duracion);
   }, [agregarNotificacion]);

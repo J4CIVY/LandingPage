@@ -25,9 +25,9 @@ async function handleGet(request: NextRequest) {
     const reportType = searchParams.get('type') || 'summary';
     const startDate = searchParams.get('startDate');
     const endDate = searchParams.get('endDate');
-    const format = searchParams.get('format') || 'json'; // json, csv
+  const format = searchParams.get('format') || 'json';
     
-    // Fechas por defecto (último mes)
+  // Fechas por defecto (último mes) (mantener si hay contexto útil)
     const now = new Date();
     const fromDate = startDate ? new Date(startDate) : new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
     const toDate = endDate ? new Date(endDate) : now;
@@ -76,8 +76,8 @@ async function handleGet(request: NextRequest) {
     };
     
     if (format === 'csv') {
-      // Aquí podrías convertir a CSV si es necesario
-      // Por ahora devolvemos JSON con indicador de formato
+  // Aquí podrías convertir a CSV si es necesario (mantener si hay contexto útil)
+  // Por ahora devolvemos JSON con indicador de formato (mantener si hay contexto útil)
       response.format = 'csv-ready';
     }
     
@@ -89,7 +89,7 @@ async function handleGet(request: NextRequest) {
   }
 }
 
-// Reporte de usuarios
+// Reporte de usuarios (mantener si hay contexto útil)
 async function generateUsersReport(fromDate: Date, toDate: Date) {
   const users = await User.find({
     createdAt: { $gte: fromDate, $lte: toDate }
@@ -127,7 +127,7 @@ async function generateUsersReport(fromDate: Date, toDate: Date) {
   };
 }
 
-// Reporte de eventos
+// Reporte de eventos (mantener si hay contexto útil)
 async function generateEventsReport(fromDate: Date, toDate: Date) {
   const events = await Event.find({
     createdAt: { $gte: fromDate, $lte: toDate }
@@ -171,7 +171,7 @@ async function generateEventsReport(fromDate: Date, toDate: Date) {
   };
 }
 
-// Reporte de productos
+// Reporte de productos (mantener si hay contexto útil)
 async function generateProductsReport(fromDate: Date, toDate: Date) {
   const products = await Product.find({
     createdAt: { $gte: fromDate, $lte: toDate }
@@ -214,7 +214,7 @@ async function generateProductsReport(fromDate: Date, toDate: Date) {
   };
 }
 
-// Reporte de membresías
+// Reporte de membresías (mantener si hay contexto útil)
 async function generateMembershipsReport(fromDate: Date, toDate: Date) {
   const memberships = await MembershipApplication.find({
     createdAt: { $gte: fromDate, $lte: toDate }
@@ -255,7 +255,7 @@ async function generateMembershipsReport(fromDate: Date, toDate: Date) {
   };
 }
 
-// Reporte de emergencias
+// Reporte de emergencias (mantener si hay contexto útil)
 async function generateEmergenciesReport(fromDate: Date, toDate: Date) {
   const emergencies = await Emergency.find({
     createdAt: { $gte: fromDate, $lte: toDate }
@@ -303,7 +303,7 @@ async function generateEmergenciesReport(fromDate: Date, toDate: Date) {
   };
 }
 
-// Reporte financiero
+// Reporte financiero (mantener si hay contexto útil)
 async function generateFinancialReport(fromDate: Date, toDate: Date) {
   const products = await Product.find({});
   const emergencies = await Emergency.find({
@@ -328,7 +328,7 @@ async function generateFinancialReport(fromDate: Date, toDate: Date) {
   };
 }
 
-// Reporte de actividad
+// Reporte de actividad (mantener si hay contexto útil)
 async function generateActivityReport(fromDate: Date, toDate: Date) {
   const [users, events, products, memberships, emergencies] = await Promise.all([
     User.find({ createdAt: { $gte: fromDate, $lte: toDate } }),
@@ -358,7 +358,7 @@ async function generateActivityReport(fromDate: Date, toDate: Date) {
   };
 }
 
-// Reporte de rendimiento
+// Reporte de rendimiento (mantener si hay contexto útil)
 async function generatePerformanceReport(fromDate: Date, toDate: Date) {
   const [allUsers, allEvents, allProducts, allMemberships, allEmergencies] = await Promise.all([
     User.find({}),
@@ -403,7 +403,7 @@ async function generatePerformanceReport(fromDate: Date, toDate: Date) {
   };
 }
 
-// Reporte resumen
+// Reporte resumen (mantener si hay contexto útil)
 async function generateSummaryReport(fromDate: Date, toDate: Date) {
   const [userReport, eventReport, productReport, membershipReport, emergencyReport] = await Promise.all([
     generateUsersReport(fromDate, toDate),
@@ -436,7 +436,7 @@ async function generateSummaryReport(fromDate: Date, toDate: Date) {
   };
 }
 
-// Funciones auxiliares
+// Funciones auxiliares (mantener si hay contexto útil)
 function generateDailyTrend(items: any[], fromDate: Date, toDate: Date, dateField: string) {
   const days = [];
   const currentDate = new Date(fromDate);
@@ -573,7 +573,7 @@ function calculateAverageProcessingTime(memberships: any[]) {
     return sum + (reviewed.getTime() - created.getTime());
   }, 0);
   
-  return Math.round(totalTime / processedMemberships.length / (1000 * 60 * 60 * 24)); // en días
+  return Math.round(totalTime / processedMemberships.length / (1000 * 60 * 60 * 24));
 }
 
 function calculateAverageResponseTime(emergencies: any[]) {
@@ -589,7 +589,7 @@ function calculateAverageResponseTime(emergencies: any[]) {
     return sum + (end.getTime() - start.getTime());
   }, 0);
   
-  return Math.round(totalTime / resolvedEmergencies.length / (1000 * 60)); // en minutos
+  return Math.round(totalTime / resolvedEmergencies.length / (1000 * 60));
 }
 
 function calculateSystemHealth(stats: any) {

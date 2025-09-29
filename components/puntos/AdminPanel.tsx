@@ -11,7 +11,7 @@ import {
   FaTrophy,
   FaMedal
 } from 'react-icons/fa';
-// Panel administrativo - usar APIs reales en lugar de mocks
+// Panel administrativo (mantener si hay contexto útil)
 
 export default function AdminPanel() {
   const [estadisticas, setEstadisticas] = useState<EstadisticasAdmin | null>(null);
@@ -19,7 +19,7 @@ export default function AdminPanel() {
   const [tabActiva, setTabActiva] = useState<'estadisticas' | 'recompensas' | 'puntos'>('estadisticas');
   const [loading, setLoading] = useState(true);
   
-  // Estados para formularios
+  // Estados para formularios (mantener si hay contexto útil)
   const [nuevaRecompensa, setNuevaRecompensa] = useState({
     nombre: '',
     descripcion: '',
@@ -38,7 +38,7 @@ export default function AdminPanel() {
   useEffect(() => {
     const cargarDatos = async () => {
       try {
-        // Usar APIs reales para estadísticas administrativas
+  // Usar APIs reales para estadísticas administrativas (mantener si hay contexto útil)
         const [recompensasResponse] = await Promise.all([
           fetch('/api/rewards', {
             method: 'GET',
@@ -54,7 +54,7 @@ export default function AdminPanel() {
           }
         }
 
-        // Estadísticas básicas (pueden expandirse con APIs administrativas reales)
+  // Estadísticas básicas (mantener si hay contexto útil)
         setEstadisticas({
           puntosGeneradosMes: 0,
           recompensasMasCanjeadas: [],
@@ -76,7 +76,7 @@ export default function AdminPanel() {
   const handleCrearRecompensa = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Simular creación de recompensa
+  // Simula creación de recompensa
     const nuevaRecompensaCompleta: Recompensa = {
       id: `recompensa-${Date.now()}`,
       imagen: '/images/rewards/default.jpg',
@@ -86,7 +86,7 @@ export default function AdminPanel() {
 
     setRecompensas(prev => [...prev, nuevaRecompensaCompleta]);
     
-    // Limpiar formulario
+  // Limpia formulario
     setNuevaRecompensa({
       nombre: '',
       descripcion: '',
@@ -102,10 +102,10 @@ export default function AdminPanel() {
   const handleAsignarPuntos = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Simular asignación de puntos
+  // Simula asignación de puntos
     console.log('Asignando puntos:', asignacionPuntos);
     
-    // Limpiar formulario
+  // Limpia formulario
     setAsignacionPuntos({
       usuarioEmail: '',
       puntos: 0,
@@ -150,7 +150,7 @@ export default function AdminPanel() {
         </div>
       </div>
 
-      {/* Navegación de tabs */}
+  {/* Navegación de tabs (mantener si hay contexto útil) */}
   <div className="flex flex-wrap gap-2 mb-6 border-b dark:border-slate-800">
         {tabs.map((tab) => (
           <button
@@ -168,10 +168,10 @@ export default function AdminPanel() {
         ))}
       </div>
 
-      {/* Contenido de tabs */}
+  {/* Contenido de tabs (mantener si hay contexto útil) */}
       {tabActiva === 'estadisticas' && estadisticas && (
   <div className="space-y-6">
-          {/* Métricas principales */}
+          {/* Métricas principales (mantener si hay contexto útil) */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
               <h4 className="text-blue-800 dark:text-blue-300 font-medium mb-2">Puntos Generados (Mes)</h4>
@@ -202,7 +202,7 @@ export default function AdminPanel() {
             </div>
           </div>
 
-          {/* Recompensas más canjeadas */}
+          {/* Recompensas más canjeadas (mantener si hay contexto útil) */}
           <div className="bg-white dark:bg-slate-900 rounded-lg border dark:border-slate-800 p-6">
             <h4 className="text-lg font-bold text-gray-800 dark:text-white mb-4">
               Recompensas Más Canjeadas
@@ -233,7 +233,7 @@ export default function AdminPanel() {
             </div>
           </div>
 
-          {/* Top miembros activos */}
+          {/* Top miembros activos (mantener si hay contexto útil) */}
           <div className="bg-white dark:bg-slate-900 rounded-lg border dark:border-slate-800 p-6">
             <h4 className="text-lg font-bold text-gray-800 dark:text-white mb-4">
               Top Miembros Activos
@@ -262,7 +262,7 @@ export default function AdminPanel() {
 
       {tabActiva === 'recompensas' && (
         <div className="space-y-6">
-          {/* Formulario para crear nueva recompensa */}
+          {/* Formulario para crear nueva recompensa (mantener si hay contexto útil) */}
           <div className="bg-white dark:bg-slate-900 rounded-lg border dark:border-slate-800 p-6">
             <h4 className="text-lg font-bold text-gray-800 dark:text-white mb-4">
               Crear Nueva Recompensa
@@ -348,7 +348,7 @@ export default function AdminPanel() {
             </form>
           </div>
 
-          {/* Lista de recompensas existentes */}
+          {/* Lista de recompensas existentes (mantener si hay contexto útil) */}
           <div className="bg-white dark:bg-slate-900 rounded-lg border dark:border-slate-800 p-6">
             <h4 className="text-lg font-bold text-gray-800 dark:text-white mb-4">
               Gestionar Recompensas

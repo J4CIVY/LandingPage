@@ -1,4 +1,3 @@
-// Tipos para el sistema PQRSDF
 
 export type SolicitudCategoria = 
   | 'peticion' 
@@ -34,7 +33,7 @@ export interface Mensaje {
   autorNombre: string;
   fechaCreacion: Date;
   adjuntos?: Adjunto[];
-  esInterno?: boolean; // Para mensajes internos del sistema
+  esInterno?: boolean;
 }
 
 export interface TimelineEvento {
@@ -50,7 +49,7 @@ export interface TimelineEvento {
 
 export interface Solicitud {
   id: string;
-  numeroSolicitud: string; // Formato: PQRS-2025-0001
+  numeroSolicitud: string;
   usuarioId: string;
   categoria: SolicitudCategoria;
   asunto: string;
@@ -64,9 +63,9 @@ export interface Solicitud {
   adjuntos: Adjunto[];
   mensajes: Mensaje[];
   timeline: TimelineEvento[];
-  asignadoA?: string; // ID del administrador asignado
+  asignadoA?: string;
   etiquetas?: string[];
-  satisfaccion?: number; // Calificación de 1-5
+  satisfaccion?: number;
   comentarioSatisfaccion?: string;
 }
 
@@ -89,11 +88,11 @@ export interface EstadisticasSolicitudes {
   total: number;
   porEstado: Record<SolicitudEstado, number>;
   porCategoria: Record<SolicitudCategoria, number>;
-  tiempoPromedioRespuesta: number; // en horas
+  tiempoPromedioRespuesta: number;
   satisfaccionPromedio: number;
 }
 
-// Constantes para el sistema
+// Constantes para el sistema (mantener si hay contexto útil)
 export const CATEGORIAS_SOLICITUD: Record<SolicitudCategoria, string> = {
   peticion: 'Petición',
   queja: 'Queja',

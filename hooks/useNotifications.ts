@@ -84,7 +84,7 @@ export function useNotifications(): UseNotificationsReturn {
       });
 
       if (response.ok) {
-        // Actualizar el estado local
+  // Actualiza el estado local
         setNotifications(prev => 
           prev.map(notification => 
             notification._id === notificationId 
@@ -93,7 +93,7 @@ export function useNotifications(): UseNotificationsReturn {
           )
         );
         
-        // Disminuir el conteo de no leídas
+  // Disminuye el conteo de no leídas
         setUnreadCount(prev => Math.max(0, prev - 1));
       } else {
         const errorData = await response.json();
@@ -117,7 +117,7 @@ export function useNotifications(): UseNotificationsReturn {
       });
 
       if (response.ok) {
-        // Marcar todas como leídas en el estado local
+  // Marca todas como leídas en el estado local
         setNotifications(prev => 
           prev.map(notification => ({
             ...notification,
@@ -126,7 +126,7 @@ export function useNotifications(): UseNotificationsReturn {
           }))
         );
         
-        // Resetear conteo de no leídas
+  // Resetea conteo de no leídas
         setUnreadCount(0);
       } else {
         const errorData = await response.json();
@@ -149,11 +149,11 @@ export function useNotifications(): UseNotificationsReturn {
       });
 
       if (response.ok) {
-        // Remover del estado local
+  // Remueve del estado local
         const notificationToDelete = notifications.find(n => n._id === notificationId);
         setNotifications(prev => prev.filter(notification => notification._id !== notificationId));
         
-        // Si era no leída, disminuir el conteo
+  // Si era no leída, disminuye el conteo
         if (notificationToDelete && !notificationToDelete.isRead) {
           setUnreadCount(prev => Math.max(0, prev - 1));
         }
@@ -186,16 +186,16 @@ export function useNotifications(): UseNotificationsReturn {
     }
   }, []);
 
-  // Cargar notificaciones iniciales
+  // Carga notificaciones iniciales
   useEffect(() => {
     fetchNotifications({ limit: 10 });
   }, [fetchNotifications]);
 
-  // Polling para actualizar el conteo cada 30 segundos
+  // Polling para actualizar el conteo cada 30 segundos (mantener si hay contexto útil)
   useEffect(() => {
     const interval = setInterval(() => {
       refreshUnreadCount();
-    }, 30000); // 30 segundos
+  }, 30000);
 
     return () => clearInterval(interval);
   }, [refreshUnreadCount]);

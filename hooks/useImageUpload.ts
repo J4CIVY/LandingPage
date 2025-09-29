@@ -30,7 +30,7 @@ export const useImageUpload = (): UseImageUploadReturn => {
     setUploadError(null);
 
     try {
-      // Crear FormData para enviar el archivo
+  // Crea FormData para enviar el archivo
       const formData = new FormData();
       formData.append('file', file);
       formData.append('folder', folder);
@@ -39,7 +39,7 @@ export const useImageUpload = (): UseImageUploadReturn => {
         formData.append('publicId', publicId);
       }
 
-      // Hacer la petición a la API
+  // Realiza la petición a la API
       const response = await fetch('/api/upload-image', {
         method: 'POST',
         body: formData,

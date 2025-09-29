@@ -6,7 +6,7 @@ import Product from '@/lib/models/Product';
 export async function GET(req: NextRequest) {
   const adminRequest = req as AdminRequest;
   
-  // Verificar permisos de administrador
+  // Verifica permisos de administrador
   const authCheck = await requireAdmin(adminRequest);
   if (authCheck) return authCheck;
 
@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
     const category = searchParams.get('category') || 'all';
     const status = searchParams.get('status') || 'all';
 
-    // Construir filtros
+  // Construye filtros
     const filters: any = {};
 
     if (search) {
@@ -59,11 +59,11 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    // Contar total de productos
+  // Cuenta total de productos
     const totalProducts = await Product.countDocuments(filters);
     const totalPages = Math.ceil(totalProducts / limit);
 
-    // Obtener productos con paginación
+  // Obtiene productos con paginación
     const products = await Product.find(filters)
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
@@ -92,7 +92,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const adminRequest = req as AdminRequest;
   
-  // Verificar permisos de administrador
+  // Verifica permisos de administrador
   const authCheck = await requireAdmin(adminRequest);
   if (authCheck) return authCheck;
 
@@ -100,7 +100,7 @@ export async function POST(req: NextRequest) {
     await connectDB();
     const productData = await req.json();
 
-    // Validar datos requeridos
+  // Valida datos requeridos
     const requiredFields = ['name', 'shortDescription', 'longDescription', 'finalPrice', 'featuredImage', 'category'];
 
     for (const field of requiredFields) {
@@ -112,7 +112,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Validar precio
+  // Valida precio
     if (productData.finalPrice <= 0) {
       return NextResponse.json(
         { success: false, error: 'El precio debe ser mayor a 0' },
@@ -120,7 +120,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Validar precio original si existe
+  // Valida precio original si existe
     if (productData.originalPrice && productData.originalPrice < productData.finalPrice) {
       return NextResponse.json(
         { success: false, error: 'El precio original debe ser mayor al precio final' },
@@ -128,7 +128,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Crear nuevo producto
+  // Crea nuevo producto
     const newProduct = new Product({
       ...productData,
       isActive: true
@@ -145,7 +145,7 @@ export async function POST(req: NextRequest) {
   } catch (error: any) {
     console.error('Error creando producto:', error);
     
-    // Manejar errores de validación de mongoose
+  // Maneja errores de validación de mongoose
     if (error.name === 'ValidationError') {
       const validationErrors = Object.values(error.errors).map((err: any) => err.message);
       return NextResponse.json(
@@ -154,7 +154,7 @@ export async function POST(req: NextRequest) {
       );
     }
     
-    // Manejar duplicados
+  // Maneja duplicados
     if (error.code === 11000) {
       const field = Object.keys(error.keyPattern)[0];
       return NextResponse.json(

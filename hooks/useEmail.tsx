@@ -44,7 +44,7 @@ export function useEmail() {
     message: null,
   });
 
-  // Función para resetear el estado
+  // Función para resetear el estado (mantener si hay contexto útil)
   const resetStatus = useCallback(() => {
     setStatus({
       isLoading: false,
@@ -55,7 +55,7 @@ export function useEmail() {
     });
   }, []);
 
-  // Función para enviar correo de contacto
+  // Función para enviar correo de contacto (mantener si hay contexto útil)
   const sendContactEmail = useCallback(async (data: ContactEmailData) => {
     setStatus({
       isLoading: true,
@@ -108,7 +108,7 @@ export function useEmail() {
     }
   }, []);
 
-  // Función para enviar notificaciones (solo admins)
+  // Función para enviar notificaciones (solo admins, mantener si hay contexto útil)
   const sendNotification = useCallback(async (data: NotificationEmailData) => {
     setStatus({
       isLoading: true,
@@ -157,7 +157,7 @@ export function useEmail() {
     }
   }, []);
 
-  // Función para enviar correo de prueba (solo admins)
+  // Función para enviar correo de prueba (solo admins, mantener si hay contexto útil)
   const sendTestEmail = useCallback(async (data: TestEmailData) => {
     setStatus({
       isLoading: true,
@@ -206,7 +206,7 @@ export function useEmail() {
     }
   }, []);
 
-  // Función para obtener configuración de correo (solo admins)
+  // Función para obtener configuración de correo (solo admins, mantener si hay contexto útil)
   const getEmailConfig = useCallback(async () => {
     try {
       const response = await fetch('/api/email/config?action=status');
@@ -223,7 +223,7 @@ export function useEmail() {
     }
   }, []);
 
-  // Función para obtener URL de autorización OAuth (solo admins)
+  // Función para obtener URL de autorización OAuth (solo admins, mantener si hay contexto útil)
   const getAuthUrl = useCallback(async (redirectUri?: string) => {
     try {
       const params = new URLSearchParams();
@@ -245,7 +245,7 @@ export function useEmail() {
     }
   }, []);
 
-  // Función para intercambiar código por tokens (solo admins)
+  // Función para intercambiar código por tokens (solo admins, mantener si hay contexto útil)
   const exchangeCodeForTokens = useCallback(async (code: string, redirectUri: string) => {
     try {
       const response = await fetch('/api/email/config', {
@@ -270,10 +270,10 @@ export function useEmail() {
   }, []);
 
   return {
-    // Estado
+  // Estado (mantener si hay contexto útil)
     ...status,
     
-    // Funciones
+  // Funciones (mantener si hay contexto útil)
     sendContactEmail,
     sendNotification,
     sendTestEmail,

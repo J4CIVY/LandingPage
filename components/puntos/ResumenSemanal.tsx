@@ -33,12 +33,12 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
           setActividades(data.actividadSemanal);
         } else {
           console.error('Error al obtener actividad semanal:', response.statusText);
-          // Fallback a datos vacíos en caso de error
+          // Si hay error, usar datos vacíos
           setActividades([]);
         }
       } catch (error) {
         console.error('Error al cargar actividad semanal:', error);
-        // Fallback a datos vacíos en caso de error
+  // Si hay error, usar datos vacíos
         setActividades([]);
       } finally {
         setLoading(false);
@@ -77,7 +77,7 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
         Actividad de esta Semana
       </h3>
 
-      {/* Resumen */}
+  {/* Resumen (mantener si hay contexto útil) */}
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div className="text-center p-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
           <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">{totalPuntosSemana}</p>
@@ -89,7 +89,7 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
         </div>
       </div>
 
-      {/* Gráfico de barras */}
+  {/* Gráfico de barras (mantener si hay contexto útil) */}
       <div className="mb-4">
         <div className="flex justify-between items-end h-32 gap-2">
           {actividades && actividades.length > 0 ? actividades.map((actividad, index) => {
@@ -98,7 +98,7 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
             
             return (
               <div key={index} className="flex-1 flex flex-col items-center">
-                {/* Barra */}
+                {/* Barra (mantener si hay contexto útil) */}
                 <div className="relative w-full flex flex-col justify-end" style={{ height: '120px' }}>
                   <div
                     className={`w-full rounded-t ${
@@ -109,7 +109,7 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
                     style={{ height: `${altura}%` }}
                   />
                   
-                  {/* Valor de puntos */}
+                  {/* Valor de puntos (mantener si hay contexto útil) */}
                   {actividad.puntos > 0 && (
                     <div className={`absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs font-medium ${
                       esHoy ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300'
@@ -119,14 +119,14 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
                   )}
                 </div>
                 
-                {/* Día */}
+                {/* Día (mantener si hay contexto útil) */}
                 <p className={`text-xs mt-2 font-medium ${
                   esHoy ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-300'
                 }`}>
                   {actividad.dia}
                 </p>
                 
-                {/* Indicador de actividades */}
+                {/* Indicador de actividades (mantener si hay contexto útil) */}
                 {actividad.actividades > 0 && (
                   <div className="flex gap-1 mt-1">
                     {Array.from({ length: actividad.actividades }).map((_, i) => (
@@ -149,7 +149,7 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
         </div>
       </div>
 
-      {/* Leyenda */}
+  {/* Leyenda (mantener si hay contexto útil) */}
   <div className="text-xs text-gray-500 dark:text-gray-300 space-y-1">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 bg-gradient-to-t from-blue-500 to-blue-400 dark:from-blue-700 dark:to-blue-400 rounded"></div>
@@ -161,7 +161,7 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
         </div>
       </div>
 
-      {/* Motivación */}
+  {/* Motivación (mantener si hay contexto útil) */}
       {totalPuntosSemana > 0 && (
         <div className="mt-4 p-3 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900 dark:to-blue-900 rounded-lg border border-green-200 dark:border-green-700">
           <p className="text-sm text-green-800 dark:text-green-300 text-center flex items-center justify-center gap-2">

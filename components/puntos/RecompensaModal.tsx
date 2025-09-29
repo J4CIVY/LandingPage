@@ -12,7 +12,7 @@ import {
   FaExclamationTriangle,
   FaInfoCircle
 } from 'react-icons/fa';
-// Ya no usamos mock data - el canje se maneja por props
+// El canje se maneja por props (mantener si hay contexto útil)
 
 interface RecompensaModalProps {
   recompensa: Recompensa;
@@ -47,7 +47,7 @@ export default function RecompensaModal({
       if (exito) {
         setCanjeExitoso(true);
         
-        // Cerrar modal después de mostrar confirmación
+  // Cierra modal tras mostrar confirmación
         setTimeout(() => {
           onClose();
         }, 2000);
@@ -101,7 +101,7 @@ export default function RecompensaModal({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        {/* Header */}
+    {/* Header (mantener si hay contexto útil) */}
         <div className="sticky top-0 bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800 px-6 py-4 flex items-center justify-between">
           <h3 className="text-xl font-bold text-gray-800 dark:text-white">
             Detalles de la recompensa
@@ -117,9 +117,9 @@ export default function RecompensaModal({
           </button>
         </div>
 
-        {/* Contenido */}
+    {/* Contenido (mantener si hay contexto útil) */}
         <div className="px-6 py-6">
-          {/* Imagen y información básica */}
+          {/* Imagen e información básica (mantener si hay contexto útil) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div className="relative">
               <img
@@ -132,7 +132,7 @@ export default function RecompensaModal({
                 }}
               />
               
-              {/* Badge de categoría */}
+              {/* Badge de categoría (mantener si hay contexto útil) */}
               <div className={`absolute top-3 left-3 px-3 py-1 rounded-full text-sm font-medium ${getColorCategoria(recompensa.categoria)} dark:bg-opacity-80 dark:text-opacity-90`}>
                 {getIconoCategoria(recompensa.categoria)} {recompensa.categoria}
               </div>
@@ -148,7 +148,7 @@ export default function RecompensaModal({
                 </p>
               </div>
 
-              {/* Información de canje */}
+              {/* Información de canje (mantener si hay contexto útil) */}
               <div className="bg-gray-50 dark:bg-slate-800 rounded-lg p-4 space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600 dark:text-gray-300">Costo:</span>
@@ -207,7 +207,7 @@ export default function RecompensaModal({
             </div>
           </div>
 
-          {/* Restricciones o advertencias */}
+          {/* Restricciones o advertencias (mantener si hay contexto útil) */}
           {!puedeCanjar() && (
             <div className="bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
               <div className="flex items-center gap-2">
@@ -231,7 +231,7 @@ export default function RecompensaModal({
             </div>
           )}
 
-          {/* Información adicional */}
+          {/* Información adicional (mantener si hay contexto útil) */}
           <div className="bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6">
             <h5 className="font-medium text-blue-800 dark:text-blue-300 mb-2 flex items-center gap-2">
               <FaInfoCircle />
@@ -248,7 +248,7 @@ export default function RecompensaModal({
           </div>
         </div>
 
-        {/* Footer con botones */}
+  {/* Footer con botones (mantener si hay contexto útil) */}
         <div className="sticky bottom-0 bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800 px-6 py-4 flex gap-3">
           <button
             onClick={onClose}

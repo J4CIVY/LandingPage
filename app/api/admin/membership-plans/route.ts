@@ -4,7 +4,7 @@ import Membership, { IMembership } from '@/lib/models/Membership';
 import { membershipSchema, membershipFiltersSchema } from '@/lib/validation-schemas';
 import { verifyAuth } from '@/lib/auth-utils';
 
-// GET - Obtener todas las membresías tipo producto/plan (con filtros para admins)
+// Obtener todas las membresías tipo producto/plan (mantener si hay contexto útil)
 export async function GET(request: NextRequest) {
   try {
     await connectToDatabase();
@@ -18,21 +18,21 @@ export async function GET(request: NextRequest) {
       search: searchParams.get('search') || undefined
     });
 
-    // Verificar autenticación para filtros avanzados
+  // Verifica autenticación para filtros avanzados
     const authResult = await verifyAuth(request);
     const isAdmin = authResult.success && authResult.user?.role === 'admin';
 
-    // Construir query de MongoDB
+  // Construye query de MongoDB
     let query: any = {};
 
-    // Si no es admin, solo mostrar membresías públicas y activas
+  // Si no es admin, solo muestra membresías públicas y activas
     if (!isAdmin) {
       query = {
         status: 'active',
         'display.showInPublic': true
       };
     } else {
-      // Filtros para administradores
+  // Filtros para administradores (mantener si hay contexto útil)
       if (filters.status !== 'all') {
         query.status = filters.status;
       }
@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // Búsqueda por texto
+  // Búsqueda por texto (mantener si hay contexto útil)
     if (filters.search) {
       query.$or = [
         { name: { $regex: filters.search, $options: 'i' } },
@@ -81,10 +81,10 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST - Crear nueva membresía/plan (solo admins)
+// Crear nueva membresía/plan (mantener si hay contexto útil)
 export async function POST(request: NextRequest) {
   try {
-    // Verificar autenticación y permisos de admin
+  // Verifica autenticación y permisos de admin
     const authResult = await verifyAuth(request);
     if (!authResult.success) {
       return NextResponse.json({
@@ -104,10 +104,10 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     
-    // Validar datos de entrada
+  // Valida datos de entrada
     const validatedData = membershipSchema.parse(body);
 
-    // Verificar que el slug sea único
+  // Verifica que el slug sea único
     const existingMembership = await Membership.findOne({ slug: validatedData.slug });
     if (existingMembership) {
       return NextResponse.json({
@@ -116,7 +116,7 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    // Crear la membresía
+  // Crea la membresía
     const membership = new Membership({
       ...validatedData,
       createdBy: authResult.user.id,
@@ -125,7 +125,7 @@ export async function POST(request: NextRequest) {
 
     await membership.save();
 
-    // Poblar datos para la respuesta
+  // Poblado de datos para la respuesta
     await membership.populate('createdBy', 'name email');
 
     return NextResponse.json({

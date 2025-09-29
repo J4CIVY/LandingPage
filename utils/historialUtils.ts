@@ -1,9 +1,9 @@
-// Utilidades para el sistema de historial del miembro
+// Utilidades para el sistema de historial del miembro (mantener si hay contexto útil)
 import { format, differenceInDays, differenceInYears, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import type { HistorialItem, EstadisticasHistorial } from '@/types/historial';
 
-// Formateo de fechas
+// Formateo de fechas (mantener si hay contexto útil)
 export const formatearFecha = (fecha: string, formato: 'corta' | 'larga' | 'relativa' = 'larga'): string => {
   const fechaObj = parseISO(fecha);
   
@@ -25,7 +25,7 @@ export const formatearFecha = (fecha: string, formato: 'corta' | 'larga' | 'rela
   }
 };
 
-// Formateo de moneda colombiana
+// Formateo de moneda colombiana (mantener si hay contexto útil)
 export const formatearMoneda = (cantidad: number): string => {
   return new Intl.NumberFormat('es-CO', {
     style: 'currency',
@@ -35,17 +35,17 @@ export const formatearMoneda = (cantidad: number): string => {
   }).format(cantidad);
 };
 
-// Calculadora de años de membresía
+// Calculadora de años de membresía (mantener si hay contexto útil)
 export const calcularAñosMembresia = (fechaAfiliacion: string): number => {
   return differenceInYears(new Date(), parseISO(fechaAfiliacion));
 };
 
-// Calculadora de días restantes
+// Calculadora de días restantes (mantener si hay contexto útil)
 export const calcularDiasRestantes = (fechaVencimiento: string): number => {
   return differenceInDays(parseISO(fechaVencimiento), new Date());
 };
 
-// Generador de colores para tipos de historial
+// Generador de colores para tipos de historial (mantener si hay contexto útil)
 export const obtenerColoresTipo = (tipo: string) => {
   const colores = {
     'Evento': {
@@ -78,7 +78,7 @@ export const obtenerColoresTipo = (tipo: string) => {
   return colores[tipo as keyof typeof colores] || colores['Evento'];
 };
 
-// Generador de colores para estados
+// Generador de colores para estados (mantener si hay contexto útil)
 export const obtenerColoresEstado = (estado: string) => {
   const colores = {
     'activo': 'bg-green-100 text-green-800',
@@ -98,26 +98,26 @@ export const obtenerColoresEstado = (estado: string) => {
   return colores[estado as keyof typeof colores] || 'bg-gray-100 text-gray-800';
 };
 
-// Calculadora de estadísticas
+// Calculadora de estadísticas (mantener si hay contexto útil)
 export const calcularEstadisticas = (historialItems: HistorialItem[]): EstadisticasHistorial => {
   const eventos = historialItems.filter(item => item.tipo === 'Evento');
   const beneficios = historialItems.filter(item => item.tipo === 'Beneficio');
   const pqrsdf = historialItems.filter(item => item.tipo === 'PQRSDF');
   const logros = historialItems.filter(item => item.tipo === 'Reconocimiento');
   
-  // Calcular eventos asistidos
+  // Calcula eventos asistidos
   const eventosAsistidos = eventos.filter(evento => 
     evento.estado === 'completado' || 
     evento.detalles?.estado === 'asistio'
   ).length;
 
-  // Calcular beneficios usados
+  // Calcula beneficios usados
   const beneficiosUsados = beneficios.filter(beneficio => 
     beneficio.estado === 'completado' || 
     beneficio.detalles?.estado === 'usado'
   ).length;
 
-  // Calcular PQRSDF abiertas
+  // Calcula PQRSDF abiertas
   const pqrsdfAbiertas = pqrsdf.filter(pqr => 
     pqr.estado === 'activo' || 
     pqr.estado === 'pendiente' ||
@@ -125,7 +125,7 @@ export const calcularEstadisticas = (historialItems: HistorialItem[]): Estadisti
     pqr.detalles?.estado === 'en_proceso'
   ).length;
 
-  // Calcular puntos acumulados
+  // Calcula puntos acumulados
   const puntosAcumulados = historialItems.reduce((total, item) => {
     return total + (item.detalles?.puntos || 0);
   }, 0);
@@ -136,12 +136,12 @@ export const calcularEstadisticas = (historialItems: HistorialItem[]): Estadisti
     beneficiosUsados,
     pqrsdfAbiertas,
     logrosObtenidos: logros.length,
-    añosMembresia: 0, // Se calcula desde la membresía específica
+  añosMembresia: 0,
     puntosAcumulados
   };
 };
 
-// Generador de timeline items
+// Generador de timeline items (mantener si hay contexto útil)
 export const generarTimelineItems = (historialItems: HistorialItem[]) => {
   return historialItems
     .sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime())
@@ -154,7 +154,7 @@ export const generarTimelineItems = (historialItems: HistorialItem[]) => {
     }));
 };
 
-// Filtros avanzados
+// Filtros avanzados (mantener si hay contexto útil)
 export const filtrarHistorial = (
   items: HistorialItem[],
   filtros: {
@@ -167,12 +167,12 @@ export const filtrarHistorial = (
 ) => {
   let itemsFiltrados = [...items];
 
-  // Filtrar por categoría
+  // Filtra por categoría
   if (filtros.categoria && filtros.categoria !== 'Todos') {
     itemsFiltrados = itemsFiltrados.filter(item => item.tipo === filtros.categoria);
   }
 
-  // Filtrar por fecha
+  // Filtra por fecha
   if (filtros.fechaInicio) {
     itemsFiltrados = itemsFiltrados.filter(item => 
       new Date(item.fecha) >= new Date(filtros.fechaInicio!)
@@ -185,12 +185,12 @@ export const filtrarHistorial = (
     );
   }
 
-  // Filtrar por estado
+  // Filtra por estado
   if (filtros.estado && filtros.estado !== 'todos') {
     itemsFiltrados = itemsFiltrados.filter(item => item.estado === filtros.estado);
   }
 
-  // Filtrar por búsqueda
+  // Filtra por búsqueda
   if (filtros.busqueda && filtros.busqueda.trim() !== '') {
     const busqueda = filtros.busqueda.toLowerCase().trim();
     itemsFiltrados = itemsFiltrados.filter(item =>
@@ -203,7 +203,7 @@ export const filtrarHistorial = (
   return itemsFiltrados;
 };
 
-// Exportador de datos para PDF
+// Exportador de datos para PDF (mantener si hay contexto útil)
 export const prepararDatosParaPDF = (
   historialItems: HistorialItem[],
   estadisticas: EstadisticasHistorial,
@@ -232,7 +232,7 @@ export const prepararDatosParaPDF = (
   return datosPDF;
 };
 
-// Validador de datos
+// Validador de datos (mantener si hay contexto útil)
 export const validarHistorialItem = (item: Partial<HistorialItem>): string[] => {
   const errores: string[] = [];
 
@@ -240,7 +240,7 @@ export const validarHistorialItem = (item: Partial<HistorialItem>): string[] => 
   if (!item.fecha) errores.push('La fecha es requerida');
   if (!item.descripcion) errores.push('La descripción es requerida');
 
-  // Validar formato de fecha
+  // Valida formato de fecha
   if (item.fecha && isNaN(Date.parse(item.fecha))) {
     errores.push('El formato de fecha no es válido');
   }
@@ -248,7 +248,7 @@ export const validarHistorialItem = (item: Partial<HistorialItem>): string[] => 
   return errores;
 };
 
-// Utilidades de ordenamiento
+// Utilidades de ordenamiento (mantener si hay contexto útil)
 export const ordenarHistorial = (
   items: HistorialItem[],
   criterio: 'fecha' | 'tipo' | 'estado' = 'fecha',

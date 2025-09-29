@@ -18,7 +18,7 @@ export const useScrollToSection = () => {
       behavior = 'smooth',
       block = 'start',
       inline = 'nearest',
-      offset = 80 // Altura del header
+  offset = 80
     } = options;
 
     setIsScrolling(true);
@@ -26,7 +26,7 @@ export const useScrollToSection = () => {
     const element = document.querySelector(selector);
     
     if (element) {
-      // Calcular posición considerando el offset del header
+  // Calcula posición considerando el offset del header
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
 
@@ -35,12 +35,12 @@ export const useScrollToSection = () => {
         behavior
       });
 
-      // Marcar como completado después de la animación
+  // Marca como completado tras la animación
       setTimeout(() => {
         setIsScrolling(false);
       }, 1000);
 
-      // Opcional: Focus management para accesibilidad
+  // Opcional: Focus management para accesibilidad (mantener si hay contexto útil)
       setTimeout(() => {
         if (element instanceof HTMLElement) {
           element.focus({ preventScroll: true });
@@ -91,7 +91,7 @@ export const useScrollToSection = () => {
   };
 };
 
-// Hook para detectar la sección actual visible
+// Hook para detectar la sección actual visible (mantener si hay contexto útil)
 export const useCurrentSection = (sections: string[]) => {
   const [currentSection, setCurrentSection] = useState<string | null>(null);
 
@@ -108,12 +108,12 @@ export const useCurrentSection = (sections: string[]) => {
         });
       },
       {
-        threshold: 0.5, // La sección debe estar al menos 50% visible
-        rootMargin: '-80px 0px -80px 0px' // Considerar header y footer
+  threshold: 0.5,
+  rootMargin: '-80px 0px -80px 0px'
       }
     );
 
-    // Observar todas las secciones
+  // Observa todas las secciones
     sections.forEach(sectionId => {
       const element = document.getElementById(sectionId) || 
                      document.querySelector(`[data-section="${sectionId}"]`);

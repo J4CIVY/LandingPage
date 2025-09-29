@@ -1,4 +1,3 @@
-// Types para el nuevo sistema de membresías con 7 tipos diferentes
 export type MembershipType = 'Friend' | 'Rider' | 'Pro' | 'Legend' | 'Master' | 'Volunteer' | 'Leader';
 
 export type MembershipStatus = 'active' | 'expired' | 'cancelled' | 'pending';
@@ -7,7 +6,7 @@ export interface RequirementStatus {
   id: string;
   label: string;
   fulfilled: boolean;
-  progress: number; // 0-100
+  progress: number;
   detail?: string;
   relatedEventId?: string;
 }
@@ -103,12 +102,12 @@ export interface MembershipResponse {
   membership: Membership;
   ranking: UserRanking;
   achievements: Achievement[];
-  volunteerInfo?: VolunteerStatus | null; // Información de membresía complementaria Volunteer
+  volunteerInfo?: VolunteerStatus | null;
 }
 
-// Request/Response types para los endpoints
+// Request/Response types para los endpoints (mantener si hay contexto útil)
 export interface RenewMembershipRequest {
-  userId?: string; // Opcional, se puede usar el token
+  userId?: string;
 }
 
 export interface CancelMembershipRequest {
@@ -159,21 +158,21 @@ export interface LeaderboardResponse {
   userPosition?: number;
 }
 
-// Reglas de negocio para requisitos de cada membresía
+// Reglas de negocio para requisitos de cada membresía (mantener si hay contexto útil)
 export interface FriendRequirements {
   pointsRequired: 0;
   eventsRequired: 0;
   volunteeringRequired: 0;
-  timeRequired: 0; // días
-  // Configuración especial para Friend → Rider
+  timeRequired: 0;
+  // Configuración especial para Friend → Rider (mantener si hay contexto útil)
   nextLevelRequirements?: {
     pointsRequired: number;
-    eventsRequired: number; // Se calcula dinámicamente
+  eventsRequired: number;
     volunteeringRequired: number;
-    timeRequired: number; // 365 días normales, 366 bisiesto
+  timeRequired: number;
     minimumDaysForUpgrade: number;
     leapYearDays: number;
-    eventPercentageRequired: number; // % de eventos del año
+  eventPercentageRequired: number;
   };
 }
 
@@ -181,114 +180,114 @@ export interface StandardMembershipRequirements {
   pointsRequired: number;
   eventsRequired: number;
   volunteeringRequired: number;
-  timeRequired: number; // días en nivel anterior
+  timeRequired: number;
 }
 
 export interface RiderRequirements extends StandardMembershipRequirements {
   specialRequirements?: {
-    confirmedEventsOnly: boolean; // Solo eventos con asistencia confirmada
-    cleanRecord: boolean; // Historial limpio obligatorio
-    fromMembershipType: MembershipType; // Desde qué membresía puede acceder
+  confirmedEventsOnly: boolean;
+  cleanRecord: boolean;
+  fromMembershipType: MembershipType;
   };
 }
 
 export interface ProRequirements extends StandardMembershipRequirements {
   specialRequirements?: {
-    lastYearPoints: number; // Puntos obtenidos el último año
-    confirmedEventsOnly: boolean; // Solo eventos confirmados asistidos
-    digitalParticipation: boolean; // Participación digital activa
-    cleanRecord: boolean; // Sin faltas disciplinarias
-    fromMembershipType: MembershipType; // Desde qué membresía puede acceder
+  lastYearPoints: number;
+  confirmedEventsOnly: boolean;
+  digitalParticipation: boolean;
+  cleanRecord: boolean;
+  fromMembershipType: MembershipType;
   };
 }
 
 export interface LegendRequirements extends StandardMembershipRequirements {
   specialRequirements?: {
-    lastYearPoints: number; // Puntos obtenidos el último año
-    confirmedEventsOnly: boolean; // Solo eventos confirmados asistidos
+  lastYearPoints: number;
+  confirmedEventsOnly: boolean;
     eventTypeDistribution: {
-      communityEvents: number; // % eventos comunitarios/sociales/humanitarios
-      educationalEvents: number; // % eventos educativos
+  communityEvents: number;
+  educationalEvents: number;
     };
-    demonstrableContribution: boolean; // Participación en organización/apoyo
-    cleanRecord: boolean; // Historial limpio y actitud ejemplar
-    fromMembershipType: MembershipType; // Desde qué membresía puede acceder
+  demonstrableContribution: boolean;
+  cleanRecord: boolean;
+  fromMembershipType: MembershipType;
   };
 }
 
 export interface MasterRequirements extends StandardMembershipRequirements {
   specialRequirements?: {
-    lastYearPoints: number; // Puntos obtenidos el último año
-    confirmedEventsOnly: boolean; // Solo eventos confirmados asistidos
+  lastYearPoints: number;
+  confirmedEventsOnly: boolean;
     eventTypeDistribution: {
-      communityEvents: number; // % eventos comunitarios/sociales/humanitarios
-      educationalEvents: number; // % eventos educativos
-      organizedEvents: number; // % eventos organizados directamente por el miembro
+  communityEvents: number;
+  educationalEvents: number;
+  organizedEvents: number;
     };
-    outstandingProjectParticipation: boolean; // Proyectos comunitarios destacados
-    officialRecognition: boolean; // Reconocimiento oficial del club
-    fromMembershipType: MembershipType; // Desde qué membresía puede acceder
+  outstandingProjectParticipation: boolean;
+  officialRecognition: boolean;
+  fromMembershipType: MembershipType;
   };
 }
 
 export interface LeaderRequirements extends StandardMembershipRequirements {
   specialRequirements?: {
-    // Requisitos básicos obligatorios
-    mustBeMaster: boolean; // Obligatorio ser Master
-    mustBeActiveVolunteer: boolean; // Obligatorio estar activo como Volunteer
-    pointsMinimum: number; // Puntos mínimos al momento de postulación
+  // Requisitos básicos obligatorios (mantener si hay contexto útil)
+  mustBeMaster: boolean;
+  mustBeActiveVolunteer: boolean;
+  pointsMinimum: number;
     
-    // Historial de eventos
-    eventAttendanceRate: number; // 80% asistencia a eventos oficiales en total
-    leadershipEventsRequired: number; // Porcentaje de eventos donde demostró liderazgo
-    leadershipEventsSuccessRate: number; // Resultado positivo en eventos liderados
+  // Historial de eventos (mantener si hay contexto útil)
+  eventAttendanceRate: number;
+  leadershipEventsRequired: number;
+  leadershipEventsSuccessRate: number;
     
-    // Voluntariado alto impacto
-    highImpactVolunteering: boolean; // Requiere voluntariado en roles de alto impacto
-    highImpactVolunteeringRequired: number; // 30 participaciones en roles de alto impacto
-    highImpactRoles: string[]; // Roles específicos de alto impacto
+  // Voluntariado alto impacto (mantener si hay contexto útil)
+  highImpactVolunteering: boolean;
+  highImpactVolunteeringRequired: number;
+  highImpactRoles: string[];
     
-    // Historial disciplinario
-    cleanDisciplinaryRecord: boolean; // Expediente limpio
-    noSuspensions: boolean; // Sin suspensiones
-    noGraveWarnings: boolean; // Sin amonestaciones graves
-    noRuleViolations: boolean; // Sin incumplimientos de normas
+  // Historial disciplinario (mantener si hay contexto útil)
+  cleanDisciplinaryRecord: boolean;
+  noSuspensions: boolean;
+  noGraveWarnings: boolean;
+  noRuleViolations: boolean;
     
-    // Proceso de postulación formal
+  // Proceso de postulación formal (mantener si hay contexto útil)
     formalApplication: {
-      leadershipPlanRequired: boolean; // Plan de Liderazgo requerido
-      applicationFormRequired: boolean; // Formulario de postulación
+  leadershipPlanRequired: boolean;
+  applicationFormRequired: boolean;
       endorsements: {
-        activeLeadersRequired: number; // Mínimo Leaders activos
-        activeMastersRequired: number; // Mínimo Masters activos
+  activeLeadersRequired: number;
+  activeMastersRequired: number;
       };
     };
     
-    // Proceso de evaluación
+  // Proceso de evaluación (mantener si hay contexto útil)
     evaluationProcess: {
-      evaluationCommittee: boolean; // Revisión por Comisión Evaluadora
-      publicInterview: boolean; // Entrevista/presentación pública
-      consultativeVoting: boolean; // Votación consultiva
-      presidentialRatification: boolean; // Ratificación final presidencia
-      boardConfirmation: boolean; // Confirmación Directiva del club
+  evaluationCommittee: boolean;
+  publicInterview: boolean;
+  consultativeVoting: boolean;
+  presidentialRatification: boolean;
+  boardConfirmation: boolean;
     };
     
-    // Disponibilidad operativa
+  // Disponibilidad operativa (mantener si hay contexto útil)
     minimumAvailability: {
-      hoursPerMonth: number; // Horas mínimas por mes
-      maxHoursPerMonth: number; // Horas máximas por mes
-      meetingsRequired: boolean; // Disponibilidad para reuniones
-      coordinationRequired: boolean; // Coordinación operativa
-      eventPresenceRequired: boolean; // Presencia en eventos oficiales
+  hoursPerMonth: number;
+  maxHoursPerMonth: number;
+  meetingsRequired: boolean;
+  coordinationRequired: boolean;
+  eventPresenceRequired: boolean;
     };
     
-    // Condiciones especiales
-    mandateDuration: number; // Duración del mandato en meses
-    renewable: boolean; // Renovable mediante evaluación
-    vacancyRequired: boolean; // Debe existir vacante
-    exemplaryConduct: boolean; // Conducta ejemplar obligatoria
+  // Condiciones especiales (mantener si hay contexto útil)
+  mandateDuration: number;
+  renewable: boolean;
+  vacancyRequired: boolean;
+  exemplaryConduct: boolean;
     
-    fromMembershipType: MembershipType; // Solo desde Master
+  fromMembershipType: MembershipType;
   };
 }
 
@@ -299,7 +298,7 @@ export interface MembershipRules {
   Legend: LegendRequirements;
   Master: MasterRequirements;
   Volunteer: {
-    // Se puede agregar a cualquier tipo
+  // Se puede agregar a cualquier tipo (mantener si hay contexto útil)
     canAttachTo: MembershipType[];
     requirements?: {
       activeCommitment: boolean;
@@ -318,7 +317,7 @@ export interface MembershipRules {
   Leader: LeaderRequirements;
 }
 
-// Beneficios por tipo de membresía
+// Beneficios por tipo de membresía (mantener si hay contexto útil)
 export type MembershipBenefits = {
   [key in MembershipType]: {
     name: string;
@@ -330,7 +329,7 @@ export type MembershipBenefits = {
   };
 };
 
-// Configuración visual para cada tipo de membresía
+// Configuración visual para cada tipo de membresía (mantener si hay contexto útil)
 export type MembershipConfig = {
   [key in MembershipType]: {
     name: string;
@@ -344,7 +343,7 @@ export type MembershipConfig = {
   };
 };
 
-// Tipos para manejo de errores en API
+// Tipos para manejo de errores en API (mantener si hay contexto útil)
 export interface ApiError {
   message: string;
   code: number;
@@ -357,7 +356,7 @@ export interface ApiResponse<T> {
   error?: ApiError;
 }
 
-// Eventos del sistema para tracking
+// Eventos del sistema para tracking (mantener si hay contexto útil)
 export interface MembershipEvent {
   type: 'upgrade' | 'downgrade' | 'renewal' | 'cancellation' | 'volunteer_toggle' | 'leader_application';
   userId: string;
@@ -369,28 +368,28 @@ export interface MembershipEvent {
   metadata?: Record<string, any>;
 }
 
-// Extensión del Usuario existente para el nuevo sistema
+// Extensión del Usuario existente para el nuevo sistema (mantener si hay contexto útil)
 export interface ExtendedUser {
-  // Campos existentes del User.ts
+  // Campos existentes del User.ts (mantener si hay contexto útil)
   _id: string;
   firstName: string;
   lastName: string;
   email: string;
-  membershipType: string; // Se mantiene para compatibilidad
+  membershipType: string;
   membershipNumber?: string;
   joinDate?: Date;
   isActive: boolean;
   registeredEvents?: string[];
   
-  // Nuevos campos para el sistema de membresías
+  // Nuevos campos para el sistema de membresías (mantener si hay contexto útil)
   membership?: Membership;
   points?: number;
   volunteer?: boolean;
   membershipExpiry?: Date;
   membershipBenefits?: string[];
-  pqrsd?: string[]; // Para contar voluntariados
+  pqrsd?: string[];
   
-  // Historial de actividades
+  // Historial de actividades (mantener si hay contexto útil)
   eventHistory?: Array<{
     eventId: string;
     type: 'attended' | 'organized' | 'volunteered';
@@ -398,7 +397,7 @@ export interface ExtendedUser {
     points: number;
   }>;
   
-  // Estadísticas personales
+  // Estadísticas personales (mantener si hay contexto útil)
   stats?: {
     totalEvents: number;
     totalVolunteering: number;

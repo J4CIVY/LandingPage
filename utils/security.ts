@@ -2,7 +2,7 @@
  * Security utilities for input sanitization and validation
  */
 
-// HTML entities to prevent XSS
+// HTML entities para prevenir XSS (mantener si hay contexto útil)
 const htmlEntities: Record<string, string> = {
   '&': '&amp;',
   '<': '&lt;',
@@ -23,7 +23,7 @@ export function sanitizeInput(input: string): string {
   return input
     .replace(/[&<>"'\/]/g, (s) => htmlEntities[s] || s)
     .trim()
-    .substring(0, 10000); // Limit length to prevent DoS
+  .substring(0, 10000);
 }
 
 /**
@@ -37,7 +37,7 @@ export function sanitizeObject(obj: any): any {
   if (typeof obj === 'object' && obj !== null && !Array.isArray(obj)) {
     const sanitized: any = {};
     for (const [key, value] of Object.entries(obj)) {
-      // Sanitize key names too
+  // Sanitiza nombres de claves también
       const cleanKey = sanitizeInput(key);
       sanitized[cleanKey] = sanitizeObject(value);
     }
@@ -57,10 +57,10 @@ export function sanitizeObject(obj: any): any {
 export function validateEmail(email: string): boolean {
   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
   
-  // Additional security checks
-  if (email.length > 254) return false; // RFC 5321 limit
-  if (email.includes('..')) return false; // Consecutive dots
-  if (email.startsWith('.') || email.endsWith('.')) return false; // Leading/trailing dots
+  // Chequeos de seguridad adicionales (mantener si hay contexto útil)
+  if (email.length > 254) return false;
+  if (email.includes('..')) return false;
+  if (email.startsWith('.') || email.endsWith('.')) return false;
   
   return emailRegex.test(email);
 }
@@ -93,42 +93,42 @@ export function validatePasswordStrength(password: string): {
   const feedback: string[] = [];
   let score = 0;
 
-  // Length check
+  // Chequeo de longitud
   if (password.length >= 8) {
     score += 1;
   } else {
     feedback.push('Debe tener al menos 8 caracteres');
   }
 
-  // Uppercase check
+  // Chequeo de mayúsculas
   if (/[A-Z]/.test(password)) {
     score += 1;
   } else {
     feedback.push('Debe incluir al menos una letra mayúscula');
   }
 
-  // Lowercase check
+  // Chequeo de minúsculas
   if (/[a-z]/.test(password)) {
     score += 1;
   } else {
     feedback.push('Debe incluir al menos una letra minúscula');
   }
 
-  // Number check
+  // Chequeo de números
   if (/\d/.test(password)) {
     score += 1;
   } else {
     feedback.push('Debe incluir al menos un número');
   }
 
-  // Special character check
+  // Chequeo de caracteres especiales
   if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
     score += 1;
   } else {
     feedback.push('Debe incluir al menos un carácter especial');
   }
 
-  // Common patterns check
+  // Chequeo de patrones comunes
   const commonPatterns = [
     /123456/,
     /password/i,
@@ -169,7 +169,7 @@ export function validateFormToken(token: string): boolean {
     const decoded = atob(token);
     const [timestamp] = decoded.split('-');
     const tokenAge = Date.now() - parseInt(timestamp);
-    return tokenAge < 3600000; // 1 hour
+  return tokenAge < 3600000;
   } catch {
     return false;
   }
@@ -183,7 +183,7 @@ export class RateLimiter {
   private readonly maxAttempts: number;
   private readonly windowMs: number;
 
-  constructor(maxAttempts = 5, windowMs = 300000) { // 5 attempts per 5 minutes
+  constructor(maxAttempts = 5, windowMs = 300000) {
     this.maxAttempts = maxAttempts;
     this.windowMs = windowMs;
   }
@@ -192,14 +192,14 @@ export class RateLimiter {
     const now = Date.now();
     const attempts = this.attempts.get(key) || [];
     
-    // Clean old attempts
+  // Limpia intentos antiguos
     const recentAttempts = attempts.filter(attempt => now - attempt < this.windowMs);
     
     if (recentAttempts.length >= this.maxAttempts) {
       return false;
     }
 
-    // Record this attempt
+  // Registra este intento
     recentAttempts.push(now);
     this.attempts.set(key, recentAttempts);
     

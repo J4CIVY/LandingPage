@@ -8,13 +8,13 @@ interface ProgresoNivelProps {
 }
 
 export default function ProgresoNivel({ usuario }: ProgresoNivelProps) {
-  // Usar datos reales del usuario - estos vienen de la API de gamificación
+  // Usar datos reales del usuario (mantener si hay contexto útil)
   const puntosActuales = usuario.puntosTotales;
   const puntosParaSiguiente = usuario.nivel.puntosMaximos;
   const puntosMinimosNivel = usuario.nivel.puntosMinimos;
   
   const calcularProgreso = () => {
-    if (puntosParaSiguiente <= puntosMinimosNivel) return 100; // Nivel máximo
+  if (puntosParaSiguiente <= puntosMinimosNivel) return 100;
     
     const puntosEnNivelActual = puntosActuales - puntosMinimosNivel;
     const puntosNecesariosParaSiguiente = puntosParaSiguiente - puntosMinimosNivel;
@@ -34,7 +34,7 @@ export default function ProgresoNivel({ usuario }: ProgresoNivelProps) {
 
       {!esNivelMaximo ? (
         <>
-          {/* Nivel actual */}
+          {/* Nivel actual (mantener si hay contexto útil) */}
           <div className="text-center mb-6">
             <div 
               className="w-16 h-16 rounded-full flex items-center justify-center mb-3 border-3 mx-auto"
@@ -53,7 +53,7 @@ export default function ProgresoNivel({ usuario }: ProgresoNivelProps) {
             </p>
           </div>
 
-          {/* Barra de progreso */}
+          {/* Barra de progreso (mantener si hay contexto útil) */}
           <div className="mb-6">
             <div className="bg-gray-200 dark:bg-slate-800 rounded-full h-4 overflow-hidden">
               <div 
@@ -68,7 +68,7 @@ export default function ProgresoNivel({ usuario }: ProgresoNivelProps) {
             </div>
           </div>
 
-          {/* Información de puntos */}
+          {/* Información de puntos (mantener si hay contexto útil) */}
           <div className="bg-gray-50 dark:bg-slate-800 rounded-lg p-4">
             <div className="grid grid-cols-2 gap-4 text-center">
               <div>
@@ -87,7 +87,7 @@ export default function ProgresoNivel({ usuario }: ProgresoNivelProps) {
           </div>
         </>
       ) : (
-        /* Nivel máximo alcanzado */
+  /* Nivel máximo alcanzado (mantener si hay contexto útil) */
         <div className="text-center py-8">
           <FaCrown className="text-6xl mb-4 text-yellow-500 dark:text-yellow-400 mx-auto" />
           <h4 className="text-xl font-bold text-gray-800 dark:text-slate-100 mb-2">
@@ -99,7 +99,7 @@ export default function ProgresoNivel({ usuario }: ProgresoNivelProps) {
           <p className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">
             {usuario.puntosTotales.toLocaleString()} puntos
           </p>
-          {/* Beneficios del nivel actual */}
+          {/* Beneficios del nivel actual (mantener si hay contexto útil) */}
           <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 dark:from-yellow-900 dark:to-yellow-800 rounded-lg p-4 mt-4">
             <h5 className="font-semibold text-gray-800 dark:text-slate-100 mb-2">
               Beneficios de tu nivel:

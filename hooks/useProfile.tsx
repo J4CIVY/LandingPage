@@ -18,13 +18,13 @@ export interface ProfileData {
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
-  // Campos extendidos
+  // Campos extendidos (mantener si hay contexto útil)
   documentType?: string;
   documentNumber?: string;
   birthDate?: string;
   birthPlace?: string;
   binaryGender?: string;
-  // Datos adicionales del perfil extendido
+  // Datos adicionales del perfil extendido (mantener si hay contexto útil)
   profileCompletion?: number;
   emergencyContact?: any;
   medicalData?: any;
@@ -40,7 +40,7 @@ export function useProfile() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch user profile data
+  // Obtiene datos del perfil de usuario (mantener si hay contexto útil)
   const fetchProfile = async () => {
     if (!isAuthenticated || !user?.id) {
       setLoading(false);
@@ -73,7 +73,7 @@ export function useProfile() {
     }
   };
 
-  // Update user profile
+  // Actualiza perfil de usuario (mantener si hay contexto útil)
   const updateProfile = async (updates: Partial<ProfileData>) => {
     if (!isAuthenticated || !user?.id) {
       throw new Error('User not authenticated');
@@ -104,7 +104,7 @@ export function useProfile() {
     }
   };
 
-  // Upload avatar
+  // Sube avatar (mantener si hay contexto útil)
   const uploadAvatar = async (file: File) => {
     if (!isAuthenticated || !user?.id) {
       throw new Error('User not authenticated');
@@ -135,7 +135,7 @@ export function useProfile() {
     }
   };
 
-  // Upload document
+  // Sube documento (mantener si hay contexto útil)
   const uploadDocument = async (file: File, documentType: string, category: string) => {
     if (!isAuthenticated || !user?.id) {
       throw new Error('User not authenticated');
@@ -160,7 +160,7 @@ export function useProfile() {
       }
 
       const data = await response.json();
-      // Refetch profile to get updated documents
+  // Refresca perfil para obtener documentos actualizados
       await fetchProfile();
       return data.data.document;
     } catch (err) {
@@ -169,7 +169,7 @@ export function useProfile() {
     }
   };
 
-  // Get user activities
+  // Obtiene actividades del usuario (mantener si hay contexto útil)
   const fetchActivities = async () => {
     if (!isAuthenticated || !user?.id) {
       return [];
@@ -196,36 +196,36 @@ export function useProfile() {
     }
   };
 
-  // Calculate profile completion
+  // Calcula el porcentaje de perfil completo (mantener si hay contexto útil)
   const calculateProfileCompletion = (profile: ProfileData | null): number => {
     if (!profile) return 0;
 
     let filledFields = 0;
     let totalFields = 0;
 
-    // Basic fields (40% weight)
+  // Campos básicos (40%)
     const basicFields = ['firstName', 'lastName', 'email', 'phone', 'birthDate'];
     totalFields += basicFields.length;
     filledFields += basicFields.filter(field => profile[field as keyof ProfileData]).length;
 
-    // Address (10% weight)
+  // Dirección (10%)
     totalFields += 1;
     if (profile.address && profile.city) filledFields += 1;
 
-    // Additional info (15% weight)
+  // Info adicional (15%)
     const additionalFields = ['documentNumber', 'birthPlace', 'binaryGender'];
     totalFields += additionalFields.length;
     filledFields += additionalFields.filter(field => profile[field as keyof ProfileData]).length;
 
-    // Emergency contact (15% weight)
+  // Contacto emergencia (15%)
     totalFields += 1;
     if (profile.emergencyContact?.firstName && profile.emergencyContact?.phone) filledFields += 1;
 
-    // Motorcycle info (10% weight)
+  // Moto (10%)
     totalFields += 1;
     if (profile.motorcycleInfo?.motorcycles?.length > 0) filledFields += 1;
 
-    // Required documents (10% weight)
+  // Documentos requeridos (10%)
     totalFields += 1;
     const requiredDocs = profile.documents?.filter(doc => doc.isRequired) || [];
     const approvedRequiredDocs = requiredDocs.filter(doc => doc.status === 'approved');
@@ -234,7 +234,7 @@ export function useProfile() {
     return Math.round((filledFields / totalFields) * 100);
   };
 
-  // Load profile on mount and when user changes
+  // Carga perfil al montar y cuando cambia el usuario (mantener si hay contexto útil)
   useEffect(() => {
     fetchProfile();
   }, [isAuthenticated, user?.id]);

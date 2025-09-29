@@ -11,12 +11,12 @@ interface JWTPayload {
   email: string;
 }
 
-// GET - Debug información del usuario
+// Información de debug del usuario (mantener si hay contexto útil)
 export async function GET(request: NextRequest) {
   try {
     await connectDB();
 
-    // Obtener token de las cookies
+  // Obtiene token de las cookies
     const token = request.cookies.get('bsk-access-token')?.value;
 
     if (!token) {
@@ -26,10 +26,10 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Verificar token
+  // Verifica token
     const decoded = verify(token, JWT_SECRET) as JWTPayload;
     
-    // Buscar usuario
+  // Busca usuario
     const user = await User.findById(decoded.userId).lean();
 
     if (!user) {
@@ -39,10 +39,10 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Obtener todos los eventos para debug
+  // Obtiene todos los eventos para debug
     const allEvents = await Event.find({}).lean();
     
-    // Obtener eventos específicos del usuario
+  // Obtiene eventos específicos del usuario
     const userEventIds = (user as any).events || [];
     const userFavoriteIds = (user as any).favoriteEvents || [];
     

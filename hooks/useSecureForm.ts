@@ -20,7 +20,7 @@ export function useSecureForm<T>(
 ) {
   const {
     maxAttempts = 5,
-    windowMs = 300000, // 5 minutes
+  windowMs = 300000,
     requireCsrf = true,
   } = options;
 
@@ -35,8 +35,8 @@ export function useSecureForm<T>(
   const formToken = useRef<string>(generateFormToken());
 
   const submit = useCallback(async (data: T) => {
-    // Check rate limiting
-    const clientId = 'form-submission'; // In production, use user IP or session ID
+  // Verifica rate limiting
+  const clientId = 'form-submission';
     
     if (!rateLimiter.current.isAllowed(clientId)) {
       const remainingTime = rateLimiter.current.getRemainingTime(clientId);
@@ -49,7 +49,7 @@ export function useSecureForm<T>(
       return;
     }
 
-    // Validate CSRF token
+  // Valida CSRF token
     if (requireCsrf && !validateFormToken(formToken.current)) {
       setState(prev => ({
         ...prev,
@@ -67,13 +67,13 @@ export function useSecureForm<T>(
     }));
 
     try {
-      // Sanitize input data
+  // Sanitiza datos de entrada
       const sanitizedData = sanitizeObject(data);
       
-      // Submit form
+  // Envía formulario
       await submitFn(sanitizedData);
       
-      // Generate new token for next submission
+  // Genera nuevo token para siguiente envío
       formToken.current = generateFormToken();
       
       setState(prev => ({

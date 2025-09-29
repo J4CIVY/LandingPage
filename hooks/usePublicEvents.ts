@@ -45,7 +45,7 @@ export const usePublicEvents = (): UsePublicEventsReturn => {
     setLoading(true);
     setError(null);
     try {
-      // Fetch upcoming events from the API with a reasonable limit
+  // Obtiene eventos próximos desde la API (mantener si hay contexto útil)
       const response = await fetch('/api/events?upcoming=true&limit=50');
       
       if (!response.ok) {
@@ -72,7 +72,7 @@ export const usePublicEvents = (): UsePublicEventsReturn => {
     fetchEvents();
   }, [fetchEvents]);
 
-  // Filter events to show only those within the next 6 months
+  // Filtra eventos para mostrar solo los próximos 6 meses (mantener si hay contexto útil)
   const upcomingEventsInSixMonths = events.filter(event => {
     const now = new Date();
     const sixMonthsFromNow = addMonths(now, 6);

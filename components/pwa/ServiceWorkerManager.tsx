@@ -16,12 +16,12 @@ export function useServiceWorker() {
         .then((registration) => {
           console.log('SW registered: ', registration);
           
-          // Verificar actualizaciones cada 30 minutos
+          // Verifica actualizaciones cada 30 minutos
           setInterval(() => {
             registration.update();
           }, 30 * 60 * 1000);
           
-          // Manejar nuevas versiones del SW
+          // Maneja nuevas versiones del Service Worker
           registration.addEventListener('updatefound', () => {
             const newWorker = registration.installing;
             if (newWorker) {
@@ -43,7 +43,7 @@ export function useServiceWorker() {
   }, []);
 }
 
-// Hook para gestión de cache manual
+// Hook para gestión de cache manual (mantener si hay contexto útil)
 export function useCacheManagement() {
   const clearCache = async () => {
     if ('caches' in window) {
@@ -83,22 +83,22 @@ export function useCacheManagement() {
   };
 }
 
-// Componente para gestión de PWA
+// Componente para gestión de PWA (mantener si hay contexto útil)
 export const PWAManager: React.FC = () => {
   useServiceWorker();
   
   useEffect(() => {
-    // Gestión de instalación PWA
+  // Gestión de instalación PWA (mantener si hay contexto útil)
     let deferredPrompt: any;
     
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
       deferredPrompt = e;
       
-      // Mostrar botón de instalación personalizado después de unos segundos
+  // Muestra botón de instalación personalizado tras unos segundos
       setTimeout(() => {
         if (deferredPrompt && !window.matchMedia('(display-mode: standalone)').matches) {
-          // Crear notificación de instalación
+          // Crea notificación de instalación
           const installBanner = document.createElement('div');
           installBanner.className = 'fixed bottom-4 left-4 right-4 bg-green-600 text-white p-4 rounded-lg shadow-lg z-50 flex items-center justify-between';
           installBanner.innerHTML = `
@@ -136,7 +136,7 @@ export const PWAManager: React.FC = () => {
             localStorage.setItem('pwa-install-dismissed', 'true');
           });
           
-          // Auto-remover después de 10 segundos
+          // Auto-remueve después de 10 segundos
           setTimeout(() => {
             if (document.body.contains(installBanner)) {
               installBanner.remove();
@@ -146,12 +146,12 @@ export const PWAManager: React.FC = () => {
       }, 5000);
     };
 
-    // Solo mostrar si no se ha descartado antes
+  // Solo muestra si no se ha descartado antes
     if (!localStorage.getItem('pwa-install-dismissed')) {
       window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     }
 
-    // Detectar cuando la PWA se instala
+  // Detecta cuando la PWA se instala
     window.addEventListener('appinstalled', () => {
       console.log('PWA was installed');
       localStorage.removeItem('pwa-install-dismissed');
@@ -169,7 +169,7 @@ export const PWAManager: React.FC = () => {
   );
 };
 
-// Hook para gestión de estado offline
+// Hook para gestión de estado offline (mantener si hay contexto útil)
 export function useOfflineStatus() {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [wasOffline, setWasOffline] = useState(false);
@@ -178,7 +178,7 @@ export function useOfflineStatus() {
     const handleOnline = () => {
       setIsOnline(true);
       if (wasOffline) {
-        // Mostrar mensaje de reconexión
+  // Muestra mensaje de reconexión
         console.log('Back online!');
         setWasOffline(false);
       }

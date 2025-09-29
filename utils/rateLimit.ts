@@ -1,5 +1,5 @@
-// Rate limiting utility using a simple in-memory store
-// In production, consider using Redis or a similar external store
+// Utilidad de rate limiting usando un store en memoria (mantener si hay contexto útil)
+// En producción, usar Redis o similar (mantener si hay contexto útil)
 
 interface RateLimitResult {
   success: boolean
@@ -9,7 +9,7 @@ interface RateLimitResult {
 }
 
 interface RateLimitOptions {
-  interval: number // in milliseconds
+  interval: number
   uniqueTokenPerInterval: number
 }
 
@@ -23,14 +23,14 @@ export function rateLimit(options: RateLimitOptions) {
       const now = Date.now()
       const key = `${token}-${Math.floor(now / interval)}`
       
-      // Clean up old entries
+  // Limpia entradas antiguas
       for (const [k, v] of tokenStore.entries()) {
         if (now - v.lastReset > interval) {
           tokenStore.delete(k)
         }
       }
       
-      // Check if we've exceeded the unique token limit
+  // Verifica si se excedió el límite de tokens únicos
       if (tokenStore.size >= uniqueTokenPerInterval) {
         throw new Error('Rate limit exceeded')
       }

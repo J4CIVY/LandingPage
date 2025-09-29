@@ -28,16 +28,16 @@ export const usePdfUpload = (): UsePdfUploadReturn => {
     setUploadError(null);
 
     try {
-      // Crear FormData para enviar el archivo
+  // Crea FormData para enviar el archivo
       const formData = new FormData();
       formData.append('file', file);
       formData.append('folder', folder);
-      formData.append('fileType', 'pdf'); // Indicar que es PDF
+  formData.append('fileType', 'pdf');
       if (publicId) {
         formData.append('publicId', publicId);
       }
 
-      // Hacer la petición a la API
+  // Realiza la petición a la API
       const response = await fetch('/api/upload-pdf', {
         method: 'POST',
         body: formData,

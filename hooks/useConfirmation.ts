@@ -39,10 +39,10 @@ export const useConfirmNavigation = (shouldConfirm: boolean, message = '¿Estás
       }
     };
 
-    // Note: En Next.js 13+ con App Router, necesitamos manejar esto de manera diferente
-    // Esta es una implementación simplificada
+  // En Next.js 13+ con App Router, se maneja diferente (mantener si hay contexto útil)
+  // Implementación simplificada (mantener si hay contexto útil)
     return () => {
-      // Cleanup si es necesario
+  // Limpieza si es necesario
     };
   }, [shouldConfirm, message, router]);
 };
@@ -64,8 +64,8 @@ export const useConfirmation = () => {
     type = 'warning'
   }: ConfirmationOptions): Promise<boolean> => {
     return new Promise((resolve) => {
-      // Para una implementación completa, aquí crearías un modal personalizado
-      // Por ahora usamos el confirm nativo del navegador
+  // Para una implementación completa, aquí crearías un modal personalizado (mantener si hay contexto útil)
+  // Por ahora se usa el confirm nativo del navegador
       const result = window.confirm(`${title}\n\n${message}`);
       resolve(result);
     });

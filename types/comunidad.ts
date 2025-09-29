@@ -13,12 +13,12 @@ export interface Publicacion {
   fechaCreacion: Date;
   fechaActualizacion?: Date;
   reacciones: {
-    meGusta: string[]; // IDs de usuarios
+  meGusta: string[];
     corazones: string[];
     fuego: string[];
   };
   comentarios: Comentario[];
-  grupoId?: string; // Si está en un grupo específico
+  grupoId?: string;
   esEditado: boolean;
 }
 
@@ -36,7 +36,7 @@ export interface Comentario {
   contenido: string;
   fechaCreacion: Date;
   fechaActualizacion?: Date;
-  comentarioPadreId?: string; // Para respuestas a comentarios
+  comentarioPadreId?: string;
   respuestas: Comentario[];
   reacciones: {
     meGusta: string[];
@@ -48,7 +48,7 @@ export interface GrupoInteres {
   nombre: string;
   descripcion: string;
   icono: string;
-  miembros: string[]; // IDs de usuarios
+  miembros: string[];
   adminId: string;
   fechaCreacion: Date;
   esPrivado: boolean;
@@ -69,7 +69,7 @@ export interface ChatMensaje {
   fechaEnvio: Date;
   editado: boolean;
   tipo: 'texto' | 'imagen' | 'archivo';
-  grupoId?: string; // Si es un chat de grupo específico
+  grupoId?: string;
 }
 
 export interface UsuarioRanking {
@@ -93,7 +93,7 @@ export interface UsuarioRanking {
   };
   insignias: Insignia[];
   posicion: number;
-  nivel: string; // 'Novato', 'Colaborador', 'Motociclista Activo', 'Leyenda BSKMT'
+  nivel: string;
 }
 
 export interface Insignia {
@@ -151,7 +151,7 @@ export interface EstadisticasComunidad {
   totalComentarios: number;
   totalReacciones: number;
   totalGrupos: number;
-  miembrosActivos: number; // Últimos 30 días
+  miembrosActivos: number;
   publicacionesHoy: number;
   comentariosHoy: number;
   grupoMasActivo: {
@@ -166,7 +166,7 @@ export interface EstadisticasComunidad {
   };
 }
 
-// Tipos para formularios
+// Tipos para formularios (mantener si hay contexto útil)
 export interface FormularioPublicacion {
   contenido: string;
   imagenes: File[];
@@ -193,7 +193,7 @@ export interface FormularioReporte {
   descripcion?: string;
 }
 
-// Estados de carga y errores
+// Estados de carga y errores (mantener si hay contexto útil)
 export interface EstadoCarga {
   cargando: boolean;
   error: string | null;

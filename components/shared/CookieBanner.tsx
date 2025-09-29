@@ -36,7 +36,7 @@ const CookieBanner: React.FC = () => {
       return defaultSettings;
     } catch (error) {
       console.warn('Error parsing cookie settings from localStorage:', error);
-      // Limpiar localStorage corrupto
+  // Limpia localStorage corrupto si existe un valor inválido
       localStorage.removeItem('cookieSettings');
       return defaultSettings;
     }
@@ -52,7 +52,7 @@ const CookieBanner: React.FC = () => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      // Check cookie consent from secure cookie
+  // Verifica el consentimiento de cookies desde la cookie segura
       const cookies = document.cookie.split(';');
       const consentCookie = cookies.find(cookie => 
         cookie.trim().startsWith('cookieConsent=')
@@ -82,7 +82,7 @@ const CookieBanner: React.FC = () => {
       social: true
     };
     
-    // Set secure cookie
+  // Establece la cookie segura
     document.cookie = `cookieConsent=accepted; path=/; max-age=${365 * 24 * 60 * 60}; secure; samesite=strict`;
     
     localStorage.setItem('cookieSettings', JSON.stringify(allAccepted));
@@ -93,18 +93,17 @@ const CookieBanner: React.FC = () => {
   };
 
   const saveSettings = (): void => {
-    // Set secure cookie settings
     const secureSettings = {
       secure: true,
       sameSite: 'strict' as const,
-      httpOnly: false, // Client-side accessible for settings
-      maxAge: 365 * 24 * 60 * 60, // 1 year
+      httpOnly: false,
+      maxAge: 365 * 24 * 60 * 60,
     };
 
-    // Use a more secure approach for storing consent
+  // Alternativa: usar un enfoque más seguro para almacenar el consentimiento
     document.cookie = `cookieConsent=accepted; path=/; max-age=${secureSettings.maxAge}; secure; samesite=strict`;
     
-    // Store settings in localStorage (non-sensitive data only)
+  // Guarda los ajustes en localStorage (solo datos no sensibles)
     localStorage.setItem('cookieSettings', JSON.stringify(cookieSettings));
     localStorage.setItem('cookieConsentTimestamp', new Date().toISOString());
     
@@ -116,7 +115,7 @@ const CookieBanner: React.FC = () => {
     setShowSettings(prev => !prev);
   };
 
-  // Handle ESC key to close settings modal
+  // Maneja la tecla ESC para cerrar el modal de ajustes
   useEffect(() => {
     const handleEscKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && showSettings) {
@@ -149,7 +148,7 @@ const CookieBanner: React.FC = () => {
           <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex-1">
               <h3 className="text-lg font-bold mb-1 text-slate-950 dark:text-white">Política de Cookies</h3>
-              <p className="text-sm text-slate-800 dark:text-gray-300">
+              <p className="text-sm text-gray-100 dark:text-gray-300">
                 Nosotros y nuestros socios utilizamos cookies para almacenar y acceder a datos personales como los datos de navegación 
                 para fines como servir y personalizar el contenido y analizar el tráfico del sitio. Puede elegir qué tipo de cookies permitir.
               </p>

@@ -218,7 +218,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => clearInterval(interval);
   }, [isInitialized, authState.isAuthenticated, refreshAuth]);
 
-  // Funciones para manejar URL de redirección
+  // Funciones para manejar URL de redirección (mantener si hay contexto útil)
   const setRedirectUrl = useCallback((url: string) => {
     if (typeof window !== 'undefined') {
       sessionStorage.setItem('redirectUrl', url);
@@ -270,7 +270,7 @@ export function useRequireAuth() {
 
   useEffect(() => {
     if (auth.isInitialized && !auth.isAuthenticated && !auth.isLoading) {
-      // Guardar la URL actual para redirección después del login
+  // Guarda la URL actual para redirección tras login
       const currentPath = window.location.pathname + window.location.search;
       if (currentPath !== '/login' && currentPath !== '/register') {
         auth.setRedirectUrl(currentPath);

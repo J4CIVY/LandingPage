@@ -52,7 +52,7 @@ export const useTextAnimation = (options: UseTextAnimationOptions = {}) => {
   }, [threshold, rootMargin, triggerOnce, delay, hasAnimated]);
 
   const getAnimationClasses = () => {
-    // Transición más suave con easing personalizado y respeto a prefers-reduced-motion
+  // Transición suave con easing personalizado y respeto a prefers-reduced-motion
     const baseClasses = 'transition-all duration-1000 ease-natural gpu-accelerated';
     
     if (!isVisible) {
@@ -95,13 +95,13 @@ export const useTextAnimation = (options: UseTextAnimationOptions = {}) => {
   };
 };
 
-// Hook para animar múltiples elementos de texto con delay escalonado
+// Hook para animar múltiples elementos de texto con delay escalonado (mantener si hay contexto útil)
 export const useStaggeredTextAnimation = (
   count: number,
   options: UseTextAnimationOptions = {}
 ) => {
   const baseDelay = options.delay || 0;
-  const staggerDelay = 100; // 100ms entre cada elemento
+  const staggerDelay = 100;
   
   return Array.from({ length: count }, (_, index) => 
     useTextAnimation({

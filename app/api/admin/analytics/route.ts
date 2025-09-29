@@ -23,11 +23,11 @@ async function handleGet(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     
     // Parámetros de tiempo
-    const period = searchParams.get('period') || '30'; // días
+  const period = searchParams.get('period') || '30';
     const startDate = searchParams.get('startDate');
     const endDate = searchParams.get('endDate');
     
-    // Calcular fechas
+  // Calcular fechas (mantener si hay contexto útil)
     const now = new Date();
     const periodDays = parseInt(period);
     let fromDate: Date;
@@ -40,7 +40,7 @@ async function handleGet(request: NextRequest) {
       fromDate = new Date(now.getTime() - periodDays * 24 * 60 * 60 * 1000);
     }
     
-    // Obtener datos de todas las colecciones
+  // Obtener datos de todas las colecciones (mantener si hay contexto útil)
     const [users, events, products, memberships, emergencies] = await Promise.all([
       User.find({}).sort({ createdAt: -1 }),
       Event.find({}).sort({ createdAt: -1 }),
@@ -49,7 +49,7 @@ async function handleGet(request: NextRequest) {
       Emergency.find({}).sort({ createdAt: -1 })
     ]);
     
-    // Estadísticas generales
+  // Estadísticas generales (mantener si hay contexto útil)
     const totalStats = {
       users: {
         total: users.length,
@@ -142,7 +142,7 @@ async function handleGet(request: NextRequest) {
       }
     };
     
-    // Tendencias temporales (últimos 7 días)
+  // Tendencias temporales (mantener si hay contexto útil)
     const last7Days = Array.from({ length: 7 }, (_, i) => {
       const date = new Date(now);
       date.setDate(date.getDate() - i);
@@ -180,7 +180,7 @@ async function handleGet(request: NextRequest) {
       }))
     };
     
-    // Métricas de rendimiento
+  // Métricas de rendimiento (mantener si hay contexto útil)
     const performance = {
       systemHealth: calculateSystemHealth(totalStats),
       alerts: generateAlerts(totalStats),
@@ -212,7 +212,7 @@ async function handleGet(request: NextRequest) {
   }
 }
 
-// Función para calcular tiempo promedio de respuesta de emergencias
+// Función para calcular tiempo promedio de respuesta de emergencias (mantener si hay contexto útil)
 function calculateAverageResponseTime(emergencies: any[]) {
   const resolvedEmergencies = emergencies.filter(e => 
     e.status === 'resolved' && e.startTime && e.endTime
@@ -226,21 +226,21 @@ function calculateAverageResponseTime(emergencies: any[]) {
     return sum + (end.getTime() - start.getTime());
   }, 0);
   
-  return Math.round(totalTime / resolvedEmergencies.length / (1000 * 60)); // en minutos
+  return Math.round(totalTime / resolvedEmergencies.length / (1000 * 60));
 }
 
-// Función para calcular salud del sistema
+// Función para calcular salud del sistema (mantener si hay contexto útil)
 function calculateSystemHealth(stats: any) {
   let score = 100;
   
-  // Penalizar por emergencias críticas
+  // Penalizar por emergencias críticas (mantener si hay contexto útil)
   if (stats.emergencies.byPriority.critical > 0) score -= 20;
   if (stats.emergencies.byPriority.high > 2) score -= 10;
   
-  // Penalizar por muchas membresías pendientes
+  // Penalizar por muchas membresías pendientes (mantener si hay contexto útil)
   if (stats.memberships.pending > 10) score -= 15;
   
-  // Penalizar por productos sin stock
+  // Penalizar por productos sin stock (mantener si hay contexto útil)
   const outOfStockRatio = stats.products.total > 0 
     ? stats.products.outOfStock / stats.products.total 
     : 0;
@@ -249,7 +249,7 @@ function calculateSystemHealth(stats: any) {
   return Math.max(score, 0);
 }
 
-// Función para generar alertas
+// Función para generar alertas (mantener si hay contexto útil)
 function generateAlerts(stats: any) {
   const alerts = [];
   
@@ -280,7 +280,7 @@ function generateAlerts(stats: any) {
   return alerts;
 }
 
-// Función para calcular métricas de crecimiento
+// Función para calcular métricas de crecimiento (mantener si hay contexto útil)
 function calculateGrowthMetrics(users: any[], events: any[], memberships: any[], fromDate: Date, toDate: Date) {
   const previousPeriodStart = new Date(fromDate.getTime() - (toDate.getTime() - fromDate.getTime()));
   const previousPeriodEnd = fromDate;
@@ -313,7 +313,7 @@ function calculateGrowthMetrics(users: any[], events: any[], memberships: any[],
   };
 }
 
-// Función para obtener usuarios más activos
+// Función para obtener usuarios más activos (mantener si hay contexto útil)
 async function getMostActiveUsers() {
   try {
     const activeUsers = await User.find({ isActive: { $ne: false } })
@@ -326,7 +326,7 @@ async function getMostActiveUsers() {
   }
 }
 
-// Función para obtener eventos populares
+// Función para obtener eventos populares (mantener si hay contexto útil)
 function getPopularEvents(events: any[]) {
   return events
     .filter(e => e.participants && e.participants.length > 0)
@@ -339,7 +339,7 @@ function getPopularEvents(events: any[]) {
     }));
 }
 
-// Función para obtener productos más populares
+// Función para obtener productos más populares (mantener si hay contexto útil)
 function getTopProducts(products: any[]) {
   return products
     .filter(p => p.views || p.purchases)
@@ -353,7 +353,7 @@ function getTopProducts(products: any[]) {
     }));
 }
 
-// Handler principal
+// Handler principal (mantener si hay contexto útil)
 export async function GET(request: NextRequest) {
   return withErrorHandling(handleGet)(request);
 }

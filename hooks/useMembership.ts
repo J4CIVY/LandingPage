@@ -28,7 +28,7 @@ export interface MembershipData {
     renewalType?: string;
     isLifetime?: boolean;
   } | null;
-  // Información adicional calculada
+  // Información adicional calculada (mantener si hay contexto útil)
   daysSinceJoining: number;
   membershipAge: string;
   nextRenewalDate: string;

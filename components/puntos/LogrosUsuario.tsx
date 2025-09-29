@@ -71,7 +71,7 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
         console.error('Error cargando logros:', error);
         setError(error instanceof Error ? error.message : 'Error desconocido');
         
-        // Fallback a datos vacíos en caso de error
+  // Si hay error, usar datos vacíos
         setLogros([]);
         setEstadisticas({
           total: 0,
@@ -157,7 +157,7 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
           <FaMedal className="text-yellow-500 dark:text-yellow-400" />
           Logros ({logrosDesbloqueados}/{totalLogros})
         </h3>
-        {/* Filtros */}
+    {/* Filtros (mantener si hay contexto útil) */}
         <select
           value={filtroCategoria}
           onChange={(e) => setFiltroCategoria(e.target.value as any)}
@@ -171,7 +171,7 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
         </select>
       </div>
 
-      {/* Barra de progreso general */}
+  {/* Barra de progreso general (mantener si hay contexto útil) */}
       <div className="mb-6">
   <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 mb-1">
           <span>Progreso general</span>
@@ -185,7 +185,7 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
         </div>
       </div>
 
-      {/* Lista de logros */}
+  {/* Lista de logros (mantener si hay contexto útil) */}
   <div className="space-y-3 max-h-80 overflow-y-auto">
         {logrosFiltrados.map((logro) => (
           <div
@@ -197,7 +197,7 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
             }`}
           >
             <div className="flex items-start gap-4">
-              {/* Icono */}
+              {/* Icono (mantener si hay contexto útil) */}
               <div className={`text-2xl p-2 rounded-full ${
                 logro.desbloqueado 
                   ? 'bg-green-100 dark:bg-green-900' 
@@ -206,7 +206,7 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
                 {logro.icono}
               </div>
 
-              {/* Información */}
+              {/* Información (mantener si hay contexto útil) */}
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
                   <h4 className={`font-semibold ${
@@ -219,7 +219,7 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
                     {logro.categoria}
                   </span>
 
-                  {/* Recompensa */}
+                  {/* Recompensa (mantener si hay contexto útil) */}
                   {logro.recompensa?.puntos && (
                     <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-300 border border-yellow-200 dark:border-yellow-800">
                       +{logro.recompensa.puntos} pts
@@ -233,7 +233,7 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
                   {logro.descripcion}
                 </p>
 
-                {/* Fecha de desbloqueo */}
+                {/* Fecha de desbloqueo (mantener si hay contexto útil) */}
                 {logro.desbloqueado && logro.fechaDesbloqueo && (
                   <p className="text-xs text-green-600 dark:text-green-400 mt-1 flex items-center gap-1">
                     <FaCheckCircle />
@@ -241,7 +241,7 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
                   </p>
                 )}
 
-                {/* Barra de progreso individual */}
+                {/* Barra de progreso individual (mantener si hay contexto útil) */}
                 {!logro.desbloqueado && logro.progreso && (
                   <div className="mt-2">
                     <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
