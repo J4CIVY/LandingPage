@@ -117,7 +117,7 @@ const Contact: React.FC = () => {
         image="/images/bsk-contact-og.webp"
       />
       
-      <main className="min-h-screen bg-gray-50 dark:bg-slate-950 py-16">
+      <main className="min-h-screen bg-gray-50 dark:bg-slate-900 py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-slate-950 dark:text-white mb-4">
@@ -175,7 +175,7 @@ const Contact: React.FC = () => {
                         Dirección
                       </h3>
                       <p className="text-gray-600 dark:text-gray-400 mt-2">
-                        Calle Principal #123<br />Bogotá, Colombia
+                        Carrera 5 A No. 36 A Sur 28, <br />110431, Ayacucho, San Cristóbal, Bogotá, Colombia
                       </p>
                     </div>
                   </div>
@@ -191,7 +191,7 @@ const Contact: React.FC = () => {
                         Teléfono
                       </h3>
                       <p className="text-gray-600 dark:text-gray-400 mt-2">
-                        +57 (1) 234-5678
+                        312 519 2000
                       </p>
                     </div>
                   </div>
@@ -207,7 +207,7 @@ const Contact: React.FC = () => {
                         Correo Electrónico
                       </h3>
                       <p className="text-gray-600 dark:text-gray-400 mt-2">
-                        info@bskmotorcycleteam.com
+                       contacto@bskmt.com
                       </p>
                     </div>
                   </div>
