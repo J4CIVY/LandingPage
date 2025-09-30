@@ -193,7 +193,7 @@ const Contact: React.FC = () => {
                         Teléfono
                       </h3>
                       <p className="text-gray-600 dark:text-gray-400 mt-2">
-                        312 519 2000
+                        300 490 2449
                       </p>
                     </div>
                   </div>
