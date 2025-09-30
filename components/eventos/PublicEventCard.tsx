@@ -4,9 +4,6 @@ import React from 'react';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import Image from 'next/image';
-import Link from 'next/link';
-import ReactDOM from 'react-dom';
-const PublicEventModal = React.lazy(() => import('../home/PublicEventModal'));
 
 interface PublicEventCardProps {
   event: {

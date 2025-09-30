@@ -1,13 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { SkeletonEvent } from '../shared/SkeletonLoaders';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { FaCalendarAlt } from 'react-icons/fa';
 import Calendar from "./Calendar";
-import PublicEventModal from "./PublicEventModal";
-import { Event } from '@/types/events'; // Import the Event interface
+import { Event } from '@/types/events';
 import Image from "next/image";
 
 /**
