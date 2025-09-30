@@ -28,7 +28,6 @@ interface Event {
   startDate: string;
   endDate?: string;
   mainImage: string;
-  eventType: string;
   departureLocation?: {
     address: string;
     city: string;
@@ -47,7 +46,6 @@ interface Event {
   nonMemberPrice?: number;
   includedServices?: string[];
   requirements?: string[];
-  difficulty?: 'beginner' | 'intermediate' | 'advanced' | 'expert';
   distance?: number;
   duration?: number;
   organizer: {
@@ -158,18 +156,6 @@ const PublicEventModal: React.FC<PublicEventModalProps> = ({ event, onClose }) =
                   <h2 id="modal-title" className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
                     {event.name}
                   </h2>
-                  
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    <span className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${getEventTypeColor(event.eventType)}`}>
-                      {event.eventType}
-                    </span>
-                    {event.difficulty && (
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${getDifficultyColor(event.difficulty)}`}>
-                        {getDifficultyText(event.difficulty)}
-                      </span>
-                    )}
-                  </div>
                 </div>
                 
                 {/* Close button */}
