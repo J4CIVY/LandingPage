@@ -135,9 +135,9 @@ const Contact: React.FC = () => {
           <div className="mb-8">
             <nav className="flex space-x-8 justify-center" aria-label="Tabs">
               {[
-                { id: "general", label: "Contacto General", icon: "📧" },
-                { id: "complaint", label: "Denuncias", icon: "⚠️" },
-                { id: "pqrsdf", label: "PQRSDF", icon: "📋" }
+                { id: "general", label: "Contacto General", icon: <FaRegEnvelope /> },
+                { id: "complaint", label: "Denuncias", icon: <MdWarningAmber /> },
+                { id: "pqrsdf", label: "PQRSDF", icon: <BsClipboardCheck /> }
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -152,7 +152,7 @@ const Contact: React.FC = () => {
                   aria-controls={`panel-${tab.id}`}
                   aria-selected={activeTab === tab.id}
                 >
-                    <span className="mr-2">{tab.id === "general" ? <FaRegEnvelope /> : tab.id === "complaint" ? <MdWarningAmber /> : <BsClipboardCheck />}</span>
+                  <span className="mr-2 text-lg align-middle">{tab.icon}</span>
                   {tab.label}
                 </button>
               ))}
