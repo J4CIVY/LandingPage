@@ -175,7 +175,7 @@ const nextConfig = {
               connect-src 'self' https://api.bskmt.com https://www.google-analytics.com https://maps.googleapis.com https://res.cloudinary.com https://cloudflareinsights.com https://static.cloudflareinsights.com https://fonts.googleapis.com https://fonts.gstatic.com https://www.facebook.com https://graph.facebook.com;
               media-src 'self' https: data: blob:;
               object-src 'none';
-              frame-src 'self' https://www.google.com https://maps.google.com https://www.facebook.com https://web.facebook.com;
+              frame-src 'self' https://www.google.com https://maps.google.com https://www.facebook.com https://web.facebook.com https://evp.sire.gov.co;
               base-uri 'self';
               form-action 'self';
               frame-ancestors 'none';
