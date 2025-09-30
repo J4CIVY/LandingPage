@@ -144,12 +144,12 @@ const CookieBanner: React.FC = () => {
   return (
     <>
       <div className={`fixed bottom-0 left-0 right-0 z-50 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-        <div className="bg-slate-950 dark:bg-slate-800 text-white dark:text-gray-100 p-4 shadow-lg">
+        <div className="bg-gray-100 dark:bg-slate-950 text-slate-950 dark:text-gray-100 p-4 shadow-lg">
           <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex-1">
               <h3 className="text-lg font-bold mb-1 text-slate-950 dark:text-white">Política de Cookies</h3>
-              <p className="text-sm text-gray-100 dark:text-gray-300">
-                Nosotros y nuestros socios utilizamos cookies para almacenar y acceder a datos personales como los datos de navegación 
+              <p className="text-sm text-slate-950 dark:text-gray-300">
+                Nosotros y nuestros socios utilizamos cookies para almacenar y acceder a datos personales como los datos de navegación
                 para fines como servir y personalizar el contenido y analizar el tráfico del sitio. Puede elegir qué tipo de cookies permitir.
               </p>
             </div>
