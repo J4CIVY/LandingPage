@@ -1,6 +1,9 @@
 'use client';
 
 import React, { useState } from "react";
+import { FaMapMarkerAlt, FaPhoneAlt, FaRegEnvelope, FaRegClock } from 'react-icons/fa';
+import { MdWarningAmber } from 'react-icons/md';
+import { BsClipboardCheck } from 'react-icons/bs';
 import SEOComponent from '@/components/home/SEOComponent';
 import ContactForm from '@/components/shared/ContactForm';
 
@@ -149,7 +152,7 @@ const Contact: React.FC = () => {
                   aria-controls={`panel-${tab.id}`}
                   aria-selected={activeTab === tab.id}
                 >
-                  <span className="mr-2">{tab.icon}</span>
+                    <span className="mr-2">{tab.id === "general" ? <FaRegEnvelope /> : tab.id === "complaint" ? <MdWarningAmber /> : <BsClipboardCheck />}</span>
                   {tab.label}
                 </button>
               ))}
@@ -167,7 +170,7 @@ const Contact: React.FC = () => {
                   <div className="flex items-start">
                     <div className="flex-shrink-0">
                       <div className="flex items-center justify-center h-10 w-10 rounded-md bg-slate-950 dark:bg-green-500 text-white">
-                        📍
+                          <FaMapMarkerAlt className="text-xl" />
                       </div>
                     </div>
                     <div className="ml-4">
@@ -183,7 +186,7 @@ const Contact: React.FC = () => {
                   <div className="flex items-start">
                     <div className="flex-shrink-0">
                       <div className="flex items-center justify-center h-10 w-10 rounded-md bg-slate-950 dark:bg-green-500 text-white">
-                        📞
+                          <FaPhoneAlt className="text-xl" />
                       </div>
                     </div>
                     <div className="ml-4">
@@ -199,7 +202,7 @@ const Contact: React.FC = () => {
                   <div className="flex items-start">
                     <div className="flex-shrink-0">
                       <div className="flex items-center justify-center h-10 w-10 rounded-md bg-slate-950 dark:bg-green-500 text-white">
-                        ✉️
+                          <FaRegEnvelope className="text-xl" />
                       </div>
                     </div>
                     <div className="ml-4">
@@ -215,7 +218,7 @@ const Contact: React.FC = () => {
                   <div className="flex items-start">
                     <div className="flex-shrink-0">
                       <div className="flex items-center justify-center h-10 w-10 rounded-md bg-slate-950 dark:bg-green-500 text-white">
-                        🕒
+                          <FaRegClock className="text-xl" />
                       </div>
                     </div>
                     <div className="ml-4">
