@@ -152,7 +152,6 @@ const Contact: React.FC = () => {
                   aria-controls={`panel-${tab.id}`}
                   aria-selected={activeTab === tab.id}
                 >
-                  <span className="mr-2 text-lg align-middle">{tab.icon}</span>
                   {tab.label}
                 </button>
               ))}
