@@ -25,8 +25,6 @@ interface EventsSectionProps {
 const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error }) => {
   const [activeTab, setActiveTab] = useState<'events' | 'calendar'>('events');
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
-  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
-
   // Debug logs
   console.log('📋 EventsSection: Received props:', { 
     eventsCount: events.length, 
@@ -34,22 +32,6 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
     error,
     events: events.slice(0, 2) 
   });
-
-  /**
-   * Handles the click event on an event card or calendar event, setting the selected event
-   * and opening the event modal.
-   * @param {Event} event - The event object that was clicked.
-   */
-  const handleEventClick = (event: Event): void => {
-    setSelectedEvent(event);
-  };
-
-  /**
-   * Handles the closing of the event modal, resetting the selected event state.
-   */
-  const handleCloseModal = (): void => {
-    setSelectedEvent(null);
-  };
 
   return (
   <section className="py-20 px-4 bg-gray-50 dark:bg-slate-900 text-slate-900 dark:text-white">
@@ -105,7 +87,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
                       <div
                         key={event._id || index}
                         className="bg-white dark:bg-slate-950 text-slate-950 dark:text-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl cursor-pointer"
-                        onClick={() => handleEventClick(event)}
+                        // onClick eliminado, la lógica de modal se traslada a PublicEventCard
                       >
                         <div className="relative aspect-video bg-gray-100 dark:bg-gray-800 overflow-hidden">
                           <Image
@@ -212,13 +194,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
         )}
       </div>
 
-      {/* Render PublicEventModal conditionally */}
-      {selectedEvent && (
-        <PublicEventModal 
-          event={selectedEvent} 
-          onClose={handleCloseModal} // Pass the close handler
-        />
-      )}
+      {/* PublicEventModal eliminado, ahora solo se muestra en PublicEventCard */}
     </section>
   );
 };
