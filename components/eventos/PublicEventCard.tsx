@@ -44,19 +44,6 @@ const PublicEventCard: React.FC<PublicEventCardProps> = ({ event }) => {
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           style={{ objectFit: 'contain', width: '100%', height: '100%' }}
         />
-        {/* Overlay con fecha */}
-        <div className="absolute top-4 left-4 bg-slate-950 dark:bg-green-500 text-white px-3 py-2 rounded-lg">
-          <p className="text-sm font-bold">
-            {format(eventDate, "dd", { locale: es })}
-          </p>
-          <p className="text-xs uppercase">
-            {format(eventDate, "MMM", { locale: es })}
-          </p>
-        </div>
-        {/* Tipo de evento */}
-        <div className="absolute top-4 right-4 bg-green-500 dark:bg-slate-950 text-white px-3 py-1 rounded-full text-xs font-medium">
-          {event.eventType === 'Ride' ? 'Rodada' : 'Evento'}
-        </div>
       </div>
       <div className="p-6">
         <h3 className="text-xl font-bold text-slate-950 dark:text-white mb-3 line-clamp-2">
@@ -88,7 +75,7 @@ const PublicEventCard: React.FC<PublicEventCardProps> = ({ event }) => {
         {/* Call to Action */}
         <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-slate-800 dark:to-slate-700 p-4 rounded-lg mb-4">
           <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
-            ¡Únete al BSK Motorcycle Team para acceder a todos los detalles del evento y participar en esta emocionante aventura!
+            ¡Únete a BSK Motorcycle Team para acceder a todos los detalles del evento y participar en esta emocionante aventura!
           </p>
           <div className="flex flex-col sm:flex-row gap-2">
             <a

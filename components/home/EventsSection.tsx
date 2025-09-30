@@ -131,7 +131,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
                           {/* Call to Action */}
                           <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-slate-800 dark:to-slate-700 p-4 rounded-lg mb-4">
                             <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
-                              ¡Únete al BSK Motorcycle Team para acceder a todos los detalles del evento y participar en esta emocionante aventura!
+                              ¡Únete a BSK Motorcycle Team para acceder a todos los detalles del evento y participar en esta emocionante aventura!
                             </p>
                             <div className="flex flex-col sm:flex-row gap-2">
                               <a
