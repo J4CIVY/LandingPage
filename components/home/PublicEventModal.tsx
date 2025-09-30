@@ -50,7 +50,6 @@ interface Event {
   difficulty?: 'beginner' | 'intermediate' | 'advanced' | 'expert';
   distance?: number;
   duration?: number;
-  pointsAwarded?: number;
   organizer: {
     name: string;
     phone: string;
@@ -168,11 +167,6 @@ const PublicEventModal: React.FC<PublicEventModalProps> = ({ event, onClose }) =
                     {event.difficulty && (
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${getDifficultyColor(event.difficulty)}`}>
                         {getDifficultyText(event.difficulty)}
-                      </span>
-                    )}
-                    {event.pointsAwarded && (
-                      <span className="px-3 py-1 rounded-full text-xs font-semibold text-white bg-indigo-500">
-                        {event.pointsAwarded} puntos
                       </span>
                     )}
                   </div>
