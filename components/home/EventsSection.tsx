@@ -100,19 +100,6 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             style={{ objectFit: 'contain', width: '100%', height: '100%' }}
                           />
-                          {/* Overlay con fecha */}
-                          <div className="absolute top-4 left-4 bg-slate-950 dark:bg-green-500 text-white px-3 py-2 rounded-lg">
-                            <p className="text-sm font-bold">
-                              {format(eventDate, "dd", { locale: es })}
-                            </p>
-                            <p className="text-xs uppercase">
-                              {format(eventDate, "MMM", { locale: es })}
-                            </p>
-                          </div>
-                          {/* Tipo de evento */}
-                          <div className="absolute top-4 right-4 bg-green-500 dark:bg-slate-950 text-white px-3 py-1 rounded-full text-xs font-medium">
-                            {event.eventType === 'Ride' ? 'Rodada' : 'Evento'}
-                          </div>
                         </div>
                         <div className="p-6">
                           <h3 className="text-xl font-bold text-slate-950 dark:text-white mb-3 line-clamp-2">
