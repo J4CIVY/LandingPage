@@ -135,9 +135,9 @@ const Contact: React.FC = () => {
           <div className="mb-8">
             <nav className="flex space-x-8 justify-center" aria-label="Tabs">
               {[
-                { id: "general", label: "Contacto General", icon: <FaRegEnvelope /> },
-                { id: "complaint", label: "Denuncias", icon: <MdWarningAmber /> },
-                { id: "pqrsdf", label: "PQRSDF", icon: <BsClipboardCheck /> }
+                { id: "general", label: "Contacto General"},
+                { id: "complaint", label: "Denuncias"},
+                { id: "pqrsdf", label: "PQRSDF"}
               ].map((tab) => (
                 <button
                   key={tab.id}
