@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifyAuth } from '@/lib/auth-utils';
 import dbConnect from '@/lib/mongodb';
 import ExtendedUser from '@/lib/models/ExtendedUser';
+import User from '@/lib/models/User';
 
 // GET - Obtener las preferencias de privacidad del usuario
 export async function GET(request: NextRequest) {
@@ -17,13 +18,39 @@ export async function GET(request: NextRequest) {
 
     await dbConnect();
 
-    const user = await ExtendedUser.findById(authResult.session.userId).select('privacySettings');
+    // Intentar obtener usuario desde ExtendedUser primero
+    let user = await ExtendedUser.findById(authResult.session.userId).select('privacySettings');
     
+    // Si no existe en ExtendedUser, intentar con User básico
     if (!user) {
-      return NextResponse.json(
-        { error: 'Usuario no encontrado' },
-        { status: 404 }
-      );
+      const basicUser = await User.findById(authResult.session.userId);
+      
+      if (!basicUser) {
+        console.error('Usuario no encontrado en ningún modelo:', authResult.session.userId);
+        return NextResponse.json(
+          { error: 'Usuario no encontrado' },
+          { status: 404 }
+        );
+      }
+      
+      // Si existe en User pero no en ExtendedUser, crear entrada en ExtendedUser
+      console.log('Usuario encontrado en User, migrando a ExtendedUser...');
+      user = await ExtendedUser.create({
+        _id: basicUser._id,
+        firstName: basicUser.firstName,
+        lastName: basicUser.lastName,
+        email: basicUser.email,
+        password: basicUser.password,
+        role: basicUser.role,
+        isActive: basicUser.isActive,
+        membershipNumber: basicUser.membershipNumber,
+        privacySettings: {
+          showName: true,
+          showPhoto: true,
+          showPoints: false,
+          showActivity: true
+        }
+      });
     }
 
     // Valores por defecto si no existen
@@ -75,13 +102,39 @@ export async function PATCH(request: NextRequest) {
 
     await dbConnect();
 
-    const user = await ExtendedUser.findById(authResult.session.userId);
+    // Intentar obtener usuario desde ExtendedUser primero
+    let user = await ExtendedUser.findById(authResult.session.userId);
     
+    // Si no existe en ExtendedUser, intentar migrar desde User
     if (!user) {
-      return NextResponse.json(
-        { error: 'Usuario no encontrado' },
-        { status: 404 }
-      );
+      const basicUser = await User.findById(authResult.session.userId);
+      
+      if (!basicUser) {
+        console.error('Usuario no encontrado en ningún modelo:', authResult.session.userId);
+        return NextResponse.json(
+          { error: 'Usuario no encontrado' },
+          { status: 404 }
+        );
+      }
+      
+      // Migrar usuario a ExtendedUser
+      console.log('Usuario encontrado en User, migrando a ExtendedUser para PATCH...');
+      user = await ExtendedUser.create({
+        _id: basicUser._id,
+        firstName: basicUser.firstName,
+        lastName: basicUser.lastName,
+        email: basicUser.email,
+        password: basicUser.password,
+        role: basicUser.role,
+        isActive: basicUser.isActive,
+        membershipNumber: basicUser.membershipNumber,
+        privacySettings: {
+          showName: true,
+          showPhoto: true,
+          showPoints: false,
+          showActivity: true
+        }
+      });
     }
 
     // Inicializar privacySettings si no existe
