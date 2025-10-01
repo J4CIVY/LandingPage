@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { FaEye, FaUser, FaTrophy, FaImage, FaDownload, FaTrash, FaLock, FaCheckCircle, FaTimesCircle, FaExclamationTriangle, FaShieldAlt } from 'react-icons/fa'
 
 interface PrivacySettings {
@@ -25,9 +25,42 @@ export default function PrivacyControlSection() {
   })
   
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-  const [deleteConfirmPassword, setDeleteConfirmPassword] = useState('')
+  const [deleteConfirmText, setDeleteConfirmText] = useState('')
+  const [deletePassword, setDeletePassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [isLoadingSettings, setIsLoadingSettings] = useState(true)
   const [toast, setToast] = useState<ToastType | null>(null)
+
+  // Cargar preferencias de privacidad al montar el componente
+  useEffect(() => {
+    loadPrivacySettings()
+  }, [])
+
+  const loadPrivacySettings = async () => {
+    try {
+      setIsLoadingSettings(true)
+      const response = await fetch('/api/user/privacy')
+      
+      if (!response.ok) {
+        throw new Error('Error al cargar preferencias')
+      }
+
+      const data = await response.json()
+      
+      if (data.success && data.privacySettings) {
+        setPrivacySettings(data.privacySettings)
+      }
+    } catch (error) {
+      console.error('Error cargando preferencias:', error)
+      showToast({
+        title: 'Error',
+        description: 'No se pudieron cargar las preferencias de privacidad',
+        type: 'error'
+      })
+    } finally {
+      setIsLoadingSettings(false)
+    }
+  }
 
   const showToast = (toast: ToastType) => {
     setToast(toast)
@@ -36,33 +69,50 @@ export default function PrivacyControlSection() {
 
   const handlePrivacyToggle = async (setting: keyof PrivacySettings) => {
     const newValue = !privacySettings[setting]
+    const previousValue = privacySettings[setting]
     
+    // Actualizar UI optimísticamente
     setPrivacySettings(prev => ({
       ...prev,
       [setting]: newValue
     }))
 
-    // Simulación de guardado
     try {
-      await new Promise(resolve => setTimeout(resolve, 500))
-      
-      const settingLabels = {
-        showName: 'Mostrar nombre',
-        showPhoto: 'Mostrar foto de perfil',
-        showPoints: 'Mostrar puntos',
-        showActivity: 'Mostrar actividad'
-      }
-      
-      showToast({
-        title: 'Configuración actualizada',
-        description: `${settingLabels[setting]} ${newValue ? 'activado' : 'desactivado'} en la comunidad`,
-        type: 'success'
+      const response = await fetch('/api/user/privacy', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          [setting]: newValue
+        })
       })
+
+      if (!response.ok) {
+        throw new Error('Error al guardar preferencia')
+      }
+
+      const data = await response.json()
+      
+      if (data.success) {
+        const settingLabels = {
+          showName: 'Mostrar nombre',
+          showPhoto: 'Mostrar foto de perfil',
+          showPoints: 'Mostrar puntos',
+          showActivity: 'Mostrar actividad'
+        }
+        
+        showToast({
+          title: 'Configuración actualizada',
+          description: `${settingLabels[setting]} ${newValue ? 'activado' : 'desactivado'} en la comunidad`,
+          type: 'success'
+        })
+      }
     } catch (error) {
       // Revertir cambio en caso de error
       setPrivacySettings(prev => ({
         ...prev,
-        [setting]: !newValue
+        [setting]: previousValue
       }))
       
       showToast({
@@ -77,41 +127,28 @@ export default function PrivacyControlSection() {
     setIsLoading(true)
     
     try {
-      // Simulación de generación y descarga de datos
-      await new Promise(resolve => setTimeout(resolve, 2000))
+      const response = await fetch('/api/user/download-data')
       
-      const userData = {
-        usuario: {
-          nombre: 'Juan Pérez',
-          email: 'juan@example.com',
-          fechaRegistro: '2024-01-15',
-          ultimoAcceso: '2025-01-15'
-        },
-        actividad: {
-          eventosAsistidos: 15,
-          puntosAcumulados: 2450,
-          comentarios: 23,
-          publicaciones: 8
-        },
-        configuracion: {
-          notificaciones: 'Activadas',
-          privacidad: 'Configurada',
-          idioma: 'Español'
-        }
+      if (!response.ok) {
+        throw new Error('Error al descargar datos')
       }
 
-      const content = `Datos personales de BSK Motorcycle Team
-Exportados el: ${new Date().toLocaleDateString('es-ES')}
-
-${JSON.stringify(userData, null, 2)}`
-
-      const blob = new Blob([content], { type: 'application/json' })
-      const url = URL.createObjectURL(blob)
+      // Obtener el blob del response
+      const blob = await response.blob()
+      
+      // Crear URL temporal para el blob
+      const url = window.URL.createObjectURL(blob)
+      
+      // Crear elemento <a> para descargar
       const a = document.createElement('a')
       a.href = url
       a.download = `bskmt-datos-personales-${new Date().getTime()}.json`
+      document.body.appendChild(a)
       a.click()
-      URL.revokeObjectURL(url)
+      
+      // Limpiar
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(a)
 
       showToast({
         title: '✅ Datos descargados',
@@ -119,6 +156,7 @@ ${JSON.stringify(userData, null, 2)}`
         type: 'success'
       })
     } catch (error) {
+      console.error('Error descargando datos:', error)
       showToast({
         title: 'Error',
         description: 'No se pudieron descargar los datos. Inténtalo de nuevo.',
@@ -130,7 +168,7 @@ ${JSON.stringify(userData, null, 2)}`
   }
 
   const handleDeleteAccount = async () => {
-    if (deleteConfirmPassword !== 'eliminar-cuenta') {
+    if (deleteConfirmText !== 'eliminar-cuenta') {
       showToast({
         title: 'Confirmación incorrecta',
         description: 'Debes escribir "eliminar-cuenta" para confirmar',
@@ -139,24 +177,56 @@ ${JSON.stringify(userData, null, 2)}`
       return
     }
 
+    if (!deletePassword) {
+      showToast({
+        title: 'Contraseña requerida',
+        description: 'Debes ingresar tu contraseña para confirmar',
+        type: 'error'
+      })
+      return
+    }
+
     setIsLoading(true)
     
     try {
-      // Simulación de eliminación de cuenta
-      await new Promise(resolve => setTimeout(resolve, 3000))
-      
-      showToast({
-        title: '⚠️ Cuenta programada para eliminación',
-        description: 'Tu cuenta será eliminada en 30 días. Recibirás un email de confirmación.',
-        type: 'warning'
+      const response = await fetch('/api/user/delete-account', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          password: deletePassword,
+          confirmText: 'eliminar-cuenta'
+        })
       })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Error al eliminar cuenta')
+      }
       
-      setIsDeleteModalOpen(false)
-      setDeleteConfirmPassword('')
-    } catch (error) {
+      if (data.success) {
+        showToast({
+          title: '⚠️ Cuenta programada para eliminación',
+          description: data.data.info || 'Tu cuenta será eliminada en 30 días. Recibirás un email de confirmación.',
+          type: 'warning'
+        })
+        
+        setIsDeleteModalOpen(false)
+        setDeleteConfirmText('')
+        setDeletePassword('')
+        
+        // Redirigir al login después de 3 segundos
+        setTimeout(() => {
+          window.location.href = '/login?message=account-deletion-scheduled'
+        }, 3000)
+      }
+    } catch (error: any) {
+      console.error('Error eliminando cuenta:', error)
       showToast({
         title: 'Error',
-        description: 'No se pudo procesar la eliminación. Inténtalo de nuevo.',
+        description: error.message || 'No se pudo procesar la eliminación. Inténtalo de nuevo.',
         type: 'error'
       })
     } finally {
@@ -169,21 +239,21 @@ ${JSON.stringify(userData, null, 2)}`
       {/* Toast Notification */}
       {toast && (
   <div className={`fixed top-4 right-4 z-50 p-4 rounded-lg border shadow-lg ${
-          toast.type === 'success' ? 'bg-green-50 border-green-200 text-green-800' :
-          toast.type === 'error' ? 'bg-red-50 border-red-200 text-red-800' :
-          'bg-yellow-50 border-yellow-200 text-yellow-800'
+          toast.type === 'success' ? 'bg-green-50 border-green-200 text-green-800 dark:bg-green-900/30 dark:border-green-800 dark:text-green-200' :
+          toast.type === 'error' ? 'bg-red-50 border-red-200 text-red-800 dark:bg-red-900/30 dark:border-red-800 dark:text-red-200' :
+          'bg-yellow-50 border-yellow-200 text-yellow-800 dark:bg-yellow-900/30 dark:border-yellow-800 dark:text-yellow-200'
         }`}>
           <div className="flex items-start gap-3">
-            {toast.type === 'success' && <FaCheckCircle className="h-5 w-5 text-green-600 mt-0.5" />}
-            {toast.type === 'error' && <FaTimesCircle className="h-5 w-5 text-red-600 mt-0.5" />}
-            {toast.type === 'warning' && <FaExclamationTriangle className="h-5 w-5 text-yellow-600 mt-0.5" />}
+            {toast.type === 'success' && <FaCheckCircle className="h-5 w-5 text-green-600 dark:text-green-400 mt-0.5" />}
+            {toast.type === 'error' && <FaTimesCircle className="h-5 w-5 text-red-600 dark:text-red-400 mt-0.5" />}
+            {toast.type === 'warning' && <FaExclamationTriangle className="h-5 w-5 text-yellow-600 dark:text-yellow-400 mt-0.5" />}
             <div>
               <h4 className="font-semibold">{toast.title}</h4>
               <p className="text-sm opacity-90">{toast.description}</p>
             </div>
             <button
               onClick={() => setToast(null)}
-              className="ml-4 text-gray-400 hover:text-gray-600"
+              className="ml-4 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
             >
               <FaTimesCircle className="h-4 w-4" />
             </button>
@@ -191,6 +261,16 @@ ${JSON.stringify(userData, null, 2)}`
         </div>
       )}
 
+      {/* Indicador de carga */}
+      {isLoadingSettings && (
+        <div className="flex items-center justify-center p-8">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <span className="ml-3 text-gray-600 dark:text-gray-400">Cargando preferencias...</span>
+        </div>
+      )}
+
+      {!isLoadingSettings && (
+        <>
       {/* Configuración de Visibilidad en la Comunidad */}
       <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6">
         <div className="flex items-center gap-2 mb-4">
@@ -402,33 +482,60 @@ ${JSON.stringify(userData, null, 2)}`
             
             <div className="mb-6">
               <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Esta acción eliminará permanentemente tu cuenta y todos los datos asociados. 
-                No podrás deshacer esta acción.
+                Esta acción eliminará permanentemente tu cuenta y todos los datos asociados, 
+                incluyendo tu membresía activa. No podrás deshacer esta acción.
               </p>
               
               <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg mb-4">
                 <p className="text-sm text-red-700 dark:text-red-300 mb-2">
-                  Para confirmar, escribe exactamente:
+                  <strong>Se eliminarán:</strong>
                 </p>
-                <code className="text-sm bg-red-100 dark:bg-red-900/30 px-2 py-1 rounded">
-                  eliminar-cuenta
-                </code>
+                <ul className="text-xs text-red-600 dark:text-red-400 space-y-1 mb-3">
+                  <li>• Tu perfil y datos personales</li>
+                  <li>• Tu membresía activa (será cancelada)</li>
+                  <li>• Tu historial de eventos y actividades</li>
+                  <li>• Todos tus puntos acumulados</li>
+                </ul>
+                <p className="text-sm text-red-700 dark:text-red-300">
+                  Para confirmar, escribe exactamente: <code className="bg-red-100 dark:bg-red-900/30 px-2 py-0.5 rounded">eliminar-cuenta</code>
+                </p>
               </div>
               
-              <input
-                type="text"
-                value={deleteConfirmPassword}
-                onChange={(e) => setDeleteConfirmPassword(e.target.value)}
-                placeholder="Escribe 'eliminar-cuenta' para confirmar"
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-              />
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Escribe "eliminar-cuenta"
+                  </label>
+                  <input
+                    type="text"
+                    value={deleteConfirmText}
+                    onChange={(e) => setDeleteConfirmText(e.target.value)}
+                    placeholder="eliminar-cuenta"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Tu contraseña
+                  </label>
+                  <input
+                    type="password"
+                    value={deletePassword}
+                    onChange={(e) => setDeletePassword(e.target.value)}
+                    placeholder="Ingresa tu contraseña"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                  />
+                </div>
+              </div>
             </div>
             
             <div className="flex gap-3">
               <button
                 onClick={() => {
                   setIsDeleteModalOpen(false)
-                  setDeleteConfirmPassword('')
+                  setDeleteConfirmText('')
+                  setDeletePassword('')
                 }}
                 className="flex-1 px-4 py-2 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
               >
@@ -436,8 +543,8 @@ ${JSON.stringify(userData, null, 2)}`
               </button>
               <button
                 onClick={handleDeleteAccount}
-                disabled={deleteConfirmPassword !== 'eliminar-cuenta' || isLoading}
-                className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white rounded-lg"
+                disabled={deleteConfirmText !== 'eliminar-cuenta' || !deletePassword || isLoading}
+                className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-red-400 disabled:cursor-not-allowed text-white rounded-lg"
               >
                 {isLoading ? 'Procesando...' : 'Eliminar cuenta'}
               </button>
@@ -468,6 +575,8 @@ ${JSON.stringify(userData, null, 2)}`
           </div>
         </div>
       </div>
+      </>
+      )}
     </div>
   )
 }

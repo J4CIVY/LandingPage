@@ -365,13 +365,26 @@ export interface IExtendedUser extends Document {
     allowContact: boolean;
   };
   
+  // Configuración de privacidad para la comunidad
+  privacySettings?: {
+    showName: boolean;
+    showPhoto: boolean;
+    showPoints: boolean;
+    showActivity: boolean;
+  };
+  
   // Metadata de administración
   adminNotes?: string;
-  accountStatus: 'active' | 'suspended' | 'inactive' | 'pending_approval';
+  accountStatus: 'active' | 'suspended' | 'inactive' | 'pending_approval' | 'scheduled_deletion' | 'pending_deletion';
   membershipType: 'member' | 'associate' | 'honorary';
   joinDate?: Date;
   approvedBy?: string;
   approvedDate?: Date;
+  
+  // Campos para eliminación de cuenta
+  scheduledDeletionDate?: Date;
+  deletionRequestDate?: Date;
+  deletionReason?: string;
   
   // Configuración de perfil
   profileCompletion: number;
@@ -445,11 +458,19 @@ const ExtendedUserSchema = new Schema<IExtendedUser>({
     allowContact: { type: Boolean, default: true }
   },
   
+  // Configuración de privacidad para la comunidad
+  privacySettings: {
+    showName: { type: Boolean, default: true },
+    showPhoto: { type: Boolean, default: true },
+    showPoints: { type: Boolean, default: false },
+    showActivity: { type: Boolean, default: true }
+  },
+  
   // Metadata de administración
   adminNotes: { type: String },
   accountStatus: { 
     type: String, 
-    enum: ['active', 'suspended', 'inactive', 'pending_approval'],
+    enum: ['active', 'suspended', 'inactive', 'pending_approval', 'scheduled_deletion', 'pending_deletion'],
     default: 'active'
   },
   membershipType: { 
@@ -460,6 +481,11 @@ const ExtendedUserSchema = new Schema<IExtendedUser>({
   joinDate: { type: Date },
   approvedBy: { type: String },
   approvedDate: { type: Date },
+  
+  // Campos para eliminación de cuenta
+  scheduledDeletionDate: { type: Date },
+  deletionRequestDate: { type: Date },
+  deletionReason: { type: String },
   
   // Configuración de perfil
   profileCompletion: { type: Number, default: 0 },
