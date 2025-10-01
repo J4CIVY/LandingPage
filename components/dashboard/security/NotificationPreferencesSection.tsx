@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { FaBell, FaEnvelope, FaMobile, FaCalendarCheck, FaGlobe, FaClock, FaCheckCircle, FaTimesCircle, FaExclamationTriangle, FaSpinner } from 'react-icons/fa'
+import { FaBell, FaEnvelope, FaMobile, FaCalendarCheck, FaGlobe, FaClock, FaCheckCircle, FaTimesCircle, FaExclamationTriangle, FaSpinner, FaWhatsapp } from 'react-icons/fa'
 
 interface NotificationPreferences {
   email: {
@@ -284,6 +284,8 @@ export default function NotificationPreferencesSection() {
         </div>
         
         <div className="space-y-4">
+          {/* ========== EMAIL NOTIFICATIONS ========== */}
+          
           {/* Email - Eventos */}
           <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div className="flex items-center gap-3">
@@ -338,6 +340,119 @@ export default function NotificationPreferencesSection() {
             </label>
           </div>
 
+          {/* Email - Newsletter */}
+          <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                <FaEnvelope className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+              </div>
+              <div>
+                <h4 className="font-medium text-gray-900 dark:text-white">
+                  Email - Newsletter
+                </h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Recibe noticias y actualizaciones del club
+                </p>
+              </div>
+            </div>
+            
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={notificationPreferences.email.newsletter}
+                onChange={() => handleNotificationToggle('email', 'newsletter')}
+                className="sr-only peer"
+              />
+              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            </label>
+          </div>
+
+          {/* Email - Notificaciones administrativas */}
+          <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
+                <FaBell className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+              </div>
+              <div>
+                <h4 className="font-medium text-gray-900 dark:text-white">
+                  Email - Notificaciones administrativas
+                </h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Avisos importantes de la administración
+                </p>
+              </div>
+            </div>
+            
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={notificationPreferences.email.adminNotifications}
+                onChange={() => handleNotificationToggle('email', 'adminNotifications')}
+                className="sr-only peer"
+              />
+              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            </label>
+          </div>
+
+          {/* Email - Vencimiento de documentos */}
+          <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                <FaClock className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+              </div>
+              <div>
+                <h4 className="font-medium text-gray-900 dark:text-white">
+                  Email - Vencimiento de documentos
+                </h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Alertas sobre documentos por vencer (SOAT, licencia, etc.)
+                </p>
+              </div>
+            </div>
+            
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={notificationPreferences.email.documentExpiry}
+                onChange={() => handleNotificationToggle('email', 'documentExpiry')}
+                className="sr-only peer"
+              />
+              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            </label>
+          </div>
+
+          {/* Email - Alertas de emergencia */}
+          <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-red-50 dark:bg-red-900/10">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-red-100 dark:bg-red-900/30 rounded-lg">
+                <FaExclamationTriangle className="h-5 w-5 text-red-600 dark:text-red-400" />
+              </div>
+              <div>
+                <h4 className="font-medium text-gray-900 dark:text-white">
+                  Email - Alertas de emergencia
+                </h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Notificaciones urgentes de seguridad (Recomendado)
+                </p>
+              </div>
+            </div>
+            
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={notificationPreferences.email.emergencyAlerts}
+                onChange={() => handleNotificationToggle('email', 'emergencyAlerts')}
+                className="sr-only peer"
+              />
+              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            </label>
+          </div>
+
+          {/* Separador */}
+          <div className="my-6 border-t border-gray-200 dark:border-gray-700"></div>
+
+          {/* ========== PUSH NOTIFICATIONS ========== */}
+
           {/* Push - Eventos */}
           <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div className="flex items-center gap-3">
@@ -365,18 +480,131 @@ export default function NotificationPreferencesSection() {
             </label>
           </div>
 
-          {/* WhatsApp - Alertas de emergencia */}
+          {/* Push - Recordatorios */}
           <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
-                <FaBell className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+              <div className="p-2 bg-teal-100 dark:bg-teal-900/30 rounded-lg">
+                <FaBell className="h-5 w-5 text-teal-600 dark:text-teal-400" />
+              </div>
+              <div>
+                <h4 className="font-medium text-gray-900 dark:text-white">
+                  Push - Recordatorios
+                </h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Recordatorios push de eventos próximos
+                </p>
+              </div>
+            </div>
+            
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={notificationPreferences.push.reminders}
+                onChange={() => handleNotificationToggle('push', 'reminders')}
+                className="sr-only peer"
+              />
+              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            </label>
+          </div>
+
+          {/* Push - Alertas de emergencia */}
+          <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-red-50 dark:bg-red-900/10">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-red-100 dark:bg-red-900/30 rounded-lg">
+                <FaExclamationTriangle className="h-5 w-5 text-red-600 dark:text-red-400" />
+              </div>
+              <div>
+                <h4 className="font-medium text-gray-900 dark:text-white">
+                  Push - Alertas de emergencia
+                </h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Notificaciones push urgentes de seguridad (Recomendado)
+                </p>
+              </div>
+            </div>
+            
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={notificationPreferences.push.emergencyAlerts}
+                onChange={() => handleNotificationToggle('push', 'emergencyAlerts')}
+                className="sr-only peer"
+              />
+              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            </label>
+          </div>
+
+          {/* Separador */}
+          <div className="my-6 border-t border-gray-200 dark:border-gray-700"></div>
+
+          {/* ========== WHATSAPP NOTIFICATIONS ========== */}
+
+          {/* WhatsApp - Eventos */}
+          <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                <FaWhatsapp className="h-5 w-5 text-green-600 dark:text-green-400" />
+              </div>
+              <div>
+                <h4 className="font-medium text-gray-900 dark:text-white">
+                  WhatsApp - Notificaciones de eventos
+                </h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Recibe información de eventos por WhatsApp
+                </p>
+              </div>
+            </div>
+            
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={notificationPreferences.whatsapp.events}
+                onChange={() => handleNotificationToggle('whatsapp', 'events')}
+                className="sr-only peer"
+              />
+              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            </label>
+          </div>
+
+          {/* WhatsApp - Recordatorios */}
+          <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
+                <FaCalendarCheck className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+              </div>
+              <div>
+                <h4 className="font-medium text-gray-900 dark:text-white">
+                  WhatsApp - Recordatorios
+                </h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Recordatorios de eventos por WhatsApp
+                </p>
+              </div>
+            </div>
+            
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={notificationPreferences.whatsapp.reminders}
+                onChange={() => handleNotificationToggle('whatsapp', 'reminders')}
+                className="sr-only peer"
+              />
+              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            </label>
+          </div>
+
+          {/* WhatsApp - Alertas de emergencia */}
+          <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-red-50 dark:bg-red-900/10">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-red-100 dark:bg-red-900/30 rounded-lg">
+                <FaExclamationTriangle className="h-5 w-5 text-red-600 dark:text-red-400" />
               </div>
               <div>
                 <h4 className="font-medium text-gray-900 dark:text-white">
                   WhatsApp - Alertas de emergencia
                 </h4>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Notificaciones urgentes por WhatsApp
+                  Notificaciones urgentes por WhatsApp (Recomendado)
                 </p>
               </div>
             </div>

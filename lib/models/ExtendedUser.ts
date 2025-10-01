@@ -396,6 +396,9 @@ export interface IExtendedUser extends Document {
   language?: string;
   timezone?: string;
   twoFactorEnabled: boolean;
+  
+  // Preferencias de seguridad
+  securityAlerts?: boolean;
 }
 
 // Esquema extendido del Usuario
@@ -496,7 +499,10 @@ const ExtendedUserSchema = new Schema<IExtendedUser>({
   
   // Preferencias de idioma y zona horaria
   language: { type: String, default: 'es' },
-  timezone: { type: String, default: 'America/Bogota' }
+  timezone: { type: String, default: 'America/Bogota' },
+  
+  // Preferencias de seguridad
+  securityAlerts: { type: Boolean, default: true }
 }, {
   timestamps: true,
   toJSON: { virtuals: true },

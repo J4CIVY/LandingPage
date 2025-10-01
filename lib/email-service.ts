@@ -160,6 +160,39 @@ export class EmailService {
   }
 
   /**
+   * Envía una alerta de seguridad por login desde nuevo dispositivo
+   */
+  async sendSecurityAlert(
+    userEmail: string,
+    userName: string,
+    loginData: {
+      timestamp: string;
+      ipAddress?: string;
+      device?: string;
+      browser?: string;
+      os?: string;
+      location?: string;
+    }
+  ): Promise<boolean> {
+    try {
+      const emailConfig: ZohoEmailConfig = {
+        fromAddress: this.fromEmail,
+        toAddress: userEmail,
+        subject: '🔒 Alerta de Seguridad: Nuevo inicio de sesión detectado - BSK Motorcycle Team',
+        content: this.generateSecurityAlertContent(userName, loginData),
+        mailFormat: 'html',
+        askReceipt: 'yes'
+      };
+
+      const result = await this.client.sendEmail(emailConfig);
+      return result.status?.code === 200;
+    } catch (error) {
+      console.error('Error sending security alert:', error);
+      return false;
+    }
+  }
+
+  /**
    * Envía una notificación de evento
    */
   async sendEventNotification(
@@ -765,6 +798,282 @@ export class EmailService {
             <div class="footer-subtitle">Equipo de seguridad y soporte técnico</div>
             <div class="contact-info">
               Si necesitas ayuda, contáctanos a través de nuestro sitio web o redes sociales oficiales.
+            </div>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+  }
+
+  /**
+   * Genera el contenido HTML para alertas de seguridad por login desde nuevo dispositivo
+   */
+  private generateSecurityAlertContent(
+    userName: string,
+    loginData: {
+      timestamp: string;
+      ipAddress?: string;
+      device?: string;
+      browser?: string;
+      os?: string;
+      location?: string;
+    }
+  ): string {
+    const formatDate = (dateString: string) => {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('es-CO', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone: 'America/Bogota'
+      });
+    };
+
+    return `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Alerta de Seguridad - Nuevo inicio de sesión detectado</title>
+        <style>
+          body { 
+            font-family: Arial, sans-serif; 
+            line-height: 1.6; 
+            color: #333; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #f9fafb;
+          }
+          .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          }
+          .header { 
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            color: white; 
+            padding: 30px 20px; 
+            text-align: center; 
+          }
+          .logo { 
+            font-size: 24px; 
+            font-weight: bold; 
+            margin-bottom: 10px; 
+          }
+          .content { 
+            padding: 40px 30px; 
+          }
+          .alert-icon {
+            text-align: center;
+            margin-bottom: 30px;
+          }
+          .alert-icon::before {
+            content: "🔒";
+            display: inline-block;
+            font-size: 50px;
+          }
+          .title { 
+            font-size: 24px; 
+            margin-bottom: 20px; 
+            color: #dc2626;
+            text-align: center;
+            font-weight: bold;
+          }
+          .message { 
+            margin-bottom: 30px; 
+            font-size: 16px;
+            text-align: center;
+          }
+          .details-card { 
+            background-color: #fef2f2; 
+            border: 2px solid #dc2626; 
+            border-radius: 8px; 
+            padding: 20px; 
+            margin: 25px 0; 
+          }
+          .details-title {
+            font-weight: bold;
+            color: #dc2626;
+            margin-bottom: 15px;
+            font-size: 18px;
+          }
+          .detail-item { 
+            margin-bottom: 12px; 
+            padding: 8px 0;
+            border-bottom: 1px solid #fee2e2;
+          }
+          .detail-item:last-child {
+            border-bottom: none;
+          }
+          .detail-label { 
+            font-weight: bold; 
+            color: #991b1b; 
+            display: inline-block;
+            width: 120px;
+          }
+          .detail-value {
+            color: #374151;
+            font-family: monospace;
+            font-size: 14px;
+          }
+          .action-section {
+            background-color: #fff7ed;
+            border: 1px solid #f97316;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+          }
+          .action-title {
+            font-weight: bold;
+            color: #9a3412;
+            margin-bottom: 12px;
+            font-size: 16px;
+          }
+          .action-text {
+            color: #c2410c;
+            font-size: 14px;
+            margin-bottom: 10px;
+          }
+          .button-container {
+            text-align: center;
+            margin: 25px 0;
+          }
+          .secure-button {
+            display: inline-block;
+            background-color: #dc2626;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 5px;
+          }
+          .secure-button:hover {
+            background-color: #b91c1c;
+          }
+          .info-notice {
+            background-color: #eff6ff;
+            border-left: 4px solid: #3b82f6;
+            padding: 15px;
+            margin: 25px 0;
+            border-radius: 4px;
+          }
+          .info-text {
+            color: #1e40af;
+            font-size: 14px;
+          }
+          .footer { 
+            background-color: #f3f4f6; 
+            padding: 20px; 
+            text-align: center; 
+            font-size: 12px; 
+            color: #6b7280; 
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <div class="logo">BSK Motorcycle Team</div>
+            <div>🔒 Alerta de Seguridad</div>
+          </div>
+          <div class="content">
+            <div class="alert-icon"></div>
+            <div class="title">Nuevo inicio de sesión detectado</div>
+            <div class="message">
+              Hola ${userName},<br><br>
+              Se ha detectado un inicio de sesión en tu cuenta desde un dispositivo que no habíamos visto antes.
+            </div>
+            
+            <div class="details-card">
+              <div class="details-title">📍 Detalles del inicio de sesión</div>
+              <div class="detail-item">
+                <span class="detail-label">Fecha y hora:</span>
+                <span class="detail-value">${formatDate(loginData.timestamp)}</span>
+              </div>
+              ${loginData.device ? `
+              <div class="detail-item">
+                <span class="detail-label">Dispositivo:</span>
+                <span class="detail-value">${loginData.device}</span>
+              </div>
+              ` : ''}
+              ${loginData.browser ? `
+              <div class="detail-item">
+                <span class="detail-label">Navegador:</span>
+                <span class="detail-value">${loginData.browser}</span>
+              </div>
+              ` : ''}
+              ${loginData.os ? `
+              <div class="detail-item">
+                <span class="detail-label">Sistema:</span>
+                <span class="detail-value">${loginData.os}</span>
+              </div>
+              ` : ''}
+              ${loginData.ipAddress ? `
+              <div class="detail-item">
+                <span class="detail-label">Dirección IP:</span>
+                <span class="detail-value">${loginData.ipAddress}</span>
+              </div>
+              ` : ''}
+              ${loginData.location ? `
+              <div class="detail-item">
+                <span class="detail-label">Ubicación:</span>
+                <span class="detail-value">${loginData.location}</span>
+              </div>
+              ` : ''}
+            </div>
+
+            <div class="action-section">
+              <div class="action-title">⚠️ ¿No fuiste tú?</div>
+              <div class="action-text">
+                Si no reconoces esta actividad, tu cuenta podría estar comprometida. 
+                Toma las siguientes medidas inmediatamente:
+              </div>
+              <ul style="color: #c2410c; font-size: 14px;">
+                <li>Cambia tu contraseña de inmediato</li>
+                <li>Cierra todas las sesiones activas</li>
+                <li>Revisa tu actividad reciente</li>
+                <li>Contacta a nuestro equipo de soporte</li>
+              </ul>
+              <div class="button-container">
+                <a href="${process.env.NEXT_PUBLIC_BASE_URL || 'https://bskmt.com'}/dashboard/security" class="secure-button">
+                  🔐 Asegurar mi cuenta
+                </a>
+                <a href="${process.env.NEXT_PUBLIC_BASE_URL || 'https://bskmt.com'}/reset-password" class="secure-button">
+                  🔑 Cambiar contraseña
+                </a>
+              </div>
+            </div>
+
+            <div class="info-notice">
+              <div class="info-text">
+                <strong>✅ ¿Fuiste tú?</strong><br>
+                Si reconoces esta actividad, puedes ignorar este mensaje. 
+                Este dispositivo ahora está registrado en tu cuenta.
+              </div>
+            </div>
+
+            <div class="info-notice">
+              <div class="info-text">
+                <strong>💡 Consejo de seguridad:</strong><br>
+                Mantén tu cuenta segura activando la autenticación de dos factores y 
+                usando contraseñas únicas y fuertes.
+              </div>
+            </div>
+          </div>
+          <div class="footer">
+            <div style="margin-bottom: 10px;">
+              <strong>BSK Motorcycle Team</strong>
+            </div>
+            <div>
+              Este es un correo automático de seguridad. Por favor no respondas a este mensaje.
+            </div>
+            <div style="margin-top: 10px;">
+              Si necesitas ayuda, contáctanos a través de nuestro sitio web.
             </div>
           </div>
         </div>

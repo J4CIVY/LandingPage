@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 import Session from '@/lib/models/Session';
+import ExtendedUser from '@/lib/models/ExtendedUser';
 import { loginSchema } from '@/schemas/authSchemas';
 import { 
   generateAccessToken, 
@@ -11,6 +12,7 @@ import {
   getSessionExpirationDate
 } from '@/lib/auth-utils';
 import { rateLimit } from '@/utils/rateLimit';
+import { getEmailService } from '@/lib/email-service';
 
 // Rate limiting específico para login (más restrictivo)
 const loginRateLimit = rateLimit({
@@ -124,6 +126,9 @@ export async function POST(request: NextRequest) {
     // Extraer información del dispositivo
     const deviceInfo = extractDeviceInfo(request);
 
+    // Verificar si es un nuevo dispositivo
+    const isNewDevice = await checkIfNewDevice(user._id, deviceInfo);
+
     // Generar tokens únicos para la sesión
     const sessionToken = generateSecureToken();
     const refreshTokenValue = generateSecureToken();
@@ -138,6 +143,11 @@ export async function POST(request: NextRequest) {
     });
 
     await session.save();
+
+    // Si es un nuevo dispositivo y el usuario tiene alertas activadas, enviar email
+    if (isNewDevice) {
+      await sendSecurityAlertIfEnabled(user, deviceInfo);
+    }
 
     // Generar JWT tokens
     const accessToken = generateAccessToken({
@@ -218,5 +228,84 @@ export async function POST(request: NextRequest) {
       },
       { status: 500 }
     );
+  }
+}
+
+/**
+ * Verifica si el dispositivo es nuevo comparando con sesiones previas
+ */
+async function checkIfNewDevice(
+  userId: any,
+  currentDeviceInfo: any
+): Promise<boolean> {
+  try {
+    // Buscar sesiones previas del usuario
+    const previousSessions = await Session.find({
+      userId,
+      isActive: true
+    }).limit(10);
+
+    // Si no hay sesiones previas, es un nuevo dispositivo
+    if (previousSessions.length === 0) {
+      return true;
+    }
+
+    // Comparar información del dispositivo actual con sesiones previas
+    const deviceSignature = `${currentDeviceInfo.browser}-${currentDeviceInfo.os}-${currentDeviceInfo.device}`;
+    
+    for (const session of previousSessions) {
+      const sessionSignature = `${session.deviceInfo.browser}-${session.deviceInfo.os}-${session.deviceInfo.device}`;
+      
+      // Si encuentra una coincidencia, no es un nuevo dispositivo
+      if (deviceSignature === sessionSignature) {
+        return false;
+      }
+    }
+
+    // Si no encontró coincidencias, es un nuevo dispositivo
+    return true;
+  } catch (error) {
+    console.error('Error verificando nuevo dispositivo:', error);
+    // En caso de error, asumir que es nuevo dispositivo por seguridad
+    return true;
+  }
+}
+
+/**
+ * Envía alerta de seguridad si el usuario tiene las alertas activadas
+ */
+async function sendSecurityAlertIfEnabled(
+  user: any,
+  deviceInfo: any
+): Promise<void> {
+  try {
+    // Buscar configuración de alertas del usuario en ExtendedUser
+    const extendedUser = await ExtendedUser.findOne({ email: user.email });
+
+    // Si el usuario tiene alertas desactivadas, no enviar
+    if (extendedUser && extendedUser.securityAlerts === false) {
+      return;
+    }
+
+    // Si no existe en ExtendedUser o tiene alertas activadas (por defecto), enviar alerta
+    const emailService = getEmailService();
+    const userName = `${user.firstName} ${user.lastName}`;
+
+    await emailService.sendSecurityAlert(
+      user.email,
+      userName,
+      {
+        timestamp: new Date().toISOString(),
+        ipAddress: deviceInfo.ip,
+        device: deviceInfo.device,
+        browser: deviceInfo.browser,
+        os: deviceInfo.os
+      }
+    );
+
+    console.log(`Alerta de seguridad enviada a ${user.email}`);
+  } catch (error) {
+    console.error('Error enviando alerta de seguridad:', error);
+    // No lanzar error para no interrumpir el flujo de login
   }
 }

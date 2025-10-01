@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { FaGoogle, FaFacebook, FaApple, FaLink, FaUnlink, FaShieldAlt, FaMoon, FaSun, FaDesktop, FaCheckCircle, FaTimesCircle, FaExclamationTriangle } from 'react-icons/fa'
 
 interface SocialAccount {
@@ -37,7 +37,31 @@ export default function AdvancedSettingsSection() {
   const [securityAlerts, setSecurityAlerts] = useState(true)
   const [themeMode, setThemeMode] = useState<'light' | 'dark' | 'system'>('system')
   const [isLoading, setIsLoading] = useState(false)
+  const [isLoadingAlerts, setIsLoadingAlerts] = useState(true)
   const [toast, setToast] = useState<ToastType | null>(null)
+
+  // Cargar configuración de alertas de seguridad al montar
+  useEffect(() => {
+    loadSecurityAlerts()
+  }, [])
+
+  const loadSecurityAlerts = async () => {
+    try {
+      setIsLoadingAlerts(true)
+      const response = await fetch('/api/user/security-alerts')
+      
+      if (response.ok) {
+        const data = await response.json()
+        if (data.success) {
+          setSecurityAlerts(data.data.securityAlerts)
+        }
+      }
+    } catch (error) {
+      console.error('Error al cargar alertas de seguridad:', error)
+    } finally {
+      setIsLoadingAlerts(false)
+    }
+  }
 
   const showToast = (toast: ToastType) => {
     setToast(toast)
@@ -111,24 +135,41 @@ export default function AdvancedSettingsSection() {
 
   const handleSecurityAlertsToggle = async () => {
     const newValue = !securityAlerts
+    const previousValue = securityAlerts
+    
+    // Actualización optimista
     setSecurityAlerts(newValue)
 
     try {
-      // Simulación de guardado
-      await new Promise(resolve => setTimeout(resolve, 500))
+      const response = await fetch('/api/user/security-alerts', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          securityAlerts: newValue
+        })
+      })
+
+      const data = await response.json()
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || 'Error al actualizar alertas de seguridad')
+      }
       
       showToast({
-        title: `Alertas de seguridad ${newValue ? 'activadas' : 'desactivadas'}`,
+        title: data.message || `Alertas de seguridad ${newValue ? 'activadas' : 'desactivadas'}`,
         description: newValue 
-          ? 'Recibirás notificaciones sobre actividad sospechosa'
+          ? 'Recibirás notificaciones sobre actividad sospechosa en tu cuenta'
           : 'Ya no recibirás alertas de seguridad automáticas',
         type: 'success'
       })
     } catch (error) {
-      setSecurityAlerts(!newValue)
+      // Revertir cambio en caso de error
+      setSecurityAlerts(previousValue)
       showToast({
         title: 'Error',
-        description: 'No se pudo actualizar la configuración de alertas',
+        description: error instanceof Error ? error.message : 'No se pudo actualizar la configuración de alertas',
         type: 'error'
       })
     }
@@ -313,9 +354,10 @@ export default function AdvancedSettingsSection() {
               type="checkbox"
               checked={securityAlerts}
               onChange={handleSecurityAlertsToggle}
+              disabled={isLoadingAlerts}
               className="sr-only peer"
             />
-            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 peer-disabled:opacity-50 peer-disabled:cursor-not-allowed"></div>
           </label>
         </div>
         
