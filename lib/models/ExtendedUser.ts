@@ -378,6 +378,10 @@ export interface IExtendedUser extends Document {
   lastProfileUpdate: Date;
   emailVerified: boolean;
   phoneVerified: boolean;
+  
+  // Preferencias de idioma y zona horaria
+  language?: string;
+  timezone?: string;
   twoFactorEnabled: boolean;
 }
 
@@ -462,7 +466,11 @@ const ExtendedUserSchema = new Schema<IExtendedUser>({
   lastProfileUpdate: { type: Date, default: Date.now },
   emailVerified: { type: Boolean, default: false },
   phoneVerified: { type: Boolean, default: false },
-  twoFactorEnabled: { type: Boolean, default: false }
+  twoFactorEnabled: { type: Boolean, default: false },
+  
+  // Preferencias de idioma y zona horaria
+  language: { type: String, default: 'es' },
+  timezone: { type: String, default: 'America/Bogota' }
 }, {
   timestamps: true,
   toJSON: { virtuals: true },

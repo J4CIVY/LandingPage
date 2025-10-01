@@ -1,12 +1,27 @@
 'use client'
 
-import { useState } from 'react'
-import { FaBell, FaEnvelope, FaMobile, FaCalendarCheck, FaGlobe, FaClock, FaCheckCircle, FaTimesCircle, FaExclamationTriangle } from 'react-icons/fa'
+import { useState, useEffect } from 'react'
+import { FaBell, FaEnvelope, FaMobile, FaCalendarCheck, FaGlobe, FaClock, FaCheckCircle, FaTimesCircle, FaExclamationTriangle, FaSpinner } from 'react-icons/fa'
 
-interface NotificationSettings {
-  email: boolean
-  push: boolean
-  eventReminders: boolean
+interface NotificationPreferences {
+  email: {
+    events: boolean;
+    reminders: boolean;
+    newsletter: boolean;
+    adminNotifications: boolean;
+    documentExpiry: boolean;
+    emergencyAlerts: boolean;
+  };
+  whatsapp: {
+    events: boolean;
+    reminders: boolean;
+    emergencyAlerts: boolean;
+  };
+  push: {
+    events: boolean;
+    reminders: boolean;
+    emergencyAlerts: boolean;
+  };
 }
 
 interface ToastType {
@@ -16,16 +31,65 @@ interface ToastType {
 }
 
 export default function NotificationPreferencesSection() {
-  const [notifications, setNotifications] = useState<NotificationSettings>({
-    email: true,
-    push: false,
-    eventReminders: true
+  const [notificationPreferences, setNotificationPreferences] = useState<NotificationPreferences>({
+    email: {
+      events: true,
+      reminders: true,
+      newsletter: false,
+      adminNotifications: true,
+      documentExpiry: true,
+      emergencyAlerts: true
+    },
+    whatsapp: {
+      events: false,
+      reminders: false,
+      emergencyAlerts: true
+    },
+    push: {
+      events: false,
+      reminders: false,
+      emergencyAlerts: true
+    }
   })
   
   const [selectedLanguage, setSelectedLanguage] = useState('es')
   const [selectedTimezone, setSelectedTimezone] = useState('America/Bogota')
   const [isLoading, setIsLoading] = useState(false)
+  const [isLoadingData, setIsLoadingData] = useState(true)
   const [toast, setToast] = useState<ToastType | null>(null)
+
+  // Cargar preferencias desde la API
+  const loadPreferences = async () => {
+    try {
+      setIsLoadingData(true)
+      const response = await fetch('/api/user/preferences')
+      
+      if (!response.ok) {
+        throw new Error('Error al cargar preferencias')
+      }
+      
+      const data = await response.json()
+      const prefs = data.preferences
+      
+      setNotificationPreferences(prefs.notificationPreferences)
+      setSelectedLanguage(prefs.language || 'es')
+      setSelectedTimezone(prefs.timezone || 'America/Bogota')
+    } catch (error) {
+      console.error('Error cargando preferencias:', error)
+      showToast({
+        title: "Error",
+        description: "No se pudieron cargar las preferencias",
+        type: "error"
+      })
+    } finally {
+      setIsLoadingData(false)
+    }
+  }
+
+  // Cargar preferencias al montar el componente
+  useEffect(() => {
+    loadPreferences()
+  }, [])
 
   const showToast = (toast: ToastType) => {
     setToast(toast)
@@ -49,39 +113,69 @@ export default function NotificationPreferencesSection() {
     { value: 'Europe/Madrid', label: 'Madrid (GMT+1)', country: 'España' }
   ]
 
-  const handleNotificationToggle = async (type: keyof NotificationSettings) => {
-    const newValue = !notifications[type]
+  const updatePreferences = async (updates: any) => {
+    try {
+      const response = await fetch('/api/user/preferences', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updates)
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || 'Error al actualizar preferencias')
+      }
+
+      return await response.json()
+    } catch (error) {
+      throw error
+    }
+  }
+
+  const handleNotificationToggle = async (category: 'email' | 'whatsapp' | 'push', field: string) => {
+    const currentValue = (notificationPreferences[category] as any)[field]
+    const newValue = !currentValue
     
-    setNotifications(prev => ({
+    // Actualización optimista
+    setNotificationPreferences(prev => ({
       ...prev,
-      [type]: newValue
+      [category]: {
+        ...prev[category],
+        [field]: newValue
+      }
     }))
 
-    // Simulación de guardado
     try {
-      await new Promise(resolve => setTimeout(resolve, 500))
-      
-      const notificationLabels = {
-        email: 'Notificaciones por correo',
-        push: 'Notificaciones push',
-        eventReminders: 'Recordatorios de eventos'
-      }
+      await updatePreferences({
+        notificationPreferences: {
+          ...notificationPreferences,
+          [category]: {
+            ...notificationPreferences[category],
+            [field]: newValue
+          }
+        }
+      })
       
       showToast({
-        title: `${notificationLabels[type]} ${newValue ? 'activadas' : 'desactivadas'}`,
-        description: `Las ${notificationLabels[type].toLowerCase()} han sido ${newValue ? 'activadas' : 'desactivadas'} correctamente`,
+        title: `Notificación ${newValue ? 'activada' : 'desactivada'}`,
+        description: `La preferencia ha sido actualizada correctamente`,
         type: 'success'
       })
     } catch (error) {
       // Revertir cambio en caso de error
-      setNotifications(prev => ({
+      setNotificationPreferences(prev => ({
         ...prev,
-        [type]: !newValue
+        [category]: {
+          ...prev[category],
+          [field]: currentValue
+        }
       }))
       
       showToast({
         title: 'Error',
-        description: 'No se pudo guardar la configuración. Inténtalo de nuevo.',
+        description: error instanceof Error ? error.message : 'No se pudo guardar la configuración. Inténtalo de nuevo.',
         type: 'error'
       })
     }
@@ -93,8 +187,7 @@ export default function NotificationPreferencesSection() {
     setSelectedLanguage(languageCode)
 
     try {
-      // Simulación de cambio de idioma
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      await updatePreferences({ language: languageCode })
       
       const selectedLang = languages.find(lang => lang.code === languageCode)
       showToast({
@@ -106,7 +199,7 @@ export default function NotificationPreferencesSection() {
       setSelectedLanguage(previousLanguage)
       showToast({
         title: 'Error',
-        description: 'No se pudo cambiar el idioma. Inténtalo de nuevo.',
+        description: error instanceof Error ? error.message : 'No se pudo cambiar el idioma. Inténtalo de nuevo.',
         type: 'error'
       })
     } finally {
@@ -120,8 +213,7 @@ export default function NotificationPreferencesSection() {
     setSelectedTimezone(timezone)
 
     try {
-      // Simulación de cambio de zona horaria
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      await updatePreferences({ timezone })
       
       const selectedTz = timezones.find(tz => tz.value === timezone)
       showToast({
@@ -133,12 +225,26 @@ export default function NotificationPreferencesSection() {
       setSelectedTimezone(previousTimezone)
       showToast({
         title: 'Error',
-        description: 'No se pudo cambiar la zona horaria. Inténtalo de nuevo.',
+        description: error instanceof Error ? error.message : 'No se pudo cambiar la zona horaria. Inténtalo de nuevo.',
         type: 'error'
       })
     } finally {
       setIsLoading(false)
     }
+  }
+
+  // Mostrar indicador de carga mientras se cargan los datos
+  if (isLoadingData) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-center py-12">
+          <div className="flex flex-col items-center gap-3">
+            <FaSpinner className="h-8 w-8 text-blue-600 animate-spin" />
+            <p className="text-gray-600 dark:text-gray-400">Cargando preferencias...</p>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -178,7 +284,7 @@ export default function NotificationPreferencesSection() {
         </div>
         
         <div className="space-y-4">
-          {/* Notificaciones por correo */}
+          {/* Email - Eventos */}
           <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
@@ -186,10 +292,10 @@ export default function NotificationPreferencesSection() {
               </div>
               <div>
                 <h4 className="font-medium text-gray-900 dark:text-white">
-                  Notificaciones por correo
+                  Email - Notificaciones de eventos
                 </h4>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Recibe actualizaciones importantes por email
+                  Recibe información sobre nuevos eventos
                 </p>
               </div>
             </div>
@@ -197,15 +303,42 @@ export default function NotificationPreferencesSection() {
             <label className="relative inline-flex items-center cursor-pointer">
               <input
                 type="checkbox"
-                checked={notifications.email}
-                onChange={() => handleNotificationToggle('email')}
+                checked={notificationPreferences.email.events}
+                onChange={() => handleNotificationToggle('email', 'events')}
                 className="sr-only peer"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             </label>
           </div>
 
-          {/* Notificaciones push */}
+          {/* Email - Recordatorios */}
+          <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                <FaCalendarCheck className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+              </div>
+              <div>
+                <h4 className="font-medium text-gray-900 dark:text-white">
+                  Email - Recordatorios
+                </h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Recordatorios de eventos próximos
+                </p>
+              </div>
+            </div>
+            
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={notificationPreferences.email.reminders}
+                onChange={() => handleNotificationToggle('email', 'reminders')}
+                className="sr-only peer"
+              />
+              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            </label>
+          </div>
+
+          {/* Push - Eventos */}
           <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
@@ -213,10 +346,10 @@ export default function NotificationPreferencesSection() {
               </div>
               <div>
                 <h4 className="font-medium text-gray-900 dark:text-white">
-                  Notificaciones push
+                  Push - Notificaciones de eventos
                 </h4>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Recibe notificaciones en tiempo real en tu dispositivo
+                  Notificaciones push sobre eventos
                 </p>
               </div>
             </div>
@@ -224,26 +357,26 @@ export default function NotificationPreferencesSection() {
             <label className="relative inline-flex items-center cursor-pointer">
               <input
                 type="checkbox"
-                checked={notifications.push}
-                onChange={() => handleNotificationToggle('push')}
+                checked={notificationPreferences.push.events}
+                onChange={() => handleNotificationToggle('push', 'events')}
                 className="sr-only peer"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             </label>
           </div>
 
-          {/* Recordatorios de eventos */}
+          {/* WhatsApp - Alertas de emergencia */}
           <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
-                <FaCalendarCheck className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+                <FaBell className="h-5 w-5 text-orange-600 dark:text-orange-400" />
               </div>
               <div>
                 <h4 className="font-medium text-gray-900 dark:text-white">
-                  Recordatorios de eventos
+                  WhatsApp - Alertas de emergencia
                 </h4>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Recibe recordatorios antes de eventos y actividades
+                  Notificaciones urgentes por WhatsApp
                 </p>
               </div>
             </div>
@@ -251,8 +384,8 @@ export default function NotificationPreferencesSection() {
             <label className="relative inline-flex items-center cursor-pointer">
               <input
                 type="checkbox"
-                checked={notifications.eventReminders}
-                onChange={() => handleNotificationToggle('eventReminders')}
+                checked={notificationPreferences.whatsapp.emergencyAlerts}
+                onChange={() => handleNotificationToggle('whatsapp', 'emergencyAlerts')}
                 className="sr-only peer"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
