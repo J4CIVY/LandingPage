@@ -478,8 +478,7 @@ const ExtendedUserSchema = new Schema<IExtendedUser>({
 });
 
 // Índices para optimización
-ExtendedUserSchema.index({ email: 1 });
-ExtendedUserSchema.index({ membershipNumber: 1 });
+// email y membershipNumber ya tienen índices unique en la definición del schema
 ExtendedUserSchema.index({ role: 1 });
 ExtendedUserSchema.index({ accountStatus: 1 });
 ExtendedUserSchema.index({ 'documents.status': 1 });
