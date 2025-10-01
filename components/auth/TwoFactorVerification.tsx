@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { FaShieldAlt, FaSpinner, FaWhatsapp, FaRedo, FaClock } from 'react-icons/fa';
+import { FaShieldAlt, FaSpinner, FaWhatsapp, FaRedo, FaClock, FaEnvelope, FaExclamationTriangle } from 'react-icons/fa';
 
 interface TwoFactorVerificationProps {
   twoFactorId: string;
@@ -26,18 +26,43 @@ export default function TwoFactorVerification({
   const [timeRemaining, setTimeRemaining] = useState(expiresIn);
   const [canResend, setCanResend] = useState(false);
   const [isResending, setIsResending] = useState(false);
+  const [resendCount, setResendCount] = useState(0);
+  const [resendCooldown, setResendCooldown] = useState(0);
+  const [showEmailBackup, setShowEmailBackup] = useState(false);
+  const [isEmailBackup, setIsEmailBackup] = useState(false);
+  const [attemptsRemaining, setAttemptsRemaining] = useState<number | null>(null);
   
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  // Countdown timer
+  // Countdown timer para expiración del código
   useEffect(() => {
     if (timeRemaining <= 0) {
-      setCanResend(true);
+      setError('⏱️ El código ha expirado. Solicita uno nuevo.');
       return;
     }
 
     const timer = setInterval(() => {
       setTimeRemaining(prev => {
+        const newTime = prev - 1;
+        if (newTime <= 0) {
+          setError('⏱️ El código ha expirado. Solicita uno nuevo.');
+        }
+        return newTime;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [timeRemaining]);
+
+  // Countdown timer para cooldown de reenvío
+  useEffect(() => {
+    if (resendCooldown <= 0) {
+      setCanResend(true);
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setResendCooldown(prev => {
         const newTime = prev - 1;
         if (newTime <= 0) {
           setCanResend(true);
@@ -47,7 +72,7 @@ export default function TwoFactorVerification({
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [timeRemaining]);
+  }, [resendCooldown]);
 
   // Auto-submit cuando se completan los 6 dígitos
   useEffect(() => {
@@ -143,6 +168,16 @@ export default function TwoFactorVerification({
       } else {
         setError(data.message || 'Código incorrecto');
         
+        // Actualizar intentos restantes si están disponibles
+        if (data.remainingAttempts !== undefined) {
+          setAttemptsRemaining(data.remainingAttempts);
+          
+          // Si no quedan intentos, mostrar opción de email
+          if (data.remainingAttempts === 0) {
+            setShowEmailBackup(true);
+          }
+        }
+        
         // Limpiar el código para intentar de nuevo
         setCode(['', '', '', '', '', '']);
         inputRefs.current[0]?.focus();
@@ -163,12 +198,59 @@ export default function TwoFactorVerification({
     
     try {
       await onResend();
+      
+      // Incrementar contador de reenvíos
+      const newResendCount = resendCount + 1;
+      setResendCount(newResendCount);
+      
+      // Backoff exponencial: 30s, 60s, 120s, 240s...
+      const cooldownTime = Math.min(30 * Math.pow(2, newResendCount - 1), 300); // Máximo 5 minutos
+      setResendCooldown(cooldownTime);
+      
       setTimeRemaining(expiresIn);
       setCanResend(false);
       setCode(['', '', '', '', '', '']);
+      setAttemptsRemaining(null);
+      setShowEmailBackup(false);
       inputRefs.current[0]?.focus();
     } catch (error) {
       setError('Error al reenviar el código');
+    } finally {
+      setIsResending(false);
+    }
+  };
+
+  const handleEmailBackup = async () => {
+    setIsResending(true);
+    setError(null);
+    
+    try {
+      const response = await fetch('/api/auth/2fa/send-email-backup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          twoFactorId
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setIsEmailBackup(true);
+        setTimeRemaining(data.data.expiresIn);
+        setShowEmailBackup(false);
+        setAttemptsRemaining(null);
+        setCode(['', '', '', '', '', '']);
+        inputRefs.current[0]?.focus();
+        setError(null);
+      } else {
+        setError(data.message || 'Error al enviar código por email');
+      }
+    } catch (error) {
+      console.error('Error enviando código por email:', error);
+      setError('Error de conexión al intentar enviar por email');
     } finally {
       setIsResending(false);
     }
@@ -196,14 +278,25 @@ export default function TwoFactorVerification({
           </h2>
           
           <div className="flex items-center justify-center gap-2 text-gray-600 dark:text-slate-400 mb-2">
-            <FaWhatsapp className="text-green-500" />
-            <p className="text-sm">
-              Hemos enviado un código de 6 dígitos a
-            </p>
+            {isEmailBackup ? (
+              <>
+                <FaEnvelope className="text-blue-500" />
+                <p className="text-sm">
+                  Hemos enviado un código a tu correo electrónico
+                </p>
+              </>
+            ) : (
+              <>
+                <FaWhatsapp className="text-green-500" />
+                <p className="text-sm">
+                  Hemos enviado un código de 6 dígitos a
+                </p>
+              </>
+            )}
           </div>
           
           <p className="text-base font-semibold text-gray-900 dark:text-white">
-            {phoneNumber}
+            {isEmailBackup ? 'Revisa tu bandeja de entrada' : phoneNumber}
           </p>
         </div>
 
@@ -244,6 +337,48 @@ export default function TwoFactorVerification({
               <p className="text-sm text-red-600 dark:text-red-400 text-center">
                 {error}
               </p>
+              {attemptsRemaining !== null && attemptsRemaining > 0 && (
+                <p className="text-xs text-red-500 dark:text-red-400 text-center mt-1">
+                  Te quedan {attemptsRemaining} {attemptsRemaining === 1 ? 'intento' : 'intentos'}
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* Email Backup Warning */}
+          {showEmailBackup && (
+            <div className="mb-4 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
+              <div className="flex items-start gap-2">
+                <FaExclamationTriangle className="text-amber-600 dark:text-amber-400 mt-1 flex-shrink-0" />
+                <div>
+                  <p className="text-sm font-semibold text-amber-800 dark:text-amber-300 mb-2">
+                    Has excedido los intentos por WhatsApp
+                  </p>
+                  <p className="text-xs text-amber-700 dark:text-amber-400 mb-3">
+                    Podemos enviarte el código por correo electrónico como método alternativo.
+                  </p>
+                  <button
+                    onClick={handleEmailBackup}
+                    disabled={isResending}
+                    className="w-full py-2 px-3 rounded-lg font-medium transition-colors text-sm
+                      bg-amber-600 hover:bg-amber-700 text-white
+                      disabled:opacity-50 disabled:cursor-not-allowed
+                      flex items-center justify-center gap-2"
+                  >
+                    {isResending ? (
+                      <>
+                        <FaSpinner className="animate-spin" />
+                        Enviando...
+                      </>
+                    ) : (
+                      <>
+                        <FaEnvelope />
+                        Recibir código por email
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
             </div>
           )}
 
@@ -268,29 +403,50 @@ export default function TwoFactorVerification({
 
           {/* Resend Button */}
           <div className="flex flex-col gap-3">
-            <button
-              onClick={handleResend}
-              disabled={!canResend || isResending}
-              className={`w-full py-3 px-4 rounded-lg font-medium transition-colors
-                flex items-center justify-center gap-2
-                ${canResend && !isResending
-                  ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                  : 'bg-gray-200 dark:bg-slate-700 text-gray-400 dark:text-slate-500 cursor-not-allowed'
-                }
-              `}
-            >
-              {isResending ? (
-                <>
-                  <FaSpinner className="animate-spin" />
-                  Reenviando...
-                </>
-              ) : (
-                <>
-                  <FaRedo />
-                  {canResend ? 'Reenviar código' : 'Espera para reenviar'}
-                </>
-              )}
-            </button>
+            {!isEmailBackup && (
+              <button
+                onClick={handleResend}
+                disabled={!canResend || isResending || timeRemaining <= 0}
+                className={`w-full py-3 px-4 rounded-lg font-medium transition-colors
+                  flex items-center justify-center gap-2
+                  ${canResend && timeRemaining > 0 && !isResending
+                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                    : 'bg-gray-200 dark:bg-slate-700 text-gray-400 dark:text-slate-500 cursor-not-allowed'
+                  }
+                `}
+              >
+                {isResending ? (
+                  <>
+                    <FaSpinner className="animate-spin" />
+                    Reenviando...
+                  </>
+                ) : resendCooldown > 0 ? (
+                  <>
+                    <FaClock />
+                    Espera {formatTime(resendCooldown)} para reenviar
+                  </>
+                ) : timeRemaining <= 0 ? (
+                  <>
+                    <FaRedo />
+                    Solicitar nuevo código
+                  </>
+                ) : (
+                  <>
+                    <FaRedo />
+                    {canResend ? 'Reenviar código por WhatsApp' : 'Espera para reenviar'}
+                  </>
+                )}
+              </button>
+            )}
+
+            {isEmailBackup && (
+              <div className="text-center py-2 px-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                <p className="text-sm text-blue-700 dark:text-blue-300 flex items-center justify-center gap-2">
+                  <FaEnvelope />
+                  Código enviado por correo electrónico
+                </p>
+              </div>
+            )}
 
             <button
               onClick={onCancel}
@@ -306,8 +462,17 @@ export default function TwoFactorVerification({
         {/* Help Text */}
         <div className="text-center">
           <p className="text-sm text-gray-600 dark:text-slate-400">
-            ¿No recibiste el código? Verifica tu WhatsApp o solicita uno nuevo.
+            {isEmailBackup 
+              ? '¿No recibiste el email? Revisa tu carpeta de spam o solicita uno nuevo.'
+              : '¿No recibiste el código? Verifica tu WhatsApp o solicita uno nuevo.'
+            }
           </p>
+          {resendCount > 0 && !isEmailBackup && (
+            <p className="text-xs text-gray-500 dark:text-slate-500 mt-2">
+              Códigos reenviados: {resendCount}
+              {resendCount >= 3 && ' (Si sigues sin recibirlo, contacta soporte)'}
+            </p>
+          )}
         </div>
       </div>
     </div>
