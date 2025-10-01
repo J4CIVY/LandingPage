@@ -1,13 +1,14 @@
 'use client';
 
-import { useState, Suspense, useEffect } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FaEye, FaEyeSlash, FaSpinner, FaEnvelope, FaLock, FaMotorcycle } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaSpinner, FaEnvelope, FaLock } from 'react-icons/fa';
 import { loginSchema } from '@/schemas/authSchemas';
 import { useAuth } from '@/hooks/useAuth';
+import TwoFactorVerification from '@/components/auth/TwoFactorVerification';
 
 type LoginFormData = {
   email: string;
@@ -15,20 +16,28 @@ type LoginFormData = {
   rememberMe?: boolean;
 };
 
+interface TwoFactorData {
+  twoFactorId: string;
+  phoneNumber: string;
+  expiresIn: number;
+}
+
 function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [loginError, setLoginError] = useState<string | null>(null);
+  const [show2FA, setShow2FA] = useState(false);
+  const [twoFactorData, setTwoFactorData] = useState<TwoFactorData | null>(null);
+  const [loginCredentials, setLoginCredentials] = useState<{ email: string; password: string } | null>(null);
+  
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { getRedirectUrl, clearRedirectUrl, login, error: authError } = useAuth();
+  const { getRedirectUrl, clearRedirectUrl } = useAuth();
 
   // Obtener la URL de retorno de los parámetros de consulta o del sessionStorage
   const urlParamRedirect = searchParams.get('returnUrl');
   const sessionRedirect = getRedirectUrl();
   const returnUrl = urlParamRedirect || sessionRedirect || '/dashboard';
-
-  // TEMPORALMENTE REMOVIDO - useEffect que causaba redirecciones automáticas
 
   const {
     register,
@@ -49,30 +58,98 @@ function LoginForm() {
     setLoginError(null);
 
     try {
-      // Usar el hook useAuth para manejar el login
-      const loginSuccess = await login(data.email, data.password, data.rememberMe);
+      // Paso 1: Generar código 2FA
+      const response = await fetch('/api/auth/2fa/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password
+        })
+      });
 
-      if (loginSuccess) {
-        // Login exitoso - limpiar URL guardada y redireccionar
-        clearRedirectUrl();
-        console.log('Login exitoso! Redirigiendo a:', returnUrl);
+      const result = await response.json();
+
+      if (result.success) {
+        // Guardar credenciales para posible reenvío
+        setLoginCredentials({ email: data.email, password: data.password });
         
-        // Pequeño delay para asegurar que el estado se propague
-        setTimeout(() => {
-          router.push(returnUrl);
-        }, 100);
-        
+        // Mostrar pantalla 2FA
+        setTwoFactorData({
+          twoFactorId: result.data.twoFactorId,
+          phoneNumber: result.data.phoneNumber,
+          expiresIn: result.data.expiresIn
+        });
+        setShow2FA(true);
       } else {
-        // Mostrar error específico del hook de autenticación o genérico
-        setLoginError(authError || 'Credenciales inválidas o error de autenticación');
-        setIsLoading(false);
+        setLoginError(result.message || 'Error al generar código de verificación');
       }
     } catch (error) {
       console.error('Error en login:', error);
       setLoginError('Error de conexión. Por favor intenta nuevamente.');
+    } finally {
       setIsLoading(false);
     }
   };
+
+  const handle2FAVerified = () => {
+    // Verificación exitosa - limpiar y redirigir
+    clearRedirectUrl();
+    console.log('Login exitoso con 2FA! Redirigiendo a:', returnUrl);
+    
+    setTimeout(() => {
+      router.push(returnUrl);
+      router.refresh();
+    }, 100);
+  };
+
+  const handle2FACancel = () => {
+    setShow2FA(false);
+    setTwoFactorData(null);
+    setLoginCredentials(null);
+  };
+
+  const handle2FAResend = async () => {
+    if (!loginCredentials) {
+      throw new Error('No hay credenciales guardadas');
+    }
+
+    const response = await fetch('/api/auth/2fa/generate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(loginCredentials)
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      setTwoFactorData({
+        twoFactorId: result.data.twoFactorId,
+        phoneNumber: result.data.phoneNumber,
+        expiresIn: result.data.expiresIn
+      });
+    } else {
+      throw new Error(result.message || 'Error al reenviar código');
+    }
+  };
+
+  // Si estamos en la pantalla 2FA, mostrar ese componente
+  if (show2FA && twoFactorData) {
+    return (
+      <TwoFactorVerification
+        twoFactorId={twoFactorData.twoFactorId}
+        phoneNumber={twoFactorData.phoneNumber}
+        expiresIn={twoFactorData.expiresIn}
+        onVerified={handle2FAVerified}
+        onCancel={handle2FACancel}
+        onResend={handle2FAResend}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8">
