@@ -129,15 +129,25 @@ export async function POST(request: NextRequest) {
     // Verificar si es un nuevo dispositivo
     const isNewDevice = await checkIfNewDevice(user._id, deviceInfo);
 
-    // Generar tokens únicos para la sesión
-    const sessionToken = generateSecureToken();
-    const refreshTokenValue = generateSecureToken();
+    // Generar JWT tokens primero (temporales sin sessionId)
+    const tempAccessToken = generateAccessToken({
+      userId: user._id.toString(),
+      email: user.email,
+      membershipType: user.membershipType,
+      role: user.role,
+      sessionId: '' // Temporal
+    });
 
-    // Crear nueva sesión
+    const tempRefreshToken = generateRefreshToken({
+      userId: user._id.toString(),
+      sessionId: '' // Temporal
+    });
+
+    // Crear nueva sesión con el refresh token JWT
     const session = new Session({
       userId: user._id,
-      sessionToken,
-      refreshToken: refreshTokenValue,
+      sessionToken: generateSecureToken(),
+      refreshToken: tempRefreshToken, // Guardar el JWT temporalmente
       deviceInfo,
       expiresAt: getSessionExpirationDate()
     });
@@ -149,7 +159,7 @@ export async function POST(request: NextRequest) {
       await sendSecurityAlertIfEnabled(user, deviceInfo);
     }
 
-    // Generar JWT tokens
+    // Generar JWT tokens finales con el sessionId correcto
     const accessToken = generateAccessToken({
       userId: user._id.toString(),
       email: user.email,
@@ -162,6 +172,10 @@ export async function POST(request: NextRequest) {
       userId: user._id.toString(),
       sessionId: session._id.toString()
     });
+
+    // Actualizar la sesión con el refresh token final
+    session.refreshToken = refreshToken;
+    await session.save();
 
     // Actualizar última conexión del usuario
     await user.updateLastLogin();

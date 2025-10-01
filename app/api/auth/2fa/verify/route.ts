@@ -163,23 +163,33 @@ export async function POST(request: NextRequest) {
     // Extraer información del dispositivo
     const deviceInfo = extractDeviceInfo(request);
 
-    // Generar tokens para la sesión
-    const sessionToken = generateSecureToken();
-    const refreshTokenValue = generateSecureToken();
+    // Generar JWT tokens
+    const accessToken = generateAccessToken({
+      userId: user._id.toString(),
+      email: user.email,
+      membershipType: user.membershipType,
+      role: user.role,
+      sessionId: '' // Temporal, se actualizará después de crear la sesión
+    });
 
-    // Crear nueva sesión
+    const refreshToken = generateRefreshToken({
+      userId: user._id.toString(),
+      sessionId: '' // Temporal, se actualizará después de crear la sesión
+    });
+
+    // Crear nueva sesión con el refreshToken JWT
     const session = new Session({
       userId: user._id,
-      sessionToken,
-      refreshToken: refreshTokenValue,
+      sessionToken: generateSecureToken(),
+      refreshToken: refreshToken, // Guardar el JWT
       deviceInfo,
       expiresAt: getSessionExpirationDate()
     });
 
     await session.save();
 
-    // Generar JWT tokens
-    const accessToken = generateAccessToken({
+    // Regenerar tokens con el sessionId correcto
+    const finalAccessToken = generateAccessToken({
       userId: user._id.toString(),
       email: user.email,
       membershipType: user.membershipType,
@@ -187,10 +197,14 @@ export async function POST(request: NextRequest) {
       sessionId: session._id.toString()
     });
 
-    const refreshToken = generateRefreshToken({
+    const finalRefreshToken = generateRefreshToken({
       userId: user._id.toString(),
       sessionId: session._id.toString()
     });
+
+    // Actualizar la sesión con el refresh token final
+    session.refreshToken = finalRefreshToken;
+    await session.save();
 
     // Actualizar última conexión
     await user.updateLastLogin();
@@ -216,8 +230,8 @@ export async function POST(request: NextRequest) {
         message: 'Autenticación exitosa',
         data: {
           user: user.getPublicProfile(),
-          accessToken,
-          refreshToken,
+          accessToken: finalAccessToken,
+          refreshToken: finalRefreshToken,
           expiresIn: 15 * 60 // 15 minutos
         }
       },
@@ -232,12 +246,12 @@ export async function POST(request: NextRequest) {
       path: '/'
     };
 
-    response.cookies.set('bsk-access-token', accessToken, {
+    response.cookies.set('bsk-access-token', finalAccessToken, {
       ...cookieOptions,
       maxAge: 15 * 60
     });
 
-    response.cookies.set('bsk-refresh-token', refreshToken, {
+    response.cookies.set('bsk-refresh-token', finalRefreshToken, {
       ...cookieOptions,
       maxAge: 7 * 24 * 60 * 60
     });
