@@ -1,16 +1,18 @@
 'use client'
 
-import { useState } from 'react'
-import { FaDesktop, FaMobile, FaTabletAlt, FaMapMarkerAlt, FaClock, FaSignOutAlt, FaCheckCircle, FaTimesCircle, FaExclamationTriangle } from 'react-icons/fa'
+import { useState, useEffect } from 'react'
+import { FaDesktop, FaMobile, FaTabletAlt, FaMapMarkerAlt, FaClock, FaSignOutAlt, FaCheckCircle, FaTimesCircle, FaExclamationTriangle, FaSpinner } from 'react-icons/fa'
 
 interface Session {
   id: string
   device: string
   deviceType: 'desktop' | 'mobile' | 'tablet'
   browser: string
+  os: string
   location: string
   ip: string
   lastActive: string
+  loginTime: string
   isCurrent: boolean
 }
 
@@ -21,53 +23,41 @@ interface ToastType {
 }
 
 export default function SessionManagementSection() {
-  const [sessions, setSessions] = useState<Session[]>([
-    {
-      id: '1',
-      device: 'Windows PC',
-      deviceType: 'desktop',
-      browser: 'Chrome 120.0',
-      location: 'Bogotá, Colombia',
-      ip: '192.168.1.1',
-      lastActive: '2025-01-15T10:30:00Z',
-      isCurrent: true
-    },
-    {
-      id: '2',
-      device: 'iPhone 15',
-      deviceType: 'mobile',
-      browser: 'Safari 17.0',
-      location: 'Medellín, Colombia',
-      ip: '192.168.1.2',
-      lastActive: '2025-01-14T15:45:00Z',
-      isCurrent: false
-    },
-    {
-      id: '3',
-      device: 'MacBook Pro',
-      deviceType: 'desktop',
-      browser: 'Firefox 121.0',
-      location: 'Cali, Colombia',
-      ip: '192.168.1.3',
-      lastActive: '2025-01-13T08:20:00Z',
-      isCurrent: false
-    },
-    {
-      id: '4',
-      device: 'Samsung Galaxy Tab',
-      deviceType: 'tablet',
-      browser: 'Chrome Mobile 120.0',
-      location: 'Cartagena, Colombia',
-      ip: '192.168.1.4',
-      lastActive: '2025-01-12T20:15:00Z',
-      isCurrent: false
-    }
-  ])
-
+  const [sessions, setSessions] = useState<Session[]>([])
   const [isTerminateAllModalOpen, setIsTerminateAllModalOpen] = useState(false)
   const [sessionToTerminate, setSessionToTerminate] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [isLoadingData, setIsLoadingData] = useState(true)
   const [toast, setToast] = useState<ToastType | null>(null)
+
+  // Cargar sesiones desde la API
+  const loadSessions = async () => {
+    try {
+      setIsLoadingData(true)
+      const response = await fetch('/api/user/sessions')
+      
+      if (!response.ok) {
+        throw new Error('Error al cargar sesiones')
+      }
+      
+      const data = await response.json()
+      setSessions(data.sessions || [])
+    } catch (error) {
+      console.error('Error cargando sesiones:', error)
+      showToast({
+        title: "Error",
+        description: "No se pudieron cargar las sesiones activas",
+        type: "error"
+      })
+    } finally {
+      setIsLoadingData(false)
+    }
+  }
+
+  // Cargar sesiones al montar el componente
+  useEffect(() => {
+    loadSessions()
+  }, [])
 
   const showToast = (toast: ToastType) => {
     setToast(toast)
@@ -105,10 +95,17 @@ export default function SessionManagementSection() {
     setIsLoading(true)
     
     try {
-      // Simulación de terminación de sesión
-      await new Promise(resolve => setTimeout(resolve, 1500))
+      const response = await fetch(`/api/user/sessions?sessionId=${sessionId}`, {
+        method: 'DELETE'
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || 'Error al cerrar sesión')
+      }
       
-      setSessions(prevSessions => prevSessions.filter(session => session.id !== sessionId))
+      // Recargar las sesiones
+      await loadSessions()
       setSessionToTerminate(null)
       
       showToast({
@@ -119,7 +116,7 @@ export default function SessionManagementSection() {
     } catch (error) {
       showToast({
         title: "Error",
-        description: "No se pudo cerrar la sesión. Inténtalo de nuevo.",
+        description: error instanceof Error ? error.message : "No se pudo cerrar la sesión. Inténtalo de nuevo.",
         type: "error"
       })
     } finally {
@@ -131,22 +128,30 @@ export default function SessionManagementSection() {
     setIsLoading(true)
     
     try {
-      // Simulación de terminación de todas las sesiones
-      await new Promise(resolve => setTimeout(resolve, 2000))
+      const response = await fetch('/api/user/sessions/terminate-all', {
+        method: 'POST'
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || 'Error al cerrar sesiones')
+      }
+
+      const data = await response.json()
       
-      // Mantener solo la sesión actual
-      setSessions(prevSessions => prevSessions.filter(session => session.isCurrent))
+      // Recargar las sesiones
+      await loadSessions()
       setIsTerminateAllModalOpen(false)
       
       showToast({
         title: "✅ Sesiones cerradas",
-        description: "Todas las otras sesiones han sido terminadas",
+        description: data.message || "Todas las otras sesiones han sido terminadas",
         type: "success"
       })
     } catch (error) {
       showToast({
         title: "Error",
-        description: "No se pudieron cerrar todas las sesiones. Inténtalo de nuevo.",
+        description: error instanceof Error ? error.message : "No se pudieron cerrar todas las sesiones. Inténtalo de nuevo.",
         type: "error"
       })
     } finally {
@@ -155,6 +160,20 @@ export default function SessionManagementSection() {
   }
 
   const activeSessions = sessions.filter(s => !s.isCurrent)
+
+  // Mostrar indicador de carga mientras se cargan los datos
+  if (isLoadingData) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-center py-12">
+          <div className="flex flex-col items-center gap-3">
+            <FaSpinner className="h-8 w-8 text-blue-600 animate-spin" />
+            <p className="text-gray-600 dark:text-gray-400">Cargando sesiones activas...</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-6">
@@ -242,6 +261,12 @@ export default function SessionManagementSection() {
                     <div className="flex items-center gap-1">
                       <FaDesktop className="h-3 w-3" />
                       <span>{session.browser}</span>
+                      {session.os && (
+                        <>
+                          <span className="text-gray-400">•</span>
+                          <span>{session.os}</span>
+                        </>
+                      )}
                     </div>
                     <div className="flex items-center gap-1">
                       <FaMapMarkerAlt className="h-3 w-3" />

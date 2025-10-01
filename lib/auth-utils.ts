@@ -29,6 +29,11 @@ export interface RefreshTokenPayload {
 
 export interface AuthResult {
   success: boolean;
+  isValid: boolean;
+  session?: {
+    userId: string;
+    sessionId: string;
+  };
   user?: {
     id: string;
     email: string;
@@ -263,6 +268,7 @@ export async function verifyAuth(request: NextRequest): Promise<AuthResult> {
       console.log('verifyAuth: No se encontró token');
       return {
         success: false,
+        isValid: false,
         error: 'Token de autenticación no encontrado'
       };
     }
@@ -284,12 +290,18 @@ export async function verifyAuth(request: NextRequest): Promise<AuthResult> {
     if (!user || !user.isActive) {
       return {
         success: false,
+        isValid: false,
         error: 'Usuario no encontrado o inactivo'
       };
     }
 
     return {
       success: true,
+      isValid: true,
+      session: {
+        userId: payload.userId,
+        sessionId: payload.sessionId
+      },
       user: {
         id: payload.userId,
         email: user.email,
@@ -301,6 +313,7 @@ export async function verifyAuth(request: NextRequest): Promise<AuthResult> {
   } catch (error: any) {
     return {
       success: false,
+      isValid: false,
       error: error.message || 'Error de autenticación'
     };
   }
