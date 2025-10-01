@@ -32,7 +32,7 @@ function LoginForm() {
   
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { getRedirectUrl, clearRedirectUrl } = useAuth();
+  const { getRedirectUrl, clearRedirectUrl, checkAuth } = useAuth();
 
   // Obtener la URL de retorno de los parámetros de consulta o del sessionStorage
   const urlParamRedirect = searchParams.get('returnUrl');
@@ -96,39 +96,23 @@ function LoginForm() {
 
   const handle2FAVerified = async () => {
     // Verificación exitosa - las cookies ya están establecidas por el endpoint 2FA
-    console.log('2FA verificado! Verificando autenticación...');
+    console.log('2FA verificado! Actualizando estado de autenticación...');
     
     try {
       // Esperar un momento para asegurar que las cookies estén disponibles
       await new Promise(resolve => setTimeout(resolve, 100));
       
-      // Verificar que las cookies estén establecidas correctamente
-      const response = await fetch('/api/auth/me', {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        const result = await response.json();
+      // Actualizar el estado del AuthProvider verificando las cookies
+      const authSuccess = await checkAuth();
+      
+      if (authSuccess) {
+        clearRedirectUrl();
+        console.log('Login exitoso con 2FA! Redirigiendo a:', returnUrl);
         
-        if (result.success && result.data?.user) {
-          clearRedirectUrl();
-          console.log('Login exitoso con 2FA! Redirigiendo a:', returnUrl);
-          
-          // Redirigir al dashboard y refrescar para actualizar el estado global
-          router.push(returnUrl);
-          router.refresh();
-        } else {
-          console.error('No se pudo obtener información del usuario después de 2FA');
-          setLoginError('Error al completar la autenticación. Por favor intenta nuevamente.');
-          setShow2FA(false);
-          setTwoFactorData(null);
-        }
+        // Redirigir al dashboard - ahora el AuthProvider tiene el estado correcto
+        router.push(returnUrl);
       } else {
-        console.error('Error verificando autenticación después de 2FA:', response.status);
+        console.error('No se pudo verificar la autenticación después de 2FA');
         setLoginError('Error al completar la autenticación. Por favor intenta nuevamente.');
         setShow2FA(false);
         setTwoFactorData(null);

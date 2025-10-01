@@ -16,6 +16,7 @@ interface AuthContextType extends AuthState {
   login: (email: string, password: string, rememberMe?: boolean, redirectUrl?: string) => Promise<boolean>;
   logout: () => Promise<void>;
   refreshAuth: () => Promise<boolean>;
+  checkAuth: () => Promise<boolean>;
   isInitialized: boolean;
   setRedirectUrl: (url: string) => void;
   getRedirectUrl: () => string | null;
@@ -243,6 +244,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     login,
     logout,
     refreshAuth,
+    checkAuth,
     isInitialized,
     setRedirectUrl,
     getRedirectUrl,
