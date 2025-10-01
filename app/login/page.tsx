@@ -32,7 +32,7 @@ function LoginForm() {
   
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { getRedirectUrl, clearRedirectUrl } = useAuth();
+  const { getRedirectUrl, clearRedirectUrl, refreshAuth } = useAuth();
 
   // Obtener la URL de retorno de los parámetros de consulta o del sessionStorage
   const urlParamRedirect = searchParams.get('returnUrl');
@@ -94,15 +94,35 @@ function LoginForm() {
     }
   };
 
-  const handle2FAVerified = () => {
-    // Verificación exitosa - limpiar y redirigir
-    clearRedirectUrl();
-    console.log('Login exitoso con 2FA! Redirigiendo a:', returnUrl);
+  const handle2FAVerified = async () => {
+    // Verificación exitosa - actualizar estado de autenticación
+    console.log('2FA verificado! Actualizando estado de autenticación...');
     
-    setTimeout(() => {
-      router.push(returnUrl);
-      router.refresh();
-    }, 100);
+    try {
+      // Refrescar el estado de autenticación para obtener los datos del usuario
+      const authSuccess = await refreshAuth();
+      
+      if (authSuccess) {
+        clearRedirectUrl();
+        console.log('Login exitoso con 2FA! Redirigiendo a:', returnUrl);
+        
+        // Redirigir al dashboard
+        setTimeout(() => {
+          router.push(returnUrl);
+          router.refresh();
+        }, 100);
+      } else {
+        console.error('Error actualizando estado de autenticación después de 2FA');
+        setLoginError('Error al completar la autenticación. Por favor intenta nuevamente.');
+        setShow2FA(false);
+        setTwoFactorData(null);
+      }
+    } catch (error) {
+      console.error('Error en handle2FAVerified:', error);
+      setLoginError('Error de conexión. Por favor intenta nuevamente.');
+      setShow2FA(false);
+      setTwoFactorData(null);
+    }
   };
 
   const handle2FACancel = () => {

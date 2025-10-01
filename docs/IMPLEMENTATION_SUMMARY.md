@@ -1,8 +1,39 @@
-# ✅ IMPLEMENTACIÓN COMPLETA - Sistema 2FA con WhatsApp
+# ✅ IMPLEMENTACIÓN COMPLETA - Sistema 2FA con WhatsApp (MEJORADO)
 
 ## 🎉 Resumen de la Implementación
 
-Se ha implementado exitosamente un sistema de autenticación de dos factores (2FA) completo que utiliza códigos OTP enviados vía WhatsApp a través de MessageBird.
+Se ha implementado exitosamente un sistema de autenticación de dos factores (2FA) **avanzado** que utiliza códigos OTP enviados vía WhatsApp a través de MessageBird, con **sistema de respaldo por email** y **protección inteligente contra abuso**.
+
+---
+
+## ✨ Características Principales
+
+### 🔐 Seguridad Avanzada
+- ✅ Códigos alfanuméricos de 6 dígitos sin caracteres ambiguos
+- ✅ Expiración automática en 5 minutos
+- ✅ Rate limiting: 3 generaciones / 5 min por IP
+- ✅ Rate limiting: 10 verificaciones / 5 min por IP
+- ✅ Máximo 3 intentos por código (WhatsApp)
+- ✅ Máximo 5 intentos por código (Email backup)
+- ✅ Validación de email verificado obligatoria
+- ✅ Protección contra fuerza bruta
+
+### 🚀 Funcionalidades Mejoradas (NUEVO)
+- ✅ **Detección automática de expiración** con contador en vivo
+- ✅ **Sistema de respaldo por email** al exceder intentos
+- ✅ **Backoff exponencial** para reenvíos (30s, 60s, 120s...)
+- ✅ **Contador de intentos restantes** visible para usuario
+- ✅ **Auto-submit** al completar código de 6 dígitos
+- ✅ **Limpieza automática** de inputs en error
+
+### 📱 Experiencia de Usuario
+- ✅ 6 inputs individuales para mejor UX
+- ✅ Soporte para pegar código completo
+- ✅ Navegación con teclado (flechas, backspace)
+- ✅ Contador de expiración en tiempo real
+- ✅ Indicador visual de intentos restantes
+- ✅ Opción de reenvío con cooldown dinámico
+- ✅ Alternancia WhatsApp ↔ Email visual
 
 ---
 
@@ -12,8 +43,9 @@ Se ha implementado exitosamente un sistema de autenticación de dos factores (2F
 - ✅ **Modelo `TwoFactorCode`** - Almacena códigos OTP con validación y expiración
 
 ### 🔧 Backend (APIs)
-- ✅ **POST /api/auth/2fa/generate** - Genera y envía código OTP
+- ✅ **POST /api/auth/2fa/generate** - Genera y envía código OTP por WhatsApp
 - ✅ **POST /api/auth/2fa/verify** - Verifica código e inicia sesión
+- ✅ **POST /api/auth/2fa/send-email-backup** - Envía código por email (NUEVO)
 - ✅ **POST /api/webhooks/messagebird** - Recibe confirmaciones (opcional)
 
 ### 🎨 Frontend
@@ -28,6 +60,7 @@ Se ha implementado exitosamente un sistema de autenticación de dos factores (2F
 
 ### 📚 Documentación
 - ✅ **2FA_SYSTEM.md** - Documentación técnica completa
+- ✅ **2FA_ADVANCED_FEATURES.md** - Características avanzadas y flujos (NUEVO)
 - ✅ **MESSAGEBIRD_SETUP.md** - Guía de configuración paso a paso
 - ✅ **MESSAGEBIRD_FINAL_CONFIG.md** - Configuración específica del flow
 - ✅ **2FA_QUICK_START.md** - Guía rápida de inicio
@@ -42,19 +75,22 @@ Se ha implementado exitosamente un sistema de autenticación de dos factores (2F
 
 ### Implementadas ✅
 - ✅ Códigos alfanuméricos de 6 dígitos sin caracteres ambiguos
-- ✅ Expiración automática en 5 minutos
-- ✅ Máximo 3 intentos de verificación por código
+- ✅ Expiración automática en 5 minutos con detección en tiempo real (NUEVO)
+- ✅ Máximo 3 intentos de verificación por código (WhatsApp)
+- ✅ Máximo 5 intentos adicionales por código (Email) (NUEVO)
 - ✅ Rate limiting: 3 generaciones / 5 min por IP
 - ✅ Rate limiting: 10 verificaciones / 5 min por IP
+- ✅ Rate limiting: 2 backups por email / 15 min por IP (NUEVO)
 - ✅ Invalidación de códigos anteriores al generar uno nuevo
 - ✅ Limpieza automática de códigos expirados (>24h)
 - ✅ Validación de email verificado antes de 2FA
 - ✅ Protección contra fuerza bruta
-- ✅ Logs de seguridad completos
+- ✅ Backoff exponencial en reenvíos (30s → 60s → 120s → 240s → 300s) (NUEVO)
+- ✅ Logs de seguridad completos con tracking de IP
 
 ---
 
-## 🔄 Flujo de Usuario
+## 🔄 Flujo de Usuario (Mejorado)
 
 ```
 1. Usuario va a /login
@@ -70,11 +106,42 @@ Se ha implementado exitosamente un sistema de autenticación de dos factores (2F
 6. MessageBird envía por WhatsApp
    ↓
 7. Usuario ingresa código
-   ↓
-8. Sistema verifica código
-   ↓
-9. Si es correcto: Login exitoso ✅
-   Si es incorrecto: Intenta de nuevo (max 3 intentos)
+   │
+   ├─ Si es CORRECTO → Login exitoso ✅
+   │
+   ├─ Si es INCORRECTO:
+   │  ├─ Intento 1: Mostrar error + "Te quedan 2 intentos"
+   │  ├─ Intento 2: Mostrar error + "Te queda 1 intento"
+   │  └─ Intento 3: Mostrar error + "Te quedan 0 intentos"
+   │                ↓
+   │     ┌──────────────────────────┐
+   │     │ NUEVO: Sistema de Backup │
+   │     └──────────┬───────────────┘
+   │                │
+   │     8. Se muestra alerta:
+   │        "Has excedido los intentos por WhatsApp"
+   │                ↓
+   │     9. Usuario hace click:
+   │        "Recibir código por email" 📧
+   │                ↓
+   │     10. POST /api/auth/2fa/send-email-backup
+   │         - Genera nuevo código
+   │         - Envía por email
+   │                ↓
+   │     11. Usuario ingresa código del email
+   │         - 5 intentos disponibles
+   │                ↓
+   │     12. Si es correcto → Login exitoso ✅
+   │         Si es incorrecto → Hasta 5 intentos
+   │
+   └─ Si EXPIRA (5 minutos):
+      - Mensaje "Código expirado"
+      - Botón "Solicitar nuevo código"
+      - Backoff exponencial aplicado (NUEVO)
+        • 1er reenvío: Espera 30 segundos
+        • 2do reenvío: Espera 60 segundos
+        • 3er reenvío: Espera 120 segundos
+        • 4to+ reenvío: Espera 300 segundos (máx)
 ```
 
 ---
@@ -234,27 +301,31 @@ curl -X POST http://localhost:3000/api/auth/2fa/verify \
 │   │   │   └── 2fa/
 │   │   │       ├── generate/
 │   │   │       │   └── route.ts      ✅ API generar código
-│   │   │       └── verify/
-│   │   │           └── route.ts      ✅ API verificar código
+│   │   │       ├── verify/
+│   │   │       │   └── route.ts      ✅ API verificar código
+│   │   │       └── send-email-backup/
+│   │   │           └── route.ts      ✅ API respaldo email (NUEVO)
 │   │   └── webhooks/
 │   │       └── messagebird/
 │   │           └── route.ts          ✅ Webhook MessageBird
 │   └── login/
-│       └── page.tsx                  ✅ Login con 2FA
+│       └── page.tsx                  ✅ Login con 2FA (mejorado)
 │
 ├── components/
 │   └── auth/
-│       └── TwoFactorVerification.tsx ✅ Componente UI
+│       └── TwoFactorVerification.tsx ✅ Componente UI (mejorado)
 │
 ├── docs/
 │   ├── 2FA_SYSTEM.md                 ✅ Doc técnica
+│   ├── 2FA_ADVANCED_FEATURES.md      ✅ Features avanzadas (NUEVO)
 │   ├── MESSAGEBIRD_SETUP.md          ✅ Guía setup
 │   ├── MESSAGEBIRD_FINAL_CONFIG.md   ✅ Config final
 │   ├── 2FA_QUICK_START.md            ✅ Guía rápida
 │   └── IMPLEMENTATION_SUMMARY.md     ✅ Este archivo
 │
 └── scripts/
-    └── test-2fa.sh                   ✅ Script de prueba
+    ├── test-2fa.sh                   ✅ Script de prueba
+    └── 2fa-commands.sh               ✅ Comandos útiles
 ```
 
 ---
@@ -394,15 +465,18 @@ El sistema registra:
 
 ---
 
-## ✅ Estado Final
+## ✅ Estado Final (ACTUALIZADO)
 
 | Componente | Estado | Notas |
 |------------|--------|-------|
 | Modelos DB | ✅ Completo | TwoFactorCode listo |
-| APIs Backend | ✅ Completo | Generate + Verify + Webhook |
-| UI Frontend | ✅ Completo | Login + Verificación |
-| Seguridad | ✅ Completo | Rate limiting + validación |
-| Documentación | ✅ Completo | 5 documentos completos |
+| APIs Backend | ✅ Completo | Generate + Verify + Webhook + Email Backup |
+| UI Frontend | ✅ Completo | Login + Verificación mejorada |
+| Seguridad | ✅ Completo | Rate limiting + validación + backoff |
+| Email Backup | ✅ Completo | Sistema de respaldo funcional |
+| Backoff Exponencial | ✅ Completo | 30s → 60s → 120s → 300s |
+| Detección Expiración | ✅ Completo | Timer en tiempo real |
+| Documentación | ✅ Completo | 6 documentos completos |
 | Testing | ✅ Completo | Script automatizado |
 | MessageBird | ⏳ Pendiente | Espera configuración |
 
@@ -410,12 +484,19 @@ El sistema registra:
 
 ## 🎉 ¡Felicitaciones!
 
-El sistema 2FA está **100% implementado y listo para usar**. Solo falta configurar MessageBird y esperar la aprobación del template de WhatsApp.
+El sistema 2FA está **100% implementado con características avanzadas** y listo para usar. Solo falta configurar MessageBird y esperar la aprobación del template de WhatsApp.
 
-**¡Tu aplicación ahora tiene autenticación de dos factores profesional!** 🚀
+**Características destacadas de esta versión mejorada:**
+- 🔐 Sistema de respaldo por email automático
+- ⏱️ Backoff exponencial para prevenir abuso
+- 📊 Contador de intentos visible para el usuario
+- 🚀 Detección de expiración en tiempo real
+- ✨ UX mejorada con feedback visual constante
+
+**¡Tu aplicación ahora tiene autenticación de dos factores profesional de nivel empresarial!** 🚀
 
 ---
 
 **Fecha de Implementación**: 1 de Octubre, 2025  
-**Versión**: 1.0.0  
+**Versión**: 2.0.0 (Mejorada con Email Backup)  
 **Estado**: ✅ Listo para Configuración de MessageBird
