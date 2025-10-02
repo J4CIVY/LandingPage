@@ -165,8 +165,9 @@ const DashboardEvents: React.FC<DashboardEventsProps> = ({ onViewEvent }) => {
     setActionLoading(prev => ({ ...prev, [`unregister_${eventId}`]: true }));
     
     try {
-      const response = await fetch(`/api/events/${eventId}/unregister`, {
+      const response = await fetch(`/api/events/${eventId}/register`, {
         method: 'DELETE',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -181,8 +182,33 @@ const DashboardEvents: React.FC<DashboardEventsProps> = ({ onViewEvent }) => {
             ? { ...event, currentParticipants: Math.max(0, event.currentParticipants - 1) }
             : event
         ));
+        alert('Registro cancelado exitosamente');
       } else {
-        alert(data.message || 'Error al cancelar registro');
+        // Si el error es por pago aprobado, redirigir a PQRSDF
+        if (data.message && data.message.includes('pago aprobado')) {
+          const confirmar = confirm(
+            'Tienes un pago aprobado para este evento. Para cancelar tu inscripción necesitas solicitar un reembolso a través de nuestro sistema PQRSDF.\n\n¿Deseas iniciar la solicitud de reembolso ahora?'
+          );
+          
+          if (confirmar) {
+            // Encontrar el evento para obtener sus datos
+            const evento = events.find(e => e._id === eventId);
+            
+            if (evento) {
+              // Redirigir al formulario PQRSDF con datos prellenados
+              const params = new URLSearchParams({
+                categoria: 'peticion',
+                subcategoria: 'reembolso',
+                eventoId: evento._id,
+                eventoNombre: evento.name,
+                precio: evento.price?.toString() || '0'
+              });
+              window.location.href = `/dashboard/pqrsdf/nueva?${params.toString()}`;
+            }
+          }
+        } else {
+          alert(data.message || 'Error al cancelar registro');
+        }
       }
     } catch (err) {
       console.error('Error unregistering from event:', err);

@@ -247,18 +247,46 @@ export default function EventosPage() {
 
   const handleUnregisterFromEvent = async (eventId: string) => {
     try {
-      const response = await fetch(`/api/events/${eventId}/unregister`, {
-        method: 'POST',
+      const response = await fetch(`/api/events/${eventId}/register`, {
+        method: 'DELETE',
         credentials: 'include'
       });
       
       if (response.ok) {
         await refetch();
+        alert('Registro cancelado exitosamente');
       } else {
-        console.error('Error al cancelar registro');
+        const errorData = await response.json();
+        
+        // Si el error es por pago aprobado, redirigir a PQRSDF
+        if (errorData.message && errorData.message.includes('pago aprobado')) {
+          const confirmar = confirm(
+            'Tienes un pago aprobado para este evento. Para cancelar tu inscripción necesitas solicitar un reembolso a través de nuestro sistema PQRSDF.\n\n¿Deseas iniciar la solicitud de reembolso ahora?'
+          );
+          
+          if (confirmar) {
+            // Encontrar el evento para obtener sus datos
+            const evento = events?.find(e => e._id === eventId);
+            
+            if (evento) {
+              // Redirigir al formulario PQRSDF con datos prellenados
+              const params = new URLSearchParams({
+                categoria: 'peticion',
+                subcategoria: 'reembolso',
+                eventoId: evento._id,
+                eventoNombre: evento.name,
+                precio: evento.price?.toString() || '0'
+              });
+              window.location.href = `/dashboard/pqrsdf/nueva?${params.toString()}`;
+            }
+          }
+        } else {
+          alert(`Error: ${errorData.message || 'No se pudo completar la acción'}`);
+        }
       }
     } catch (error) {
       console.error('Error al cancelar registro:', error);
+      alert('Error de conexión. Inténtalo de nuevo.');
     }
   };
 
