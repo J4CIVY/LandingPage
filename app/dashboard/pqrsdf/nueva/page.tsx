@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -65,7 +65,7 @@ interface EventoRegistrado {
   precio: number;
 }
 
-export default function NuevaSolicitudPage() {
+function NuevaSolicitudPageContent() {
   const { user } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -804,7 +804,7 @@ export default function NuevaSolicitudPage() {
               >
                 Cancelar
               </Link>
-              <button
+                            <button
                 type="submit"
                 disabled={enviando}
                 className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center"
@@ -828,3 +828,22 @@ export default function NuevaSolicitudPage() {
     </>
   );
 }
+
+// Componente principal que envuelve con Suspense
+export default function NuevaSolicitudPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-8 text-center">
+            <FaSpinner className="w-8 h-8 animate-spin text-blue-600 mx-auto mb-4" />
+            <p className="text-gray-600 dark:text-slate-400">Cargando formulario...</p>
+          </div>
+        </div>
+      </div>
+    }>
+      <NuevaSolicitudPageContent />
+    </Suspense>
+  );
+}
+
