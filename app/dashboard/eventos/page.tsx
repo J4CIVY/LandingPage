@@ -257,9 +257,19 @@ export default function EventosPage() {
         alert('Registro cancelado exitosamente');
       } else {
         const errorData = await response.json();
+        console.error('Unregister error:', errorData);
+        console.log('Error message:', errorData.message);
         
         // Si el error es por pago aprobado, redirigir a PQRSDF
-        if (errorData.message && errorData.message.includes('pago aprobado')) {
+        const errorMessage = errorData.message?.toLowerCase() || '';
+        const isPaymentError = (
+          errorMessage.includes('pago aprobado') ||
+          errorMessage.includes('pago') ||
+          errorMessage.includes('reembolso') ||
+          errorMessage.includes('contacta al soporte')
+        );
+        
+        if (isPaymentError) {
           const confirmar = confirm(
             'Tienes un pago aprobado para este evento. Para cancelar tu inscripción necesitas solicitar un reembolso a través de nuestro sistema PQRSDF.\n\n¿Deseas iniciar la solicitud de reembolso ahora?'
           );

@@ -123,9 +123,21 @@ export default function UpcomingEvents() {
         }
       } else {
         const errorData = await response.json();
+        console.error('Registration error:', errorData);
+        console.log('Error message:', errorData.message);
+        console.log('Action:', action);
         
         // Si el error es por pago aprobado, redirigir a PQRSDF
-        if (action === 'unregister' && errorData.message && errorData.message.includes('pago aprobado')) {
+        // Buscar variaciones del mensaje de error relacionado con pago
+        const errorMessage = errorData.message?.toLowerCase() || '';
+        const isPaymentError = action === 'unregister' && (
+          errorMessage.includes('pago aprobado') ||
+          errorMessage.includes('pago') ||
+          errorMessage.includes('reembolso') ||
+          errorMessage.includes('contacta al soporte')
+        );
+        
+        if (isPaymentError) {
           const confirmar = confirm(
             'Tienes un pago aprobado para este evento. Para cancelar tu inscripción necesitas solicitar un reembolso a través de nuestro sistema PQRSDF.\n\n¿Deseas iniciar la solicitud de reembolso ahora?'
           );

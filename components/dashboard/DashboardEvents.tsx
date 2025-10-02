@@ -184,8 +184,19 @@ const DashboardEvents: React.FC<DashboardEventsProps> = ({ onViewEvent }) => {
         ));
         alert('Registro cancelado exitosamente');
       } else {
+        console.error('Unregister error:', data);
+        console.log('Error message:', data.message);
+        
         // Si el error es por pago aprobado, redirigir a PQRSDF
-        if (data.message && data.message.includes('pago aprobado')) {
+        const errorMessage = data.message?.toLowerCase() || '';
+        const isPaymentError = (
+          errorMessage.includes('pago aprobado') ||
+          errorMessage.includes('pago') ||
+          errorMessage.includes('reembolso') ||
+          errorMessage.includes('contacta al soporte')
+        );
+        
+        if (isPaymentError) {
           const confirmar = confirm(
             'Tienes un pago aprobado para este evento. Para cancelar tu inscripción necesitas solicitar un reembolso a través de nuestro sistema PQRSDF.\n\n¿Deseas iniciar la solicitud de reembolso ahora?'
           );
