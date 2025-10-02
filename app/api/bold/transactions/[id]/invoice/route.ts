@@ -7,7 +7,7 @@ import ExtendedUser from '@/lib/models/ExtendedUser';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Verificar autenticación
@@ -22,8 +22,11 @@ export async function GET(
 
     await dbConnect();
 
+    // Await params en Next.js 15
+    const { id } = await params;
+
     // Obtener la transacción
-    const transaction = await BoldTransaction.findById(params.id).lean();
+    const transaction = await BoldTransaction.findById(id).lean();
 
     if (!transaction) {
       return NextResponse.json(
