@@ -315,7 +315,7 @@ export default function UpcomingEvents() {
                     <div className="flex flex-wrap gap-2">
                       {/* Ver detalles */}
                       <button 
-                        onClick={() => window.location.href = `/events/${event._id}`}
+                        onClick={() => window.location.href = `/dashboard/events/${event._id}`}
                         className="inline-flex items-center px-3 py-1.5 bg-blue-600 dark:bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600"
                       >
                         <FaEye className="mr-1" />

@@ -27,6 +27,7 @@ interface EventoCardProps {
   onUnregister: () => void;
   onEdit: () => void;
   onDelete: () => void;
+  isDashboard?: boolean;
 }
 
 export default function EventoCard({
@@ -36,7 +37,8 @@ export default function EventoCard({
   onRegister,
   onUnregister,
   onEdit,
-  onDelete
+  onDelete,
+  isDashboard = true
 }: EventoCardProps) {
   const [imageError, setImageError] = useState(false);
   const [loading, setLoading] = useState(false);

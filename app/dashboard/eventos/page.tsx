@@ -195,8 +195,8 @@ export default function EventosPage() {
 
   // Handlers para los eventos
   const handleViewEvent = (event: Event) => {
-    setSelectedEvent(event);
-    setShowEventModal(true);
+    // Redirigir a la página de detalles del evento en el dashboard
+    window.location.href = `/dashboard/events/${event._id}`;
   };
 
   const handleCreateEvent = () => {
