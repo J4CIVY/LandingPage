@@ -1213,6 +1213,257 @@ export class EmailService {
   }
 
   /**
+   * Envía confirmación de pago aprobado
+   */
+  async sendPaymentConfirmation(
+    toEmail: string,
+    userName: string,
+    paymentDetails: {
+      eventName: string;
+      eventDate: string;
+      amount: number;
+      currency: string;
+      orderId: string;
+      transactionId: string;
+      paymentMethod: string;
+    }
+  ): Promise<boolean> {
+    try {
+      const formattedAmount = new Intl.NumberFormat('es-CO', {
+        style: 'currency',
+        currency: paymentDetails.currency
+      }).format(paymentDetails.amount);
+
+      const emailConfig: ZohoEmailConfig = {
+        fromAddress: this.fromEmail,
+        toAddress: toEmail,
+        subject: `✅ Confirmación de pago - ${paymentDetails.eventName}`,
+        content: this.generatePaymentConfirmationContent(userName, paymentDetails, formattedAmount),
+        mailFormat: 'html',
+        askReceipt: 'no'
+      };
+
+      const result = await this.client.sendEmail(emailConfig);
+      return result.status?.code === 200;
+    } catch (error) {
+      console.error('Error sending payment confirmation:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Envía notificación de pago rechazado
+   */
+  async sendPaymentRejected(
+    toEmail: string,
+    userName: string,
+    details: {
+      eventName: string;
+      orderId: string;
+      reason: string;
+    }
+  ): Promise<boolean> {
+    try {
+      const emailConfig: ZohoEmailConfig = {
+        fromAddress: this.fromEmail,
+        toAddress: toEmail,
+        subject: `❌ Pago no procesado - ${details.eventName}`,
+        content: this.generatePaymentRejectedContent(userName, details),
+        mailFormat: 'html',
+        askReceipt: 'no'
+      };
+
+      const result = await this.client.sendEmail(emailConfig);
+      return result.status?.code === 200;
+    } catch (error) {
+      console.error('Error sending payment rejection email:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Genera contenido HTML para confirmación de pago
+   */
+  private generatePaymentConfirmationContent(
+    userName: string,
+    paymentDetails: any,
+    formattedAmount: string
+  ): string {
+    return `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Confirmación de pago</title>
+        <style>
+          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
+          .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; }
+          .header { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 30px; text-align: center; }
+          .header h1 { margin: 0; font-size: 28px; }
+          .success-icon { font-size: 48px; margin-bottom: 10px; }
+          .content { padding: 30px; }
+          .payment-card { background-color: #f9fafb; border-radius: 8px; padding: 20px; margin: 20px 0; }
+          .payment-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e5e7eb; }
+          .payment-row:last-child { border-bottom: none; }
+          .payment-label { color: #6b7280; font-weight: 500; }
+          .payment-value { color: #111827; font-weight: 600; text-align: right; }
+          .total-amount { font-size: 24px; color: #10b981; }
+          .cta-button { display: inline-block; background-color: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; margin: 20px 0; font-weight: 600; }
+          .cta-button:hover { background-color: #1d4ed8; }
+          .info-box { background-color: #dbeafe; border-left: 4px solid #2563eb; padding: 15px; margin: 20px 0; }
+          .footer { background-color: #f3f4f6; padding: 20px; text-align: center; color: #6b7280; font-size: 14px; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <div class="success-icon">✅</div>
+            <h1>¡Pago Confirmado!</h1>
+            <p style="margin: 10px 0 0 0; font-size: 16px;">Tu inscripción ha sido procesada exitosamente</p>
+          </div>
+          
+          <div class="content">
+            <p>Hola <strong>${userName}</strong>,</p>
+            
+            <p>Tu pago ha sido <strong>aprobado exitosamente</strong> y tu inscripción al evento ha sido confirmada.</p>
+            
+            <div class="payment-card">
+              <h3 style="margin-top: 0; color: #111827;">Detalles del pago</h3>
+              
+              <div class="payment-row">
+                <span class="payment-label">Evento:</span>
+                <span class="payment-value">${paymentDetails.eventName}</span>
+              </div>
+              
+              <div class="payment-row">
+                <span class="payment-label">Fecha del evento:</span>
+                <span class="payment-value">${paymentDetails.eventDate}</span>
+              </div>
+              
+              <div class="payment-row">
+                <span class="payment-label">Monto pagado:</span>
+                <span class="payment-value total-amount">${formattedAmount}</span>
+              </div>
+              
+              <div class="payment-row">
+                <span class="payment-label">Orden:</span>
+                <span class="payment-value" style="font-family: monospace; font-size: 12px;">${paymentDetails.orderId}</span>
+              </div>
+              
+              <div class="payment-row">
+                <span class="payment-label">ID de transacción:</span>
+                <span class="payment-value" style="font-family: monospace; font-size: 12px;">${paymentDetails.transactionId}</span>
+              </div>
+              
+              <div class="payment-row">
+                <span class="payment-label">Método de pago:</span>
+                <span class="payment-value">${paymentDetails.paymentMethod}</span>
+              </div>
+            </div>
+            
+            <div class="info-box">
+              <strong>📍 Próximos pasos:</strong>
+              <ul style="margin: 10px 0 0 0;">
+                <li>Revisa los detalles del evento en tu dashboard</li>
+                <li>Prepara tu moto y equipo de seguridad</li>
+                <li>Mantente atento a las actualizaciones por WhatsApp</li>
+              </ul>
+            </div>
+            
+            <div style="text-align: center;">
+              <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://bskmt.com'}/dashboard" class="cta-button">
+                Ver mis eventos
+              </a>
+            </div>
+            
+            <p style="color: #6b7280; font-size: 14px; margin-top: 30px;">
+              Si tienes alguna pregunta, no dudes en contactarnos.
+            </p>
+          </div>
+          
+          <div class="footer">
+            <p><strong>BSK Motorcycle Team</strong></p>
+            <p>La aventura comienza aquí 🏍️</p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+  }
+
+  /**
+   * Genera contenido HTML para pago rechazado
+   */
+  private generatePaymentRejectedContent(
+    userName: string,
+    details: any
+  ): string {
+    return `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Pago no procesado</title>
+        <style>
+          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
+          .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; }
+          .header { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; padding: 30px; text-align: center; }
+          .header h1 { margin: 0; font-size: 28px; }
+          .error-icon { font-size: 48px; margin-bottom: 10px; }
+          .content { padding: 30px; }
+          .info-box { background-color: #fee2e2; border-left: 4px solid #ef4444; padding: 15px; margin: 20px 0; }
+          .cta-button { display: inline-block; background-color: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; margin: 20px 0; font-weight: 600; }
+          .cta-button:hover { background-color: #1d4ed8; }
+          .footer { background-color: #f3f4f6; padding: 20px; text-align: center; color: #6b7280; font-size: 14px; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <div class="error-icon">❌</div>
+            <h1>Pago No Procesado</h1>
+          </div>
+          
+          <div class="content">
+            <p>Hola <strong>${userName}</strong>,</p>
+            
+            <p>Lamentamos informarte que tu pago para el evento <strong>${details.eventName}</strong> no pudo ser procesado.</p>
+            
+            <div class="info-box">
+              <strong>Motivo:</strong> ${details.reason}
+              <br><br>
+              <strong>Orden:</strong> ${details.orderId}
+            </div>
+            
+            <p><strong>¿Qué puedes hacer?</strong></p>
+            <ul>
+              <li>Verificar que tu método de pago tenga fondos suficientes</li>
+              <li>Intentar con otro método de pago</li>
+              <li>Contactar a tu entidad financiera si el problema persiste</li>
+            </ul>
+            
+            <div style="text-align: center;">
+              <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://bskmt.com'}/events/${details.eventId || ''}" class="cta-button">
+                Intentar nuevamente
+              </a>
+            </div>
+            
+            <p style="color: #6b7280; font-size: 14px; margin-top: 30px;">
+              Si necesitas ayuda, no dudes en contactarnos.
+            </p>
+          </div>
+          
+          <div class="footer">
+            <p><strong>BSK Motorcycle Team</strong></p>
+            <p>Soporte técnico disponible</p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+  }
+
+  /**
    * Genera el contenido HTML para notificaciones administrativas
    */
   private generateAdminNotificationContent(content: string, priority: 'low' | 'medium' | 'high'): string {

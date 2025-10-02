@@ -190,6 +190,7 @@ Para verificar que el fix funciona correctamente:
    # Iniciar sesión con email/password
    # Ingresar código 2FA
    # Verificar que se redirige correctamente al dashboard
+   # Verificar que el dashboard muestra el contenido inmediatamente (sin mensaje "Acceso Requerido")
    ```
 
 2. **Verificar cookies** (DevTools → Application → Cookies):
@@ -209,11 +210,103 @@ Para verificar que el fix funciona correctamente:
    - Esperar 15 minutos (o manipular el tiempo de expiración)
    - El sistema debe renovar el access token automáticamente sin errores
 
+## Fix Adicional: Dashboard muestra "Acceso Requerido" después de login exitoso
+
+### Problema Adicional Detectado
+
+Después de aplicar el fix principal, se detectó otro problema:
+
+**Síntoma**: Después de iniciar sesión exitosamente con 2FA, el usuario es redirigido a `/dashboard` pero ve el mensaje "Acceso Requerido - Debes iniciar sesión para acceder al dashboard". Al recargar la página manualmente, el dashboard se muestra correctamente.
+
+**Causa**: El `AuthProvider` no actualiza su estado inmediatamente después del login con 2FA. Aunque las cookies se establecen correctamente en el navegador:
+1. Usuario verifica código 2FA → cookies se establecen
+2. `router.push('/dashboard')` redirige a dashboard
+3. Componente Dashboard renderiza y verifica `isAuthenticated` del `AuthProvider`
+4. ❌ `AuthProvider` aún tiene `isAuthenticated: false` porque su estado no se actualizó
+5. Dashboard muestra "Acceso Requerido"
+6. Al recargar manualmente, el `useEffect` inicial de `AuthProvider` ejecuta `checkAuth()` y obtiene el estado correcto
+
+### Solución
+
+**Archivo**: `/hooks/useAuth.tsx`
+
+**Cambios**:
+
+1. Exponer la función `checkAuth` en el contexto para que pueda ser llamada manualmente:
+
+```typescript
+interface AuthContextType extends AuthState {
+  login: (email: string, password: string, rememberMe?: boolean, redirectUrl?: string) => Promise<boolean>;
+  logout: () => Promise<void>;
+  refreshAuth: () => Promise<boolean>;
+  checkAuth: () => Promise<boolean>; // ✅ Añadido
+  isInitialized: boolean;
+  setRedirectUrl: (url: string) => void;
+  getRedirectUrl: () => string | null;
+  clearRedirectUrl: () => void;
+}
+
+// En el contextValue
+const contextValue: AuthContextType = {
+  ...authState,
+  login,
+  logout,
+  refreshAuth,
+  checkAuth, // ✅ Añadido
+  isInitialized,
+  setRedirectUrl,
+  getRedirectUrl,
+  clearRedirectUrl
+};
+```
+
+**Archivo**: `/app/login/page.tsx`
+
+**Cambios**:
+
+```typescript
+// Obtener checkAuth del hook
+const { getRedirectUrl, clearRedirectUrl, checkAuth } = useAuth();
+
+// En handle2FAVerified
+const handle2FAVerified = async () => {
+  console.log('2FA verificado! Actualizando estado de autenticación...');
+  
+  try {
+    // Esperar para asegurar que las cookies estén disponibles
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    // ✅ Actualizar el estado del AuthProvider verificando las cookies
+    const authSuccess = await checkAuth();
+    
+    if (authSuccess) {
+      clearRedirectUrl();
+      console.log('Login exitoso con 2FA! Redirigiendo a:', returnUrl);
+      
+      // Redirigir - ahora AuthProvider tiene el estado correcto
+      router.push(returnUrl);
+    } else {
+      setLoginError('Error al completar la autenticación. Por favor intenta nuevamente.');
+      setShow2FA(false);
+      setTwoFactorData(null);
+    }
+  } catch (error) {
+    console.error('Error en handle2FAVerified:', error);
+    setLoginError('Error de conexión. Por favor intenta nuevamente.');
+    setShow2FA(false);
+    setTwoFactorData(null);
+  }
+};
+```
+
+**Resultado**: Ahora el `AuthProvider` actualiza su estado inmediatamente después de la verificación 2FA, antes de redirigir al dashboard. El dashboard renderiza correctamente desde el primer momento sin necesidad de recargar.
+
 ## Archivos Modificados
 
 1. `/app/api/auth/2fa/verify/route.ts` - Corrección en generación y almacenamiento de tokens
 2. `/app/api/auth/login/route.ts` - Corrección en generación y almacenamiento de tokens
-3. `/app/login/page.tsx` - Simplificación del flujo post-2FA
+3. `/app/login/page.tsx` - Simplificación del flujo post-2FA y actualización del estado del AuthProvider
+4. `/hooks/useAuth.tsx` - Exposición de la función `checkAuth` en el contexto
 
 ## Fecha
 
