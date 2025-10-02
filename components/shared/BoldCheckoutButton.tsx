@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { FaSpinner, FaLock, FaCreditCard } from 'react-icons/fa';
-import { BOLD_CONFIG, type BoldPaymentConfig } from '@/lib/bold-utils';
+import { BOLD_CLIENT_CONFIG, validateBoldClientConfig } from '@/lib/bold-client-config';
+import { type BoldPaymentConfig } from '@/lib/bold-utils';
 
 interface BoldCheckoutButtonProps {
   config: BoldPaymentConfig;
@@ -46,7 +47,7 @@ export default function BoldCheckoutButton({
     return new Promise((resolve, reject) => {
       // Verificar si ya existe
       const existingScript = document.querySelector(
-        `script[src="${BOLD_CONFIG.CHECKOUT_SCRIPT_URL}"]`
+        `script[src="${BOLD_CLIENT_CONFIG.CHECKOUT_SCRIPT_URL}"]`
       );
 
       if (existingScript) {
@@ -59,7 +60,7 @@ export default function BoldCheckoutButton({
       setIsScriptLoading(true);
 
       const script = document.createElement('script');
-      script.src = BOLD_CONFIG.CHECKOUT_SCRIPT_URL;
+      script.src = BOLD_CLIENT_CONFIG.CHECKOUT_SCRIPT_URL;
       script.async = true;
 
       script.onload = () => {
@@ -99,11 +100,11 @@ export default function BoldCheckoutButton({
 
     try {
       // Preparar la configuración para Bold Checkout
-      // Nota: Bold Checkout en el cliente NO necesita apiKey
       const boldConfig: any = {
         orderId: config.orderId,
-        currency: config.currency || BOLD_CONFIG.DEFAULT_CURRENCY,
+        currency: config.currency || BOLD_CLIENT_CONFIG.DEFAULT_CURRENCY,
         amount: config.amount.toString(),
+        apiKey: BOLD_CLIENT_CONFIG.PUBLIC_API_KEY,
         integritySignature: integritySignature,
         description: config.description,
         redirectionUrl: config.redirectionUrl,
@@ -143,6 +144,7 @@ export default function BoldCheckoutButton({
 
       console.log('Initializing Bold Checkout with config:', {
         ...boldConfig,
+        apiKey: boldConfig.apiKey ? '***HIDDEN***' : 'MISSING',
         integritySignature: '***HIDDEN***',
         amount: boldConfig.amount,
         orderId: boldConfig.orderId
@@ -202,6 +204,12 @@ export default function BoldCheckoutButton({
    * Cargar script al montar el componente
    */
   useEffect(() => {
+    // Validar configuración
+    if (!validateBoldClientConfig()) {
+      setScriptError('Configuración de Bold incompleta. Contacta al administrador.');
+      return;
+    }
+    
     loadBoldScript().catch(console.error);
   }, []);
 

@@ -6,6 +6,7 @@ import crypto from 'crypto';
 export const BOLD_CONFIG = {
   // Llaves de integración (usar variables de entorno)
   API_KEY: process.env.BOLD_API_KEY || '',
+  PUBLIC_API_KEY: process.env.NEXT_PUBLIC_BOLD_API_KEY || '',
   SECRET_KEY: process.env.BOLD_SECRET_KEY || '',
   
   // URLs
