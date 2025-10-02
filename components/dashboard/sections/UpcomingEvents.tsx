@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
+import { Event } from '@/types/events';
 import { 
   FaCalendarAlt, 
   FaMapMarkerAlt, 
@@ -17,26 +18,6 @@ import {
   FaCheckCircle,
   FaTimesCircle
 } from 'react-icons/fa';
-
-interface Event {
-  _id: string;
-  name: string;
-  description: string;
-  startDate: string;
-  mainImage: string;
-  eventType: string;
-  departureLocation?: {
-    address: string;
-    city: string;
-    country: string;
-  };
-  currentParticipants: number;
-  maxParticipants?: number;
-  registrationOpenDate?: string;
-  registrationDeadline?: string;
-  pointsAwarded?: number;
-  detailsPdf?: string;
-}
 
 export default function UpcomingEvents() {
   const { user } = useAuth();
@@ -117,8 +98,8 @@ export default function UpcomingEvents() {
     setProcessingEvents(prev => new Set(prev).add(eventId));
     
     try {
-      const response = await fetch(`/api/events/${eventId}/${action}`, {
-        method: 'POST',
+      const response = await fetch(`/api/events/${eventId}/register`, {
+        method: action === 'register' ? 'POST' : 'DELETE',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' }
       });
@@ -138,10 +119,40 @@ export default function UpcomingEvents() {
               ? { ...event, currentParticipants: Math.max(0, event.currentParticipants - 1) }
               : event
           ));
+          alert('Registro cancelado exitosamente');
+        }
+      } else {
+        const errorData = await response.json();
+        
+        // Si el error es por pago aprobado, redirigir a PQRSDF
+        if (action === 'unregister' && errorData.message && errorData.message.includes('pago aprobado')) {
+          const confirmar = confirm(
+            'Tienes un pago aprobado para este evento. Para cancelar tu inscripción necesitas solicitar un reembolso a través de nuestro sistema PQRSDF.\n\n¿Deseas iniciar la solicitud de reembolso ahora?'
+          );
+          
+          if (confirmar) {
+            // Encontrar el evento para obtener sus datos
+            const evento = events.find(e => e._id === eventId);
+            
+            if (evento) {
+              // Redirigir al formulario PQRSDF con datos prellenados
+              const params = new URLSearchParams({
+                categoria: 'peticion',
+                subcategoria: 'reembolso',
+                eventoId: evento._id,
+                eventoNombre: evento.name,
+                precio: evento.price?.toString() || '0'
+              });
+              window.location.href = `/dashboard/pqrsdf/nueva?${params.toString()}`;
+            }
+          }
+        } else {
+          alert(`Error: ${errorData.message || 'No se pudo completar la acción'}`);
         }
       }
     } catch (error) {
       console.error('Error processing event registration:', error);
+      alert('Error de conexión. Inténtalo de nuevo.');
     } finally {
       setProcessingEvents(prev => {
         const newSet = new Set(prev);
