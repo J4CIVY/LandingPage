@@ -7,7 +7,7 @@ import ExtendedUser from '@/lib/models/ExtendedUser';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ orderId: string }> }
 ) {
   try {
     // Verificar autenticación
@@ -23,10 +23,10 @@ export async function GET(
     await dbConnect();
 
     // Await params en Next.js 15
-    const { id } = await params;
+    const { orderId } = await params;
 
-    // Obtener la transacción
-    const transaction = await BoldTransaction.findById(id).lean();
+    // Obtener la transacción por _id (orderId es el parámetro de la ruta pero contiene el _id de MongoDB)
+    const transaction = await BoldTransaction.findById(orderId).lean();
 
     if (!transaction) {
       return NextResponse.json(
