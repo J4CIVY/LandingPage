@@ -210,6 +210,13 @@ async function registerUserToEvent(transaction: any) {
     if (!isAlreadyRegistered) {
       // Agregar usuario a los registrados del evento
       event.currentParticipants += 1;
+      
+      // Agregar también a la lista de participants (importante para consistencia)
+      if (!event.participants) {
+        event.participants = [];
+      }
+      event.participants.push(transaction.userId);
+      
       await event.save();
 
       // Agregar evento al usuario

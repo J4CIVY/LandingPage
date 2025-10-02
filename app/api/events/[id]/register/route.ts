@@ -8,6 +8,7 @@ import {
 import connectDB from '@/lib/mongodb';
 import Event from '@/lib/models/Event';
 import User from '@/lib/models/User';
+import BoldTransaction, { TransactionStatus } from '@/lib/models/BoldTransaction';
 import { verifyAuth } from '@/lib/auth-utils';
 import mongoose from 'mongoose';
 
@@ -168,6 +169,20 @@ async function handleDelete(request: NextRequest, { params }: RouteParams) {
     );
   }
 
+  // Verificar si el usuario tiene un pago aprobado para este evento
+  const approvedPayment = await BoldTransaction.findOne({
+    userId: userId,
+    eventId: id,
+    status: TransactionStatus.APPROVED
+  });
+
+  if (approvedPayment) {
+    return createErrorResponse(
+      'No puedes cancelar tu registro porque tienes un pago aprobado. Para cancelar, contacta al soporte para gestionar el reembolso.',
+      HTTP_STATUS.BAD_REQUEST
+    );
+  }
+
   // Verificar que el evento no haya comenzado (opcional - puede permitirse cancelar hasta cierto punto)
   const now = new Date();
   const cancellationDeadline = new Date(event.startDate.getTime() - 24 * 60 * 60 * 1000); // 24 horas antes
@@ -188,10 +203,19 @@ async function handleDelete(request: NextRequest, { params }: RouteParams) {
 
   // Quitar el evento de la lista del usuario
   const user = await User.findById(userId);
-  if (user && user.events) {
-    user.events = user.events.filter(
-      (eventId: mongoose.Types.ObjectId) => !eventId.equals(id)
-    );
+  if (user) {
+    // Quitar de events
+    if (user.events) {
+      user.events = user.events.filter(
+        (eventId: mongoose.Types.ObjectId) => !eventId.equals(id)
+      );
+    }
+    // Quitar de eventsRegistered también
+    if (user.eventsRegistered) {
+      user.eventsRegistered = user.eventsRegistered.filter(
+        (eventId: mongoose.Types.ObjectId) => !eventId.equals(id)
+      );
+    }
     await user.save();
   }
 
