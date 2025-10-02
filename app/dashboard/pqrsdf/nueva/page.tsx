@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { 
   FaArrowLeft, 
@@ -10,7 +10,9 @@ import {
   FaTimes, 
   FaCheck, 
   FaSpinner,
-  FaExclamationCircle
+  FaExclamationCircle,
+  FaUniversity,
+  FaCreditCard
 } from 'react-icons/fa';
 
 // Importar tipos y servicios
@@ -18,13 +20,55 @@ import {
   CrearSolicitudDto, 
   CATEGORIAS_SOLICITUD, 
   SolicitudCategoria,
-  ICONOS_CATEGORIA 
+  SolicitudSubcategoria,
+  ICONOS_CATEGORIA,
+  DatosBancariosReembolso 
 } from '@/types/pqrsdf';
 import { PQRSDFService } from '@/lib/services/pqrsdf-service';
+
+// Tipos de documento
+const TIPOS_DOCUMENTO = [
+  { value: 'CC', label: 'Cédula de Ciudadanía' },
+  { value: 'CE', label: 'Cédula de Extranjería' },
+  { value: 'NIT', label: 'NIT' },
+  { value: 'TI', label: 'Tarjeta de Identidad' },
+  { value: 'PA', label: 'Pasaporte' }
+] as const;
+
+// Bancos colombianos principales
+const BANCOS = [
+  'Bancolombia',
+  'Banco de Bogotá',
+  'Davivienda',
+  'BBVA Colombia',
+  'Banco Popular',
+  'Banco de Occidente',
+  'Banco Caja Social',
+  'Banco AV Villas',
+  'Banco Falabella',
+  'Banco Agrario',
+  'Banco Pichincha',
+  'Banco Cooperativo Coopcentral',
+  'Colpatria',
+  'Citibank',
+  'Scotiabank Colpatria',
+  'Nequi',
+  'Daviplata',
+  'Lulo Bank',
+  'Otro'
+];
+
+interface EventoRegistrado {
+  id: string;
+  nombre: string;
+  fecha: string;
+  precio: number;
+}
 
 export default function NuevaSolicitudPage() {
   const { user } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
   
   // Estados del formulario
   const [formulario, setFormulario] = useState<CrearSolicitudDto>({
@@ -34,10 +78,81 @@ export default function NuevaSolicitudPage() {
     adjuntos: []
   });
   
+  // Estado para datos bancarios
+  const [datosBancarios, setDatosBancarios] = useState<DatosBancariosReembolso>({
+    nombreTitular: '',
+    tipoDocumento: 'CC',
+    numeroDocumento: '',
+    banco: '',
+    tipoCuenta: 'ahorros',
+    numeroCuenta: '',
+    emailConfirmacion: '',
+    telefonoContacto: ''
+  });
+  
   const [archivosSeleccionados, setArchivosSeleccionados] = useState<File[]>([]);
   const [enviando, setEnviando] = useState(false);
   const [errores, setErrores] = useState<Record<string, string>>({});
   const [exito, setExito] = useState(false);
+  const [eventosRegistrados, setEventosRegistrados] = useState<EventoRegistrado[]>([]);
+  const [cargandoEventos, setCargandoEventos] = useState(false);
+  
+  // Leer parámetros de URL y pre-llenar formulario
+  useEffect(() => {
+    const categoria = searchParams.get('categoria') as SolicitudCategoria;
+    const subcategoria = searchParams.get('subcategoria') as SolicitudSubcategoria;
+    const eventoId = searchParams.get('eventoId');
+    const eventoNombre = searchParams.get('eventoNombre');
+    const precio = searchParams.get('precio');
+    
+    if (categoria) {
+      setFormulario(prev => ({
+        ...prev,
+        categoria,
+        subcategoria,
+        eventoId: eventoId || undefined,
+        eventoNombre: eventoNombre || undefined,
+        montoReembolso: precio ? parseFloat(precio) : undefined,
+        asunto: subcategoria === 'reembolso' && eventoNombre 
+          ? `Solicitud de reembolso - ${eventoNombre}` 
+          : '',
+        descripcion: subcategoria === 'reembolso' 
+          ? `Solicito el reembolso de mi inscripción al evento "${eventoNombre}" por un valor de $${precio ? parseFloat(precio).toLocaleString('es-CO') : '0'}.` 
+          : ''
+      }));
+      
+      // Si es reembolso, pre-llenar algunos datos bancarios
+      if (subcategoria === 'reembolso' && user) {
+        setDatosBancarios(prev => ({
+          ...prev,
+          nombreTitular: user.firstName ? `${user.firstName} ${user.lastName || ''}`.trim() : '',
+          emailConfirmacion: user.email || ''
+        }));
+      }
+    }
+  }, [searchParams, user]);
+  
+  // Cargar eventos registrados si es reembolso
+  useEffect(() => {
+    const cargarEventosRegistrados = async () => {
+      if (formulario.subcategoria === 'reembolso' && user) {
+        setCargandoEventos(true);
+        try {
+          const response = await fetch('/api/events/user-registrations');
+          if (response.ok) {
+            const data = await response.json();
+            setEventosRegistrados(data.events || []);
+          }
+        } catch (error) {
+          console.error('Error al cargar eventos:', error);
+        } finally {
+          setCargandoEventos(false);
+        }
+      }
+    };
+    
+    cargarEventosRegistrados();
+  }, [formulario.subcategoria, user]);
 
   // Validación del formulario
   const validarFormulario = (): boolean => {
@@ -63,6 +178,45 @@ export default function NuevaSolicitudPage() {
       nuevosErrores.descripcion = 'La descripción no puede exceder 2000 caracteres';
     }
 
+    // Validaciones específicas para reembolsos
+    if (formulario.subcategoria === 'reembolso') {
+      if (!formulario.eventoId) {
+        nuevosErrores.evento = 'Debes seleccionar un evento';
+      }
+      
+      if (!datosBancarios.nombreTitular.trim()) {
+        nuevosErrores.nombreTitular = 'El nombre del titular es obligatorio';
+      }
+      
+      if (!datosBancarios.numeroDocumento.trim()) {
+        nuevosErrores.numeroDocumento = 'El número de documento es obligatorio';
+      } else if (!/^\d{6,12}$/.test(datosBancarios.numeroDocumento)) {
+        nuevosErrores.numeroDocumento = 'Número de documento inválido (6-12 dígitos)';
+      }
+      
+      if (!datosBancarios.banco.trim()) {
+        nuevosErrores.banco = 'Debes seleccionar un banco';
+      }
+      
+      if (!datosBancarios.numeroCuenta.trim()) {
+        nuevosErrores.numeroCuenta = 'El número de cuenta es obligatorio';
+      } else if (!/^\d{8,20}$/.test(datosBancarios.numeroCuenta)) {
+        nuevosErrores.numeroCuenta = 'Número de cuenta inválido (8-20 dígitos)';
+      }
+      
+      if (!datosBancarios.emailConfirmacion.trim()) {
+        nuevosErrores.emailConfirmacion = 'El correo de confirmación es obligatorio';
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(datosBancarios.emailConfirmacion)) {
+        nuevosErrores.emailConfirmacion = 'Correo electrónico inválido';
+      }
+      
+      if (!datosBancarios.telefonoContacto.trim()) {
+        nuevosErrores.telefonoContacto = 'El teléfono de contacto es obligatorio';
+      } else if (!/^3\d{9}$/.test(datosBancarios.telefonoContacto)) {
+        nuevosErrores.telefonoContacto = 'Teléfono inválido (10 dígitos, debe iniciar con 3)';
+      }
+    }
+
     // Validar archivos
     if (archivosSeleccionados.length > 5) {
       nuevosErrores.adjuntos = 'No puedes subir más de 5 archivos';
@@ -81,6 +235,23 @@ export default function NuevaSolicitudPage() {
   // Manejar cambios en el formulario
   const handleChange = (campo: keyof CrearSolicitudDto, valor: any) => {
     setFormulario(prev => ({
+      ...prev,
+      [campo]: valor
+    }));
+
+    // Limpiar error del campo
+    if (errores[campo]) {
+      setErrores(prev => {
+        const nuevos = { ...prev };
+        delete nuevos[campo];
+        return nuevos;
+      });
+    }
+  };
+
+  // Manejar cambios en datos bancarios
+  const handleDatosBancariosChange = (campo: keyof DatosBancariosReembolso, valor: any) => {
+    setDatosBancarios(prev => ({
       ...prev,
       [campo]: valor
     }));
@@ -134,7 +305,11 @@ export default function NuevaSolicitudPage() {
     try {
       const datosEnvio: CrearSolicitudDto = {
         ...formulario,
-        adjuntos: archivosSeleccionados
+        adjuntos: archivosSeleccionados,
+        // Incluir datos bancarios si es un reembolso
+        ...(formulario.subcategoria === 'reembolso' && {
+          datosBancarios
+        })
       };
 
       const solicitudCreada = await PQRSDFService.crearSolicitud(user._id as string, datosEnvio);
@@ -314,6 +489,257 @@ export default function NuevaSolicitudPage() {
                   </p>
                 </div>
               </div>
+
+              {/* Campos específicos para reembolsos */}
+              {formulario.subcategoria === 'reembolso' && (
+                <div className="mb-6 space-y-6 border-t border-gray-200 dark:border-slate-700 pt-6">
+                  <div className="flex items-center space-x-2 mb-4">
+                    <FaUniversity className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100">
+                      Información de Reembolso
+                    </h3>
+                  </div>
+
+                  {/* Selector de Evento */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+                      Evento <span className="text-red-500">*</span>
+                    </label>
+                    {cargandoEventos ? (
+                      <div className="flex items-center justify-center py-4">
+                        <FaSpinner className="w-5 h-5 animate-spin text-blue-600" />
+                        <span className="ml-2 text-sm text-gray-600 dark:text-slate-400">Cargando eventos...</span>
+                      </div>
+                    ) : eventosRegistrados.length > 0 ? (
+                      <select
+                        value={formulario.eventoId || ''}
+                        onChange={(e) => {
+                          const eventoSeleccionado = eventosRegistrados.find(ev => ev.id === e.target.value);
+                          handleChange('eventoId', e.target.value);
+                          if (eventoSeleccionado) {
+                            handleChange('eventoNombre', eventoSeleccionado.nombre);
+                            handleChange('montoReembolso', eventoSeleccionado.precio);
+                          }
+                        }}
+                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-slate-100 ${
+                          errores.evento
+                            ? 'border-red-300 dark:border-red-600'
+                            : 'border-gray-300 dark:border-slate-600'
+                        }`}
+                      >
+                        <option value="">Selecciona el evento</option>
+                        {eventosRegistrados.map((evento) => (
+                          <option key={evento.id} value={evento.id}>
+                            {evento.nombre} - ${evento.precio.toLocaleString('es-CO')}
+                          </option>
+                        ))}
+                      </select>
+                    ) : (
+                      <p className="text-sm text-gray-500 dark:text-slate-400 italic">
+                        No tienes eventos registrados disponibles para reembolso.
+                      </p>
+                    )}
+                    {errores.evento && (
+                      <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errores.evento}</p>
+                    )}
+                  </div>
+
+                  {/* Divider */}
+                  <div className="flex items-center space-x-2 border-t border-gray-200 dark:border-slate-700 pt-4">
+                    <FaCreditCard className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                    <h4 className="text-base font-semibold text-gray-900 dark:text-slate-100">
+                      Datos Bancarios para el Reembolso
+                    </h4>
+                  </div>
+
+                  {/* Nombre del Titular */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+                      Nombre del Titular de la Cuenta <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={datosBancarios.nombreTitular}
+                      onChange={(e) => handleDatosBancariosChange('nombreTitular', e.target.value)}
+                      placeholder="Nombre completo del titular"
+                      className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-slate-100 ${
+                        errores.nombreTitular
+                          ? 'border-red-300 dark:border-red-600'
+                          : 'border-gray-300 dark:border-slate-600'
+                      }`}
+                    />
+                    {errores.nombreTitular && (
+                      <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errores.nombreTitular}</p>
+                    )}
+                  </div>
+
+                  {/* Tipo y Número de Documento */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+                        Tipo de Documento <span className="text-red-500">*</span>
+                      </label>
+                      <select
+                        value={datosBancarios.tipoDocumento}
+                        onChange={(e) => handleDatosBancariosChange('tipoDocumento', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-slate-100"
+                      >
+                        {TIPOS_DOCUMENTO.map(tipo => (
+                          <option key={tipo.value} value={tipo.value}>
+                            {tipo.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+                        Número de Documento <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={datosBancarios.numeroDocumento}
+                        onChange={(e) => handleDatosBancariosChange('numeroDocumento', e.target.value.replace(/\D/g, ''))}
+                        placeholder="Ej: 1234567890"
+                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-slate-100 ${
+                          errores.numeroDocumento
+                            ? 'border-red-300 dark:border-red-600'
+                            : 'border-gray-300 dark:border-slate-600'
+                        }`}
+                      />
+                      {errores.numeroDocumento && (
+                        <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errores.numeroDocumento}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Banco */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+                      Banco <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      value={datosBancarios.banco}
+                      onChange={(e) => handleDatosBancariosChange('banco', e.target.value)}
+                      className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-slate-100 ${
+                        errores.banco
+                          ? 'border-red-300 dark:border-red-600'
+                          : 'border-gray-300 dark:border-slate-600'
+                      }`}
+                    >
+                      <option value="">Selecciona tu banco</option>
+                      {BANCOS.map(banco => (
+                        <option key={banco} value={banco}>
+                          {banco}
+                        </option>
+                      ))}
+                    </select>
+                    {errores.banco && (
+                      <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errores.banco}</p>
+                    )}
+                  </div>
+
+                  {/* Tipo de Cuenta */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+                      Tipo de Cuenta <span className="text-red-500">*</span>
+                    </label>
+                    <div className="flex gap-4">
+                      <label className="flex items-center cursor-pointer">
+                        <input
+                          type="radio"
+                          name="tipoCuenta"
+                          value="ahorros"
+                          checked={datosBancarios.tipoCuenta === 'ahorros'}
+                          onChange={(e) => handleDatosBancariosChange('tipoCuenta', e.target.value)}
+                          className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                        />
+                        <span className="ml-2 text-sm text-gray-700 dark:text-slate-300">Ahorros</span>
+                      </label>
+                      <label className="flex items-center cursor-pointer">
+                        <input
+                          type="radio"
+                          name="tipoCuenta"
+                          value="corriente"
+                          checked={datosBancarios.tipoCuenta === 'corriente'}
+                          onChange={(e) => handleDatosBancariosChange('tipoCuenta', e.target.value)}
+                          className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                        />
+                        <span className="ml-2 text-sm text-gray-700 dark:text-slate-300">Corriente</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* Número de Cuenta */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+                      Número de Cuenta <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={datosBancarios.numeroCuenta}
+                      onChange={(e) => handleDatosBancariosChange('numeroCuenta', e.target.value.replace(/\D/g, ''))}
+                      placeholder="Ej: 1234567890"
+                      className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-slate-100 ${
+                        errores.numeroCuenta
+                          ? 'border-red-300 dark:border-red-600'
+                          : 'border-gray-300 dark:border-slate-600'
+                      }`}
+                    />
+                    {errores.numeroCuenta && (
+                      <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errores.numeroCuenta}</p>
+                    )}
+                  </div>
+
+                  {/* Correo de Confirmación */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+                      Correo de Confirmación <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      value={datosBancarios.emailConfirmacion}
+                      onChange={(e) => handleDatosBancariosChange('emailConfirmacion', e.target.value)}
+                      placeholder="correo@ejemplo.com"
+                      className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-slate-100 ${
+                        errores.emailConfirmacion
+                          ? 'border-red-300 dark:border-red-600'
+                          : 'border-gray-300 dark:border-slate-600'
+                      }`}
+                    />
+                    {errores.emailConfirmacion && (
+                      <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errores.emailConfirmacion}</p>
+                    )}
+                  </div>
+
+                  {/* Teléfono de Contacto */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+                      Teléfono de Contacto <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="tel"
+                      value={datosBancarios.telefonoContacto}
+                      onChange={(e) => handleDatosBancariosChange('telefonoContacto', e.target.value.replace(/\D/g, ''))}
+                      placeholder="3001234567"
+                      className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-slate-100 ${
+                        errores.telefonoContacto
+                          ? 'border-red-300 dark:border-red-600'
+                          : 'border-gray-300 dark:border-slate-600'
+                      }`}
+                    />
+                    {errores.telefonoContacto && (
+                      <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errores.telefonoContacto}</p>
+                    )}
+                  </div>
+
+                  {/* Nota informativa */}
+                  <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                    <p className="text-sm text-blue-800 dark:text-blue-300">
+                      <strong>Nota importante:</strong> El reembolso se realizará a la cuenta bancaria proporcionada. Asegúrate de que todos los datos sean correctos para evitar retrasos en el procesamiento.
+                    </p>
+                  </div>
+                </div>
+              )}
 
               {/* Adjuntos */}
               <div className="mb-6">

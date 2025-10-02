@@ -31,11 +31,23 @@ export interface ITimelineEvento {
   metadata?: Record<string, any>;
 }
 
+export interface IDatosBancariosReembolso {
+  nombreTitular: string;
+  tipoDocumento: 'CC' | 'CE' | 'NIT' | 'TI' | 'PA';
+  numeroDocumento: string;
+  banco: string;
+  tipoCuenta: 'ahorros' | 'corriente';
+  numeroCuenta: string;
+  emailConfirmacion: string;
+  telefonoContacto: string;
+}
+
 // Interface principal
 export interface IPQRSDF extends Document {
   numeroSolicitud: string;
   usuarioId: string;
   categoria: 'peticion' | 'queja' | 'reclamo' | 'sugerencia' | 'denuncia' | 'felicitacion';
+  subcategoria?: 'general' | 'reembolso' | 'cambio_datos' | 'certificado' | 'otro';
   asunto: string;
   descripcion: string;
   estado: 'en_revision' | 'respondida' | 'cerrada' | 'escalada';
@@ -51,7 +63,33 @@ export interface IPQRSDF extends Document {
   etiquetas?: string[];
   satisfaccion?: number;
   comentarioSatisfaccion?: string;
+  // Campos específicos para reembolsos
+  eventoId?: string;
+  eventoNombre?: string;
+  montoReembolso?: number;
+  ordenPago?: string;
+  datosBancarios?: IDatosBancariosReembolso;
 }
+
+// Esquema para datos bancarios
+const DatosBancariosReembolsoSchema = new Schema<IDatosBancariosReembolso>({
+  nombreTitular: { type: String, required: true },
+  tipoDocumento: { 
+    type: String, 
+    enum: ['CC', 'CE', 'NIT', 'TI', 'PA'], 
+    required: true 
+  },
+  numeroDocumento: { type: String, required: true },
+  banco: { type: String, required: true },
+  tipoCuenta: { 
+    type: String, 
+    enum: ['ahorros', 'corriente'], 
+    required: true 
+  },
+  numeroCuenta: { type: String, required: true },
+  emailConfirmacion: { type: String, required: true },
+  telefonoContacto: { type: String, required: true }
+});
 
 // Esquemas para subdocumentos
 const AdjuntoSchema = new Schema<IAdjunto>({
@@ -111,6 +149,10 @@ const PQRSDFSchema = new Schema<IPQRSDF>({
     required: true,
     index: true
   },
+  subcategoria: {
+    type: String,
+    enum: ['general', 'reembolso', 'cambio_datos', 'certificado', 'otro']
+  },
   asunto: { 
     type: String, 
     required: true,
@@ -157,7 +199,13 @@ const PQRSDFSchema = new Schema<IPQRSDF>({
   comentarioSatisfaccion: { 
     type: String, 
     maxlength: 500 
-  }
+  },
+  // Campos de reembolso
+  eventoId: { type: String },
+  eventoNombre: { type: String },
+  montoReembolso: { type: Number },
+  ordenPago: { type: String },
+  datosBancarios: { type: DatosBancariosReembolsoSchema }
 }, {
   timestamps: true,
   collection: 'pqrsdf'

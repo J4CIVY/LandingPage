@@ -144,8 +144,11 @@ async function handleDelete(request: NextRequest, { params }: RouteParams) {
 
   const userId = authResult.user.id;
   
+  console.log(`[DELETE /register] User ${userId} trying to unregister from event ${id}`);
+  
   // Verificar que el ID del evento es válido
   if (!mongoose.Types.ObjectId.isValid(id)) {
+    console.log(`[DELETE /register] Invalid event ID: ${id}`);
     return createErrorResponse(
       'ID de evento inválido',
       HTTP_STATUS.BAD_REQUEST
@@ -155,6 +158,7 @@ async function handleDelete(request: NextRequest, { params }: RouteParams) {
   // Obtener el evento
   const event = await Event.findById(id);
   if (!event || !event.isActive) {
+    console.log(`[DELETE /register] Event not found or inactive: ${id}`);
     return createErrorResponse(
       'Evento no encontrado',
       HTTP_STATUS.NOT_FOUND
@@ -163,6 +167,8 @@ async function handleDelete(request: NextRequest, { params }: RouteParams) {
 
   // Verificar que el usuario esté registrado
   if (!event.participants || !event.participants.includes(userId)) {
+    console.log(`[DELETE /register] User ${userId} not in participants list`);
+    console.log(`[DELETE /register] Event participants:`, event.participants?.map((p: any) => p.toString()));
     return createErrorResponse(
       'No estás registrado en este evento',
       HTTP_STATUS.BAD_REQUEST
@@ -177,6 +183,7 @@ async function handleDelete(request: NextRequest, { params }: RouteParams) {
   });
 
   if (approvedPayment) {
+    console.log(`[DELETE /register] User ${userId} has approved payment: ${approvedPayment.orderId}`);
     return createErrorResponse(
       'No puedes cancelar tu registro porque tienes un pago aprobado. Para cancelar, contacta al soporte para gestionar el reembolso.',
       HTTP_STATUS.BAD_REQUEST
@@ -187,11 +194,14 @@ async function handleDelete(request: NextRequest, { params }: RouteParams) {
   const now = new Date();
   const cancellationDeadline = new Date(event.startDate.getTime() - 24 * 60 * 60 * 1000); // 24 horas antes
   if (now >= cancellationDeadline) {
+    console.log(`[DELETE /register] Cancellation deadline passed. Now: ${now}, Deadline: ${cancellationDeadline}`);
     return createErrorResponse(
       'No puedes cancelar el registro 24 horas antes del evento',
       HTTP_STATUS.BAD_REQUEST
     );
   }
+
+  console.log(`[DELETE /register] All checks passed, proceeding with cancellation`);
 
   // Quitar al usuario del evento
   event.participants = event.participants.filter(

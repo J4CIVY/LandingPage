@@ -7,6 +7,13 @@ export type SolicitudCategoria =
   | 'denuncia' 
   | 'felicitacion';
 
+export type SolicitudSubcategoria =
+  | 'general'
+  | 'reembolso'
+  | 'cambio_datos'
+  | 'certificado'
+  | 'otro';
+
 export type SolicitudEstado = 
   | 'en_revision' 
   | 'respondida' 
@@ -14,6 +21,17 @@ export type SolicitudEstado =
   | 'escalada';
 
 export type MensajeTipo = 'usuario' | 'sistema' | 'admin';
+
+export interface DatosBancariosReembolso {
+  nombreTitular: string;
+  tipoDocumento: 'CC' | 'CE' | 'NIT' | 'TI' | 'PA';
+  numeroDocumento: string;
+  banco: string;
+  tipoCuenta: 'ahorros' | 'corriente';
+  numeroCuenta: string;
+  emailConfirmacion: string;
+  telefonoContacto: string;
+}
 
 export interface Adjunto {
   id: string;
@@ -52,6 +70,7 @@ export interface Solicitud {
   numeroSolicitud: string;
   usuarioId: string;
   categoria: SolicitudCategoria;
+  subcategoria?: SolicitudSubcategoria;
   asunto: string;
   descripcion: string;
   estado: SolicitudEstado;
@@ -67,13 +86,26 @@ export interface Solicitud {
   etiquetas?: string[];
   satisfaccion?: number;
   comentarioSatisfaccion?: string;
+  // Campos específicos para reembolsos
+  eventoId?: string;
+  eventoNombre?: string;
+  montoReembolso?: number;
+  ordenPago?: string;
+  datosBancarios?: DatosBancariosReembolso;
 }
 
 export interface CrearSolicitudDto {
   categoria: SolicitudCategoria;
+  subcategoria?: SolicitudSubcategoria;
   asunto: string;
   descripcion: string;
   adjuntos?: File[];
+  // Campos para reembolsos
+  eventoId?: string;
+  eventoNombre?: string;
+  montoReembolso?: number;
+  ordenPago?: string;
+  datosBancarios?: DatosBancariosReembolso;
 }
 
 export interface FiltroSolicitudes {

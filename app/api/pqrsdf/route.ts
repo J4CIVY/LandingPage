@@ -147,7 +147,18 @@ export async function POST(request: NextRequest) {
     await connectDB();
 
     const body = await request.json();
-    const { categoria, asunto, descripcion, prioridad = 'media' } = body;
+    const { 
+      categoria, 
+      subcategoria,
+      asunto, 
+      descripcion, 
+      prioridad = 'media',
+      eventoId,
+      eventoNombre,
+      montoReembolso,
+      ordenPago,
+      datosBancarios
+    } = body;
 
     // Validar campos requeridos
     if (!categoria || !asunto || !descripcion) {
@@ -166,6 +177,38 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Validar subcategoría si se proporciona
+    if (subcategoria) {
+      const subcategoriasValidas = ['general', 'reembolso', 'cambio_datos', 'certificado', 'otro'];
+      if (!subcategoriasValidas.includes(subcategoria)) {
+        return NextResponse.json(
+          { error: 'Subcategoría no válida' },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Validar campos de reembolso si la subcategoría es 'reembolso'
+    if (subcategoria === 'reembolso') {
+      if (!eventoId || !datosBancarios) {
+        return NextResponse.json(
+          { error: 'Para reembolsos son requeridos eventoId y datosBancarios' },
+          { status: 400 }
+        );
+      }
+
+      // Validar datos bancarios
+      const camposRequeridos = ['nombreTitular', 'tipoDocumento', 'numeroDocumento', 'banco', 'tipoCuenta', 'numeroCuenta', 'emailConfirmacion', 'telefonoContacto'];
+      for (const campo of camposRequeridos) {
+        if (!datosBancarios[campo]) {
+          return NextResponse.json(
+            { error: `El campo ${campo} es requerido en datos bancarios` },
+            { status: 400 }
+          );
+        }
+      }
+    }
+
     // Validar prioridad
     const prioridadesValidas = ['baja', 'media', 'alta', 'urgente'];
     if (!prioridadesValidas.includes(prioridad)) {
@@ -180,10 +223,11 @@ export async function POST(request: NextRequest) {
 
     // Crear la solicitud
     const fechaActual = new Date();
-    const nuevaSolicitud = new PQRSDF({
+    const datosNuevaSolicitud: any = {
       numeroSolicitud,
       usuarioId: authResult.user.id,
       categoria,
+      subcategoria,
       asunto,
       descripcion,
       prioridad,
@@ -200,8 +244,21 @@ export async function POST(request: NextRequest) {
         autorId: authResult.user.id,
         autorNombre: authResult.user.email || 'Usuario'
       }]
-    });
+    };
 
+    // Agregar campos de reembolso si aplica
+    if (subcategoria === 'reembolso') {
+      datosNuevaSolicitud.eventoId = eventoId;
+      datosNuevaSolicitud.eventoNombre = eventoNombre;
+      datosNuevaSolicitud.montoReembolso = montoReembolso;
+      datosNuevaSolicitud.ordenPago = ordenPago;
+      datosNuevaSolicitud.datosBancarios = datosBancarios;
+      
+      // Marcar como alta prioridad si es reembolso
+      datosNuevaSolicitud.prioridad = 'alta';
+    }
+
+    const nuevaSolicitud = new PQRSDF(datosNuevaSolicitud);
     await nuevaSolicitud.save();
 
     // Formatear respuesta

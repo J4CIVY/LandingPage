@@ -191,9 +191,31 @@ export default function EventDetailsPage() {
         }
       } else {
         const errorData = await response.json();
-        alert(`Error: ${errorData.message || 'No se pudo completar la acción'}`);
+        console.error('Registration error from server:', errorData);
+        
+        // Si el error es por pago aprobado, redirigir a PQRSDF
+        if (errorData.message && errorData.message.includes('pago aprobado')) {
+          const confirmar = confirm(
+            'Tienes un pago aprobado para este evento. Para cancelar tu inscripción necesitas solicitar un reembolso a través de nuestro sistema PQRSDF.\n\n¿Deseas iniciar la solicitud de reembolso ahora?'
+          );
+          
+          if (confirmar && event) {
+            // Redirigir al formulario PQRSDF con datos prellenados
+            const params = new URLSearchParams({
+              categoria: 'peticion',
+              subcategoria: 'reembolso',
+              eventoId: event._id,
+              eventoNombre: event.name,
+              precio: event.price?.toString() || '0'
+            });
+            router.push(`/dashboard/pqrsdf/nueva?${params.toString()}`);
+          }
+        } else {
+          alert(`Error: ${errorData.message || 'No se pudo completar la acción'}`);
+        }
       }
     } catch (error) {
+      console.error('Registration exception:', error);
       alert('Error de conexión. Inténtalo de nuevo.');
     } finally {
       setProcessing(false);
