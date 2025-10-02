@@ -140,13 +140,13 @@ export default function BoldCheckoutButton({
       }
       
       if (config.customerData) {
-        // Bold espera customerData como objeto, no string
-        boldConfig.customerData = config.customerData;
+        // Bold espera customerData como string JSON
+        boldConfig.customerData = JSON.stringify(config.customerData);
       }
       
       if (config.billingAddress) {
-        // Bold espera billingAddress como objeto, no string
-        boldConfig.billingAddress = config.billingAddress;
+        // Bold espera billingAddress como string JSON
+        boldConfig.billingAddress = JSON.stringify(config.billingAddress);
       }
       
       if (config.extraData1) {
