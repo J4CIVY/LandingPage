@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
+import BoldCheckoutButton from '@/components/shared/BoldCheckoutButton';
 import {
   FaCalendarAlt,
   FaMapMarkerAlt,
@@ -80,6 +81,12 @@ export default function EventDetailsPage() {
   const [isRegistered, setIsRegistered] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [processing, setProcessing] = useState(false);
+  const [paymentConfig, setPaymentConfig] = useState<{
+    config: any;
+    integritySignature: string;
+    orderId: string;
+  } | null>(null);
+  const [loadingPayment, setLoadingPayment] = useState(false);
 
   const eventId = params.id as string;
 
@@ -199,6 +206,47 @@ export default function EventDetailsPage() {
       alert('Error de conexión. Inténtalo de nuevo.');
     } finally {
       setProcessing(false);
+    }
+  };
+
+  const handleCreatePaymentTransaction = async () => {
+    if (!user || !event || loadingPayment) return;
+
+    setLoadingPayment(true);
+    try {
+      const response = await fetch('/api/bold/transactions/create', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          eventId: event._id,
+          amount: event.price,
+          description: `Inscripción a ${event.name}`
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error al crear la transacción');
+      }
+
+      const data = await response.json();
+      if (data.success && data.data) {
+        setPaymentConfig({
+          config: data.data.config,
+          integritySignature: data.data.integritySignature,
+          orderId: data.data.orderId
+        });
+        return true;
+      } else {
+        throw new Error('Respuesta inválida del servidor');
+      }
+    } catch (error: any) {
+      console.error('Error creating payment transaction:', error);
+      alert(`Error al iniciar el pago: ${error.message || 'Intenta de nuevo'}`);
+      return false;
+    } finally {
+      setLoadingPayment(false);
     }
   };
 
@@ -523,7 +571,7 @@ export default function EventDetailsPage() {
                   <div className="bg-gray-50 dark:bg-slate-700 rounded-lg p-4 space-y-3">
                     {user ? (
                       <>
-                        {/* Botón de registro */}
+                        {/* Botón de registro o pago */}
                         {isRegistered ? (
                           <button
                             onClick={() => handleEventRegistration('unregister')}
@@ -538,18 +586,84 @@ export default function EventDetailsPage() {
                             Cancelar Registro
                           </button>
                         ) : (
-                          <button
-                            onClick={() => handleEventRegistration('register')}
-                            disabled={processing || isEventFull || isRegistrationClosed}
-                            className="w-full inline-flex items-center justify-center px-4 py-3 bg-green-600 dark:bg-green-500 text-white font-medium rounded-lg hover:bg-green-700 dark:hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
-                          >
-                            {processing ? (
-                              <FaSpinner className="mr-2 animate-spin" />
+                          <>
+                            {/* Si el evento tiene precio, mostrar botón de pago Bold */}
+                            {event.price && event.price > 0 ? (
+                              <div className="space-y-2">
+                                <div className="text-center mb-2">
+                                  <p className="text-sm text-gray-600 dark:text-slate-400">
+                                    Este evento requiere pago
+                                  </p>
+                                  <p className="text-2xl font-bold text-gray-900 dark:text-slate-100">
+                                    ${event.price.toLocaleString('es-CO')} COP
+                                  </p>
+                                </div>
+                                
+                                {paymentConfig ? (
+                                  /* Botón de pago Bold */
+                                  <BoldCheckoutButton
+                                    config={paymentConfig.config}
+                                    integritySignature={paymentConfig.integritySignature}
+                                    disabled={isEventFull || isRegistrationClosed}
+                                    buttonText="Pagar Inscripción"
+                                    buttonClassName="w-full px-4 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center"
+                                    onPaymentStart={() => {
+                                      console.log('Iniciando proceso de pago...');
+                                    }}
+                                    onPaymentSuccess={() => {
+                                      console.log('Pago completado, redirigiendo...');
+                                      router.push(`/events/${event._id}/payment-result?orderId=${paymentConfig.orderId}`);
+                                    }}
+                                    onPaymentError={(error: any) => {
+                                      console.error('Error en el pago:', error);
+                                      alert(`Error al procesar el pago: ${error.message || 'Intenta de nuevo'}`);
+                                      // Resetear para permitir intentar de nuevo
+                                      setPaymentConfig(null);
+                                    }}
+                                  />
+                                ) : (
+                                  /* Botón para iniciar el proceso de pago */
+                                  <button
+                                    onClick={handleCreatePaymentTransaction}
+                                    disabled={loadingPayment || isEventFull || isRegistrationClosed}
+                                    className="w-full inline-flex items-center justify-center px-4 py-3 bg-blue-600 dark:bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                                  >
+                                    {loadingPayment ? (
+                                      <>
+                                        <FaSpinner className="mr-2 animate-spin" />
+                                        Preparando pago...
+                                      </>
+                                    ) : (
+                                      <>
+                                        <FaDollarSign className="mr-2" />
+                                        Comprar Inscripción
+                                      </>
+                                    )}
+                                  </button>
+                                )}
+                                
+                                {(isEventFull || isRegistrationClosed) && (
+                                  <p className="text-sm text-center text-red-600 dark:text-red-400">
+                                    {isEventFull ? 'Evento lleno' : 'Registro cerrado'}
+                                  </p>
+                                )}
+                              </div>
                             ) : (
-                              <FaUserPlus className="mr-2" />
+                              /* Si el evento es gratis, mostrar botón de registro normal */
+                              <button
+                                onClick={() => handleEventRegistration('register')}
+                                disabled={processing || isEventFull || isRegistrationClosed}
+                                className="w-full inline-flex items-center justify-center px-4 py-3 bg-green-600 dark:bg-green-500 text-white font-medium rounded-lg hover:bg-green-700 dark:hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                              >
+                                {processing ? (
+                                  <FaSpinner className="mr-2 animate-spin" />
+                                ) : (
+                                  <FaUserPlus className="mr-2" />
+                                )}
+                                {isEventFull ? 'Evento Lleno' : isRegistrationClosed ? 'Registro Cerrado' : 'Registrarse Gratis'}
+                              </button>
                             )}
-                            {isEventFull ? 'Evento Lleno' : isRegistrationClosed ? 'Registro Cerrado' : 'Registrarse'}
-                          </button>
+                          </>
                         )}
 
                         {/* Botón de favorito */}
@@ -575,7 +689,7 @@ export default function EventDetailsPage() {
                     ) : (
                       <div className="text-center">
                         <p className="text-gray-600 dark:text-slate-400 mb-3">
-                          Inicia sesión para registrarte en este evento
+                          Inicia sesión para {event.price && event.price > 0 ? 'comprar tu entrada' : 'registrarte en este evento'}
                         </p>
                         <button
                           onClick={() => router.push('/login')}
