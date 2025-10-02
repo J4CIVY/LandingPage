@@ -124,13 +124,19 @@ export default function EventDetailsPage() {
     if (!user || !eventId) return;
 
     try {
-      const [registrationsRes, favoritesRes] = await Promise.all([
+      const [registrationsRes, favoritesRes, paymentRes] = await Promise.all([
         fetch('/api/users/events/registrations', {
           method: 'GET',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' }
         }),
         fetch('/api/users/events/favorites', {
+          method: 'GET',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' }
+        }),
+        // Verificar si hay un pago aprobado para este evento
+        fetch(`/api/bold/transactions/check-payment?eventId=${eventId}`, {
           method: 'GET',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' }
@@ -147,6 +153,15 @@ export default function EventDetailsPage() {
         const favData = await favoritesRes.json();
         const favorites = favData.data?.favorites || [];
         setIsFavorite(favorites.includes(eventId));
+      }
+
+      // Si hay un pago aprobado, marcar como registrado automáticamente
+      if (paymentRes.ok) {
+        const paymentData = await paymentRes.json();
+        if (paymentData.success && paymentData.data?.hasApprovedPayment) {
+          setIsRegistered(true);
+          console.log('Usuario tiene pago aprobado, marcado como registrado');
+        }
       }
     } catch (error) {
       console.error('Error fetching user event data:', error);

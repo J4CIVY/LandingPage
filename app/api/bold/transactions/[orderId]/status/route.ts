@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import BoldTransaction from '@/lib/models/BoldTransaction';
+import Event from '@/lib/models/Event';
+import User from '@/lib/models/User';
 import { verifyAuth } from '@/lib/auth-utils';
 import { BOLD_CONFIG } from '@/lib/bold-utils';
 
@@ -87,6 +89,7 @@ export async function GET(
         if (boldData.payment_status && boldData.payment_status !== transaction.status) {
           console.log(`Updating transaction status from ${transaction.status} to ${boldData.payment_status}`);
           
+          const oldStatus = transaction.status;
           transaction.status = boldData.payment_status;
           transaction.boldTransactionId = boldData.transaction_id;
           transaction.paymentMethod = boldData.payment_method;
@@ -97,6 +100,11 @@ export async function GET(
           
           transaction.boldWebhookData = boldData;
           await transaction.save();
+
+          // Si el pago fue aprobado y antes no lo estaba, registrar al usuario en el evento
+          if (boldData.payment_status === 'APPROVED' && oldStatus !== 'APPROVED') {
+            await registerUserToEvent(transaction);
+          }
         }
 
         return NextResponse.json(
@@ -180,5 +188,42 @@ export async function GET(
       },
       { status: 500 }
     );
+  }
+}
+
+/**
+ * Registra al usuario en el evento después de un pago aprobado
+ */
+async function registerUserToEvent(transaction: any) {
+  try {
+    const event = await Event.findById(transaction.eventId);
+    const user = await User.findById(transaction.userId);
+
+    if (!event || !user) {
+      console.error('Event or user not found for registration');
+      return;
+    }
+
+    // Verificar si ya está registrado
+    const isAlreadyRegistered = user.eventsRegistered?.includes(transaction.eventId);
+
+    if (!isAlreadyRegistered) {
+      // Agregar usuario a los registrados del evento
+      event.currentParticipants += 1;
+      await event.save();
+
+      // Agregar evento al usuario
+      if (!user.eventsRegistered) {
+        user.eventsRegistered = [];
+      }
+      user.eventsRegistered.push(transaction.eventId);
+      await user.save();
+
+      console.log(`✅ User ${user.email} registered to event: ${event.name} via status check`);
+    } else {
+      console.log(`ℹ️ User ${user.email} already registered to event: ${event.name}`);
+    }
+  } catch (error) {
+    console.error('Error registering user to event:', error);
   }
 }
