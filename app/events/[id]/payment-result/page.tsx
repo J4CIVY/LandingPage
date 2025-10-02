@@ -37,9 +37,25 @@ export default function PaymentResultPage() {
   const [transaction, setTransaction] = useState<TransactionResult | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [checkingAuth, setCheckingAuth] = useState(true);
+
+  // Esperar a que la autenticación se verifique
+  useEffect(() => {
+    // Dar tiempo para que useAuth verifique la sesión
+    const timer = setTimeout(() => {
+      setCheckingAuth(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
+    // No hacer nada mientras se verifica la autenticación
+    if (checkingAuth) return;
+
     if (!isAuthenticated) {
+      // Solo redirigir si definitivamente no hay sesión después de verificar
+      console.log('No authenticated, redirecting to login');
       router.push(`/login?returnUrl=/events/${eventId}/payment-result?orderId=${orderId}`);
       return;
     }
@@ -51,7 +67,7 @@ export default function PaymentResultPage() {
     }
 
     fetchTransactionStatus();
-  }, [orderId, isAuthenticated]);
+  }, [orderId, isAuthenticated, checkingAuth]);
 
   const fetchTransactionStatus = async () => {
     try {
@@ -148,13 +164,13 @@ export default function PaymentResultPage() {
     }).format(amount);
   };
 
-  if (loading) {
+  if (checkingAuth || loading) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-slate-950 flex items-center justify-center py-12 px-4">
         <div className="text-center">
           <FaSpinner className="animate-spin text-6xl text-blue-600 dark:text-blue-400 mx-auto mb-6" />
           <p className="text-lg text-gray-600 dark:text-slate-400">
-            Consultando el estado de tu pago...
+            {checkingAuth ? 'Verificando sesión...' : 'Consultando el estado de tu pago...'}
           </p>
         </div>
       </div>

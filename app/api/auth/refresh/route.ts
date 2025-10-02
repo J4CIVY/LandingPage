@@ -123,7 +123,7 @@ export async function POST(request: NextRequest) {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict' as const,
         path: '/',
-        maxAge: 15 * 60 // 15 minutos
+        maxAge: 2 * 60 * 60 // 2 horas
       };
 
       response.cookies.set('bsk-access-token', accessToken, cookieOptions);

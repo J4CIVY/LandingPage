@@ -217,10 +217,10 @@ export async function POST(request: NextRequest) {
       path: '/'
     };
 
-    // Set access token cookie (15 minutos)
+    // Set access token cookie (2 horas para permitir procesos largos como pagos)
     response.cookies.set('bsk-access-token', accessToken, {
       ...cookieOptions,
-      maxAge: 15 * 60 // 15 minutos
+      maxAge: 2 * 60 * 60 // 2 horas
     });
 
     // Set refresh token cookie (7 días)

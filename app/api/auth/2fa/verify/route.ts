@@ -248,7 +248,7 @@ export async function POST(request: NextRequest) {
 
     response.cookies.set('bsk-access-token', finalAccessToken, {
       ...cookieOptions,
-      maxAge: 15 * 60
+      maxAge: 2 * 60 * 60 // 2 horas
     });
 
     response.cookies.set('bsk-refresh-token', finalRefreshToken, {
