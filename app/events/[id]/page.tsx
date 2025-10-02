@@ -231,7 +231,16 @@ export default function EventDetailsPage() {
       }
 
       const data = await response.json();
+      console.log('Payment transaction created successfully:', {
+        success: data.success,
+        hasData: !!data.data,
+        hasConfig: !!data.data?.config,
+        hasIntegritySignature: !!data.data?.integritySignature,
+        hasOrderId: !!data.data?.orderId
+      });
+      
       if (data.success && data.data) {
+        console.log('Setting payment config with orderId:', data.data.orderId);
         setPaymentConfig({
           config: data.data.config,
           integritySignature: data.data.integritySignature,
@@ -239,6 +248,7 @@ export default function EventDetailsPage() {
         });
         return true;
       } else {
+        console.error('Invalid server response:', data);
         throw new Error('Respuesta inválida del servidor');
       }
     } catch (error: any) {

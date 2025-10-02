@@ -40,6 +40,18 @@ export default function BoldCheckoutButton({
   const [isProcessing, setIsProcessing] = useState(false);
   const checkoutInstanceRef = useRef<any>(null);
 
+  // Log de configuración al montar
+  useEffect(() => {
+    console.log('BoldCheckoutButton mounted with config:', {
+      hasConfig: !!config,
+      orderId: config?.orderId,
+      amount: config?.amount,
+      hasIntegritySignature: !!integritySignature,
+      disabled,
+      renderMode
+    });
+  }, []);
+
   /**
    * Carga el script de Bold
    */
@@ -95,8 +107,11 @@ export default function BoldCheckoutButton({
   const initializeBoldCheckout = () => {
     if (typeof window === 'undefined' || !(window as any).BoldCheckout) {
       console.error('BoldCheckout is not available on window');
+      console.log('Window object keys:', Object.keys(window).filter(k => k.toLowerCase().includes('bold')));
       return null;
     }
+
+    console.log('BoldCheckout constructor found on window');
 
     try {
       // Preparar la configuración para Bold Checkout
@@ -181,7 +196,14 @@ export default function BoldCheckoutButton({
       }
 
       if (!checkoutInstanceRef.current) {
-        throw new Error('Failed to initialize Bold Checkout');
+        const errorMsg = 'Failed to initialize Bold Checkout. Check console for details.';
+        console.error(errorMsg, {
+          scriptLoaded: isScriptLoaded,
+          hasBoldCheckout: !!(window as any).BoldCheckout,
+          hasConfig: !!config,
+          hasIntegritySignature: !!integritySignature
+        });
+        throw new Error(errorMsg);
       }
 
       // Abrir el checkout
@@ -193,7 +215,12 @@ export default function BoldCheckoutButton({
       
     } catch (error: any) {
       console.error('Error opening Bold Checkout:', error);
-      setScriptError(error.message);
+      const errorMessage = error.message || 'Error desconocido al abrir el checkout';
+      setScriptError(errorMessage);
+      
+      // Mostrar alerta al usuario con más contexto
+      alert(`Error al procesar el pago: ${errorMessage}\n\nPor favor, verifica la consola para más detalles o contacta al soporte.`);
+      
       onPaymentError?.(error);
     } finally {
       setIsProcessing(false);
@@ -269,9 +296,23 @@ export default function BoldCheckoutButton({
 
       {scriptError && (
         <div className="mt-3 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
-          <p className="text-sm text-red-600 dark:text-red-400 text-center">
+          <p className="text-sm text-red-600 dark:text-red-400 text-center font-semibold mb-1">
+            Error al cargar el sistema de pagos
+          </p>
+          <p className="text-xs text-red-500 dark:text-red-400 text-center">
             {scriptError}
           </p>
+        </div>
+      )}
+
+      {/* Debug info (remover en producción) */}
+      {process.env.NODE_ENV === 'development' && (
+        <div className="mt-2 p-2 bg-gray-100 dark:bg-slate-800 rounded text-xs">
+          <div className="text-gray-600 dark:text-slate-400">
+            Debug: Script {isScriptLoaded ? '✓' : '✗'} | 
+            Config {config?.orderId ? '✓' : '✗'} | 
+            API Key {BOLD_CLIENT_CONFIG.PUBLIC_API_KEY ? '✓' : '✗'}
+          </div>
         </div>
       )}
 
