@@ -1,0 +1,572 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useAuth } from '@/hooks/useAuth';
+import { 
+  FaFileInvoiceDollar, 
+  FaSpinner, 
+  FaExclamationTriangle,
+  FaCheckCircle,
+  FaClock,
+  FaTimesCircle,
+  FaCalendarAlt,
+  FaCreditCard,
+  FaDownload,
+  FaEye,
+  FaFilter,
+  FaSearch
+} from 'react-icons/fa';
+
+interface Transaction {
+  _id: string;
+  userId: string;
+  eventId?: string;
+  eventName?: string;
+  orderId: string;
+  amount: number;
+  currency: string;
+  status: 'PENDING' | 'APPROVED' | 'DECLINED' | 'ERROR' | 'CANCELLED';
+  paymentMethod?: string;
+  transactionId?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface BillingStats {
+  totalPagos: number;
+  totalAprobados: number;
+  totalPendientes: number;
+  totalRechazados: number;
+  montoTotal: number;
+}
+
+export default function BillingPage() {
+  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [filteredTransactions, setFilteredTransactions] = useState<Transaction[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
+  const [showDetailModal, setShowDetailModal] = useState(false);
+  
+  // Filtros
+  const [filters, setFilters] = useState({
+    search: '',
+    status: 'all',
+    dateFrom: '',
+    dateTo: ''
+  });
+
+  // Verificar autenticación
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
+      window.location.href = '/login?redirect=/dashboard/billing';
+    }
+  }, [isAuthenticated, authLoading]);
+
+  // Cargar transacciones
+  useEffect(() => {
+    if (user) {
+      fetchTransactions();
+    }
+  }, [user]);
+
+  // Aplicar filtros
+  useEffect(() => {
+    applyFilters();
+  }, [filters, transactions]);
+
+  const fetchTransactions = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const response = await fetch('/api/bold/transactions/user', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setTransactions(data.data?.transactions || []);
+      } else {
+        throw new Error('No se pudieron cargar las transacciones');
+      }
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const applyFilters = () => {
+    let filtered = [...transactions];
+
+    // Filtro por búsqueda (nombre de evento o ID de orden)
+    if (filters.search) {
+      const searchLower = filters.search.toLowerCase();
+      filtered = filtered.filter(t => 
+        t.eventName?.toLowerCase().includes(searchLower) ||
+        t.orderId.toLowerCase().includes(searchLower)
+      );
+    }
+
+    // Filtro por estado
+    if (filters.status !== 'all') {
+      filtered = filtered.filter(t => t.status === filters.status);
+    }
+
+    // Filtro por fecha desde
+    if (filters.dateFrom) {
+      const fromDate = new Date(filters.dateFrom);
+      filtered = filtered.filter(t => new Date(t.createdAt) >= fromDate);
+    }
+
+    // Filtro por fecha hasta
+    if (filters.dateTo) {
+      const toDate = new Date(filters.dateTo);
+      toDate.setHours(23, 59, 59, 999);
+      filtered = filtered.filter(t => new Date(t.createdAt) <= toDate);
+    }
+
+    setFilteredTransactions(filtered);
+  };
+
+  const calculateStats = (): BillingStats => {
+    return {
+      totalPagos: transactions.length,
+      totalAprobados: transactions.filter(t => t.status === 'APPROVED').length,
+      totalPendientes: transactions.filter(t => t.status === 'PENDING').length,
+      totalRechazados: transactions.filter(t => t.status === 'DECLINED' || t.status === 'ERROR').length,
+      montoTotal: transactions
+        .filter(t => t.status === 'APPROVED')
+        .reduce((sum, t) => sum + t.amount, 0)
+    };
+  };
+
+  const getStatusBadge = (status: string) => {
+    const badges = {
+      APPROVED: {
+        icon: <FaCheckCircle className="mr-1" />,
+        text: 'Aprobado',
+        className: 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
+      },
+      PENDING: {
+        icon: <FaClock className="mr-1" />,
+        text: 'Pendiente',
+        className: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400'
+      },
+      DECLINED: {
+        icon: <FaTimesCircle className="mr-1" />,
+        text: 'Rechazado',
+        className: 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400'
+      },
+      ERROR: {
+        icon: <FaExclamationTriangle className="mr-1" />,
+        text: 'Error',
+        className: 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400'
+      },
+      CANCELLED: {
+        icon: <FaTimesCircle className="mr-1" />,
+        text: 'Cancelado',
+        className: 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400'
+      }
+    };
+
+    const badge = badges[status as keyof typeof badges] || badges.ERROR;
+
+    return (
+      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${badge.className}`}>
+        {badge.icon}
+        {badge.text}
+      </span>
+    );
+  };
+
+  const handleViewDetail = (transaction: Transaction) => {
+    setSelectedTransaction(transaction);
+    setShowDetailModal(true);
+  };
+
+  const handleDownloadInvoice = async (transaction: Transaction) => {
+    try {
+      const response = await fetch(`/api/bold/transactions/${transaction._id}/invoice`, {
+        method: 'GET',
+        credentials: 'include'
+      });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `factura-${transaction.orderId}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      } else {
+        alert('No se pudo generar la factura');
+      }
+    } catch (error) {
+      console.error('Error downloading invoice:', error);
+      alert('Error al descargar la factura');
+    }
+  };
+
+  if (authLoading || loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-slate-900 flex items-center justify-center">
+        <div className="text-center">
+          <FaSpinner className="animate-spin text-4xl text-blue-600 dark:text-blue-400 mx-auto mb-4" />
+          <p className="text-gray-600 dark:text-slate-400">Cargando...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return null;
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-slate-900 flex items-center justify-center">
+        <div className="text-center">
+          <FaExclamationTriangle className="text-4xl text-red-500 mx-auto mb-4" />
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-slate-100 mb-2">Error</h1>
+          <p className="text-gray-600 dark:text-slate-400 mb-4">{error}</p>
+          <button
+            onClick={fetchTransactions}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          >
+            Reintentar
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const stats = calculateStats();
+
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-900 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-slate-100 flex items-center">
+            <FaFileInvoiceDollar className="mr-3 text-purple-600 dark:text-purple-400" />
+            Facturación y Pagos
+          </h1>
+          <p className="mt-2 text-gray-600 dark:text-slate-400">
+            Administra tu historial de pagos, transacciones y genera facturas
+          </p>
+        </div>
+
+        {/* Estadísticas */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600 dark:text-slate-400">Total Pagos</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-slate-100">{stats.totalPagos}</p>
+              </div>
+              <FaFileInvoiceDollar className="text-3xl text-purple-600 dark:text-purple-400" />
+            </div>
+          </div>
+
+          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600 dark:text-slate-400">Aprobados</p>
+                <p className="text-2xl font-bold text-green-600 dark:text-green-400">{stats.totalAprobados}</p>
+              </div>
+              <FaCheckCircle className="text-3xl text-green-600 dark:text-green-400" />
+            </div>
+          </div>
+
+          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600 dark:text-slate-400">Pendientes</p>
+                <p className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">{stats.totalPendientes}</p>
+              </div>
+              <FaClock className="text-3xl text-yellow-600 dark:text-yellow-400" />
+            </div>
+          </div>
+
+          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600 dark:text-slate-400">Rechazados</p>
+                <p className="text-2xl font-bold text-red-600 dark:text-red-400">{stats.totalRechazados}</p>
+              </div>
+              <FaTimesCircle className="text-3xl text-red-600 dark:text-red-400" />
+            </div>
+          </div>
+
+          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600 dark:text-slate-400">Monto Total</p>
+                <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                  ${stats.montoTotal.toLocaleString('es-CO')}
+                </p>
+              </div>
+              <FaCreditCard className="text-3xl text-blue-600 dark:text-blue-400" />
+            </div>
+          </div>
+        </div>
+
+        {/* Filtros */}
+        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6 mb-8">
+          <div className="flex items-center mb-4">
+            <FaFilter className="mr-2 text-gray-600 dark:text-slate-400" />
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-slate-100">Filtros</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+                <FaSearch className="inline mr-1" />
+                Buscar
+              </label>
+              <input
+                type="text"
+                value={filters.search}
+                onChange={(e) => setFilters({...filters, search: e.target.value})}
+                placeholder="Evento u orden..."
+                className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+                Estado
+              </label>
+              <select
+                value={filters.status}
+                onChange={(e) => setFilters({...filters, status: e.target.value})}
+                className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 focus:ring-2 focus:ring-purple-500"
+              >
+                <option value="all">Todos</option>
+                <option value="APPROVED">Aprobados</option>
+                <option value="PENDING">Pendientes</option>
+                <option value="DECLINED">Rechazados</option>
+                <option value="ERROR">Error</option>
+                <option value="CANCELLED">Cancelados</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+                Fecha Desde
+              </label>
+              <input
+                type="date"
+                value={filters.dateFrom}
+                onChange={(e) => setFilters({...filters, dateFrom: e.target.value})}
+                className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+                Fecha Hasta
+              </label>
+              <input
+                type="date"
+                value={filters.dateTo}
+                onChange={(e) => setFilters({...filters, dateTo: e.target.value})}
+                className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+          </div>
+
+          <div className="mt-4 flex justify-end">
+            <button
+              onClick={() => setFilters({ search: '', status: 'all', dateFrom: '', dateTo: '' })}
+              className="px-4 py-2 text-sm text-gray-600 dark:text-slate-400 hover:text-gray-900 dark:hover:text-slate-100"
+            >
+              Limpiar filtros
+            </button>
+          </div>
+        </div>
+
+        {/* Tabla de transacciones */}
+        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 overflow-hidden">
+          <div className="p-6 border-b border-gray-200 dark:border-slate-700">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-slate-100">
+              Historial de Transacciones ({filteredTransactions.length})
+            </h2>
+          </div>
+
+          {filteredTransactions.length === 0 ? (
+            <div className="p-12 text-center">
+              <FaFileInvoiceDollar className="text-5xl text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-600 dark:text-slate-400">No hay transacciones para mostrar</p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
+                <thead className="bg-gray-50 dark:bg-slate-900">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">
+                      Fecha
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">
+                      Evento
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">
+                      ID Orden
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">
+                      Monto
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">
+                      Estado
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">
+                      Acciones
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-slate-700">
+                  {filteredTransactions.map((transaction) => (
+                    <tr key={transaction._id} className="hover:bg-gray-50 dark:hover:bg-slate-700">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-slate-100">
+                        <div className="flex items-center">
+                          <FaCalendarAlt className="mr-2 text-gray-400" />
+                          {new Date(transaction.createdAt).toLocaleDateString('es-ES', {
+                            day: '2-digit',
+                            month: 'short',
+                            year: 'numeric'
+                          })}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-900 dark:text-slate-100">
+                        {transaction.eventName || 'N/A'}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-slate-400 font-mono">
+                        {transaction.orderId}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900 dark:text-slate-100">
+                        ${transaction.amount.toLocaleString('es-CO')} {transaction.currency}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {getStatusBadge(transaction.status)}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <div className="flex space-x-2">
+                          <button
+                            onClick={() => handleViewDetail(transaction)}
+                            className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                            title="Ver detalles"
+                          >
+                            <FaEye />
+                          </button>
+                          {transaction.status === 'APPROVED' && (
+                            <button
+                              onClick={() => handleDownloadInvoice(transaction)}
+                              className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300"
+                              title="Descargar factura"
+                            >
+                              <FaDownload />
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Modal de detalles */}
+      {showDetailModal && selectedTransaction && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <div className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" onClick={() => setShowDetailModal(false)}></div>
+
+            <div className="inline-block align-bottom bg-white dark:bg-slate-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+              <div className="bg-white dark:bg-slate-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-4">
+                  Detalles de la Transacción
+                </h3>
+
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300">ID de Orden</label>
+                    <p className="mt-1 text-sm text-gray-900 dark:text-slate-100 font-mono">{selectedTransaction.orderId}</p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300">Evento</label>
+                    <p className="mt-1 text-sm text-gray-900 dark:text-slate-100">{selectedTransaction.eventName || 'N/A'}</p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300">Monto</label>
+                    <p className="mt-1 text-sm text-gray-900 dark:text-slate-100 font-semibold">
+                      ${selectedTransaction.amount.toLocaleString('es-CO')} {selectedTransaction.currency}
+                    </p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300">Estado</label>
+                    <div className="mt-1">{getStatusBadge(selectedTransaction.status)}</div>
+                  </div>
+
+                  {selectedTransaction.paymentMethod && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-slate-300">Método de Pago</label>
+                      <p className="mt-1 text-sm text-gray-900 dark:text-slate-100">{selectedTransaction.paymentMethod}</p>
+                    </div>
+                  )}
+
+                  {selectedTransaction.transactionId && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-slate-300">ID de Transacción</label>
+                      <p className="mt-1 text-sm text-gray-900 dark:text-slate-100 font-mono">{selectedTransaction.transactionId}</p>
+                    </div>
+                  )}
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300">Fecha de Creación</label>
+                    <p className="mt-1 text-sm text-gray-900 dark:text-slate-100">
+                      {new Date(selectedTransaction.createdAt).toLocaleString('es-ES')}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gray-50 dark:bg-slate-900 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                {selectedTransaction.status === 'APPROVED' && (
+                  <button
+                    onClick={() => handleDownloadInvoice(selectedTransaction)}
+                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
+                  >
+                    <FaDownload className="mr-2" />
+                    Descargar Factura
+                  </button>
+                )}
+                <button
+                  onClick={() => setShowDetailModal(false)}
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-slate-600 shadow-sm px-4 py-2 bg-white dark:bg-slate-700 text-base font-medium text-gray-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:mt-0 sm:w-auto sm:text-sm"
+                >
+                  Cerrar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

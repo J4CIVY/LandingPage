@@ -13,7 +13,8 @@ import {
   FaTrophy,
   FaAddressCard,
   FaStore,
-  FaArrowRight
+  FaArrowRight,
+  FaFileInvoiceDollar
 } from 'react-icons/fa';
 
 import {
@@ -121,6 +122,16 @@ const quickActions: QuickAction[] = [
     color: 'text-cyan-600 dark:text-cyan-400',
     bgColor: 'bg-cyan-50 dark:bg-cyan-900/20',
     hoverColor: 'hover:bg-cyan-100 dark:hover:bg-cyan-900/30'
+  },
+  {
+    id: 'billing',
+    title: 'Facturación y Pagos',
+    description: 'Historial de pagos y facturas',
+    icon: <FaFileInvoiceDollar />,
+    href: '/dashboard/billing',
+    color: 'text-purple-600 dark:text-purple-400',
+    bgColor: 'bg-purple-50 dark:bg-purple-900/20',
+    hoverColor: 'hover:bg-purple-100 dark:hover:bg-purple-900/30'
   },
 
   {
