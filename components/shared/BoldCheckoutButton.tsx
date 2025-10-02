@@ -98,33 +98,54 @@ export default function BoldCheckoutButton({
     }
 
     try {
-      // Preparar la configuración
-      const boldConfig = {
+      // Preparar la configuración para Bold Checkout
+      // Nota: Bold Checkout en el cliente NO necesita apiKey
+      const boldConfig: any = {
         orderId: config.orderId,
         currency: config.currency || BOLD_CONFIG.DEFAULT_CURRENCY,
         amount: config.amount.toString(),
-        apiKey: BOLD_CONFIG.API_KEY,
         integritySignature: integritySignature,
         description: config.description,
         redirectionUrl: config.redirectionUrl,
         renderMode: renderMode,
-        ...(config.tax && { tax: config.tax }),
-        ...(config.originUrl && { originUrl: config.originUrl }),
-        ...(config.expirationDate && { expirationDate: config.expirationDate }),
-        ...(config.customerData && { 
-          customerData: JSON.stringify(config.customerData) 
-        }),
-        ...(config.billingAddress && { 
-          billingAddress: JSON.stringify(config.billingAddress) 
-        }),
-        ...(config.extraData1 && { extraData1: config.extraData1 }),
-        ...(config.extraData2 && { extraData2: config.extraData2 })
       };
+
+      // Agregar campos opcionales si existen
+      if (config.tax) {
+        boldConfig.tax = typeof config.tax === 'string' ? config.tax : config.tax.toString();
+      }
+      
+      if (config.originUrl) {
+        boldConfig.originUrl = config.originUrl;
+      }
+      
+      if (config.expirationDate) {
+        boldConfig.expirationDate = config.expirationDate.toString();
+      }
+      
+      if (config.customerData) {
+        // Bold espera customerData como objeto, no string
+        boldConfig.customerData = config.customerData;
+      }
+      
+      if (config.billingAddress) {
+        // Bold espera billingAddress como objeto, no string
+        boldConfig.billingAddress = config.billingAddress;
+      }
+      
+      if (config.extraData1) {
+        boldConfig.extraData1 = config.extraData1;
+      }
+      
+      if (config.extraData2) {
+        boldConfig.extraData2 = config.extraData2;
+      }
 
       console.log('Initializing Bold Checkout with config:', {
         ...boldConfig,
-        apiKey: '***HIDDEN***',
-        integritySignature: '***HIDDEN***'
+        integritySignature: '***HIDDEN***',
+        amount: boldConfig.amount,
+        orderId: boldConfig.orderId
       });
 
       const checkout = new (window as any).BoldCheckout(boldConfig);

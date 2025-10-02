@@ -219,8 +219,9 @@ export async function POST(request: NextRequest) {
             description: transaction.description,
             status: transaction.status
           },
-          paymentConfig,
-          integritySignature
+          config: paymentConfig,
+          integritySignature,
+          orderId
         }
       },
       { status: 201 }
