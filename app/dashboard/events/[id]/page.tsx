@@ -206,11 +206,13 @@ export default function DashboardEventDetailsPage() {
         const errorData = await response.json();
         console.error('Registration error from server:', errorData);
         console.log('Error message:', errorData.message);
+        console.log('Error error:', errorData.error);
         console.log('Action:', action);
         
         // Si el error es por pago aprobado, redirigir a PQRSDF
         // Buscar variaciones del mensaje de error relacionado con pago
-        const errorMessage = errorData.message?.toLowerCase() || '';
+        // El error puede venir en errorData.error o errorData.message
+        const errorMessage = (errorData.error || errorData.message || '').toLowerCase();
         const isPaymentError = action === 'unregister' && (
           errorMessage.includes('pago aprobado') ||
           errorMessage.includes('pago') ||
