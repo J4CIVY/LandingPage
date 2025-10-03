@@ -4,6 +4,12 @@ import BoldTransaction, { TransactionStatus, PaymentMethod } from '@/lib/models/
 import Event from '@/lib/models/Event';
 import User from '@/lib/models/User';
 import { getEmailService } from '@/lib/email-service';
+import { 
+  sendEventRegistrationNotification, 
+  formatEventDate, 
+  formatPaymentAmount,
+  generateInvoiceUrl 
+} from '@/lib/bird-crm';
 
 /**
  * Webhook para recibir notificaciones de Bold sobre el estado de las transacciones
@@ -181,6 +187,48 @@ async function handleApprovedPayment(transaction: any, webhookData: any) {
       console.log(`📧 Confirmation email sent to: ${user.email}`);
     } catch (emailError) {
       console.error('Error sending confirmation email:', emailError);
+      // No lanzar error, el pago ya fue procesado
+    }
+
+    // Enviar notificación de WhatsApp a través de Bird CRM
+    try {
+      // Verificar que el usuario tenga teléfono
+      if (user.phone || user.telefono) {
+        const phoneNumber = user.phone || user.telefono;
+        
+        // Obtener ubicación del evento
+        let lugarEvento = 'Por confirmar';
+        if (event.departureLocation) {
+          lugarEvento = `${event.departureLocation.city}, ${event.departureLocation.state || ''}`;
+        } else if (event.location) {
+          lugarEvento = event.location;
+        } else if (event.ubicacion) {
+          lugarEvento = event.ubicacion;
+        }
+
+        const notificationData = {
+          nombreMiembro: `${user.firstName} ${user.lastName}`,
+          nombreEvento: event.name || event.nombre,
+          fechaEvento: formatEventDate(event.startDate || event.fecha),
+          lugarEvento: lugarEvento,
+          valorPagado: formatPaymentAmount(transaction.amount, transaction.currency),
+          urlFactura: generateInvoiceUrl(transaction._id.toString()),
+          telefonoMiembro: phoneNumber
+        };
+
+        console.log('📱 Enviando notificación de WhatsApp a Bird CRM...');
+        const whatsappResult = await sendEventRegistrationNotification(notificationData);
+        
+        if (whatsappResult.success) {
+          console.log(`✅ Notificación de WhatsApp enviada a: ${phoneNumber}`);
+        } else {
+          console.error(`❌ Error al enviar notificación de WhatsApp: ${whatsappResult.error}`);
+        }
+      } else {
+        console.warn('⚠️ Usuario no tiene número de teléfono registrado, no se envió notificación de WhatsApp');
+      }
+    } catch (whatsappError) {
+      console.error('Error sending WhatsApp notification:', whatsappError);
       // No lanzar error, el pago ya fue procesado
     }
 

@@ -11,6 +11,12 @@ import User from '@/lib/models/User';
 import BoldTransaction, { TransactionStatus } from '@/lib/models/BoldTransaction';
 import { verifyAuth } from '@/lib/auth-utils';
 import mongoose from 'mongoose';
+import { 
+  sendEventRegistrationNotification, 
+  formatEventDate, 
+  formatPaymentAmount,
+  generateInvoiceUrl 
+} from '@/lib/bird-crm';
 
 interface RouteParams {
   params: Promise<{
@@ -111,6 +117,50 @@ async function handlePost(request: NextRequest, { params }: RouteParams) {
     if (!user.events.includes(id)) {
       user.events.push(id);
       await user.save();
+    }
+  }
+
+  // Enviar notificación de WhatsApp para eventos gratuitos
+  // (Los eventos de pago envían la notificación cuando se confirma el pago)
+  if (user && (event.price === 0 || !event.price)) {
+    try {
+      const phoneNumber = user.phone || user.telefono;
+      
+      if (phoneNumber) {
+        // Obtener ubicación del evento
+        let lugarEvento = 'Por confirmar';
+        if (event.departureLocation) {
+          lugarEvento = `${event.departureLocation.city}, ${event.departureLocation.state || ''}`;
+        } else if (event.location) {
+          lugarEvento = event.location;
+        } else if (event.ubicacion) {
+          lugarEvento = event.ubicacion;
+        }
+
+        const notificationData = {
+          nombreMiembro: `${user.firstName || user.nombre} ${user.lastName || user.apellido}`,
+          nombreEvento: event.name || event.nombre,
+          fechaEvento: formatEventDate(event.startDate || event.fecha),
+          lugarEvento: lugarEvento,
+          valorPagado: 'Evento Gratuito',
+          urlFactura: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://bskmt.com'}/dashboard/events/${id}`,
+          telefonoMiembro: phoneNumber
+        };
+
+        console.log('📱 Enviando notificación de WhatsApp para evento gratuito...');
+        const whatsappResult = await sendEventRegistrationNotification(notificationData);
+        
+        if (whatsappResult.success) {
+          console.log(`✅ Notificación de WhatsApp enviada a: ${phoneNumber}`);
+        } else {
+          console.error(`❌ Error al enviar notificación de WhatsApp: ${whatsappResult.error}`);
+        }
+      } else {
+        console.warn('⚠️ Usuario no tiene número de teléfono registrado, no se envió notificación de WhatsApp');
+      }
+    } catch (whatsappError) {
+      console.error('Error sending WhatsApp notification for free event:', whatsappError);
+      // No lanzar error, el registro ya fue exitoso
     }
   }
 
