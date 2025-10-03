@@ -60,7 +60,7 @@ export async function GET(
     // Obtener información del evento y usuario completo
     const [event, registrationUser]: [any, any] = await Promise.all([
       Event.findById(registration.eventId).lean(),
-      ExtendedUser.findById(registration.userId).select('nombre apellido firstName lastName email tipoDocumento documento telefono phone membershipNumber').lean()
+      ExtendedUser.findById(registration.userId).select('firstName lastName email documentNumber phone membershipNumber').lean()
     ]);
 
     if (!event || !registrationUser) {
@@ -367,11 +367,11 @@ function generateFreeEventInvoiceHTML({ registration, user, event }: any) {
     <div class="info-section">
       <div class="info-block">
         <h3>Participante</h3>
-        <p><strong>${user.nombre || user.firstName} ${user.apellido || user.lastName}</strong></p>
-        <p>${user.tipoDocumento}: ${user.documento}</p>
-        <p>Código Miembro: ${user.membershipNumber || 'N/A'}</p>
+        <p><strong>${user.firstName} ${user.lastName}</strong></p>
+        ${user.documentNumber ? `<p>Documento: ${user.documentNumber}</p>` : ''}
+        ${user.membershipNumber ? `<p>Código Miembro: ${user.membershipNumber}</p>` : ''}
         <p>Email: ${user.email}</p>
-        ${user.telefono || user.phone ? `<p>Teléfono: ${user.telefono || user.phone}</p>` : ''}
+        ${user.phone ? `<p>Teléfono: ${user.phone}</p>` : ''}
       </div>
       
       <div class="info-block">
@@ -385,9 +385,9 @@ function generateFreeEventInvoiceHTML({ registration, user, event }: any) {
     
     <div class="event-details">
       <h3>📅 Información del Evento</h3>
-      <p><strong>${event.name || event.nombre}</strong></p>
-      ${event.startDate || event.fecha ? `<p>📆 Fecha: ${new Date(event.startDate || event.fecha).toLocaleDateString('es-CO', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>` : ''}
-      ${event.departureLocation ? `<p>📍 Ubicación: ${event.departureLocation.city}, ${event.departureLocation.state || ''}</p>` : event.location ? `<p>📍 Ubicación: ${event.location}</p>` : event.ubicacion ? `<p>📍 Ubicación: ${event.ubicacion}</p>` : ''}
+      <p><strong>${event.name}</strong></p>
+      ${event.startDate ? `<p>📆 Fecha: ${new Date(event.startDate).toLocaleDateString('es-CO', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>` : ''}
+      ${event.departureLocation ? `<p>📍 Ubicación: ${event.departureLocation.city}${event.departureLocation.state ? ', ' + event.departureLocation.state : ''}</p>` : ''}
       ${event.description ? `<p style="margin-top: 10px;">${event.description.substring(0, 200)}${event.description.length > 200 ? '...' : ''}</p>` : ''}
     </div>
     
@@ -403,7 +403,7 @@ function generateFreeEventInvoiceHTML({ registration, user, event }: any) {
       <tbody>
         <tr>
           <td>
-            <strong>Inscripción - ${event.name || event.nombre}</strong>
+            <strong>Inscripción - ${event.name}</strong>
             <br><small style="color: #10b981;">✨ Evento Gratuito - Sin costo</small>
           </td>
           <td style="text-align: center;">1</td>

@@ -81,7 +81,7 @@ export async function GET(
 
     // Obtener información del usuario y evento
     const [user, event] = await Promise.all([
-      ExtendedUser.findById(transaction.userId).select('firstName lastName email documento phone membershipNumber').lean(),
+      ExtendedUser.findById(transaction.userId).select('firstName lastName email documentNumber phone membershipNumber').lean(),
       transaction.eventId ? Event.findById(transaction.eventId).select('name description startDate departureLocation').lean() : null
     ]);
 
@@ -363,8 +363,8 @@ function generateInvoiceHTML({ transaction, user, event }: any) {
       <div class="info-block">
         <h3>Cliente</h3>
         <p><strong>${user.firstName} ${user.lastName}</strong></p>
-        <p>CC: ${user.documento || 'N/A'}</p>
-        <p>Código Miembro: ${user.membershipNumber || 'N/A'}</p>
+        ${user.documentNumber ? `<p>Documento: ${user.documentNumber}</p>` : ''}
+        ${user.membershipNumber ? `<p>Código Miembro: ${user.membershipNumber}</p>` : ''}
         <p>Email: ${user.email}</p>
         ${user.phone ? `<p>Teléfono: ${user.phone}</p>` : ''}
       </div>
