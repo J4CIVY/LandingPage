@@ -16,8 +16,9 @@ export async function GET(
     if (!authResult.isValid || !authResult.session) {
       // Redirigir al login con la URL actual como callback
       const { orderId } = await params;
-      const loginUrl = `/login?redirect=/api/bold/transactions/${orderId}/invoice`;
-      return NextResponse.redirect(new URL(loginUrl, request.url));
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://bskmt.com';
+      const loginUrl = `${baseUrl}/login?redirect=/api/bold/transactions/${orderId}/invoice`;
+      return NextResponse.redirect(loginUrl);
     }
 
     await dbConnect();
