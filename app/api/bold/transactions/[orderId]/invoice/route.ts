@@ -81,8 +81,8 @@ export async function GET(
 
     // Obtener información del usuario y evento
     const [user, event] = await Promise.all([
-      ExtendedUser.findById(transaction.userId).select('nombre apellido email tipoDocumento documento telefono membershipNumber').lean(),
-      transaction.eventId ? Event.findById(transaction.eventId).select('nombre descripcion fecha ubicacion precio').lean() : null
+      ExtendedUser.findById(transaction.userId).select('firstName lastName email documento phone membershipNumber').lean(),
+      transaction.eventId ? Event.findById(transaction.eventId).select('name description startDate departureLocation').lean() : null
     ]);
 
     if (!user) {
@@ -362,17 +362,17 @@ function generateInvoiceHTML({ transaction, user, event }: any) {
     <div class="info-section">
       <div class="info-block">
         <h3>Cliente</h3>
-        <p><strong>${user.nombre} ${user.apellido}</strong></p>
-        <p>${user.tipoDocumento}: ${user.documento}</p>
+        <p><strong>${user.firstName} ${user.lastName}</strong></p>
+        <p>CC: ${user.documento || 'N/A'}</p>
         <p>Código Miembro: ${user.membershipNumber || 'N/A'}</p>
         <p>Email: ${user.email}</p>
-        ${user.telefono ? `<p>Teléfono: ${user.telefono}</p>` : ''}
+        ${user.phone ? `<p>Teléfono: ${user.phone}</p>` : ''}
       </div>
       
       <div class="info-block">
         <h3>Detalles del Pago</h3>
         <p><strong>ID de Transacción:</strong></p>
-        <p style="font-family: monospace; font-size: 12px;">${transaction.transactionId || 'N/A'}</p>
+        <p style="font-family: monospace; font-size: 12px;">${transaction.boldTransactionId || transaction.orderId || 'N/A'}</p>
         <p><strong>Método de Pago:</strong> ${transaction.paymentMethod || 'Tarjeta de Crédito/Débito'}</p>
       </div>
     </div>
@@ -380,9 +380,9 @@ function generateInvoiceHTML({ transaction, user, event }: any) {
     ${event ? `
     <div class="payment-info">
       <h3>📅 Evento</h3>
-      <p><strong>${event.nombre}</strong></p>
-      ${event.fecha ? `<p>Fecha: ${new Date(event.fecha).toLocaleDateString('es-CO', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>` : ''}
-      ${event.ubicacion ? `<p>Ubicación: ${event.ubicacion}</p>` : ''}
+      <p><strong>${event.name}</strong></p>
+      ${event.startDate ? `<p>Fecha: ${new Date(event.startDate).toLocaleDateString('es-CO', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>` : ''}
+      ${event.departureLocation ? `<p>Ubicación: ${event.departureLocation.city}${event.departureLocation.state ? ', ' + event.departureLocation.state : ''}</p>` : ''}
     </div>
     ` : ''}
     
@@ -398,8 +398,8 @@ function generateInvoiceHTML({ transaction, user, event }: any) {
       <tbody>
         <tr>
           <td>
-            <strong>${event ? event.nombre : 'Pago de Evento'}</strong>
-            ${event?.descripcion ? `<br><small style="color: #666;">${event.descripcion.substring(0, 100)}...</small>` : ''}
+            <strong>${event ? event.name : 'Pago de Evento'}</strong>
+            ${event?.description ? `<br><small style="color: #666;">${event.description.substring(0, 100)}...</small>` : ''}
           </td>
           <td style="text-align: center;">1</td>
           <td style="text-align: right;">$${transaction.amount.toLocaleString('es-CO')} ${transaction.currency}</td>
