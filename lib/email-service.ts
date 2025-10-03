@@ -1503,6 +1503,192 @@ export class EmailService {
       </html>
     `;
   }
+
+  /**
+   * Envía confirmación de registro en evento (gratuito o pagado) con enlace a factura
+   */
+  async sendEventRegistrationConfirmation(
+    toEmail: string,
+    userName: string,
+    eventDetails: {
+      eventName: string;
+      eventDate: string;
+      eventLocation: string;
+      isFree: boolean;
+      invoiceUrl: string;
+      amount?: number;
+      currency?: string;
+    }
+  ): Promise<boolean> {
+    try {
+      const subject = eventDetails.isFree 
+        ? `✅ Registro confirmado - ${eventDetails.eventName}`
+        : `✅ Pago confirmado - ${eventDetails.eventName}`;
+
+      const emailConfig: ZohoEmailConfig = {
+        fromAddress: this.fromEmail,
+        toAddress: toEmail,
+        subject,
+        content: this.generateEventRegistrationContent(userName, eventDetails),
+        mailFormat: 'html',
+        askReceipt: 'no'
+      };
+
+      const result = await this.client.sendEmail(emailConfig);
+      return result.status?.code === 200;
+    } catch (error) {
+      console.error('Error sending event registration confirmation:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Genera contenido HTML para confirmación de registro en evento
+   */
+  private generateEventRegistrationContent(
+    userName: string,
+    eventDetails: any
+  ): string {
+    const isFree = eventDetails.isFree;
+    const formattedAmount = eventDetails.amount 
+      ? new Intl.NumberFormat('es-CO', {
+          style: 'currency',
+          currency: eventDetails.currency || 'COP'
+        }).format(eventDetails.amount)
+      : null;
+
+    return `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Confirmación de registro - ${eventDetails.eventName}</title>
+        <style>
+          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #f5f5f5; }
+          .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; }
+          .header { background: linear-gradient(135deg, ${isFree ? '#10b981' : '#2563eb'} 0%, ${isFree ? '#059669' : '#1d4ed8'} 100%); color: white; padding: 30px; text-align: center; }
+          .header h1 { margin: 0; font-size: 28px; }
+          .success-icon { font-size: 48px; margin-bottom: 10px; }
+          .content { padding: 30px; }
+          .event-card { background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-radius: 12px; padding: 25px; margin: 20px 0; border-left: 4px solid #10b981; }
+          .event-title { color: #065f46; font-size: 22px; font-weight: bold; margin: 0 0 15px 0; }
+          .event-detail { display: flex; align-items: center; margin: 10px 0; color: #047857; }
+          .event-detail-icon { font-size: 20px; margin-right: 10px; }
+          .event-detail-text { font-size: 15px; }
+          ${!isFree ? `
+          .payment-card { background-color: #eff6ff; border-radius: 8px; padding: 20px; margin: 20px 0; border-left: 4px solid #2563eb; }
+          .payment-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #dbeafe; }
+          .payment-row:last-child { border-bottom: none; }
+          .payment-label { color: #1e40af; font-weight: 500; }
+          .payment-value { color: #1e3a8a; font-weight: 600; text-align: right; }
+          .total-amount { font-size: 24px; color: #2563eb; }
+          ` : ''}
+          .cta-button { display: inline-block; background-color: ${isFree ? '#10b981' : '#2563eb'}; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; margin: 10px 5px; font-weight: 600; font-size: 16px; }
+          .cta-button:hover { background-color: ${isFree ? '#059669' : '#1d4ed8'}; }
+          .cta-button.secondary { background-color: #6b7280; }
+          .cta-button.secondary:hover { background-color: #4b5563; }
+          .info-box { background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0; border-radius: 4px; }
+          .info-box strong { color: #92400e; }
+          .info-box ul { margin: 10px 0 0 20px; color: #78350f; }
+          .badge { display: inline-block; background-color: ${isFree ? '#10b981' : '#2563eb'}; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-top: 10px; }
+          .footer { background-color: #f3f4f6; padding: 20px; text-align: center; color: #6b7280; font-size: 14px; }
+          .divider { border: 0; height: 1px; background: #e5e7eb; margin: 25px 0; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <div class="success-icon">🎉</div>
+            <h1>${isFree ? '¡Registro Confirmado!' : '¡Pago Confirmado!'}</h1>
+            <p style="margin: 10px 0 0 0; font-size: 16px;">${isFree ? 'Tu inscripción está lista' : 'Tu inscripción ha sido procesada exitosamente'}</p>
+            <span class="badge">${isFree ? '✨ EVENTO GRATUITO' : '✓ PAGADO'}</span>
+          </div>
+          
+          <div class="content">
+            <p>Hola <strong>${userName}</strong>,</p>
+            
+            <p>${isFree 
+              ? '¡Excelente noticia! Tu registro al evento ha sido <strong>confirmado exitosamente</strong>.' 
+              : 'Tu pago ha sido <strong>aprobado</strong> y tu inscripción al evento ha sido confirmada.'
+            }</p>
+            
+            <div class="event-card">
+              <h2 class="event-title">📅 ${eventDetails.eventName}</h2>
+              
+              <div class="event-detail">
+                <span class="event-detail-icon">📆</span>
+                <span class="event-detail-text"><strong>Fecha:</strong> ${eventDetails.eventDate}</span>
+              </div>
+              
+              <div class="event-detail">
+                <span class="event-detail-icon">📍</span>
+                <span class="event-detail-text"><strong>Ubicación:</strong> ${eventDetails.eventLocation}</span>
+              </div>
+              
+              ${!isFree && formattedAmount ? `
+              <div class="event-detail">
+                <span class="event-detail-icon">💰</span>
+                <span class="event-detail-text"><strong>Monto pagado:</strong> ${formattedAmount}</span>
+              </div>
+              ` : ''}
+            </div>
+            
+            ${!isFree && formattedAmount ? `
+            <div class="payment-card">
+              <h3 style="margin-top: 0; color: #1e3a8a;">💳 Detalles del pago</h3>
+              <div class="payment-row">
+                <span class="payment-label">Monto total:</span>
+                <span class="payment-value total-amount">${formattedAmount}</span>
+              </div>
+              <div class="payment-row">
+                <span class="payment-label">Estado:</span>
+                <span class="payment-value" style="color: #10b981;">✓ Aprobado</span>
+              </div>
+            </div>
+            ` : ''}
+            
+            <hr class="divider">
+            
+            <div class="info-box">
+              <strong>📋 Próximos pasos:</strong>
+              <ul>
+                <li>Descarga tu comprobante/factura usando el botón de abajo</li>
+                <li>Revisa todos los detalles del evento en tu dashboard</li>
+                <li>Prepara tu moto y equipo de seguridad</li>
+                <li>Mantente atento a las actualizaciones por WhatsApp</li>
+                <li>Llega con 30 minutos de anticipación el día del evento</li>
+              </ul>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+              <a href="${eventDetails.invoiceUrl}" class="cta-button" style="text-decoration: none;">
+                📄 Ver ${isFree ? 'Comprobante' : 'Factura'}
+              </a>
+              <br>
+              <a href="${process.env.NEXT_PUBLIC_BASE_URL || 'https://bskmt.com'}/dashboard/eventos" class="cta-button secondary" style="text-decoration: none;">
+                🏍️ Ir al Dashboard
+              </a>
+            </div>
+            
+            <p style="color: #6b7280; font-size: 14px; margin-top: 30px; text-align: center;">
+              Si tienes alguna pregunta sobre el evento, contáctanos:<br>
+              📧 <strong>contacto@bskmt.com</strong> | 📱 <strong>3004902449</strong>
+            </p>
+          </div>
+          
+          <div class="footer">
+            <p><strong>BSK Motorcycle Team - Organización Motear SAS</strong></p>
+            <p>NIT: 901444877-6</p>
+            <p>La aventura comienza aquí 🏍️</p>
+            <p style="font-size: 12px; margin-top: 10px;">
+              Este es un correo automático, por favor no responder.
+            </p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+  }
 }
 
 // Instancia singleton del servicio

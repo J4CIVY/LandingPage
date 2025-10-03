@@ -147,30 +147,65 @@ async function handlePost(request: NextRequest, { params }: RouteParams) {
     }
   }
 
-  // Enviar notificación de WhatsApp para eventos gratuitos
+  // Enviar notificación de WhatsApp y email para eventos gratuitos
   // (Los eventos de pago envían la notificación cuando se confirma el pago)
   if (user && registrationId && accessToken && (event.price === 0 || !event.price)) {
+    // Obtener ubicación del evento (usado por WhatsApp y Email)
+    let lugarEvento = 'Por confirmar';
+    if (event.departureLocation) {
+      lugarEvento = `${event.departureLocation.city}, ${event.departureLocation.state || ''}`;
+    } else if (event.location) {
+      lugarEvento = event.location;
+    } else if (event.ubicacion) {
+      lugarEvento = event.ubicacion;
+    }
+
+    const invoiceUrl = `${process.env.NEXT_PUBLIC_BASE_URL || 'https://bskmt.com'}/api/events/registrations/${registrationId}/invoice?token=${accessToken}`;
+
+    // Enviar email de confirmación
+    try {
+      const { getEmailService } = await import('@/lib/email-service');
+      const emailService = getEmailService();
+      
+      await emailService.sendEventRegistrationConfirmation(
+        user.email,
+        `${user.firstName || user.nombre} ${user.lastName || user.apellido}`,
+        {
+          eventName: event.name || event.nombre,
+          eventDate: event.startDate 
+            ? new Date(event.startDate).toLocaleDateString('es-CO', {
+                weekday: 'long',
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+              })
+            : 'Por confirmar',
+          eventLocation: lugarEvento,
+          isFree: true,
+          invoiceUrl: invoiceUrl
+        }
+      );
+      
+      console.log(`📧 Event registration email sent to: ${user.email}`);
+    } catch (emailError) {
+      console.error('Error sending confirmation email:', emailError);
+      // No lanzar error, el registro ya fue exitoso
+    }
+
+    // Enviar WhatsApp
     try {
       const phoneNumber = user.phone || user.telefono;
       
       if (phoneNumber) {
-        // Obtener ubicación del evento
-        let lugarEvento = 'Por confirmar';
-        if (event.departureLocation) {
-          lugarEvento = `${event.departureLocation.city}, ${event.departureLocation.state || ''}`;
-        } else if (event.location) {
-          lugarEvento = event.location;
-        } else if (event.ubicacion) {
-          lugarEvento = event.ubicacion;
-        }
-
         const notificationData = {
           nombreMiembro: `${user.firstName || user.nombre} ${user.lastName || user.apellido}`,
           nombreEvento: event.name || event.nombre,
           fechaEvento: formatEventDate(event.startDate || event.fecha),
           lugarEvento: lugarEvento,
           valorPagado: 'Evento Gratuito',
-          urlFactura: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://bskmt.com'}/api/events/registrations/${registrationId}/invoice?token=${accessToken}`,
+          urlFactura: invoiceUrl,
           telefonoMiembro: phoneNumber
         };
 

@@ -168,29 +168,46 @@ async function handleApprovedPayment(transaction: any, webhookData: any) {
       console.log(`✅ User registered to event: ${event.name}`);
     }
 
-    // Enviar email de confirmación
+    // Enviar email de confirmación con enlace a factura
     try {
       const emailService = getEmailService();
-      await emailService.sendPaymentConfirmation(
+      
+      // Obtener ubicación del evento
+      let lugarEvento = 'Por confirmar';
+      if (event.departureLocation) {
+        lugarEvento = `${event.departureLocation.city}, ${event.departureLocation.state || ''}`;
+      } else if (event.location) {
+        lugarEvento = event.location;
+      } else if (event.ubicacion) {
+        lugarEvento = event.ubicacion;
+      }
+
+      const invoiceUrl = `${process.env.NEXT_PUBLIC_BASE_URL || 'https://bskmt.com'}/api/bold/transactions/${transaction._id.toString()}/invoice?token=${transaction.accessToken}`;
+
+      await emailService.sendEventRegistrationConfirmation(
         user.email,
         `${user.firstName} ${user.lastName}`,
         {
-          eventName: event.name,
-          eventDate: event.startDate.toLocaleDateString('es-CO', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          }),
+          eventName: event.name || event.nombre,
+          eventDate: event.startDate 
+            ? new Date(event.startDate).toLocaleDateString('es-CO', {
+                weekday: 'long',
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+              })
+            : 'Por confirmar',
+          eventLocation: lugarEvento,
+          isFree: false,
+          invoiceUrl: invoiceUrl,
           amount: transaction.amount,
-          currency: transaction.currency,
-          orderId: transaction.orderId,
-          transactionId: transaction.boldTransactionId || '',
-          paymentMethod: transaction.paymentMethod || 'N/A'
+          currency: transaction.currency
         }
       );
       
-      console.log(`📧 Confirmation email sent to: ${user.email}`);
+      console.log(`📧 Event registration email sent to: ${user.email}`);
     } catch (emailError) {
       console.error('Error sending confirmation email:', emailError);
       // No lanzar error, el pago ya fue procesado
