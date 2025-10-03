@@ -18,6 +18,7 @@ import {
   formatPaymentAmount,
   generateInvoiceUrl 
 } from '@/lib/bird-crm';
+import { ActivityLoggerService } from '@/lib/activity-logger';
 
 interface RouteParams {
   params: Promise<{
@@ -226,6 +227,19 @@ async function handlePost(request: NextRequest, { params }: RouteParams) {
     }
   }
 
+  // Registrar actividad de inscripción al evento
+  try {
+    await ActivityLoggerService.logEventRegistration(
+      userId,
+      id,
+      event.name || event.nombre,
+      event.price === 0 || !event.price
+    );
+  } catch (activityError) {
+    console.error('Error logging activity:', activityError);
+    // No interrumpir el flujo si falla el logging
+  }
+
   return createSuccessResponse(
     { 
       eventId: id,
@@ -339,6 +353,18 @@ async function handleDelete(request: NextRequest, { params }: RouteParams) {
       );
     }
     await user.save();
+  }
+
+  // Registrar actividad de cancelación
+  try {
+    await ActivityLoggerService.logEventCancellation(
+      userId,
+      id,
+      event.name || event.nombre
+    );
+  } catch (activityError) {
+    console.error('Error logging cancellation activity:', activityError);
+    // No interrumpir el flujo si falla el logging
   }
 
   return createSuccessResponse(

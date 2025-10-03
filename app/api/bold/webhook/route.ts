@@ -10,6 +10,7 @@ import {
   formatPaymentAmount,
   generateInvoiceUrl 
 } from '@/lib/bird-crm';
+import { ActivityLoggerService } from '@/lib/activity-logger';
 
 /**
  * Webhook para recibir notificaciones de Bold sobre el estado de las transacciones
@@ -255,6 +256,19 @@ async function handleApprovedPayment(transaction: any, webhookData: any) {
       // No lanzar error, el pago ya fue procesado
     }
 
+    // Registrar actividad de pago completado
+    try {
+      await ActivityLoggerService.logPaymentCompleted(
+        transaction.userId.toString(),
+        transaction.orderId,
+        transaction.amount,
+        event.name || event.nombre
+      );
+    } catch (activityError) {
+      console.error('Error logging payment activity:', activityError);
+      // No interrumpir el flujo si falla el logging
+    }
+
   } catch (error) {
     console.error('Error handling approved payment:', error);
     throw error;
@@ -267,6 +281,20 @@ async function handleApprovedPayment(transaction: any, webhookData: any) {
 async function handleRejectedPayment(transaction: any, webhookData: any) {
   console.log(`❌ Processing REJECTED payment for transaction: ${transaction.orderId}`);
   await transaction.markAsRejected(webhookData);
+  
+  // Registrar actividad de pago fallido
+  try {
+    const event = await Event.findById(transaction.eventId);
+    await ActivityLoggerService.logPaymentFailed(
+      transaction.userId.toString(),
+      transaction.orderId,
+      transaction.amount,
+      event?.name || event?.nombre || 'Evento desconocido'
+    );
+  } catch (activityError) {
+    console.error('Error logging payment failure activity:', activityError);
+    // No interrumpir el flujo si falla el logging
+  }
   
   // Opcional: enviar email notificando el rechazo
   try {
