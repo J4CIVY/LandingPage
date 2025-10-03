@@ -9,6 +9,7 @@ import connectDB from '@/lib/mongodb';
 import Event from '@/lib/models/Event';
 import User from '@/lib/models/User';
 import BoldTransaction, { TransactionStatus } from '@/lib/models/BoldTransaction';
+import EventRegistration from '@/lib/models/EventRegistration';
 import { verifyAuth } from '@/lib/auth-utils';
 import mongoose from 'mongoose';
 import { 
@@ -120,9 +121,31 @@ async function handlePost(request: NextRequest, { params }: RouteParams) {
     }
   }
 
+  // Para eventos gratuitos, crear un registro de evento (equivalente a transacción)
+  let registrationId: string | null = null;
+  if (event.price === 0 || !event.price) {
+    try {
+      const registrationNumber = (EventRegistration as any).generateRegistrationNumber();
+      
+      const registration = await EventRegistration.create({
+        userId: userId,
+        eventId: id,
+        registrationDate: new Date(),
+        status: 'active',
+        registrationNumber: registrationNumber
+      });
+      
+      registrationId = registration._id.toString();
+      console.log(`✅ Registro de evento gratuito creado: ${registrationNumber}`);
+    } catch (regError) {
+      console.error('Error creating event registration:', regError);
+      // No interrumpir el flujo si falla
+    }
+  }
+
   // Enviar notificación de WhatsApp para eventos gratuitos
   // (Los eventos de pago envían la notificación cuando se confirma el pago)
-  if (user && (event.price === 0 || !event.price)) {
+  if (user && registrationId && (event.price === 0 || !event.price)) {
     try {
       const phoneNumber = user.phone || user.telefono;
       
@@ -143,7 +166,7 @@ async function handlePost(request: NextRequest, { params }: RouteParams) {
           fechaEvento: formatEventDate(event.startDate || event.fecha),
           lugarEvento: lugarEvento,
           valorPagado: 'Evento Gratuito',
-          urlFactura: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://bskmt.com'}/dashboard/events/${id}`,
+          urlFactura: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://bskmt.com'}/api/events/registrations/${registrationId}/invoice`,
           telefonoMiembro: phoneNumber
         };
 
