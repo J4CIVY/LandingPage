@@ -8,8 +8,6 @@ import {
   FaMapMarkerAlt, 
   FaClock, 
   FaUsers, 
-  FaUserPlus,
-  FaUserMinus,
   FaHeart,
   FaRegHeart,
   FaEye,
@@ -26,7 +24,6 @@ export default function UpcomingEvents() {
   const [error, setError] = useState<string | null>(null);
   const [userRegistrations, setUserRegistrations] = useState<string[]>([]);
   const [userFavorites, setUserFavorites] = useState<string[]>([]);
-  const [processingEvents, setProcessingEvents] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     fetchUpcomingEvents();
@@ -89,122 +86,6 @@ export default function UpcomingEvents() {
       }
     } catch (error) {
       console.error('Error fetching user event data:', error);
-    }
-  };
-
-  const handleEventRegistration = async (eventId: string, action: 'register' | 'unregister') => {
-    if (!user || processingEvents.has(eventId)) return;
-    
-    setProcessingEvents(prev => new Set(prev).add(eventId));
-    
-    try {
-      const response = await fetch(`/api/events/${eventId}/register`, {
-        method: action === 'register' ? 'POST' : 'DELETE',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' }
-      });
-
-      if (response.ok) {
-        if (action === 'register') {
-          setUserRegistrations(prev => [...prev, eventId]);
-          setEvents(prev => prev.map(event => 
-            event._id === eventId 
-              ? { ...event, currentParticipants: event.currentParticipants + 1 }
-              : event
-          ));
-        } else {
-          setUserRegistrations(prev => prev.filter(id => id !== eventId));
-          setEvents(prev => prev.map(event => 
-            event._id === eventId 
-              ? { ...event, currentParticipants: Math.max(0, event.currentParticipants - 1) }
-              : event
-          ));
-          alert('Registro cancelado exitosamente');
-        }
-      } else {
-        const errorData = await response.json();
-        console.error('Registration error:', errorData);
-        console.log('Error message:', errorData.message);
-        console.log('Action:', action);
-        
-        // Si el error es por pago aprobado, redirigir a PQRSDF
-        // Buscar variaciones del mensaje de error relacionado con pago
-        const errorMessage = errorData.message?.toLowerCase() || '';
-        const isPaymentError = action === 'unregister' && (
-          errorMessage.includes('pago aprobado') ||
-          errorMessage.includes('pago') ||
-          errorMessage.includes('reembolso') ||
-          errorMessage.includes('contacta al soporte')
-        );
-        
-        if (isPaymentError) {
-          const confirmar = confirm(
-            'Tienes un pago aprobado para este evento. Para cancelar tu inscripción necesitas solicitar un reembolso a través de nuestro sistema PQRSDF.\n\n¿Deseas iniciar la solicitud de reembolso ahora?'
-          );
-          
-          if (confirmar) {
-            // Encontrar el evento para obtener sus datos
-            const evento = events.find(e => e._id === eventId);
-            
-            if (evento) {
-              // Redirigir al formulario PQRSDF con datos prellenados
-              const params = new URLSearchParams({
-                categoria: 'peticion',
-                subcategoria: 'reembolso',
-                eventoId: evento._id,
-                eventoNombre: evento.name,
-                precio: evento.price?.toString() || '0'
-              });
-              window.location.href = `/dashboard/pqrsdf/nueva?${params.toString()}`;
-            }
-          }
-        } else {
-          alert(`Error: ${errorData.message || 'No se pudo completar la acción'}`);
-        }
-      }
-    } catch (error) {
-      console.error('Error processing event registration:', error);
-      alert('Error de conexión. Inténtalo de nuevo.');
-    } finally {
-      setProcessingEvents(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(eventId);
-        return newSet;
-      });
-    }
-  };
-
-  const handleToggleFavorite = async (eventId: string) => {
-    if (!user || processingEvents.has(eventId)) return;
-    
-    const isFavorite = userFavorites.includes(eventId);
-    const action = isFavorite ? 'remove' : 'add';
-    
-    setProcessingEvents(prev => new Set(prev).add(eventId));
-    
-    try {
-      const response = await fetch(`/api/users/events/favorites/${action}`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ eventId })
-      });
-
-      if (response.ok) {
-        if (action === 'add') {
-          setUserFavorites(prev => [...prev, eventId]);
-        } else {
-          setUserFavorites(prev => prev.filter(id => id !== eventId));
-        }
-      }
-    } catch (error) {
-      console.error('Error toggling favorite:', error);
-    } finally {
-      setProcessingEvents(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(eventId);
-        return newSet;
-      });
     }
   };
 
@@ -271,7 +152,6 @@ export default function UpcomingEvents() {
             {events.map((event) => {
               const isRegistered = userRegistrations.includes(event._id);
               const isFavorite = userFavorites.includes(event._id);
-              const isProcessing = processingEvents.has(event._id);
               const isEventFull = Boolean(event.maxParticipants && event.currentParticipants >= event.maxParticipants);
               
               return (
@@ -336,54 +216,21 @@ export default function UpcomingEvents() {
                       
                       {user && (
                         <>
-                          {/* Botón de registro/cancelación */}
-                          {isRegistered ? (
-                            <button
-                              onClick={() => handleEventRegistration(event._id, 'unregister')}
-                              disabled={isProcessing}
-                              className="inline-flex items-center px-3 py-1.5 bg-red-600 dark:bg-red-500 text-white text-sm rounded-lg hover:bg-red-700 dark:hover:bg-red-600 disabled:opacity-50"
-                            >
-                              {isProcessing ? (
-                                <FaSpinner className="animate-spin mr-1" />
-                              ) : (
-                                <FaUserMinus className="mr-1" />
-                              )}
-                              Cancelar
-                            </button>
-                          ) : !isEventFull && (
-                            <button
-                              onClick={() => handleEventRegistration(event._id, 'register')}
-                              disabled={isProcessing}
-                              className="inline-flex items-center px-3 py-1.5 bg-green-600 dark:bg-green-500 text-white text-sm rounded-lg hover:bg-green-700 dark:hover:bg-green-600 disabled:opacity-50"
-                            >
-                              {isProcessing ? (
-                                <FaSpinner className="animate-spin mr-1" />
-                              ) : (
-                                <FaUserPlus className="mr-1" />
-                              )}
-                              Inscribirse
-                            </button>
-                          )}
-                          
-                          {/* Botón de favoritos */}
-                          <button
-                            onClick={() => handleToggleFavorite(event._id)}
-                            disabled={isProcessing}
-                            className={`inline-flex items-center px-3 py-1.5 text-sm rounded-lg disabled:opacity-50 ${
+                          {/* Indicador de favorito (no cliqueable) */}
+                          <div
+                            className={`inline-flex items-center px-3 py-1.5 text-sm rounded-lg ${
                               isFavorite
-                                ? 'bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-900/30'
-                                : 'bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-slate-300 hover:bg-gray-200 dark:hover:bg-slate-600'
+                                ? 'bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400'
+                                : 'bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-slate-300'
                             }`}
                           >
-                            {isProcessing ? (
-                              <FaSpinner className="animate-spin mr-1" />
-                            ) : isFavorite ? (
+                            {isFavorite ? (
                               <FaHeart className="mr-1" />
                             ) : (
                               <FaRegHeart className="mr-1" />
                             )}
                             {isFavorite ? 'Favorito' : 'Favorito'}
-                          </button>
+                          </div>
                         </>
                       )}
                     </div>

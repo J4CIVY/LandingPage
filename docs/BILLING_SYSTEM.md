@@ -122,13 +122,13 @@ Obtiene todas las transacciones del usuario autenticado.
 - `401`: No autenticado
 - `500`: Error del servidor
 
-### 2. **GET `/api/bold/transactions/[id]/invoice`**
+### 2. **GET `/api/bold/transactions/[orderId]/invoice`**
 Genera una factura en formato HTML para una transacción específica.
 
 **Autenticación**: Requerida (JWT Token)
 
 **Parámetros**:
-- `id`: ID de la transacción (en la URL)
+- `orderId`: ID de la transacción de MongoDB (en la URL) - A pesar del nombre del parámetro, este debe ser el `_id` de MongoDB de la transacción
 
 **Validaciones**:
 - La transacción debe existir
