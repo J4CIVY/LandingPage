@@ -14,11 +14,10 @@ export async function GET(
     const authResult = await verifyAuth(request);
     
     if (!authResult.isValid || !authResult.session) {
-      // Redirigir al login con la URL actual como callback
-      const { registrationId } = await params;
-      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://bskmt.com';
-      const loginUrl = `${baseUrl}/login?redirect=/api/events/registrations/${registrationId}/invoice`;
-      return NextResponse.redirect(loginUrl);
+      return NextResponse.json(
+        { success: false, error: 'No autenticado' },
+        { status: 401 }
+      );
     }
 
     await dbConnect();
