@@ -14,10 +14,10 @@ export async function GET(
     const authResult = await verifyAuth(request);
     
     if (!authResult.isValid || !authResult.session) {
-      return NextResponse.json(
-        { success: false, error: 'No autenticado' },
-        { status: 401 }
-      );
+      // Redirigir al login con la URL actual como callback
+      const { orderId } = await params;
+      const loginUrl = `/login?redirect=/api/bold/transactions/${orderId}/invoice`;
+      return NextResponse.redirect(new URL(loginUrl, request.url));
     }
 
     await dbConnect();
