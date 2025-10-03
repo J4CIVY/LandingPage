@@ -60,7 +60,7 @@ export async function GET(
     // Obtener información del evento y usuario completo
     const [event, registrationUser]: [any, any] = await Promise.all([
       Event.findById(registration.eventId).lean(),
-      ExtendedUser.findById(registration.userId).select('nombre apellido firstName lastName email tipoDocumento documento telefono phone').lean()
+      ExtendedUser.findById(registration.userId).select('nombre apellido firstName lastName email tipoDocumento documento telefono phone membershipNumber').lean()
     ]);
 
     if (!event || !registrationUser) {
@@ -343,14 +343,18 @@ function generateFreeEventInvoiceHTML({ registration, user, event }: any) {
     
     <div class="header">
       <div class="company-info">
-        <h1>BSK MT</h1>
-        <p>Bomberos Sin Fronteras Kolping</p>
-        <p>Magdalena - Tolima</p>
-        <p>info@bskmt.com</p>
+        <h1>BSK Motorcycle Team</h1>
+        <p><strong>Organización Motear SAS</strong></p>
+        <p>NIT: 901444877-6</p>
+        <p>Carrera 5 A No. 36 A Sur 28</p>
+        <p>110431 Ayacucho, San Cristóbal</p>
+        <p>Bogotá D.C., Colombia</p>
+        <p>Tel: 3004902449</p>
+        <p>Email: contacto@bskmt.com</p>
       </div>
       <div class="invoice-info">
         <h2>COMPROBANTE DE REGISTRO</h2>
-        <p><strong>Número:</strong> ${registration.registrationNumber}</p>
+        <p><strong>Factura ID:</strong> ${registration._id.toString()}</p>
         <p><strong>Fecha:</strong> ${fechaFormateada}</p>
         <span class="free-badge">✨ EVENTO GRATUITO</span>
       </div>
@@ -365,6 +369,7 @@ function generateFreeEventInvoiceHTML({ registration, user, event }: any) {
         <h3>Participante</h3>
         <p><strong>${user.nombre || user.firstName} ${user.apellido || user.lastName}</strong></p>
         <p>${user.tipoDocumento}: ${user.documento}</p>
+        <p>Código Miembro: ${user.membershipNumber || 'N/A'}</p>
         <p>Email: ${user.email}</p>
         ${user.telefono || user.phone ? `<p>Teléfono: ${user.telefono || user.phone}</p>` : ''}
       </div>
@@ -430,9 +435,11 @@ function generateFreeEventInvoiceHTML({ registration, user, event }: any) {
     <div class="footer">
       <p><strong>¡Gracias por tu registro!</strong></p>
       <p>Este comprobante confirma tu inscripción en el evento de forma gratuita.</p>
-      <p>Para cualquier consulta, contáctanos en info@bskmt.com</p>
+      <p>Para cualquier consulta, contáctanos en contacto@bskmt.com o llama al 3004902449</p>
       <p style="margin-top: 20px; font-size: 11px;">
-        BSK MT - Bomberos Sin Fronteras Kolping Magdalena Tolima<br>
+        <strong>BSK Motorcycle Team - Organización Motear SAS</strong><br>
+        NIT: 901444877-6<br>
+        Carrera 5 A No. 36 A Sur 28, 110431 Ayacucho, San Cristóbal, Bogotá D.C., Colombia<br>
         © ${new Date().getFullYear()} Todos los derechos reservados
       </p>
     </div>
