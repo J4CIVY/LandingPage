@@ -125,6 +125,12 @@ async function handleApprovedPayment(transaction: any, webhookData: any) {
   try {
     console.log(`✅ Processing APPROVED payment for transaction: ${transaction.orderId}`);
 
+    // Generar token de acceso si no existe
+    if (!transaction.accessToken) {
+      const crypto = require('crypto');
+      transaction.accessToken = crypto.randomBytes(32).toString('hex');
+    }
+
     // Actualizar transacción
     await transaction.markAsApproved(webhookData);
 
@@ -212,7 +218,7 @@ async function handleApprovedPayment(transaction: any, webhookData: any) {
           fechaEvento: formatEventDate(event.startDate || event.fecha),
           lugarEvento: lugarEvento,
           valorPagado: formatPaymentAmount(transaction.amount, transaction.currency),
-          urlFactura: generateInvoiceUrl(transaction._id.toString()),
+          urlFactura: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://bskmt.com'}/api/bold/transactions/${transaction._id.toString()}/invoice?token=${transaction.accessToken}`,
           telefonoMiembro: phoneNumber
         };
 

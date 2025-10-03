@@ -10,37 +10,65 @@ export async function GET(
   { params }: { params: Promise<{ orderId: string }> }
 ) {
   try {
-    // Verificar autenticación
-    const authResult = await verifyAuth(request);
-    
-    if (!authResult.isValid || !authResult.session) {
-      return NextResponse.json(
-        { success: false, error: 'No autenticado' },
-        { status: 401 }
-      );
-    }
-
     await dbConnect();
 
     // Await params en Next.js 15
     const { orderId } = await params;
 
-    // Obtener la transacción por _id (orderId es el parámetro de la ruta pero contiene el _id de MongoDB)
-    const transaction = await BoldTransaction.findById(orderId).lean();
+    // Obtener token de la URL
+    const { searchParams } = new URL(request.url);
+    const accessToken = searchParams.get('token');
 
-    if (!transaction) {
-      return NextResponse.json(
-        { success: false, error: 'Transacción no encontrada' },
-        { status: 404 }
-      );
-    }
+    // Si hay token, verificar con token. Si no, verificar autenticación
+    let transaction: any;
+    
+    if (accessToken) {
+      // Modo público con token
+      transaction = await BoldTransaction.findById(orderId)
+        .select('+accessToken')
+        .lean();
 
-    // Verificar que la transacción pertenece al usuario
-    if (transaction.userId.toString() !== authResult.session.userId) {
-      return NextResponse.json(
-        { success: false, error: 'No autorizado' },
-        { status: 403 }
-      );
+      if (!transaction) {
+        return NextResponse.json(
+          { success: false, error: 'Transacción no encontrada' },
+          { status: 404 }
+        );
+      }
+
+      // Verificar que el token coincide
+      if (transaction.accessToken !== accessToken) {
+        return NextResponse.json(
+          { success: false, error: 'Token inválido' },
+          { status: 403 }
+        );
+      }
+    } else {
+      // Modo autenticado (para acceso desde dashboard)
+      const authResult = await verifyAuth(request);
+      
+      if (!authResult.isValid || !authResult.session) {
+        return NextResponse.json(
+          { success: false, error: 'No autenticado' },
+          { status: 401 }
+        );
+      }
+
+      transaction = await BoldTransaction.findById(orderId).lean();
+
+      if (!transaction) {
+        return NextResponse.json(
+          { success: false, error: 'Transacción no encontrada' },
+          { status: 404 }
+        );
+      }
+
+      // Verificar que la transacción pertenece al usuario
+      if (transaction.userId.toString() !== authResult.session.userId) {
+        return NextResponse.json(
+          { success: false, error: 'No autorizado' },
+          { status: 403 }
+        );
+      }
     }
 
     // Solo permitir descargar facturas de transacciones aprobadas

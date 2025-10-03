@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyAuth } from '@/lib/auth-utils';
 import dbConnect from '@/lib/mongodb';
 import EventRegistration from '@/lib/models/EventRegistration';
 import Event from '@/lib/models/Event';
@@ -10,23 +9,26 @@ export async function GET(
   { params }: { params: Promise<{ registrationId: string }> }
 ) {
   try {
-    // Verificar autenticación
-    const authResult = await verifyAuth(request);
-    
-    if (!authResult.isValid || !authResult.session) {
-      return NextResponse.json(
-        { success: false, error: 'No autenticado' },
-        { status: 401 }
-      );
-    }
-
     await dbConnect();
 
     // Await params en Next.js 15
     const { registrationId } = await params;
 
-    // Obtener el registro
-    const registration: any = await EventRegistration.findById(registrationId).lean();
+    // Obtener token de la URL
+    const { searchParams } = new URL(request.url);
+    const accessToken = searchParams.get('token');
+
+    if (!accessToken) {
+      return NextResponse.json(
+        { success: false, error: 'Token de acceso requerido' },
+        { status: 401 }
+      );
+    }
+
+    // Obtener el registro con el token (select: false por defecto, así que lo incluimos explícitamente)
+    const registration: any = await EventRegistration.findById(registrationId)
+      .select('+accessToken')
+      .lean();
 
     if (!registration) {
       return NextResponse.json(
@@ -35,13 +37,10 @@ export async function GET(
       );
     }
 
-    // Verificar que el registro pertenece al usuario (o que sea admin)
-    const user: any = await ExtendedUser.findById(authResult.session.userId);
-    const isAdmin = user?.role === 'admin' || user?.role === 'superadmin';
-    
-    if (registration.userId.toString() !== authResult.session.userId && !isAdmin) {
+    // Verificar que el token coincide
+    if (registration.accessToken !== accessToken) {
       return NextResponse.json(
-        { success: false, error: 'No autorizado' },
+        { success: false, error: 'Token inválido' },
         { status: 403 }
       );
     }

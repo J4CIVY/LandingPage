@@ -62,6 +62,9 @@ export interface IBoldTransaction extends Document {
   // Hash de integridad
   integritySignature: string;
   
+  // Token de acceso público para ver factura
+  accessToken?: string;
+  
   // URLs
   redirectionUrl?: string;
   originUrl?: string;
@@ -211,6 +214,14 @@ const BoldTransactionSchema = new Schema<IBoldTransaction>(
     integritySignature: {
       type: String,
       required: true
+    },
+    
+    // Token de acceso público para ver factura
+    accessToken: {
+      type: String,
+      unique: true,
+      sparse: true,
+      select: false
     },
     
     // URLs

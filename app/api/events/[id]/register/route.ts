@@ -123,16 +123,20 @@ async function handlePost(request: NextRequest, { params }: RouteParams) {
 
   // Para eventos gratuitos, crear un registro de evento (equivalente a transacción)
   let registrationId: string | null = null;
+  let accessToken: string | null = null;
+  
   if (event.price === 0 || !event.price) {
     try {
       const registrationNumber = (EventRegistration as any).generateRegistrationNumber();
+      accessToken = (EventRegistration as any).generateAccessToken();
       
       const registration = await EventRegistration.create({
         userId: userId,
         eventId: id,
         registrationDate: new Date(),
         status: 'active',
-        registrationNumber: registrationNumber
+        registrationNumber: registrationNumber,
+        accessToken: accessToken
       });
       
       registrationId = registration._id.toString();
@@ -145,7 +149,7 @@ async function handlePost(request: NextRequest, { params }: RouteParams) {
 
   // Enviar notificación de WhatsApp para eventos gratuitos
   // (Los eventos de pago envían la notificación cuando se confirma el pago)
-  if (user && registrationId && (event.price === 0 || !event.price)) {
+  if (user && registrationId && accessToken && (event.price === 0 || !event.price)) {
     try {
       const phoneNumber = user.phone || user.telefono;
       
@@ -166,7 +170,7 @@ async function handlePost(request: NextRequest, { params }: RouteParams) {
           fechaEvento: formatEventDate(event.startDate || event.fecha),
           lugarEvento: lugarEvento,
           valorPagado: 'Evento Gratuito',
-          urlFactura: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://bskmt.com'}/api/events/registrations/${registrationId}/invoice`,
+          urlFactura: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://bskmt.com'}/api/events/registrations/${registrationId}/invoice?token=${accessToken}`,
           telefonoMiembro: phoneNumber
         };
 
