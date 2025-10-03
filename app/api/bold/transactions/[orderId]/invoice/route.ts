@@ -223,6 +223,26 @@ function generateInvoiceHTML({ transaction, user, event }: any) {
       margin-bottom: 5px;
     }
     
+    .event-details {
+      background: #eff6ff;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      border-left: 4px solid #2563eb;
+    }
+    
+    .event-details h3 {
+      color: #1e40af;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+    
+    .event-details p {
+      color: #1e3a8a;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+    
     .details-table {
       width: 100%;
       border-collapse: collapse;
@@ -378,11 +398,12 @@ function generateInvoiceHTML({ transaction, user, event }: any) {
     </div>
     
     ${event ? `
-    <div class="payment-info">
-      <h3>📅 Evento</h3>
+    <div class="event-details">
+      <h3>📅 Información del Evento</h3>
       <p><strong>${event.name}</strong></p>
-      ${event.startDate ? `<p>Fecha: ${new Date(event.startDate).toLocaleDateString('es-CO', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>` : ''}
-      ${event.departureLocation ? `<p>Ubicación: ${event.departureLocation.city}${event.departureLocation.state ? ', ' + event.departureLocation.state : ''}</p>` : ''}
+      ${event.startDate ? `<p>📆 Fecha: ${new Date(event.startDate).toLocaleDateString('es-CO', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>` : ''}
+      ${event.departureLocation ? `<p>📍 Ubicación: ${event.departureLocation.city}${event.departureLocation.state ? ', ' + event.departureLocation.state : ''}</p>` : ''}
+      ${event.description ? `<p style="margin-top: 10px;">${event.description.substring(0, 200)}${event.description.length > 200 ? '...' : ''}</p>` : ''}
     </div>
     ` : ''}
     
