@@ -38,8 +38,7 @@ const EventRegistrationSchema = new Schema<IEventRegistration>(
     registrationNumber: {
       type: String,
       required: true,
-      unique: true,
-      index: true
+      unique: true
     }
   },
   {
@@ -49,7 +48,6 @@ const EventRegistrationSchema = new Schema<IEventRegistration>(
 
 // Índice compuesto para búsquedas eficientes
 EventRegistrationSchema.index({ userId: 1, eventId: 1 });
-EventRegistrationSchema.index({ registrationNumber: 1 }, { unique: true });
 
 // Método estático para generar número de registro único
 EventRegistrationSchema.statics.generateRegistrationNumber = function(): string {
