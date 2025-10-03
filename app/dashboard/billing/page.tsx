@@ -191,30 +191,10 @@ export default function BillingPage() {
     setShowDetailModal(true);
   };
 
-  const handleDownloadInvoice = async (transaction: Transaction) => {
-    try {
-      const response = await fetch(`/api/bold/transactions/${transaction._id}/invoice`, {
-        method: 'GET',
-        credentials: 'include'
-      });
-
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `factura-${transaction.orderId}.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-      } else {
-        alert('No se pudo generar la factura');
-      }
-    } catch (error) {
-      console.error('Error downloading invoice:', error);
-      alert('Error al descargar la factura');
-    }
+  const handleViewInvoice = (transaction: Transaction) => {
+    // Abrir factura en nueva ventana (desde dashboard tiene cookies de sesión)
+    const invoiceUrl = `/api/bold/transactions/${transaction._id}/invoice`;
+    window.open(invoiceUrl, '_blank');
   };
 
   if (authLoading || loading) {
@@ -470,11 +450,11 @@ export default function BillingPage() {
                           </button>
                           {transaction.status === 'APPROVED' && (
                             <button
-                              onClick={() => handleDownloadInvoice(transaction)}
+                              onClick={() => handleViewInvoice(transaction)}
                               className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300"
-                              title="Descargar factura"
+                              title="Ver factura"
                             >
-                              <FaDownload />
+                              <FaEye />
                             </button>
                           )}
                         </div>
@@ -549,11 +529,11 @@ export default function BillingPage() {
               <div className="bg-gray-50 dark:bg-slate-900 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 {selectedTransaction.status === 'APPROVED' && (
                   <button
-                    onClick={() => handleDownloadInvoice(selectedTransaction)}
+                    onClick={() => handleViewInvoice(selectedTransaction)}
                     className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
                   >
-                    <FaDownload className="mr-2" />
-                    Descargar Factura
+                    <FaEye className="mr-2" />
+                    Ver Factura
                   </button>
                 )}
                 <button
