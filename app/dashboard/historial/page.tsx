@@ -30,87 +30,96 @@ export default function HistorialPage() {
     try {
       setIsLoadingData(true);
       
-      // Simulación de datos - en producción sería una llamada a la API
-      const historialData: HistorialItem[] = [
-        {
-          id: '1',
-          tipo: 'Evento',
-          fecha: '2024-09-01T10:00:00Z',
-          descripcion: 'Participación en Ruta del Café',
-          estado: 'completado',
-          referencia: 'evento_001',
-          detalles: {
-            rol: 'participante',
-            puntos: 50,
-            ubicacion: 'Zona Cafetera'
-          }
-        },
-        {
-          id: '2',
-          tipo: 'Membresía',
-          fecha: '2024-08-15T00:00:00Z',
-          descripcion: 'Renovación de membresía Premium',
-          estado: 'activo',
-          referencia: 'membresia_002',
-          detalles: {
-            tipo: 'premium',
-            vigencia: '2025-08-15'
-          }
-        },
-        {
-          id: '3',
-          tipo: 'Beneficio',
-          fecha: '2024-08-20T14:30:00Z',
-          descripcion: 'Descuento en mantenimiento - Taller MotoTech',
-          estado: 'completado',
-          referencia: 'beneficio_003',
-          detalles: {
-            valorDescuento: 50000,
-            establecimiento: 'Taller MotoTech'
-          }
-        },
-        {
-          id: '4',
-          tipo: 'PQRSDF',
-          fecha: '2024-07-10T09:15:00Z',
-          descripcion: 'Sugerencia para nueva ruta turística',
-          estado: 'cerrado',
-          referencia: 'pqrs_004',
-          detalles: {
-            categoria: 'sugerencia',
-            respuesta: 'Implementada en calendario de eventos'
-          }
-        },
-        {
-          id: '5',
-          tipo: 'Reconocimiento',
-          fecha: '2024-06-25T16:00:00Z',
-          descripcion: 'Insignia "Espíritu Aventurero" por completar 10 rutas',
-          estado: 'activo',
-          referencia: 'logro_005',
-          detalles: {
-            categoria: 'participacion',
-            nivel: 'oro',
-            puntos: 100
-          }
+      // Llamar a la API real de actividades del usuario
+      const response = await fetch('/api/users/activity?limit=100', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
         }
-      ];
+      });
 
-      const stats: EstadisticasHistorial = {
-        totalEventos: 15,
-        eventosAsistidos: 12,
-        beneficiosUsados: 8,
-        pqrsdfAbiertas: 0,
-        logrosObtenidos: 5,
-        añosMembresia: 2,
-        puntosAcumulados: 850
-      };
+      if (response.ok) {
+        const data = await response.json();
+        const activities = data.data?.activities || [];
+        
+        // Convertir actividades de la API al formato del historial
+        const historialData: HistorialItem[] = activities.map((activity: any) => {
+          // Mapear tipos de actividad
+          let tipo = 'Evento';
+          if (activity.type.includes('event')) tipo = 'Evento';
+          else if (activity.type.includes('payment')) tipo = 'Pago';
+          else if (activity.type.includes('pqrsdf')) tipo = 'PQRSDF';
+          else if (activity.type.includes('profile')) tipo = 'Perfil';
+          else if (activity.type.includes('achievement')) tipo = 'Reconocimiento';
+          else if (activity.type.includes('membership')) tipo = 'Membresía';
+          else if (activity.type.includes('store')) tipo = 'Beneficio';
+          
+          // Mapear estados
+          let estado = 'completado';
+          if (activity.status === 'pending') estado = 'pendiente';
+          else if (activity.status === 'cancelled') estado = 'cancelado';
+          else if (activity.status === 'failed') estado = 'fallido';
+          else if (activity.status === 'completed') estado = 'completado';
+          
+          return {
+            id: activity.id,
+            tipo: tipo,
+            fecha: activity.date,
+            descripcion: activity.title,
+            estado: estado,
+            referencia: activity.id,
+            detalles: activity.metadata || {}
+          };
+        });
 
-      setHistorialItems(historialData);
-      setEstadisticas(stats);
+        setHistorialItems(historialData);
+        
+        // Calcular estadísticas desde los datos reales
+        const stats: EstadisticasHistorial = {
+          totalEventos: activities.filter((a: any) => a.type.includes('event')).length,
+          eventosAsistidos: activities.filter((a: any) => 
+            a.type === 'event_attendance' || a.type === 'event_registration'
+          ).length,
+          beneficiosUsados: activities.filter((a: any) => a.type === 'store_purchase').length,
+          pqrsdfAbiertas: activities.filter((a: any) => 
+            a.type === 'pqrsdf_sent' && a.status === 'pending'
+          ).length,
+          logrosObtenidos: activities.filter((a: any) => a.type === 'achievement_earned').length,
+          añosMembresia: 0, // Se puede calcular desde la fecha de registro del usuario
+          puntosAcumulados: activities
+            .filter((a: any) => a.metadata?.points)
+            .reduce((sum: number, a: any) => sum + (a.metadata.points || 0), 0)
+        };
+
+        setEstadisticas(stats);
+      } else {
+        // Si falla la API, usar datos vacíos
+        setHistorialItems([]);
+        setEstadisticas({
+          totalEventos: 0,
+          eventosAsistidos: 0,
+          beneficiosUsados: 0,
+          pqrsdfAbiertas: 0,
+          logrosObtenidos: 0,
+          añosMembresia: 0,
+          puntosAcumulados: 0
+        });
+      }
       
     } catch (error) {
       console.error('Error al cargar el historial:', error);
+      // En caso de error, datos vacíos
+      setHistorialItems([]);
+      setEstadisticas({
+        totalEventos: 0,
+        eventosAsistidos: 0,
+        beneficiosUsados: 0,
+        pqrsdfAbiertas: 0,
+        logrosObtenidos: 0,
+        añosMembresia: 0,
+        puntosAcumulados: 0
+      });
     } finally {
       setIsLoadingData(false);
     }
