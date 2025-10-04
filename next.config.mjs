@@ -72,16 +72,18 @@ const bundleAnalyzer = withBundleAnalyzer({
 
 const nextConfig = {
   reactStrictMode: true,
-  poweredByHeader: false, // Remover header X-Powered-By
+  poweredByHeader: false, // Security: Remove X-Powered-By header
   eslint: {
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
   compiler: {
-    styledComponents: true,
-    removeConsole: process.env.NODE_ENV === "production",
+    removeConsole: process.env.NODE_ENV === "production" ? {
+      exclude: ['error', 'warn'], // Keep error and warn logs
+    } : false,
   },
+  // Performance: Optimize images
   images: {
     remotePatterns: [
       {
@@ -98,12 +100,18 @@ const nextConfig = {
       }
     ],
     formats: ['image/avif', 'image/webp'],
-    minimumCacheTTL: 86400, // 24 hours
+    minimumCacheTTL: 31536000, // 1 year for better caching
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    dangerouslyAllowSVG: false, // Security: Prevent SVG XSS
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
+  // Performance: Optimize package imports
   experimental: {
-    optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
+    optimizePackageImports: ['react-icons', '@react-google-maps/api'],
   },
-  // Configuración de rewrites para manejo correcto de assets
+  // Rewrites for proper asset handling
   async rewrites() {
     return [
       {

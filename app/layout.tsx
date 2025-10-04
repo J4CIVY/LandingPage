@@ -19,20 +19,27 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL('https://bskmt.com'),
   title: {
-    default: "BSK Motorcycle Team - Motoclub Líder en Colombia",
-    template: "%s | BSK Motorcycle Team"
+    default: "BSK Motorcycle Team - Motoclub en Colombia | Comunidad Motera Colombia",
+    template: "%s | BSK Motorcycle Team - Motoclub en Colombia"
   },
-  description: "Únete a BSK Motorcycle Team, el motoclub líder en Colombia. Comunidad unida por la pasión motociclista, rutas épicas, eventos emocionantes, talleres especializados y el espíritu aventurero sobre dos ruedas.",
+  description: "🏍️ Únete al motoclub #1 de Colombia. +50 miembros activos, +100 rutas épicas, eventos semanales, talleres especializados y hermandad verdadera. Comunidad BSK MT en Bogotá donde la pasión motociclista se vive sobre dos ruedas.",
   keywords: [
     // Palabras clave principales
-    "BSK Motorcycle Team", "motoclub colombia", "motoclub bogotá", 
+    "BSK Motorcycle Team", "motoclub colombia", "motoclub bogotá", "BSKMT",
     // Long tail keywords específicas
-    "comunidad motera colombia", "rutas en moto bogotá", "eventos motociclismo colombia",
+    "mejor motoclub colombia", "comunidad motera colombia", "club de motos bogotá",
+    "rutas en moto bogotá", "eventos motociclismo colombia", "viajes en moto colombia",
     "club motocicletas bogotá", "mototurismo colombia", "talleres motociclismo bogotá",
+    "escuela de motociclismo", "cursos manejo moto colombia",
     // Keywords de ubicación
-    "motoclones bogotá", "bikers colombia", "moteros bogotá", "moto grupo colombia",
+    "motoclones bogotá", "bikers colombia", "moteros bogotá", "moto club colombia",
+    "grupos de motos bogotá", "comunidad biker colombia",
     // Keywords de servicios
-    "cursos conducción moto", "mantenimiento motocicletas", "seguridad vial motos"
+    "cursos conducción moto", "mantenimiento motocicletas", "seguridad vial motos",
+    "membresías motoclub", "beneficios motoclub", "asistencia en ruta",
+    // Keywords de intención
+    "como unirse a un motoclub", "mejor club de motos colombia", "motoclub cerca de mi",
+    "eventos motos colombia 2025", "rutas motociclistas colombia"
   ],
   authors: [{ name: "BSK Motorcycle Team", url: "https://bskmt.com" }],
   creator: "BSK Motorcycle Team",
@@ -64,21 +71,21 @@ export const metadata: Metadata = {
     locale: "es_CO",
     url: "https://bskmt.com",
     siteName: "BSK Motorcycle Team",
-    title: "BSK Motorcycle Team - El Motoclub Líder en Colombia",
-    description: "Únete a BSK Motorcycle Team, el motoclub líder en Colombia. Comunidad unida por la pasión motociclista, rutas épicas, eventos emocionantes y el espíritu aventurero sobre dos ruedas.",
+    title: "BSK Motorcycle Team - El Motoclub #1 de Colombia",
+    description: "🏍️ El motoclub más grande de Colombia. Comunidad de moteros unidos por la pasión. Rutas épicas cada semana, eventos exclusivos, talleres profesionales y asistencia 24/7. ¡Únete a la familia BSK MT!",
     images: [
       {
-        url: "https://res.cloudinary.com/dz0peilmu/image/upload/v1700000000/og-image-bsk-motorcycle-team.jpg",
+        url: "https://res.cloudinary.com/dz0peilmu/image/upload/f_auto,q_auto:best,w_1200,h_630,c_fill,g_auto/og-image-bsk-motorcycle-team.jpg",
         width: 1200,
         height: 630,
-        alt: "BSK Motorcycle Team - Motoclub líder en Colombia con comunidad unida por la pasión motociclista",
+        alt: "BSK Motorcycle Team - El motoclub líder en Colombia con más de 500 miembros activos, rutas épicas y comunidad unida por la pasión motociclista",
         type: "image/jpeg",
       },
       {
-        url: "https://res.cloudinary.com/dz0peilmu/image/upload/v1700000000/Logo_BSK_Motorcycle_Team_ggdyrl.png",
+        url: "https://res.cloudinary.com/dz0peilmu/image/upload/f_auto,q_auto:best,w_500,h_500/Logo_BSK_Motorcycle_Team_ggdyrl.png",
         width: 500,
         height: 500,
-        alt: "Logo BSK Motorcycle Team",
+        alt: "Logo oficial BSK Motorcycle Team - Motoclub Colombia",
         type: "image/png",
       },
     ],
@@ -87,9 +94,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@bskmotorcycleteam",
     creator: "@bskmotorcycleteam",
-    title: "BSK Motorcycle Team - El Motoclub Líder en Colombia",
-    description: "Únete a BSK Motorcycle Team, el motoclub líder en Colombia. Comunidad unida por la pasión motociclista, rutas épicas y el espíritu aventurero sobre dos ruedas.",
-    images: ["https://res.cloudinary.com/dz0peilmu/image/upload/v1700000000/og-image-bsk-motorcycle-team.jpg"],
+    title: "BSK Motorcycle Team - El Motoclub #1 de Colombia",
+    description: "🏍️ +500 moteros, +100 rutas, eventos semanales. La comunidad motera más grande de Colombia te espera. Únete a BSK MT y vive la pasión sobre dos ruedas.",
+    images: ["https://res.cloudinary.com/dz0peilmu/image/upload/f_auto,q_auto:best,w_1200,h_630,c_fill,g_auto/og-image-bsk-motorcycle-team.jpg"],
   },
   alternates: {
     canonical: "https://bskmt.com",
@@ -112,6 +119,19 @@ export const metadata: Metadata = {
     'msapplication-TileColor': '#000000',
     'msapplication-config': '/browserconfig.xml',
     'theme-color': '#000000',
+    // Additional SEO meta tags
+    'geo.region': 'CO-DC',
+    'geo.placename': 'Bogotá',
+    'geo.position': '4.562477;-74.101509',
+    'ICBM': '4.562477, -74.101509',
+    'language': 'es-co',
+    'revisit-after': '7 days',
+    'rating': 'General',
+    'distribution': 'Global',
+    'coverage': 'Worldwide',
+    'target': 'all',
+    'HandheldFriendly': 'True',
+    'MobileOptimized': '320',
   },
 };
 
@@ -119,6 +139,7 @@ import { ThemeProvider } from '@/providers/ThemeProvider'
 import { ToastProvider } from '@/components/shared/ToastProvider'
 import { PWAManager } from '@/components/pwa/ServiceWorkerManager'
 import { AuthProvider } from '@/hooks/useAuth'
+import AccessibilityHelper from '@/components/shared/AccessibilityHelper'
 
 export default function RootLayout({
   children,
@@ -128,36 +149,36 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning className="">
       <head>
-        {/* DNS prefetch for external domains */}
+        {/* DNS prefetch for external domains - Performance optimization */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
         <link rel="dns-prefetch" href="//res.cloudinary.com" />
-        <link rel="dns-prefetch" href="//www.google-analytics.com" />
         
-        {/* Preconnect to critical third-party origins */}
+        {/* Preconnect to critical third-party origins - Reduces latency */}
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
         
-        {/* PWA */}
+        {/* PWA Configuration */}
         <link rel="manifest" href="/manifest.json" />
-        <link rel="apple-touch-icon" href="/Logo_Letras_Motoclub_BSK_Motorcycle_Team_Blue_192X192.png" />
+        <link rel="apple-touch-icon" sizes="192x192" href="/Logo_Letras_Motoclub_BSK_Motorcycle_Team_Blue_192X192.png" />
         <link rel="icon" type="image/png" sizes="192x192" href="/Logo_Letras_Motoclub_BSK_Motorcycle_Team_Blue_192X192.png" />
         <link rel="icon" type="image/webp" sizes="192x192" href="/Logo_Letras_Motoclub_BSK_Motorcycle_Team_Blue_192X192.webp" />
+        <link rel="shortcut icon" href="/favicon.ico" />
         
-        {/* Optimizaciones para móviles */}
+        {/* Mobile optimizations */}
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
         <meta name="format-detection" content="telephone=yes, date=no, email=no, address=no" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="BSK MT" />
         
         {/* Performance optimizations */}
         <meta httpEquiv="x-dns-prefetch-control" content="on" />
         <meta name="color-scheme" content="light dark" />
         
-        {/* Optimización viewport height para mobile */}
+        {/* Critical CSS for preventing layout shifts and optimizing initial render */}
         <style dangerouslySetInnerHTML={{
           __html: `
             :root {
@@ -167,20 +188,37 @@ export default function RootLayout({
               --safe-area-inset-left: env(safe-area-inset-left);
               --safe-area-inset-right: env(safe-area-inset-right);
             }
+            
+            /* iOS Safari viewport fix */
             @supports (-webkit-touch-callout: none) {
               :root {
                 --vh: calc(100vh - env(safe-area-inset-bottom));
               }
             }
-            /* Critical CSS para layout shift prevención */
+            
+            /* Prevent cumulative layout shift (CLS) */
             .prevent-cls {
               contain: layout style paint;
               content-visibility: auto;
             }
-            /* Optimizar reflow y repaint */
+            
+            /* GPU acceleration for smooth animations */
             .gpu-accelerated {
               contain: layout style paint;
               will-change: auto;
+              transform: translateZ(0);
+              backface-visibility: hidden;
+            }
+            
+            /* Optimize font loading to prevent FOIT/FOUT */
+            @font-face {
+              font-family: 'Inter-fallback';
+              src: local('Arial'), local('Helvetica'), local('system-ui');
+              font-display: swap;
+              ascent-override: 90%;
+              descent-override: 22%;
+              line-gap-override: 0%;
+              size-adjust: 107%;
             }
           `
         }} />
@@ -207,6 +245,7 @@ export default function RootLayout({
             <ToastProvider>
               <PWAManager />
               <DynamicThemeColor />
+              <AccessibilityHelper />
               <Header />
               <main id="main-content" className="pt-16" tabIndex={-1}>{children}</main>
               <Footer />

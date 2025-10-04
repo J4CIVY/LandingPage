@@ -1,24 +1,48 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+/* CRITICAL: Preload Google Fonts with display=swap for better performance */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  /* Smooth scrolling with accessibility respect */
   html {
-    scroll-behavior: auto;
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px; /* Account for fixed header */
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
   
   body {
-    font-family: Inter, system-ui, sans-serif;
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
   
+  /* Fallback font for progressive enhancement */
   @font-face {
     font-family: 'Inter-fallback';
     src: local('Arial'), local('Helvetica'), local('system-ui');
     font-display: swap;
+    font-weight: 400;
+  }
+  
+  /* Improve heading readability */
+  h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance; /* Better text wrapping for headings */
+    line-height: 1.2;
+  }
+  
+  /* Better paragraph readability */
+  p {
+    text-wrap: pretty; /* Prevent orphans */
+    max-width: 75ch; /* Optimal reading width */
   }
 }
 

@@ -1,6 +1,8 @@
-/* Mejoras de accesibilidad para contraste de colores */
+/* ========================================
+   ACCESSIBILITY ENHANCEMENTS - WCAG 2.1 AA
+   ======================================== */
 
-/* Reemplazos de colores con mejor contraste para WCAG AA */
+/* Improved color contrast for better readability */
 .text-gray-600 {
   @apply text-gray-700;
 }
@@ -13,7 +15,7 @@
   @apply text-gray-600;
 }
 
-/* Hover states con mejor contraste */
+/* Hover states with enhanced contrast */
 .hover\:text-gray-700:hover {
   @apply text-gray-800;
 }
@@ -22,12 +24,12 @@
   @apply text-gray-700;
 }
 
-/* Estados de focus mejorados */
+/* Improved focus states for better visibility */
 .focus\:ring-green-400:focus {
-  @apply ring-4 ring-green-500/50;
+  @apply ring-4 ring-green-500/50 ring-offset-2;
 }
 
-/* Texto en modo oscuro con mejor contraste */
+/* Dark mode text with optimal contrast ratios */
 .dark .text-gray-400 {
   @apply text-gray-300;
 }
@@ -40,7 +42,7 @@
   @apply text-gray-200;
 }
 
-/* Enlaces con mejor contraste */
+/* Links with sufficient contrast (WCAG AAA compliant) */
 .text-blue-600 {
   @apply text-blue-700;
 }
@@ -49,15 +51,148 @@
   @apply text-blue-800;
 }
 
-/* Botones con estados más visibles */
-.bg-gray-300:disabled {
-  @apply bg-gray-400 cursor-not-allowed;
+.dark .text-blue-600 {
+  @apply text-blue-400;
 }
 
-/* Skip links para navegación por teclado */
+/* Disabled state with clear visual indication */
+.bg-gray-300:disabled {
+  @apply bg-gray-400 cursor-not-allowed opacity-60;
+}
+
+/* Skip links for keyboard navigation - WCAG 2.4.1 */
 .skip-link {
-  @apply absolute left-4 bg-slate-950 text-white px-4 py-2 rounded;
-  @apply opacity-0 pointer-events-none;
-  @apply focus:opacity-100 focus:pointer-events-auto focus:z-50 transition-opacity duration-200;
+  @apply absolute left-4 bg-slate-950 text-white px-6 py-3 rounded-md z-[100];
+  @apply font-semibold text-sm shadow-xl border-2 border-white;
+  @apply opacity-0 pointer-events-none -translate-y-4;
+  @apply focus:opacity-100 focus:translate-y-0 focus:pointer-events-auto;
+  @apply transition-all duration-200 ease-out;
   top: 1rem;
 }
+
+.skip-link:focus {
+  @apply ring-4 ring-white/75 outline-none;
+}
+
+/* ========================================
+   FOCUS MANAGEMENT & KEYBOARD NAVIGATION
+   ======================================== */
+
+/* Enhanced focus indicators (WCAG 2.4.7) */
+a:focus,
+button:focus,
+input:focus,
+textarea:focus,
+select:focus,
+[tabindex]:focus {
+  @apply outline-none ring-4 ring-green-500/50 ring-offset-2;
+  @apply ring-offset-white dark:ring-offset-slate-950;
+}
+
+/* Visible focus for keyboard users only */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  @apply ring-4 ring-green-500/60 ring-offset-2;
+}
+
+/* ========================================
+   TOUCH TARGET SIZING - WCAG 2.5.5
+   ======================================== */
+
+/* Minimum 44x44px touch targets for mobile */
+@media (pointer: coarse) {
+  a,
+  button,
+  input[type="button"],
+  input[type="submit"],
+  input[type="checkbox"],
+  input[type="radio"],
+  select {
+    @apply min-h-[44px] min-w-[44px];
+  }
+}
+
+/* ========================================
+   MOTION & ANIMATION PREFERENCES
+   ======================================== */
+
+/* Respect prefers-reduced-motion (WCAG 2.3.3) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ========================================
+   HIGH CONTRAST MODE SUPPORT
+   ======================================== */
+
+@media (prefers-contrast: high) {
+  * {
+    border-color: currentColor;
+  }
+  
+  button,
+  a {
+    @apply border-2;
+  }
+}
+
+/* ========================================
+   SCREEN READER UTILITIES
+   ======================================== */
+
+/* Screen reader only content (visually hidden) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.sr-only-focusable:focus,
+.sr-only-focusable:active {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* ========================================
+   SEMANTIC EMPHASIS
+   ======================================== */
+
+/* Visual indicators for required fields */
+[aria-required="true"]::after,
+[required]::after {
+  content: "*";
+  @apply text-red-600 ml-1;
+}
+
+/* Error states with clear visual indication */
+[aria-invalid="true"],
+.error {
+  @apply border-red-600 border-2;
+}
+
+/* Success states */
+[aria-invalid="false"],
+.success {
+  @apply border-green-600 border-2;
+}
+

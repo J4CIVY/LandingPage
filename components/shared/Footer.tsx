@@ -7,10 +7,10 @@ const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-  <footer className="bg-white dark:bg-slate-950 text-slate-950 dark:text-gray-300" role="contentinfo">
+    <footer className="bg-gradient-to-b from-white to-gray-50 dark:from-slate-950 dark:to-slate-900 text-slate-950 dark:text-gray-300 border-t border-gray-200/50 dark:border-gray-800/50" role="contentinfo">
       {/* First Section - Logo and Motto */}
-      <section className="py-8 px-4">
-        <div className="max-w-6xl mx-auto flex flex-col items-center justify-center space-y-4">
+      <section className="py-12 px-4">
+        <div className="max-w-6xl mx-auto flex flex-col items-center justify-center space-y-6">
           {/* Logo del Club para modo claro */}
           <picture className="block dark:hidden">
             <source srcSet={footerImages.logoClubLight.avif} type="image/avif" />
@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
             <Image
               src={footerImages.logoClubLight.jpg}
               alt="Logo BSK Motorcycle Team - Motoclub de comunidad, espíritu y respeto"
-              className="h-44 w-auto"
+              className="h-48 w-auto transition-transform hover:scale-105 duration-300"
               width="854"
               height="480"
               loading="lazy"
@@ -32,13 +32,16 @@ const Footer: React.FC = () => {
             <Image
               src={footerImages.logoClubDark.jpg}
               alt="Logo BSK Motorcycle Team - Motoclub de comunidad, espíritu y respeto"
-              className="h-44 w-auto"
+              className="h-48 w-auto transition-transform hover:scale-105 duration-300"
               width="854"
               height="480"
               loading="lazy"
             />
           </picture>
-          <p className="text-base font-light italic text-center text-slate-900 dark:text-white">Donde la comunidad se vive sobre dos ruedas</p>
+          <p className="text-lg font-light italic text-center text-slate-900 dark:text-white max-w-2xl">
+            <strong className="text-green-600 dark:text-green-400">Donde la comunidad se vive sobre dos ruedas</strong> - 
+            Más de 500 moteros unidos por la pasión, el espíritu aventurero y el respeto mutuo.
+          </p>
         </div>
       </section>
 

@@ -104,50 +104,65 @@ const HeroSection: React.FC = () => {
       </div>
 
       {/* Hero content: title, description, and call-to-action button */}
-  <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+  <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
         <header>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white dark:text-white mb-6 leading-tight">
-            <span className="text-green-400 dark:text-green-300">BSK</span> <span className="text-white dark:text-gray-100">MOTORCYCLE TEAM</span>
+          {/* Main H1 with improved SEO keywords */}
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight drop-shadow-lg">
+            <span className="text-green-400 dark:text-green-300">BSK</span>{" "}
+            <span className="text-white">MOTORCYCLE TEAM</span>
           </h1>
           
-          <p className="text-lg sm:text-xl md:text-2xl text-white dark:text-gray-200 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Únete al <strong className="text-green-400 dark:text-green-300">motoclub líder en Colombia</strong>, donde la comunidad se vive sobre dos ruedas. 
-            Pasión motociclista, rutas épicas, eventos emocionantes y hermandad verdadera.
+          {/* Enhanced subheading with key value propositions */}
+          <p className="text-lg sm:text-xl md:text-2xl text-white mb-4 max-w-4xl mx-auto leading-relaxed drop-shadow-md">
+            El <strong className="text-green-400 font-bold">#1 Motoclub de Colombia</strong> con <strong className="text-green-400 font-bold">+500 miembros activos</strong>
+          </p>
+          
+          <p className="text-base sm:text-lg md:text-xl text-gray-100 mb-8 max-w-3xl mx-auto leading-relaxed">
+            Únete a la comunidad motera más grande del país. Rutas épicas cada semana, eventos exclusivos, talleres profesionales, asistencia 24/7 y hermandad verdadera. 🏍️
           </p>
         </header>
         
-        {/* Call to action buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        {/* Call to action buttons with enhanced UX */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-10">
           <button 
             onClick={handleJoinClick}
-            className="bg-red-600 dark:bg-red-700 text-white dark:text-white px-8 py-4 rounded-full font-bold text-lg"
-            aria-label="Únete a BSK Motorcycle Team - Accede a membresías exclusivas del motoclub"
+            className="group relative bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-10 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 ease-out focus-enhanced touch-target"
+            aria-label="Únete a BSK Motorcycle Team - Accede a membresías exclusivas del motoclub líder en Colombia"
           >
-            <span role="img" aria-label="moto" className="mr-2 align-middle">🏍️</span> ÚNETE AL CLUB
+            <span className="flex items-center justify-center gap-2">
+              <span role="img" aria-label="moto" className="text-2xl">🏍️</span>
+              <span>ÚNETE AL CLUB</span>
+              <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </span>
           </button>
           
           <button
             onClick={() => router.push("/events")}
-            className="border-2 border-white dark:border-gray-200 text-white dark:text-gray-200 bg-transparent dark:bg-transparent px-8 py-4 rounded-full font-bold text-lg"
-            aria-label="Descubre nuestros eventos motociclísticos y rutas por Colombia"
+            className="group border-2 border-white text-white bg-black/20 hover:bg-white hover:text-slate-950 backdrop-blur-sm px-10 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 ease-out focus-enhanced touch-target"
+            aria-label="Descubre nuestros eventos motociclísticos, rutas épicas y rodadas por Colombia"
           >
-            <span role="img" aria-label="calendario" className="mr-2 align-middle">📅</span> VER EVENTOS
+            <span className="flex items-center justify-center gap-2">
+              <span role="img" aria-label="calendario" className="text-2xl">📅</span>
+              <span>VER EVENTOS</span>
+            </span>
           </button>
         </div>
 
-        {/* Indicadores adicionales */}
-        <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
-          <div className="bg-black/30 dark:bg-slate-900/60 backdrop-blur-sm rounded-lg p-4">
-            <div className="text-2xl font-bold text-green-400 dark:text-green-300">500+</div>
-            <div className="text-sm text-gray-200 dark:text-gray-300">Miembros Activos</div>
+        {/* Key stats indicators */}
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
+          <div className="group bg-black/40 hover:bg-black/50 backdrop-blur-md rounded-xl p-5 transform hover:scale-105 transition-all duration-300 border border-white/10 hover:border-green-400/50">
+            <div className="text-3xl md:text-4xl font-bold text-green-400 mb-1" aria-label="Más de 500 miembros activos">+500</div>
+            <div className="text-sm md:text-base text-gray-100 font-medium">Miembros Activos</div>
           </div>
-          <div className="bg-black/30 dark:bg-slate-900/60 backdrop-blur-sm rounded-lg p-4">
-            <div className="text-2xl font-bold text-green-400 dark:text-green-300">100+</div>
-            <div className="text-sm text-gray-200 dark:text-gray-300">Rutas Realizadas</div>
+          <div className="group bg-black/40 hover:bg-black/50 backdrop-blur-md rounded-xl p-5 transform hover:scale-105 transition-all duration-300 border border-white/10 hover:border-green-400/50">
+            <div className="text-3xl md:text-4xl font-bold text-green-400 mb-1" aria-label="Más de 100 rutas realizadas">+100</div>
+            <div className="text-sm md:text-base text-gray-100 font-medium">Rutas Épicas</div>
           </div>
-          <div className="bg-black/30 dark:bg-slate-900/60 backdrop-blur-sm rounded-lg p-4">
-            <div className="text-2xl font-bold text-green-400 dark:text-green-300">3+</div>
-            <div className="text-sm text-gray-200 dark:text-gray-300">Años de Experiencia</div>
+          <div className="group bg-black/40 hover:bg-black/50 backdrop-blur-md rounded-xl p-5 transform hover:scale-105 transition-all duration-300 border border-white/10 hover:border-green-400/50">
+            <div className="text-3xl md:text-4xl font-bold text-green-400 mb-1" aria-label="Más de 3 años de experiencia">+3</div>
+            <div className="text-sm md:text-base text-gray-100 font-medium">Años de Experiencia</div>
           </div>
         </div>
       </div>
