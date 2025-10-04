@@ -20,6 +20,7 @@ export default function RankingPage() {
   const { user } = useAuth();
   const [leaderboard, setLeaderboard] = useState<LeaderboardMember[]>([]);
   const [userRanking, setUserRanking] = useState<UserRanking | null>(null);
+  const [realPoints, setRealPoints] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterMembership, setFilterMembership] = useState<string>('all');
@@ -27,7 +28,29 @@ export default function RankingPage() {
   useEffect(() => {
     fetchFullLeaderboard();
     fetchUserRanking();
+    fetchRealPoints();
   }, []);
+
+  const fetchRealPoints = async () => {
+    try {
+      const response = await fetch('/api/users/gamification', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success && result.data.stats) {
+          setRealPoints(result.data.stats.totalPoints);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching real points:', error);
+    }
+  };
 
   const fetchFullLeaderboard = async () => {
     setLoading(true);
@@ -128,7 +151,7 @@ export default function RankingPage() {
               </div>
               <div className="text-right">
                 <p className="text-blue-100 text-sm mb-1">Puntos Totales</p>
-                <p className="text-4xl font-bold">{userRanking.points.toLocaleString()}</p>
+                <p className="text-4xl font-bold">{realPoints.toLocaleString()}</p>
               </div>
             </div>
           </div>

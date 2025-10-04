@@ -19,12 +19,39 @@ export default function RankingWidget({
 }: RankingWidgetProps) {
   const [leaderboard, setLeaderboard] = useState<LeaderboardMember[]>([]);
   const [loading, setLoading] = useState(false);
+  const [realPoints, setRealPoints] = useState<number>(userRanking.points);
+
+  useEffect(() => {
+    // Cargar puntos reales del sistema de gamificación
+    fetchRealPoints();
+  }, []);
 
   useEffect(() => {
     if (showLeaderboard) {
       fetchLeaderboard();
     }
   }, [showLeaderboard]);
+
+  const fetchRealPoints = async () => {
+    try {
+      const response = await fetch('/api/users/gamification', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success && result.data.stats) {
+          setRealPoints(result.data.stats.totalPoints);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching real points:', error);
+    }
+  };
 
   const fetchLeaderboard = async () => {
     setLoading(true);
@@ -83,7 +110,7 @@ export default function RankingWidget({
             </div>
             <div className="text-right">
               <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                {userRanking.points.toLocaleString()}
+                {realPoints.toLocaleString()}
               </div>
               <p className="text-sm text-gray-600 dark:text-gray-300">puntos</p>
             </div>
