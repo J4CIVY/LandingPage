@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
+import { EstadisticasUsuario } from '@/lib/models/Gamification';
 import { LeaderboardResponse, LeaderboardMember, MembershipType } from '@/types/membership';
 
-// GET - Obtener leaderboard de miembros por puntos
+// GET - Obtener leaderboard de miembros por puntos REALES del sistema de gamificación
 export async function GET(request: NextRequest) {
   try {
     await connectDB();
@@ -12,42 +13,50 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const limit = Math.min(parseInt(searchParams.get('limit') || '20'), 100); // Máximo 100
     
-    // Buscar usuarios activos, ordenados por puntos estimados
-    // En una implementación real, esto debería usar una colección de estadísticas optimizada
-    const users = await User.find({ 
-      isActive: true,
-      membershipType: { $exists: true }
+    // Obtener estadísticas de usuarios con puntos, ordenadas por puntos totales
+    const userStats = await EstadisticasUsuario.find({
+      puntosActuales: { $gt: 0 } // Solo usuarios con puntos
     })
-    .select('firstName lastName membershipType joinDate registeredEvents pqrsd createdAt')
+    .sort({ puntosActuales: -1 }) // Ordenar por puntos descendente
     .limit(limit)
+    .select('usuarioId puntosActuales puntosHistoricos eventosAsistidos eventosCancelados logrosDesbloqueados')
     .lean();
 
-    // Calcular puntos para cada usuario y crear leaderboard
-    const membersWithPoints = await Promise.all(
-      users.map(async (user: any, index) => {
-        const userStats = calculateUserStatsSync(user);
+    // Obtener información de usuarios
+    const userIds = userStats.map(stat => stat.usuarioId);
+    const users = await User.find({ 
+      _id: { $in: userIds },
+      isActive: true
+    })
+    .select('firstName lastName membershipType')
+    .lean();
+
+    // Crear mapa de usuarios para búsqueda rápida
+    const userMap = new Map(
+      users.map(user => [(user._id as any).toString(), user])
+    );
+
+    // Crear leaderboard con datos reales
+    const membersWithPoints: LeaderboardMember[] = userStats
+      .map((stat: any, index) => {
+        const userId = (stat.usuarioId as any).toString();
+        const user = userMap.get(userId);
+        
+        if (!user) return null; // Skip si el usuario no existe o no está activo
         
         return {
-          userId: (user._id as string).toString(),
+          userId: userId,
           name: `${user.firstName} ${user.lastName}`,
-          points: userStats.points,
+          points: stat.puntosActuales || 0,
           membershipType: mapLegacyMembershipType(user.membershipType) as MembershipType,
-          position: index + 1, // Temporal, se reordenará
+          position: index + 1,
           avatar: undefined // TODO: Agregar URL de avatar si está disponible
         };
       })
-    );
-
-    // Ordenar por puntos de mayor a menor y asignar posiciones reales
-    const sortedMembers = membersWithPoints
-      .sort((a, b) => b.points - a.points)
-      .map((member, index) => ({
-        ...member,
-        position: index + 1
-      }));
+      .filter(member => member !== null) as LeaderboardMember[];
 
     const response: LeaderboardResponse = {
-      members: sortedMembers,
+      members: membersWithPoints,
       userPosition: undefined // Se podría calcular si se tiene el userId del request
     };
 
@@ -55,9 +64,9 @@ export async function GET(request: NextRequest) {
       success: true,
       data: response,
       metadata: {
-        totalUsers: users.length,
+        totalUsers: membersWithPoints.length,
         generatedAt: new Date().toISOString(),
-        note: 'Puntos calculados basándose en actividad histórica estimada'
+        note: 'Puntos obtenidos del sistema de gamificación en tiempo real'
       }
     });
 
@@ -82,47 +91,4 @@ function mapLegacyMembershipType(legacyType: string): MembershipType {
   };
   
   return mapping[legacyType] || 'Friend';
-}
-
-function calculateUserStatsSync(user: any) {
-  const joinDate = user.joinDate || user.createdAt;
-  const daysSinceJoining = Math.floor((Date.now() - joinDate.getTime()) / (1000 * 60 * 60 * 24));
-  
-  // Calcular puntos basándose en actividad estimada
-  let points = 0;
-  
-  // Puntos base por tiempo como miembro
-  const monthsAsMember = Math.floor(daysSinceJoining / 30);
-  points += monthsAsMember * 50; // 50 puntos por mes
-  
-  // Puntos por eventos
-  const eventsAttended = user.registeredEvents?.length || Math.floor(daysSinceJoining / 60);
-  points += eventsAttended * 100; // 100 puntos por evento
-  
-  // Puntos por voluntariados
-  const volunteeringDone = user.pqrsd?.length || Math.floor(eventsAttended / 5);
-  points += volunteeringDone * 200; // 200 puntos por voluntariado
-  
-  // Bonus por tipo de membresía (los miembros de mayor nivel probablemente tienen más actividad)
-  const membershipMultiplier = getMembershipMultiplier(user.membershipType);
-  points = Math.round(points * membershipMultiplier);
-  
-  return {
-    points,
-    eventsAttended,
-    volunteeringDone,
-    daysInCurrentMembership: daysSinceJoining
-  };
-}
-
-function getMembershipMultiplier(membershipType: string): number {
-  const multipliers: Record<string, number> = {
-    'friend': 1.0,
-    'rider': 1.2,
-    'rider-duo': 1.2,
-    'pro': 1.5,
-    'pro-duo': 1.5
-  };
-  
-  return multipliers[membershipType] || 1.0;
 }

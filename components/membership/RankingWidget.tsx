@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { UserRanking, LeaderboardMember } from '@/types/membership';
 import { MEMBERSHIP_CONFIG } from '@/data/membershipConfig';
 import { FaTrophy, FaMedal, FaSpinner } from 'react-icons/fa';
+import Link from 'next/link';
 
 interface RankingWidgetProps {
   userRanking: UserRanking;
@@ -181,9 +182,12 @@ export default function RankingWidget({
 
           {/* Link para ver ranking completo */}
           <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-            <button className="w-full text-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium">
+            <Link 
+              href="/dashboard/ranking"
+              className="block w-full text-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium transition-colors"
+            >
               Ver ranking completo →
-            </button>
+            </Link>
           </div>
         </div>
       )}
