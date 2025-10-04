@@ -212,10 +212,6 @@ const UserRegister: React.FC = () => {
         termsAcceptance: submissionData.termsAcceptance
       };
 
-        email: userData.email,
-        fieldCount: Object.keys(userData).length 
-      });
-
       // Enviar datos a la API real
       const response = await fetch('/api/users', {
         method: 'POST',
@@ -226,11 +222,6 @@ const UserRegister: React.FC = () => {
       });
 
       const result = await response.json();
-      
-        status: response.status,
-        ok: response.ok,
-        result
-      });
 
       if (!response.ok) {
         // Mostrar errores de validación específicos si están disponibles
@@ -873,13 +864,6 @@ const UserRegister: React.FC = () => {
                 <button 
                   type="submit" 
                   disabled={isSubmitting}
-                  onClick={(e) => {
-                      currentStep, 
-                      totalSteps, 
-                      isSubmitting,
-                      formValid: Object.keys(errors).length === 0
-                    });
-                  }}
                   className="bg-green-500 dark:bg-green-600 hover:bg-green-600 dark:hover:bg-green-500 text-white font-bold py-2 px-4 rounded-md ml-auto disabled:bg-gray-400 dark:disabled:bg-gray-600">
                   {isSubmitting ? 'Enviando...' : 'Finalizar Registro'}
                 </button>

@@ -264,17 +264,9 @@ export default function EventDetailsPage() {
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Error al crear la transacción');
-      }
-
-      const data = await response.json();
-        success: data.success,
-        hasData: !!data.data,
-        hasConfig: !!data.data?.config,
-        hasIntegritySignature: !!data.data?.integritySignature,
-        hasOrderId: !!data.data?.orderId
-      });
-      
-      if (data.success && data.data) {
+        }
+  
+        const data = await response.json();      if (data.success && data.data) {
         setPaymentConfig({
           config: data.data.config,
           integritySignature: data.data.integritySignature,

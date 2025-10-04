@@ -40,17 +40,6 @@ export default function BoldCheckoutButton({
   const [isProcessing, setIsProcessing] = useState(false);
   const checkoutInstanceRef = useRef<any>(null);
 
-  // Log de configuración al montar
-  useEffect(() => {
-      hasConfig: !!config,
-      orderId: config?.orderId,
-      amount: config?.amount,
-      hasIntegritySignature: !!integritySignature,
-      disabled,
-      renderMode
-    });
-  }, []);
-
   /**
    * Carga el script de Bold
    */
@@ -151,13 +140,6 @@ export default function BoldCheckoutButton({
       if (config.extraData2) {
         boldConfig.extraData2 = config.extraData2;
       }
-
-        ...boldConfig,
-        apiKey: boldConfig.apiKey ? '***HIDDEN***' : 'MISSING',
-        integritySignature: '***HIDDEN***',
-        amount: boldConfig.amount,
-        orderId: boldConfig.orderId
-      });
 
       const checkout = new (window as any).BoldCheckout(boldConfig);
       return checkout;
