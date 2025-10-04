@@ -44,6 +44,8 @@ export default function VolunteerApplicationModal({
 
   if (!isOpen) return null;
 
+  console.log('VolunteerApplicationModal render:', { isOpen, currentDocument, documentsAccepted });
+
   const handleDocumentAccept = (docType: DocumentType) => {
     if (!docType) return;
     
@@ -163,16 +165,14 @@ export default function VolunteerApplicationModal({
 
   return (
     <>
-      <div className="fixed inset-0 z-40 overflow-y-auto">
-        <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-          {/* Overlay */}
-          <div 
-            className="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity"
-            onClick={onClose}
-          />
+      {/* Modal principal con overlay */}
+      <div className="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        {/* Background overlay */}
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={onClose}></div>
 
-          {/* Modal */}
-          <div className="inline-block align-bottom bg-white dark:bg-slate-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+        {/* Modal centrado */}
+        <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <div className="relative transform overflow-hidden rounded-lg bg-white dark:bg-slate-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-4xl">
             {/* Header */}
             <div className="bg-gradient-to-r from-cyan-600 to-blue-600 px-6 py-4">
               <div className="flex items-center justify-between">

@@ -60,6 +60,8 @@ export default function VolunteerToggle({
     }
   };
 
+  console.log('VolunteerToggle render:', { showModal, isVolunteer, applicationStatus });
+
   return (
     <>
       <div className={`bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 ${className}`}>
