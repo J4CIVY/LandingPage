@@ -23,7 +23,9 @@ interface Transaction {
   _id: string;
   userId: string;
   eventId?: string;
-  eventName?: string;
+  eventName?: string | null;
+  eventNotFound?: boolean;
+  eventError?: boolean;
   orderId: string;
   amount: number;
   currency: string;
@@ -430,7 +432,17 @@ export default function BillingPage() {
                         </div>
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-900 dark:text-slate-100">
-                        {transaction.eventName || 'N/A'}
+                        {transaction.eventName ? (
+                          transaction.eventName
+                        ) : transaction.eventNotFound ? (
+                          <span className="text-amber-600 dark:text-amber-400 italic">Evento eliminado</span>
+                        ) : transaction.eventError ? (
+                          <span className="text-red-600 dark:text-red-400 italic">Error al cargar</span>
+                        ) : transaction.eventId ? (
+                          <span className="text-gray-500 dark:text-slate-500 italic">Cargando...</span>
+                        ) : (
+                          <span className="text-gray-500 dark:text-slate-500 italic">Sin evento asociado</span>
+                        )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-slate-400 font-mono">
                         {transaction.orderId}
@@ -501,7 +513,19 @@ export default function BillingPage() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-slate-300">Evento</label>
-                    <p className="mt-1 text-sm text-gray-900 dark:text-slate-100">{selectedTransaction.eventName || 'N/A'}</p>
+                    <p className="mt-1 text-sm text-gray-900 dark:text-slate-100">
+                      {selectedTransaction.eventName ? (
+                        selectedTransaction.eventName
+                      ) : selectedTransaction.eventNotFound ? (
+                        <span className="text-amber-600 dark:text-amber-400 italic">Evento eliminado o no disponible</span>
+                      ) : selectedTransaction.eventError ? (
+                        <span className="text-red-600 dark:text-red-400 italic">Error al cargar evento</span>
+                      ) : selectedTransaction.eventId ? (
+                        <span className="text-gray-500 dark:text-slate-500 italic">Evento no disponible</span>
+                      ) : (
+                        <span className="text-gray-500 dark:text-slate-500 italic">Sin evento asociado</span>
+                      )}
+                    </p>
                   </div>
 
                   <div>

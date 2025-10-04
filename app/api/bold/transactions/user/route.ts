@@ -31,16 +31,21 @@ export async function GET(request: NextRequest) {
             const event: any = await Event.findById(transaction.eventId).lean();
             return {
               ...transaction,
-              eventName: event?.nombre || 'Evento no encontrado'
+              eventName: event?.nombre || null,
+              eventNotFound: !event
             };
           } catch (error) {
             return {
               ...transaction,
-              eventName: 'Error al cargar evento'
+              eventName: null,
+              eventError: true
             };
           }
         }
-        return transaction;
+        return {
+          ...transaction,
+          eventName: null
+        };
       })
     );
 
