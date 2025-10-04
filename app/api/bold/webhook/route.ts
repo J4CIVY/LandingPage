@@ -25,7 +25,6 @@ export async function POST(request: NextRequest) {
     // Obtener datos del webhook
     const webhookData = await request.json();
     
-    console.log('📨 Bold Webhook received:', JSON.stringify(webhookData, null, 2));
 
     // Extraer datos importantes
     const {
@@ -68,7 +67,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log(`📝 Processing transaction: ${referenceId}, Status: ${paymentStatus}`);
 
     // Actualizar según el estado recibido
     switch (paymentStatus) {
@@ -124,7 +122,6 @@ export async function POST(request: NextRequest) {
  */
 async function handleApprovedPayment(transaction: any, webhookData: any) {
   try {
-    console.log(`✅ Processing APPROVED payment for transaction: ${transaction.orderId}`);
 
     // Generar token de acceso si no existe
     if (!transaction.accessToken) {
@@ -166,7 +163,6 @@ async function handleApprovedPayment(transaction: any, webhookData: any) {
       user.eventsRegistered.push(transaction.eventId);
       await user.save();
 
-      console.log(`✅ User registered to event: ${event.name}`);
     }
 
     // Enviar email de confirmación con enlace a factura
@@ -208,7 +204,6 @@ async function handleApprovedPayment(transaction: any, webhookData: any) {
         }
       );
       
-      console.log(`📧 Event registration email sent to: ${user.email}`);
     } catch (emailError) {
       console.error('Error sending confirmation email:', emailError);
       // No lanzar error, el pago ya fue procesado
@@ -240,11 +235,9 @@ async function handleApprovedPayment(transaction: any, webhookData: any) {
           telefonoMiembro: phoneNumber
         };
 
-        console.log('📱 Enviando notificación de WhatsApp a Bird CRM...');
         const whatsappResult = await sendEventRegistrationNotification(notificationData);
         
         if (whatsappResult.success) {
-          console.log(`✅ Notificación de WhatsApp enviada a: ${phoneNumber}`);
         } else {
           console.error(`❌ Error al enviar notificación de WhatsApp: ${whatsappResult.error}`);
         }
@@ -279,7 +272,6 @@ async function handleApprovedPayment(transaction: any, webhookData: any) {
  * Maneja un pago rechazado
  */
 async function handleRejectedPayment(transaction: any, webhookData: any) {
-  console.log(`❌ Processing REJECTED payment for transaction: ${transaction.orderId}`);
   await transaction.markAsRejected(webhookData);
   
   // Registrar actividad de pago fallido
@@ -320,7 +312,6 @@ async function handleRejectedPayment(transaction: any, webhookData: any) {
  * Maneja un pago fallido
  */
 async function handleFailedPayment(transaction: any, webhookData: any) {
-  console.log(`⚠️ Processing FAILED payment for transaction: ${transaction.orderId}`);
   await transaction.markAsFailed(webhookData);
 }
 
@@ -328,7 +319,6 @@ async function handleFailedPayment(transaction: any, webhookData: any) {
  * Maneja un pago anulado
  */
 async function handleVoidedPayment(transaction: any, webhookData: any) {
-  console.log(`🚫 Processing VOIDED payment for transaction: ${transaction.orderId}`);
   
   transaction.status = TransactionStatus.VOIDED;
   transaction.boldTransactionId = webhookData.transaction_id || webhookData.transactionId;
@@ -360,7 +350,6 @@ async function handleVoidedPayment(transaction: any, webhookData: any) {
  * Maneja un pago pendiente o en proceso
  */
 async function handlePendingPayment(transaction: any, webhookData: any) {
-  console.log(`⏳ Processing PENDING/PROCESSING payment for transaction: ${transaction.orderId}`);
   
   const status = webhookData.payment_status === 'PROCESSING' 
     ? TransactionStatus.PROCESSING 

@@ -55,7 +55,6 @@ export async function POST(request: NextRequest) {
     
     await user.save();
 
-    console.log(`Contraseña restablecida para usuario: ${user.email}`);
 
     return NextResponse.json(
       {

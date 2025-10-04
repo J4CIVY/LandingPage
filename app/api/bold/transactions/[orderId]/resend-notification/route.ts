@@ -119,7 +119,6 @@ export async function POST(
       telefonoMiembro: phoneNumber
     };
 
-    console.log('📱 Reenviando notificación de WhatsApp a Bird CRM:', notificationData);
 
     // Enviar notificación
     const result = await sendEventRegistrationNotification(notificationData);

@@ -87,7 +87,6 @@ export async function GET(
         
         // Actualizar nuestra transacción si el estado cambió
         if (boldData.payment_status && boldData.payment_status !== transaction.status) {
-          console.log(`Updating transaction status from ${transaction.status} to ${boldData.payment_status}`);
           
           const oldStatus = transaction.status;
           transaction.status = boldData.payment_status;
@@ -226,9 +225,7 @@ async function registerUserToEvent(transaction: any) {
       user.eventsRegistered.push(transaction.eventId);
       await user.save();
 
-      console.log(`✅ User ${user.email} registered to event: ${event.name} via status check`);
     } else {
-      console.log(`ℹ️ User ${user.email} already registered to event: ${event.name}`);
     }
   } catch (error) {
     console.error('Error registering user to event:', error);

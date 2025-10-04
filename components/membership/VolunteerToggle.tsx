@@ -45,7 +45,6 @@ export default function VolunteerToggle({
         
         // Mostrar toast de éxito (opcional)
         // TODO: Implementar sistema de toasts/notificaciones
-        console.log('Volunteer status updated successfully');
       } else {
         console.error('Failed to update volunteer status:', data.message);
         // TODO: Mostrar error al usuario

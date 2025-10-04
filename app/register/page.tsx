@@ -119,14 +119,11 @@ const UserRegister: React.FC = () => {
   }, [setValue]);
 
   const onSubmit = async (data: FormUserSchema) => {
-    console.log('🚀 onSubmit iniciado', { isSubmitting, currentStep });
     
     if (isSubmitting) {
-      console.log('⏸️ Ya se está enviando, cancelando...');
       return;
     }
     
-    console.log('📝 Datos del formulario recibidos:', Object.keys(data));
     
     setIsSubmitting(true);
     setSubmitError('');
@@ -215,7 +212,6 @@ const UserRegister: React.FC = () => {
         termsAcceptance: submissionData.termsAcceptance
       };
 
-      console.log('📤 Enviando datos de registro a la API...', { 
         email: userData.email,
         fieldCount: Object.keys(userData).length 
       });
@@ -231,7 +227,6 @@ const UserRegister: React.FC = () => {
 
       const result = await response.json();
       
-      console.log('📥 Respuesta de la API:', {
         status: response.status,
         ok: response.ok,
         result
@@ -253,11 +248,9 @@ const UserRegister: React.FC = () => {
         }
       }
 
-      console.log('✅ Registro exitoso:', result);
       
       // Enviar correo de bienvenida
       try {
-        console.log('📧 Enviando correo de bienvenida...');
         const emailResponse = await fetch('/api/email/notifications', {
           method: 'POST',
           headers: {
@@ -280,7 +273,6 @@ const UserRegister: React.FC = () => {
         });
 
         if (emailResponse.ok) {
-          console.log('✅ Correo de bienvenida enviado exitosamente');
         } else {
           console.warn('⚠️ Error enviando correo de bienvenida, pero el registro fue exitoso');
         }
@@ -324,7 +316,6 @@ const UserRegister: React.FC = () => {
       setSubmitError(errorMessage);
       errorToast('Error en el registro', errorMessage);
     } finally {
-      console.log('🏁 Finalizando envío, isSubmitting = false');
       setIsSubmitting(false);
     }
   };
@@ -883,7 +874,6 @@ const UserRegister: React.FC = () => {
                   type="submit" 
                   disabled={isSubmitting}
                   onClick={(e) => {
-                    console.log('🖱️ Botón Finalizar Registro clickeado', { 
                       currentStep, 
                       totalSteps, 
                       isSubmitting,

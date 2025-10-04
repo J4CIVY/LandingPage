@@ -94,7 +94,6 @@ const Contact: React.FC = () => {
           throw new Error('Tipo de formulario no válido');
       }
 
-      console.log('Datos del formulario:', { type: formType, data: formDataToSend });
       alert('Formulario enviado correctamente. Nos pondremos en contacto contigo pronto.');
 
       // Reset forms based on type
@@ -238,7 +237,6 @@ const Contact: React.FC = () => {
                 <ContactForm 
                   defaultCategory="general"
                   onSuccess={() => {
-                    console.log('Mensaje enviado exitosamente');
                   }}
                 />
               </div>

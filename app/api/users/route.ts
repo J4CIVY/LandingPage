@@ -70,7 +70,6 @@ async function handlePost(request: NextRequest) {
     // Validar datos sin confirmPassword
     const userData = backendSchema.parse(dataToValidate);
     
-    console.log('✅ Validación exitosa en backend', { email: userData.email });
 
     // Verificar si el usuario ya existe
     const existingUser = await User.findOne({ 

@@ -275,7 +275,6 @@ export default function NewEventPage() {
         arrivalLocation: formData.arrivalLocation?.address.trim() ? formData.arrivalLocation : undefined
       };
 
-      console.log('Enviando datos del evento:', eventData);
 
       const response = await fetch('/api/admin/events', {
         method: 'POST',
@@ -291,7 +290,6 @@ export default function NewEventPage() {
         throw new Error(result.message || 'Error al crear el evento');
       }
 
-      console.log('Evento creado exitosamente:', result);
       
       // Redirigir a la lista de eventos
       router.push('/admin/events');

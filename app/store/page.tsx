@@ -84,7 +84,6 @@ const Store: React.FC = () => {
   const formatPrice = useCallback((price: number): string => {
     // Ensure price is a number before formatting
     if (typeof price !== 'number') {
-      console.warn('Invalid price type for formatting:', price);
       return 'N/A'; // Or handle as appropriate
     }
     return new Intl.NumberFormat('es-CO', {

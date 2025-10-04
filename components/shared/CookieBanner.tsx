@@ -43,9 +43,7 @@ const CookieBanner: React.FC = () => {
   });
 
   const applyCookieSettings = (settings: CookieSettings) => {
-    console.log('Applying cookie settings:', settings);
     if (settings.performance && !(window as any).googleAnalyticsLoaded) {
-      console.log('Loading Google Analytics script...');
       (window as any).googleAnalyticsLoaded = true;
     }
   };

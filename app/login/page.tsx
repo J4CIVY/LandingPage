@@ -96,7 +96,6 @@ function LoginForm() {
 
   const handle2FAVerified = async () => {
     // Verificación exitosa - las cookies ya están establecidas por el endpoint 2FA
-    console.log('2FA verificado! Actualizando estado de autenticación...');
     
     try {
       // Esperar un momento para asegurar que las cookies estén disponibles
@@ -107,7 +106,6 @@ function LoginForm() {
       
       if (authSuccess) {
         clearRedirectUrl();
-        console.log('Login exitoso con 2FA! Redirigiendo a:', returnUrl);
         
         // Redirigir al dashboard - ahora el AuthProvider tiene el estado correcto
         router.push(returnUrl);

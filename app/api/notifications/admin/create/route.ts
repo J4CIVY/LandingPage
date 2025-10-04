@@ -129,7 +129,6 @@ export async function POST(request: NextRequest) {
     }
 
     // Registrar actividad del admin
-    console.log(`Admin ${adminUser.name} (${adminUser._id}) created ${totalCreated} notifications of type ${type}`);
 
     return NextResponse.json({
       success: true,

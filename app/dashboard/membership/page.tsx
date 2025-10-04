@@ -91,7 +91,6 @@ export default function MembershipPage() {
         // Refrescar datos después de renovación exitosa
         await fetchMembershipData();
         // TODO: Mostrar toast de éxito
-        console.log('Membership renewed successfully');
       } else {
         // TODO: Mostrar error al usuario
         console.error('Failed to renew membership:', data.message);
@@ -128,7 +127,6 @@ export default function MembershipPage() {
         // Refrescar datos después de cancelación
         await fetchMembershipData();
         // TODO: Mostrar toast de confirmación
-        console.log('Membership cancelled successfully');
       } else {
         // TODO: Mostrar error al usuario
         console.error('Failed to cancel membership:', data.message);

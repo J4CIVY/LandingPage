@@ -151,7 +151,6 @@ export default function ChatComunidad({
         // Reproducir sonido de notificación si no está silenciado
         if (!silenciado) {
           // Aquí se podría reproducir un sonido
-          console.log('🔔 Mensaje enviado');
         }
       } else {
         // Restaurar mensaje si falla

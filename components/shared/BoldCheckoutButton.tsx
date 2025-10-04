@@ -42,7 +42,6 @@ export default function BoldCheckoutButton({
 
   // Log de configuración al montar
   useEffect(() => {
-    console.log('BoldCheckoutButton mounted with config:', {
       hasConfig: !!config,
       orderId: config?.orderId,
       amount: config?.amount,
@@ -63,7 +62,6 @@ export default function BoldCheckoutButton({
       );
 
       if (existingScript) {
-        console.log('Bold script already loaded');
         setIsScriptLoaded(true);
         resolve();
         return;
@@ -76,7 +74,6 @@ export default function BoldCheckoutButton({
       script.async = true;
 
       script.onload = () => {
-        console.log('Bold script loaded successfully');
         setIsScriptLoaded(true);
         setIsScriptLoading(false);
         setScriptError(null);
@@ -107,11 +104,9 @@ export default function BoldCheckoutButton({
   const initializeBoldCheckout = () => {
     if (typeof window === 'undefined' || !(window as any).BoldCheckout) {
       console.error('BoldCheckout is not available on window');
-      console.log('Window object keys:', Object.keys(window).filter(k => k.toLowerCase().includes('bold')));
       return null;
     }
 
-    console.log('BoldCheckout constructor found on window');
 
     try {
       // Preparar la configuración para Bold Checkout
@@ -157,7 +152,6 @@ export default function BoldCheckoutButton({
         boldConfig.extraData2 = config.extraData2;
       }
 
-      console.log('Initializing Bold Checkout with config:', {
         ...boldConfig,
         apiKey: boldConfig.apiKey ? '***HIDDEN***' : 'MISSING',
         integritySignature: '***HIDDEN***',
@@ -207,7 +201,6 @@ export default function BoldCheckoutButton({
       }
 
       // Abrir el checkout
-      console.log('Opening Bold Checkout...');
       checkoutInstanceRef.current.open();
       
       // El pago continúa en la pasarela de Bold

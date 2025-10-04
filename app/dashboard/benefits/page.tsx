@@ -54,7 +54,6 @@ const BenefitsPage = () => {
 
   const handleClaimBenefit = (benefit: Benefit) => {
     // In a real app, here would register the benefit usage
-    console.log('Claim benefit:', benefit.id);
     
     // Simulate successful action
     alert(`Benefit claimed! Code: ${benefit.promoCode}`);

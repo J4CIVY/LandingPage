@@ -259,7 +259,6 @@ async function processCompletionNotifications(db: any, processId: string, voting
       }
     });
 
-    console.log(`Proceso de votación ${processId} completado: ${finalStats.result}`);
 
   } catch (error) {
     console.error('Error processing completion notifications:', error);

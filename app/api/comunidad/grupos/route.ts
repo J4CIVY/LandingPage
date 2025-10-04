@@ -47,25 +47,21 @@ export async function POST(request: NextRequest) {
   try {
     await connectToDatabase();
     
-    console.log('POST /api/comunidad/grupos - Verificando sesión...');
     
     // Verificar sesión
     const session = await verifySession(request);
-    console.log('Resultado de verificación de sesión:', { 
       success: session.success, 
       hasUser: !!session.user,
       userId: session.user?.id 
     });
     
     if (!session.success || !session.user) {
-      console.log('Error: Usuario no autorizado');
       return NextResponse.json(
         { exito: false, error: 'No autorizado' },
         { status: 401 }
       );
     }
 
-    console.log('Usuario autenticado:', session.user.email);
 
     // Cualquier usuario autenticado puede crear grupos
 

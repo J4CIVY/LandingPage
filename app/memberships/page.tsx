@@ -70,7 +70,6 @@ const Memberships: React.FC = () => {
 
   const handleSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Formulario enviado:', formData);
     alert('Gracias por tu interés. Nos pondremos en contacto contigo pronto.');
     setFormData({
       name: '',
@@ -113,7 +112,6 @@ const Memberships: React.FC = () => {
       ],
       buttonText: "Únete como Piloto",
       popular: false,
-      onClick: () => console.log("Piloto membership selected")
     },
     {
       name: "Profesional",
@@ -131,7 +129,6 @@ const Memberships: React.FC = () => {
       ],
       buttonText: "Únete a la Comunidad",
       popular: true,
-      onClick: () => console.log("Profesional membership selected")
     }
   ];
 

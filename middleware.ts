@@ -24,18 +24,14 @@ export function middleware(request: NextRequest) {
                   request.cookies.get('bsk-access-token')?.value;
     
     if (!token) {
-      console.log('[MIDDLEWARE] Sin token para ruta admin:', pathname);
       return NextResponse.redirect(new URL('/login', request.url));
     }
 
     // Verificación básica de formato de token (sin JWT decode por Edge Runtime)
     // La verificación completa de rol se hará en las APIs individuales
     if (!token.includes('.') || token.length < 50) {
-      console.log('[MIDDLEWARE] Token inválido para ruta admin:', pathname);
       return NextResponse.redirect(new URL('/login', request.url));
     }
-
-    console.log('[MIDDLEWARE] Token presente para ruta admin:', pathname);
   }
 
   // Proteger otras rutas que requieren autenticación
@@ -46,12 +42,10 @@ export function middleware(request: NextRequest) {
                   request.cookies.get('bsk-access-token')?.value;
     
     if (!token) {
-      console.log('[MIDDLEWARE] Sin token para ruta protegida:', pathname);
       return NextResponse.redirect(new URL('/login?returnUrl=' + encodeURIComponent(pathname), request.url));
     }
 
     // Si hay token, dejamos que la página maneje la validación completa
-    console.log('[MIDDLEWARE] Token presente para ruta protegida:', pathname);
   }
 
   return response;

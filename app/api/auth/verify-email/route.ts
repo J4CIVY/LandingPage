@@ -45,7 +45,6 @@ async function processEmailVerification(user: any) {
       );
       
       if (whatsappSent) {
-        console.log('✅ Notificación de WhatsApp enviada para:', user.firstName);
       } else {
         console.warn('⚠️ No se pudo enviar la notificación de WhatsApp para:', user.firstName);
       }
@@ -54,7 +53,6 @@ async function processEmailVerification(user: any) {
       // No fallar la verificación si la notificación de WhatsApp falla
     }
   } else {
-    console.log('📱 Usuario sin WhatsApp, omitiendo notificación:', user.firstName);
   }
 }
 

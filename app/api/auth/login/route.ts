@@ -317,7 +317,6 @@ async function sendSecurityAlertIfEnabled(
       }
     );
 
-    console.log(`Alerta de seguridad enviada a ${user.email}`);
   } catch (error) {
     console.error('Error enviando alerta de seguridad:', error);
     // No lanzar error para no interrumpir el flujo de login

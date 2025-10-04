@@ -8,7 +8,6 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     
-    console.log('Webhook de MessageBird recibido:', {
       timestamp: new Date().toISOString(),
       data: body
     });

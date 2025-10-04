@@ -15,16 +15,13 @@ export const useEvents = (upcoming = false, limit = 10) => {
       if (upcoming) params.append('upcoming', 'true');
       if (limit) params.append('limit', limit.toString());
       
-      console.log('🔍 useEvents: Fetching events with params:', params.toString());
       
       const response = await fetch(`/api/events?${params.toString()}`);
       const data = await response.json();
       
-      console.log('📋 useEvents: Response data:', data);
       
       if (response.ok) {
         const eventsArray = data.data?.events || [];
-        console.log('✅ useEvents: Events array:', eventsArray);
         setEvents(eventsArray);
       } else {
         console.error('❌ useEvents: Error response:', data);

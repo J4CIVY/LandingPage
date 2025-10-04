@@ -160,7 +160,6 @@ export default function EventDetailsPage() {
         const paymentData = await paymentRes.json();
         if (paymentData.success && paymentData.data?.hasApprovedPayment) {
           setIsRegistered(true);
-          console.log('Usuario tiene pago aprobado, marcado como registrado');
         }
       }
     } catch (error) {
@@ -268,7 +267,6 @@ export default function EventDetailsPage() {
       }
 
       const data = await response.json();
-      console.log('Payment transaction created successfully:', {
         success: data.success,
         hasData: !!data.data,
         hasConfig: !!data.data?.config,
@@ -277,7 +275,6 @@ export default function EventDetailsPage() {
       });
       
       if (data.success && data.data) {
-        console.log('Setting payment config with orderId:', data.data.orderId);
         setPaymentConfig({
           config: data.data.config,
           integritySignature: data.data.integritySignature,
@@ -655,10 +652,8 @@ export default function EventDetailsPage() {
                                     buttonText="Pagar Inscripción"
                                     buttonClassName="w-full px-4 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center"
                                     onPaymentStart={() => {
-                                      console.log('Iniciando proceso de pago...');
                                     }}
                                     onPaymentSuccess={() => {
-                                      console.log('Pago completado, redirigiendo...');
                                       router.push(`/events/${event._id}/payment-result?orderId=${paymentConfig.orderId}`);
                                     }}
                                     onPaymentError={(error: any) => {

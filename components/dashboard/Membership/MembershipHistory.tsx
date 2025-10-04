@@ -98,12 +98,10 @@ export default function MembershipHistory({ history }: MembershipHistoryProps) {
 
   const handleDownloadReceipt = (historyItem: MembershipHistoryItem) => {
     // Aquí implementar la lógica para descargar el recibo
-    console.log('Downloading receipt for:', historyItem.id);
   };
 
   const handleViewDetails = (historyItem: MembershipHistoryItem) => {
     // Aquí implementar la lógica para ver detalles
-    console.log('Viewing details for:', historyItem.id);
   };
 
   return (

@@ -70,7 +70,6 @@ export default function NewAnalyticsReportPage() {
         createdBy: user?.email
       };
 
-      console.log('Configuración de reporte creada:', reportConfig);
       
       // Generar reporte inmediatamente si es de tipo "once"
       if (formData.frequency === 'once') {

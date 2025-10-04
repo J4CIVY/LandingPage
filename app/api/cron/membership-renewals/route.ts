@@ -15,11 +15,9 @@ export async function POST(request: NextRequest) {
       }, { status: 401 });
     }
 
-    console.log('🔄 Iniciando proceso de renovaciones automáticas...');
     
     const result = await MembershipRenewalService.processAutomaticRenewals();
     
-    console.log('✅ Proceso de renovaciones completado:', result);
 
     return NextResponse.json({
       success: result.success,

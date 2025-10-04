@@ -114,12 +114,10 @@ export default function ProfilePage() {
   // Handlers para callbacks de componentes
   const handleAvatarUpload = async (file: File) => {
     // Implementar subida de avatar
-    console.log('Uploading avatar:', file);
   };
 
   const handleUserUpdate = async (updatedData: any) => {
     // Implementar actualización de usuario usando el hook
-    console.log('Updating user:', updatedData);
     try {
       await updateProfile(updatedData);
       setHasUnsavedChanges(false);
@@ -130,28 +128,23 @@ export default function ProfilePage() {
 
   const handleStatusChange = async (newStatus: 'active' | 'suspended' | 'inactive') => {
     // Implementar cambio de estado
-    console.log('Changing status to:', newStatus);
   };
 
   const handleRoleChange = async (newRole: 'user' | 'admin') => {
     // Implementar cambio de rol
-    console.log('Changing role to:', newRole);
   };
 
   const handleDocumentApproval = async (documentId: string, approved: boolean, notes?: string) => {
     // Implementar aprobación de documentos
-    console.log('Document approval:', { documentId, approved, notes });
   };
 
   const handleProfileApproval = async (approved: boolean, notes?: string) => {
     // Implementar aprobación de perfil
-    console.log('Profile approval:', { approved, notes });
   };
 
   const handleGenerateReport = async () => {
     // Implementar generación de reporte
     if (user) {
-      console.log('Generating report for user:', (user as any)._id || (user as any).id);
     }
   };
 

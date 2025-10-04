@@ -185,7 +185,6 @@ const DashboardEvents: React.FC<DashboardEventsProps> = ({ onViewEvent }) => {
         alert('Registro cancelado exitosamente');
       } else {
         console.error('Unregister error:', data);
-        console.log('Error message:', data.message);
         
         // Si el error es por pago aprobado, redirigir a PQRSDF
         const errorMessage = data.message?.toLowerCase() || '';

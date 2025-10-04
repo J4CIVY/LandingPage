@@ -201,7 +201,6 @@ export async function POST(request: NextRequest) {
 
       const result = await emailService['client'].sendEmail(emailConfig);
 
-      console.log('Código OTP enviado por email como respaldo para usuario:', user.email);
 
       return NextResponse.json(
         {

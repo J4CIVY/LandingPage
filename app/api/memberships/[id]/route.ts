@@ -76,14 +76,10 @@ async function handlePut(request: NextRequest, { params }: RouteParams) {
     }
 
     // Log del cambio de estado
-    console.log(`📋 APLICACIÓN ${id} - Estado cambiado a: ${status.toUpperCase()}`);
-    console.log(`👤 Aplicante: ${updatedApplication.name} (${updatedApplication.email})`);
 
     // Simular envío de email al aplicante
     if (status === 'approved') {
-      console.log(`✅ Email de aprobación enviado a ${updatedApplication.email}`);
     } else if (status === 'rejected') {
-      console.log(`❌ Email de rechazo enviado a ${updatedApplication.email}`);
     }
 
     return createSuccessResponse(
@@ -133,7 +129,6 @@ async function handleDelete(request: NextRequest, { params }: RouteParams) {
     );
   }
 
-  console.log(`🗑️ APLICACIÓN ${id} ELIMINADA/RECHAZADA`);
 
   return createSuccessResponse(
     { message: 'Aplicación de membresía eliminada exitosamente' },

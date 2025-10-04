@@ -312,7 +312,6 @@ export default function Normas({ usuarioActual }: NormasProps) {
 
       if (response.ok) {
         // Recargar reportes
-        console.log(`Reporte ${reporteId} ${accion === 'resolver' ? 'resuelto' : 'rechazado'}`);
       }
     } catch (error) {
       console.error('Error al actualizar reporte:', error);

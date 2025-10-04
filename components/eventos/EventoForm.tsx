@@ -94,11 +94,9 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
     if (!isoDate) return '';
     
     try {
-      console.log('🔄 Formateando fecha para input:', isoDate);
       
       // Si la fecha ya está en formato datetime-local, devolverla como está
       if (isoDate.length === 16 && isoDate.includes('T') && !isoDate.includes(':00')) {
-        console.log('✅ Fecha ya en formato datetime-local:', isoDate);
         return isoDate;
       }
       
@@ -125,7 +123,6 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
         const minutes = String(date.getMinutes()).padStart(2, '0');
         
         const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;
-        console.log('✅ Fecha ya en zona colombiana, formateada:', formattedDate);
         return formattedDate;
       }
       
@@ -137,7 +134,6 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
       const minutes = String(colombianTime.getUTCMinutes()).padStart(2, '0');
       
       const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;
-      console.log('✅ Fecha convertida a hora colombiana:', formattedDate);
       return formattedDate;
     } catch (error) {
       console.error('❌ Error formatting date:', error);
@@ -298,7 +294,6 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
         if (!dateString) return dateString;
         
         try {
-          console.log('🔄 Procesando fecha para envío:', dateString);
           
           // Para datetime-local, el formato es "YYYY-MM-DDTHH:mm"
           // Necesitamos convertir esto a formato ISO con zona horaria colombiana explícita
@@ -307,25 +302,21 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
             // Si ya tiene formato datetime-local (YYYY-MM-DDTHH:mm)
             if (dateString.length === 16) {
               const processedDate = dateString + ':00.000-05:00';
-              console.log('✅ Fecha procesada con zona horaria colombiana:', processedDate);
               return processedDate;
             }
             
             // Si ya tiene más información pero no zona horaria
             if (!dateString.includes('+') && !dateString.includes('-') && !dateString.endsWith('Z')) {
               const processedDate = dateString + '-05:00';
-              console.log('✅ Zona horaria colombiana agregada:', processedDate);
               return processedDate;
             }
             
             // Si ya tiene zona horaria, verificar que sea la correcta
             if (dateString.includes('-05:00') || dateString.includes('-0500')) {
-              console.log('✅ Fecha ya tiene zona horaria colombiana:', dateString);
               return dateString;
             }
           }
           
-          console.log('⚠️ Formato de fecha no reconocido, devolviendo como está:', dateString);
           return dateString;
         } catch (error) {
           console.error('❌ Error processing date:', error);
@@ -345,7 +336,6 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
         gallery: formData.gallery?.filter(item => item.trim() !== '') || []
       };
 
-      console.log('🕐 Fechas procesadas para envío:', {
         original: {
           startDate: formData.startDate,
           endDate: formData.endDate,
@@ -359,15 +349,12 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
       });
 
       // Verificación específica de zona horaria
-      console.log('🇨🇴 Verificación zona horaria colombiana (UTC-5):');
-      console.log('📅 Fecha inicio:', {
         input: formData.startDate,
         output: cleanedData.startDate,
         hasColombianTz: cleanedData.startDate?.includes('-05:00')
       });
       
       if (cleanedData.endDate) {
-        console.log('📅 Fecha fin:', {
           input: formData.endDate,
           output: cleanedData.endDate,
           hasColombianTz: cleanedData.endDate?.includes('-05:00')
@@ -375,14 +362,12 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
       }
       
       if (cleanedData.registrationDeadline) {
-        console.log('📅 Límite inscripción:', {
           input: formData.registrationDeadline,
           output: cleanedData.registrationDeadline,
           hasColombianTz: cleanedData.registrationDeadline?.includes('-05:00')
         });
       }
 
-      console.log('📤 Enviando datos del evento:', cleanedData);
 
       await onSave(cleanedData);
     } catch (error) {

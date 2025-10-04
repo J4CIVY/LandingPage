@@ -35,7 +35,6 @@ export default function MembershipAlerts({ membershipData }: MembershipAlertsPro
         title: 'Membresía Vencida',
         message: 'Tu membresía ha vencido. Renueva ahora para mantener acceso a todos los beneficios del motoclub.',
         actionText: 'Renovar Ahora',
-        actionHandler: () => console.log('Renovar membresía'),
         dismissible: false
       });
     } else if (membershipData.daysRemaining <= 7) {
@@ -45,7 +44,6 @@ export default function MembershipAlerts({ membershipData }: MembershipAlertsPro
         title: 'Membresía por Vencer',
         message: `Tu membresía vence en ${membershipData.daysRemaining} día${membershipData.daysRemaining !== 1 ? 's' : ''}. Renueva pronto para evitar la interrupción de servicios.`,
         actionText: 'Renovar',
-        actionHandler: () => console.log('Renovar membresía'),
         dismissible: true
       });
     } else if (membershipData.daysRemaining <= 30) {
@@ -55,7 +53,6 @@ export default function MembershipAlerts({ membershipData }: MembershipAlertsPro
         title: 'Recordatorio de Renovación',
         message: `Tu membresía vence en ${membershipData.daysRemaining} días. Considera activar la renovación automática.`,
         actionText: 'Configurar Auto-renovación',
-        actionHandler: () => console.log('Configurar auto-renovación'),
         dismissible: true
       });
     }
@@ -68,7 +65,6 @@ export default function MembershipAlerts({ membershipData }: MembershipAlertsPro
         title: 'Renovación Automática Desactivada',
         message: 'Activa la renovación automática para no perder el acceso a tus beneficios.',
         actionText: 'Activar',
-        actionHandler: () => console.log('Activar auto-renovación'),
         dismissible: true
       });
     }
@@ -81,7 +77,6 @@ export default function MembershipAlerts({ membershipData }: MembershipAlertsPro
         title: '¡Oferta Especial!',
         message: 'Upgrade a Rider con 20% de descuento. Válido hasta fin de mes.',
         actionText: 'Ver Oferta',
-        actionHandler: () => console.log('Ver oferta de upgrade'),
         dismissible: true
       });
     }
@@ -143,7 +138,6 @@ export default function MembershipAlerts({ membershipData }: MembershipAlertsPro
 
   const handleDismiss = (alertId: string) => {
     // Aquí implementar la lógica para ocultar la alerta
-    console.log('Dismissing alert:', alertId);
   };
 
   if (alerts.length === 0) {

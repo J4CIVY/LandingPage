@@ -28,7 +28,6 @@ const DashboardEventsSimple: React.FC = () => {
   const [userFavorites, setUserFavorites] = useState<string[]>([]);
   const [processingEvents, setProcessingEvents] = useState<Set<string>>(new Set());
 
-  console.log('🎨 Component Render:', { 
     eventsCount: events.length, 
     loading, 
     error,
@@ -38,11 +37,9 @@ const DashboardEventsSimple: React.FC = () => {
   // Fetch user registrations and favorites
   const fetchUserEventData = async () => {
     if (!user) {
-      console.log('🚫 fetchUserEventData: No user, skipping');
       return;
     }
     
-    console.log('🔍 fetchUserEventData: Starting with user:', user.email);
     
     try {
       const [registrationsRes, favoritesRes] = await Promise.all([
@@ -62,12 +59,9 @@ const DashboardEventsSimple: React.FC = () => {
         })
       ]);
 
-      console.log('📡 fetchUserEventData: Registrations response:', registrationsRes.status);
-      console.log('📡 fetchUserEventData: Favorites response:', favoritesRes.status);
 
       if (registrationsRes.ok) {
         const regData = await registrationsRes.json();
-        console.log('✅ fetchUserEventData: Registration data:', regData);
         setUserRegistrations(regData.data?.registrations || []);
       } else {
         const regError = await registrationsRes.json();
@@ -76,7 +70,6 @@ const DashboardEventsSimple: React.FC = () => {
 
       if (favoritesRes.ok) {
         const favData = await favoritesRes.json();
-        console.log('✅ fetchUserEventData: Favorites data:', favData);
         setUserFavorites(favData.data?.favorites || []);
       } else {
         const favError = await favoritesRes.json();
@@ -89,13 +82,11 @@ const DashboardEventsSimple: React.FC = () => {
 
   const fetchUpcomingEvents = async () => {
     try {
-      console.log('🔍 Component: Iniciando fetch de eventos REALES');
       setLoading(true);
       setError(null);
       
       // USAR LA API REAL que ya funciona, SIN filtro upcoming que está causando problemas
       let url = '/api/events';
-      console.log('🌐 Component: Usando API REAL sin filtros:', url);
       
       let response = await fetch(url, {
         method: 'GET',
@@ -104,7 +95,6 @@ const DashboardEventsSimple: React.FC = () => {
           'Content-Type': 'application/json'
         }
       });
-      console.log('📡 Component: API status:', response.status);
       
       if (!response.ok) {
         const errorText = await response.text();
@@ -113,16 +103,10 @@ const DashboardEventsSimple: React.FC = () => {
       }
       
       const data = await response.json();
-      console.log('📋 Component: API Response completa:', data);
-      console.log('📋 Component: API data.data:', data.data);
-      console.log('📋 Component: API events:', data.data?.events);
       
       if (data.success && data.data && data.data.events) {
         const eventsArray = data.data.events || [];
-        console.log('✅ Component: EVENTOS ENCONTRADOS:', eventsArray.length);
-        console.log('✅ Component: Primer evento:', eventsArray[0]);
         setEvents(eventsArray);
-        console.log('✅ Component: Events state actualizado con:', eventsArray.length, 'eventos');
       } else {
         console.error('❌ Component: No se encontraron eventos en la respuesta:', data);
         setError('No se encontraron eventos en la respuesta de la API');
@@ -132,7 +116,6 @@ const DashboardEventsSimple: React.FC = () => {
       setError(`Error de conexión: ${err.message}`);
     } finally {
       setLoading(false);
-      console.log('🏁 Component: Fetch completed');
     }
   };
 
@@ -176,8 +159,6 @@ const DashboardEventsSimple: React.FC = () => {
       } else {
         const errorData = await response.json();
         console.error('Registration error:', errorData);
-        console.log('Error message:', errorData.message);
-        console.log('Action:', action);
         
         // Si el error es por pago aprobado, redirigir a PQRSDF
         const errorMessage = errorData.message?.toLowerCase() || '';
@@ -267,7 +248,6 @@ const DashboardEventsSimple: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log('🚀 Component: useEffect triggered');
     fetchUpcomingEvents();
   }, []);
 

@@ -14,16 +14,13 @@ import Event from '@/lib/models/Event';
  */
 async function handleGet(request: NextRequest) {
   try {
-    console.log('🔍 API Events: Iniciando obtención de eventos');
     await connectDB();
-    console.log('✅ API Events: Conectado a la base de datos');
     
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '10');
     const upcoming = searchParams.get('upcoming') === 'true';
     
-    console.log('📋 API Events: Parámetros:', { page, limit, upcoming });
     
     // Construir filtros de MongoDB
     const mongoFilters: any = { isActive: true };
@@ -39,17 +36,14 @@ async function handleGet(request: NextRequest) {
       };
     }
     
-    console.log('🔎 API Events: Filtros MongoDB:', mongoFilters);
     
     // Calcular skip para paginación
     const skip = (page - 1) * limit;
     
     // Primero verificar si hay eventos en total
     const totalEvents = await Event.countDocuments({});
-    console.log(`📊 API Events: Total eventos en DB: ${totalEvents}`);
     
     const totalActiveEvents = await Event.countDocuments(mongoFilters);
-    console.log(`📊 API Events: Total eventos activos: ${totalActiveEvents}`);
     
     // Obtener eventos
     const events = await Event.find(mongoFilters)
@@ -59,8 +53,6 @@ async function handleGet(request: NextRequest) {
       .lean()
       .exec();
     
-    console.log(`📋 API Events: Eventos encontrados: ${events.length}`);
-    console.log('📋 API Events: Primeros eventos:', events.slice(0, 2).map(e => ({ name: e.name, startDate: e.startDate })));
     
     // Agregar campos virtuales manualmente
     const eventsWithVirtuals = events.map(event => {
@@ -89,7 +81,6 @@ async function handleGet(request: NextRequest) {
       }
     };
     
-    console.log('✅ API Events: Respuesta exitosa:', { 
       eventCount: result.events.length, 
       total: result.pagination.total 
     });
@@ -114,11 +105,9 @@ async function handlePost(request: NextRequest) {
   
   try {
     const eventData = await request.json();
-    console.log('📥 Received event data:', JSON.stringify(eventData, null, 2));
     
     // Validaciones básicas
     if (!eventData.name || !eventData.startDate) {
-      console.log('❌ Validation failed: name or startDate missing');
       return createErrorResponse(
         'Nombre y fecha de inicio son requeridos',
         HTTP_STATUS.BAD_REQUEST

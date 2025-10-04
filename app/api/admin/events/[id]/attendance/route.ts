@@ -103,7 +103,6 @@ export async function PATCH(
       // Otorgar puntos por asistencia al evento
       try {
         const puntosOtorgados = await otorgarPuntosPorAsistencia(participantId, id);
-        console.log(`Puntos otorgados por asistencia: ${puntosOtorgados}`);
       } catch (error) {
         console.error('Error otorgando puntos por asistencia:', error);
         // No fallar la operación por errores en puntos, solo registrar el error
@@ -139,7 +138,6 @@ export async function PATCH(
       // Revocar puntos por cancelación de asistencia
       try {
         const puntosRevocados = await revocarPuntosPorAsistencia(participantId, id);
-        console.log(`Puntos revocados por cancelación de asistencia: ${puntosRevocados}`);
       } catch (error) {
         console.error('Error revocando puntos por asistencia:', error);
         // No fallar la operación por errores en puntos, solo registrar el error

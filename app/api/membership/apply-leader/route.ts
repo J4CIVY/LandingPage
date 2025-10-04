@@ -125,7 +125,6 @@ export async function POST(request: NextRequest) {
     };
 
     // Por ahora, simular la creación exitosa
-    console.log('Leader application submitted:', applicationData);
 
     // TODO: Notificar a administradores sobre nueva solicitud
     // TODO: Enviar email de confirmación al solicitante

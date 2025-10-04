@@ -194,7 +194,6 @@ const Sos: React.FC = () => {
 
     try {
       // Simular envío exitoso (sin API externa)
-      console.log('Solicitud preparada:', formData);
       alert('Funcionalidad de emergencias temporalmente deshabilitada. Por favor contacta directamente por WhatsApp o teléfono.');
       setFormData({ // Reset form after successful submission
         name: "",

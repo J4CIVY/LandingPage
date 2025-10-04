@@ -44,7 +44,6 @@ export async function GET(req: NextRequest) {
       });
     } catch (error) {
       // Si el modelo Emergency no existe, continuamos con 0
-      console.log('Modelo Emergency no encontrado, usando 0');
     }
 
     const stats = {

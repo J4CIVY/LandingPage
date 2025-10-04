@@ -96,7 +96,6 @@ export async function POST(request: NextRequest) {
     // Si el anuncio está programado para envío inmediato, procesarlo
     if (!scheduledFor) {
       // Aquí podrías agregar lógica para envío inmediato
-      console.log(`Anuncio ${result.insertedId} creado como borrador`);
     }
 
     return NextResponse.json({

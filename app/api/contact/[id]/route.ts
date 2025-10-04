@@ -79,12 +79,9 @@ async function handlePut(request: NextRequest, { params }: RouteParams) {
     }
 
     // Log del cambio de estado
-    console.log(`📧 MENSAJE ${id} - Estado cambiado a: ${status.toUpperCase()}`);
-    console.log(`👤 Remitente: ${updatedMessage.name} (${updatedMessage.email})`);
 
     // Simular envío de respuesta por email
     if (status === 'resolved' && response) {
-      console.log(`📤 Respuesta enviada a ${updatedMessage.email}`);
     }
 
     return createSuccessResponse(
@@ -126,7 +123,6 @@ async function handleDelete(request: NextRequest, { params }: RouteParams) {
     );
   }
 
-  console.log(`🗑️ MENSAJE ${id} CERRADO`);
 
   return createSuccessResponse(
     { message: updatedMessage },

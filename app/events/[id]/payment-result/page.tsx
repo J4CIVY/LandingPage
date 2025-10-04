@@ -55,7 +55,6 @@ export default function PaymentResultPage() {
 
     if (!isAuthenticated) {
       // Solo redirigir si definitivamente no hay sesión después de verificar
-      console.log('No authenticated, redirecting to login');
       router.push(`/login?returnUrl=/events/${eventId}/payment-result?orderId=${orderId}`);
       return;
     }

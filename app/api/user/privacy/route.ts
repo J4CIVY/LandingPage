@@ -34,7 +34,6 @@ export async function GET(request: NextRequest) {
       }
       
       // Si existe en User pero no en ExtendedUser, crear entrada en ExtendedUser
-      console.log('Usuario encontrado en User, migrando a ExtendedUser...');
       user = await ExtendedUser.create({
         _id: basicUser._id,
         firstName: basicUser.firstName,
@@ -118,7 +117,6 @@ export async function PATCH(request: NextRequest) {
       }
       
       // Migrar usuario a ExtendedUser
-      console.log('Usuario encontrado en User, migrando a ExtendedUser para PATCH...');
       user = await ExtendedUser.create({
         _id: basicUser._id,
         firstName: basicUser.firstName,

@@ -126,7 +126,6 @@ export async function POST(
     // Si la decisión fue finalizada, enviar notificaciones correspondientes
     if (updateData.finalizedAt) {
       // Aquí podrías agregar lógica de notificaciones
-      console.log(`Decisión ${decisionId} finalizada como ${updateData.status}`);
     }
 
     return NextResponse.json({

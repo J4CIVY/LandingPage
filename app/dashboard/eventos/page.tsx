@@ -258,7 +258,6 @@ export default function EventosPage() {
       } else {
         const errorData = await response.json();
         console.error('Unregister error:', errorData);
-        console.log('Error message:', errorData.message);
         
         // Si el error es por pago aprobado, redirigir a PQRSDF
         const errorMessage = errorData.message?.toLowerCase() || '';
