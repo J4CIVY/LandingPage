@@ -28,12 +28,6 @@ const DashboardEventsSimple: React.FC = () => {
   const [userFavorites, setUserFavorites] = useState<string[]>([]);
   const [processingEvents, setProcessingEvents] = useState<Set<string>>(new Set());
 
-    eventsCount: events.length, 
-    loading, 
-    error,
-    hasUser: !!user 
-  });
-
   // Fetch user registrations and favorites
   const fetchUserEventData = async () => {
     if (!user) {
