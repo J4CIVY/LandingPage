@@ -26,12 +26,20 @@ export async function GET(request: NextRequest) {
     // Enriquecer con información del evento
     const enrichedTransactions = await Promise.all(
       transactions.map(async (transaction: any) => {
+        // Si ya tiene eventName en la BD, usarlo
+        if (transaction.eventName) {
+          return transaction;
+        }
+
+        // Si no tiene eventName pero tiene eventId, buscar el evento
         if (transaction.eventId) {
           try {
             const event: any = await Event.findById(transaction.eventId).lean();
+            const eventName = event?.name || null;
+            
             return {
               ...transaction,
-              eventName: event?.nombre || null,
+              eventName,
               eventNotFound: !event
             };
           } catch (error) {
@@ -42,6 +50,8 @@ export async function GET(request: NextRequest) {
             };
           }
         }
+
+        // No tiene evento asociado
         return {
           ...transaction,
           eventName: null
