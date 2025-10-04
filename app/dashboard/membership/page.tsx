@@ -366,6 +366,12 @@ export default function MembershipPage() {
             {/* Toggle de voluntario */}
             <VolunteerToggle 
               isVolunteer={membership.volunteer || false}
+              userData={{
+                fullName: `${user?.firstName || ''} ${user?.lastName || ''}`.trim() || 'Usuario',
+                email: user?.email || '',
+                membershipNumber: user?.membershipNumber || '',
+                phone: user?.phone || ''
+              }}
               onToggle={() => fetchMembershipData()} // Refrescar datos después del cambio
               className="transition-colors duration-300"
             />
