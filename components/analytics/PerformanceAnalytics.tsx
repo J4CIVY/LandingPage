@@ -76,9 +76,9 @@ export function useAnalytics() {
       //   event_label: event.label,
       //   value: event.value,
       // });
+    } else if (process.env.NODE_ENV === 'development') {
+      console.log('User Event:', eventData);
     }
-
-    console.log('User Event:', eventData);
   }, []);
 
   const trackPageView = useCallback((page: string) => {
@@ -87,9 +87,9 @@ export function useAnalytics() {
       //   page_title: document.title,
       //   page_location: window.location.href,
       // });
+    } else if (process.env.NODE_ENV === 'development') {
+      console.log('Page View:', page);
     }
-    
-    console.log('Page View:', page);
   }, []);
 
   const trackConversion = useCallback((conversionId: string, value?: number) => {
@@ -152,22 +152,24 @@ export function usePerformanceMonitoring() {
         connectionTime: navigationTiming.connectEnd - navigationTiming.connectStart,
       };
 
-      console.log('Performance Metrics:', metrics);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Performance Metrics:', metrics);
+      }
     };
 
     // Monitor de recursos
     const monitorResources = () => {
       const resources = performance.getEntriesByType('resource');
-      const slowResources = resources.filter(resource => resource.duration > 1000);
+      const slowResources = resources.filter(resource => resource.duration > 2000); // Aumentado de 1000 a 2000ms
       
-      if (slowResources.length > 0) {
+      if (slowResources.length > 0 && process.env.NODE_ENV === 'development') {
         console.warn('Slow Resources:', slowResources);
       }
     };
 
     // Monitor de memoria (Chrome)
     const monitorMemory = () => {
-      if ('memory' in performance) {
+      if ('memory' in performance && process.env.NODE_ENV === 'development') {
         const memory = (performance as any).memory;
         const memoryUsage = {
           used: memory.usedJSHeapSize,
@@ -175,7 +177,7 @@ export function usePerformanceMonitoring() {
           limit: memory.jsHeapSizeLimit,
         };
         
-        // Alertar si el uso de memoria es muy alto
+        // Alertar si el uso de memoria es muy alto (>90%)
         if (memory.usedJSHeapSize / memory.jsHeapSizeLimit > 0.9) {
           console.warn('High Memory Usage:', memoryUsage);
         }
@@ -184,15 +186,17 @@ export function usePerformanceMonitoring() {
 
     window.addEventListener('load', handleLoad);
     
-    // Ejecutar monitoreo cada 30 segundos
-    const interval = setInterval(() => {
-      monitorResources();
-      monitorMemory();
-    }, 30000);
+    // Ejecutar monitoreo solo en desarrollo y cada 60 segundos (en lugar de 30)
+    const interval = process.env.NODE_ENV === 'development' 
+      ? setInterval(() => {
+          monitorResources();
+          monitorMemory();
+        }, 60000) // Reducido de 30s a 60s
+      : null;
 
     return () => {
       window.removeEventListener('load', handleLoad);
-      clearInterval(interval);
+      if (interval) clearInterval(interval);
     };
   }, []);
 }

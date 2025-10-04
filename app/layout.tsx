@@ -162,9 +162,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://api.bskmt.com" />
         
-        {/* Preload critical resources */}
-        <link rel="preload" href="/default-event-image.webp" as="image" type="image/webp" />
-        
         {/* PWA Configuration */}
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" sizes="192x192" href="/Logo_Letras_Motoclub_BSK_Motorcycle_Team_Blue_192X192.png" />

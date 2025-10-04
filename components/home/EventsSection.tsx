@@ -34,13 +34,6 @@ interface EventsSectionProps {
 const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error }) => {
   const [activeTab, setActiveTab] = useState<'events' | 'calendar'>('events');
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
-  // Debug logs
-  console.log('📋 EventsSection: Received props:', { 
-    eventsCount: events.length, 
-    loading, 
-    error,
-    events: events.slice(0, 2) 
-  });
 
   return (
   <section className="py-20 px-4 bg-gray-50 dark:bg-slate-900 text-slate-900 dark:text-white">
