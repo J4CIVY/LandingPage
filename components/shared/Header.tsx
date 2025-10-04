@@ -42,12 +42,13 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
   }, [isMenuOpen]);
 
   return (
-    <header
-      ref={ref}
-      className={`fixed top-0 left-0 right-0 w-full bg-white/95 dark:bg-slate-950/95 backdrop-blur-md py-1 z-50 shadow-md border-b border-gray-200/80 dark:border-gray-800/80 transition-all duration-300 ${className}`}
-      role="banner"
-      {...props}
-    >
+    <>
+      <header
+        ref={ref}
+        className={`fixed top-0 left-0 right-0 w-full bg-white/95 dark:bg-slate-950/95 backdrop-blur-md py-1 z-50 shadow-md border-b border-gray-200/80 dark:border-gray-800/80 transition-all duration-300 ${className}`}
+        role="banner"
+        {...props}
+      >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-full">
           {/* Logo a la izquierda */}
@@ -119,58 +120,70 @@ const Header = forwardRef<HTMLElement, HeaderProps>(({ className = '', ...props 
           </button>
         </div>
       </div>
-
+      </header>
+      
+      {/* Menú móvil fuera del header para evitar problemas de z-index */}
       {isMenuOpen && (
-        <div
-          className="md:hidden fixed inset-x-0 top-[64px] bottom-0 bg-white dark:bg-slate-950 z-[60] overflow-y-auto"
-          role="navigation"
-          aria-label="Menú principal móvil"
-        >
-          <div className="container mx-auto px-5 py-8 flex flex-col h-full">
-            {/* Búsqueda en móvil */}
-            <div className="mb-6">
-              <SearchComponent />
-            </div>
-
-            <ul className="flex-1 flex flex-col space-y-6 pl-2">
-              {navItems.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.path}
-                    onClick={() => setIsMenuOpen(false)}
-                    className={`text-slate-950 dark:text-white text-xl font-medium hover:text-green-400 ${pathname === item.path ? 'text-green-400 font-bold' : ''
-                      }`}
-                    aria-current={pathname === item.path ? 'page' : undefined}
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-
-            <div className="pl-2">
-              <div className="border-t border-gray-300 dark:border-gray-700 pt-6">
-                <h3 className="text-slate-950 dark:text-white font-bold mb-4">Asistencia de Emergencia</h3>
-                <Link
-                  href="/sos"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="block w-full bg-red-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-red-700 mb-4 text-center"
-                >
-                  Solicitar Asistencia Técnica O De Emergencias
-                </Link>
+        <>
+          {/* Overlay de fondo */}
+          <div
+            className="md:hidden fixed inset-0 bg-black/50 z-40 backdrop-blur-sm"
+            onClick={() => setIsMenuOpen(false)}
+            aria-hidden="true"
+          />
+          
+          {/* Menú móvil */}
+          <div
+            className="md:hidden fixed inset-x-0 top-[64px] bottom-0 bg-white dark:bg-slate-950 z-50 overflow-y-auto shadow-2xl"
+            role="navigation"
+            aria-label="Menú principal móvil"
+          >
+            <div className="container mx-auto px-5 py-8 flex flex-col h-full">
+              {/* Búsqueda en móvil */}
+              <div className="mb-6">
+                <SearchComponent />
               </div>
 
-              {/* Pie del menú móvil con autenticación */}
-              <div className="border-t border-gray-300 dark:border-gray-700 pt-6 mt-6">
-                <div className="bg-white dark:bg-slate-950 rounded-lg p-4">
-                  <AuthButton isMobile={true} onMobileAction={() => setIsMenuOpen(false)} />
+              <ul className="flex-1 flex flex-col space-y-6 pl-2">
+                {navItems.map((item) => (
+                  <li key={item.name}>
+                    <Link
+                      href={item.path}
+                      onClick={() => setIsMenuOpen(false)}
+                      className={`text-slate-950 dark:text-white text-xl font-medium hover:text-green-400 ${pathname === item.path ? 'text-green-400 font-bold' : ''
+                        }`}
+                      aria-current={pathname === item.path ? 'page' : undefined}
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="pl-2">
+                <div className="border-t border-gray-300 dark:border-gray-700 pt-6">
+                  <h3 className="text-slate-950 dark:text-white font-bold mb-4">Asistencia de Emergencia</h3>
+                  <Link
+                    href="/sos"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="block w-full bg-red-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-red-700 mb-4 text-center"
+                  >
+                    Solicitar Asistencia Técnica O De Emergencias
+                  </Link>
+                </div>
+
+                {/* Pie del menú móvil con autenticación */}
+                <div className="border-t border-gray-300 dark:border-gray-700 pt-6 mt-6">
+                  <div className="bg-white dark:bg-slate-950 rounded-lg p-4">
+                    <AuthButton isMobile={true} onMobileAction={() => setIsMenuOpen(false)} />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </>
       )}
-    </header>
+    </>
   );
 });
 
