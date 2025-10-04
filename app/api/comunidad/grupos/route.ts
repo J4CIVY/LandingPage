@@ -50,10 +50,6 @@ export async function POST(request: NextRequest) {
     
     // Verificar sesión
     const session = await verifySession(request);
-      success: session.success, 
-      hasUser: !!session.user,
-      userId: session.user?.id 
-    });
     
     if (!session.success || !session.user) {
       return NextResponse.json(

@@ -78,14 +78,8 @@ async function handleGet(request: NextRequest) {
         limit,
         total: totalActiveEvents,
         pages: Math.ceil(totalActiveEvents / limit)
-      }
-    };
-    
-      eventCount: result.events.length, 
-      total: result.pagination.total 
-    });
-    
-    return createSuccessResponse(result, 'Eventos obtenidos exitosamente');
+        }
+      };    return createSuccessResponse(result, 'Eventos obtenidos exitosamente');
     
   } catch (error: any) {
     console.error('❌ API Events: Error:', error);

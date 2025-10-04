@@ -27,11 +27,6 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     
     const { currentPassword, newPassword } = body;
-      hasCurrentPassword: !!currentPassword, 
-      hasNewPassword: !!newPassword,
-      currentPasswordLength: currentPassword?.length,
-      newPasswordLength: newPassword?.length
-    });
 
     // Paso 4: Validaciones básicas
     if (!currentPassword || !newPassword) {
@@ -46,9 +41,6 @@ export async function POST(request: NextRequest) {
 
     // Paso 5: Validar fortaleza de contraseña
     const passwordValidation = validatePasswordStrength(newPassword);
-      isValid: passwordValidation.isValid, 
-      errorsCount: passwordValidation.errors?.length || 0 
-    });
     
     if (!passwordValidation.isValid) {
       return NextResponse.json(
@@ -63,10 +55,6 @@ export async function POST(request: NextRequest) {
     
     // Paso 6: Buscar usuario
     const user = await User.findById(authResult.user.id);
-      id: authResult.user.id, 
-      found: !!user,
-      hasPassword: user ? !!user.password : false
-    });
     
     if (!user) {
       return NextResponse.json(

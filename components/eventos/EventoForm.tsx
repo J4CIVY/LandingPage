@@ -336,39 +336,6 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
         gallery: formData.gallery?.filter(item => item.trim() !== '') || []
       };
 
-        original: {
-          startDate: formData.startDate,
-          endDate: formData.endDate,
-          registrationDeadline: formData.registrationDeadline
-        },
-        processed: {
-          startDate: cleanedData.startDate,
-          endDate: cleanedData.endDate,
-          registrationDeadline: cleanedData.registrationDeadline
-        }
-      });
-
-      // Verificación específica de zona horaria
-        input: formData.startDate,
-        output: cleanedData.startDate,
-        hasColombianTz: cleanedData.startDate?.includes('-05:00')
-      });
-      
-      if (cleanedData.endDate) {
-          input: formData.endDate,
-          output: cleanedData.endDate,
-          hasColombianTz: cleanedData.endDate?.includes('-05:00')
-        });
-      }
-      
-      if (cleanedData.registrationDeadline) {
-          input: formData.registrationDeadline,
-          output: cleanedData.registrationDeadline,
-          hasColombianTz: cleanedData.registrationDeadline?.includes('-05:00')
-        });
-      }
-
-
       await onSave(cleanedData);
     } catch (error) {
       console.error('Error saving event:', error);
