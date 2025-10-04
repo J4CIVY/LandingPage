@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { 
   FaFileInvoiceDollar, 
@@ -155,7 +155,8 @@ export default function BillingPage() {
     setFilteredTransactions(filtered);
   };
 
-  const calculateStats = (): BillingStats => {
+  // Calcular estadísticas con useMemo para optimización
+  const stats = useMemo((): BillingStats => {
     return {
       totalPagos: transactions.length,
       totalAprobados: transactions.filter(t => t.status === 'APPROVED').length,
@@ -172,7 +173,7 @@ export default function BillingPage() {
         .filter(t => t.status === 'APPROVED')
         .reduce((sum, t) => sum + t.amount, 0)
     };
-  };
+  }, [transactions]); // Se recalcula solo cuando cambian las transacciones
 
   const getStatusBadge = (status: string) => {
     const badges = {
@@ -281,8 +282,6 @@ export default function BillingPage() {
     );
   }
 
-  const stats = calculateStats();
-
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-900 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -299,55 +298,73 @@ export default function BillingPage() {
 
         {/* Estadísticas */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+          {/* Total Pagos */}
+          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6 hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600 dark:text-slate-400">Total Pagos</p>
                 <p className="text-2xl font-bold text-gray-900 dark:text-slate-100">{stats.totalPagos}</p>
+                <p className="text-xs text-gray-500 dark:text-slate-500 mt-1">Todas las transacciones</p>
               </div>
               <FaFileInvoiceDollar className="text-3xl text-purple-600 dark:text-purple-400" />
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+          {/* Aprobados */}
+          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6 hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600 dark:text-slate-400">Aprobados</p>
                 <p className="text-2xl font-bold text-green-600 dark:text-green-400">{stats.totalAprobados}</p>
+                <p className="text-xs text-gray-500 dark:text-slate-500 mt-1">
+                  {stats.totalPagos > 0 ? `${Math.round((stats.totalAprobados / stats.totalPagos) * 100)}% del total` : '0%'}
+                </p>
               </div>
               <FaCheckCircle className="text-3xl text-green-600 dark:text-green-400" />
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+          {/* Pendientes */}
+          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6 hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600 dark:text-slate-400">Pendientes</p>
                 <p className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">{stats.totalPendientes}</p>
+                <p className="text-xs text-gray-500 dark:text-slate-500 mt-1">
+                  {stats.totalPagos > 0 ? `${Math.round((stats.totalPendientes / stats.totalPagos) * 100)}% del total` : '0%'}
+                </p>
               </div>
               <FaClock className="text-3xl text-yellow-600 dark:text-yellow-400" />
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+          {/* Rechazados */}
+          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6 hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600 dark:text-slate-400">Rechazados</p>
                 <p className="text-2xl font-bold text-red-600 dark:text-red-400">{stats.totalRechazados}</p>
+                <p className="text-xs text-gray-500 dark:text-slate-500 mt-1">
+                  {stats.totalPagos > 0 ? `${Math.round((stats.totalRechazados / stats.totalPagos) * 100)}% del total` : '0%'}
+                </p>
               </div>
               <FaTimesCircle className="text-3xl text-red-600 dark:text-red-400" />
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+          {/* Monto Total */}
+          <div className="bg-gradient-to-br from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-slate-400">Monto Total</p>
-                <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                <p className="text-sm font-medium text-blue-100">Monto Total</p>
+                <p className="text-2xl font-bold text-white">
                   ${stats.montoTotal.toLocaleString('es-CO')}
                 </p>
+                <p className="text-xs text-blue-100 mt-1">
+                  {stats.totalAprobados} {stats.totalAprobados === 1 ? 'pago aprobado' : 'pagos aprobados'}
+                </p>
               </div>
-              <FaCreditCard className="text-3xl text-blue-600 dark:text-blue-400" />
+              <FaCreditCard className="text-3xl text-blue-100" />
             </div>
           </div>
         </div>
