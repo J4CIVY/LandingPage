@@ -46,12 +46,12 @@ export default function SolicitudTable({ solicitudes, className = '' }: Solicitu
         valueB = ESTADOS_SOLICITUD[b.estado];
         break;
       case 'fechaCreacion':
-        valueA = a.fechaCreacion.getTime();
-        valueB = b.fechaCreacion.getTime();
+        valueA = new Date(a.fechaCreacion).getTime();
+        valueB = new Date(b.fechaCreacion).getTime();
         break;
       case 'fechaActualizacion':
-        valueA = a.fechaActualizacion.getTime();
-        valueB = b.fechaActualizacion.getTime();
+        valueA = new Date(a.fechaActualizacion).getTime();
+        valueB = new Date(b.fechaActualizacion).getTime();
         break;
       default:
         return 0;
@@ -149,10 +149,10 @@ export default function SolicitudTable({ solicitudes, className = '' }: Solicitu
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-slate-400">
-                  {format(solicitud.fechaCreacion, 'dd/MM/yyyy', { locale: es })}
+                  {format(new Date(solicitud.fechaCreacion), 'dd/MM/yyyy', { locale: es })}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-slate-400">
-                  {formatDistanceToNow(solicitud.fechaActualizacion, { addSuffix: true, locale: es })}
+                  {formatDistanceToNow(new Date(solicitud.fechaActualizacion), { addSuffix: true, locale: es })}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   <Link
@@ -192,7 +192,7 @@ export default function SolicitudTable({ solicitudes, className = '' }: Solicitu
             
             <div className="flex items-center justify-between text-xs text-gray-500 dark:text-slate-500">
               <span>
-                {format(solicitud.fechaCreacion, 'dd/MM/yyyy', { locale: es })}
+                {format(new Date(solicitud.fechaCreacion), 'dd/MM/yyyy', { locale: es })}
               </span>
               <Link
                 href={`/dashboard/pqrsdf/${solicitud.id}`}

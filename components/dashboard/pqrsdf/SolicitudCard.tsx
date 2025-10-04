@@ -43,13 +43,13 @@ export default function SolicitudCard({ solicitud, className = '' }: SolicitudCa
       <div className="flex flex-col space-y-2 text-xs text-gray-500 dark:text-slate-500">
         <div className="flex items-center space-x-1">
           <FaCalendarAlt className="w-3 h-3" />
-          <span>Creada {formatDistanceToNow(solicitud.fechaCreacion, { addSuffix: true, locale: es })}</span>
+          <span>Creada {formatDistanceToNow(new Date(solicitud.fechaCreacion), { addSuffix: true, locale: es })}</span>
         </div>
         
         {solicitud.fechaActualizacion !== solicitud.fechaCreacion && (
           <div className="flex items-center space-x-1">
             <FaClock className="w-3 h-3" />
-            <span>Actualizada {formatDistanceToNow(solicitud.fechaActualizacion, { addSuffix: true, locale: es })}</span>
+            <span>Actualizada {formatDistanceToNow(new Date(solicitud.fechaActualizacion), { addSuffix: true, locale: es })}</span>
           </div>
         )}
         
