@@ -1,17 +1,57 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { MembershipProgress as MembershipProgressType } from '@/types/membership';
 import { MEMBERSHIP_CONFIG } from '@/data/membershipConfig';
-import { FaCheck, FaClock, FaLock } from 'react-icons/fa';
+import { FaCheck, FaClock, FaLock, FaSpinner } from 'react-icons/fa';
 
 interface MembershipProgressProps {
   progress: MembershipProgressType;
   className?: string;
+  refreshData?: boolean; // Opcional: refrescar datos en tiempo real
 }
 
-export default function MembershipProgress({ progress, className = '' }: MembershipProgressProps) {
+export default function MembershipProgress({ 
+  progress: initialProgress, 
+  className = '',
+  refreshData = false 
+}: MembershipProgressProps) {
+  const [progress, setProgress] = useState<MembershipProgressType>(initialProgress);
+  const [loading, setLoading] = useState(false);
+  
   const nextConfig = progress.nextType ? MEMBERSHIP_CONFIG[progress.nextType] : null;
+
+  useEffect(() => {
+    // Actualizar si cambian los props
+    setProgress(initialProgress);
+  }, [initialProgress]);
+
+  useEffect(() => {
+    // Opcionalmente refrescar datos en tiempo real
+    if (refreshData) {
+      fetchLatestProgress();
+    }
+  }, [refreshData]);
+
+  const fetchLatestProgress = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('/api/membership', {
+        credentials: 'include'
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.data.membership.progress) {
+          setProgress(data.data.membership.progress);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching latest progress:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (!progress.nextType) {
     return (
@@ -29,6 +69,12 @@ export default function MembershipProgress({ progress, className = '' }: Members
 
   return (
     <div className={`bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 ${className}`}>
+      {loading && (
+        <div className="absolute top-4 right-4">
+          <FaSpinner className="animate-spin h-4 w-4 text-blue-500" />
+        </div>
+      )}
+      
       <div className="mb-6">
         <div className="flex items-center justify-between mb-2">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white">

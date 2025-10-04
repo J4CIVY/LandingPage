@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verify } from 'jsonwebtoken';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
+import { EstadisticasUsuario, IEstadisticasUsuario } from '@/lib/models/Gamification';
 import { 
   MembershipResponse, 
   MembershipType, 
@@ -226,47 +227,65 @@ function mapLegacyMembershipType(legacyType: string): MembershipType {
 }
 
 async function calculateUserStats(user: any) {
-  // Calcular estadísticas basándose en los datos existentes del usuario
-  const joinDate = user.joinDate || user.createdAt;
-  const daysSinceJoining = Math.floor((Date.now() - joinDate.getTime()) / (1000 * 60 * 60 * 24));
-  
-  // Calcular puntos basándose en actividad estimada
-  let points = 0;
-  
-  // Puntos base por tiempo como miembro
-  const monthsAsMember = Math.floor(daysSinceJoining / 30);
-  points += monthsAsMember * POINTS_SYSTEM.MONTHLY_BONUS;
-  
-  // Estimar eventos asistidos basándose en registeredEvents o tiempo como miembro
-  const eventsAttended = user.registeredEvents?.length || Math.floor(daysSinceJoining / 60); // 1 evento cada 2 meses aprox
-  
-  // Calcular eventos confirmados asistidos (diferente de solo registrados)
-  // TODO: Implementar lógica real para diferenciar eventos confirmados vs registrados
-  const confirmedEventsAttended = user.confirmedEvents?.length || Math.floor(eventsAttended * 0.8); // 80% de eventos registrados se asumen confirmados
-  
-  points += eventsAttended * POINTS_SYSTEM.EVENT_ATTENDANCE;
-  
-  // Estimar voluntariados basándose en pqrsd o actividad
-  const volunteeringDone = user.pqrsd?.length || Math.floor(eventsAttended / 5); // 1 voluntariado cada 5 eventos
-  points += volunteeringDone * POINTS_SYSTEM.VOLUNTEERING;
-  
-  // Calcular días en membresía actual (por ahora, total de días)
-  const currentMembershipType = mapLegacyMembershipType(user.membershipType);
-  const daysInCurrentMembership = daysSinceJoining; // Simplificado por ahora
-  
-  // Calcular eventos desde Friend (para Pro → Legend)
-  const totalEventsFromFriend = eventsAttended; // Simplificado - en producción sería desde que se volvió Friend
-  
-  return {
-    points,
-    eventsAttended,
-    confirmedEventsAttended, // Nuevo campo para eventos confirmados
-    volunteeringDone,
-    daysInCurrentMembership,
-    totalDaysAsMember: daysSinceJoining,
-    totalEventsFromFriend, // Nuevo campo para Pro → Legend
-    isVolunteer: user.volunteer || false
-  };
+  try {
+    // Obtener estadísticas REALES del sistema de gamificación
+    const estadisticas = await EstadisticasUsuario.findOne({ usuarioId: user._id }).lean() as any;
+    
+    if (!estadisticas) {
+      // Si no hay estadísticas, crear valores por defecto
+      console.warn(`No se encontraron estadísticas de gamificación para usuario ${user._id}`);
+      return {
+        points: 0,
+        eventsAttended: 0,
+        confirmedEventsAttended: 0,
+        volunteeringDone: 0,
+        daysInCurrentMembership: 0,
+        totalDaysAsMember: 0,
+        totalEventsFromFriend: 0,
+        isVolunteer: user.volunteer || false
+      };
+    }
+    
+    // Calcular días en membresía actual
+    const joinDate = user.joinDate || user.createdAt;
+    const daysSinceJoining = Math.floor((Date.now() - joinDate.getTime()) / (1000 * 60 * 60 * 24));
+    
+    // Usar datos REALES de gamificación con cast explícito
+    const stats = estadisticas as IEstadisticasUsuario;
+    
+    return {
+      points: stats.puntos?.total || 0, // Puntos reales del sistema
+      eventsAttended: stats.eventos?.asistidos || 0, // Eventos confirmados asistidos
+      confirmedEventsAttended: stats.eventos?.asistidos || 0, // Mismo que asistidos (ya son confirmados)
+      volunteeringDone: stats.eventos?.organizados || 0, // Voluntariados/eventos organizados
+      daysInCurrentMembership: daysSinceJoining, // TODO: Calcular desde cambio de membresía
+      totalDaysAsMember: daysSinceJoining,
+      totalEventsFromFriend: stats.eventos?.asistidos || 0, // Simplificado - en producción filtrar por fecha
+      isVolunteer: user.volunteer || false,
+      // Datos adicionales del sistema de gamificación
+      eventosRegistrados: stats.eventos?.registrados || 0,
+      diasActivo: stats.actividad?.diasActivo || 0,
+      rachaActual: stats.actividad?.rachaActual || 0,
+      posicionRanking: stats.ranking?.posicionActual || 0
+    };
+  } catch (error) {
+    console.error('Error obteniendo estadísticas de gamificación:', error);
+    
+    // Fallback a valores por defecto en caso de error
+    const joinDate = user.joinDate || user.createdAt;
+    const daysSinceJoining = Math.floor((Date.now() - joinDate.getTime()) / (1000 * 60 * 60 * 24));
+    
+    return {
+      points: 0,
+      eventsAttended: 0,
+      confirmedEventsAttended: 0,
+      volunteeringDone: 0,
+      daysInCurrentMembership: daysSinceJoining,
+      totalDaysAsMember: daysSinceJoining,
+      totalEventsFromFriend: 0,
+      isVolunteer: user.volunteer || false
+    };
+  }
 }
 
 async function getFriendRequirements(user: any, userStats: any): Promise<RequirementStatus[]> {
@@ -1126,17 +1145,38 @@ function calculateMembershipStatus(user: any): 'active' | 'expired' | 'cancelled
 
 async function calculateUserRanking(userId: string, userPoints: number) {
   try {
-    // Contar usuarios con más puntos (simplificado)
-    // En una implementación real, esto debería usar una colección de estadísticas
-    const totalUsers = await User.countDocuments({ isActive: true });
+    // Obtener ranking REAL del sistema de gamificación
+    const estadisticas = await EstadisticasUsuario.findOne({ usuarioId: userId }).lean() as any;
     
-    // Simulación del ranking basado en puntos
-    // En producción, esto debería ser una consulta más sofisticada
-    const estimatedPosition = Math.max(1, Math.floor(totalUsers * (1 - (userPoints / 100000))));
+    if (estadisticas) {
+      const stats = estadisticas as IEstadisticasUsuario;
+      
+      if (stats.ranking) {
+        // Contar total de usuarios activos con puntos
+        const totalUsers = await EstadisticasUsuario.countDocuments({
+          'puntos.total': { $gt: 0 }
+        });
+        
+        return {
+          position: stats.ranking.posicionActual || 1,
+          totalMembers: totalUsers || 1,
+          points: stats.puntos?.total || userPoints
+        };
+      }
+    }
+    
+    // Fallback: calcular posición basándose en puntos
+    const usersWithMorePoints = await EstadisticasUsuario.countDocuments({
+      'puntos.total': { $gt: userPoints }
+    });
+    
+    const totalUsers = await EstadisticasUsuario.countDocuments({
+      'puntos.total': { $gt: 0 }
+    });
     
     return {
-      position: estimatedPosition,
-      totalMembers: totalUsers,
+      position: usersWithMorePoints + 1,
+      totalMembers: totalUsers || 1,
       points: userPoints
     };
   } catch (error) {
