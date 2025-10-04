@@ -112,6 +112,7 @@ const Memberships: React.FC = () => {
       ],
       buttonText: "Únete como Piloto",
       popular: false,
+      onClick: () => router.push('/membership-info')
     },
     {
       name: "Profesional",
@@ -129,6 +130,7 @@ const Memberships: React.FC = () => {
       ],
       buttonText: "Únete a la Comunidad",
       popular: true,
+      onClick: () => router.push('/membership-info')
     }
   ];
 
