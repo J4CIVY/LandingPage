@@ -153,11 +153,17 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
         <link rel="dns-prefetch" href="//res.cloudinary.com" />
+        <link rel="dns-prefetch" href="//api.bskmt.com" />
+        <link rel="dns-prefetch" href="//www.google-analytics.com" />
         
         {/* Preconnect to critical third-party origins - Reduces latency */}
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://api.bskmt.com" />
+        
+        {/* Preload critical resources */}
+        <link rel="preload" href="/default-event-image.webp" as="image" type="image/webp" />
         
         {/* PWA Configuration */}
         <link rel="manifest" href="/manifest.json" />

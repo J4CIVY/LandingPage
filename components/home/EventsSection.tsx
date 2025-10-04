@@ -1,13 +1,23 @@
 'use client';
 
 import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { SkeletonEvent } from '../shared/SkeletonLoaders';
-import { format, parseISO } from 'date-fns';
-import { es } from 'date-fns/locale';
-import { FaCalendarAlt } from 'react-icons/fa';
-import Calendar from "./Calendar";
 import { Event } from '@/types/events';
 import Image from "next/image";
+
+// Lazy load Calendar component - solo se carga cuando el usuario selecciona la pestaña
+const Calendar = dynamic(() => import('./Calendar'), {
+  loading: () => <div className="h-96 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg" />,
+  ssr: false
+});
+
+// SVG inline para ícono de calendario (reemplaza react-icons)
+const CalendarIcon = () => (
+  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+  </svg>
+);
 
 /**
  * @interface EventsSectionProps
@@ -78,7 +88,13 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
               <div className="grid md:grid-cols-3 gap-8">
                 {events.length > 0 ? (
                   events.map((event: any, index: number) => {
-                    const eventDate = parseISO(event.startDate);
+                    const eventDate = new Date(event.startDate);
+                    const formattedDate = new Intl.DateTimeFormat('es-CO', {
+                      weekday: 'long',
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    }).format(eventDate);
                     const truncatedDescription = event.description?.length > 150
                       ? `${event.description.substring(0, 150)}...`
                       : event.description;
@@ -88,7 +104,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
                         className="bg-white dark:bg-slate-950 text-slate-950 dark:text-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl cursor-pointer"
                         // onClick eliminado, la lógica de modal se traslada a PublicEventCard
                       >
-                        <div className="relative aspect-video bg-gray-100 dark:bg-gray-800 overflow-hidden">
+                                                  <div className="relative aspect-video bg-gray-100 dark:bg-gray-800 overflow-hidden">
                           <Image
                             src={event.mainImage || "/default-event-image.webp"}
                             alt={event.name}
@@ -96,8 +112,10 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
                             height={360}
                             className="w-full h-full object-contain"
                             loading="lazy"
-                            quality={95}
+                            quality={85}
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            placeholder="blur"
+                            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                             style={{ objectFit: 'contain', width: '100%', height: '100%' }}
                           />
                         </div>
@@ -110,7 +128,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
                             <svg className="w-4 h-4 mr-2 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
-                            {format(eventDate, "PPPP", { locale: es })}
+                            {formattedDate}
                           </div>
                           {/* Ubicación */}
                           {event.departureLocation && (
@@ -168,7 +186,9 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
         ) : (
           <div className="bg-white dark:bg-slate-800 rounded-xl p-6 text-slate-900 dark:text-white">
             <div className="flex items-center justify-center mb-4">
-              <FaCalendarAlt className="text-red-600 dark:text-red-400 mr-2" aria-hidden="true" />
+              <span className="text-red-600 dark:text-red-400 mr-2" aria-hidden="true">
+                <CalendarIcon />
+              </span>
               <h3 className="text-xl font-bold">Calendario de Eventos</h3>
             </div>
             <Calendar 

@@ -1,5 +1,4 @@
-/* CRITICAL: Preload Google Fonts with display=swap for better performance */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+/* Font is loaded via next/font in layout.tsx for better performance */
 @import "tailwindcss";
 @tailwind base;
 @tailwind components;

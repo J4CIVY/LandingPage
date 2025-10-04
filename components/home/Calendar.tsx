@@ -1,10 +1,69 @@
 'use client';
 
 import React from "react";
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addMonths, subMonths, isSameMonth, isSameDay, addDays } from 'date-fns';
-import { es } from 'date-fns/locale';
 import { Event } from '@/types/events';
+
+// SVG inline para flechas (reemplaza react-icons)
+const ArrowLeftIcon = () => (
+  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+  </svg>
+);
+
+const ArrowRightIcon = () => (
+  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+  </svg>
+);
+
+// Utilidades de fecha nativas (reemplazan date-fns)
+const addMonths = (date: Date, months: number): Date => {
+  const result = new Date(date);
+  result.setMonth(result.getMonth() + months);
+  return result;
+};
+
+const startOfMonth = (date: Date): Date => {
+  return new Date(date.getFullYear(), date.getMonth(), 1);
+};
+
+const endOfMonth = (date: Date): Date => {
+  return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+};
+
+const startOfWeek = (date: Date): Date => {
+  const result = new Date(date);
+  const day = result.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  result.setDate(result.getDate() + diff);
+  return result;
+};
+
+const endOfWeek = (date: Date): Date => {
+  const result = new Date(date);
+  const day = result.getDay();
+  const diff = day === 0 ? 0 : 7 - day;
+  result.setDate(result.getDate() + diff);
+  return result;
+};
+
+const isSameMonth = (date1: Date, date2: Date): boolean => {
+  return date1.getMonth() === date2.getMonth() && date1.getFullYear() === date2.getFullYear();
+};
+
+const isSameDay = (date1: Date, date2: Date): boolean => {
+  return (
+    date1.getDate() === date2.getDate() &&
+    date1.getMonth() === date2.getMonth() &&
+    date1.getFullYear() === date2.getFullYear()
+  );
+};
+
+const addDays = (date: Date, days: number): Date => {
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+};
 
 /**
  * @interface CalendarProps
@@ -30,7 +89,7 @@ const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMon
    * Navigates to the previous month in the calendar.
    */
   const goToPrevMonth = (): void => {
-    setCurrentMonth(subMonths(currentMonth, 1));
+    setCurrentMonth(addMonths(currentMonth, -1));
   };
 
   /**
@@ -39,7 +98,10 @@ const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMon
    * @returns {string} The formatted date string.
    */
   const formatDateSpanish = (date: Date): string => {
-    return format(date, 'MMMM yyyy', { locale: es });
+    return new Intl.DateTimeFormat('es-CO', {
+      month: 'long',
+      year: 'numeric'
+    }).format(date);
   };
 
   /**
@@ -51,20 +113,20 @@ const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMon
       <div className="flex items-center justify-between mb-4">
         <button 
           onClick={goToPrevMonth}
-          className="p-2 rounded-full bg-white dark:bg-slate-900 hover:bg-gray-200 dark:hover:bg-slate-700"
+          className="p-2 rounded-full bg-white dark:bg-slate-900 hover:bg-gray-200 dark:hover:bg-slate-700 text-slate-950 dark:text-white"
           aria-label="Mes anterior"
         >
-          <FaArrowLeft className="text-slate-950 dark:text-white" />
+          <ArrowLeftIcon />
         </button>
         <h3 className="text-xl font-bold text-slate-950 dark:text-white capitalize">
           {formatDateSpanish(currentMonth)}
         </h3>
         <button 
           onClick={goToNextMonth}
-          className="p-2 rounded-full bg-white dark:bg-slate-900 hover:bg-gray-200 dark:hover:bg-slate-700"
+          className="p-2 rounded-full bg-white dark:bg-slate-900 hover:bg-gray-200 dark:hover:bg-slate-700 text-slate-950 dark:text-white"
           aria-label="Mes siguiente"
         >
-          <FaArrowRight className="text-slate-950 dark:text-white" />
+          <ArrowRightIcon />
         </button>
       </div>
     );
@@ -95,8 +157,8 @@ const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMon
   const renderCells = (): JSX.Element => {
     const monthStart: Date = startOfMonth(currentMonth);
     const monthEnd: Date = endOfMonth(currentMonth);
-    const startDate: Date = startOfWeek(monthStart, { locale: es });
-    const endDate: Date = endOfWeek(monthEnd, { locale: es });
+    const startDate: Date = startOfWeek(monthStart);
+    const endDate: Date = endOfWeek(monthEnd);
 
     const rows: JSX.Element[] = [];
     let days: JSX.Element[] = [];
@@ -119,7 +181,7 @@ const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMon
             } ${isSameDay(currentDay, new Date()) ? 'bg-green-400 bg-opacity-20 dark:bg-green-400/30' : ''}`}
             key={currentDay.toISOString()} // Use ISO string for unique and stable key
           >
-            <span className="text-sm font-medium self-end text-slate-950 dark:text-white">{format(currentDay, 'd')}</span>
+            <span className="text-sm font-medium self-end text-slate-950 dark:text-white">{currentDay.getDate()}</span>
             <div className="flex-1 overflow-y-auto custom-scrollbar">
               {dayEvents.map((event: any) => (
                 <div 
