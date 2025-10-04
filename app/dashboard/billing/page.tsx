@@ -16,7 +16,10 @@ import {
   FaFilter,
   FaSearch,
   FaInfoCircle,
-  FaFileAlt
+  FaFileAlt,
+  FaCircle,
+  FaSync,
+  FaBan
 } from 'react-icons/fa';
 
 interface Transaction {
@@ -29,7 +32,7 @@ interface Transaction {
   orderId: string;
   amount: number;
   currency: string;
-  status: 'PENDING' | 'APPROVED' | 'DECLINED' | 'ERROR' | 'CANCELLED';
+  status: 'PENDING' | 'PROCESSING' | 'APPROVED' | 'DECLINED' | 'REJECTED' | 'FAILED' | 'ERROR' | 'CANCELLED' | 'VOIDED';
   paymentMethod?: string;
   transactionId?: string;
   createdAt: string;
@@ -112,10 +115,23 @@ export default function BillingPage() {
     // Filtro por búsqueda (nombre de evento o ID de orden)
     if (filters.search) {
       const searchLower = filters.search.toLowerCase();
-      filtered = filtered.filter(t => 
-        t.eventName?.toLowerCase().includes(searchLower) ||
-        t.orderId.toLowerCase().includes(searchLower)
-      );
+      filtered = filtered.filter(t => {
+        // Buscar en ID de orden
+        const matchesOrderId = t.orderId.toLowerCase().includes(searchLower);
+        
+        // Buscar en nombre de evento (si existe)
+        const matchesEventName = t.eventName 
+          ? t.eventName.toLowerCase().includes(searchLower)
+          : false;
+        
+        // Buscar en estados de evento
+        const matchesEventStatus = 
+          (t.eventNotFound && 'eliminado'.includes(searchLower)) ||
+          (t.eventError && 'error'.includes(searchLower)) ||
+          (!t.eventName && !t.eventId && 'sin evento'.includes(searchLower));
+        
+        return matchesOrderId || matchesEventName || matchesEventStatus;
+      });
     }
 
     // Filtro por estado
@@ -143,8 +159,15 @@ export default function BillingPage() {
     return {
       totalPagos: transactions.length,
       totalAprobados: transactions.filter(t => t.status === 'APPROVED').length,
-      totalPendientes: transactions.filter(t => t.status === 'PENDING').length,
-      totalRechazados: transactions.filter(t => t.status === 'DECLINED' || t.status === 'ERROR' || t.status === 'CANCELLED').length,
+      totalPendientes: transactions.filter(t => t.status === 'PENDING' || t.status === 'PROCESSING').length,
+      totalRechazados: transactions.filter(t => 
+        t.status === 'DECLINED' || 
+        t.status === 'REJECTED' || 
+        t.status === 'FAILED' || 
+        t.status === 'ERROR' || 
+        t.status === 'CANCELLED' || 
+        t.status === 'VOIDED'
+      ).length,
       montoTotal: transactions
         .filter(t => t.status === 'APPROVED')
         .reduce((sum, t) => sum + t.amount, 0)
@@ -163,9 +186,24 @@ export default function BillingPage() {
         text: 'Pendiente',
         className: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400'
       },
+      PROCESSING: {
+        icon: <FaClock className="mr-1" />,
+        text: 'En Proceso',
+        className: 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400'
+      },
       DECLINED: {
         icon: <FaTimesCircle className="mr-1" />,
         text: 'Rechazado',
+        className: 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400'
+      },
+      REJECTED: {
+        icon: <FaTimesCircle className="mr-1" />,
+        text: 'Rechazado',
+        className: 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400'
+      },
+      FAILED: {
+        icon: <FaExclamationTriangle className="mr-1" />,
+        text: 'Fallido',
         className: 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400'
       },
       ERROR: {
@@ -177,10 +215,19 @@ export default function BillingPage() {
         icon: <FaTimesCircle className="mr-1" />,
         text: 'Cancelado',
         className: 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400'
+      },
+      VOIDED: {
+        icon: <FaTimesCircle className="mr-1" />,
+        text: 'Anulado',
+        className: 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400'
       }
     };
 
-    const badge = badges[status as keyof typeof badges] || badges.ERROR;
+    const badge = badges[status as keyof typeof badges] || {
+      icon: <FaExclamationTriangle className="mr-1" />,
+      text: status || 'Desconocido',
+      className: 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400'
+    };
 
     return (
       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${badge.className}`}>
@@ -322,7 +369,7 @@ export default function BillingPage() {
                 type="text"
                 value={filters.search}
                 onChange={(e) => setFilters({...filters, search: e.target.value})}
-                placeholder="Evento u orden..."
+                placeholder="Buscar por evento, orden o estado..."
                 className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 focus:ring-2 focus:ring-purple-500"
               />
             </div>
@@ -331,18 +378,41 @@ export default function BillingPage() {
               <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                 Estado
               </label>
-              <select
-                value={filters.status}
-                onChange={(e) => setFilters({...filters, status: e.target.value})}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 focus:ring-2 focus:ring-purple-500"
-              >
-                <option value="all">Todos</option>
-                <option value="APPROVED">Aprobados</option>
-                <option value="PENDING">Pendientes</option>
-                <option value="DECLINED">Rechazados</option>
-                <option value="ERROR">Error</option>
-                <option value="CANCELLED">Cancelados</option>
-              </select>
+              <div className="relative">
+                <select
+                  value={filters.status}
+                  onChange={(e) => setFilters({...filters, status: e.target.value})}
+                  className="w-full px-4 py-2 pl-10 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 focus:ring-2 focus:ring-purple-500 appearance-none cursor-pointer"
+                >
+                  <option value="all">Todos los estados</option>
+                  <option value="APPROVED">Aprobados</option>
+                  <option value="PENDING">Pendientes</option>
+                  <option value="PROCESSING">En Proceso</option>
+                  <option value="DECLINED">Rechazados</option>
+                  <option value="REJECTED">Rechazados (Bold)</option>
+                  <option value="FAILED">Fallidos</option>
+                  <option value="CANCELLED">Cancelados</option>
+                  <option value="VOIDED">Anulados</option>
+                </select>
+                {/* Icono indicador basado en el estado seleccionado */}
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                  {filters.status === 'all' && <FaFilter className="text-gray-400" />}
+                  {filters.status === 'APPROVED' && <FaCheckCircle className="text-green-600" />}
+                  {filters.status === 'PENDING' && <FaClock className="text-yellow-600" />}
+                  {filters.status === 'PROCESSING' && <FaSync className="text-blue-600" />}
+                  {filters.status === 'DECLINED' && <FaTimesCircle className="text-red-600" />}
+                  {filters.status === 'REJECTED' && <FaTimesCircle className="text-red-600" />}
+                  {filters.status === 'FAILED' && <FaExclamationTriangle className="text-red-600" />}
+                  {filters.status === 'CANCELLED' && <FaBan className="text-gray-600" />}
+                  {filters.status === 'VOIDED' && <FaCircle className="text-gray-600" />}
+                </div>
+                {/* Flecha dropdown */}
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
             </div>
 
             <div>
