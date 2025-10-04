@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/bold/transactions/cleanup",
+      "schedule": "0 */6 * * *"
+    }
+  ]
+}

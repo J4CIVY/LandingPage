@@ -144,7 +144,7 @@ export default function BillingPage() {
       totalPagos: transactions.length,
       totalAprobados: transactions.filter(t => t.status === 'APPROVED').length,
       totalPendientes: transactions.filter(t => t.status === 'PENDING').length,
-      totalRechazados: transactions.filter(t => t.status === 'DECLINED' || t.status === 'ERROR').length,
+      totalRechazados: transactions.filter(t => t.status === 'DECLINED' || t.status === 'ERROR' || t.status === 'CANCELLED').length,
       montoTotal: transactions
         .filter(t => t.status === 'APPROVED')
         .reduce((sum, t) => sum + t.amount, 0)
