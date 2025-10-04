@@ -14,7 +14,9 @@ import {
   FaDownload,
   FaEye,
   FaFilter,
-  FaSearch
+  FaSearch,
+  FaInfoCircle,
+  FaFileAlt
 } from 'react-icons/fa';
 
 interface Transaction {
@@ -440,21 +442,21 @@ export default function BillingPage() {
                         {getStatusBadge(transaction.status)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <div className="flex space-x-2">
+                        <div className="flex space-x-3">
                           <button
                             onClick={() => handleViewDetail(transaction)}
-                            className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                            className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
                             title="Ver detalles"
                           >
-                            <FaEye />
+                            <FaInfoCircle className="text-lg" />
                           </button>
                           {transaction.status === 'APPROVED' && (
                             <button
                               onClick={() => handleViewInvoice(transaction)}
-                              className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300"
+                              className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 transition-colors"
                               title="Ver factura"
                             >
-                              <FaEye />
+                              <FaFileAlt className="text-lg" />
                             </button>
                           )}
                         </div>
@@ -470,15 +472,26 @@ export default function BillingPage() {
 
       {/* Modal de detalles */}
       {showDetailModal && selectedTransaction && (
-        <div className="fixed inset-0 z-50 overflow-y-auto">
+        <div className="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
           <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-            <div className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" onClick={() => setShowDetailModal(false)}></div>
+            {/* Fondo oscuro con overlay */}
+            <div 
+              className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" 
+              onClick={() => setShowDetailModal(false)}
+              aria-hidden="true"
+            ></div>
 
-            <div className="inline-block align-bottom bg-white dark:bg-slate-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+            {/* Centrado del modal */}
+            <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <div className="relative inline-block align-bottom bg-white dark:bg-slate-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
               <div className="bg-white dark:bg-slate-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-4">
-                  Detalles de la Transacción
-                </h3>
+                <div className="flex items-center mb-4">
+                  <FaInfoCircle className="text-blue-600 dark:text-blue-400 text-2xl mr-3" />
+                  <h3 id="modal-title" className="text-lg font-semibold text-gray-900 dark:text-slate-100">
+                    Detalles de la Transacción
+                  </h3>
+                </div>
 
                 <div className="space-y-4">
                   <div>
@@ -526,19 +539,22 @@ export default function BillingPage() {
                 </div>
               </div>
 
-              <div className="bg-gray-50 dark:bg-slate-900 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <div className="bg-gray-50 dark:bg-slate-900 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse gap-3">
                 {selectedTransaction.status === 'APPROVED' && (
                   <button
-                    onClick={() => handleViewInvoice(selectedTransaction)}
-                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
+                    onClick={() => {
+                      handleViewInvoice(selectedTransaction);
+                      setShowDetailModal(false);
+                    }}
+                    className="w-full inline-flex items-center justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:w-auto sm:text-sm transition-colors"
                   >
-                    <FaEye className="mr-2" />
+                    <FaFileAlt className="mr-2" />
                     Ver Factura
                   </button>
                 )}
                 <button
                   onClick={() => setShowDetailModal(false)}
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-slate-600 shadow-sm px-4 py-2 bg-white dark:bg-slate-700 text-base font-medium text-gray-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:mt-0 sm:w-auto sm:text-sm"
+                  className="w-full inline-flex items-center justify-center rounded-md border border-gray-300 dark:border-slate-600 shadow-sm px-4 py-2 bg-white dark:bg-slate-700 text-base font-medium text-gray-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:w-auto sm:text-sm transition-colors"
                 >
                   Cerrar
                 </button>
