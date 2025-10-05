@@ -1,7 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FaLock, FaEye, FaEyeSlash, FaArrowRight, FaArrowLeft, FaSpinner, FaShieldAlt, FaCheckCircle } from 'react-icons/fa';
+import { useInactivityTimer } from '@/hooks/useInactivityTimer';
+import InactivityWarning from './InactivityWarning';
 
 interface Step2PasswordProps {
   email: string;
@@ -14,6 +16,63 @@ export default function Step2Password({ email, onPasswordVerified, onBack }: Ste
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showInactivityWarning, setShowInactivityWarning] = useState(false);
+
+  // Timer de inactividad: 90 segundos, advertencia a los 15 segundos restantes
+  const { timeRemaining, showWarning, resetTimer, pauseTimer } = useInactivityTimer({
+    timeout: 90000, // 90 segundos
+    warningTime: 15000, // Advertencia a los 15 segundos
+    onTimeout: () => {
+      setShowInactivityWarning(true);
+    }
+  });
+
+  // Resetear timer cuando el usuario escribe
+  useEffect(() => {
+    if (password.length > 0) {
+      resetTimer();
+    }
+  }, [password, resetTimer]);
+
+  // Pausar timer cuando está cargando
+  useEffect(() => {
+    if (isLoading) {
+      pauseTimer();
+    }
+  }, [isLoading, pauseTimer]);
+
+  // Manejar reintentar desde advertencia
+  const handleRetryFromWarning = () => {
+    setShowInactivityWarning(false);
+    setPassword('');
+    setError(null);
+    resetTimer();
+  };
+
+  // Si está mostrando advertencia de inactividad
+  if (showInactivityWarning) {
+    return (
+      <InactivityWarning
+        email={email}
+        step="password"
+        timeRemaining={30000} // 30 segundos para decidir
+        onRetry={handleRetryFromWarning}
+        onCancel={onBack}
+        retryText="Ingresar contraseña nuevamente"
+        cancelText="Volver al inicio"
+        alternativeOptions={
+          <div className="text-center">
+            <a
+              href="/reset-password"
+              className="text-sm text-blue-600 dark:text-blue-400 hover:underline inline-block"
+            >
+              ¿Olvidaste tu contraseña? Recuperarla aquí
+            </a>
+          </div>
+        }
+      />
+    );
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -114,6 +173,18 @@ export default function Step2Password({ email, onPasswordVerified, onBack }: Ste
 
           {/* Body */}
           <div className="p-6 sm:p-8">
+            {/* Advertencia de tiempo restante */}
+            {showWarning && (
+              <div className="mb-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 animate-pulse">
+                <div className="flex items-center gap-2 text-yellow-800 dark:text-yellow-200 text-sm">
+                  <FaCheckCircle className="text-lg flex-shrink-0" />
+                  <span>
+                    Ingresa tu contraseña pronto. Tiempo restante: {Math.ceil(timeRemaining / 1000)}s
+                  </span>
+                </div>
+              </div>
+            )}
+
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Campo Contraseña */}
               <div>

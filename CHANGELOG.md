@@ -5,6 +5,57 @@ Todos los cambios notables en este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2025-10-05
+
+### ✨ Nuevas Funcionalidades - Sistema de Inactividad (estilo Microsoft)
+
+#### Agregado
+- **Timer de Inactividad con Advertencias**:
+  - Hook `useInactivityTimer` para detectar inactividad del usuario
+  - Componente `InactivityWarning` con mensaje "No tenemos noticias suyas"
+  - Timeouts configurables por paso del login
+  - Advertencias visuales antes de expirar la sesión
+
+- **Implementación por Paso**:
+  - **Paso 2 (Contraseña)**: Timer de 90 segundos
+    - Advertencia a los 15 segundos restantes
+    - Banner amarillo con countdown visible
+    - Pantalla de "No hemos recibido tu contraseña" al expirar
+    - Opción de reintentar o volver al inicio
+  
+  - **Paso 3 (2FA)**: Timer de 120 segundos (2 minutos)
+    - Advertencia a los 30 segundos restantes
+    - Pantalla de "No hemos recibido el código" al expirar
+    - Opciones: Reenviar código, Ayuda por WhatsApp, Continuar esperando
+    - Timer se resetea automáticamente al reenviar código
+
+- **Componentes Nuevos**:
+  - `/hooks/useInactivityTimer.ts` - Hook de gestión de timers
+  - `/components/auth/InactivityWarning.tsx` - Componente de advertencia
+  - `/components/auth/TwoFactorVerificationWithTimer.tsx` - Wrapper con timer para 2FA
+  - Actualizado `Step2Password.tsx` con timer integrado
+
+#### Características del Sistema
+- ✅ **Auto-reset**: Timer se resetea cuando el usuario escribe
+- ✅ **Pausa inteligente**: Timer se pausa durante operaciones de red
+- ✅ **Advertencia progresiva**: Banner amarillo antes de mostrar pantalla completa
+- ✅ **Opciones de recuperación**: Links contextuales según el paso
+- ✅ **Diseño consistente**: Estilo similar a Microsoft/Google login
+
+#### Experiencia de Usuario
+```
+Inactivo 75s → Banner amarillo "Tiempo restante: 15s"
+Inactivo 90s → Pantalla completa "No tenemos noticias suyas"
+             → Opciones: Reintentar / Ayuda / Volver
+```
+
+#### Mejoras de Seguridad
+- 🔒 Previene sesiones abandonadas
+- 🔒 Limpia tokens de pre-autenticación no utilizados
+- 🔒 Reduce ventana de ataque por sesiones inactivas
+
+---
+
 ## [2.2.0] - 2025-10-05
 
 ### ✨ Nuevas Funcionalidades - Login en 3 Pasos (estilo Microsoft/Google)

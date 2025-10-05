@@ -6,7 +6,7 @@ import { FaSpinner } from 'react-icons/fa';
 import { useAuth } from '@/hooks/useAuth';
 import Step1Email from '@/components/auth/Step1Email';
 import Step2Password from '@/components/auth/Step2Password';
-import TwoFactorVerification from '@/components/auth/TwoFactorVerification';
+import TwoFactorVerificationWithTimer from '@/components/auth/TwoFactorVerificationWithTimer';
 
 interface TwoFactorData {
   twoFactorId: string;
@@ -150,11 +150,12 @@ function LoginFlow() {
 
   if (currentStep === 3 && twoFactorData) {
     return (
-      <TwoFactorVerification
+      <TwoFactorVerificationWithTimer
         twoFactorId={twoFactorData.twoFactorId}
         phoneNumber={twoFactorData.phoneNumber}
         expiresIn={twoFactorData.expiresIn}
         preAuthToken={preAuthToken || undefined}
+        email={email}
         onVerified={handle2FAVerified}
         onCancel={handle2FACancel}
         onResend={handle2FAResend}

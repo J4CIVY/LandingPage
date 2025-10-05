@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
     // Buscar usuario por email (case-insensitive)
     const user = await User.findOne({ 
       email: email.toLowerCase() 
-    }).select('email emailVerified').lean();
+    }).select('email isEmailVerified').lean();
 
     // Si el usuario no existe
     if (!user) {
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Si el email no está verificado
-    if (!user.emailVerified) {
+    if (!user.isEmailVerified) {
       return NextResponse.json(
         {
           success: false,

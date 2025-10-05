@@ -129,44 +129,54 @@ Esto ejecutará las pruebas del modelo `PreAuthToken` y verificará la correcta 
 
 ## 🔒 Seguridad
 
-### Sistema de Autenticación Progresiva (v2.2.0)
+### Sistema de Autenticación Progresiva (v2.3.0)
 
-Este proyecto implementa un **sistema de login en 3 pasos** similar a Google y Microsoft, con **encriptación RSA-2048** y **autenticación 2FA obligatoria**.
+Este proyecto implementa un **sistema de login en 3 pasos** similar a Google y Microsoft, con **encriptación RSA-2048**, **autenticación 2FA obligatoria** y **detección de inactividad inteligente**.
 
 #### 🎯 Flujo de Login en 3 Pasos
 
 ```
 Paso 1: Email          →  Paso 2: Contraseña  →  Paso 3: 2FA WhatsApp
   📧 Verificación           🔒 RSA-2048            🛡️ Código 6 dígitos
+  ⏱️ Sin timer              ⏱️ 90 segundos         ⏱️ 120 segundos
 ```
 
 **Ventajas**:
 - ✅ **UX Familiar**: Usado por Google, Microsoft, LinkedIn
 - ✅ **Validación Temprana**: Detecta errores antes (email inexistente)
 - ✅ **Feedback Específico**: Links directos a soluciones
+- ✅ **Detección de Inactividad**: Advertencias y opciones de ayuda
 - ✅ **Professional**: Look & feel enterprise
 
 #### Protección Multicapa
 
-**1. Login Progresivo (NUEVO v2.2.0)**
+**1. Login Progresivo (v2.2.0)**
 - ✅ **Paso 1 - Email**: Verificación de existencia + estado
 - ✅ **Paso 2 - Contraseña**: Validación con encriptación RSA-2048
 - ✅ **Paso 3 - 2FA**: Código por WhatsApp obligatorio
 - ✅ **Navegación Intuitiva**: Botón "Atrás" para corregir errores
 
-**2. Encriptación Client-Side**
+**2. Sistema de Inactividad (NUEVO v2.3.0)**
+- ✅ **Detección Inteligente**: Timers por paso con advertencias progresivas
+- ✅ **Paso 2 (Contraseña)**: Timer de 90s, advertencia a los 15s
+- ✅ **Paso 3 (2FA)**: Timer de 120s, advertencia a los 30s
+- ✅ **Pantalla "No tenemos noticias suyas"**: Similar a Microsoft
+- ✅ **Opciones de Recuperación**: Reintentar, Ayuda, Volver
+- ✅ **Reset Automático**: Timer se reinicia al detectar actividad
+
+**3. Encriptación Client-Side**
 - ✅ **RSA-2048**: Contraseñas encriptadas en el navegador antes de enviarlas
 - ✅ **Web Crypto API**: Tecnología nativa del navegador, sin librerías externas
 - ✅ **Invisible en BurpSuite**: Las contraseñas no se ven ni siquiera interceptando el tráfico
 - ✅ **Protección MITM**: Capa adicional sobre HTTPS
 
-**3. Tokens de Pre-Autenticación**
+**4. Tokens de Pre-Autenticación**
 - ✅ **Tokens Temporales**: 256 bits, expiración en 5 minutos
 - ✅ **Un Solo Uso**: No reutilizables después de la verificación
 - ✅ **Validación de Contexto**: IP + UserAgent binding
 - ✅ **Limpieza Automática**: TTL indexes de MongoDB
 
-**4. Autenticación 2FA**
+**5. Autenticación 2FA**
 - ✅ **WhatsApp OTP**: Códigos de 6 dígitos enviados por WhatsApp
 - ✅ **Rate Limiting**: Protección contra fuerza bruta
 - ✅ **Bloqueo de Cuenta**: Tras múltiples intentos fallidos
@@ -179,9 +189,10 @@ Paso 1: Email          →  Paso 2: Contraseña  →  Paso 3: 2FA WhatsApp
 2. POST /api/auth/check-email
    ↓
 3. Email existe y verificado → Paso 2
-   ↓
+   ↓ [Timer inicia: 90 segundos]
 4. Usuario ingresa contraseña
-   ↓
+   ↓ [Si inactivo 75s → Banner amarillo]
+   ↓ [Si inactivo 90s → Pantalla "No tenemos noticias"]
 5. Encriptación RSA-2048 (navegador)
    ↓
 6. POST /api/auth/validate-credentials
@@ -189,9 +200,10 @@ Paso 1: Email          →  Paso 2: Contraseña  →  Paso 3: 2FA WhatsApp
 7. Credenciales correctas → Pre-auth token
    ↓
 8. POST /api/auth/2fa/generate
-   ↓
+   ↓ [Timer inicia: 120 segundos]
 9. Código enviado por WhatsApp → Paso 3
-   ↓
+   ↓ [Si inactivo 90s → Advertencia]
+   ↓ [Si inactivo 120s → Pantalla "No hemos recibido el código"]
 10. Usuario ingresa código
     ↓
 11. POST /api/auth/2fa/verify
@@ -225,17 +237,20 @@ Capa 8: JWT con firma
 
 Para información detallada sobre la implementación de seguridad:
 
-- **Login en 3 Pasos**: [`docs/3-STEP-LOGIN-FLOW.md`](./docs/3-STEP-LOGIN-FLOW.md) ⭐ NUEVO v2.2.0
+- **Sistema de Inactividad**: [`docs/INACTIVITY-SYSTEM.md`](./docs/INACTIVITY-SYSTEM.md) ⭐ NUEVO v2.3.0
+- **Login en 3 Pasos**: [`docs/3-STEP-LOGIN-FLOW.md`](./docs/3-STEP-LOGIN-FLOW.md)
 - **Encriptación Client-Side**: [`docs/CLIENT-SIDE-ENCRYPTION.md`](./docs/CLIENT-SIDE-ENCRYPTION.md)
 - **Análisis Técnico**: [`docs/security-2fa-improvements.md`](./docs/security-2fa-improvements.md)
 - **Guía de Despliegue**: [`docs/DEPLOYMENT-GUIDE.md`](./docs/DEPLOYMENT-GUIDE.md)
 - **Configuración Avanzada**: [`docs/SECURITY-CONFIGURATION.md`](./docs/SECURITY-CONFIGURATION.md)
 - **Resumen Ejecutivo**: [`docs/EXECUTIVE-SUMMARY.md`](./docs/EXECUTIVE-SUMMARY.md)
 
-#### Comparación: Antes vs Ahora
+#### Comparación: Evolución del Sistema
 
-| Aspecto | v2.1.0 (Antes) | v2.2.0 (Ahora) |
-|---------|----------------|----------------|
+| Aspecto | v2.1.0 | v2.2.0 | v2.3.0 (Ahora) |
+|---------|--------|--------|----------------|
+| **Login** | 1 paso | 3 pasos | 3 pasos + timers |
+| **Inactividad** | ❌ | ❌ | ✅ Con advertencias |
 | Campos visibles | Email + Password | Un campo a la vez |
 | Validación | Al final | Progresiva por paso |
 | Feedback | Generic | Específico + Links |
