@@ -115,10 +115,10 @@ export default function Step1Email({ onEmailVerified, returnUrl }: Step1EmailPro
                   />
                 </picture>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+              <h1 className="text-2xl sm:text-3xl font-bold text-slate-800 dark:text-gray-100 mb-2">
                 Iniciar Sesión
               </h1>
-              <p className="text-blue-100 dark:text-slate-300 text-sm sm:text-base">
+              <p className="text-slate-600 dark:text-gray-300 text-sm sm:text-base">
                 Usa tu cuenta de BSK Motorcycle Team
               </p>
             </div>
