@@ -5,10 +5,11 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FaEye, FaEyeSlash, FaSpinner, FaEnvelope, FaLock } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaSpinner, FaEnvelope, FaLock, FaShieldAlt } from 'react-icons/fa';
 import { loginSchema } from '@/schemas/authSchemas';
 import { useAuth } from '@/hooks/useAuth';
 import TwoFactorVerification from '@/components/auth/TwoFactorVerification';
+import { encryptCredentials, isCryptoSupported } from '@/lib/client-encryption';
 
 type LoginFormData = {
   email: string;
@@ -58,16 +59,31 @@ function LoginForm() {
     setLoginError(null);
 
     try {
-      // Paso 1: Validar credenciales y obtener token de pre-autenticación
+      // Verificar soporte de encriptación
+      if (!isCryptoSupported()) {
+        setLoginError('Tu navegador no soporta encriptación. Por favor actualiza tu navegador.');
+        setIsLoading(false);
+        return;
+      }
+
+      // Paso 1: Encriptar credenciales en el cliente
+      let encryptedCredentials;
+      try {
+        encryptedCredentials = await encryptCredentials(data.email, data.password);
+      } catch (encryptError) {
+        console.error('Error encriptando credenciales:', encryptError);
+        setLoginError('Error al encriptar credenciales. Por favor intenta nuevamente.');
+        setIsLoading(false);
+        return;
+      }
+
+      // Paso 2: Validar credenciales encriptadas y obtener token de pre-autenticación
       const validateResponse = await fetch('/api/auth/validate-credentials', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          email: data.email,
-          password: data.password
-        })
+        body: JSON.stringify(encryptedCredentials)
       });
 
       const validateResult = await validateResponse.json();
@@ -82,7 +98,7 @@ function LoginForm() {
       const token = validateResult.data.preAuthToken;
       setPreAuthToken(token);
 
-      // Paso 2: Generar código 2FA usando el token
+      // Paso 3: Generar código 2FA usando el token
       const response = await fetch('/api/auth/2fa/generate', {
         method: 'POST',
         headers: {
@@ -330,6 +346,12 @@ function LoginForm() {
                 'Iniciar Sesión'
               )}
             </button>
+
+            {/* Indicador de Seguridad Encriptada */}
+            <div className="flex items-center justify-center space-x-2 text-xs text-gray-500 dark:text-slate-400">
+              <FaShieldAlt className="text-green-600 dark:text-green-400" />
+              <span>Conexión segura con encriptación RSA-2048</span>
+            </div>
           </form>
 
           {/* Separador */}

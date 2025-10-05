@@ -129,49 +129,85 @@ Esto ejecutará las pruebas del modelo `PreAuthToken` y verificará la correcta 
 
 ## 🔒 Seguridad
 
-### Sistema de Autenticación con Pre-Auth Tokens (v2.0.0)
+### Sistema de Autenticación con Encriptación RSA (v2.1.0)
 
-Este proyecto implementa un sistema de autenticación de dos factores (2FA) con tokens de pre-autenticación para máxima seguridad.
+Este proyecto implementa **encriptación client-side RSA-2048** para proteger las credenciales del usuario incluso durante la transmisión.
 
-#### Características de Seguridad
+#### Protección Multicapa
 
-- ✅ **Tokens de Pre-Autenticación**: Tokens temporales de 256 bits que reemplazan el envío repetido de credenciales
-- ✅ **Un Solo Uso**: Los tokens no pueden reutilizarse después de la verificación exitosa
-- ✅ **Vida Útil Limitada**: Expiración automática en 5 minutos
-- ✅ **Validación de Contexto**: Verificación de IP y UserAgent para prevenir session hijacking
-- ✅ **Rate Limiting**: Protección contra ataques de fuerza bruta
-- ✅ **Limpieza Automática**: TTL indexes de MongoDB para eliminar tokens expirados
-- ✅ **Autenticación 2FA**: Códigos de verificación enviados por WhatsApp
+**1. Encriptación Client-Side (NUEVA)**
+- ✅ **RSA-2048**: Contraseñas encriptadas en el navegador antes de enviarlas
+- ✅ **Web Crypto API**: Tecnología nativa del navegador, sin librerías externas
+- ✅ **Invisible en BurpSuite**: Las contraseñas no se ven ni siquiera interceptando el tráfico
+- ✅ **Protección MITM**: Capa adicional sobre HTTPS
 
-#### Flujo de Autenticación
+**2. Tokens de Pre-Autenticación**
+- ✅ **Tokens Temporales**: 256 bits, expiración en 5 minutos
+- ✅ **Un Solo Uso**: No reutilizables después de la verificación
+- ✅ **Validación de Contexto**: IP + UserAgent binding
+- ✅ **Limpieza Automática**: TTL indexes de MongoDB
 
-1. **Validación de Credenciales**: `POST /api/auth/validate-credentials`
-   - Usuario envía email y contraseña (solo una vez)
-   - Sistema valida y genera token de pre-autenticación
+**3. Autenticación 2FA**
+- ✅ **WhatsApp OTP**: Códigos de 6 dígitos enviados por WhatsApp
+- ✅ **Rate Limiting**: Protección contra fuerza bruta
+- ✅ **Bloqueo de Cuenta**: Tras múltiples intentos fallidos
 
-2. **Generación de Código 2FA**: `POST /api/auth/2fa/generate`
-   - Frontend envía preAuthToken (no credenciales)
-   - Sistema genera y envía código por WhatsApp
+#### Flujo de Autenticación Seguro
 
-3. **Verificación**: `POST /api/auth/2fa/verify`
-   - Usuario ingresa código recibido
-   - Token marcado como usado
-   - Sesión JWT creada
+1. **Encriptación**: Usuario ingresa credenciales → Encriptación RSA-2048 en el navegador
+2. **Validación**: Servidor desencripta y valida → Genera token de pre-autenticación
+3. **2FA**: Código enviado por WhatsApp → Usuario ingresa código
+4. **Verificación**: Token marcado como usado → Sesión JWT creada
+
+#### Nivel de Seguridad
+
+```
+Capa 1: HTTPS/TLS 1.3
+  ↓
+Capa 2: Encriptación RSA-2048 (Client-Side)
+  ↓
+Capa 3: Rate Limiting
+  ↓
+Capa 4: Tokens de Pre-Autenticación (256 bits)
+  ↓
+Capa 5: Validación de IP + UserAgent
+  ↓
+Capa 6: Autenticación 2FA por WhatsApp
+  ↓
+Capa 7: JWT con firma
+  ↓
+🎯 MÁXIMA SEGURIDAD
+```
 
 #### Documentación de Seguridad
 
 Para información detallada sobre la implementación de seguridad:
 
+- **Encriptación Client-Side**: [`docs/CLIENT-SIDE-ENCRYPTION.md`](./docs/CLIENT-SIDE-ENCRYPTION.md) ⭐ NUEVO
 - **Análisis Técnico**: [`docs/security-2fa-improvements.md`](./docs/security-2fa-improvements.md)
 - **Guía de Despliegue**: [`docs/DEPLOYMENT-GUIDE.md`](./docs/DEPLOYMENT-GUIDE.md)
 - **Configuración Avanzada**: [`docs/SECURITY-CONFIGURATION.md`](./docs/SECURITY-CONFIGURATION.md)
 - **Resumen Ejecutivo**: [`docs/EXECUTIVE-SUMMARY.md`](./docs/EXECUTIVE-SUMMARY.md)
-- **Comparación Visual**: [`docs/VISUAL-COMPARISON.md`](./docs/VISUAL-COMPARISON.md)
+
+#### Pruebas de Seguridad
+
+**Con BurpSuite:**
+```http
+POST /api/auth/validate-credentials HTTP/2
+{
+  "email": "usuario@ejemplo.com",
+  "encryptedPassword": "kR7vXm9Q2Lp..." ✅ ENCRIPTADO
+}
+```
+
+✅ **Las contraseñas NO son visibles en texto plano**
 
 #### Cumplimiento
 
-Este sistema de autenticación está alineado con:
+Este sistema de autenticación cumple con:
 - ✅ OWASP Top 10 (2021)
 - ✅ OWASP Authentication Cheat Sheet
+- ✅ NIST SP 800-57 (Key Management)
 - ✅ Mejores prácticas de seguridad de Next.js
 - ✅ Principios de Zero Trust
+- ✅ Encriptación de grado bancario (RSA-2048)

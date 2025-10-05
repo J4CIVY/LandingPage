@@ -4,6 +4,7 @@ import User from '@/lib/models/User';
 import PreAuthToken from '@/lib/models/PreAuthToken';
 import { generateSecureToken } from '@/lib/auth-utils';
 import { rateLimit } from '@/utils/rateLimit';
+import { decryptWithPrivateKey, validateEncryptedData, getOrCreateKeyPair } from '@/lib/encryption-utils';
 import crypto from 'crypto';
 
 // Rate limiting para validación de credenciales
@@ -34,14 +35,43 @@ export async function POST(request: NextRequest) {
     await connectDB();
 
     const body = await request.json();
-    const { email, password } = body;
+    const { email, encryptedPassword } = body;
 
-    if (!email || !password) {
+    if (!email || !encryptedPassword) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Email y contraseña son requeridos',
+          message: 'Email y contraseña encriptada son requeridos',
           error: 'MISSING_CREDENTIALS'
+        },
+        { status: 400 }
+      );
+    }
+
+    // Validar formato de datos encriptados
+    if (!validateEncryptedData(encryptedPassword)) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Formato de contraseña encriptada inválido',
+          error: 'INVALID_ENCRYPTION_FORMAT'
+        },
+        { status: 400 }
+      );
+    }
+
+    // Desencriptar la contraseña usando la llave privada del servidor
+    let password: string;
+    try {
+      const { privateKey } = getOrCreateKeyPair();
+      password = decryptWithPrivateKey(encryptedPassword, privateKey);
+    } catch (error) {
+      console.error('Error desencriptando contraseña:', error);
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Error al procesar la contraseña encriptada',
+          error: 'DECRYPTION_ERROR'
         },
         { status: 400 }
       );
