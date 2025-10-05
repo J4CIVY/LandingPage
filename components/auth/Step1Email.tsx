@@ -204,7 +204,7 @@ export default function Step1Email({ onEmailVerified, returnUrl }: Step1EmailPro
               {/* Indicador de Seguridad */}
               <div className="flex items-center justify-center space-x-2 text-xs text-gray-500 dark:text-slate-400">
                 <FaShieldAlt className="text-green-600 dark:text-green-400" />
-                <span>Conexión segura con encriptación RSA-2048</span>
+                <span>Conexión segura con encriptación de punto a punto</span>
               </div>
             </form>
 
@@ -235,7 +235,7 @@ export default function Step1Email({ onEmailVerified, returnUrl }: Step1EmailPro
 
         {/* Copyright */}
         <div className="mt-8 text-center">
-          <p className="text-blue-100 dark:text-slate-400 text-xs sm:text-sm">
+          <p className="text-gray-500 dark:text-slate-500 text-xs sm:text-sm">
             © 2025 BSK Motorcycle Team. Todos los derechos reservados.
           </p>
         </div>
