@@ -10,6 +10,7 @@
     "lint": "next lint",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:preauth": "tsx scripts/test-preauth-token.ts",
     "analyze": "cross-env ANALYZE=true next build",
     "bundle-analyzer": "npx @next/bundle-analyzer",
     "a11y:audit": "npm run build && npm run a11y:lighthouse",

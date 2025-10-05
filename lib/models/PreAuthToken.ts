@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export interface IPreAuthToken extends Document {
   userId: mongoose.Types.ObjectId;
@@ -11,6 +11,12 @@ export interface IPreAuthToken extends Document {
   expiresAt: Date;
   used: boolean;
   createdAt: Date;
+  isValid(): boolean;
+  markAsUsed(): Promise<IPreAuthToken>;
+}
+
+export interface IPreAuthTokenModel extends Model<IPreAuthToken> {
+  cleanupExpiredTokens(): Promise<any>;
 }
 
 const PreAuthTokenSchema = new Schema<IPreAuthToken>({
@@ -65,7 +71,7 @@ PreAuthTokenSchema.methods.markAsUsed = async function() {
   return this.save();
 };
 
-const PreAuthToken = mongoose.models.PreAuthToken || 
-  mongoose.model<IPreAuthToken>('PreAuthToken', PreAuthTokenSchema);
+const PreAuthToken = (mongoose.models.PreAuthToken as IPreAuthTokenModel) || 
+  mongoose.model<IPreAuthToken, IPreAuthTokenModel>('PreAuthToken', PreAuthTokenSchema);
 
 export default PreAuthToken;
