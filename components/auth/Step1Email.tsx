@@ -82,9 +82,9 @@ export default function Step1Email({ onEmailVerified, returnUrl }: Step1EmailPro
     <div className="min-h-screen bg-white dark:bg-slate-950 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8">
       <div className="max-w-md w-full">
         {/* Card Principal */}
-        <div className="bg-white dark:bg-slate-950 rounded-2xl shadow-2xl overflow-hidden">
+        <div className="bg-gray-50 dark:bg-slate-900 rounded-2xl shadow-2xl overflow-hidden">
           {/* Header */}
-          <div className="bg-gray-50 dark:bg-slate-900 px-6 py-8 sm:px-8">
+          <div className="bg-gray-100 dark:bg-slate-800 px-6 py-8 sm:px-8">
             <div className="text-center">
               <div className="inline-flex items-center justify-center mb-4">
                 {/* Logo para modo claro (azul) */}
