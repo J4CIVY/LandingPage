@@ -18,6 +18,42 @@ interface ResumenSemanalProps {
   usuarioId: string;
 }
 
+// Función helper para calcular actividad semanal desde transacciones
+const calcularActividadSemanal = (transacciones: any[]): ActividadSemanal[] => {
+  const diasSemana = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+  const hoy = new Date();
+  const actividadPorDia: Record<string, { puntos: number; actividades: number }> = {};
+
+  // Inicializar últimos 7 días
+  for (let i = 6; i >= 0; i--) {
+    const fecha = new Date(hoy);
+    fecha.setDate(fecha.getDate() - i);
+    const diaNombre = diasSemana[fecha.getDay()];
+    actividadPorDia[diaNombre] = { puntos: 0, actividades: 0 };
+  }
+
+  // Procesar transacciones de los últimos 7 días
+  transacciones.forEach(transaccion => {
+    const fechaTransaccion = new Date(transaccion.fechaTransaccion);
+    const diffDias = Math.floor((hoy.getTime() - fechaTransaccion.getTime()) / (1000 * 60 * 60 * 24));
+    
+    if (diffDias < 7 && diffDias >= 0) {
+      const diaNombre = diasSemana[fechaTransaccion.getDay()];
+      if (actividadPorDia[diaNombre]) {
+        actividadPorDia[diaNombre].puntos += transaccion.puntos || 0;
+        actividadPorDia[diaNombre].actividades += 1;
+      }
+    }
+  });
+
+  // Convertir a array en orden
+  return Object.entries(actividadPorDia).map(([dia, datos]) => ({
+    dia,
+    puntos: datos.puntos,
+    actividades: datos.actividades
+  }));
+};
+
 export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
   const [actividades, setActividades] = useState<ActividadSemanal[]>([]);
   const [loading, setLoading] = useState(true);
@@ -27,18 +63,32 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
       setLoading(true);
       
       try {
-        const response = await fetch('/api/users/weekly-activity');
+        // Calcular actividad semanal desde el historial de transacciones
+        const hoy = new Date();
+        const hace7Dias = new Date(hoy);
+        hace7Dias.setDate(hace7Dias.getDate() - 7);
+        
+        const response = await fetch('/api/users/history?limit=100', {
+          method: 'GET',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' }
+        });
+        
         if (response.ok) {
-          const data = await response.json();
-          setActividades(data.actividadSemanal);
+          const result = await response.json();
+          if (result.success && result.data.transacciones) {
+            // Agrupar transacciones por día de la semana
+            const actividadPorDia = calcularActividadSemanal(result.data.transacciones);
+            setActividades(actividadPorDia);
+          } else {
+            setActividades([]);
+          }
         } else {
-          console.error('Error al obtener actividad semanal:', response.statusText);
-          // Si hay error, usar datos vacíos
+          console.error('Error al obtener historial:', response.statusText);
           setActividades([]);
         }
       } catch (error) {
         console.error('Error al cargar actividad semanal:', error);
-  // Si hay error, usar datos vacíos
         setActividades([]);
       } finally {
         setLoading(false);

@@ -92,19 +92,16 @@ export default function EstadisticasRapidas({ usuarioId, puntosActuales = 0 }: E
       console.error('Error cargando estadísticas:', err);
       setError(err instanceof Error ? err.message : 'Error desconocido');
       
-      // Usar datos de fallback basados en los puntos actuales proporcionados
+      // Usar datos vacíos reales en caso de error - NO generar datos falsos
       const fallbackStats: EstadisticasRapidas = {
-        puntosHoy: Math.floor(Math.random() * 50),
-        puntosEsteMes: Math.floor(puntosActuales * 0.3),
-        proximaRecompensa: {
-          nombre: "Próxima Recompensa",
-          puntosRestantes: Math.max(200 - puntosActuales, 0)
-        },
-        posicionRanking: Math.floor(Math.random() * 50) + 1,
-        cambioRanking: Math.floor(Math.random() * 10) - 5,
-        totalPuntos: puntosActuales,
-        rachaActual: Math.floor(Math.random() * 30) + 1,
-        mejorRacha: Math.floor(Math.random() * 60) + 1
+        puntosHoy: 0,
+        puntosEsteMes: 0,
+        proximaRecompensa: null,
+        posicionRanking: 0,
+        cambioRanking: 0,
+        totalPuntos: puntosActuales || 0,
+        rachaActual: 0,
+        mejorRacha: 0
       };
       
       setEstadisticas(fallbackStats);

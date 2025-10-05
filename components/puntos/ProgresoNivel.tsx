@@ -8,22 +8,21 @@ interface ProgresoNivelProps {
 }
 
 export default function ProgresoNivel({ usuario }: ProgresoNivelProps) {
-  // Usar datos reales del usuario (mantener si hay contexto útil)
+  // Usar datos reales del usuario directamente del servidor
   const puntosActuales = usuario.puntosTotales;
   const puntosParaSiguiente = usuario.nivel.puntosMaximos;
   const puntosMinimosNivel = usuario.nivel.puntosMinimos;
   
-  const calcularProgreso = () => {
-  if (puntosParaSiguiente <= puntosMinimosNivel) return 100;
-    
+  // Usar progreso calculado por el servidor (viene en usuario.progresoNivel)
+  // Si no está disponible, calcular como fallback
+  const progreso = usuario.progresoNivel ?? (() => {
+    if (puntosParaSiguiente <= puntosMinimosNivel) return 100;
     const puntosEnNivelActual = puntosActuales - puntosMinimosNivel;
     const puntosNecesariosParaSiguiente = puntosParaSiguiente - puntosMinimosNivel;
-    
     return Math.min((puntosEnNivelActual / puntosNecesariosParaSiguiente) * 100, 100);
-  };
+  })();
 
   const puntosRestantes = Math.max(puntosParaSiguiente - puntosActuales, 0);
-  const progreso = calcularProgreso();
   const esNivelMaximo = puntosRestantes === 0 && progreso === 100;
 
   return (

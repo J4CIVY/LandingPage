@@ -15,7 +15,7 @@ import {
 import { Achievement, UserAchievement, IAchievement, IUserAchievement } from '@/lib/models/Achievement';
 
 export interface AccionPuntos {
-  tipo: 'registro_evento' | 'asistencia_evento' | 'publicacion' | 'comentario' | 'reaccion' | 'bonificacion' | 'referido' | 'voluntariado' | 'organizacion_evento' | 'liderazgo_proyecto' | 'mentoría';
+  tipo: 'registro_evento' | 'asistencia_evento' | 'publicacion' | 'comentario' | 'reaccion' | 'bonificacion' | 'bonificacion_admin' | 'referido' | 'voluntariado' | 'organizacion_evento' | 'liderazgo_proyecto' | 'mentoría';
   puntos: number;
   descripcion: string;
 }
@@ -50,6 +50,11 @@ export const ACCIONES_PUNTOS: Record<string, AccionPuntos> = {
     tipo: 'bonificacion',
     puntos: 0,
     descripcion: 'Bonificación manual'
+  },
+  bonificacion_admin: {
+    tipo: 'bonificacion_admin',
+    puntos: 0, // Los puntos se especifican en metadata
+    descripcion: 'Bonificación asignada por administrador'
   },
   referido: {
     tipo: 'referido',
@@ -302,11 +307,20 @@ export class GamificationService {
       throw new Error(`Tipo de acción no válido: ${tipoAccion}`);
     }
 
+    // Para bonificación de admin, usar la cantidad del metadata
+    let cantidad = accion.puntos;
+    let razon = accion.descripcion;
+    
+    if (tipoAccion === 'bonificacion_admin' && metadata) {
+      cantidad = metadata.cantidad || accion.puntos;
+      razon = metadata.razonPersonalizada || accion.descripcion;
+    }
+
     const transaccion = new TransaccionPuntos({
       usuarioId,
-      tipo: 'ganancia',
-      cantidad: accion.puntos,
-      razon: accion.descripcion,
+      tipo: tipoAccion === 'bonificacion_admin' ? 'bonificacion' : 'ganancia',
+      cantidad,
+      razon,
       metadata
     });
 

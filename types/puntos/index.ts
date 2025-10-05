@@ -38,6 +38,7 @@ export interface Usuario {
   posicionRanking: number;
   avatar?: string;
   esAdmin?: boolean;
+  progresoNivel?: number; // Progreso calculado por el servidor (0-100)
 }
 
 export interface CanjeRecompensa {
