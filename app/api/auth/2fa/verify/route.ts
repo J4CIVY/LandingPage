@@ -3,6 +3,7 @@ import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 import Session from '@/lib/models/Session';
 import TwoFactorCode from '@/lib/models/TwoFactorCode';
+import PreAuthToken from '@/lib/models/PreAuthToken';
 import { isValidOTPFormat } from '@/lib/2fa-utils';
 import { 
   generateAccessToken, 
@@ -41,7 +42,7 @@ export async function POST(request: NextRequest) {
     await connectDB();
 
     const body = await request.json();
-    const { twoFactorId, code } = body;
+    const { twoFactorId, code, preAuthToken } = body;
 
     // Validar entrada
     if (!twoFactorId || !code) {
@@ -65,6 +66,15 @@ export async function POST(request: NextRequest) {
         },
         { status: 400 }
       );
+    }
+
+    // Si se proporciona preAuthToken, validarlo y marcarlo como usado
+    if (preAuthToken) {
+      const preAuthTokenDoc = await PreAuthToken.findOne({ token: preAuthToken });
+      
+      if (preAuthTokenDoc && preAuthTokenDoc.isValid()) {
+        await preAuthTokenDoc.markAsUsed();
+      }
     }
 
     // Buscar el código 2FA

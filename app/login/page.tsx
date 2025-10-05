@@ -28,7 +28,7 @@ function LoginForm() {
   const [loginError, setLoginError] = useState<string | null>(null);
   const [show2FA, setShow2FA] = useState(false);
   const [twoFactorData, setTwoFactorData] = useState<TwoFactorData | null>(null);
-  const [loginCredentials, setLoginCredentials] = useState<{ email: string; password: string } | null>(null);
+  const [preAuthToken, setPreAuthToken] = useState<string | null>(null);
   
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -58,8 +58,8 @@ function LoginForm() {
     setLoginError(null);
 
     try {
-      // Paso 1: Generar código 2FA
-      const response = await fetch('/api/auth/2fa/generate', {
+      // Paso 1: Validar credenciales y obtener token de pre-autenticación
+      const validateResponse = await fetch('/api/auth/validate-credentials', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -70,12 +70,32 @@ function LoginForm() {
         })
       });
 
+      const validateResult = await validateResponse.json();
+
+      if (!validateResult.success) {
+        setLoginError(validateResult.message || 'Credenciales inválidas');
+        setIsLoading(false);
+        return;
+      }
+
+      // Guardar token de pre-autenticación (NO las credenciales)
+      const token = validateResult.data.preAuthToken;
+      setPreAuthToken(token);
+
+      // Paso 2: Generar código 2FA usando el token
+      const response = await fetch('/api/auth/2fa/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          preAuthToken: token
+        })
+      });
+
       const result = await response.json();
 
       if (result.success) {
-        // Guardar credenciales para posible reenvío
-        setLoginCredentials({ email: data.email, password: data.password });
-        
         // Mostrar pantalla 2FA
         setTwoFactorData({
           twoFactorId: result.data.twoFactorId,
@@ -126,12 +146,12 @@ function LoginForm() {
   const handle2FACancel = () => {
     setShow2FA(false);
     setTwoFactorData(null);
-    setLoginCredentials(null);
+    setPreAuthToken(null);
   };
 
   const handle2FAResend = async () => {
-    if (!loginCredentials) {
-      throw new Error('No hay credenciales guardadas');
+    if (!preAuthToken) {
+      throw new Error('No hay token de autenticación');
     }
 
     const response = await fetch('/api/auth/2fa/generate', {
@@ -139,7 +159,7 @@ function LoginForm() {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(loginCredentials)
+      body: JSON.stringify({ preAuthToken })
     });
 
     const result = await response.json();
@@ -162,6 +182,7 @@ function LoginForm() {
         twoFactorId={twoFactorData.twoFactorId}
         phoneNumber={twoFactorData.phoneNumber}
         expiresIn={twoFactorData.expiresIn}
+        preAuthToken={preAuthToken || undefined}
         onVerified={handle2FAVerified}
         onCancel={handle2FACancel}
         onResend={handle2FAResend}

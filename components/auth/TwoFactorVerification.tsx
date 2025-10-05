@@ -7,6 +7,7 @@ interface TwoFactorVerificationProps {
   twoFactorId: string;
   phoneNumber: string;
   expiresIn: number;
+  preAuthToken?: string;
   onVerified: () => void;
   onCancel: () => void;
   onResend: () => Promise<void>;
@@ -16,6 +17,7 @@ export default function TwoFactorVerification({
   twoFactorId,
   phoneNumber,
   expiresIn,
+  preAuthToken,
   onVerified,
   onCancel,
   onResend
@@ -150,15 +152,22 @@ export default function TwoFactorVerification({
     setError(null);
 
     try {
+      const requestBody: any = {
+        twoFactorId,
+        code: codeToVerify
+      };
+
+      // Incluir preAuthToken si está disponible
+      if (preAuthToken) {
+        requestBody.preAuthToken = preAuthToken;
+      }
+
       const response = await fetch('/api/auth/2fa/verify', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          twoFactorId,
-          code: codeToVerify
-        })
+        body: JSON.stringify(requestBody)
       });
 
       const data = await response.json();
