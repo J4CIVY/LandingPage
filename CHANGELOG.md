@@ -5,6 +5,63 @@ Todos los cambios notables en este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2025-10-05
+
+### ✨ Nuevas Funcionalidades - Login en 3 Pasos (estilo Microsoft/Google)
+
+#### Agregado
+- **Sistema de Login Progresivo en 3 Pasos**:
+  - **Paso 1 - Email**: Verificación de existencia del correo electrónico
+    - Componente `Step1Email.tsx` con diseño moderno
+    - Validación de email antes de continuar
+    - Links a registro y recuperación de contraseña
+  
+  - **Paso 2 - Contraseña**: Validación de credenciales con encriptación
+    - Componente `Step2Password.tsx` con indicador de usuario
+    - Encriptación RSA-2048 antes de enviar
+    - Opción de volver al paso anterior
+    - Mostrar email verificado con checkmark
+  
+  - **Paso 3 - 2FA**: Autenticación de dos factores por WhatsApp
+    - Componente `TwoFactorVerification.tsx` (existente, mejorado)
+    - Código de 6 dígitos enviado por WhatsApp
+    - Temporizador de expiración visible
+
+- **Nuevo Endpoint**: `/api/auth/check-email`
+  - Verifica si un email existe en el sistema
+  - Valida si el email está verificado
+  - No revela información sensible (seguro contra enumeración)
+  - Códigos de respuesta específicos: `USER_NOT_FOUND`, `EMAIL_NOT_VERIFIED`
+
+#### Modificado
+- **`app/login/page.tsx`**:
+  - Reescrito completamente con flujo de 3 pasos
+  - Gestión de estado por pasos (1 → 2 → 3)
+  - Mejor UX: usuario ve progreso claro
+  - Backup del código anterior en `page-v2-backup.tsx`
+
+#### Mejoras de UX
+- ✅ **Experiencia similar a Google/Microsoft**: Los usuarios están familiarizados con este flujo
+- ✅ **Validación temprana**: Detecta errores antes (email inexistente, no verificado)
+- ✅ **Feedback claro**: Cada paso muestra el progreso
+- ✅ **Navegación intuitiva**: Botón "Atrás" para corregir errores
+- ✅ **Diseño moderno**: Cards con gradientes, iconos, animaciones
+
+#### Seguridad
+- ✅ **Separación de preocupaciones**: Cada paso valida solo lo necesario
+- ✅ **Sin exposición de datos**: Email verificado antes de pedir contraseña
+- ✅ **Encriptación mantenida**: RSA-2048 en paso de contraseña
+- ✅ **Rate limiting**: Protección contra fuerza bruta en cada endpoint
+
+#### Beneficios
+1. **Mejor UX**: Flujo familiar, menos confuso para usuarios nuevos
+2. **Validación temprana**: Detecta emails inexistentes antes de pedir contraseña
+3. **Conversión mejorada**: Link directo a registro si email no existe
+4. **Menor frustración**: Feedback específico en cada paso
+5. **Professional**: Look & feel de aplicación enterprise
+
+---
+
 ## [2.1.1] - 2025-10-05
 
 ### 🐛 Correcciones

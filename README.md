@@ -129,69 +129,133 @@ Esto ejecutará las pruebas del modelo `PreAuthToken` y verificará la correcta 
 
 ## 🔒 Seguridad
 
-### Sistema de Autenticación con Encriptación RSA (v2.1.0)
+### Sistema de Autenticación Progresiva (v2.2.0)
 
-Este proyecto implementa **encriptación client-side RSA-2048** para proteger las credenciales del usuario incluso durante la transmisión.
+Este proyecto implementa un **sistema de login en 3 pasos** similar a Google y Microsoft, con **encriptación RSA-2048** y **autenticación 2FA obligatoria**.
+
+#### 🎯 Flujo de Login en 3 Pasos
+
+```
+Paso 1: Email          →  Paso 2: Contraseña  →  Paso 3: 2FA WhatsApp
+  📧 Verificación           🔒 RSA-2048            🛡️ Código 6 dígitos
+```
+
+**Ventajas**:
+- ✅ **UX Familiar**: Usado por Google, Microsoft, LinkedIn
+- ✅ **Validación Temprana**: Detecta errores antes (email inexistente)
+- ✅ **Feedback Específico**: Links directos a soluciones
+- ✅ **Professional**: Look & feel enterprise
 
 #### Protección Multicapa
 
-**1. Encriptación Client-Side (NUEVA)**
+**1. Login Progresivo (NUEVO v2.2.0)**
+- ✅ **Paso 1 - Email**: Verificación de existencia + estado
+- ✅ **Paso 2 - Contraseña**: Validación con encriptación RSA-2048
+- ✅ **Paso 3 - 2FA**: Código por WhatsApp obligatorio
+- ✅ **Navegación Intuitiva**: Botón "Atrás" para corregir errores
+
+**2. Encriptación Client-Side**
 - ✅ **RSA-2048**: Contraseñas encriptadas en el navegador antes de enviarlas
 - ✅ **Web Crypto API**: Tecnología nativa del navegador, sin librerías externas
 - ✅ **Invisible en BurpSuite**: Las contraseñas no se ven ni siquiera interceptando el tráfico
 - ✅ **Protección MITM**: Capa adicional sobre HTTPS
 
-**2. Tokens de Pre-Autenticación**
+**3. Tokens de Pre-Autenticación**
 - ✅ **Tokens Temporales**: 256 bits, expiración en 5 minutos
 - ✅ **Un Solo Uso**: No reutilizables después de la verificación
 - ✅ **Validación de Contexto**: IP + UserAgent binding
 - ✅ **Limpieza Automática**: TTL indexes de MongoDB
 
-**3. Autenticación 2FA**
+**4. Autenticación 2FA**
 - ✅ **WhatsApp OTP**: Códigos de 6 dígitos enviados por WhatsApp
 - ✅ **Rate Limiting**: Protección contra fuerza bruta
 - ✅ **Bloqueo de Cuenta**: Tras múltiples intentos fallidos
 
 #### Flujo de Autenticación Seguro
 
-1. **Encriptación**: Usuario ingresa credenciales → Encriptación RSA-2048 en el navegador
-2. **Validación**: Servidor desencripta y valida → Genera token de pre-autenticación
-3. **2FA**: Código enviado por WhatsApp → Usuario ingresa código
-4. **Verificación**: Token marcado como usado → Sesión JWT creada
+```
+1. Usuario ingresa email
+   ↓
+2. POST /api/auth/check-email
+   ↓
+3. Email existe y verificado → Paso 2
+   ↓
+4. Usuario ingresa contraseña
+   ↓
+5. Encriptación RSA-2048 (navegador)
+   ↓
+6. POST /api/auth/validate-credentials
+   ↓
+7. Credenciales correctas → Pre-auth token
+   ↓
+8. POST /api/auth/2fa/generate
+   ↓
+9. Código enviado por WhatsApp → Paso 3
+   ↓
+10. Usuario ingresa código
+    ↓
+11. POST /api/auth/2fa/verify
+    ↓
+12. ✅ Sesión JWT creada → Dashboard
+```
 
 #### Nivel de Seguridad
 
 ```
 Capa 1: HTTPS/TLS 1.3
   ↓
-Capa 2: Encriptación RSA-2048 (Client-Side)
+Capa 2: Validación Progresiva (3 pasos)
   ↓
-Capa 3: Rate Limiting
+Capa 3: Encriptación RSA-2048 (Client-Side)
   ↓
-Capa 4: Tokens de Pre-Autenticación (256 bits)
+Capa 4: Rate Limiting por paso
   ↓
-Capa 5: Validación de IP + UserAgent
+Capa 5: Tokens de Pre-Autenticación (256 bits)
   ↓
-Capa 6: Autenticación 2FA por WhatsApp
+Capa 6: Validación de IP + UserAgent
   ↓
-Capa 7: JWT con firma
+Capa 7: Autenticación 2FA por WhatsApp
   ↓
-🎯 MÁXIMA SEGURIDAD
+Capa 8: JWT con firma
+  ↓
+🎯 MÁXIMA SEGURIDAD ENTERPRISE
 ```
 
 #### Documentación de Seguridad
 
 Para información detallada sobre la implementación de seguridad:
 
-- **Encriptación Client-Side**: [`docs/CLIENT-SIDE-ENCRYPTION.md`](./docs/CLIENT-SIDE-ENCRYPTION.md) ⭐ NUEVO
+- **Login en 3 Pasos**: [`docs/3-STEP-LOGIN-FLOW.md`](./docs/3-STEP-LOGIN-FLOW.md) ⭐ NUEVO v2.2.0
+- **Encriptación Client-Side**: [`docs/CLIENT-SIDE-ENCRYPTION.md`](./docs/CLIENT-SIDE-ENCRYPTION.md)
 - **Análisis Técnico**: [`docs/security-2fa-improvements.md`](./docs/security-2fa-improvements.md)
 - **Guía de Despliegue**: [`docs/DEPLOYMENT-GUIDE.md`](./docs/DEPLOYMENT-GUIDE.md)
 - **Configuración Avanzada**: [`docs/SECURITY-CONFIGURATION.md`](./docs/SECURITY-CONFIGURATION.md)
 - **Resumen Ejecutivo**: [`docs/EXECUTIVE-SUMMARY.md`](./docs/EXECUTIVE-SUMMARY.md)
 
+#### Comparación: Antes vs Ahora
+
+| Aspecto | v2.1.0 (Antes) | v2.2.0 (Ahora) |
+|---------|----------------|----------------|
+| Campos visibles | Email + Password | Un campo a la vez |
+| Validación | Al final | Progresiva por paso |
+| Feedback | Generic | Específico + Links |
+| Email no existe | "Credenciales inválidas" | "No encontrado" → Link registro |
+| UX | Estándar | Google/Microsoft style |
+| Navegación | Solo forward | Forward + Back |
+
 #### Pruebas de Seguridad
 
 **Con BurpSuite:**
+
+**Paso 1 - Email:**
+```http
+POST /api/auth/check-email HTTP/2
+{
+  "email": "usuario@ejemplo.com"
+}
+```
+
+**Paso 2 - Contraseña:**
 ```http
 POST /api/auth/validate-credentials HTTP/2
 {
@@ -211,3 +275,4 @@ Este sistema de autenticación cumple con:
 - ✅ Mejores prácticas de seguridad de Next.js
 - ✅ Principios de Zero Trust
 - ✅ Encriptación de grado bancario (RSA-2048)
+- ✅ UX patterns de Microsoft, Google, LinkedIn
