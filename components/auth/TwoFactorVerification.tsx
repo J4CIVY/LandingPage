@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { FaShieldAlt, FaSpinner, FaWhatsapp, FaRedo, FaClock, FaEnvelope, FaExclamationTriangle } from 'react-icons/fa';
+import Image from 'next/image';
 
 interface TwoFactorVerificationProps {
   twoFactorId: string;
@@ -271,15 +272,55 @@ export default function TwoFactorVerification({
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
+  const cloudName = "dz0peilmu";
+  
+  // Logo blanco para modo oscuro
+  const logoWhiteUrl = {
+    avif: `https://res.cloudinary.com/${cloudName}/image/upload/f_avif,q_auto,w_192/BSK_MT_Logo_Letras_White_192_x_192_px_nptwwj`,
+    webp: `https://res.cloudinary.com/${cloudName}/image/upload/f_webp,q_auto,w_192/BSK_MT_Logo_Letras_White_192_x_192_px_nptwwj`,
+    png: `https://res.cloudinary.com/${cloudName}/image/upload/f_png,q_auto,w_192/BSK_MT_Logo_Letras_White_192_x_192_px_nptwwj`
+  };
+
+  // Logo azul para modo claro
+  const logoBlueUrl = {
+    avif: `https://res.cloudinary.com/${cloudName}/image/upload/f_avif,q_auto,w_192/BSK_MT_Logo_Letras_Blue_192_x_192_px_tj3msl`,
+    webp: `https://res.cloudinary.com/${cloudName}/image/upload/f_webp,q_auto,w_192/BSK_MT_Logo_Letras_Blue_192_x_192_px_tj3msl`,
+    png: `https://res.cloudinary.com/${cloudName}/image/upload/f_png,q_auto,w_192/BSK_MT_Logo_Letras_Blue_192_x_192_px_tj3msl`
+  };
+
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950 flex items-center justify-center px-4">
       <div className="max-w-md w-full space-y-8">
         {/* Header */}
         <div className="text-center">
           <div className="flex justify-center mb-4">
-            <div className="bg-blue-100 dark:bg-blue-900/30 p-4 rounded-full">
-              <FaShieldAlt className="w-12 h-12 text-blue-600 dark:text-blue-400" />
-            </div>
+            {/* Logo para modo claro (azul) */}
+            <picture className="block dark:hidden">
+              <source srcSet={logoBlueUrl.avif} type="image/avif" />
+              <source srcSet={logoBlueUrl.webp} type="image/webp" />
+              <Image
+                src={logoBlueUrl.png}
+                alt="Logo BSK Motorcycle Team"
+                className="w-20 h-20 object-contain"
+                width={80}
+                height={80}
+                priority
+              />
+            </picture>
+            
+            {/* Logo para modo oscuro (blanco) */}
+            <picture className="hidden dark:block">
+              <source srcSet={logoWhiteUrl.avif} type="image/avif" />
+              <source srcSet={logoWhiteUrl.webp} type="image/webp" />
+              <Image
+                src={logoWhiteUrl.png}
+                alt="Logo BSK Motorcycle Team"
+                className="w-20 h-20 object-contain"
+                width={80}
+                height={80}
+                priority
+              />
+            </picture>
           </div>
           
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">

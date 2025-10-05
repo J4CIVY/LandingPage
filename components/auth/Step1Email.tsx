@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaEnvelope, FaArrowRight, FaSpinner, FaCheckCircle, FaShieldAlt } from 'react-icons/fa';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface Step1EmailProps {
   onEmailVerified: (email: string) => void;
@@ -15,6 +16,22 @@ export default function Step1Email({ onEmailVerified, returnUrl }: Step1EmailPro
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+
+  const cloudName = "dz0peilmu";
+  
+  // Logo blanco para modo oscuro
+  const logoWhiteUrl = {
+    avif: `https://res.cloudinary.com/${cloudName}/image/upload/f_avif,q_auto,w_192/BSK_MT_Logo_Letras_White_192_x_192_px_nptwwj`,
+    webp: `https://res.cloudinary.com/${cloudName}/image/upload/f_webp,q_auto,w_192/BSK_MT_Logo_Letras_White_192_x_192_px_nptwwj`,
+    png: `https://res.cloudinary.com/${cloudName}/image/upload/f_png,q_auto,w_192/BSK_MT_Logo_Letras_White_192_x_192_px_nptwwj`
+  };
+
+  // Logo azul para modo claro
+  const logoBlueUrl = {
+    avif: `https://res.cloudinary.com/${cloudName}/image/upload/f_avif,q_auto,w_192/BSK_MT_Logo_Letras_Blue_192_x_192_px_tj3msl`,
+    webp: `https://res.cloudinary.com/${cloudName}/image/upload/f_webp,q_auto,w_192/BSK_MT_Logo_Letras_Blue_192_x_192_px_tj3msl`,
+    png: `https://res.cloudinary.com/${cloudName}/image/upload/f_png,q_auto,w_192/BSK_MT_Logo_Letras_Blue_192_x_192_px_tj3msl`
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,8 +86,34 @@ export default function Step1Email({ onEmailVerified, returnUrl }: Step1EmailPro
           {/* Header */}
           <div className="bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-700 dark:to-blue-800 px-6 py-8 sm:px-8">
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-white dark:bg-slate-700 rounded-full mb-4 shadow-lg">
-                <FaEnvelope className="text-blue-600 dark:text-blue-400 text-2xl" />
+              <div className="inline-flex items-center justify-center mb-4">
+                {/* Logo para modo claro (azul) */}
+                <picture className="block dark:hidden">
+                  <source srcSet={logoBlueUrl.avif} type="image/avif" />
+                  <source srcSet={logoBlueUrl.webp} type="image/webp" />
+                  <Image
+                    src={logoBlueUrl.png}
+                    alt="Logo BSK Motorcycle Team"
+                    className="w-16 h-16 object-contain"
+                    width={64}
+                    height={64}
+                    priority
+                  />
+                </picture>
+                
+                {/* Logo para modo oscuro (blanco) */}
+                <picture className="hidden dark:block">
+                  <source srcSet={logoWhiteUrl.avif} type="image/avif" />
+                  <source srcSet={logoWhiteUrl.webp} type="image/webp" />
+                  <Image
+                    src={logoWhiteUrl.png}
+                    alt="Logo BSK Motorcycle Team"
+                    className="w-16 h-16 object-contain"
+                    width={64}
+                    height={64}
+                    priority
+                  />
+                </picture>
               </div>
               <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
                 Iniciar Sesión
