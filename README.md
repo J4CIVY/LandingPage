@@ -109,10 +109,69 @@ El cliente HTTP (`http/client.ts`) está configurado para gestionar la autentica
 
 ## ✅ Pruebas
 
-Para ejecutar el conjunto de pruebas, utiliza el siguiente comando:
+Para ejecutar el conjunto de pruebas, utiliza el siguient comando:
 
 ```bash
 npm run test
 ```
 
 Esto ejecutará todas las pruebas unitarias definidas en el directorio `tests/` utilizando Vitest.
+
+### Pruebas de Seguridad
+
+Para ejecutar las pruebas específicas del sistema de autenticación segura:
+
+```bash
+npm run test:preauth
+```
+
+Esto ejecutará las pruebas del modelo `PreAuthToken` y verificará la correcta implementación del sistema de tokens de pre-autenticación.
+
+## 🔒 Seguridad
+
+### Sistema de Autenticación con Pre-Auth Tokens (v2.0.0)
+
+Este proyecto implementa un sistema de autenticación de dos factores (2FA) con tokens de pre-autenticación para máxima seguridad.
+
+#### Características de Seguridad
+
+- ✅ **Tokens de Pre-Autenticación**: Tokens temporales de 256 bits que reemplazan el envío repetido de credenciales
+- ✅ **Un Solo Uso**: Los tokens no pueden reutilizarse después de la verificación exitosa
+- ✅ **Vida Útil Limitada**: Expiración automática en 5 minutos
+- ✅ **Validación de Contexto**: Verificación de IP y UserAgent para prevenir session hijacking
+- ✅ **Rate Limiting**: Protección contra ataques de fuerza bruta
+- ✅ **Limpieza Automática**: TTL indexes de MongoDB para eliminar tokens expirados
+- ✅ **Autenticación 2FA**: Códigos de verificación enviados por WhatsApp
+
+#### Flujo de Autenticación
+
+1. **Validación de Credenciales**: `POST /api/auth/validate-credentials`
+   - Usuario envía email y contraseña (solo una vez)
+   - Sistema valida y genera token de pre-autenticación
+
+2. **Generación de Código 2FA**: `POST /api/auth/2fa/generate`
+   - Frontend envía preAuthToken (no credenciales)
+   - Sistema genera y envía código por WhatsApp
+
+3. **Verificación**: `POST /api/auth/2fa/verify`
+   - Usuario ingresa código recibido
+   - Token marcado como usado
+   - Sesión JWT creada
+
+#### Documentación de Seguridad
+
+Para información detallada sobre la implementación de seguridad:
+
+- **Análisis Técnico**: [`docs/security-2fa-improvements.md`](./docs/security-2fa-improvements.md)
+- **Guía de Despliegue**: [`docs/DEPLOYMENT-GUIDE.md`](./docs/DEPLOYMENT-GUIDE.md)
+- **Configuración Avanzada**: [`docs/SECURITY-CONFIGURATION.md`](./docs/SECURITY-CONFIGURATION.md)
+- **Resumen Ejecutivo**: [`docs/EXECUTIVE-SUMMARY.md`](./docs/EXECUTIVE-SUMMARY.md)
+- **Comparación Visual**: [`docs/VISUAL-COMPARISON.md`](./docs/VISUAL-COMPARISON.md)
+
+#### Cumplimiento
+
+Este sistema de autenticación está alineado con:
+- ✅ OWASP Top 10 (2021)
+- ✅ OWASP Authentication Cheat Sheet
+- ✅ Mejores prácticas de seguridad de Next.js
+- ✅ Principios de Zero Trust
