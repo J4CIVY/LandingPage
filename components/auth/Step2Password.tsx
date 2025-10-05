@@ -168,12 +168,12 @@ export default function Step2Password({ email, onPasswordVerified, onBack }: Ste
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600 dark:from-slate-900 dark:via-slate-800 dark:to-slate-700 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-white dark:bg-slate-950 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8">
       <div className="max-w-md w-full">
         {/* Card Principal */}
-        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl overflow-hidden">
+        <div className="bg-gray-100 dark:bg-slate-900 rounded-2xl shadow-2xl overflow-hidden">
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-700 dark:to-blue-800 px-6 py-8 sm:px-8">
+          <div className="bg-gray-200 dark:bg-slate-800 px-6 py-8 sm:px-8">
             <div className="text-center">
               <div className="inline-flex items-center justify-center mb-4">
                 {/* Logo para modo claro (azul) */}
@@ -327,7 +327,7 @@ export default function Step2Password({ email, onPasswordVerified, onBack }: Ste
           </div>
 
           {/* Footer - Cambiar cuenta */}
-          <div className="bg-gray-50 dark:bg-slate-900 px-6 py-4 sm:px-8">
+          <div className="bg-gray-200 dark:bg-slate-800 px-6 py-4 sm:px-8">
             <button
               onClick={onBack}
               className="w-full text-center text-sm text-gray-600 dark:text-slate-400 hover:text-gray-900 dark:hover:text-slate-200 font-medium"
@@ -339,7 +339,7 @@ export default function Step2Password({ email, onPasswordVerified, onBack }: Ste
 
         {/* Copyright */}
         <div className="mt-8 text-center">
-          <p className="text-blue-100 dark:text-slate-400 text-xs sm:text-sm">
+          <p className="text-gray-500 dark:text-slate-500 text-xs sm:text-sm">
             © 2025 BSK Motorcycle Team. Todos los derechos reservados.
           </p>
         </div>
