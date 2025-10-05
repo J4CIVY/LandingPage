@@ -62,7 +62,7 @@ export default function Step1Email({ onEmailVerified, returnUrl }: Step1EmailPro
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600 dark:from-slate-900 dark:via-slate-800 dark:to-slate-700 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-white dark:bg-slate-950 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8">
       <div className="max-w-md w-full">
         {/* Card Principal */}
         <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl overflow-hidden">
