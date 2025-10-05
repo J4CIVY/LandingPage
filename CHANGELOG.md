@@ -5,6 +5,18 @@ Todos los cambios notables en este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.1] - 2025-10-05
+
+### 🐛 Correcciones
+
+#### Arreglado
+- **PreAuthToken Model**: Eliminado índice duplicado en campo `expiresAt`
+  - Removido `index: true` de la definición del campo
+  - El TTL index (`expireAfterSeconds: 0`) es suficiente para la funcionalidad
+  - Elimina advertencia de Mongoose: "Duplicate schema index on {"expiresAt":1}"
+
+---
+
 ## [2.1.0] - 2025-10-05
 
 ### 🔐 Seguridad (CRÍTICO) - Encriptación Client-Side

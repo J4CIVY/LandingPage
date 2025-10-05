@@ -39,8 +39,8 @@ const PreAuthTokenSchema = new Schema<IPreAuthToken>({
   },
   expiresAt: {
     type: Date,
-    required: true,
-    index: true // Para limpieza automática
+    required: true
+    // TTL index definido abajo, no necesitamos index: true aquí
   },
   used: {
     type: Boolean,
