@@ -165,7 +165,7 @@ function LoginFlow() {
 
   // Fallback (no debería llegar aquí)
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600 dark:from-slate-900 dark:via-slate-800 dark:to-slate-700 flex items-center justify-center">
+    <div className="min-h-screen bg-white dark:bg-slate-950 flex items-center justify-center">
       <FaSpinner className="animate-spin text-white text-4xl" />
     </div>
   );
@@ -174,7 +174,7 @@ function LoginFlow() {
 export default function LoginPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600 dark:from-slate-900 dark:via-slate-800 dark:to-slate-700 flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-slate-950 flex items-center justify-center">
         <FaSpinner className="animate-spin text-white text-4xl" />
       </div>
     }>
