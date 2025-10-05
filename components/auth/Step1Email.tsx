@@ -84,7 +84,7 @@ export default function Step1Email({ onEmailVerified, returnUrl }: Step1EmailPro
         {/* Card Principal */}
         <div className="bg-gray-100 dark:bg-slate-900 rounded-2xl shadow-2xl overflow-hidden">
           {/* Header */}
-          <div className="bg-gray-300 dark:bg-slate-700 px-6 py-8 sm:px-8">
+          <div className="bg-gray-200 dark:bg-slate-800 px-6 py-8 sm:px-8">
             <div className="text-center">
               <div className="inline-flex items-center justify-center mb-4">
                 {/* Logo para modo claro (azul) */}
