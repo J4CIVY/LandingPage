@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 import { z } from 'zod';
+import { rateLimit } from '@/utils/rateLimit';
+
+// Rate limiting para verificación de emails (previene enumeración)
+const checkEmailRateLimit = rateLimit({
+  interval: 5 * 60 * 1000, // 5 minutos
+  uniqueTokenPerInterval: 500
+});
 
 // Schema de validación
 const checkEmailSchema = z.object({
@@ -14,6 +21,24 @@ const checkEmailSchema = z.object({
  */
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting para prevenir enumeración de usuarios
+    const clientIP = request.headers.get('x-forwarded-for') || 
+                     request.headers.get('x-real-ip') || 
+                     'unknown';
+    
+    try {
+      await checkEmailRateLimit.check(clientIP, 10); // 10 verificaciones cada 5 minutos
+    } catch (rateLimitError) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Demasiados intentos. Por favor espera unos minutos.',
+          error: 'RATE_LIMIT_EXCEEDED'
+        },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
 
     // Validar entrada
