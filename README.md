@@ -129,7 +129,7 @@ Esto ejecutará las pruebas del modelo `PreAuthToken` y verificará la correcta 
 
 ## 🔒 Seguridad
 
-### Sistema de Autenticación Progresiva (v2.3.0)
+### Sistema de Autenticación Progresiva (v2.3.1)
 
 Este proyecto implementa un **sistema de login en 3 pasos** similar a Google y Microsoft, con **encriptación RSA-2048**, **autenticación 2FA obligatoria** y **detección de inactividad inteligente**.
 
@@ -156,7 +156,7 @@ Paso 1: Email          →  Paso 2: Contraseña  →  Paso 3: 2FA WhatsApp
 - ✅ **Paso 3 - 2FA**: Código por WhatsApp obligatorio
 - ✅ **Navegación Intuitiva**: Botón "Atrás" para corregir errores
 
-**2. Sistema de Inactividad (NUEVO v2.3.0)**
+**2. Sistema de Inactividad (v2.3.0)**
 - ✅ **Detección Inteligente**: Timers por paso con advertencias progresivas
 - ✅ **Paso 2 (Contraseña)**: Timer de 90s, advertencia a los 15s
 - ✅ **Paso 3 (2FA)**: Timer de 120s, advertencia a los 30s
@@ -164,19 +164,26 @@ Paso 1: Email          →  Paso 2: Contraseña  →  Paso 3: 2FA WhatsApp
 - ✅ **Opciones de Recuperación**: Reintentar, Ayuda, Volver
 - ✅ **Reset Automático**: Timer se reinicia al detectar actividad
 
-**3. Encriptación Client-Side**
+**3. Rate Limiting y Anti-Enumeración (NUEVO v2.3.1)**
+- ✅ **Protección Verificación de Email**: 10 intentos cada 5 minutos
+- ✅ **Prevención User Enumeration**: Evita descubrimiento automatizado de cuentas
+- ✅ **Rate Limiting Completo**: Todos los endpoints de auth protegidos
+- ✅ **Seguridad Enterprise**: Equivalente a Microsoft/Google/Facebook
+
+**4. Encriptación Client-Side**
 - ✅ **RSA-2048**: Contraseñas encriptadas en el navegador antes de enviarlas
 - ✅ **Web Crypto API**: Tecnología nativa del navegador, sin librerías externas
 - ✅ **Invisible en BurpSuite**: Las contraseñas no se ven ni siquiera interceptando el tráfico
 - ✅ **Protección MITM**: Capa adicional sobre HTTPS
+- ✅ **Email en Texto Plano**: Correcto por diseño (necesario para búsquedas en DB)
 
-**4. Tokens de Pre-Autenticación**
+**5. Tokens de Pre-Autenticación**
 - ✅ **Tokens Temporales**: 256 bits, expiración en 5 minutos
 - ✅ **Un Solo Uso**: No reutilizables después de la verificación
 - ✅ **Validación de Contexto**: IP + UserAgent binding
 - ✅ **Limpieza Automática**: TTL indexes de MongoDB
 
-**5. Autenticación 2FA**
+**6. Autenticación 2FA**
 - ✅ **WhatsApp OTP**: Códigos de 6 dígitos enviados por WhatsApp
 - ✅ **Rate Limiting**: Protección contra fuerza bruta
 - ✅ **Bloqueo de Cuenta**: Tras múltiples intentos fallidos
@@ -247,10 +254,11 @@ Para información detallada sobre la implementación de seguridad:
 
 #### Comparación: Evolución del Sistema
 
-| Aspecto | v2.1.0 | v2.2.0 | v2.3.0 (Ahora) |
-|---------|--------|--------|----------------|
-| **Login** | 1 paso | 3 pasos | 3 pasos + timers |
-| **Inactividad** | ❌ | ❌ | ✅ Con advertencias |
+| Aspecto | v2.1.0 | v2.2.0 | v2.3.0 | v2.3.1 (Ahora) |
+|---------|--------|--------|--------|----------------|
+| **Login** | 1 paso | 3 pasos | 3 pasos + timers | 3 pasos + timers |
+| **Inactividad** | ❌ | ❌ | ✅ Advertencias | ✅ Advertencias |
+| **Rate Limiting Email** | ❌ | ❌ | ❌ | ✅ 10/5min |
 | Campos visibles | Email + Password | Un campo a la vez |
 | Validación | Al final | Progresiva por paso |
 | Feedback | Generic | Específico + Links |

@@ -5,6 +5,33 @@ Todos los cambios notables en este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.1] - 2025-10-06
+
+### 🔒 Mejoras de Seguridad
+
+#### Agregado
+- **Rate Limiting en Verificación de Email**:
+  - Implementado rate limiting en `/api/auth/check-email`
+  - Límite: 10 verificaciones de email cada 5 minutos por IP
+  - Previene enumeración de usuarios (user enumeration attack)
+  - Mensaje claro al usuario cuando excede el límite
+  - Respuesta HTTP 429 (Too Many Requests) estándar
+
+#### Seguridad
+- ✅ Prevención de ataques de enumeración de usuarios
+- ✅ Protección contra reconocimiento automatizado de cuentas
+- ✅ Rate limiting consistente en todos los endpoints de autenticación
+- ✅ Seguridad equivalente a Microsoft/Google/Facebook
+
+#### Contexto
+El email NO se cifra (diseño correcto) porque:
+- Es un identificador público necesario para búsquedas en DB
+- Ya está protegido por HTTPS/TLS en tránsito
+- El cifrado RSA-2048 se aplica SOLO a la contraseña
+- Rate limiting previene abusos sin necesidad de cifrado adicional
+
+---
+
 ## [2.3.0] - 2025-10-05
 
 ### ✨ Nuevas Funcionalidades - Sistema de Inactividad (estilo Microsoft)
