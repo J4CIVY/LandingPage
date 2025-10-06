@@ -3,7 +3,7 @@
 import React from "react";
 const HermandadSection: React.FC = () => {
   return (
-    <section className="py-20 px-4 bg-gray-50 dark:bg-slate-900">
+    <section className="py-20 px-4 bg-white dark:bg-slate-950">
       <div className="max-w-6xl mx-auto text-center">
         <h2 className="text-4xl md:text-5xl font-bold mb-8 text-gray-900 dark:text-white">
           <span className="text-green-400 dark:text-green-500">39 Miembros</span>, <span className="text-slate-950 dark:text-white">cientos de Kilómetros</span>, <span className="text-red-600 dark:text-red-500">Una Sola Pasión</span>

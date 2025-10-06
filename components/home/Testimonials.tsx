@@ -46,21 +46,21 @@ const Testimonials: React.FC = () => {
 
   return (
     <div className="mt-16">
-  <h3 className="text-2xl font-semibold text-slate-950 dark:text-white mb-4 text-center">TESTIMONIOS DE MIEMBROS</h3>
-  <p className="text-center text-gray-600 dark:text-gray-400 mb-8">39 miembros activos, miles de kilómetros, una sola pasión</p>
-  <div className="grid md:grid-cols-2 gap-8">
+      <h3 className="text-2xl font-semibold text-slate-950 dark:text-white mb-4 text-center">TESTIMONIOS DE MIEMBROS</h3>
+      <p className="text-center text-gray-600 dark:text-gray-400 mb-8">39 miembros activos, miles de kilómetros, una sola pasión</p>
+      <div className="grid md:grid-cols-2 gap-8">
         {/* Primer testimonio */}
-  <div className="bg-white dark:bg-slate-900 p-8 rounded-xl shadow-lg">
+        <div className="bg-white dark:bg-slate-950 p-8 rounded-xl shadow-lg">
           <div className="flex items-center mb-6">
             <picture>
               <source type="image/avif" srcSet={srcSetAvif1} />
               <source type="image/webp" srcSet={srcSetWebp1} />
               <source type="image/jpeg" srcSet={srcSetJpg1} />
-              <Image 
-                src={fallbackSrc1} 
-                alt="Retrato de Carlos Méndez, miembro del club" 
-                className="w-16 h-16 rounded-full mr-6" 
-                loading="lazy" 
+              <Image
+                src={fallbackSrc1}
+                alt="Retrato de Carlos Méndez, miembro del club"
+                className="w-16 h-16 rounded-full mr-6"
+                loading="lazy"
                 width={125}
                 height={125}
               />
@@ -74,17 +74,17 @@ const Testimonials: React.FC = () => {
         </div>
 
         {/* Segundo testimonio */}
-  <div className="bg-white dark:bg-slate-900 p-8 rounded-xl shadow-lg">
+        <div className="bg-white dark:bg-slate-900 p-8 rounded-xl shadow-lg">
           <div className="flex items-center mb-6">
             <picture>
               <source type="image/avif" srcSet={srcSetAvif2} />
               <source type="image/webp" srcSet={srcSetWebp2} />
               <source type="image/jpeg" srcSet={srcSetJpg2} />
-              <Image 
-                src={fallbackSrc2} 
-                alt="Retrato de Laura Torres, miembro del club" 
-                className="w-16 h-16 rounded-full mr-6" 
-                loading="lazy" 
+              <Image
+                src={fallbackSrc2}
+                alt="Retrato de Laura Torres, miembro del club"
+                className="w-16 h-16 rounded-full mr-6"
+                loading="lazy"
                 width={125}
                 height={125}
               />

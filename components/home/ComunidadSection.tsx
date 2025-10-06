@@ -4,7 +4,7 @@ import React from "react";
 
 const ComunidadSection: React.FC = () => {
   return (
-  <section className="py-20 px-4 bg-slate-950 dark:bg-white text-white dark:text-slate-950">
+    <section className="py-20 px-4 bg-white dark:bg-slate-950 text-slate-900 dark:text-white">
       <div className="max-w-6xl mx-auto text-center">
         <h2 className="text-4xl md:text-5xl font-bold mb-8">
           <span className="text-green-400 dark:text-green-500">39 Miembros</span>, Miles de Kilómetros, <span className="text-red-600 dark:text-red-500">Una Sola Pasión</span>
