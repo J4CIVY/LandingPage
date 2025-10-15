@@ -6,6 +6,9 @@ import CookieBanner from "@/components/shared/CookieBanner";
 import DynamicThemeColor from "@/components/shared/DynamicThemeColor";
 import StructuredData from "@/components/shared/StructuredData";
 import ScrollToTop from "@/components/shared/ScrollToTop";
+import '@/styles/globals.css';
+
+// Font configuration with performance optimizations and accessibility in mind
 
 const inter = Inter({ 
   subsets: ["latin"],
