@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import SEOComponent from '@/components/home/SEOComponent';
+import { generateBreadcrumb } from '@/lib/seo-config';
 import { Product } from '@/types/products';
 import Image from 'next/image';
 
@@ -191,13 +192,26 @@ const Store: React.FC = () => {
       </div>
     );
   }
+  // Breadcrumb structured data
+  const breadcrumbData = generateBreadcrumb([
+    { name: 'Inicio', url: 'https://bskmt.com' },
+    { name: 'Tienda', url: 'https://bskmt.com/store' }
+  ]);
 
   return (
-  <div className="container mx-auto px-4 py-8 bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <>
       <SEOComponent
-        title="Tienda - BSK Motorcycle Team"
-        description="Encuentra la mercancía oficial de BSK Motorcycle Team. Ropa, accesorios y más para los verdaderos amantes de las motos."
+        title="Tienda Oficial BSK Motorcycle Team | Merchandising y Accesorios"
+        description="🏍️ Compra productos oficiales BSK Motorcycle Team. Camisetas, chaquetas, cascos, accesorios para moto y más. Merchandising exclusivo del motoclub #1 de Colombia. Envíos a toda Colombia."
+        canonical="https://bskmt.com/store"
+        url="https://bskmt.com/store"
+        image="https://res.cloudinary.com/dz0peilmu/image/upload/f_auto,q_auto:best,w_1200,h_630/BSK_Store_Hero.jpg"
+        keywords="tienda bsk mt, merchandising bsk, productos oficiales bsk, camisetas motoclub, accesorios motos colombia, ropa biker colombia, tienda motera bogotá, productos motoclub, ropa motociclismo, accesorios motocicletas"
+        type="website"
+        structuredData={breadcrumbData}
       />
+      
+      <div className="container mx-auto px-4 py-8 bg-gray-50 dark:bg-gray-900 min-h-screen">
       {/* Header */}
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
@@ -543,6 +557,7 @@ const Store: React.FC = () => {
         </>
       )}
     </div>
+    </>
   );
 };
 

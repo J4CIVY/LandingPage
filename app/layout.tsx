@@ -1,6 +1,5 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import CookieBanner from "@/components/shared/CookieBanner";
@@ -14,15 +13,29 @@ const inter = Inter({
   preload: true,
   fallback: ['system-ui', 'arial'],
   adjustFontFallback: true,
+  variable: '--font-inter',
 });
+
+// Viewport configuration for better mobile optimization
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  viewportFit: 'cover',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' }
+  ],
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://bskmt.com'),
   title: {
     default: "BSK Motorcycle Team - Motoclub en Colombia | Comunidad Motera Colombia",
-    template: "%s | BSK Motorcycle Team - Motoclub en Colombia"
+    template: "%s | BSK Motorcycle Team"
   },
-  description: "🏍️ Únete al motoclub #1 de Colombia. +50 miembros activos, +100 rutas épicas, eventos semanales, talleres especializados y hermandad verdadera. Comunidad BSK MT en Bogotá donde la pasión motociclista se vive sobre dos ruedas.",
+  description: "🏍️ Únete al motoclub #1 de Colombia. +500 miembros activos, +100 rutas épicas, eventos semanales, talleres especializados y hermandad verdadera. Comunidad BSK MT en Bogotá donde la pasión motociclista se vive sobre dos ruedas.",
   keywords: [
     // Palabras clave principales
     "BSK Motorcycle Team", "motoclub colombia", "motoclub bogotá", "BSKMT",
@@ -103,27 +116,40 @@ export const metadata: Metadata = {
     languages: {
       'es-CO': 'https://bskmt.com',
       'es': 'https://bskmt.com',
+      'x-default': 'https://bskmt.com',
     },
   },
   verification: {
     google: "05957975579128883654",
     yandex: "verification_code_yandex",
-    yahoo: "verification_code_yahoo",
+    other: {
+      'msvalidate.01': 'YOUR_BING_VERIFICATION_CODE',
+    }
+  },
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/Logo_Letras_Motoclub_BSK_Motorcycle_Team_Blue_192X192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/Logo_Letras_Motoclub_BSK_Motorcycle_Team_Blue_192X192.webp', sizes: '192x192', type: 'image/webp' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: [
+      { url: '/Logo_Letras_Motoclub_BSK_Motorcycle_Team_Blue_192X192.png', sizes: '192x192' },
+    ],
+  },
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    title: 'BSK MT',
+    statusBarStyle: 'black-translucent',
   },
   other: {
-    'mobile-web-app-capable': 'yes',
-    'apple-mobile-web-app-capable': 'yes',
-    'apple-mobile-web-app-status-bar-style': 'default',
-    'apple-mobile-web-app-title': 'BSK MT',
-    'application-name': 'BSK Motorcycle Team',
-    'msapplication-TileColor': '#000000',
-    'msapplication-config': '/browserconfig.xml',
-    'theme-color': '#000000',
-    // Additional SEO meta tags
+    // Geo-location tags
     'geo.region': 'CO-DC',
     'geo.placename': 'Bogotá',
     'geo.position': '4.562477;-74.101509',
     'ICBM': '4.562477, -74.101509',
+    // Additional SEO meta tags
     'language': 'es-co',
     'revisit-after': '7 days',
     'rating': 'General',
@@ -147,7 +173,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" suppressHydrationWarning className="">
+    <html lang="es" suppressHydrationWarning className={inter.variable}>
       <head>
         {/* DNS prefetch for external domains - Performance optimization */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
@@ -161,21 +187,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://api.bskmt.com" />
-        
-        {/* PWA Configuration */}
-        <link rel="manifest" href="/manifest.json" />
-        <link rel="apple-touch-icon" sizes="192x192" href="/Logo_Letras_Motoclub_BSK_Motorcycle_Team_Blue_192X192.png" />
-        <link rel="icon" type="image/png" sizes="192x192" href="/Logo_Letras_Motoclub_BSK_Motorcycle_Team_Blue_192X192.png" />
-        <link rel="icon" type="image/webp" sizes="192x192" href="/Logo_Letras_Motoclub_BSK_Motorcycle_Team_Blue_192X192.webp" />
-        <link rel="shortcut icon" href="/favicon.ico" />
-        
-        {/* Mobile optimizations */}
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
-        <meta name="format-detection" content="telephone=yes, date=no, email=no, address=no" />
-        <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="apple-mobile-web-app-title" content="BSK MT" />
         
         {/* Performance optimizations */}
         <meta httpEquiv="x-dns-prefetch-control" content="on" />

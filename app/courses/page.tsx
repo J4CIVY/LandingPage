@@ -4,6 +4,7 @@ import React from "react";
 import { FaMotorcycle, FaShieldAlt, FaRocket, FaCheck, FaAward, FaTools, FaRoute, FaPhone, FaCalendarAlt } from "react-icons/fa";
 import { GiSteeringWheel, GiOilDrum, GiMechanicGarage } from "react-icons/gi";
 import SEOComponent from '@/components/home/SEOComponent';
+import { generateBreadcrumb, generateCourseSchema, generateFAQ } from '@/lib/seo-config';
 /**
  * @typedef {Object} Course
  * @property {number} id - Unique identifier for the course.
@@ -124,12 +125,63 @@ const Courses: React.FC = () => {
     }
   ];
 
+  // Breadcrumb structured data
+  const breadcrumbData = generateBreadcrumb([
+    { name: 'Inicio', url: 'https://bskmt.com' },
+    { name: 'Cursos', url: 'https://bskmt.com/courses' }
+  ]);
+
+  // FAQ structured data
+  const faqData = generateFAQ([
+    {
+      question: '¿Cuánto duran los cursos de motociclismo?',
+      answer: 'Los cursos varían en duración: el curso básico dura 8 horas, el avanzado 12 horas, el taller de mantenimiento 6 horas, y las rodadas grupales son de 1 día completo.'
+    },
+    {
+      question: '¿Los cursos incluyen certificación?',
+      answer: 'Sí, todos nuestros cursos incluyen certificado de participación. Los cursos avanzados incluyen certificación internacional.'
+    },
+    {
+      question: '¿Necesito experiencia previa para tomar los cursos?',
+      answer: 'El curso básico no requiere experiencia previa. Para el curso avanzado se recomienda tener experiencia básica en motociclismo.'
+    },
+    {
+      question: '¿Dónde se realizan los cursos?',
+      answer: 'Los cursos se realizan en nuestras instalaciones en Bogotá, Colombia, con espacios especialmente diseñados para práctica segura.'
+    }
+  ]);
+
+  // Course list structured data
+  const coursesListData = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: courses.map((course, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: generateCourseSchema({
+        name: course.title,
+        description: course.description,
+        provider: 'BSK Motorcycle Team',
+        price: parseInt(course.price.replace(/[^0-9]/g, '')),
+        duration: course.duration
+      })
+    }))
+  };
+
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950">
+    <>
       <SEOComponent
-        title="Cursos de Motociclismo - BSK Motorcycle Team"
-        description="Mejora tus habilidades de motociclismo con nuestros cursos de manejo básico, avanzado, y talleres de mantenimiento. Certificados y diseñados por expertos."
+        title="Cursos de Motociclismo | Pilotaje, Mantenimiento y Seguridad Vial"
+        description="🏍️ Cursos profesionales de BSK Motorcycle Team: Pilotaje básico, pilotaje defensivo avanzado, mantenimiento de motocicletas, rodadas grupales seguras. Aprende de los expertos y mejora tus habilidades en moto. Certificación incluida."
+        canonical="https://bskmt.com/courses"
+        url="https://bskmt.com/courses"
+        image="https://res.cloudinary.com/dz0peilmu/image/upload/f_auto,q_auto:best,w_1200,h_630/BSK_Courses_Hero.jpg"
+        keywords="cursos motociclismo colombia, curso pilotaje moto bogotá, escuela motociclismo, cursos conducción moto, curso mantenimiento motos, pilotaje defensivo, cursos bsk mt, certificación motociclismo, talleres motos bogotá"
+        type="website"
+        structuredData={[breadcrumbData, faqData, coursesListData]}
       />
+      
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       {/* Hero Section */}
       <section className="bg-white dark:bg-slate-950 text-slate-950 dark:text-white py-16 px-4 md:px-20">
         <div className="max-w-7xl mx-auto text-center">
@@ -239,6 +291,7 @@ const Courses: React.FC = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 

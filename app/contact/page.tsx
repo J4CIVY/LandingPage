@@ -5,6 +5,7 @@ import { FaMapMarkerAlt, FaPhoneAlt, FaRegEnvelope, FaRegClock } from 'react-ico
 import { MdWarningAmber } from 'react-icons/md';
 import { BsClipboardCheck } from 'react-icons/bs';
 import SEOComponent from '@/components/home/SEOComponent';
+import { generateBreadcrumb, generateFAQ } from '@/lib/seo-config';
 import ContactForm from '@/components/shared/ContactForm';
 
 interface ComplaintFormState {
@@ -109,14 +110,43 @@ const Contact: React.FC = () => {
     }
   };
 
+  // Breadcrumb structured data
+  const breadcrumbData = generateBreadcrumb([
+    { name: 'Inicio', url: 'https://bskmt.com' },
+    { name: 'Contacto', url: 'https://bskmt.com/contact' }
+  ]);
+
+  // FAQ structured data
+  const faqData = generateFAQ([
+    {
+      question: '¿Cuál es el horario de atención de BSK Motorcycle Team?',
+      answer: 'Nuestro horario de atención es de lunes a domingo de 8:00 AM a 8:00 PM.'
+    },
+    {
+      question: '¿Cómo puedo presentar una denuncia de forma anónima?',
+      answer: 'Puedes utilizar nuestro formulario de denuncias y activar la opción de denuncia anónima para proteger tu identidad.'
+    },
+    {
+      question: '¿Qué es PQRSDF?',
+      answer: 'PQRSDF significa Peticiones, Quejas, Reclamos, Sugerencias, Denuncias y Felicitaciones. Es un canal oficial para comunicarte con nosotros.'
+    },
+    {
+      question: '¿Cuánto tiempo tarda la respuesta a mi solicitud?',
+      answer: 'Nos comprometemos a responder todas las solicitudes en un plazo máximo de 15 días hábiles.'
+    }
+  ]);
+
   return (
     <>
       <SEOComponent 
-        title="Contacto - BSK Motorcycle Team"
-        description="Ponte en contacto con BSK Motorcycle Team. Formularios de contacto general, denuncias y PQRSDF. Estamos aquí para ayudarte."
-        url="/contact"
-        keywords="contacto, BSK Motorcycle Team, denuncias, PQRSDF, formulario"
-        image="/images/bsk-contact-og.webp"
+        title="Contacto BSK Motorcycle Team | Comunícate con Nosotros"
+        description="📞 Contáctanos: +57 312 519 2000 | 📧 info@bskmt.com | 📍 Carrera 5 A No. 36 A Sur 28, Bogotá, Colombia. Formulario de contacto, PQRSDF, denuncias anónimas. Horario de atención: Lun-Dom 8:00-20:00. ¡Estamos para servirte!"
+        canonical="https://bskmt.com/contact"
+        url="https://bskmt.com/contact"
+        image="https://res.cloudinary.com/dz0peilmu/image/upload/f_auto,q_auto:best,w_1200,h_630/BSK_Contact_Hero.jpg"
+        keywords="contacto bsk mt, contacto motoclub bogotá, teléfono bsk motorcycle team, email bsk mt, pqrsdf, denuncias motoclub, formulario contacto, ubicación bsk bogotá"
+        type="website"
+        structuredData={[breadcrumbData, faqData]}
       />
       
       <main className="min-h-screen bg-gray-50 dark:bg-slate-900 py-16">

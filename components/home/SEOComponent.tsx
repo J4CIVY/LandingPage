@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 
 /**
@@ -13,7 +13,8 @@ import Head from 'next/head';
  * @property {string} [type] - The Open Graph type (e.g., 'website', 'article').
  * @property {string} [robots] - The robots meta tag content (e.g., 'index, follow').
  * @property {string} [canonical] - The canonical URL for the page.
- * @property {React.ReactNode} [children] - React children to be rendered inside Helmet.
+ * @property {any} [structuredData] - JSON-LD structured data object.
+ * @property {React.ReactNode} [children] - React children to be rendered inside Head.
  */
 interface SEOComponentProps {
   title?: string;
@@ -24,87 +25,75 @@ interface SEOComponentProps {
   type?: string;
   robots?: string;
   canonical?: string;
+  structuredData?: any;
   children?: React.ReactNode;
 }
 
 const SEOComponent: React.FC<SEOComponentProps> = ({ 
-  title = "BSK Motorcycle Team - Pasión por el Motociclismo", 
-  description = "Únete a BSK Motorcycle Team, el motoclub líder en Colombia. Disfruta de rutas, eventos, talleres y una comunidad apasionada por el motociclismo. Comunidad, aventura y respeto sobre dos ruedas.", 
-  image = "https://res.cloudinary.com/dz0peilmu/image/upload/v1700000000/Logo_BSK_Motorcycle_Team_ggdyrl.png", // Added a version to the Cloudinary URL for better cache busting
+  title = "BSK Motorcycle Team - Pasión por el Motociclismo en Colombia", 
+  description = "Únete a BSK Motorcycle Team, el motoclub líder en Colombia. Disfruta de rutas épicas, eventos semanales, talleres especializados y una comunidad apasionada por el motociclismo. Comunidad, aventura y respeto sobre dos ruedas.", 
+  image = "https://res.cloudinary.com/dz0peilmu/image/upload/f_auto,q_auto:best,w_1200,h_630/Logo_BSK_Motorcycle_Team_ggdyrl.png",
   url = "https://bskmt.com",
-  keywords = "motoclub en bogotá, motoclub en colombia, bskmt, bsk mt, bsk motorcycle team, comunidad motera, rutas en moto bogotá, eventos motociclismo, club de motos colombia, mototurismo, talleres motociclismo",
+  keywords = "motoclub bogotá, motoclub colombia, bskmt, bsk mt, bsk motorcycle team, comunidad motera colombia, rutas en moto bogotá, eventos motociclismo colombia, club de motos colombia, mototurismo, talleres motociclismo, mejor motoclub colombia, viajes en moto",
   type = "website",
-  robots = "index, follow",
+  robots = "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
   canonical = "https://bskmt.com",
+  structuredData,
   children
 }) => {
-  // Ensure the image URL is absolute and correctly formatted for social media sharing
-  const absoluteImageUrl = image;
+  // Update document title
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
 
   return (
-    <Head>
-      {/* Standard SEO Meta Tags */}
-      <title>{title}</title>
-      <meta name="description" content={description} />
-      <meta name="keywords" content={keywords} />
-      <meta name="robots" content={robots} />
-      {canonical && <link rel="canonical" href={canonical} />}
-      
-      {/* Open Graph / Facebook Meta Tags */}
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="og:image" content={absoluteImageUrl} />
-      <meta property="og:url" content={url} />
-      <meta property="og:type" content={type} />
-      {/* Optional: Add og:site_name if applicable */}
-      <meta property="og:site_name" content="BSK Motorcycle Team" />
-      {/* Optional: Add og:locale if applicable */}
-      <meta property="og:locale" content="es_CO" />
+    <>
+      <Head>
+        {/* Standard SEO Meta Tags */}
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta name="keywords" content={keywords} />
+        <meta name="robots" content={robots} />
+        {canonical && <link rel="canonical" href={canonical} />}
+        
+        {/* Open Graph / Facebook Meta Tags */}
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={image} />
+        <meta property="og:url" content={url} />
+        <meta property="og:type" content={type} />
+        <meta property="og:site_name" content="BSK Motorcycle Team" />
+        <meta property="og:locale" content="es_CO" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content={title} />
 
-      {/* Twitter Meta Tags */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={absoluteImageUrl} />
-      {/* Optional: Add twitter:site and twitter:creator if applicable */}
-      <meta name="twitter:site" content="@bskmotorcycleteam" />
-      <meta name="twitter:creator" content="@bskmotorcycleteam" />
+        {/* Twitter Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={image} />
+        <meta name="twitter:site" content="@bskmotorcycleteam" />
+        <meta name="twitter:creator" content="@bskmotorcycleteam" />
 
-      {/* Schema.org Structured Data for SEO */}
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "MotorcycleDealer", // More specific type for a motorcycle club/dealer
-          "name": "BSK Motorcycle Team",
-          "description": "Motoclub apasionado por el motociclismo y la comunidad motera en Bogotá, Colombia",
-          "url": "https://bskmt.com",
-          "logo": "https://bskmt.com/images/logo.png", // Ensure this path is correct or use the Cloudinary URL
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Carrera 5 A No. 36 A Sur 28, 110431, Ayacucho, San Cristobal, Bogotá, Bogotá D.C., Colombia",
-            "addressLocality": "Bogotá",
-            "addressRegion": "Bogotá D.C.",
-            "postalCode": "110431",
-            "addressCountry": "CO"
-          },
-          "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": "4.562477",
-            "longitude": "-74.101509"
-          },
-          "openingHours": "Mo,Tu,We,Th,Fr,Sa,Su 08:00-20:00", // Assuming these are general contact hours
-          "telephone": "+573125192000",
-          "sameAs": [
-            "https://www.facebook.com/BSKMotorcycle", // Corrected Facebook URL based on common patterns
-            "https://www.instagram.com/bskmotorcycleteam",
-            "https://www.youtube.com/@BSKMotorcycleTeam",
-            "https://twitter.com/bskmotorcycleteam" // Added Twitter to sameAs
-          ]
-        })}
-      </script>
+        {/* Additional SEO Meta Tags */}
+        <meta name="author" content="BSK Motorcycle Team" />
+        <meta name="language" content="Spanish" />
+        <meta name="revisit-after" content="7 days" />
+        <meta name="distribution" content="Global" />
+        <meta name="rating" content="General" />
+        
+        {children}
+      </Head>
       
-      {children}
-    </Head>
+      {/* Structured Data - Rendered in body */}
+      {structuredData && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+      )}
+    </>
   );
 };
 

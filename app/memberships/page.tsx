@@ -3,6 +3,7 @@
 import React, { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import SEOComponent from '@/components/home/SEOComponent';
+import { generateBreadcrumb, generateFAQ } from '@/lib/seo-config';
 import { 
   FaUsers,
   FaBolt,
@@ -134,12 +135,46 @@ const Memberships: React.FC = () => {
     }
   ];
 
+  // Breadcrumb structured data
+  const breadcrumbData = generateBreadcrumb([
+    { name: 'Inicio', url: 'https://bskmt.com' },
+    { name: 'Membresías', url: 'https://bskmt.com/memberships' }
+  ]);
+
+  // FAQ structured data
+  const faqData = generateFAQ([
+    {
+      question: '¿Cuáles son los tipos de membresía disponibles?',
+      answer: 'Ofrecemos tres tipos: Amigo (gratis), Rider ($850,000/año) y Elite ($1,200,000/año), cada una con beneficios exclusivos.'
+    },
+    {
+      question: '¿Qué incluye la membresía Amigo?',
+      answer: 'La membresía Amigo incluye participación en eventos generales, acceso a contenido exclusivo, asistencia remota 24/7, descuento 25% en merchandising, hoodie oficial y calca para moto/casco.'
+    },
+    {
+      question: '¿Cómo me inscribo en una membresía?',
+      answer: 'Puedes inscribirte directamente desde esta página haciendo clic en el botón de la membresía que desees, o contactándonos para más información.'
+    },
+    {
+      question: '¿Puedo cambiar mi tipo de membresía después?',
+      answer: 'Sí, puedes actualizar tu membresía en cualquier momento contactando a nuestro equipo de soporte.'
+    }
+  ]);
+
   return (
-  <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <>
       <SEOComponent
-        title="Membresías - BSK Motorcycle Team"
-        description="Únete a BSK Motorcycle Team. Conoce nuestros planes de membresía, beneficios, y cómo puedes formar parte de nuestra comunidad de motociclistas."
+        title="Membresías BSK Motorcycle Team | Únete al Motoclub #1 de Colombia"
+        description="🏍️ Descubre las membresías de BSK Motorcycle Team. Planes Amigo (gratis), Rider, y Elite con beneficios exclusivos: descuentos en talleres, asistencia en ruta 24/7, eventos exclusivos, merchandising oficial y más. ¡Únete a +500 moteros!"
+        canonical="https://bskmt.com/memberships"
+        url="https://bskmt.com/memberships"
+        image="https://res.cloudinary.com/dz0peilmu/image/upload/f_auto,q_auto:best,w_1200,h_630/BSK_Memberships_Hero.jpg"
+        keywords="membresías bsk mt, membresía motoclub colombia, cómo unirse bsk, planes motoclub bogotá, beneficios miembro bsk, membresía motera, club motos colombia precio, inscripción motoclub"
+        type="website"
+        structuredData={[breadcrumbData, faqData]}
       />
+      
+  <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
   <div className="relative bg-slate-950 dark:bg-gray-900 text-white dark:text-white py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 flex items-center justify-center">
@@ -585,6 +620,7 @@ const Memberships: React.FC = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

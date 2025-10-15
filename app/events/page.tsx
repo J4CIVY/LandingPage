@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { parseISO } from "date-fns";
 import PublicEventCard from "@/components/eventos/PublicEventCard";
 import { usePublicEvents } from "@/hooks/usePublicEvents";
+import SEOComponent from "@/components/home/SEOComponent";
+import { generateBreadcrumb } from "@/lib/seo-config";
 
 /**
  * @typedef {Object} Event
@@ -59,7 +61,56 @@ const Events: React.FC = () => {
       return sortOrder === "asc" ? dateA.getTime() - dateB.getTime() : dateB.getTime() - dateA.getTime();
     });
 
+  // Breadcrumb structured data
+  const breadcrumbData = generateBreadcrumb([
+    { name: 'Inicio', url: 'https://bskmt.com' },
+    { name: 'Eventos', url: 'https://bskmt.com/events' }
+  ]);
+
+  // ItemList structured data for events
+  const eventsListData = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: filteredEvents.slice(0, 10).map((event, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'Event',
+        name: event.name,
+        description: event.description,
+        startDate: event.startDate,
+        image: event.mainImage,
+        location: {
+          '@type': 'Place',
+          name: event.departureLocation?.city || 'Bogotá',
+          address: {
+            '@type': 'PostalAddress',
+            addressLocality: event.departureLocation?.city || 'Bogotá',
+            addressCountry: event.departureLocation?.country || 'CO'
+          }
+        },
+        organizer: {
+          '@type': 'Organization',
+          name: 'BSK Motorcycle Team',
+          url: 'https://bskmt.com'
+        }
+      }
+    }))
+  };
+
   return (
+    <>
+      <SEOComponent
+        title="Eventos y Rutas en Moto 2025 | BSK Motorcycle Team Colombia"
+        description="🏍️ Descubre los próximos eventos y rutas épicas de BSK Motorcycle Team. Rodadas semanales, viajes por Colombia, tours andinos, eventos benéficos y más. Únete como miembro para acceder a todos los detalles y reservar tu cupo."
+        canonical="https://bskmt.com/events"
+        url="https://bskmt.com/events"
+        image="https://res.cloudinary.com/dz0peilmu/image/upload/f_auto,q_auto:best,w_1200,h_630/BSK_Events_Hero.jpg"
+        keywords="eventos motociclismo colombia, rutas en moto bogotá, viajes en moto 2025, rodadas bsk mt, eventos motos colombia, tours en moto, viajes motociclistas, calendario eventos motos, próximos eventos bsk, rutas motociclistas colombia"
+        type="website"
+        structuredData={[breadcrumbData, eventsListData]}
+      />
+      
     <div className="min-h-screen bg-white dark:bg-slate-950">
       <section className="py-16 px-4 max-w-7xl mx-auto">
         {/* Header */}
@@ -174,6 +225,7 @@ const Events: React.FC = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 
