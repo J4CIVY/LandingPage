@@ -18,23 +18,84 @@ const MembershipInfoPage: React.FC = () => {
             <GiSteelwingEmblem className="text-red-600 dark:text-red-400 text-5xl" aria-hidden="true" />
           </div>
           <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
-            Membresía <span className="text-red-600 dark:text-red-400">Friend</span> de BSK Motorcycle Team
+            Membresía Friend - BSK Motorcycle Team
           </h1>
           <p className="mt-3 text-xl text-gray-500 dark:text-gray-300">
-            Conoce todo sobre nuestra membresía básica y únete a nuestra comunidad motera
+            Todo sobre la membresía básica del mejor motoclub de Colombia. Descubre beneficios exclusivos, responsabilidades y cómo formar parte de nuestra comunidad motera.
           </p>
         </div>
 
         <div className="mb-10">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">¿Qué es la Membresía Friend?</h2>
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">¿Qué es la Membresía Friend de BSK MT?</h2>
           <p className="text-gray-600 dark:text-gray-300 mb-4">
-            La Membresía Friend es tu puerta de entrada al mundo BSK Motorcycle Team. Es el nivel básico de membresía diseñado para moteros que quieren ser parte de nuestra comunidad, disfrutar de beneficios exclusivos y crecer con nosotros.
+            La Membresía Friend es tu puerta de entrada al mundo del motociclismo organizado con el club de motos líder en Colombia. Es el nivel básico de membresía diseñado para moteros que quieren ser parte de nuestra hermandad, disfrutar de beneficios exclusivos, participar en rutas épicas y crecer personal y profesionalmente con nosotros.
+          </p>
+          <p className="text-gray-600 dark:text-gray-300 mb-4">
+            Como miembro Friend de BSK Motorcycle Team, te unes a una comunidad de más de 500 motociclistas activos en Bogotá y toda Colombia que comparten tu pasión por las dos ruedas, la aventura y el respeto por la vida en carretera.
           </p>
           <div className="bg-red-50 dark:bg-red-900/30 border-l-4 border-red-600 dark:border-red-400 p-4 mb-6" role="alert">
             <p className="text-red-800 dark:text-red-200 font-medium">
-              "Ser miembro de BSK no es solo tener un carnet, es adoptar un estilo de vida motero con valores, comunidad y pasión por las dos ruedas."
+              "Ser miembro de BSK Motorcycle Team no es solo tener un carnet, es adoptar un estilo de vida motero con valores sólidos, comunidad auténtica y pasión genuina por las dos ruedas."
             </p>
           </div>
+        </div>
+
+        {/* Membership Comparison Table */}
+        <div className="mb-10">
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">Comparación de Membresías BSK MT</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg">
+              <thead className="bg-slate-950 dark:bg-slate-800 text-white">
+                <tr>
+                  <th className="px-6 py-4 text-left">Beneficio</th>
+                  <th className="px-6 py-4 text-center bg-green-600 dark:bg-green-700">Friend</th>
+                  <th className="px-6 py-4 text-center">Pro</th>
+                  <th className="px-6 py-4 text-center">Elite</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
+                <tr>
+                  <td className="px-6 py-4 font-medium text-gray-900 dark:text-gray-100">Acceso a rodadas semanales</td>
+                  <td className="px-6 py-4 text-center">✅</td>
+                  <td className="px-6 py-4 text-center">✅</td>
+                  <td className="px-6 py-4 text-center">✅</td>
+                </tr>
+                <tr className="bg-gray-50 dark:bg-gray-800">
+                  <td className="px-6 py-4 font-medium text-gray-900 dark:text-gray-100">Descuentos en eventos</td>
+                  <td className="px-6 py-4 text-center">10%</td>
+                  <td className="px-6 py-4 text-center">20%</td>
+                  <td className="px-6 py-4 text-center">30%</td>
+                </tr>
+                <tr>
+                  <td className="px-6 py-4 font-medium text-gray-900 dark:text-gray-100">Descuentos en merchandising</td>
+                  <td className="px-6 py-4 text-center">25%</td>
+                  <td className="px-6 py-4 text-center">50%</td>
+                  <td className="px-6 py-4 text-center">75%</td>
+                </tr>
+                <tr className="bg-gray-50 dark:bg-gray-800">
+                  <td className="px-6 py-4 font-medium text-gray-900 dark:text-gray-100">Asistencia en carretera</td>
+                  <td className="px-6 py-4 text-center">Básica</td>
+                  <td className="px-6 py-4 text-center">Premium</td>
+                  <td className="px-6 py-4 text-center">VIP 24/7</td>
+                </tr>
+                <tr>
+                  <td className="px-6 py-4 font-medium text-gray-900 dark:text-gray-100">Acceso a tours especiales</td>
+                  <td className="px-6 py-4 text-center">❌</td>
+                  <td className="px-6 py-4 text-center">✅</td>
+                  <td className="px-6 py-4 text-center">✅ Prioritario</td>
+                </tr>
+                <tr className="bg-gray-50 dark:bg-gray-800">
+                  <td className="px-6 py-4 font-medium text-gray-900 dark:text-gray-100">Capacitaciones gratis anuales</td>
+                  <td className="px-6 py-4 text-center">1</td>
+                  <td className="px-6 py-4 text-center">3</td>
+                  <td className="px-6 py-4 text-center">Ilimitadas</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-4 text-center">
+            * Puedes ascender de nivel acumulando puntos por participación en eventos y actividades del club.
+          </p>
         </div>
 
         <div className="mb-10">
@@ -130,6 +191,66 @@ const MembershipInfoPage: React.FC = () => {
           <p className="text-yellow-700 dark:text-yellow-100">
             Al registrarte como miembro Friend aceptas cumplir con nuestro código de conducta y reglamento interno. El incumplimiento de estas normas puede resultar en la suspensión o cancelación de tu membresía sin derecho a reembolso.
           </p>
+        </div>
+
+        {/* FAQ Section */}
+        <div className="mb-10">
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">Preguntas Frecuentes sobre la Membresía Friend</h2>
+          <div className="space-y-4">
+            <details className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+              <summary className="font-semibold text-gray-900 dark:text-gray-100 cursor-pointer">
+                ¿Cuánto cuesta la Membresía Friend?
+              </summary>
+              <p className="mt-3 text-gray-600 dark:text-gray-300">
+                La Membresía Friend tiene un costo accesible que varía según el período de suscripción. Contáctanos para conocer las opciones mensuales, trimestrales y anuales. Inversión desde $50,000 COP mensuales.
+              </p>
+            </details>
+
+            <details className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+              <summary className="font-semibold text-gray-900 dark:text-gray-100 cursor-pointer">
+                ¿Puedo cancelar mi membresía en cualquier momento?
+              </summary>
+              <p className="mt-3 text-gray-600 dark:text-gray-300">
+                Sí, puedes cancelar tu membresía en cualquier momento. Solo debes notificarnos con 30 días de anticipación. No hay penalizaciones por cancelación, aunque los pagos realizados no son reembolsables.
+              </p>
+            </details>
+
+            <details className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+              <summary className="font-semibold text-gray-900 dark:text-gray-100 cursor-pointer">
+                ¿Necesito tener una motocicleta específica para unirme?
+              </summary>
+              <p className="mt-3 text-gray-600 dark:text-gray-300">
+                No. BSK Motorcycle Team acepta motociclistas con cualquier tipo de motocicleta: deportivas, naked, touring, adventure, cruiser, custom y más. Lo importante es tu pasión por el motociclismo y el respeto por las normas de tránsito.
+              </p>
+            </details>
+
+            <details className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+              <summary className="font-semibold text-gray-900 dark:text-gray-100 cursor-pointer">
+                ¿Cuántas rodadas debo asistir como mínimo?
+              </summary>
+              <p className="mt-3 text-gray-600 dark:text-gray-300">
+                Se espera una participación activa de al menos 30% de las actividades anuales (aproximadamente 1 evento cada 3 meses). Sin embargo, entendemos que cada miembro tiene compromisos personales, por lo que somos flexibles.
+              </p>
+            </details>
+
+            <details className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+              <summary className="font-semibold text-gray-900 dark:text-gray-100 cursor-pointer">
+                ¿Cómo puedo ascender a membresías superiores (Pro o Elite)?
+              </summary>
+              <p className="mt-3 text-gray-600 dark:text-gray-300">
+                Acumulas puntos por participación en eventos, rodadas, talleres, y contribuciones al club. Al alcanzar ciertos umbrales de puntos y cumplir requisitos adicionales, puedes ascender. También puedes hacer upgrade directo pagando la diferencia.
+              </p>
+            </details>
+
+            <details className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+              <summary className="font-semibold text-gray-900 dark:text-gray-100 cursor-pointer">
+                ¿La membresía incluye seguro de moto?
+              </summary>
+              <p className="mt-3 text-gray-600 dark:text-gray-300">
+                La membresía NO incluye seguro de motocicleta. Sin embargo, como miembro tienes acceso a tarifas preferenciales con nuestras aseguradoras aliadas y descuentos en pólizas SOAT y todo riesgo.
+              </p>
+            </details>
+          </div>
         </div>
 
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-12">

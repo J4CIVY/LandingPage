@@ -3,26 +3,39 @@ import { FaMotorcycle, FaHandsHelping, FaShieldAlt } from 'react-icons/fa';
 import Image from 'next/image';
 import type { Metadata } from 'next';
 export const metadata: Metadata = {
-  title: "Sobre Nosotros - Historia y Valores",
-  description: "Conoce la historia, misión, visión y valores de BSK Motorcycle Team. Somos más que un motoclub, somos una familia apasionada por el motociclismo en Colombia desde 2022.",
-  keywords: ["historia BSK Motorcycle Team", "valores motoclub", "misión BSK", "visión motociclismo", "fundación BSK 2022", "comunidad motera"],
+  title: "Sobre Nosotros - Historia y Valores del Motoclub BSK MT",
+  description: "Conoce la historia, misión, visión y valores de BSK Motorcycle Team. Fundado en 2022 en Bogotá, somos el motoclub más grande de Colombia con +500 miembros. Más que un club de motos, somos una familia unida por la pasión motociclista, el espíritu aventurero y el respeto mutuo en carretera.",
+  keywords: [
+    "historia BSK Motorcycle Team", 
+    "valores motoclub colombia", 
+    "misión BSK MT", 
+    "visión motociclismo colombia", 
+    "fundación BSK 2022 bogotá", 
+    "comunidad motera colombiana",
+    "historia club de motos bogotá",
+    "motoclub bogotá desde 2022",
+    "organización motear sas",
+    "mejor motoclub colombia historia",
+    "valores motociclismo colombia",
+    "hermandad motera bogotá"
+  ],
   openGraph: {
-    title: "Sobre Nosotros - BSK Motorcycle Team",
-    description: "Conoce la historia, misión, visión y valores de BSK Motorcycle Team. Somos más que un motoclub, somos una familia apasionada por el motociclismo en Colombia.",
+    title: "Sobre Nosotros - BSK Motorcycle Team | Historia del Motoclub #1 de Colombia",
+    description: "Descubre la historia de BSK Motorcycle Team: fundado en 2022, hoy somos +500 miembros unidos por la pasión. Conoce nuestra misión, visión y valores que nos hacen el mejor motoclub de Colombia.",
     url: "https://bskmt.com/about",
     images: [
       {
         url: "https://res.cloudinary.com/dz0peilmu/image/upload/v1700000000/BSK_About_Team_Photo.jpg",
         width: 1200,
         height: 630,
-        alt: "Equipo BSK Motorcycle Team - Historia y valores",
+        alt: "Equipo BSK Motorcycle Team - Historia del motoclub líder en Colombia con valores de comunidad, espíritu y respeto",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sobre Nosotros - BSK Motorcycle Team",
-    description: "Conoce la historia, misión, visión y valores de BSK Motorcycle Team. Somos más que un motoclub, somos una familia apasionada por el motociclismo.",
+    title: "Sobre Nosotros - BSK Motorcycle Team | Historia del Motoclub",
+    description: "Fundado en 2022, BSK MT es hoy el motoclub más grande de Colombia. Conoce nuestra historia, misión y valores que nos hacen una familia motera única.",
   },
   alternates: {
     canonical: "https://bskmt.com/about",
@@ -43,7 +56,7 @@ const About: React.FC = () => {
             Sobre <span className="text-accent">BSK Motorcycle Team</span>
           </h1>
           <p className="text-xl text-center max-w-3xl mx-auto text-gray-600 dark:text-gray-400">
-            Donde la comunidad se vive sobre dos ruedas. Conoce nuestra historia, valores y lo que nos hace una familia unida por la pasión, el espíritu aventurero y el respeto mutuo.
+            El motoclub líder en Colombia donde la comunidad motera se vive intensamente sobre dos ruedas. Conoce nuestra historia, valores y lo que nos hace una familia unida por la pasión, el espíritu aventurero y el respeto mutuo en cada ruta.
           </p>
         </div>
       </section>
@@ -62,11 +75,11 @@ const About: React.FC = () => {
               </h3>
 
               <p className="mb-6 text-gray-700 dark:text-gray-300">
-                BSK Motorcycle Team nació en 2022, fruto de la pasión de un pequeño grupo de amigos que compartían un mismo lenguaje: el rugir de sus motocicletas. Lo que empezó como simples rodadas de fin de semana por las montañas que rodean Bogotá, pronto se convirtió en un movimiento organizado que atraía a más y más riders con un mismo deseo: vivir la aventura sobre dos ruedas de forma responsable, libre y en comunidad.
+                BSK Motorcycle Team nació en 2022, fruto de la pasión de un pequeño grupo de amigos motociclistas que compartían un mismo lenguaje: el rugir de sus motocicletas. Lo que empezó como simples rodadas de fin de semana por las montañas que rodean Bogotá, pronto se convirtió en un movimiento organizado que atraía a más y más riders con un mismo deseo: vivir la aventura sobre dos ruedas de forma responsable, libre y en comunidad motera.
               </p>
 
               <p className="mb-6 text-gray-700 dark:text-gray-300">
-                Ese mismo año, decidimos dar un paso más grande. Oficializamos nuestro club bajo el nombre de BSK Motorcycle Team, con un propósito claro: construir una hermandad de motociclistas que combinara fraternidad, disciplina y respeto por la vida y la carretera.
+                Ese mismo año, decidimos dar un paso más grande. Oficializamos nuestro club de motos bajo el nombre de BSK Motorcycle Team, con un propósito claro: construir una hermandad de motociclistas en Colombia que combinara fraternidad, disciplina y respeto por la vida y la carretera.
               </p>
             </div>
             <div className="bg-gray-800 dark:bg-slate-700 rounded-lg overflow-hidden h-64 md:h-96 flex items-center justify-center">
@@ -110,11 +123,11 @@ const About: React.FC = () => {
               </h3>
 
               <p className="mb-6 text-gray-700 dark:text-gray-300">
-                Hoy, BSK Motorcycle Team cuenta con 39 miembros activos en Bogotá y Cundinamarca, además de una comunidad de más de 150 seguidores que nos acompañan, nos apoyan y sueñan con nosotros cada nueva ruta.
+                Hoy, BSK Motorcycle Team cuenta con 39 miembros activos en Bogotá y Cundinamarca, además de una comunidad de más de 150 seguidores que nos acompañan, nos apoyan y sueñan con nosotros cada nueva ruta. Somos reconocidos como uno de los clubes de motos en Bogotá más organizados y profesionales.
               </p>
 
               <p className="mb-6 text-gray-700 dark:text-gray-300">
-                Pero lo más importante es que seguimos creciendo sin perder nuestra esencia: la pasión por las motos, el respeto por la vida y el compromiso con nuestra comunidad.              </p>
+                Pero lo más importante es que seguimos creciendo sin perder nuestra esencia: la pasión por las motos, el respeto por la vida y el compromiso con nuestra comunidad motera en Colombia.              </p>
             </div>
             <div className="bg-gray-800 dark:bg-slate-700 rounded-lg overflow-hidden h-64 md:h-96 flex items-center justify-center">
               {/* Placeholder for historical image */}

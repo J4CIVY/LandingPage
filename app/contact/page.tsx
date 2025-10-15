@@ -139,12 +139,12 @@ const Contact: React.FC = () => {
   return (
     <>
       <SEOComponent 
-        title="Contacto BSK Motorcycle Team | Comunícate con Nosotros"
-        description="📞 Contáctanos: +57 312 519 2000 | 📧 info@bskmt.com | 📍 Carrera 5 A No. 36 A Sur 28, Bogotá, Colombia. Formulario de contacto, PQRSDF, denuncias anónimas. Horario de atención: Lun-Dom 8:00-20:00. ¡Estamos para servirte!"
+        title="Contacto BSK Motorcycle Team | Motoclub en Bogotá, Colombia"
+        description="📞 Contacto del mejor motoclub de Colombia: Tel. +57 300 490 2449 | 📧 contacto@bskmt.com | 📍 Carrera 5 A No. 36 A Sur 28, Bogotá. Horario de atención: Lun-Vie 8:00-17:00, Sáb 8:00-13:00. Formulario de contacto, sistema PQRSDF y denuncias anónimas disponibles. ¡Comunícate con el club de motos líder en Colombia!"
         canonical="https://bskmt.com/contact"
         url="https://bskmt.com/contact"
         image="https://res.cloudinary.com/dz0peilmu/image/upload/f_auto,q_auto:best,w_1200,h_630/BSK_Contact_Hero.jpg"
-        keywords="contacto bsk mt, contacto motoclub bogotá, teléfono bsk motorcycle team, email bsk mt, pqrsdf, denuncias motoclub, formulario contacto, ubicación bsk bogotá"
+        keywords="contacto bsk motorcycle team, teléfono motoclub bogotá, contacto club de motos colombia, dirección bsk mt, email motoclub bogotá, pqrsdf bsk, denuncias motoclub, formulario contacto motoclub, ubicación club motos bogotá, horario atención bsk, contacto comunidad motera colombia"
         type="website"
         structuredData={[breadcrumbData, faqData]}
       />
@@ -153,10 +153,10 @@ const Contact: React.FC = () => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-slate-950 dark:text-white mb-4">
-              Contáctanos
+              Contáctanos - BSK Motorcycle Team
             </h1>
             <p className="text-lg text-gray-600 dark:text-gray-400">
-              Estamos aquí para ayudarte. Elige la opción que mejor se adapte a tu consulta.
+              Estamos aquí para ayudarte. Comunícate con el motoclub líder en Colombia. Elige la opción que mejor se adapte a tu consulta o necesidad.
             </p>
           </div>
 
@@ -192,7 +192,7 @@ const Contact: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               <div>
                 <h2 className="text-2xl font-bold text-slate-950 dark:text-white mb-6">
-                  Información de Contacto
+                  Información de Contacto del Motoclub
                 </h2>
                 <div className="space-y-6">
                   <div className="flex items-start">
@@ -203,7 +203,7 @@ const Contact: React.FC = () => {
                     </div>
                     <div className="ml-4">
                       <h3 className="text-lg font-medium text-slate-950 dark:text-white">
-                        Dirección
+                        Dirección del Club de Motos en Bogotá
                       </h3>
                       <p className="text-gray-600 dark:text-gray-400 mt-2">
                         Carrera 5 A No. 36 A Sur 28, <br />110431, Ayacucho, San Cristóbal, Bogotá, Colombia

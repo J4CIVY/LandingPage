@@ -102,11 +102,11 @@ const Events: React.FC = () => {
     <>
       <SEOComponent
         title="Eventos y Rutas en Moto 2025 | BSK Motorcycle Team Colombia"
-        description="🏍️ Descubre los próximos eventos y rutas épicas de BSK Motorcycle Team. Rodadas semanales, viajes por Colombia, tours andinos, eventos benéficos y más. Únete como miembro para acceder a todos los detalles y reservar tu cupo."
+        description="🏍️ Descubre las próximas rutas épicas y eventos de motociclismo en Colombia con BSK Motorcycle Team. Rodadas semanales por Bogotá, tours andinos, viajes por los Llanos, eventos benéficos, competencias y encuentros moteros. Calendario completo 2025. Únete al mejor club de motos de Colombia."
         canonical="https://bskmt.com/events"
         url="https://bskmt.com/events"
         image="https://res.cloudinary.com/dz0peilmu/image/upload/f_auto,q_auto:best,w_1200,h_630/BSK_Events_Hero.jpg"
-        keywords="eventos motociclismo colombia, rutas en moto bogotá, viajes en moto 2025, rodadas bsk mt, eventos motos colombia, tours en moto, viajes motociclistas, calendario eventos motos, próximos eventos bsk, rutas motociclistas colombia"
+        keywords="eventos motociclismo colombia 2025, rutas en moto bogotá, viajes en moto colombia, rodadas bsk mt, calendario eventos motos, tours en moto colombia, próximos eventos motoclub, viajes motociclistas 2025, eventos bikers colombia, rutas motociclistas cundinamarca"
         type="website"
         structuredData={[breadcrumbData, eventsListData]}
       />
@@ -116,16 +116,24 @@ const Events: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-slate-950 dark:text-white mb-4">
-            Próximos Eventos BSK Motorcycle Team
+            Eventos y Rutas en Moto 2025 - BSK Motorcycle Team
           </h1>
           
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Descubre nuestras próximas aventuras de los próximos 6 meses. Únete como miembro para acceder a todos los detalles y participar.
+          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-4">
+            Explora las próximas aventuras del club de motos más grande de Colombia. Rodadas semanales, viajes épicos, tours especializados y eventos únicos te esperan en los próximos 6 meses.
+          </p>
+          
+          <p className="text-base text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
+            Únete como miembro para acceder a todos los detalles, reservar tu cupo y disfrutar de tarifas preferenciales en todos nuestros eventos de motociclismo.
           </p>
         </div>
 
         {/* Filters */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold text-slate-950 dark:text-white mb-4">
+            Filtrar Eventos de Motociclismo
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <label htmlFor="search-event" className="sr-only">Buscar por nombre de evento</label>
             <input
@@ -169,6 +177,7 @@ const Events: React.FC = () => {
               <option value="desc">Más lejanos primero</option>
             </select>
           </div>
+          </div>
         </div>
 
         {/* Event List Panel */}
@@ -176,6 +185,9 @@ const Events: React.FC = () => {
           role="main"
           aria-label="Lista de próximos eventos"
         >
+          <h2 className="text-2xl font-bold text-slate-950 dark:text-white mb-6">
+            Calendario de Eventos Próximos
+          </h2>
           {loading ? (
             <div className="flex justify-center items-center h-64" aria-live="polite">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-slate-950 dark:border-green-500" role="status">
@@ -193,28 +205,90 @@ const Events: React.FC = () => {
               </button>
             </div>
           ) : filteredEvents.length === 0 ? (
-            <div className="text-center py-16">
-              <svg className="mx-auto h-24 w-24 text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              <h3 className="text-xl font-medium text-gray-900 dark:text-gray-100 mb-2">
-                No hay eventos próximos
-              </h3>
-              <p className="text-gray-500 dark:text-gray-400 mb-6">
-                No hay eventos programados para los próximos 6 meses que coincidan con tus filtros.
-              </p>
-              <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-slate-800 dark:to-slate-700 p-6 rounded-xl max-w-md mx-auto">
-                <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
-                  ¡Únete al BSK Motorcycle Team para estar al tanto de futuros eventos!
+            <>
+              <div className="text-center py-16">
+                <svg className="mx-auto h-24 w-24 text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <h3 className="text-xl font-medium text-gray-900 dark:text-gray-100 mb-2">
+                  No hay eventos próximos que coincidan con tu búsqueda
+                </h3>
+                <p className="text-gray-500 dark:text-gray-400 mb-6">
+                  No hay eventos programados para los próximos 6 meses que coincidan con tus filtros. Ajusta los filtros o únete al club para no perderte nuestras próximas aventuras.
                 </p>
-                <a 
-                  href="/register"
-                  className="inline-block bg-slate-950 hover:bg-green-500 dark:bg-green-500 dark:hover:bg-green-600 text-white py-2 px-6 rounded-lg font-medium"
-                >
-                  Ser Miembro
-                </a>
+                <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-slate-800 dark:to-slate-700 p-6 rounded-xl max-w-md mx-auto">
+                  <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
+                    ¡Únete al BSK Motorcycle Team para estar al tanto de futuros eventos y recibir notificaciones exclusivas!
+                  </p>
+                  <a 
+                    href="/register"
+                    className="inline-block bg-slate-950 hover:bg-green-500 dark:bg-green-500 dark:hover:bg-green-600 text-white py-2 px-6 rounded-lg font-medium"
+                  >
+                    Ser Miembro
+                  </a>
+                </div>
               </div>
-            </div>
+              
+              {/* Permanent SEO Content - What to Expect */}
+              <div className="mt-16 bg-white dark:bg-slate-800 rounded-xl p-8 shadow-lg">
+                <h2 className="text-3xl font-bold text-slate-950 dark:text-white mb-6 text-center">
+                  Qué Esperar de los Eventos BSK Motorcycle Team
+                </h2>
+                
+                <div className="grid md:grid-cols-2 gap-8 mb-8">
+                  <div>
+                    <h3 className="text-xl font-semibold text-slate-950 dark:text-white mb-3">
+                      🏍️ Rodadas Semanales por Bogotá
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400">
+                      Cada fin de semana organizamos rodadas por las rutas más espectaculares de Bogotá y Cundinamarca. Desde La Calera hasta destinos cercanos como Girardot, nuestras rutas están diseñadas para motociclistas de todos los niveles.
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h3 className="text-xl font-semibold text-slate-950 dark:text-white mb-3">
+                      🗺️ Tours Épicos por Colombia
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400">
+                      Viaja con nosotros a destinos increíbles: Tour Andino, Tour de los Llanos, Desierto de la Tatacoa, Eje Cafetero y más. Experiencias inolvidables en el mejor club de motos de Colombia.
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h3 className="text-xl font-semibold text-slate-950 dark:text-white mb-3">
+                      🎓 Talleres y Capacitaciones
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400">
+                      Ofrecemos cursos de conducción defensiva, mantenimiento de motocicletas, primeros auxilios en ruta y técnicas avanzadas de manejo. Aprende de expertos y mejora tus habilidades motociclistas.
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h3 className="text-xl font-semibold text-slate-950 dark:text-white mb-3">
+                      ❤️ Eventos Benéficos y Sociales
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400">
+                      Participamos activamente en causas sociales. Rodadas benéficas, donaciones a comunidades, eventos de integración familiar y actividades que demuestran el lado solidario del motociclismo colombiano.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="bg-green-50 dark:bg-slate-700 rounded-lg p-6 text-center">
+                  <p className="text-lg font-semibold text-slate-950 dark:text-white mb-2">
+                    ¿Listo para tu próxima aventura en moto?
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4">
+                    Únete al BSK Motorcycle Team y forma parte de la comunidad motera más activa de Colombia. Acceso exclusivo a todos los eventos, tarifas preferenciales y una familia de moteros esperándote.
+                  </p>
+                  <a 
+                    href="/register"
+                    className="inline-block bg-red-600 hover:bg-red-700 text-white py-3 px-8 rounded-lg font-bold"
+                  >
+                    Únete Ahora
+                  </a>
+                </div>
+              </div>
+            </>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredEvents.map((event: Event) => (
