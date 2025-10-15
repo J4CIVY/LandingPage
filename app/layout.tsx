@@ -1,12 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import "./globals.css";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import CookieBanner from "@/components/shared/CookieBanner";
 import DynamicThemeColor from "@/components/shared/DynamicThemeColor";
 import StructuredData from "@/components/shared/StructuredData";
 import ScrollToTop from "@/components/shared/ScrollToTop";
-import '@/globals.css';
 
 // Font configuration with performance optimizations and accessibility in mind
 
