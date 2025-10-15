@@ -100,7 +100,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
                                                   <div className="relative aspect-video bg-gray-100 dark:bg-gray-800 overflow-hidden">
                           <Image
                             src={event.mainImage || "/default-event-image.webp"}
-                            alt={event.name}
+                            alt={`${event.name} - ${event.eventType || 'Evento'} organizado por BSK Motorcycle Team${event.departureLocation?.city ? ` en ${event.departureLocation.city}, ${event.departureLocation.country || 'Colombia'}` : ' en Colombia'}`}
                             width={640}
                             height={360}
                             className="w-full h-full object-contain"
@@ -111,6 +111,11 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error })
                             blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                             style={{ objectFit: 'contain', width: '100%', height: '100%' }}
                           />
+                          {/* ✅ SEO OPTIMIZATION: Enhanced alt text with descriptive context
+                              - Includes event name, type, organizer, and location
+                              - Better for image SEO and accessibility
+                              - Keywords naturally integrated (BSK Motorcycle Team, location)
+                          */}
                         </div>
                         <div className="p-6">
                           <h3 className="text-xl font-bold text-slate-950 dark:text-white mb-3 line-clamp-2">

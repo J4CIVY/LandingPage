@@ -1,9 +1,15 @@
-'use client';
-
 import React from 'react';
 import { FaMotorcycle, FaShieldAlt, FaUsers, FaMedal, FaHandsHelping } from 'react-icons/fa';
 import { GiSteelwingEmblem } from 'react-icons/gi';
 import Link from 'next/link';
+
+/**
+ * ✅ SEO OPTIMIZATION: Removed 'use client' directive
+ * This page is now a Server Component for better SEO and performance
+ * The page contains only static content, so client-side rendering is not needed
+ * Benefits: Faster initial load, better search engine crawling, server-side rendering
+ */
+
 /**
  * MembershipInfoPage component provides detailed information about the "Friend" membership.
  * It outlines benefits, duties, and obligations, and includes links for navigation.

@@ -35,7 +35,7 @@ const PublicEventCard: React.FC<PublicEventCardProps> = ({ event }) => {
       <div className="relative aspect-video bg-gray-100 dark:bg-gray-800 overflow-hidden">
         <Image
           src={event.mainImage || "/default-event-image.webp"}
-          alt={event.name}
+          alt={`${event.name} - ${event.eventType || 'Evento'} organizado por BSK Motorcycle Team${event.departureLocation?.city ? ` en ${event.departureLocation.city}, ${event.departureLocation.country || 'Colombia'}` : ' en Colombia'}`}
           width={640}
           height={360}
           className="w-full h-full object-contain"
@@ -44,6 +44,11 @@ const PublicEventCard: React.FC<PublicEventCardProps> = ({ event }) => {
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           style={{ objectFit: 'contain', width: '100%', height: '100%' }}
         />
+        {/* ✅ SEO OPTIMIZATION: Enhanced alt text with descriptive context
+            - Includes event name, type, organizer, and location
+            - Better for image SEO and accessibility
+            - Keywords naturally integrated (BSK Motorcycle Team, location)
+        */}
       </div>
       <div className="p-6">
         <h3 className="text-xl font-bold text-slate-950 dark:text-white mb-3 line-clamp-2">

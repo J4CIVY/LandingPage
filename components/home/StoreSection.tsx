@@ -87,11 +87,16 @@ const StoreSection: React.FC = () => {
                   <div className="relative" style={{ aspectRatio: '1/1' }}>
                     <Image
                       src={product.featuredImage}
-                      alt={product.name}
+                      alt={`${product.name}${product.description ? ` - ${product.description}` : ''} - Producto oficial BSK Motorcycle Team`}
                       className="w-full h-full object-contain p-4 bg-white dark:bg-slate-900"
                       loading="lazy"
                       layout="fill"
                     />
+                    {/* ✅ SEO OPTIMIZATION: Enhanced alt text for products
+                        - Includes product name, description, and brand association
+                        - Better for image SEO and Google Shopping
+                        - Keywords naturally integrated (BSK Motorcycle Team)
+                    */}
                   </div>
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-slate-950 dark:text-white mb-2">{product.name}</h3>
