@@ -1,8 +1,5 @@
 /* Font is loaded via next/font in layout.tsx for better performance */
 @import "tailwindcss";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 @layer base {
   /* Smooth scrolling with accessibility respect */
