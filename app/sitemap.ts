@@ -1,11 +1,13 @@
 import { MetadataRoute } from 'next'
+import { getPublicEventsServerSide } from '@/lib/events-server'
 
 /**
  * Generates comprehensive XML sitemap for BSK Motorcycle Team website
  * Includes static routes with appropriate priorities and change frequencies
+ * ✅ SEO OPTIMIZATION: Now includes dynamic event pages for better crawl coverage
  * This helps search engines crawl and index the site more efficiently
  */
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://bskmt.com'
   const currentDate = new Date()
   const lastModified = currentDate.toISOString()
@@ -104,33 +106,46 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ]
 
-  // Combine all routes
+  // ✅ DYNAMIC CONTENT: Fetch upcoming events and add to sitemap
+  let dynamicEventRoutes: MetadataRoute.Sitemap = []
+  try {
+    const events = await getPublicEventsServerSide({ upcoming: true, limit: 100 })
+    
+    // Generate sitemap entries for each event
+    dynamicEventRoutes = events.map(event => ({
+      url: `${baseUrl}/events/${event._id}`,
+      lastModified: new Date(event.startDate),
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    }))
+    
+    console.log(`✅ Sitemap: Added ${dynamicEventRoutes.length} dynamic event URLs`)
+  } catch (error) {
+    console.error('Error fetching events for sitemap:', error)
+    // Continue without dynamic events if fetch fails
+  }
+
+  // Combine all routes (static + dynamic)
   return [
     ...highPriorityRoutes,
     ...mediumHighPriorityRoutes,
     ...mediumPriorityRoutes,
     ...lowerPriorityRoutes,
+    ...dynamicEventRoutes,
   ]
 }
 
 /**
- * Future Enhancement: Dynamic sitemap generation
+ * ✅ IMPLEMENTED: Dynamic sitemap generation
  * 
- * To include dynamic content (events, products, blog posts), implement:
+ * The sitemap now includes:
+ * - All static routes (homepage, about, contact, etc.)
+ * - Dynamic event pages (fetched from database)
+ * - Proper priorities and change frequencies
+ * - Graceful error handling (continues without dynamic content if fetch fails)
  * 
- * 1. Fetch dynamic data from database/API
- * 2. Map each item to sitemap entry
- * 3. Include appropriate lastModified dates from database
- * 
- * Example for events:
- * 
- * const events = await fetchEvents()
- * const eventUrls = events.map(event => ({
- *   url: `${baseUrl}/events/${event.slug}`,
- *   lastModified: new Date(event.updatedAt),
- *   changeFrequency: 'weekly' as const,
- *   priority: 0.7,
- * }))
- * 
- * Then include eventUrls in the return array
+ * Future enhancements:
+ * - Add product pages when store is fully implemented
+ * - Add blog posts if blog functionality is added
+ * - Add course detail pages when courses have individual pages
  */

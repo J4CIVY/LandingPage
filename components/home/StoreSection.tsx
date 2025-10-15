@@ -113,7 +113,7 @@ const StoreSection: React.FC = () => {
                       </button>
                       <button 
                         onClick={() => router.push(`/products/${product.slug}`)}
-                        className="flex-1 bg-white border border-slate-950 text-slate-950 dark:bg-slate-700 dark:text-white dark:border-slate-600 dark:hover:bg-slate-600 py-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-600"
+                        className="flex-1 bg-white border border-slate-950 text-slate-950 dark:bg-slate-700 dark:text-white dark:border-slate-600 py-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-600"
                       >
                         Detalles
                       </button>
