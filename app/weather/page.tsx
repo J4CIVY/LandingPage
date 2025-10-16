@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { 
-  FaCloudRain,
   FaRadiation,
   FaExclamationTriangle,
   FaClock,
