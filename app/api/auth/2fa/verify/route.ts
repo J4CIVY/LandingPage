@@ -13,7 +13,7 @@ import {
   getSessionExpirationDate
 } from '@/lib/auth-utils';
 import { rateLimit } from '@/utils/rateLimit';
-import { requireCSRFToken } from '@/lib/csrf-protection';
+import { setCSRFToken } from '@/lib/csrf-protection';
 
 // Rate limiting para verificación de OTP
 const verifyRateLimit = rateLimit({
@@ -23,10 +23,12 @@ const verifyRateLimit = rateLimit({
 
 export async function POST(request: NextRequest) {
   try {
-    // 0. CSRF Protection (NEW in Security Audit Phase 2)
-    const csrfError = requireCSRFToken(request);
-    if (csrfError) return csrfError;
-
+    // NOTE: CSRF protection is intentionally NOT applied here because:
+    // 1. This endpoint is part of the authentication flow (no session yet)
+    // 2. It already has preAuthToken + OTP code validation (double verification)
+    // 3. It has rate limiting protection
+    // 4. After verification, a CSRF token IS generated for the new session
+    
     // Rate limiting
     try {
       const clientIP = request.headers.get('x-forwarded-for') || 
@@ -268,6 +270,10 @@ export async function POST(request: NextRequest) {
       ...cookieOptions,
       maxAge: 7 * 24 * 60 * 60
     });
+
+    // SECURITY: Generate and set CSRF token after successful 2FA verification
+    const csrfToken = setCSRFToken(response);
+    console.log('[SECURITY] CSRF token generated after 2FA verification for user:', user._id);
 
     return response;
 

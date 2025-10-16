@@ -16,15 +16,20 @@ import { verifyRecaptcha, RecaptchaThresholds, isLikelyHuman } from '@/lib/recap
 import { trackSuccessfulLogin, trackFailedLogin } from '@/lib/anomaly-detection';
 import { getEmailService } from '@/lib/email-service';
 import { checkAndBlockMaliciousIP } from '@/lib/ip-reputation';
-import { requireCSRFToken, setCSRFToken } from '@/lib/csrf-protection';
+import { setCSRFToken } from '@/lib/csrf-protection';
 
 export async function POST(request: NextRequest) {
   try {
-    // 0. CSRF Protection (NEW in Security Audit Phase 2)
-    const csrfError = requireCSRFToken(request);
-    if (csrfError) return csrfError;
-
-    // 1. IP Reputation Check (NEW in v2.5.0)
+    // NOTE: CSRF protection is intentionally NOT applied to login because:
+    // 1. Users don't have a session yet (no CSRF token to send)
+    // 2. This endpoint already has multiple security layers:
+    //    - IP reputation check
+    //    - Rate limiting (distributed, Redis-backed)
+    //    - reCAPTCHA v3 verification
+    //    - Anomaly detection
+    // 3. After successful login, a CSRF token IS generated for the new session
+    
+    // 0. IP Reputation Check (NEW in v2.5.0)
     const ipCheck = await checkAndBlockMaliciousIP(request);
     
     if (ipCheck.shouldBlock) {
