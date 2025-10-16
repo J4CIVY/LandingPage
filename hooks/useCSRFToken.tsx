@@ -24,7 +24,29 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { getCSRFTokenFromCookie } from '@/lib/csrf-protection';
+
+/**
+ * Obtiene el token CSRF de las cookies del navegador
+ * Versión cliente de getCSRFTokenFromCookie
+ */
+function getCSRFTokenFromCookie(): string | null {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+  
+  const CSRF_COOKIE_NAME = 'bsk-csrf-token-readable';
+  
+  const cookies = document.cookie.split(';');
+  const csrfCookie = cookies.find(cookie => 
+    cookie.trim().startsWith(`${CSRF_COOKIE_NAME}=`)
+  );
+  
+  if (!csrfCookie) {
+    return null;
+  }
+  
+  return csrfCookie.split('=')[1] || null;
+}
 
 interface UseCSRFTokenReturn {
   token: string | null;
