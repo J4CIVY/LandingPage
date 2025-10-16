@@ -7,6 +7,7 @@ import CookieBanner from "@/components/shared/CookieBanner";
 import DynamicThemeColor from "@/components/shared/DynamicThemeColor";
 import StructuredData from "@/components/shared/StructuredData";
 import ScrollToTop from "@/components/shared/ScrollToTop";
+import SecurityMonitor from "@/components/shared/SecurityMonitor";
 
 // Font configuration with performance optimizations and accessibility in mind
 
@@ -270,6 +271,7 @@ export default async function RootLayout({
           <RecaptchaProvider>
             <AuthProvider>
               <ToastProvider>
+                <SecurityMonitor />
                 <PWAManager />
                 <DynamicThemeColor />
                 <AccessibilityHelper />

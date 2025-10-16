@@ -251,15 +251,5 @@ export function logSecurityChecklist(): void {
   }
 }
 
-// Auto-validate on import (in non-test environments)
-if (process.env.NODE_ENV !== 'test') {
-  try {
-    validateEnv();
-    if (isDevelopment()) {
-      logSecurityChecklist();
-    }
-  } catch (error) {
-    // Allow import to succeed but log error
-    console.error('Environment validation failed:', error);
-  }
-}
+// NOTE: Manual initialization required
+// Call validateEnv() or getEnv() at app startup to validate environment variables

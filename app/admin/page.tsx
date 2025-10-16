@@ -19,6 +19,7 @@ import {
   FaBell,
   FaEnvelope
 } from 'react-icons/fa';
+import { SecurityWarning } from '@/hooks/useSecurityCheck';
 
 interface AdminStats {
   totalUsers: number;
@@ -167,6 +168,7 @@ export default function AdminDashboard() {
 
   return (
     <AdminLayout title="Dashboard de Administración" description="Vista general del sistema BSK Motorcycle Team">
+      <SecurityWarning />
       {/* Estadísticas Principales */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-6 lg:mb-8">
         <div className="bg-white dark:bg-slate-800 rounded-lg shadow p-4 lg:p-6 border-l-4 border-blue-500">

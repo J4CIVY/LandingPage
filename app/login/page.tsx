@@ -7,6 +7,7 @@ import { useAuth } from '@/hooks/useAuth';
 import Step1Email from '@/components/auth/Step1Email';
 import Step2Password from '@/components/auth/Step2Password';
 import TwoFactorVerificationWithTimer from '@/components/auth/TwoFactorVerificationWithTimer';
+import { SecurityWarning } from '@/hooks/useSecurityCheck';
 
 interface TwoFactorData {
   twoFactorId: string;
@@ -178,6 +179,7 @@ export default function LoginPage() {
         <FaSpinner className="animate-spin text-white text-4xl" />
       </div>
     }>
+      <SecurityWarning />
       <LoginFlow />
     </Suspense>
   );
