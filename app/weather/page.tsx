@@ -18,22 +18,22 @@ import SEOComponent from '@/components/home/SEOComponent';
  * @typedef {Object} TabContent
  * @property {string} id - Unique identifier for the tab.
  * @property {string} title - Title displayed on the tab.
- * @property {JSX.Element} icon - Icon for the tab.
- * @property {JSX.Element} content - JSX content for the tab panel.
+ * @property {React.ReactElement} icon - Icon for the tab.
+ * @property {React.ReactElement} content - JSX content for the tab panel.
  * @property {string} source - Source of the data displayed in the tab.
  */
 interface TabContent {
   id: string;
   title: string;
-  icon: JSX.Element;
-  content: JSX.Element;
+  icon: React.ReactElement;
+  content: React.ReactElement;
   source: string;
 }
 
 /**
  * Weather component displays weather information for motorcyclists, including precipitation radar and monitoring networks.
  * It uses iframes to embed external weather services.
- * @returns {JSX.Element}
+ * @returns {React.ReactElement}
  */
 const Weather: React.FC = () => {
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
