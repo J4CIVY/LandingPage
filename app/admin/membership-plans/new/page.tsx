@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
+import { getCSRFToken } from '@/lib/csrf-client';
 import { useRouter } from 'next/navigation';
 import { 
   FaSave, 
@@ -205,10 +206,12 @@ export default function NewMembershipPlanPage() {
     setError(null);
 
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch('/api/admin/membership-plans', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         credentials: 'include',
         body: JSON.stringify(formData),

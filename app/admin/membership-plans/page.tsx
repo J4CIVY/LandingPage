@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
+import { getCSRFToken } from '@/lib/csrf-client';
 import { 
   FaPlus, 
   FaEdit, 
@@ -164,9 +165,13 @@ export default function AdminMembershipPlansPage() {
 
     try {
       setIsDeleting(planId);
+      const csrfToken = getCSRFToken();
       const response = await fetch(`/api/admin/membership-plans/${planId}`, {
         method: 'DELETE',
         credentials: 'include',
+        headers: {
+          'x-csrf-token': csrfToken || '',
+        },
       });
 
       if (!response.ok) {

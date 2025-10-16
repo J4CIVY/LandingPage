@@ -7,6 +7,7 @@ import {
   SolicitudEstado,
   EstadisticasSolicitudes
 } from '@/types/pqrsdf';
+import { getCSRFToken } from '@/lib/csrf-client';
 
 // Configuración de la API
 const API_BASE_URL = '/api/pqrsdf';
@@ -225,10 +226,12 @@ export class PQRSDFService {
   // Crear nueva solicitud
   static async crearSolicitud(usuarioId: string, datos: CrearSolicitudDto): Promise<Solicitud> {
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch(API_BASE_URL, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify(datos)
       });
@@ -246,10 +249,12 @@ export class PQRSDFService {
   // Enviar mensaje en una solicitud
   static async enviarMensaje(solicitudId: string, contenido: string, autorNombre: string): Promise<Mensaje> {
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch(`${API_BASE_URL}/${encodeURIComponent(solicitudId)}`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify({
           accion: 'agregar_mensaje',
@@ -278,10 +283,12 @@ export class PQRSDFService {
     descripcion?: string
   ): Promise<void> {
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch(`${API_BASE_URL}/${encodeURIComponent(solicitudId)}`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify({
           accion: 'cambiar_estado',
@@ -306,10 +313,12 @@ export class PQRSDFService {
     comentario?: string
   ): Promise<void> {
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch(`${API_BASE_URL}/${encodeURIComponent(solicitudId)}`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify({
           accion: 'calificar',
