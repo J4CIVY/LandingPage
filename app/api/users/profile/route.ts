@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifyAuth } from '@/lib/auth-utils';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
+import { checkRateLimit, addRateLimitHeaders } from '@/lib/distributed-rate-limit';
+import { detectBehaviorAnomaly } from '@/lib/anomaly-detection';
 
 // GET - Obtener perfil del usuario
 export async function GET(request: NextRequest) {
@@ -59,6 +61,22 @@ export async function PUT(request: NextRequest) {
       );
     }
 
+    // 1. Rate Limiting para actualizaciones de perfil
+    const rateLimitResult = await checkRateLimit(request, {
+      maxRequests: 10,
+      windowSeconds: 3600, // 10 actualizaciones por hora
+      keyPrefix: 'ratelimit:profile-update',
+    }, authResult.user!.id);
+    
+    if (!rateLimitResult.success) {
+      const response = NextResponse.json(
+        { success: false, message: `Demasiadas actualizaciones. Espera ${Math.ceil((rateLimitResult.retryAfter || 0) / 60)} minutos.` },
+        { status: 429 }
+      );
+      addRateLimitHeaders(response.headers, rateLimitResult);
+      return response;
+    }
+
     await connectDB();
     
     // Obtener datos del cuerpo de la petición
@@ -86,6 +104,30 @@ export async function PUT(request: NextRequest) {
 
     // Verificar si el email ya existe en otro usuario
     if (email !== authResult.user!.email) {
+      // 2. Anomaly Detection - Cambio de email es una acción crítica
+      const clientIP = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+                       request.headers.get('x-real-ip') || 'unknown';
+      const userAgent = request.headers.get('user-agent') || 'unknown';
+      
+      const anomalyResult = await detectBehaviorAnomaly({
+        userId: authResult.user!.id,
+        eventType: 'email_change',
+        ip: clientIP,
+        userAgent,
+        timestamp: Date.now()
+      });
+
+      if (anomalyResult.shouldBlock) {
+        return NextResponse.json(
+          { 
+            success: false, 
+            message: 'Actividad sospechosa detectada. Por seguridad, esta acción ha sido bloqueada.',
+            details: anomalyResult.reasons 
+          },
+          { status: 403 }
+        );
+      }
+
       const existingUser = await User.findOne({ 
         email: email.toLowerCase(), 
         _id: { $ne: authResult.user!.id } 
@@ -137,7 +179,7 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       success: true,
       message: 'Perfil actualizado exitosamente',
       data: {
@@ -169,6 +211,11 @@ export async function PUT(request: NextRequest) {
         }
       }
     });
+
+    // Add rate limit headers to response
+    addRateLimitHeaders(response.headers, rateLimitResult);
+    
+    return response;
 
   } catch (error) {
     console.error('Error en PUT /api/users/profile:', error);

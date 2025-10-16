@@ -20,6 +20,8 @@ import {
 } from '../../data/formOptions';
 import { useBeforeUnload } from '../../hooks/useConfirmation';
 import { useSuccessToast, useErrorToast, useInfoToast } from '../../components/shared/ToastProvider';
+import { useRecaptcha, RecaptchaActions } from '@/lib/recaptcha-client';
+
 const years = generateYears();
 
 const UserRegister: React.FC = () => {
@@ -45,6 +47,9 @@ const UserRegister: React.FC = () => {
   const successToast = useSuccessToast();
   const errorToast = useErrorToast();
   const infoToast = useInfoToast();
+  
+  // reCAPTCHA hook for bot protection
+  const { verify } = useRecaptcha();
 
   const totalSteps: number = 8;
 
@@ -128,11 +133,17 @@ const UserRegister: React.FC = () => {
       return;
     }
     
-    
     setIsSubmitting(true);
     setSubmitError('');
     
     try {
+      // 1. Execute reCAPTCHA verification BEFORE submitting
+      const recaptchaToken = await verify(RecaptchaActions.REGISTER);
+      
+      if (!recaptchaToken) {
+        throw new Error('Error en la verificación de seguridad. Por favor, recarga la página e intenta nuevamente.');
+      }
+      
       // Calcular edad más precisa
       const birthDate = new Date(data.birthDate);
       const today = new Date();
@@ -222,7 +233,10 @@ const UserRegister: React.FC = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(userData),
+        body: JSON.stringify({
+          ...userData,
+          recaptchaToken // Include reCAPTCHA token
+        }),
       });
 
       const result = await response.json();

@@ -9,6 +9,8 @@ import {
 import connectDB from '@/lib/mongodb';
 import ContactMessage from '@/lib/models/ContactMessage';
 import { contactMessageSchema } from '@/lib/validation-schemas';
+import { checkRateLimit, addRateLimitHeaders } from '@/lib/distributed-rate-limit';
+import { verifyRecaptcha, RecaptchaThresholds, isLikelyHuman } from '@/lib/recaptcha-server';
 
 /**
  * GET /api/contact
@@ -67,17 +69,61 @@ async function handleGet(request: NextRequest) {
 /**
  * POST /api/contact
  * Crea un nuevo mensaje de contacto
+ * PROTECCIÓN: reCAPTCHA v3 + Rate Limiting
  */
 async function handlePost(request: NextRequest) {
+  // 1. Enhanced Rate Limiting for Contact Form (5 messages per hour)
+  const rateLimitResult = await checkRateLimit(request, {
+    maxRequests: 5,
+    windowSeconds: 3600, // 1 hour
+    keyPrefix: 'ratelimit:contact',
+  });
+  
+  if (!rateLimitResult.success) {
+    const response = createErrorResponse(
+      `Demasiados mensajes enviados. Intenta nuevamente en ${Math.ceil((rateLimitResult.retryAfter || 0) / 60)} minutos.`,
+      429
+    );
+    addRateLimitHeaders(response.headers, rateLimitResult);
+    return response;
+  }
+
   await connectDB();
   
-  const validation = await validateRequestBody(request, contactMessageSchema);
+  // 2. Get request body including reCAPTCHA token
+  const body = await request.json();
+  const recaptchaToken = body.recaptchaToken;
+  
+  // 3. reCAPTCHA v3 Verification
+  if (recaptchaToken) {
+    const recaptchaResult = await verifyRecaptcha(recaptchaToken, 'contact_form');
+    
+    if (!recaptchaResult.success || !isLikelyHuman(recaptchaResult.score, RecaptchaThresholds.CONTACT_FORM)) {
+      return createErrorResponse(
+        'Verificación de seguridad fallida. Por favor, intenta de nuevo.',
+        HTTP_STATUS.FORBIDDEN,
+        { riskScore: recaptchaResult.score }
+      );
+    }
+  }
+  
+  // Remove recaptchaToken before validation
+  const { recaptchaToken: _, ...contactData } = body;
+  
+  const validation = await validateRequestBody(
+    new Request(request.url, {
+      method: 'POST',
+      headers: request.headers,
+      body: JSON.stringify(contactData)
+    }) as any,
+    contactMessageSchema
+  );
   
   if (!validation.success) {
     return validation.response;
   }
 
-  const contactData = validation.data;
+  const validatedData = validation.data;
   
   try {
     // Obtener información adicional de la solicitud
@@ -89,7 +135,7 @@ async function handlePost(request: NextRequest) {
     
     // Crear nuevo mensaje de contacto
     const newMessage = new ContactMessage({
-      ...contactData,
+      ...validatedData,
       ipAddress: clientIP,
       userAgent,
       referrerUrl,
@@ -109,11 +155,16 @@ async function handlePost(request: NextRequest) {
       createdAt: newMessage.createdAt
     };
     
-    return createSuccessResponse(
+    const successResponse = createSuccessResponse(
       responseData,
       'Mensaje enviado exitosamente. Te contactaremos pronto.',
       HTTP_STATUS.CREATED
     );
+    
+    // Add rate limit headers
+    addRateLimitHeaders(successResponse.headers, rateLimitResult);
+    
+    return successResponse;
     
   } catch (error: any) {
     if (error.name === 'ValidationError') {

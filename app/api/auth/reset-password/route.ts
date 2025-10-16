@@ -2,13 +2,54 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 import { resetPasswordSchema } from '@/schemas/authSchemas';
+import { checkRateLimit, addRateLimitHeaders } from '@/lib/distributed-rate-limit';
+import { verifyRecaptcha, RecaptchaThresholds, isLikelyHuman } from '@/lib/recaptcha-server';
 
 export async function POST(request: NextRequest) {
   try {
+    // 1. Rate Limiting for Reset Password
+    const rateLimitResult = await checkRateLimit(request, {
+      maxRequests: 5,
+      windowSeconds: 3600, // 1 hour
+      keyPrefix: 'ratelimit:reset-password',
+    });
+    
+    if (!rateLimitResult.success) {
+      const response = NextResponse.json(
+        { 
+          success: false, 
+          message: `Demasiados intentos. Intenta nuevamente en ${Math.ceil((rateLimitResult.retryAfter || 0) / 60)} minutos.`,
+          error: 'RATE_LIMIT_EXCEEDED'
+        },
+        { status: 429 }
+      );
+      addRateLimitHeaders(response.headers, rateLimitResult);
+      return response;
+    }
+
     await connectDB();
 
     // Validar datos de entrada
     const body = await request.json();
+    
+    // 2. reCAPTCHA Verification
+    const recaptchaToken = body.recaptchaToken;
+    
+    if (recaptchaToken) {
+      const recaptchaResult = await verifyRecaptcha(recaptchaToken, 'password_reset');
+      
+      if (!recaptchaResult.success || !isLikelyHuman(recaptchaResult.score, RecaptchaThresholds.PASSWORD_RESET)) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: 'Verificación de seguridad fallida.',
+            error: 'RECAPTCHA_FAILED'
+          },
+          { status: 403 }
+        );
+      }
+    }
+    
     const validationResult = resetPasswordSchema.safeParse(body);
 
     if (!validationResult.success) {

@@ -3,31 +3,25 @@ import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 import { forgotPasswordSchema } from '@/schemas/authSchemas';
 import { generateSecureToken } from '@/lib/auth-utils';
-import { rateLimit } from '@/utils/rateLimit';
-
-// Rate limiting para forgot password (más restrictivo)
-const forgotPasswordRateLimit = rateLimit({
-  interval: 15 * 60 * 1000, // 15 minutos
-  uniqueTokenPerInterval: 50 // 50 IPs diferentes por intervalo
-});
+import { checkRateLimit, RateLimitPresets, addRateLimitHeaders } from '@/lib/distributed-rate-limit';
+import { verifyRecaptcha, RecaptchaThresholds, isLikelyHuman } from '@/lib/recaptcha-server';
 
 export async function POST(request: NextRequest) {
   try {
-    // Aplicar rate limiting
-    try {
-      const clientIP = request.headers.get('x-forwarded-for') || 
-                      request.headers.get('x-real-ip') || 
-                      'unknown';
-      await forgotPasswordRateLimit.check(clientIP, 3); // 3 intentos por IP cada 15 minutos
-    } catch {
-      return NextResponse.json(
+    // 1. Enhanced Distributed Rate Limiting
+    const rateLimitResult = await checkRateLimit(request, RateLimitPresets.PASSWORD_RESET);
+    
+    if (!rateLimitResult.success) {
+      const response = NextResponse.json(
         { 
           success: false, 
-          message: 'Demasiados intentos de restablecimiento. Intenta nuevamente en 15 minutos.',
+          message: `Demasiados intentos de restablecimiento. Intenta nuevamente en ${Math.ceil((rateLimitResult.retryAfter || 0) / 60)} minutos.`,
           error: 'RATE_LIMIT_EXCEEDED'
         },
         { status: 429 }
       );
+      addRateLimitHeaders(response.headers, rateLimitResult);
+      return response;
     }
 
     // Conectar a la base de datos
@@ -35,6 +29,26 @@ export async function POST(request: NextRequest) {
 
     // Validar datos de entrada
     const body = await request.json();
+    
+    // 2. reCAPTCHA v3 Verification
+    const recaptchaToken = body.recaptchaToken;
+    
+    if (recaptchaToken) {
+      const recaptchaResult = await verifyRecaptcha(recaptchaToken, 'password_reset');
+      
+      if (!recaptchaResult.success || !isLikelyHuman(recaptchaResult.score, RecaptchaThresholds.PASSWORD_RESET)) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: 'Verificación de seguridad fallida. Por favor, intenta de nuevo.',
+            error: 'RECAPTCHA_FAILED',
+            riskScore: recaptchaResult.score
+          },
+          { status: 403 }
+        );
+      }
+    }
+    
     const validationResult = forgotPasswordSchema.safeParse(body);
 
     if (!validationResult.success) {
@@ -117,7 +131,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Error en forgot password:', error);
     
-    return NextResponse.json(
+    const response = NextResponse.json(
       {
         success: false,
         message: 'Error interno del servidor',
@@ -125,5 +139,7 @@ export async function POST(request: NextRequest) {
       },
       { status: 500 }
     );
+    
+    return response;
   }
 }

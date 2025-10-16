@@ -9,6 +9,9 @@ import {
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 import { compatibleUserSchema } from '@/schemas/compatibleUserSchema';
+import { checkRateLimit, RateLimitPresets, addRateLimitHeaders } from '@/lib/distributed-rate-limit';
+import { verifyRecaptcha, RecaptchaThresholds, isLikelyHuman } from '@/lib/recaptcha-server';
+import { trackFailedLogin } from '@/lib/anomaly-detection';
 
 /**
  * GET /api/users
@@ -53,15 +56,52 @@ async function handleGet(request: NextRequest) {
 /**
  * POST /api/users
  * Registra un nuevo usuario
+ * PROTECCIÓN: reCAPTCHA v3 + Rate Limiting + Anomaly Detection
  */
 async function handlePost(request: NextRequest) {
+  // 1. Enhanced Distributed Rate Limiting (Redis-backed)
+  const rateLimitResult = await checkRateLimit(request, RateLimitPresets.REGISTER);
+  
+  if (!rateLimitResult.success) {
+    const response = createErrorResponse(
+      `Demasiados intentos de registro. Intenta nuevamente en ${Math.ceil((rateLimitResult.retryAfter || 0) / 60)} minutos.`,
+      429
+    );
+    addRateLimitHeaders(response.headers, rateLimitResult);
+    return response;
+  }
+
   await connectDB();
   
   // Obtener datos del request
   const requestData = await request.json();
   
+  // 2. reCAPTCHA v3 Verification
+  const recaptchaToken = requestData.recaptchaToken;
+  
+  if (recaptchaToken) {
+    const recaptchaResult = await verifyRecaptcha(recaptchaToken, 'register');
+    
+    if (!recaptchaResult.success || !isLikelyHuman(recaptchaResult.score, RecaptchaThresholds.REGISTER)) {
+      // 3. Track failed registration attempt for anomaly detection
+      const clientIP = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+                      request.headers.get('x-real-ip') || 'unknown';
+      const userAgent = request.headers.get('user-agent') || 'unknown';
+      
+      if (requestData.email) {
+        await trackFailedLogin(requestData.email, clientIP, userAgent);
+      }
+      
+      return createErrorResponse(
+        'Verificación de seguridad fallida. Por favor, intenta de nuevo.',
+        HTTP_STATUS.FORBIDDEN,
+        { riskScore: recaptchaResult.score }
+      );
+    }
+  }
+  
   // Remover confirmPassword antes de validar
-  const { confirmPassword, ...dataToValidate } = requestData;
+  const { confirmPassword, recaptchaToken: _, ...dataToValidate } = requestData;
   
   // Crear un esquema sin confirmPassword para validación del backend
   const backendSchema = compatibleUserSchema.omit({ confirmPassword: true });

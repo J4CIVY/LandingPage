@@ -15,9 +15,25 @@ import { checkRateLimit, resetRateLimit, RateLimitPresets, addRateLimitHeaders }
 import { verifyRecaptcha, RecaptchaThresholds, isLikelyHuman } from '@/lib/recaptcha-server';
 import { trackSuccessfulLogin, trackFailedLogin } from '@/lib/anomaly-detection';
 import { getEmailService } from '@/lib/email-service';
+import { checkAndBlockMaliciousIP } from '@/lib/ip-reputation';
 
 export async function POST(request: NextRequest) {
   try {
+    // 0. IP Reputation Check (NEW in v2.5.0)
+    const ipCheck = await checkAndBlockMaliciousIP(request);
+    
+    if (ipCheck.shouldBlock) {
+      console.log('[SECURITY] Blocked malicious IP:', ipCheck.reputation);
+      return NextResponse.json(
+        { 
+          success: false, 
+          message: 'Acceso denegado por razones de seguridad.',
+          error: 'IP_BLOCKED'
+        },
+        { status: 403 }
+      );
+    }
+
     // 1. Enhanced Distributed Rate Limiting (Redis-backed)
     const rateLimitResult = await checkRateLimit(request, RateLimitPresets.LOGIN);
     

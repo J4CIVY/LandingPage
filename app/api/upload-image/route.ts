@@ -1,17 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { uploadToCloudinary, validateImageFile } from '@/lib/cloudinary-service';
-import { rateLimit } from '@/utils/rateLimit';
+import { checkRateLimit, RateLimitPresets, addRateLimitHeaders } from '@/lib/distributed-rate-limit';
 import { verifyAuth } from '@/lib/auth-utils';
-
-// Configurar rate limiting para subida de imágenes
-const limiter = rateLimit({
-  interval: 60 * 1000, // 1 minuto
-  uniqueTokenPerInterval: 500, // Máximo 500 IPs únicas por minuto
-});
+import { detectBehaviorAnomaly } from '@/lib/anomaly-detection';
 
 export async function POST(request: NextRequest) {
   try {
-    // Verificar autenticación primero (SECURITY FIX: Require authentication for uploads)
+    // 1. Verificar autenticación primero
     const authResult = await verifyAuth(request);
     if (!authResult.success || !authResult.isValid) {
       return NextResponse.json(
@@ -20,13 +15,44 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Obtener IP del cliente
-    const clientIP = request.headers.get('x-forwarded-for') || 
-                     request.headers.get('x-real-ip') || 
-                     'anonymous';
+    // 2. Enhanced Rate Limiting con device fingerprint
+    const rateLimitResult = await checkRateLimit(
+      request, 
+      RateLimitPresets.UPLOAD,
+      authResult.user?.id // Include user ID in rate limit key
+    );
+    
+    if (!rateLimitResult.success) {
+      const response = NextResponse.json(
+        { error: `Demasiadas subidas. Espera ${Math.ceil((rateLimitResult.retryAfter || 0) / 60)} minutos.` },
+        { status: 429 }
+      );
+      addRateLimitHeaders(response.headers, rateLimitResult);
+      return response;
+    }
 
-    // Aplicar rate limiting - máximo 3 subidas por minuto por IP
-    await limiter.check(clientIP, 3);
+    // 3. Anomaly Detection for mass upload attempts
+    const clientIP = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+                     request.headers.get('x-real-ip') || 'unknown';
+    const userAgent = request.headers.get('user-agent') || 'unknown';
+    
+    const anomalyResult = await detectBehaviorAnomaly({
+      userId: authResult.user!.id,
+      eventType: 'profile_update', // Track uploads as profile updates for anomaly detection
+      ip: clientIP,
+      userAgent,
+      timestamp: Date.now()
+    });
+
+    if (anomalyResult.shouldBlock) {
+      return NextResponse.json(
+        { 
+          error: 'Actividad sospechosa detectada. Por seguridad, esta acción ha sido bloqueada.',
+          details: anomalyResult.reasons 
+        },
+        { status: 403 }
+      );
+    }
 
     const formData = await request.formData();
     const file = formData.get('file') as File;
@@ -68,7 +94,7 @@ export async function POST(request: NextRequest) {
     // Subir a Cloudinary
     const result = await uploadToCloudinary(base64File, sanitizedFolder, publicId, preserveOriginalSize);
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       success: true,
       data: {
         url: result.secure_url,
@@ -79,6 +105,11 @@ export async function POST(request: NextRequest) {
         bytes: result.bytes
       }
     });
+
+    // Add rate limit headers to response
+    addRateLimitHeaders(response.headers, rateLimitResult);
+    
+    return response;
 
   } catch (error: any) {
     console.error('Error uploading image:', error);

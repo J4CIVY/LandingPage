@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { FaMapMarkerAlt, FaPhoneAlt, FaRegEnvelope, FaRegClock } from 'react-icons/fa';
 import ContactForm from '@/components/shared/ContactForm';
+import { useRecaptcha, RecaptchaActions } from '@/lib/recaptcha-client';
 
 interface ComplaintFormState {
   title: string;
@@ -42,6 +43,8 @@ interface ContactTabsProps {
 export default function ContactTabs({ contactInfo }: ContactTabsProps) {
   const [activeTab, setActiveTab] = useState<string>("general");
   const [anonymousComplaint, setAnonymousComplaint] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const { verify } = useRecaptcha();
 
   const [complaintForm, setComplaintForm] = useState<ComplaintFormState>({
     title: "",
@@ -91,21 +94,59 @@ export default function ContactTabs({ contactInfo }: ContactTabsProps) {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let formDataToSend: (ComplaintFormState & { anonymous: boolean }) | PqrsdfFormState = {} as any;
-    let formType = activeTab;
+    
+    if (isSubmitting) return; // Prevent double submission
+    
+    setIsSubmitting(true);
 
     try {
+      // 1. Verify reCAPTCHA before submission
+      const recaptchaToken = await verify(RecaptchaActions.CONTACT_FORM);
+      
+      if (!recaptchaToken) {
+        alert('Error de verificación de seguridad. Por favor, recarga la página e intenta nuevamente.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      let formDataToSend: any = {};
+      let formType = activeTab;
+
       switch (formType) {
         case "complaint":
-          formDataToSend = { ...complaintForm, anonymous: anonymousComplaint };
+          formDataToSend = { 
+            ...complaintForm, 
+            anonymous: anonymousComplaint,
+            formType: 'complaint',
+            recaptchaToken 
+          };
           break;
         case "pqrsdf":
-          formDataToSend = pqrsdfForm;
+          formDataToSend = { 
+            ...pqrsdfForm,
+            formType: 'pqrsdf',
+            recaptchaToken 
+          };
           break;
         default:
           throw new Error('Tipo de formulario no válido');
+      }
+
+      // 2. Send to API with reCAPTCHA token
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formDataToSend),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Error al enviar el formulario');
       }
 
       alert('Formulario enviado correctamente. Nos pondremos en contacto contigo pronto.');
@@ -119,7 +160,9 @@ export default function ContactTabs({ contactInfo }: ContactTabsProps) {
       }
     } catch (error) {
       console.error('Error al enviar formulario:', error);
-      alert('Error al enviar el formulario. Por favor, intenta nuevamente.');
+      alert(error instanceof Error ? error.message : 'Error al enviar el formulario. Por favor, intenta nuevamente.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
