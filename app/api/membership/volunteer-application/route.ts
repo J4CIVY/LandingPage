@@ -2,9 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import VolunteerApplication from '@/lib/models/VolunteerApplication';
 import { verifyAuth } from '@/lib/auth-utils';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     await dbConnect();
 
     const authResult = await verifyAuth(request);

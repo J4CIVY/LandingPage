@@ -7,6 +7,7 @@ import {
 } from '@/lib/api-utils';
 import connectDB from '@/lib/mongodb';
 import Event from '@/lib/models/Event';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 /**
  * GET /api/events
@@ -95,6 +96,10 @@ async function handleGet(request: NextRequest) {
  * Crea un nuevo evento
  */
 async function handlePost(request: NextRequest) {
+  // 0. CSRF Protection
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+
   await connectDB();
   
   try {

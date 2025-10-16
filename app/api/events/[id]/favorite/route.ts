@@ -10,6 +10,7 @@ import Event from '@/lib/models/Event';
 import User from '@/lib/models/User';
 import { verifyAuth } from '@/lib/auth-utils';
 import mongoose from 'mongoose';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 interface RouteParams {
   params: Promise<{
@@ -22,6 +23,10 @@ interface RouteParams {
  * Agrega un evento a favoritos del usuario
  */
 async function handlePost(request: NextRequest, { params }: RouteParams) {
+  // 0. CSRF Protection
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+
   await connectDB();
   
   const { id } = await params;
@@ -92,6 +97,10 @@ async function handlePost(request: NextRequest, { params }: RouteParams) {
  * Quita un evento de favoritos del usuario
  */
 async function handleDelete(request: NextRequest, { params }: RouteParams) {
+  // 0. CSRF Protection
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+
   await connectDB();
   
   const { id } = await params;

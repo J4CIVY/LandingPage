@@ -4,6 +4,7 @@ import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 import { checkRateLimit, addRateLimitHeaders } from '@/lib/distributed-rate-limit';
 import { detectBehaviorAnomaly } from '@/lib/anomaly-detection';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // GET - Obtener perfil del usuario
 export async function GET(request: NextRequest) {
@@ -51,6 +52,10 @@ export async function GET(request: NextRequest) {
 // PUT - Actualizar perfil del usuario
 export async function PUT(request: NextRequest) {
   try {
+    // 0. CSRF Protection (Security Audit Phase 3)
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     // Verificar autenticación usando la función centralizada
     const authResult = await verifyAuth(request);
 

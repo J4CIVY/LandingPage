@@ -3,6 +3,7 @@ import { verifyAuth } from '@/lib/auth-utils';
 import dbConnect from '@/lib/mongodb';
 import ExtendedUser from '@/lib/models/ExtendedUser';
 import User from '@/lib/models/User';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // GET - Obtener las preferencias de privacidad del usuario
 export async function GET(request: NextRequest) {
@@ -76,6 +77,10 @@ export async function GET(request: NextRequest) {
 // PATCH - Actualizar las preferencias de privacidad del usuario
 export async function PATCH(request: NextRequest) {
   try {
+    // 0. CSRF Protection (Security Audit Phase 3)
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     const authResult = await verifyAuth(request);
     
     if (!authResult.isValid || !authResult.session) {

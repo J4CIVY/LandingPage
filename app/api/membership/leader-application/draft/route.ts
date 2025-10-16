@@ -2,10 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { verifyAccessToken } from '@/lib/auth-utils';
 import { ObjectId } from 'mongodb';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // POST - Guardar borrador de postulación Leader
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     // Verificar autenticación
     const token = request.headers.get('authorization')?.replace('Bearer ', '') ||
                  request.cookies.get('token')?.value;

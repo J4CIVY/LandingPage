@@ -3,10 +3,15 @@ import { connectToDatabase } from '@/lib/mongodb';
 import { verifyAccessToken } from '@/lib/auth-utils';
 import { ObjectId } from 'mongodb';
 import { calculateLeadershipEligibility } from '@/data/membershipConfig';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // POST - Enviar postulación final para Leader
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     // Verificar autenticación
     const token = request.headers.get('authorization')?.replace('Bearer ', '') ||
                  request.cookies.get('token')?.value;

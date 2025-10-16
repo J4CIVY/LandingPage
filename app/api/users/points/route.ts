@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import { verifyAuth } from '@/lib/auth-utils';
 import { GamificationService } from '@/lib/services/GamificationService';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // GET /api/users/points - Obtener información detallada de puntos
 export async function GET(request: NextRequest) {
@@ -64,6 +65,10 @@ export async function GET(request: NextRequest) {
 // POST /api/users/points - Otorgar puntos manualmente (admin only)
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection (Security Audit Phase 3)
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     await connectDB();
     
     // Autenticar usuario

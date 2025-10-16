@@ -19,6 +19,7 @@ import {
   generateInvoiceUrl 
 } from '@/lib/bird-crm';
 import { ActivityLoggerService } from '@/lib/activity-logger';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 interface RouteParams {
   params: Promise<{
@@ -31,6 +32,10 @@ interface RouteParams {
  * Registra un usuario en un evento
  */
 async function handlePost(request: NextRequest, { params }: RouteParams) {
+  // 0. CSRF Protection
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+
   await connectDB();
   
   const { id } = await params;
@@ -251,6 +256,10 @@ async function handlePost(request: NextRequest, { params }: RouteParams) {
  * Cancela el registro de un usuario en un evento
  */
 async function handleDelete(request: NextRequest, { params }: RouteParams) {
+  // 0. CSRF Protection (Security Audit Phase 3)
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+
   await connectDB();
   
   const { id } = await params;

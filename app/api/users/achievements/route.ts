@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyAuth } from '@/lib/auth-utils';
 import { GamificationService } from '@/lib/services/GamificationService';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 const gamificationService = new GamificationService();
 
@@ -67,6 +68,10 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection (Security Audit Phase 3)
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     // Verificar autenticación
     const authResult = await verifyAuth(request);
     if (!authResult.success || !authResult.user) {

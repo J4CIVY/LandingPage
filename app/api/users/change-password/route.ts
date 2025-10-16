@@ -3,6 +3,7 @@ import { verify } from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
@@ -14,6 +15,10 @@ interface JWTPayload {
 // PUT - Cambiar contraseña del usuario
 export async function PUT(request: NextRequest) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     await connectDB();
 
     // Obtener token de las cookies

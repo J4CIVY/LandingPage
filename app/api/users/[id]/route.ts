@@ -8,6 +8,7 @@ import {
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 import mongoose from 'mongoose';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 interface RouteParams {
   params: Promise<{
@@ -67,6 +68,10 @@ async function handleGet(request: NextRequest, { params }: RouteParams) {
  * Actualiza un usuario específico
  */
 async function handlePut(request: NextRequest, { params }: RouteParams) {
+  // 0. CSRF Protection
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+
   await connectDB();
   
   const { id } = await params;
@@ -144,6 +149,10 @@ async function handlePut(request: NextRequest, { params }: RouteParams) {
  * Elimina (desactiva) un usuario específico
  */
 async function handleDelete(request: NextRequest, { params }: RouteParams) {
+  // 0. CSRF Protection
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+
   await connectDB();
   
   const { id } = await params;

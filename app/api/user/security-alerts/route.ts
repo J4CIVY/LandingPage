@@ -3,6 +3,7 @@ import { verifyAuth } from '@/lib/auth-utils';
 import dbConnect from '@/lib/mongodb';
 import ExtendedUser from '@/lib/models/ExtendedUser';
 import User from '@/lib/models/User';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 /**
  * GET /api/user/security-alerts
@@ -91,6 +92,10 @@ export async function GET(request: NextRequest) {
  */
 export async function PATCH(request: NextRequest) {
   try {
+    // 0. CSRF Protection (Security Audit Phase 3)
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     // Verificar autenticación
     const authResult = await verifyAuth(request);
     

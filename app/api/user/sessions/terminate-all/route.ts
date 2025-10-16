@@ -2,10 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifyAuth } from '@/lib/auth-utils';
 import dbConnect from '@/lib/mongodb';
 import Session from '@/lib/models/Session';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // POST - Cerrar todas las sesiones excepto la actual
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection (Security Audit Phase 3)
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     const authResult = await verifyAuth(request);
     
     if (!authResult.isValid || !authResult.session) {
