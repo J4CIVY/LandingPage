@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import MembershipHistory from '@/lib/models/MembershipHistory';
 import { verifyAuth } from '@/lib/auth-utils';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // GET /api/membership/history - Obtener historial de membresías del usuario
 export async function GET(request: NextRequest) {
@@ -77,9 +78,13 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/membership/history - Crear nueva entrada en historial (solo admins)
+// POST /api/membership/history - Crear entrada de historial (solo admin)
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     await connectDB();
     
     // Autenticar usuario y verificar rol de admin

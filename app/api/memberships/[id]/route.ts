@@ -6,6 +6,7 @@ import {
   HTTP_STATUS 
 } from '@/lib/api-utils';
 import { db } from '@/lib/database';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 interface RouteParams {
   params: Promise<{
@@ -40,6 +41,10 @@ async function handleGet(request: NextRequest, { params }: RouteParams) {
  * Actualiza el estado de una aplicación de membresía
  */
 async function handlePut(request: NextRequest, { params }: RouteParams) {
+  // 0. CSRF Protection
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+
   const { id } = await params;
   
   try {
@@ -99,6 +104,10 @@ async function handlePut(request: NextRequest, { params }: RouteParams) {
  * Elimina una aplicación de membresía
  */
 async function handleDelete(request: NextRequest, { params }: RouteParams) {
+  // 0. CSRF Protection
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+
   const { id } = await params;
   
   const application = db.getMembershipApplicationById(id);

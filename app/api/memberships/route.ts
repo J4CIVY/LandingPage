@@ -9,6 +9,7 @@ import {
 import connectDB from '@/lib/mongodb';
 import MembershipApplication from '@/lib/models/MembershipApplication';
 import { membershipApplicationSchema } from '@/lib/validation-schemas';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 /**
  * GET /api/memberships
@@ -64,6 +65,10 @@ async function handleGet(request: NextRequest) {
  * Crea una nueva aplicación de membresía
  */
 async function handlePost(request: NextRequest) {
+  // 0. CSRF Protection
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+
   await connectDB();
   
   const validation = await validateRequestBody(request, membershipApplicationSchema);

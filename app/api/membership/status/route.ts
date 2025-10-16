@@ -3,6 +3,7 @@ import connectDB from '@/lib/mongodb';
 import MembershipHistory from '@/lib/models/MembershipHistory';
 import User from '@/lib/models/User';
 import { verifyAuth } from '@/lib/auth-utils';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // GET /api/membership/status - Obtener estado actual de membresía del usuario
 export async function GET(request: NextRequest) {
@@ -130,6 +131,10 @@ export async function GET(request: NextRequest) {
 // POST /api/membership/status - Actualizar estado de membresía (renovar, cancelar, etc.)
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     await connectDB();
     
     // Autenticar usuario
