@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useEvents } from '@/hooks/useEvents';
+import { getCSRFToken } from '@/lib/csrf-client';
 import EventosHeader from '@/components/eventos/EventosHeader';
 import EventosFilter from '@/components/eventos/EventosFilter';
 import EventoCard from '@/components/eventos/EventoCard';
@@ -212,9 +213,13 @@ export default function EventosPage() {
   const handleDeleteEvent = async (eventId: string) => {
     if (window.confirm('¿Estás seguro de que quieres eliminar este evento?')) {
       try {
+        const csrfToken = getCSRFToken();
         const response = await fetch(`/api/events/${eventId}`, {
           method: 'DELETE',
-          credentials: 'include'
+          credentials: 'include',
+          headers: {
+            'x-csrf-token': csrfToken || '',
+          }
         });
         
         if (response.ok) {
@@ -230,9 +235,13 @@ export default function EventosPage() {
 
   const handleRegisterToEvent = async (eventId: string) => {
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch(`/api/events/${eventId}/register`, {
         method: 'POST',
-        credentials: 'include'
+        credentials: 'include',
+        headers: {
+          'x-csrf-token': csrfToken || '',
+        }
       });
       
       if (response.ok) {
@@ -247,9 +256,13 @@ export default function EventosPage() {
 
   const handleUnregisterFromEvent = async (eventId: string) => {
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch(`/api/events/${eventId}/register`, {
         method: 'DELETE',
-        credentials: 'include'
+        credentials: 'include',
+        headers: {
+          'x-csrf-token': csrfToken || '',
+        }
       });
       
       if (response.ok) {

@@ -18,10 +18,13 @@ export function getCSRFToken(): string | null {
   );
   
   if (!csrfCookie) {
+    console.warn('[CSRF] No CSRF token found in cookies');
     return null;
   }
   
-  return csrfCookie.split('=')[1];
+  const token = csrfCookie.split('=')[1];
+  console.log('[CSRF] Token retrieved:', token ? '✓' : '✗');
+  return token;
 }
 
 /**
@@ -33,7 +36,7 @@ export function addCSRFHeaders(headers: HeadersInit = {}): HeadersInit {
   const token = getCSRFToken();
   
   if (!token) {
-    console.warn('[CSRF] No CSRF token found in cookies. Request may fail.');
+    console.warn('[CSRF] No CSRF token available. Request may fail.');
     return headers;
   }
   
