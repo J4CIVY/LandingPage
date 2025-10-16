@@ -5,6 +5,7 @@ import {
   createErrorResponse,
   HTTP_STATUS 
 } from '@/lib/api-utils';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 import connectDB from '@/lib/mongodb';
 import Event from '@/lib/models/Event';
 import User from '@/lib/models/User';
@@ -21,6 +22,10 @@ export async function PATCH(
   context: { params: Promise<{ id: string }> }
 ) {
   const adminRequest = req as AdminRequest;
+  
+  // SECURITY: CSRF Protection
+  const csrfError = requireCSRFToken(adminRequest);
+  if (csrfError) return csrfError;
   
   // Verificar permisos de administrador
   const authCheck = await requireAdmin(adminRequest);

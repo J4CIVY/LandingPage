@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyAuth } from '@/lib/auth-utils';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 import {
   getRecentSecurityEvents,
   getEventsByType,
@@ -82,6 +83,10 @@ export async function GET(request: NextRequest) {
  * Resolve a security event
  */
 export async function PATCH(request: NextRequest) {
+  // SECURITY: CSRF Protection
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+  
   try {
     // Verify admin authentication
     const authResult = await verifyAuth(request);

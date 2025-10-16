@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import { verifyAuth } from '@/lib/auth-utils';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 import { GamificationService } from '@/lib/services/GamificationService';
 import { Recompensa } from '@/lib/models/Gamification';
 
 // POST /api/admin/seed-gamification - Poblar datos de ejemplo para gamificación (solo admin)
 export async function POST(request: NextRequest) {
+  // SECURITY: CSRF Protection
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+  
   try {
     await connectDB();
     

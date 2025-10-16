@@ -5,6 +5,7 @@ import {
   createErrorResponse,
   HTTP_STATUS 
 } from '@/lib/api-utils';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 import connectDB from '@/lib/mongodb';
 import Emergency from '@/lib/models/Emergency';
 import mongoose from 'mongoose';
@@ -54,6 +55,10 @@ async function handleGet(request: NextRequest, { params }: { params: Promise<{ i
  * Actualiza una emergencia específica
  */
 async function handlePut(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  // SECURITY: CSRF Protection
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+  
   await connectDB();
   
   try {
@@ -145,6 +150,10 @@ async function handlePut(request: NextRequest, { params }: { params: Promise<{ i
  * Elimina (desactiva) una emergencia específica
  */
 async function handleDelete(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  // SECURITY: CSRF Protection
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+  
   await connectDB();
   
   try {

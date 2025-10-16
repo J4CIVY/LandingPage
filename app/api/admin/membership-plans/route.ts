@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 import Membership, { IMembership } from '@/lib/models/Membership';
 import { membershipSchema, membershipFiltersSchema } from '@/lib/validation-schemas';
 import { verifyAuth } from '@/lib/auth-utils';
@@ -83,6 +84,10 @@ export async function GET(request: NextRequest) {
 
 // Crear nueva membresía/plan (mantener si hay contexto útil)
 export async function POST(request: NextRequest) {
+  // SECURITY: CSRF Protection
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+  
   try {
   // Verifica autenticación y permisos de admin
     const authResult = await verifyAuth(request);

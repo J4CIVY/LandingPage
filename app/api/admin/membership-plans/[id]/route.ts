@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 import Membership from '@/lib/models/Membership';
 import { updateMembershipSchema } from '@/lib/validation-schemas';
 import { verifyAuth } from '@/lib/auth-utils';
@@ -66,6 +67,10 @@ export async function PUT(
   request: NextRequest, 
   { params }: { params: Promise<{ id: string }> }
 ) {
+  // SECURITY: CSRF Protection
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+  
   try {
     // Verificar autenticación y permisos de admin
     const authResult = await verifyAuth(request);
@@ -175,6 +180,10 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  // SECURITY: CSRF Protection
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+  
   try {
     // Verificar autenticación y permisos de admin
     const authResult = await verifyAuth(request);

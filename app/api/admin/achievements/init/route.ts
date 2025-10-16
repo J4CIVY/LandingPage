@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyAuth } from '@/lib/auth-utils';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 import { GamificationService } from '@/lib/services/GamificationService';
 
 const gamificationService = new GamificationService();
 
 export async function POST(request: NextRequest) {
+  // SECURITY: CSRF Protection
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+  
   try {
     // Verificar autenticación y permisos de admin
     const authResult = await verifyAuth(request);

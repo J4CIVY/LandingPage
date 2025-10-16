@@ -5,6 +5,7 @@ import {
   createErrorResponse,
   HTTP_STATUS 
 } from '@/lib/api-utils';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 import connectDB from '@/lib/mongodb';
 import Emergency from '@/lib/models/Emergency';
 import mongoose from 'mongoose';
@@ -144,6 +145,10 @@ async function handleGet(request: NextRequest) {
  * Crea una nueva emergencia desde el admin
  */
 async function handlePost(request: NextRequest) {
+  // SECURITY: CSRF Protection
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+  
   await connectDB();
   
   try {

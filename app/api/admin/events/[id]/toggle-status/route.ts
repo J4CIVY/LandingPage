@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin, AdminRequest } from '@/lib/auth-admin';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 import connectDB from '@/lib/mongodb';
 import Event from '@/lib/models/Event';
 
@@ -8,6 +9,10 @@ export async function PATCH(
   context: { params: Promise<{ id: string }> }
 ) {
   const adminRequest = req as AdminRequest;
+  
+  // SECURITY: CSRF Protection
+  const csrfError = requireCSRFToken(adminRequest);
+  if (csrfError) return csrfError;
   
   // Verificar permisos de administrador
   const authCheck = await requireAdmin(adminRequest);
