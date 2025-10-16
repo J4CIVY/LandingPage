@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateNonce, createCSPHeader } from '@/lib/csp-nonce';
+import { safeJsonParse } from '@/lib/json-utils';
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -9,25 +10,33 @@ export function middleware(request: NextRequest) {
   const nonce = generateNonce();
   response.headers.set('x-nonce', nonce);
 
-  // Headers de seguridad básicos
-  response.headers.set('X-Content-Type-Options', 'nosniff');
-  response.headers.set('X-Frame-Options', 'DENY');
-  response.headers.set('X-XSS-Protection', '1; mode=block');
-  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  // SECURITY: Essential security headers
+  response.headers.set('X-Content-Type-Options', 'nosniff'); // Prevent MIME sniffing
+  response.headers.set('X-Frame-Options', 'DENY'); // Prevent clickjacking
+  response.headers.set('X-XSS-Protection', '1; mode=block'); // Legacy XSS protection (still useful for older browsers)
+  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin'); // Control referrer info
+  response.headers.set('X-DNS-Prefetch-Control', 'on'); // Allow DNS prefetch
+  response.headers.set('X-Download-Options', 'noopen'); // Prevent IE from executing downloads
+  response.headers.set('X-Permitted-Cross-Domain-Policies', 'none'); // Restrict cross-domain policies
   
   // SECURITY ENHANCEMENT: Permissions Policy (Feature Policy successor)
+  // Restricts access to browser features and APIs
   response.headers.set('Permissions-Policy', [
     'camera=()',
     'microphone=()',
     'geolocation=(self)',
-    'interest-cohort=()', // Disable FLoC
-    'payment=(self)',
+    'interest-cohort=()', // Disable FLoC (Google's tracking tech)
+    'payment=(self "https://checkout.bold.co")',
     'usb=()',
     'bluetooth=()',
     'magnetometer=()',
     'gyroscope=()',
     'accelerometer=()',
     'ambient-light-sensor=()',
+    'autoplay=(self)',
+    'encrypted-media=(self)',
+    'fullscreen=(self)',
+    'picture-in-picture=()',
   ].join(', '));
   
   // Enhanced CSP with nonce-based inline script protection
@@ -59,7 +68,8 @@ export function middleware(request: NextRequest) {
       }
       
       // Decode payload to check expiration (without full verification due to Edge Runtime limits)
-      const payload = JSON.parse(Buffer.from(parts[1], 'base64').toString());
+      // SECURITY: Use safeJsonParse to prevent prototype pollution
+      const payload = safeJsonParse<any>(Buffer.from(parts[1], 'base64').toString(), {});
       
       // Check if token is expired
       if (payload.exp && payload.exp * 1000 < Date.now()) {
@@ -93,7 +103,8 @@ export function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/login?error=invalid_token', request.url));
       }
       
-      const payload = JSON.parse(Buffer.from(parts[1], 'base64').toString());
+      // SECURITY: Use safeJsonParse to prevent prototype pollution
+      const payload = safeJsonParse<any>(Buffer.from(parts[1], 'base64').toString(), {});
       
       // Check token expiration
       if (payload.exp && payload.exp * 1000 < Date.now()) {

@@ -17,6 +17,7 @@
  */
 
 import { getRedisClient } from './redis-client';
+import { safeJsonParse } from './json-utils';
 
 export interface IPReputationResult {
   ip: string;
@@ -93,7 +94,14 @@ export async function checkIPReputation(
     const cached = await redis.get(cacheKey);
     if (cached) {
       console.log(`[IP Reputation] Cache hit for ${ip}`);
-      return JSON.parse(cached);
+      return safeJsonParse<IPReputationResult>(cached, {
+        ip,
+        abuseConfidenceScore: 0,
+        isWhitelisted: false,
+        totalReports: 0,
+        lastReportedAt: null,
+        isBlocked: false,
+      });
     }
   }
 

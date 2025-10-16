@@ -16,6 +16,7 @@ import {
 import { Publicacion } from '@/types/comunidad';
 import { IUser } from '@/lib/models/User';
 import Comentarios from './Comentarios';
+import { sanitizeText } from '@/lib/input-sanitization';
 
 interface PublicacionCardProps {
   publicacion: Publicacion;
@@ -37,6 +38,11 @@ export default function PublicacionCard({
   const [cargandoReaccion, setCargandoReaccion] = useState(false);
   const [cargandoEdicion, setCargandoEdicion] = useState(false);
   const [cantidadComentarios, setCantidadComentarios] = useState(0);
+
+  // SECURITY: Sanitize user-generated content to prevent XSS
+  const safeFirstName = sanitizeText(publicacion.autor.firstName, 50);
+  const safeLastName = sanitizeText(publicacion.autor.lastName, 50);
+  const safeContenido = sanitizeText(publicacion.contenido, 5000);
 
   const esAutor = usuarioActual?.id === publicacion.autorId;
   const esAdmin = usuarioActual?.role === 'admin' || usuarioActual?.role === 'super-admin';
@@ -172,14 +178,14 @@ export default function PublicacionCard({
         <div className="flex items-center space-x-3">
           {/* Avatar */}
           <div className="h-10 w-10 rounded-full bg-blue-600 dark:bg-blue-700 flex items-center justify-center text-white font-medium">
-            {publicacion.autor.firstName[0]}{publicacion.autor.lastName[0]}
+            {safeFirstName[0]}{safeLastName[0]}
           </div>
           
           {/* Info del autor */}
           <div>
             <div className="flex items-center space-x-2">
               <h4 className="font-medium text-gray-900 dark:text-white">
-                {publicacion.autor.firstName} {publicacion.autor.lastName}
+                {safeFirstName} {safeLastName}
               </h4>
               {publicacion.autor.role && (
                 <span className={`px-2 py-1 text-xs font-medium rounded-full ${
@@ -309,7 +315,7 @@ export default function PublicacionCard({
             </div>
           </div>
         ) : (
-          <p className="text-gray-900 dark:text-gray-100 whitespace-pre-wrap">{publicacion.contenido}</p>
+          <p className="text-gray-900 dark:text-gray-100 whitespace-pre-wrap">{safeContenido}</p>
         )}
       </div>
 

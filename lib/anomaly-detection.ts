@@ -5,6 +5,7 @@
  */
 
 import { getRateLimiter } from './redis-client';
+import { safeJsonParse } from './json-utils';
 import crypto from 'crypto';
 
 export interface UserBehaviorEvent {
@@ -48,7 +49,7 @@ async function getUserBehaviorHistory(
     const eventsJson = await limiter.get(key);
     if (!eventsJson) return [];
     
-    const events = JSON.parse(eventsJson) as UserBehaviorEvent[];
+    const events = safeJsonParse<UserBehaviorEvent[]>(eventsJson, []);
     return events.slice(-limitEvents);
   } catch (error) {
     console.error('Error fetching behavior history:', error);

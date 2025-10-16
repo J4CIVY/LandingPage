@@ -3,12 +3,18 @@
 import Image from 'next/image';
 import { FaMapMarkerAlt, FaExternalLinkAlt, FaEye, FaTicketAlt, FaClock, FaCheckCircle } from 'react-icons/fa';
 import { BenefitCardProps } from '@/types/benefits';
+import { sanitizeText } from '@/lib/input-sanitization';
 
 const BenefitCard: React.FC<BenefitCardProps> = ({
   benefit,
   onViewDetails,
   onClaimBenefit
 }) => {
+  // SECURITY: Sanitize user-generated content to prevent XSS
+  const safeName = sanitizeText(benefit.name, 100);
+  const safeCompany = sanitizeText(benefit.company, 100);
+  const safeDescription = sanitizeText(benefit.briefDescription, 200);
+  
   // Function to get status style
   const getStatusStyle = (status: string) => {
     switch (status) {
@@ -99,16 +105,16 @@ const BenefitCard: React.FC<BenefitCardProps> = ({
         {/* Name and company */}
         <div className="mb-3">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1 line-clamp-2">
-            {benefit.name}
+            {safeName}
           </h3>
           <p className="text-sm text-blue-600 dark:text-blue-400 font-medium">
-            {benefit.company}
+            {safeCompany}
           </p>
         </div>
 
         {/* Description */}
   <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
-          {benefit.briefDescription}
+          {safeDescription}
         </p>
 
         {/* Location or website */}

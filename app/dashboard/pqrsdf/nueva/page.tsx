@@ -14,6 +14,8 @@ import {
   FaUniversity,
   FaCreditCard
 } from 'react-icons/fa';
+import { useEmailValidation } from '@/hooks/useEmailValidation';
+import { usePhoneValidation } from '@/hooks/usePhoneValidation';
 
 // Importar tipos y servicios
 import { 
@@ -69,6 +71,10 @@ function NuevaSolicitudPageContent() {
   const { user } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
+  
+  // Validation hooks
+  const emailValidation = useEmailValidation();
+  const phoneValidation = usePhoneValidation();
   
   // Estados del formulario
   const [formulario, setFormulario] = useState<CrearSolicitudDto>({
@@ -206,14 +212,22 @@ function NuevaSolicitudPageContent() {
       
       if (!datosBancarios.emailConfirmacion.trim()) {
         nuevosErrores.emailConfirmacion = 'El correo de confirmación es obligatorio';
-      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(datosBancarios.emailConfirmacion)) {
-        nuevosErrores.emailConfirmacion = 'Correo electrónico inválido';
+      } else {
+        // Use validation hook instead of regex
+        emailValidation.handleChange(datosBancarios.emailConfirmacion);
+        if (!emailValidation.isValid) {
+          nuevosErrores.emailConfirmacion = emailValidation.error || 'Correo electrónico inválido';
+        }
       }
       
       if (!datosBancarios.telefonoContacto.trim()) {
         nuevosErrores.telefonoContacto = 'El teléfono de contacto es obligatorio';
-      } else if (!/^3\d{9}$/.test(datosBancarios.telefonoContacto)) {
-        nuevosErrores.telefonoContacto = 'Teléfono inválido (10 dígitos, debe iniciar con 3)';
+      } else {
+        // Use validation hook instead of regex
+        phoneValidation.handleChange(datosBancarios.telefonoContacto);
+        if (!phoneValidation.isValid) {
+          nuevosErrores.telefonoContacto = phoneValidation.error || 'Teléfono inválido (10 dígitos, debe iniciar con 3)';
+        }
       }
     }
 
@@ -698,14 +712,20 @@ function NuevaSolicitudPageContent() {
                     <input
                       type="email"
                       value={datosBancarios.emailConfirmacion}
-                      onChange={(e) => handleDatosBancariosChange('emailConfirmacion', e.target.value)}
+                      onChange={(e) => {
+                        emailValidation.handleChange(e.target.value);
+                        handleDatosBancariosChange('emailConfirmacion', e.target.value);
+                      }}
                       placeholder="correo@ejemplo.com"
                       className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-slate-100 ${
-                        errores.emailConfirmacion
+                        errores.emailConfirmacion || emailValidation.error
                           ? 'border-red-300 dark:border-red-600'
                           : 'border-gray-300 dark:border-slate-600'
                       }`}
                     />
+                    {emailValidation.error && (
+                      <p className="mt-1 text-sm text-red-600 dark:text-red-400">{emailValidation.error}</p>
+                    )}
                     {errores.emailConfirmacion && (
                       <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errores.emailConfirmacion}</p>
                     )}
@@ -719,14 +739,21 @@ function NuevaSolicitudPageContent() {
                     <input
                       type="tel"
                       value={datosBancarios.telefonoContacto}
-                      onChange={(e) => handleDatosBancariosChange('telefonoContacto', e.target.value.replace(/\D/g, ''))}
+                      onChange={(e) => {
+                        const cleanedValue = e.target.value.replace(/\D/g, '');
+                        phoneValidation.handleChange(cleanedValue);
+                        handleDatosBancariosChange('telefonoContacto', cleanedValue);
+                      }}
                       placeholder="3001234567"
                       className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-slate-100 ${
-                        errores.telefonoContacto
+                        errores.telefonoContacto || phoneValidation.error
                           ? 'border-red-300 dark:border-red-600'
                           : 'border-gray-300 dark:border-slate-600'
                       }`}
                     />
+                    {phoneValidation.error && (
+                      <p className="mt-1 text-sm text-red-600 dark:text-red-400">{phoneValidation.error}</p>
+                    )}
                     {errores.telefonoContacto && (
                       <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errores.telefonoContacto}</p>
                     )}

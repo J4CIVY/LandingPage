@@ -1,15 +1,40 @@
 import { z } from 'zod';
 
+// SECURITY: Enhanced validation schemas with strict input validation
+// All schemas include sanitization and prevent common injection attacks
+
+// Common validation patterns
+const ALPHANUMERIC_REGEX = /^[a-zA-Z0-9\s\-_]+$/;
+const PHONE_REGEX = /^[\d+\-\s()]+$/;
+const SAFE_TEXT_REGEX = /^[^<>{}[\]\\]+$/; // Prevent HTML/script injection
+
 // Esquema para emergencias SOS
 export const emergencyRequestSchema = z.object({
-  name: z.string().min(1, 'Nombre requerido').max(100, 'Nombre demasiado largo'),
-  memberId: z.string().min(1, 'ID de miembro requerido'),
+  name: z.string()
+    .min(1, 'Nombre requerido')
+    .max(100, 'Nombre demasiado largo')
+    .regex(SAFE_TEXT_REGEX, 'El nombre contiene caracteres no permitidos')
+    .transform(val => val.trim()),
+  memberId: z.string()
+    .min(1, 'ID de miembro requerido')
+    .transform(val => val.trim()),
   emergencyType: z.enum(['mechanical', 'medical', 'accident', 'breakdown', 'other'], {
     message: 'Tipo de emergencia inválido'
   }),
-  description: z.string().min(10, 'Descripción debe tener al menos 10 caracteres').max(500, 'Descripción demasiado larga'),
-  location: z.string().min(5, 'Ubicación requerida').max(200, 'Ubicación demasiado larga'),
-  contactPhone: z.string().min(10, 'Teléfono debe tener al menos 10 dígitos').max(15, 'Teléfono demasiado largo'),
+  description: z.string()
+    .min(10, 'Descripción debe tener al menos 10 caracteres')
+    .max(500, 'Descripción demasiado larga')
+    .regex(SAFE_TEXT_REGEX, 'La descripción contiene caracteres no permitidos')
+    .transform(val => val.trim()),
+  location: z.string()
+    .min(5, 'Ubicación requerida')
+    .max(200, 'Ubicación demasiado larga')
+    .transform(val => val.trim()),
+  contactPhone: z.string()
+    .min(10, 'Teléfono debe tener al menos 10 dígitos')
+    .max(15, 'Teléfono demasiado largo')
+    .regex(PHONE_REGEX, 'Formato de teléfono inválido')
+    .transform(val => val.replace(/\s+/g, '')),
   coordinates: z.object({
     lat: z.number().min(-90).max(90),
     lng: z.number().min(-180).max(180)
@@ -31,24 +56,59 @@ export type UpdateEmergencyInput = z.infer<typeof updateEmergencySchema>;
 
 // Esquema para aplicaciones de membresía
 export const membershipApplicationSchema = z.object({
-  name: z.string().min(1, 'Nombre requerido').max(100, 'Nombre demasiado largo'),
-  email: z.string().email('Email inválido'),
-  phone: z.string().min(10, 'Teléfono debe tener al menos 10 dígitos').max(15, 'Teléfono demasiado largo'),
+  name: z.string()
+    .min(1, 'Nombre requerido')
+    .max(100, 'Nombre demasiado largo')
+    .regex(SAFE_TEXT_REGEX, 'El nombre contiene caracteres no permitidos')
+    .transform(val => val.trim()),
+  email: z.string()
+    .email('Email inválido')
+    .toLowerCase()
+    .transform(val => val.trim()),
+  phone: z.string()
+    .min(10, 'Teléfono debe tener al menos 10 dígitos')
+    .max(15, 'Teléfono demasiado largo')
+    .regex(PHONE_REGEX, 'Formato de teléfono inválido')
+    .transform(val => val.replace(/\s+/g, '')),
   membershipType: z.enum(['friend', 'rider', 'rider-duo', 'pro', 'pro-duo'], {
     message: 'Tipo de membresía inválido'
   }),
-  message: z.string().max(500, 'Mensaje demasiado largo').optional()
+  message: z.string()
+    .max(500, 'Mensaje demasiado largo')
+    .regex(SAFE_TEXT_REGEX, 'El mensaje contiene caracteres no permitidos')
+    .transform(val => val.trim())
+    .optional()
 });
 
 export type MembershipApplicationInput = z.infer<typeof membershipApplicationSchema>;
 
 // Esquema para mensajes de contacto
 export const contactMessageSchema = z.object({
-  name: z.string().min(1, 'Nombre requerido').max(100, 'Nombre demasiado largo'),
-  email: z.string().email('Email inválido'),
-  phone: z.string().min(10, 'Teléfono debe tener al menos 10 dígitos').max(15, 'Teléfono demasiado largo').optional(),
-  subject: z.string().min(1, 'Asunto requerido').max(200, 'Asunto demasiado largo'),
-  message: z.string().min(10, 'Mensaje debe tener al menos 10 caracteres').max(1000, 'Mensaje demasiado largo'),
+  name: z.string()
+    .min(1, 'Nombre requerido')
+    .max(100, 'Nombre demasiado largo')
+    .regex(SAFE_TEXT_REGEX, 'El nombre contiene caracteres no permitidos')
+    .transform(val => val.trim()),
+  email: z.string()
+    .email('Email inválido')
+    .toLowerCase()
+    .transform(val => val.trim()),
+  phone: z.string()
+    .min(10, 'Teléfono debe tener al menos 10 dígitos')
+    .max(15, 'Teléfono demasiado largo')
+    .regex(PHONE_REGEX, 'Formato de teléfono inválido')
+    .transform(val => val.replace(/\s+/g, ''))
+    .optional(),
+  subject: z.string()
+    .min(1, 'Asunto requerido')
+    .max(200, 'Asunto demasiado largo')
+    .regex(SAFE_TEXT_REGEX, 'El asunto contiene caracteres no permitidos')
+    .transform(val => val.trim()),
+  message: z.string()
+    .min(10, 'Mensaje debe tener al menos 10 caracteres')
+    .max(1000, 'Mensaje demasiado largo')
+    .regex(SAFE_TEXT_REGEX, 'El mensaje contiene caracteres no permitidos')
+    .transform(val => val.trim()),
   type: z.enum(['general', 'membership', 'technical', 'complaint', 'suggestion']).default('general')
 });
 
@@ -56,15 +116,31 @@ export type ContactMessageInput = z.infer<typeof contactMessageSchema>;
 
 // Esquema para productos
 export const productSchema = z.object({
-  name: z.string().min(1, 'Nombre requerido').max(100, 'Nombre demasiado largo'),
-  shortDescription: z.string().min(10, 'Descripción corta requerida').max(200, 'Descripción corta demasiado larga'),
-  longDescription: z.string().min(50, 'Descripción larga requerida').max(1000, 'Descripción larga demasiado larga'),
+  name: z.string()
+    .min(1, 'Nombre requerido')
+    .max(100, 'Nombre demasiado largo')
+    .regex(SAFE_TEXT_REGEX, 'El nombre contiene caracteres no permitidos')
+    .transform(val => val.trim()),
+  shortDescription: z.string()
+    .min(10, 'Descripción corta requerida')
+    .max(200, 'Descripción corta demasiado larga')
+    .regex(SAFE_TEXT_REGEX, 'La descripción contiene caracteres no permitidos')
+    .transform(val => val.trim()),
+  longDescription: z.string()
+    .min(50, 'Descripción larga requerida')
+    .max(1000, 'Descripción larga demasiado larga')
+    .regex(SAFE_TEXT_REGEX, 'La descripción contiene caracteres no permitidos')
+    .transform(val => val.trim()),
   finalPrice: z.number().min(0, 'El precio debe ser positivo'),
   availability: z.enum(['in-stock', 'out-of-stock']).default('in-stock'),
   featuredImage: z.string().url('URL de imagen inválida'),
   gallery: z.array(z.string().url('URL de imagen inválida')).optional(),
   newProduct: z.boolean().default(false),
-  category: z.string().min(1, 'Categoría requerida').max(50, 'Categoría demasiado larga'),
+  category: z.string()
+    .min(1, 'Categoría requerida')
+    .max(50, 'Categoría demasiado larga')
+    .regex(ALPHANUMERIC_REGEX, 'La categoría contiene caracteres no permitidos')
+    .transform(val => val.trim()),
   technicalSpecifications: z.record(z.string(), z.string()).optional(),
   features: z.array(z.string().max(100, 'Característica demasiado larga')).optional(),
   slug: z.string().optional()
@@ -79,15 +155,39 @@ export type UpdateProductInput = z.infer<typeof updateProductSchema>;
 
 // Esquema para eventos
 export const eventSchema = z.object({
-  name: z.string().min(1, 'Nombre requerido').max(100, 'Nombre demasiado largo'),
+  name: z.string()
+    .min(1, 'Nombre requerido')
+    .max(100, 'Nombre demasiado largo')
+    .regex(SAFE_TEXT_REGEX, 'El nombre contiene caracteres no permitidos')
+    .transform(val => val.trim()),
   startDate: z.string().datetime('Fecha inválida'),
-  description: z.string().min(10, 'Descripción requerida').max(500, 'Descripción demasiado larga'),
+  description: z.string()
+    .min(10, 'Descripción requerida')
+    .max(500, 'Descripción demasiado larga')
+    .regex(SAFE_TEXT_REGEX, 'La descripción contiene caracteres no permitidos')
+    .transform(val => val.trim()),
   mainImage: z.string().url('URL de imagen inválida'),
-  eventType: z.string().min(1, 'Tipo de evento requerido').max(50, 'Tipo de evento demasiado largo'),
+  eventType: z.string()
+    .min(1, 'Tipo de evento requerido')
+    .max(50, 'Tipo de evento demasiado largo')
+    .regex(ALPHANUMERIC_REGEX, 'El tipo de evento contiene caracteres no permitidos')
+    .transform(val => val.trim()),
   departureLocation: z.object({
-    address: z.string().min(1, 'Dirección requerida').max(200, 'Dirección demasiado larga'),
-    city: z.string().min(1, 'Ciudad requerida').max(100, 'Ciudad demasiado larga'),
-    country: z.string().min(1, 'País requerido').max(100, 'País demasiado largo')
+    address: z.string()
+      .min(1, 'Dirección requerida')
+      .max(200, 'Dirección demasiado larga')
+      .regex(SAFE_TEXT_REGEX, 'La dirección contiene caracteres no permitidos')
+      .transform(val => val.trim()),
+    city: z.string()
+      .min(1, 'Ciudad requerida')
+      .max(100, 'Ciudad demasiado larga')
+      .regex(SAFE_TEXT_REGEX, 'La ciudad contiene caracteres no permitidos')
+      .transform(val => val.trim()),
+    country: z.string()
+      .min(1, 'País requerido')
+      .max(100, 'País demasiado largo')
+      .regex(SAFE_TEXT_REGEX, 'El país contiene caracteres no permitidos')
+      .transform(val => val.trim())
   }).optional(),
   registrationOpenDate: z.string().datetime('Fecha de apertura inválida').optional(),
   registrationDeadline: z.string().datetime('Fecha límite inválida').optional(),
@@ -267,3 +367,138 @@ export const membershipFiltersSchema = z.object({
 });
 
 export type MembershipFiltersInput = z.infer<typeof membershipFiltersSchema>;
+
+// Esquema para PQRSDF (Peticiones, Quejas, Reclamos, Sugerencias, Denuncias, Felicitaciones)
+export const pqrsdfSchema = z.object({
+  categoria: z.enum(['peticion', 'queja', 'reclamo', 'sugerencia', 'denuncia', 'felicitacion'], {
+    message: 'Categoría no válida'
+  }),
+  subcategoria: z.enum(['general', 'reembolso', 'cambio_datos', 'certificado', 'otro'], {
+    message: 'Subcategoría no válida'
+  }).optional(),
+  asunto: z.string()
+    .min(5, 'Asunto debe tener al menos 5 caracteres')
+    .max(200, 'Asunto demasiado largo')
+    .regex(SAFE_TEXT_REGEX, 'El asunto contiene caracteres no permitidos')
+    .transform(val => val.trim()),
+  descripcion: z.string()
+    .min(10, 'Descripción debe tener al menos 10 caracteres')
+    .max(1000, 'Descripción demasiado larga')
+    .regex(SAFE_TEXT_REGEX, 'La descripción contiene caracteres no permitidos')
+    .transform(val => val.trim()),
+  prioridad: z.enum(['baja', 'media', 'alta']).default('media'),
+  eventoId: z.string().optional(),
+  eventoNombre: z.string()
+    .max(100, 'Nombre del evento demasiado largo')
+    .regex(SAFE_TEXT_REGEX, 'El nombre del evento contiene caracteres no permitidos')
+    .transform(val => val.trim())
+    .optional(),
+  montoReembolso: z.number().min(0, 'El monto debe ser positivo').optional(),
+  ordenPago: z.string()
+    .max(50, 'Orden de pago demasiado larga')
+    .regex(ALPHANUMERIC_REGEX, 'La orden de pago contiene caracteres no permitidos')
+    .transform(val => val.trim())
+    .optional(),
+  datosBancarios: z.object({
+    nombreTitular: z.string()
+      .min(1, 'Nombre del titular requerido')
+      .max(100, 'Nombre demasiado largo')
+      .regex(SAFE_TEXT_REGEX, 'El nombre contiene caracteres no permitidos')
+      .transform(val => val.trim()),
+    banco: z.string()
+      .min(1, 'Banco requerido')
+      .max(50, 'Banco demasiado largo')
+      .regex(SAFE_TEXT_REGEX, 'El banco contiene caracteres no permitidos')
+      .transform(val => val.trim()),
+    tipoCuenta: z.enum(['ahorros', 'corriente'], {
+      message: 'Tipo de cuenta inválido'
+    }),
+    numeroCuenta: z.string()
+      .min(8, 'Número de cuenta debe tener al menos 8 dígitos')
+      .max(20, 'Número de cuenta demasiado largo')
+      .regex(/^\d+$/, 'El número de cuenta debe contener solo dígitos')
+  }).optional()
+}).refine((data) => {
+  // Si la subcategoría es reembolso, campos relacionados son requeridos
+  if (data.subcategoria === 'reembolso') {
+    return data.eventoId && data.datosBancarios;
+  }
+  return true;
+}, {
+  message: 'Para reembolsos son requeridos eventoId y datosBancarios',
+  path: ['subcategoria']
+});
+
+export type PQRSDFInput = z.infer<typeof pqrsdfSchema>;
+
+// Esquema para beneficios
+export const benefitSchema = z.object({
+  title: z.string()
+    .min(3, 'Título debe tener al menos 3 caracteres')
+    .max(100, 'Título demasiado largo')
+    .regex(SAFE_TEXT_REGEX, 'El título contiene caracteres no permitidos')
+    .transform(val => val.trim()),
+  description: z.string()
+    .min(10, 'Descripción debe tener al menos 10 caracteres')
+    .max(500, 'Descripción demasiado larga')
+    .regex(SAFE_TEXT_REGEX, 'La descripción contiene caracteres no permitidos')
+    .transform(val => val.trim()),
+  category: z.string()
+    .min(1, 'Categoría requerida')
+    .max(50, 'Categoría demasiado larga')
+    .regex(ALPHANUMERIC_REGEX, 'La categoría contiene caracteres no permitidos')
+    .transform(val => val.trim()),
+  membershipTypes: z.array(
+    z.enum(['friend', 'rider', 'rider-duo', 'pro', 'pro-duo'], {
+      message: 'Tipo de membresía inválido'
+    })
+  ).min(1, 'Debe seleccionar al menos un tipo de membresía'),
+  redemptionProcess: z.string()
+    .min(10, 'Proceso de redención debe tener al menos 10 caracteres')
+    .max(500, 'Proceso de redención demasiado largo')
+    .regex(SAFE_TEXT_REGEX, 'El proceso de redención contiene caracteres no permitidos')
+    .transform(val => val.trim()),
+  isActive: z.boolean().default(true),
+  isVisible: z.boolean().default(true),
+  isTemporary: z.boolean().default(false),
+  validFrom: z.string().datetime('Fecha de inicio inválida').optional(),
+  validUntil: z.string().datetime('Fecha de fin inválida').optional(),
+  terms: z.string()
+    .max(1000, 'Términos demasiado largos')
+    .regex(SAFE_TEXT_REGEX, 'Los términos contienen caracteres no permitidos')
+    .transform(val => val.trim())
+    .optional(),
+  imageUrl: z.string().url('URL de imagen inválida').optional(),
+  partnerName: z.string()
+    .max(100, 'Nombre del socio demasiado largo')
+    .regex(SAFE_TEXT_REGEX, 'El nombre del socio contiene caracteres no permitidos')
+    .transform(val => val.trim())
+    .optional(),
+  partnerContact: z.object({
+    name: z.string()
+      .max(100, 'Nombre demasiado largo')
+      .regex(SAFE_TEXT_REGEX, 'El nombre contiene caracteres no permitidos')
+      .transform(val => val.trim()),
+    phone: z.string()
+      .regex(PHONE_REGEX, 'Formato de teléfono inválido')
+      .transform(val => val.replace(/\s+/g, '')),
+    email: z.string().email('Email inválido').toLowerCase()
+  }).optional(),
+  discountPercentage: z.number().min(0).max(100).optional(),
+  locationRestrictions: z.array(
+    z.string()
+      .max(100, 'Ubicación demasiado larga')
+      .regex(SAFE_TEXT_REGEX, 'La ubicación contiene caracteres no permitidos')
+  ).optional()
+}).refine((data) => {
+  // Si es temporal, debe tener fechas válidas
+  if (data.isTemporary) {
+    return data.validFrom && data.validUntil;
+  }
+  return true;
+}, {
+  message: 'Beneficios temporales requieren fechas de validez',
+  path: ['isTemporary']
+});
+
+export type BenefitInput = z.infer<typeof benefitSchema>;

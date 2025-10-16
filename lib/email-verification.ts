@@ -16,6 +16,7 @@
 
 import { getRedisClient } from './redis-client';
 import { getEmailService } from './email-service';
+import { safeJsonParse } from './json-utils';
 import crypto from 'crypto';
 
 export interface VerificationRequest {
@@ -70,7 +71,21 @@ export async function createVerificationRequest(
   const existing = await redis.get(existingKey);
   
   if (existing) {
-    const existingReq: VerificationRequest = JSON.parse(existing);
+    const existingReq: VerificationRequest = safeJsonParse<VerificationRequest>(
+      existing, 
+      { 
+        id: '', 
+        userId: '', 
+        email: '', 
+        action: 'email_change', 
+        otp: '', 
+        otpHash: '', 
+        createdAt: 0, 
+        expiresAt: 0, 
+        attempts: 0, 
+        maxAttempts: 3 
+      }
+    );
     if (Date.now() < existingReq.expiresAt) {
       return {
         success: false,
@@ -201,7 +216,21 @@ export async function verifyOTP(
     };
   }
   
-  const request: VerificationRequest = JSON.parse(requestData);
+  const request: VerificationRequest = safeJsonParse<VerificationRequest>(
+    requestData, 
+    { 
+      id: '', 
+      userId: '', 
+      email: '', 
+      action: 'email_change', 
+      otp: '', 
+      otpHash: '', 
+      createdAt: 0, 
+      expiresAt: 0, 
+      attempts: 0, 
+      maxAttempts: 3 
+    }
+  );
   
   // Verify user ID matches
   if (request.userId !== userId) {
@@ -289,7 +318,21 @@ export async function cancelVerification(
     return false;
   }
   
-  const request: VerificationRequest = JSON.parse(requestData);
+  const request: VerificationRequest = safeJsonParse<VerificationRequest>(
+    requestData, 
+    { 
+      id: '', 
+      userId: '', 
+      email: '', 
+      action: 'email_change', 
+      otp: '', 
+      otpHash: '', 
+      createdAt: 0, 
+      expiresAt: 0, 
+      attempts: 0, 
+      maxAttempts: 3 
+    }
+  );
   
   if (request.userId !== userId) {
     return false;
@@ -321,7 +364,21 @@ export async function getActiveVerification(
     return null;
   }
   
-  const request: VerificationRequest = JSON.parse(data);
+  const request: VerificationRequest = safeJsonParse<VerificationRequest>(
+    data, 
+    { 
+      id: '', 
+      userId: '', 
+      email: '', 
+      action: 'email_change', 
+      otp: '', 
+      otpHash: '', 
+      createdAt: 0, 
+      expiresAt: 0, 
+      attempts: 0, 
+      maxAttempts: 3 
+    }
+  );
   
   // Check if expired
   if (Date.now() > request.expiresAt) {

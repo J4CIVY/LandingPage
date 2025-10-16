@@ -4,6 +4,7 @@ import { checkRateLimit, RateLimitPresets, addRateLimitHeaders } from '@/lib/dis
 import { verifyAuth } from '@/lib/auth-utils';
 import { detectBehaviorAnomaly } from '@/lib/anomaly-detection';
 import { requireCSRFToken } from '@/lib/csrf-protection';
+import { sanitizeFilename } from '@/lib/input-sanitization';
 
 export async function POST(request: NextRequest) {
   try {
@@ -62,8 +63,11 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData();
     const file = formData.get('file') as File;
     const folder = formData.get('folder') as string || 'user-profiles';
-    const publicId = formData.get('publicId') as string || undefined;
+    const rawPublicId = formData.get('publicId') as string || undefined;
     const preserveOriginalSize = formData.get('preserveOriginalSize') === 'true';
+
+    // SECURITY: Sanitize publicId to prevent directory traversal attacks
+    const publicId = rawPublicId ? sanitizeFilename(rawPublicId) : undefined;
 
     // SECURITY FIX: Sanitize and validate folder path to prevent path traversal
     const sanitizedFolder = folder.replace(/\.\./g, '').replace(/[^a-zA-Z0-9_\-\/]/g, '').substring(0, 100);
@@ -84,11 +88,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validar el archivo
-    const validation = validateImageFile(file);
+    // SECURITY: Sanitize the original filename to prevent path traversal
+    const sanitizedFilename = sanitizeFilename(file.name);
+    
+    // Validar el archivo (now async with magic byte checking)
+    const validation = await validateImageFile(file);
     if (!validation.isValid) {
       return NextResponse.json(
         { error: validation.error },
+        { status: 400 }
+      );
+    }
+
+    // SECURITY: Additional file extension validation
+    const fileExtension = sanitizedFilename.split('.').pop()?.toLowerCase();
+    const allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
+    if (!fileExtension || !allowedExtensions.includes(fileExtension)) {
+      return NextResponse.json(
+        { error: 'Extensión de archivo no válida. Solo se permiten: JPG, PNG, WebP' },
         { status: 400 }
       );
     }

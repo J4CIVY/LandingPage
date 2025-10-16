@@ -4,6 +4,7 @@ import React from 'react';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import Image from 'next/image';
+import { sanitizeText } from '@/lib/input-sanitization';
 
 interface PublicEventCardProps {
   event: {
@@ -26,9 +27,13 @@ interface PublicEventCardProps {
  */
 const PublicEventCard: React.FC<PublicEventCardProps> = ({ event }) => {
   const eventDate = parseISO(event.startDate);
-  const truncatedDescription = event.description?.length > 150
-    ? `${event.description.substring(0, 150)}...`
-    : event.description;
+  
+  // SECURITY: Sanitize user-generated content to prevent XSS
+  const safeName = sanitizeText(event.name, 100);
+  const safeDescription = sanitizeText(event.description, 500);
+  const truncatedDescription = safeDescription?.length > 150
+    ? `${safeDescription.substring(0, 150)}...`
+    : safeDescription;
 
   return (
     <div className="bg-white dark:bg-slate-950 text-slate-950 dark:text-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl cursor-pointer">
@@ -52,7 +57,7 @@ const PublicEventCard: React.FC<PublicEventCardProps> = ({ event }) => {
       </div>
       <div className="p-6">
         <h3 className="text-xl font-bold text-slate-950 dark:text-white mb-3 line-clamp-2">
-          {event.name}
+          {safeName}
         </h3>
         {/* Fecha completa */}
         <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-3">

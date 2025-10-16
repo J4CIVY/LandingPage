@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { uploadPdfToCloudinary, validatePdfFile } from '@/lib/cloudinary-service';
 import { rateLimit } from '@/utils/rateLimit';
 import { requireCSRFToken } from '@/lib/csrf-protection';
+import { sanitizeFilename } from '@/lib/input-sanitization';
 
 // Configurar rate limiting para subida de PDFs
 const limiter = rateLimit({
@@ -26,7 +27,10 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData();
     const file = formData.get('file') as File;
     const folder = formData.get('folder') as string || 'documents';
-    const publicId = formData.get('publicId') as string || undefined;
+    const rawPublicId = formData.get('publicId') as string || undefined;
+
+    // SECURITY: Sanitize publicId to prevent directory traversal attacks
+    const publicId = rawPublicId ? sanitizeFilename(rawPublicId) : undefined;
 
     if (!file) {
       return NextResponse.json(
@@ -35,11 +39,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validar el archivo PDF
-    const validation = validatePdfFile(file);
+    // SECURITY: Sanitize the original filename to prevent path traversal
+    const sanitizedFilename = sanitizeFilename(file.name);
+
+    // Validar el archivo PDF (now async with magic byte checking)
+    const validation = await validatePdfFile(file);
     if (!validation.isValid) {
       return NextResponse.json(
         { error: validation.error },
+        { status: 400 }
+      );
+    }
+
+    // SECURITY: Additional file extension validation
+    const fileExtension = sanitizedFilename.split('.').pop()?.toLowerCase();
+    if (fileExtension !== 'pdf') {
+      return NextResponse.json(
+        { error: 'Extensión de archivo no válida. Solo se permiten archivos PDF' },
         { status: 400 }
       );
     }

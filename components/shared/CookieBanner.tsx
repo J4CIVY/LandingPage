@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { CookieSettings } from '@/types/cookies';
 import { useFocusTrap } from '@/hooks/useFocusTrap';
+import { safeJsonParse } from '@/lib/json-utils';
 
 const CookieBanner: React.FC = () => {
   const [showBanner, setShowBanner] = useState<boolean>(false);
@@ -31,7 +32,7 @@ const CookieBanner: React.FC = () => {
     try {
       const savedSettings = localStorage.getItem('cookieSettings');
       if (savedSettings && savedSettings.trim() !== '') {
-        return JSON.parse(savedSettings);
+        return safeJsonParse<CookieSettings>(savedSettings, defaultSettings);
       }
       return defaultSettings;
     } catch (error) {

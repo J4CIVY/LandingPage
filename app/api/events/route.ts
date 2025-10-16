@@ -3,11 +3,13 @@ import {
   withErrorHandling, 
   createSuccessResponse, 
   createErrorResponse,
+  validateRequestBody,
   HTTP_STATUS 
 } from '@/lib/api-utils';
 import connectDB from '@/lib/mongodb';
 import Event from '@/lib/models/Event';
 import { requireCSRFToken } from '@/lib/csrf-protection';
+import { eventSchema } from '@/lib/validation-schemas';
 
 /**
  * GET /api/events
@@ -103,24 +105,18 @@ async function handlePost(request: NextRequest) {
   await connectDB();
   
   try {
-    const eventData = await request.json();
+    const body = await request.json();
     
-    // Validaciones básicas
-    if (!eventData.name || !eventData.startDate) {
-      return createErrorResponse(
-        'Nombre y fecha de inicio son requeridos',
-        HTTP_STATUS.BAD_REQUEST
-      );
+    // 1. Validate request body with eventSchema
+    const validationResult = await validateRequestBody(body, eventSchema);
+    if (!validationResult.success) {
+      return validationResult.response;
     }
-
-    // Validar formato de fechas
+    
+    const eventData = validationResult.data;
+    
+    // 2. Additional business logic validations
     const startDate = new Date(eventData.startDate);
-    if (isNaN(startDate.getTime())) {
-      return createErrorResponse(
-        'Formato de fecha de inicio inválido',
-        HTTP_STATUS.BAD_REQUEST
-      );
-    }
     
     // Verificar que la fecha de inicio no sea en el pasado (con margen de 1 hora)
     const now = new Date();
@@ -132,73 +128,45 @@ async function handlePost(request: NextRequest) {
       );
     }
     
-    // Verificar que la fecha de fin sea posterior a la de inicio
-    if (eventData.endDate) {
-      const endDate = new Date(eventData.endDate);
-      if (isNaN(endDate.getTime())) {
+    // Verificar fechas de registro si están presentes
+    if (eventData.registrationOpenDate) {
+      const registrationOpen = new Date(eventData.registrationOpenDate);
+      if (registrationOpen >= startDate) {
         return createErrorResponse(
-          'Formato de fecha de fin inválido',
-          HTTP_STATUS.BAD_REQUEST
-        );
-      }
-      if (endDate <= startDate) {
-        return createErrorResponse(
-          'La fecha de fin debe ser posterior a la fecha de inicio',
+          'La fecha de apertura de registro debe ser anterior a la fecha de inicio',
           HTTP_STATUS.BAD_REQUEST
         );
       }
     }
     
-    // Validaciones adicionales
-    if (!eventData.description || eventData.description.trim() === '') {
-      return createErrorResponse(
-        'La descripción es requerida',
-        HTTP_STATUS.BAD_REQUEST
-      );
+    if (eventData.registrationDeadline) {
+      const registrationDeadline = new Date(eventData.registrationDeadline);
+      if (registrationDeadline >= startDate) {
+        return createErrorResponse(
+          'La fecha límite de registro debe ser anterior a la fecha de inicio',
+          HTTP_STATUS.BAD_REQUEST
+        );
+      }
+      
+      if (eventData.registrationOpenDate) {
+        const registrationOpen = new Date(eventData.registrationOpenDate);
+        if (registrationDeadline <= registrationOpen) {
+          return createErrorResponse(
+            'La fecha límite de registro debe ser posterior a la fecha de apertura',
+            HTTP_STATUS.BAD_REQUEST
+          );
+        }
+      }
     }
     
-    if (!eventData.mainImage || eventData.mainImage.trim() === '') {
-      return createErrorResponse(
-        'La imagen principal es requerida',
-        HTTP_STATUS.BAD_REQUEST
-      );
-    }
-    
-    if (!eventData.eventType || eventData.eventType.trim() === '') {
-      return createErrorResponse(
-        'El tipo de evento es requerido',
-        HTTP_STATUS.BAD_REQUEST
-      );
-    }
-    
-    // Validar organizador
-    if (!eventData.organizer || 
-        !eventData.organizer.name || 
-        !eventData.organizer.phone || 
-        !eventData.organizer.email) {
-      return createErrorResponse(
-        'La información completa del organizador es requerida',
-        HTTP_STATUS.BAD_REQUEST
-      );
-    }
-
-    // Validar ubicación de salida
-    if (!eventData.departureLocation || 
-        !eventData.departureLocation.address || 
-        !eventData.departureLocation.city || 
-        !eventData.departureLocation.country) {
-      return createErrorResponse(
-        'La información completa de la ubicación de salida es requerida',
-        HTTP_STATUS.BAD_REQUEST
-      );
-    }
-
-    // Crear nuevo evento
+    // 3. Crear nuevo evento
     const newEvent = new Event(eventData);
     await newEvent.save();
     
-    // Poblar información del organizador
-    await newEvent.populate('createdBy', 'firstName lastName email');
+    // 4. Poblar información del organizador si existe
+    if (newEvent.createdBy) {
+      await newEvent.populate('createdBy', 'firstName lastName email');
+    }
     
     return createSuccessResponse(
       newEvent,
@@ -209,7 +177,7 @@ async function handlePost(request: NextRequest) {
   } catch (error: any) {
     if (error.name === 'ValidationError') {
       return createErrorResponse(
-        `Error de validación: ${error.message}`,
+        `Error de validación de MongoDB: ${error.message}`,
         HTTP_STATUS.BAD_REQUEST
       );
     }

@@ -32,6 +32,8 @@ import {
 import { 
   TbDiscount
 } from 'react-icons/tb';
+import { useEmailValidation } from '@/hooks/useEmailValidation';
+import { usePhoneValidation } from '@/hooks/usePhoneValidation';
 
 interface FormDataState {
   name: string;
@@ -61,13 +63,25 @@ const Memberships: React.FC = () => {
     membershipType: ''
   });
 
+  // Validation hooks
+  const emailValidation = useEmailValidation();
+  const phoneValidation = usePhoneValidation();
+
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+    
+    // Update validation hooks
+    if (name === 'email') {
+      emailValidation.handleChange(value);
+    } else if (name === 'phone') {
+      phoneValidation.handleChange(value);
+    }
+    
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
-  }, []);
+  }, [emailValidation, phoneValidation]);
 
   const handleSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -545,10 +559,13 @@ const Memberships: React.FC = () => {
                       name="email" 
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-900 dark:text-white" 
+                      className={`w-full px-4 py-2 border ${emailValidation.error ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-900 dark:text-white`}
                       required 
                       aria-required="true"
                     />
+                    {emailValidation.error && (
+                      <p className="mt-1 text-sm text-red-600">{emailValidation.error}</p>
+                    )}
                   </div>
                   
                   <div className="mb-4">
@@ -559,10 +576,13 @@ const Memberships: React.FC = () => {
                       name="phone" 
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-900 dark:text-white" 
+                      className={`w-full px-4 py-2 border ${phoneValidation.error ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-900 dark:text-white`}
                       required 
                       aria-required="true"
                     />
+                    {phoneValidation.error && (
+                      <p className="mt-1 text-sm text-red-600">{phoneValidation.error}</p>
+                    )}
                   </div>
                   
                   <div className="mb-4">

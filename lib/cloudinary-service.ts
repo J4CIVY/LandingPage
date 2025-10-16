@@ -161,10 +161,11 @@ export function getCloudinaryUrl(
  * @param file - Archivo a validar
  * @returns true si es válido, false si no
  */
-export function validatePdfFile(file: File): { isValid: boolean; error?: string } {
+export async function validatePdfFile(file: File): Promise<{ isValid: boolean; error?: string }> {
   const allowedTypes = ['application/pdf'];
   const maxSize = 10 * 1024 * 1024; // 10MB para PDFs
 
+  // Validate MIME type
   if (!allowedTypes.includes(file.type)) {
     return {
       isValid: false,
@@ -172,10 +173,42 @@ export function validatePdfFile(file: File): { isValid: boolean; error?: string 
     };
   }
 
+  // Validate file size
   if (file.size > maxSize) {
     return {
       isValid: false,
       error: 'El archivo es demasiado grande. Máximo 10MB.'
+    };
+  }
+
+  // SECURITY: Validate file extension
+  const filename = file.name.toLowerCase();
+  if (!filename.endsWith('.pdf')) {
+    return {
+      isValid: false,
+      error: 'El archivo debe tener extensión .pdf'
+    };
+  }
+
+  // SECURITY: Check magic bytes (PDF signature)
+  try {
+    const buffer = await file.arrayBuffer();
+    const bytes = new Uint8Array(buffer);
+    
+    // PDF files start with "%PDF-" (25 50 44 46 2D in hex)
+    const pdfSignature = [0x25, 0x50, 0x44, 0x46, 0x2D];
+    const isPdf = pdfSignature.every((byte, index) => bytes[index] === byte);
+    
+    if (!isPdf) {
+      return {
+        isValid: false,
+        error: 'El archivo no es un PDF válido (firma de archivo incorrecta).'
+      };
+    }
+  } catch (error) {
+    return {
+      isValid: false,
+      error: 'Error al validar el archivo PDF.'
     };
   }
 
@@ -187,10 +220,11 @@ export function validatePdfFile(file: File): { isValid: boolean; error?: string 
  * @param file - Archivo a validar
  * @returns true si es válido, false si no
  */
-export function validateImageFile(file: File): { isValid: boolean; error?: string } {
+export async function validateImageFile(file: File): Promise<{ isValid: boolean; error?: string }> {
   const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
   const maxSize = 5 * 1024 * 1024; // 5MB
 
+  // Validate MIME type
   if (!allowedTypes.includes(file.type)) {
     return {
       isValid: false,
@@ -198,10 +232,46 @@ export function validateImageFile(file: File): { isValid: boolean; error?: strin
     };
   }
 
+  // Validate file size
   if (file.size > maxSize) {
     return {
       isValid: false,
       error: 'El archivo es demasiado grande. Máximo 5MB.'
+    };
+  }
+
+  // SECURITY: Validate file extension
+  const filename = file.name.toLowerCase();
+  const validExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
+  const hasValidExtension = validExtensions.some(ext => filename.endsWith(ext));
+  
+  if (!hasValidExtension) {
+    return {
+      isValid: false,
+      error: 'Extensión de archivo no válida. Solo se permiten: .jpg, .jpeg, .png, .webp'
+    };
+  }
+
+  // SECURITY: Check magic bytes (file signatures)
+  try {
+    const buffer = await file.arrayBuffer();
+    const bytes = new Uint8Array(buffer);
+    
+    // Check for valid image signatures
+    const isJPEG = bytes[0] === 0xFF && bytes[1] === 0xD8 && bytes[2] === 0xFF;
+    const isPNG = bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4E && bytes[3] === 0x47;
+    const isWebP = bytes[8] === 0x57 && bytes[9] === 0x45 && bytes[10] === 0x42 && bytes[11] === 0x50;
+    
+    if (!isJPEG && !isPNG && !isWebP) {
+      return {
+        isValid: false,
+        error: 'El archivo no es una imagen válida (firma de archivo incorrecta).'
+      };
+    }
+  } catch (error) {
+    return {
+      isValid: false,
+      error: 'Error al validar el archivo de imagen.'
     };
   }
 

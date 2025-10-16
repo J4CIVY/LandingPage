@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { FaMapMarkerAlt, FaPhoneAlt, FaRegEnvelope, FaRegClock } from 'react-icons/fa';
 import ContactForm from '@/components/shared/ContactForm';
 import { useRecaptcha, RecaptchaActions } from '@/lib/recaptcha-client';
+import { useEmailValidation } from '@/hooks/useEmailValidation';
+import { usePhoneValidation } from '@/hooks/usePhoneValidation';
 
 interface ComplaintFormState {
   title: string;
@@ -46,6 +48,10 @@ export default function ContactTabs({ contactInfo }: ContactTabsProps) {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const { verify } = useRecaptcha();
 
+  // Validation hooks for PQRSDF form
+  const pqrsdfEmailValidation = useEmailValidation();
+  const pqrsdfPhoneValidation = usePhoneValidation();
+
   const [complaintForm, setComplaintForm] = useState<ComplaintFormState>({
     title: "",
     description: "",
@@ -71,6 +77,14 @@ export default function ContactTabs({ contactInfo }: ContactTabsProps) {
 
   const handlePqrsdfChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+    
+    // Update validation hooks for email and phone
+    if (name === 'email') {
+      pqrsdfEmailValidation.handleChange(value);
+    } else if (name === 'phone') {
+      pqrsdfPhoneValidation.handleChange(value);
+    }
+    
     setPqrsdfForm(prev => ({ ...prev, [name]: value }));
   };
 
@@ -455,11 +469,33 @@ export default function ContactTabs({ contactInfo }: ContactTabsProps) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="pqrsdf-email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Correo electrónico</label>
-                  <input type="email" id="pqrsdf-email" name="email" required className="mt-1 block w-full border border-gray-300 dark:border-slate-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-400 focus:border-green-400 bg-white dark:bg-slate-800 text-slate-950 dark:text-white" value={pqrsdfForm.email} onChange={handlePqrsdfChange} aria-required="true" />
+                  <input 
+                    type="email" 
+                    id="pqrsdf-email" 
+                    name="email" 
+                    required 
+                    className={`mt-1 block w-full border ${pqrsdfEmailValidation.error ? 'border-red-500' : 'border-gray-300 dark:border-slate-600'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-400 focus:border-green-400 bg-white dark:bg-slate-800 text-slate-950 dark:text-white`}
+                    value={pqrsdfForm.email} 
+                    onChange={handlePqrsdfChange} 
+                    aria-required="true" 
+                  />
+                  {pqrsdfEmailValidation.error && (
+                    <p className="mt-1 text-sm text-red-600">{pqrsdfEmailValidation.error}</p>
+                  )}
                 </div>
                 <div>
                   <label htmlFor="pqrsdf-phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Teléfono</label>
-                  <input type="tel" id="pqrsdf-phone" name="phone" className="mt-1 block w-full border border-gray-300 dark:border-slate-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-400 focus:border-green-400 bg-white dark:bg-slate-800 text-slate-950 dark:text-white" value={pqrsdfForm.phone} onChange={handlePqrsdfChange} />
+                  <input 
+                    type="tel" 
+                    id="pqrsdf-phone" 
+                    name="phone" 
+                    className={`mt-1 block w-full border ${pqrsdfPhoneValidation.error ? 'border-red-500' : 'border-gray-300 dark:border-slate-600'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-400 focus:border-green-400 bg-white dark:bg-slate-800 text-slate-950 dark:text-white`}
+                    value={pqrsdfForm.phone} 
+                    onChange={handlePqrsdfChange} 
+                  />
+                  {pqrsdfPhoneValidation.error && (
+                    <p className="mt-1 text-sm text-red-600">{pqrsdfPhoneValidation.error}</p>
+                  )}
                 </div>
               </div>
 

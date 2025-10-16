@@ -12,6 +12,7 @@
  */
 
 import { getRedisClient } from './redis-client';
+import { safeJsonParse } from './json-utils';
 
 export interface CaptchaChallenge {
   id: string;
@@ -136,7 +137,21 @@ export async function verifyCaptchaChallenge(
     };
   }
   
-  const challenge: CaptchaChallenge = JSON.parse(challengeData);
+  const challenge: CaptchaChallenge = safeJsonParse<CaptchaChallenge>(challengeData, {
+    id: '',
+    question: '',
+    answer: '',
+    createdAt: 0,
+    expiresAt: 0,
+    difficulty: 'easy',
+  });
+  
+  if (!challenge.id) {
+    return {
+      success: false,
+      message: 'Challenge corrupto. Por favor, solicita uno nuevo.',
+    };
+  }
   
   // Check if expired
   if (Date.now() > challenge.expiresAt) {

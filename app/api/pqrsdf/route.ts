@@ -4,6 +4,8 @@ import PQRSDF from '@/lib/models/PQRSDF';
 import { rateLimit } from '@/utils/rateLimit';
 import { verifyAuth } from '@/lib/auth-utils';
 import { requireCSRFToken } from '@/lib/csrf-protection';
+import { validateRequestBody, createErrorResponse, HTTP_STATUS } from '@/lib/api-utils';
+import { pqrsdfSchema } from '@/lib/validation-schemas';
 
 // Rate limiting
 const limiter = rateLimit({
@@ -152,76 +154,14 @@ export async function POST(request: NextRequest) {
     await connectDB();
 
     const body = await request.json();
-    const { 
-      categoria, 
-      subcategoria,
-      asunto, 
-      descripcion, 
-      prioridad = 'media',
-      eventoId,
-      eventoNombre,
-      montoReembolso,
-      ordenPago,
-      datosBancarios
-    } = body;
-
-    // Validar campos requeridos
-    if (!categoria || !asunto || !descripcion) {
-      return NextResponse.json(
-        { error: 'Categoria, asunto y descripción son requeridos' },
-        { status: 400 }
-      );
+    
+    // 1. Validate request body with pqrsdfSchema
+    const validationResult = await validateRequestBody(body, pqrsdfSchema);
+    if (!validationResult.success) {
+      return validationResult.response;
     }
-
-    // Validar categoría
-    const categoriasValidas = ['peticion', 'queja', 'reclamo', 'sugerencia', 'denuncia', 'felicitacion'];
-    if (!categoriasValidas.includes(categoria)) {
-      return NextResponse.json(
-        { error: 'Categoría no válida' },
-        { status: 400 }
-      );
-    }
-
-    // Validar subcategoría si se proporciona
-    if (subcategoria) {
-      const subcategoriasValidas = ['general', 'reembolso', 'cambio_datos', 'certificado', 'otro'];
-      if (!subcategoriasValidas.includes(subcategoria)) {
-        return NextResponse.json(
-          { error: 'Subcategoría no válida' },
-          { status: 400 }
-        );
-      }
-    }
-
-    // Validar campos de reembolso si la subcategoría es 'reembolso'
-    if (subcategoria === 'reembolso') {
-      if (!eventoId || !datosBancarios) {
-        return NextResponse.json(
-          { error: 'Para reembolsos son requeridos eventoId y datosBancarios' },
-          { status: 400 }
-        );
-      }
-
-      // Validar datos bancarios
-      const camposRequeridos = ['nombreTitular', 'tipoDocumento', 'numeroDocumento', 'banco', 'tipoCuenta', 'numeroCuenta', 'emailConfirmacion', 'telefonoContacto'];
-      for (const campo of camposRequeridos) {
-        if (!datosBancarios[campo]) {
-          return NextResponse.json(
-            { error: `El campo ${campo} es requerido en datos bancarios` },
-            { status: 400 }
-          );
-        }
-      }
-    }
-
-    // Validar prioridad
-    const prioridadesValidas = ['baja', 'media', 'alta', 'urgente'];
-    if (!prioridadesValidas.includes(prioridad)) {
-      return NextResponse.json(
-        { error: 'Prioridad no válida' },
-        { status: 400 }
-      );
-    }
+    
+    const validatedData = validationResult.data;
 
     // Generar número de solicitud
     const numeroSolicitud = await PQRSDF.generarNumeroSolicitud();
@@ -231,11 +171,11 @@ export async function POST(request: NextRequest) {
     const datosNuevaSolicitud: any = {
       numeroSolicitud,
       usuarioId: authResult.user.id,
-      categoria,
-      subcategoria,
-      asunto,
-      descripcion,
-      prioridad,
+      categoria: validatedData.categoria,
+      subcategoria: validatedData.subcategoria,
+      asunto: validatedData.asunto,
+      descripcion: validatedData.descripcion,
+      prioridad: validatedData.prioridad,
       estado: 'en_revision',
       fechaCreacion: fechaActual,
       fechaActualizacion: fechaActual,
@@ -252,12 +192,12 @@ export async function POST(request: NextRequest) {
     };
 
     // Agregar campos de reembolso si aplica
-    if (subcategoria === 'reembolso') {
-      datosNuevaSolicitud.eventoId = eventoId;
-      datosNuevaSolicitud.eventoNombre = eventoNombre;
-      datosNuevaSolicitud.montoReembolso = montoReembolso;
-      datosNuevaSolicitud.ordenPago = ordenPago;
-      datosNuevaSolicitud.datosBancarios = datosBancarios;
+    if (validatedData.subcategoria === 'reembolso') {
+      datosNuevaSolicitud.eventoId = validatedData.eventoId;
+      datosNuevaSolicitud.eventoNombre = validatedData.eventoNombre;
+      datosNuevaSolicitud.montoReembolso = validatedData.montoReembolso;
+      datosNuevaSolicitud.ordenPago = validatedData.ordenPago;
+      datosNuevaSolicitud.datosBancarios = validatedData.datosBancarios;
       
       // Marcar como alta prioridad si es reembolso
       datosNuevaSolicitud.prioridad = 'alta';

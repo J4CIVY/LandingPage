@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { FaUser, FaEdit, FaCamera, FaCheck, FaTimes } from 'react-icons/fa';
 import { IUser } from '@/lib/models/User';
+import { sanitizeText } from '@/lib/input-sanitization';
 
 interface ProfileHeaderProps {
   user: any;
@@ -46,6 +47,11 @@ export default function ProfileHeader({ user, onEdit, onAvatarChange, isEditing 
   const [isHovering, setIsHovering] = useState(false);
   const [imageLoading, setImageLoading] = useState(false);
 
+  // SECURITY: Sanitize user-generated content to prevent XSS
+  const safeFirstName = sanitizeText(user.firstName || '', 50);
+  const safeLastName = sanitizeText(user.lastName || '', 50);
+  const safeEmail = user.email; // Email already validated by schema
+
   const handleAvatarChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file && onAvatarChange) {
@@ -80,7 +86,7 @@ export default function ProfileHeader({ user, onEdit, onAvatarChange, isEditing 
               {user.profileImage ? (
                 <img
                   src={user.profileImage}
-                  alt={`${user.firstName} ${user.lastName}`}
+                  alt={`${safeFirstName} ${safeLastName}`}
                   className="w-full h-full object-cover"
                 />
               ) : (
@@ -128,7 +134,7 @@ export default function ProfileHeader({ user, onEdit, onAvatarChange, isEditing 
         <div className="flex-1 text-center lg:text-left">
           <div className="mb-2">
             <h1 className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white mb-1">
-              {user.firstName} {user.lastName}
+              {safeFirstName} {safeLastName}
             </h1>
             <p className="text-slate-600 dark:text-slate-400 text-lg">
               {membershipTypeNames[user.membershipType] || user.membershipType}

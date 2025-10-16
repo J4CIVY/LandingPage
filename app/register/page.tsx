@@ -21,6 +21,9 @@ import {
 import { useBeforeUnload } from '../../hooks/useConfirmation';
 import { useSuccessToast, useErrorToast, useInfoToast } from '../../components/shared/ToastProvider';
 import { useRecaptcha, RecaptchaActions } from '@/lib/recaptcha-client';
+import { safeJsonParse } from '@/lib/json-utils';
+import { useEmailValidation } from '@/hooks/useEmailValidation';
+import { usePhoneValidation } from '@/hooks/usePhoneValidation';
 
 const years = generateYears();
 
@@ -50,6 +53,12 @@ const UserRegister: React.FC = () => {
   
   // reCAPTCHA hook for bot protection
   const { verify } = useRecaptcha();
+
+  // Custom validation hooks
+  const emailValidation = useEmailValidation();
+  const phoneValidation = usePhoneValidation();
+  const whatsappValidation = usePhoneValidation();
+  const emergencyPhoneValidation = usePhoneValidation();
 
   const totalSteps: number = 8;
 
@@ -100,7 +109,12 @@ const UserRegister: React.FC = () => {
     const savedData = localStorage.getItem('bskmt-registration-draft');
     if (savedData) {
       try {
-        const { data, step, timestamp } = JSON.parse(savedData);
+        const parsed = safeJsonParse<{ data: Record<string, any>; step: number; timestamp: number }>(
+          savedData, 
+          { data: {}, step: 1, timestamp: 0 }
+        );
+        const { data, step, timestamp } = parsed;
+        
         // Solo cargar si es menos de 24 horas
         if (Date.now() - timestamp < 24 * 60 * 60 * 1000) {
           const shouldRestore = confirm(
@@ -486,14 +500,37 @@ const UserRegister: React.FC = () => {
                   {/* Phone */}
                   <div>
                     <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Teléfono <span className="text-red-500">*</span></label>
-                    <input type="tel" id="phone" {...register("phone", { required: "Campo obligatorio" })} className={getInputClassName(!!errors.phone)} />
+                    <input 
+                      type="tel" 
+                      id="phone" 
+                      {...register("phone", { 
+                        required: "Campo obligatorio",
+                        onChange: (e) => {
+                          phoneValidation.handleChange(e.target.value);
+                          setValue('phone', e.target.value);
+                        }
+                      })} 
+                      className={getInputClassName(!!errors.phone || !phoneValidation.isValid)} 
+                    />
+                    {phoneValidation.error && <p className="mt-1 text-sm text-red-600">{phoneValidation.error}</p>}
                     <FormError error={errors.phone} />
                   </div>
 
                   {/* WhatsApp */}
                   <div>
                     <label htmlFor="whatsapp" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">WhatsApp</label>
-                    <input type="tel" id="whatsapp" {...register("whatsapp")} className={getInputClassName(!!errors.whatsapp)} />
+                    <input 
+                      type="tel" 
+                      id="whatsapp" 
+                      {...register("whatsapp", {
+                        onChange: (e) => {
+                          whatsappValidation.handleChange(e.target.value);
+                          setValue('whatsapp', e.target.value);
+                        }
+                      })} 
+                      className={getInputClassName(!!errors.whatsapp || !whatsappValidation.isValid)} 
+                    />
+                    {whatsappValidation.error && <p className="mt-1 text-sm text-red-600">{whatsappValidation.error}</p>}
                     <FormError error={errors.whatsapp} />
                   </div>
                 </div>
@@ -502,7 +539,19 @@ const UserRegister: React.FC = () => {
                   {/* Email */}
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Correo Electrónico <span className="text-red-500">*</span></label>
-                    <input type="email" id="email" {...register("email", { required: "Campo obligatorio" })} className={getInputClassName(!!errors.email)} />
+                    <input 
+                      type="email" 
+                      id="email" 
+                      {...register("email", { 
+                        required: "Campo obligatorio",
+                        onChange: (e) => {
+                          emailValidation.handleChange(e.target.value);
+                          setValue('email', e.target.value);
+                        }
+                      })} 
+                      className={getInputClassName(!!errors.email || !emailValidation.isValid)} 
+                    />
+                    {emailValidation.error && <p className="mt-1 text-sm text-red-600">{emailValidation.error}</p>}
                     <FormError error={errors.email} />
                   </div>
 
@@ -688,7 +737,19 @@ const UserRegister: React.FC = () => {
                   {/* Emergency Contact Phone */}
                   <div>
                     <label htmlFor="emergencyContactPhone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Teléfono del Contacto <span className="text-red-500">*</span></label>
-                    <input type="tel" id="emergencyContactPhone" {...register("emergencyContactPhone", { required: "Campo obligatorio" })} className={getInputClassName(!!errors.emergencyContactPhone)} />
+                    <input 
+                      type="tel" 
+                      id="emergencyContactPhone" 
+                      {...register("emergencyContactPhone", { 
+                        required: "Campo obligatorio",
+                        onChange: (e) => {
+                          emergencyPhoneValidation.handleChange(e.target.value);
+                          setValue('emergencyContactPhone', e.target.value);
+                        }
+                      })} 
+                      className={getInputClassName(!!errors.emergencyContactPhone || !emergencyPhoneValidation.isValid)} 
+                    />
+                    {emergencyPhoneValidation.error && <p className="mt-1 text-sm text-red-600">{emergencyPhoneValidation.error}</p>}
                     <FormError error={errors.emergencyContactPhone} />
                   </div>
 

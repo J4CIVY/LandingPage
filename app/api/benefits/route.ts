@@ -3,6 +3,8 @@ import connectDB from '@/lib/mongodb';
 import Benefit from '@/lib/models/Benefit';
 import { verifyAuth } from '@/lib/auth-utils';
 import { requireCSRFToken } from '@/lib/csrf-protection';
+import { validateRequestBody, createSuccessResponse, HTTP_STATUS } from '@/lib/api-utils';
+import { benefitSchema } from '@/lib/validation-schemas';
 
 // GET /api/benefits - Obtener beneficios disponibles para el usuario
 export async function GET(request: NextRequest) {
@@ -95,23 +97,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const benefitData = await request.json();
+    const body = await request.json();
     
-    // Validar datos requeridos
-    const {
-      title,
-      description,
-      category,
-      membershipTypes,
-      redemptionProcess
-    } = benefitData;
-
-    if (!title || !description || !category || !membershipTypes || !redemptionProcess) {
-      return NextResponse.json(
-        { error: 'Faltan campos requeridos' },
-        { status: 400 }
-      );
+    // 1. Validate request body with benefitSchema
+    const validationResult = await validateRequestBody(body, benefitSchema);
+    if (!validationResult.success) {
+      return validationResult.response;
     }
+    
+    const benefitData = validationResult.data;
 
     // Crear beneficio
     const benefit = new Benefit({

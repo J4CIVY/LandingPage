@@ -1,0 +1,300 @@
+/**
+ * Input Sanitization Utilities
+ * Prevents XSS attacks by sanitizing user input
+ * 
+ * SECURITY: Use these functions on ALL user-generated content before:
+ * - Displaying in the UI
+ * - Storing in the database
+ * - Sending to APIs
+ */
+
+/**
+ * Sanitize HTML string to prevent XSS attacks
+ * Removes or encodes dangerous HTML/JavaScript
+ * 
+ * @param dirty - Potentially unsafe HTML string
+ * @returns Sanitized string safe for display
+ */
+export function sanitizeHtml(dirty: string): string {
+  if (typeof dirty !== 'string') return '';
+
+  // Basic HTML entity encoding
+  return dirty
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+    .replace(/\//g, '&#x2F;');
+}
+
+/**
+ * Sanitize string for use in URLs
+ * Prevents URL-based attacks
+ * 
+ * @param url - URL to sanitize
+ * @returns Safe URL or empty string if invalid
+ */
+export function sanitizeUrl(url: string): string {
+  if (typeof url !== 'string') return '';
+
+  // Allow only http(s) and mailto protocols
+  const allowedProtocols = /^(https?:|mailto:|tel:)/i;
+
+  try {
+    const parsed = new URL(url, window.location.origin);
+    
+    if (!allowedProtocols.test(parsed.protocol)) {
+      console.warn('Blocked dangerous URL protocol:', parsed.protocol);
+      return '';
+    }
+
+    return parsed.toString();
+  } catch {
+    // Relative URL or invalid format
+    // Allow if it doesn't start with javascript: or data:
+    if (/^(javascript|data|vbscript):/i.test(url)) {
+      console.warn('Blocked dangerous URL:', url);
+      return '';
+    }
+
+    return url;
+  }
+}
+
+/**
+ * Sanitize filename for safe storage/download
+ * Prevents directory traversal attacks
+ * 
+ * @param filename - Filename to sanitize
+ * @returns Safe filename
+ */
+export function sanitizeFilename(filename: string): string {
+  if (typeof filename !== 'string') return 'file';
+
+  return filename
+    .replace(/[^a-zA-Z0-9._-]/g, '_') // Remove special chars
+    .replace(/\.\.+/g, '.') // Remove directory traversal
+    .replace(/^\.+/, '') // Remove leading dots
+    .substring(0, 255); // Limit length
+}
+
+/**
+ * Sanitize JSON string before parsing
+ * Prevents JSON injection attacks
+ * 
+ * @param jsonString - JSON string to sanitize
+ * @returns Parsed object or null if invalid
+ */
+export function sanitizeJson<T>(jsonString: string): T | null {
+  if (typeof jsonString !== 'string') return null;
+
+  try {
+    // Use JSON.parse with reviver to block dangerous constructors
+    return JSON.parse(jsonString, (key, value) => {
+      // Block known dangerous patterns
+      if (typeof value === 'string') {
+        // Block potential code execution
+        if (value.includes('__proto__') || value.includes('constructor')) {
+          return undefined;
+        }
+      }
+      return value;
+    });
+  } catch {
+    console.error('Invalid JSON string');
+    return null;
+  }
+}
+
+/**
+ * Sanitize SQL-like input (for search queries, etc.)
+ * Prevents SQL injection if accidentally passed to backend
+ * 
+ * @param input - User input
+ * @returns Sanitized input
+ */
+export function sanitizeSql(input: string): string {
+  if (typeof input !== 'string') return '';
+
+  // Remove or escape SQL special characters
+  return input
+    .replace(/['";]/g, '') // Remove quotes and semicolons
+    .replace(/--/g, '') // Remove SQL comments
+    .replace(/\/\*/g, '') // Remove multi-line comment start
+    .replace(/\*\//g, '') // Remove multi-line comment end
+    .replace(/xp_/gi, '') // Remove extended stored procedures
+    .replace(/exec\s/gi, '') // Remove EXEC commands
+    .replace(/union\s/gi, '') // Remove UNION commands
+    .replace(/select\s/gi, '') // Remove SELECT commands
+    .replace(/insert\s/gi, '') // Remove INSERT commands
+    .replace(/update\s/gi, '') // Remove UPDATE commands
+    .replace(/delete\s/gi, '') // Remove DELETE commands
+    .replace(/drop\s/gi, '') // Remove DROP commands
+    .trim();
+}
+
+/**
+ * Validate and sanitize email address
+ * 
+ * @param email - Email address to validate
+ * @returns Sanitized email or empty string if invalid
+ */
+export function sanitizeEmail(email: string): string {
+  if (typeof email !== 'string') return '';
+
+  const trimmed = email.trim().toLowerCase();
+  
+  // Basic email regex (RFC 5322 simplified)
+  const emailRegex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+
+  if (!emailRegex.test(trimmed)) {
+    return '';
+  }
+
+  return trimmed;
+}
+
+/**
+ * Validate and sanitize phone number
+ * 
+ * @param phone - Phone number to validate
+ * @returns Sanitized phone number or empty string if invalid
+ */
+export function sanitizePhone(phone: string): string {
+  if (typeof phone !== 'string') return '';
+
+  // Remove all non-numeric characters except + at start
+  const cleaned = phone.replace(/[^\d+]/g, '');
+
+  // Must be 10-15 digits (international phone numbers)
+  if (cleaned.length < 10 || cleaned.length > 15) {
+    return '';
+  }
+
+  // Must start with + or digit
+  if (!cleaned.match(/^[\d+]/)) {
+    return '';
+  }
+
+  return cleaned;
+}
+
+/**
+ * Sanitize user-generated text content
+ * Allows basic formatting but removes dangerous content
+ * 
+ * @param text - Text to sanitize
+ * @param maxLength - Maximum allowed length
+ * @returns Sanitized text
+ */
+export function sanitizeText(text: string, maxLength: number = 10000): string {
+  if (typeof text !== 'string') return '';
+
+  return text
+    .trim()
+    .substring(0, maxLength)
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '') // Remove scripts
+    .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '') // Remove iframes
+    .replace(/javascript:/gi, '') // Remove javascript: protocol
+    .replace(/on\w+\s*=/gi, ''); // Remove event handlers
+}
+
+/**
+ * Deep sanitize object recursively
+ * Applies sanitization to all string values in an object
+ * 
+ * @param obj - Object to sanitize
+ * @param depth - Maximum recursion depth (prevent circular refs)
+ * @returns Sanitized object
+ */
+export function deepSanitize<T>(obj: T, depth: number = 5): T {
+  if (depth <= 0) return obj;
+  if (obj === null || obj === undefined) return obj;
+
+  if (Array.isArray(obj)) {
+    return obj.map(item => deepSanitize(item, depth - 1)) as unknown as T;
+  }
+
+  if (typeof obj === 'object') {
+    const sanitized: any = {};
+    for (const [key, value] of Object.entries(obj)) {
+      // Sanitize key name
+      const safeKey = sanitizeText(key, 100);
+      
+      if (typeof value === 'string') {
+        sanitized[safeKey] = sanitizeText(value);
+      } else if (typeof value === 'object') {
+        sanitized[safeKey] = deepSanitize(value, depth - 1);
+      } else {
+        sanitized[safeKey] = value;
+      }
+    }
+    return sanitized;
+  }
+
+  return obj;
+}
+
+/**
+ * Validate and sanitize form data
+ * Common validations for typical form fields
+ * 
+ * @param data - Form data object
+ * @returns Validation result with sanitized data or errors
+ */
+export function validateFormData<T extends Record<string, any>>(
+  data: T,
+  rules: Partial<Record<keyof T, (value: any) => { valid: boolean; message?: string; sanitized?: any }>>
+): { valid: boolean; data?: T; errors: Record<string, string> } {
+  const errors: Record<string, string> = {};
+  const sanitized: any = {};
+
+  for (const [key, value] of Object.entries(data)) {
+    const rule = rules[key as keyof T];
+    
+    if (rule) {
+      const result = rule(value);
+      if (!result.valid) {
+        errors[key] = result.message || 'Invalid value';
+      } else {
+        sanitized[key] = result.sanitized !== undefined ? result.sanitized : value;
+      }
+    } else {
+      // No rule, just sanitize if string
+      sanitized[key] = typeof value === 'string' ? sanitizeText(value) : value;
+    }
+  }
+
+  return {
+    valid: Object.keys(errors).length === 0,
+    data: Object.keys(errors).length === 0 ? sanitized : undefined,
+    errors,
+  };
+}
+
+/**
+ * USAGE EXAMPLES:
+ * 
+ * // 1. Sanitize HTML before rendering
+ * const userComment = sanitizeHtml(input);
+ * 
+ * // 2. Sanitize URL before navigation
+ * const safeUrl = sanitizeUrl(userProvidedUrl);
+ * if (safeUrl) window.location.href = safeUrl;
+ * 
+ * // 3. Sanitize filename before download
+ * const safeFilename = sanitizeFilename(userFilename);
+ * 
+ * // 4. Deep sanitize form data
+ * const sanitizedFormData = deepSanitize(formData);
+ * 
+ * // 5. Validate form with rules
+ * const validation = validateFormData(formData, {
+ *   email: (v) => ({
+ *     valid: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),
+ *     message: 'Invalid email',
+ *     sanitized: sanitizeEmail(v)
+ *   }),
+ * });
+ */

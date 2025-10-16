@@ -5,6 +5,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { FaEye, FaClock, FaCalendarAlt } from 'react-icons/fa';
 import Link from 'next/link';
+import { sanitizeText } from '@/lib/input-sanitization';
 
 interface SolicitudCardProps {
   solicitud: Solicitud;
@@ -12,6 +13,10 @@ interface SolicitudCardProps {
 }
 
 export default function SolicitudCard({ solicitud, className = '' }: SolicitudCardProps) {
+  // SECURITY: Sanitize user-generated content to prevent XSS
+  const safeAsunto = sanitizeText(solicitud.asunto, 200);
+  const safeDescripcion = sanitizeText(solicitud.descripcion, 1000);
+  
   return (
   <div className={`bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-4 hover:shadow-md ${className}`}>
       {/* Header con número y estado */}
@@ -31,12 +36,12 @@ export default function SolicitudCard({ solicitud, className = '' }: SolicitudCa
 
       {/* Asunto */}
       <h4 className="font-medium text-gray-900 dark:text-slate-100 mb-2 line-clamp-2">
-        {solicitud.asunto}
+        {safeAsunto}
       </h4>
 
       {/* Descripción */}
       <p className="text-sm text-gray-600 dark:text-slate-400 mb-3 line-clamp-2">
-        {solicitud.descripcion}
+        {safeDescripcion}
       </p>
 
       {/* Info adicional */}

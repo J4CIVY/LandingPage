@@ -6,6 +6,7 @@
  */
 
 import { getRedisClient } from './redis-client';
+import { safeJsonParse } from './json-utils';
 
 export type SecurityEventType =
   | 'rate_limit_exceeded'
@@ -99,7 +100,18 @@ export async function getRecentSecurityEvents(
   for (const eventId of eventIds) {
     const eventData = await redis.get(eventId);
     if (eventData) {
-      events.push(JSON.parse(eventData));
+      const event = safeJsonParse<SecurityEvent>(eventData, {
+        id: '',
+        type: 'rate_limit_exceeded',
+        timestamp: 0,
+        ip: '',
+        userAgent: '',
+        endpoint: '',
+        details: {},
+        severity: 'low',
+        resolved: false,
+      });
+      if (event.id) events.push(event);
     }
   }
   
@@ -127,7 +139,18 @@ export async function getEventsByType(type: SecurityEventType, limit: number = 5
   for (const eventId of eventIds.slice(0, limit)) {
     const eventData = await redis.get(eventId);
     if (eventData) {
-      events.push(JSON.parse(eventData));
+      const event = safeJsonParse<SecurityEvent>(eventData, {
+        id: '',
+        type: 'rate_limit_exceeded',
+        timestamp: 0,
+        ip: '',
+        userAgent: '',
+        endpoint: '',
+        details: {},
+        severity: 'low',
+        resolved: false,
+      });
+      if (event.id) events.push(event);
     }
   }
   
@@ -154,7 +177,18 @@ export async function getEventsByIP(ip: string, limit: number = 50): Promise<Sec
   for (const eventId of eventIds.slice(0, limit)) {
     const eventData = await redis.get(eventId);
     if (eventData) {
-      events.push(JSON.parse(eventData));
+      const event = safeJsonParse<SecurityEvent>(eventData, {
+        id: '',
+        type: 'rate_limit_exceeded',
+        timestamp: 0,
+        ip: '',
+        userAgent: '',
+        endpoint: '',
+        details: {},
+        severity: 'low',
+        resolved: false,
+      });
+      if (event.id) events.push(event);
     }
   }
   
@@ -181,7 +215,18 @@ export async function getEventsBySeverity(severity: SecurityEvent['severity'], l
   for (const eventId of eventIds.slice(0, limit)) {
     const eventData = await redis.get(eventId);
     if (eventData) {
-      events.push(JSON.parse(eventData));
+      const event = safeJsonParse<SecurityEvent>(eventData, {
+        id: '',
+        type: 'rate_limit_exceeded',
+        timestamp: 0,
+        ip: '',
+        userAgent: '',
+        endpoint: '',
+        details: {},
+        severity: 'low',
+        resolved: false,
+      });
+      if (event.id) events.push(event);
     }
   }
   
@@ -207,7 +252,22 @@ export async function resolveSecurityEvent(
     return false;
   }
   
-  const event: SecurityEvent = JSON.parse(eventData);
+  const event: SecurityEvent = safeJsonParse<SecurityEvent>(eventData, {
+    id: '',
+    type: 'rate_limit_exceeded',
+    timestamp: 0,
+    ip: '',
+    userAgent: '',
+    endpoint: '',
+    details: {},
+    severity: 'low',
+    resolved: false,
+  });
+  
+  if (!event.id) {
+    return false;
+  }
+  
   event.resolved = true;
   event.resolvedBy = resolvedBy;
   event.resolvedAt = Date.now();
