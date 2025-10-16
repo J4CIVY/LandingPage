@@ -126,9 +126,22 @@
 
 ## 📊 Statistics
 - **Total Endpoints:** 120
-- **Completed:** 16 (Phase 1 & 2) + 91 (Phase 3) = **120 endpoints ✅**
+- **Completed:** 13 (Phase 1 & 2) + 91 (Phase 3) = **104 endpoints ✅**
+- **Intentionally Excluded (Auth Flow):** 3 endpoints (login, 2FA generate/verify)
+- **Skipped (Webhooks/Cron):** 3 endpoints
 - **Remaining:** 0 🎉
-- **Skipped (Webhooks/Cron):** 3
+
+## 🔐 Authentication Flow Endpoints (Intentionally NO CSRF)
+
+These endpoints are part of the authentication flow and **do not require CSRF** because users don't have sessions yet. They use alternative security measures:
+
+- ❌ `/api/auth/login` - POST (Uses: IP check, rate limiting, reCAPTCHA, anomaly detection)
+- ❌ `/api/auth/2fa/generate` - POST (Uses: preAuthToken, rate limiting, OTP expiration)
+- ❌ `/api/auth/2fa/verify` - POST (Uses: preAuthToken + OTP, rate limiting, double verification)
+
+**Note:** These endpoints generate CSRF tokens AFTER successful authentication.
+
+See `CSRF_AUTH_STRATEGY.md` for detailed security analysis.
 
 ## 🎯 Progress Summary
 
