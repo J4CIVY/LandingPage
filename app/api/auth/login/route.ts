@@ -16,7 +16,7 @@ import { verifyRecaptcha, RecaptchaThresholds, isLikelyHuman } from '@/lib/recap
 import { trackSuccessfulLogin, trackFailedLogin } from '@/lib/anomaly-detection';
 import { getEmailService } from '@/lib/email-service';
 import { checkAndBlockMaliciousIP } from '@/lib/ip-reputation';
-import { requireCSRFToken } from '@/lib/csrf-protection';
+import { requireCSRFToken, setCSRFToken } from '@/lib/csrf-protection';
 
 export async function POST(request: NextRequest) {
   try {
@@ -307,6 +307,10 @@ export async function POST(request: NextRequest) {
       ...cookieOptions,
       maxAge: 7 * 24 * 60 * 60 // 7 días
     });
+
+    // SECURITY: Generate and set CSRF token for this session
+    const csrfToken = setCSRFToken(response);
+    console.log('[SECURITY] CSRF token generated for user:', user._id);
 
     return response;
 
