@@ -106,9 +106,9 @@ const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMon
 
   /**
    * Renders the calendar header with month navigation buttons.
-   * @returns {JSX.Element} The header JSX.
+   * @returns {React.ReactElement} The header JSX.
    */
-  const renderHeader = (): JSX.Element => {
+  const renderHeader = (): React.ReactElement => {
     return (
       <div className="flex items-center justify-between mb-4">
         <button 
@@ -134,9 +134,9 @@ const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMon
 
   /**
    * Renders the day names (e.g., Dom, Lun, Mar).
-   * @returns {JSX.Element} The day names JSX.
+   * @returns {React.ReactElement} The day names JSX.
    */
-  const renderDays = (): JSX.Element => {
+  const renderDays = (): React.ReactElement => {
     const dayNames: string[] = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
     
     return (
@@ -152,16 +152,16 @@ const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMon
 
   /**
    * Renders the calendar cells (days of the month) with events.
-   * @returns {JSX.Element} The calendar cells JSX.
+   * @returns {React.ReactElement} The calendar cells JSX.
    */
-  const renderCells = (): JSX.Element => {
+  const renderCells = (): React.ReactElement => {
     const monthStart: Date = startOfMonth(currentMonth);
     const monthEnd: Date = endOfMonth(currentMonth);
     const startDate: Date = startOfWeek(monthStart);
     const endDate: Date = endOfWeek(monthEnd);
 
-    const rows: JSX.Element[] = [];
-    let days: JSX.Element[] = [];
+    const rows: React.ReactElement[] = [];
+    let days: React.ReactElement[] = [];
     let day: Date = startDate;
 
     while (day <= endDate) {
