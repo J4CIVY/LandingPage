@@ -2,17 +2,24 @@
  * CSP Nonce Utility
  * Generates and manages Content Security Policy nonces for inline scripts/styles
  * Enhances XSS protection by allowing only whitelisted inline content
+ * 
+ * Uses Web Crypto API for Edge Runtime compatibility
  */
 
-import { randomBytes } from 'crypto';
 import { headers } from 'next/headers';
 
 /**
- * Generate a cryptographically secure nonce
+ * Generate a cryptographically secure nonce using Web Crypto API
+ * Compatible with Edge Runtime (no Node.js crypto module)
  * @returns Base64-encoded random nonce
  */
 export function generateNonce(): string {
-  return randomBytes(16).toString('base64');
+  // Use Web Crypto API instead of Node.js crypto
+  const array = new Uint8Array(16);
+  crypto.getRandomValues(array);
+  
+  // Convert to base64
+  return btoa(String.fromCharCode(...array));
 }
 
 /**
