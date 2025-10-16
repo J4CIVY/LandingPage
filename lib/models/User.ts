@@ -284,12 +284,6 @@ UserSchema.pre('save', async function(next) {
 // Método para comparar contraseñas
 UserSchema.methods.comparePassword = async function(this: IUser, candidatePassword: string): Promise<boolean> {
   try {
-    console.log('🔍 comparePassword called with:', {
-      candidatePasswordLength: candidatePassword?.length,
-      hasStoredPassword: !!this.password,
-      storedPasswordPrefix: this.password?.substring(0, 10)
-    });
-    
     if (!candidatePassword) {
       throw new Error('candidatePassword is required');
     }
@@ -298,11 +292,10 @@ UserSchema.methods.comparePassword = async function(this: IUser, candidatePasswo
       throw new Error('stored password is empty');
     }
     
-    const result = await bcrypt.compare(candidatePassword, this.password);
-    console.log('🔍 comparePassword result:', result);
-    return result;
+    return await bcrypt.compare(candidatePassword, this.password);
   } catch (error) {
-    console.error('🔍 comparePassword error:', error);
+    // SECURITY: Never log password-related details in production
+    console.error('Error comparing passwords');
     throw new Error('Error al comparar contraseñas');
   }
 };
@@ -381,7 +374,8 @@ UserSchema.methods.getPublicProfile = function(this: IUser): any {
     
     // Estado de verificación
     isEmailVerified: this.isEmailVerified,
-    isLocked: this.isAccountLocked(), // Método para verificar si está bloqueado
+    // SECURITY FIX: Removed isLocked and loginAttempts from public profile
+    // These are internal security metrics that should not be exposed to clients
     
     // Términos y condiciones
     acceptedTerms: this.acceptedTerms,
@@ -395,7 +389,7 @@ UserSchema.methods.getPublicProfile = function(this: IUser): any {
     
     // Metadatos
     lastLogin: this.lastLogin,
-    loginAttempts: this.loginAttempts,
+    // SECURITY FIX: loginAttempts removed - internal security field
     createdAt: this.createdAt,
     updatedAt: this.updatedAt
   };

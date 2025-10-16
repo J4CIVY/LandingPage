@@ -240,8 +240,6 @@ export async function POST(request: NextRequest) {
         message: 'Autenticación exitosa',
         data: {
           user: user.getPublicProfile(),
-          accessToken: finalAccessToken,
-          refreshToken: finalRefreshToken,
           expiresIn: 15 * 60 // 15 minutos
         }
       },

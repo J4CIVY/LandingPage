@@ -255,21 +255,16 @@ export function validatePasswordStrength(password: string): {
  */
 export async function verifyAuth(request: NextRequest): Promise<AuthResult> {
   try {
-    console.log('verifyAuth: Iniciando verificación...');
-    
     // Extraer token del header o cookies
     let token = extractTokenFromRequest(request);
-    console.log('verifyAuth: Token extraído:', !!token);
     
     if (!token) {
       // Intentar obtener de cookies con el nombre correcto
       const cookies = request.cookies;
       token = cookies.get('bsk-access-token')?.value || null;
-      console.log('verifyAuth: Token de cookies:', !!token);
     }
 
     if (!token) {
-      console.log('verifyAuth: No se encontró token');
       return {
         success: false,
         isValid: false,
@@ -277,19 +272,12 @@ export async function verifyAuth(request: NextRequest): Promise<AuthResult> {
       };
     }
 
-    console.log('verifyAuth: Verificando token...');
     // Verificar el token
     const payload = verifyAccessToken(token);
-    console.log('verifyAuth: Payload:', { userId: payload.userId });
     
     // Conectar a la base de datos y verificar que el usuario existe
     await connectDB();
     const user = await User.findById(payload.userId).select('email membershipType role isActive');
-    console.log('verifyAuth: Usuario encontrado:', { 
-      found: !!user, 
-      email: user?.email, 
-      isActive: user?.isActive 
-    });
     
     if (!user || !user.isActive) {
       return {
@@ -315,10 +303,14 @@ export async function verifyAuth(request: NextRequest): Promise<AuthResult> {
     };
 
   } catch (error: any) {
+    // SECURITY: Never log detailed authentication errors in production
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Auth verification error:', error.message);
+    }
     return {
       success: false,
       isValid: false,
-      error: error.message || 'Error de autenticación'
+      error: 'Error de autenticación'
     };
   }
 }

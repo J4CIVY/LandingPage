@@ -19,17 +19,36 @@ const PublicCallbackContent: React.FC = () => {
       setStatus('error');
       setMessage(`Error de autorización: ${errorParam} - ${errorDescription || 'Error desconocido'}`);
     } else if (code) {
-      // Guardar el código en localStorage temporalmente
-      localStorage.setItem('zoho_auth_code', code);
-      localStorage.setItem('zoho_auth_timestamp', Date.now().toString());
-      
-      setStatus('success');
-      setMessage('Autorización exitosa. Redirigiendo al panel de administración...');
-      
-      // Redirigir al panel de admin después de 2 segundos
-      setTimeout(() => {
-        router.push('/admin/email-config?auth_success=true');
-      }, 2000);
+      // SECURITY FIX: Send code to server-side endpoint instead of localStorage
+      // Never store sensitive authorization codes in localStorage
+      fetch('/api/oauth/zoho/callback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ code }),
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.success) {
+            setStatus('success');
+            setMessage('Autorización exitosa. Redirigiendo al panel de administración...');
+            
+            // Redirigir al panel de admin después de 2 segundos
+            setTimeout(() => {
+              router.push('/admin/email-config?auth_success=true');
+            }, 2000);
+          } else {
+            setStatus('error');
+            setMessage(result.message || 'Error al procesar autorización');
+          }
+        })
+        .catch((error) => {
+          console.error('Error processing OAuth callback:', error);
+          setStatus('error');
+          setMessage('Error al procesar la autorización. Por favor intenta nuevamente.');
+        });
     } else {
       setStatus('error');
       setMessage('No se recibió código de autorización válido');

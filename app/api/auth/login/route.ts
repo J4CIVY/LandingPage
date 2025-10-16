@@ -271,8 +271,6 @@ export async function POST(request: NextRequest) {
         message: 'Inicio de sesión exitoso',
         data: {
           user: user.getPublicProfile(),
-          accessToken,
-          refreshToken,
           expiresIn: 15 * 60, // 15 minutos en segundos
           requiresVerification: requiresAdditionalVerification, // Flag for client to show 2FA
           anomalyDetected: anomalyResult.isAnomalous,

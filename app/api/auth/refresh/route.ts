@@ -110,8 +110,7 @@ export async function POST(request: NextRequest) {
           message: 'Token renovado exitosamente',
           data: {
             user: user.getPublicProfile(),
-            accessToken,
-            expiresIn: 15 * 60 // 15 minutos en segundos
+            expiresIn: 15 * 60
           }
         },
         { status: 200 }
