@@ -8,6 +8,7 @@ import {
 import connectDB from '@/lib/mongodb';
 import Emergency from '@/lib/models/Emergency';
 import mongoose from 'mongoose';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 interface RouteParams {
   params: Promise<{
@@ -55,6 +56,10 @@ async function handleGet(request: NextRequest, { params }: RouteParams) {
  * Actualiza una emergencia específica
  */
 async function handlePut(request: NextRequest, { params }: RouteParams) {
+  // 0. CSRF Protection
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+
   await connectDB();
   
   const { id } = await params;
@@ -128,6 +133,10 @@ async function handlePut(request: NextRequest, { params }: RouteParams) {
  * Cancela una emergencia específica
  */
 async function handleDelete(request: NextRequest, { params }: RouteParams) {
+  // 0. CSRF Protection
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+
   await connectDB();
   
   const { id } = await params;

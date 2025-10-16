@@ -3,6 +3,7 @@ import connectDB from '@/lib/mongodb';
 import PQRSDF from '@/lib/models/PQRSDF';
 import { rateLimit } from '@/utils/rateLimit';
 import { verifyAuth } from '@/lib/auth-utils';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // Rate limiting
 const limiter = rateLimit({
@@ -122,6 +123,10 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     // Rate limiting
     try {
       const clientIP = request.headers.get('x-forwarded-for') || 

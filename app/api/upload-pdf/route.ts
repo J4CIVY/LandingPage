@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { uploadPdfToCloudinary, validatePdfFile } from '@/lib/cloudinary-service';
 import { rateLimit } from '@/utils/rateLimit';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // Configurar rate limiting para subida de PDFs
 const limiter = rateLimit({
@@ -10,6 +11,10 @@ const limiter = rateLimit({
 
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     // Obtener IP del cliente
     const clientIP = request.headers.get('x-forwarded-for') || 
                      request.headers.get('x-real-ip') || 

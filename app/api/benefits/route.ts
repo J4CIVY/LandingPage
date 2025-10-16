@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Benefit from '@/lib/models/Benefit';
 import { verifyAuth } from '@/lib/auth-utils';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // GET /api/benefits - Obtener beneficios disponibles para el usuario
 export async function GET(request: NextRequest) {
@@ -71,6 +72,10 @@ export async function GET(request: NextRequest) {
 // POST /api/benefits - Crear nuevo beneficio (solo admin)
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     await connectDB();
     
     // Autenticar usuario y verificar rol de admin

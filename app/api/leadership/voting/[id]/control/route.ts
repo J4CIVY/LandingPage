@@ -2,12 +2,17 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { verifyAuth } from '@/lib/auth-utils';
 import { ObjectId } from 'mongodb';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     const { id: processId } = await params;
     
     // Verificar autenticación

@@ -9,6 +9,7 @@ import {
 import connectDB from '@/lib/mongodb';
 import Emergency from '@/lib/models/Emergency';
 import { emergencyRequestSchema } from '@/lib/validation-schemas';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 /**
  * GET /api/emergencies
@@ -69,6 +70,10 @@ async function handleGet(request: NextRequest) {
  * Crea una nueva emergencia SOS
  */
 async function handlePost(request: NextRequest) {
+  // 0. CSRF Protection
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+
   await connectDB();
   
   const validation = await validateRequestBody(request, emergencyRequestSchema);

@@ -2,9 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 import bcrypt from 'bcryptjs';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 export async function POST(req: NextRequest) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(req);
+    if (csrfError) return csrfError;
+
     await connectDB();
     
     const { email, password, firstName, lastName } = await req.json();

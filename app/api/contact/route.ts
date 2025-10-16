@@ -11,6 +11,7 @@ import ContactMessage from '@/lib/models/ContactMessage';
 import { contactMessageSchema } from '@/lib/validation-schemas';
 import { checkRateLimit, addRateLimitHeaders } from '@/lib/distributed-rate-limit';
 import { verifyRecaptcha, RecaptchaThresholds, isLikelyHuman } from '@/lib/recaptcha-server';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 /**
  * GET /api/contact
@@ -72,6 +73,10 @@ async function handleGet(request: NextRequest) {
  * PROTECCIÓN: reCAPTCHA v3 + Rate Limiting
  */
 async function handlePost(request: NextRequest) {
+  // 0. CSRF Protection
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+
   // 1. Enhanced Rate Limiting for Contact Form (5 messages per hour)
   const rateLimitResult = await checkRateLimit(request, {
     maxRequests: 5,

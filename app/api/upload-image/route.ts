@@ -3,9 +3,14 @@ import { uploadToCloudinary, validateImageFile } from '@/lib/cloudinary-service'
 import { checkRateLimit, RateLimitPresets, addRateLimitHeaders } from '@/lib/distributed-rate-limit';
 import { verifyAuth } from '@/lib/auth-utils';
 import { detectBehaviorAnomaly } from '@/lib/anomaly-detection';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     // 1. Verificar autenticación primero
     const authResult = await verifyAuth(request);
     if (!authResult.success || !authResult.isValid) {

@@ -10,6 +10,7 @@ import {
 import connectDB from '@/lib/mongodb';
 import Product from '@/lib/models/Product';
 import { productSchema, productFiltersSchema, paginationSchema } from '@/lib/validation-schemas';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 /**
  * GET /api/products
@@ -100,6 +101,10 @@ async function handleGet(request: NextRequest) {
  * Crea un nuevo producto
  */
 async function handlePost(request: NextRequest) {
+  // 0. CSRF Protection
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+
   await connectDB();
   
   const body = await request.json();

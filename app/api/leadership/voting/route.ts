@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { verifyAuth } from '@/lib/auth-utils';
 import { ObjectId } from 'mongodb';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 export async function GET(request: NextRequest) {
   try {
@@ -148,6 +149,9 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
     // Verificar autenticación
     const authResult = await verifyAuth(request);
     if (!authResult.success || !authResult.user) {

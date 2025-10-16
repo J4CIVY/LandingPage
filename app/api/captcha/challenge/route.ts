@@ -6,6 +6,7 @@ import {
   getCaptchaFailures,
   resetCaptchaFailures,
 } from '@/lib/captcha-fallback';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 /**
  * POST /api/captcha/challenge
@@ -13,6 +14,10 @@ import {
  */
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     const clientIP = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
                      request.headers.get('x-real-ip') || 'unknown';
     
@@ -43,6 +48,10 @@ export async function POST(request: NextRequest) {
  */
 export async function PUT(request: NextRequest) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     const body = await request.json();
     const { challengeId, answer } = body;
     

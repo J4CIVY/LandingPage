@@ -4,6 +4,7 @@ import PQRSDF from '@/lib/models/PQRSDF';
 import { rateLimit } from '@/utils/rateLimit';
 import { verifyAuth } from '@/lib/auth-utils';
 import mongoose from 'mongoose';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // Rate limiting
 const limiter = rateLimit({
@@ -103,6 +104,10 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     // Rate limiting
     try {
       const clientIP = request.headers.get('x-forwarded-for') || 
