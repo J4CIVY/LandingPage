@@ -38,7 +38,7 @@ interface DocumentCollection {
 /**
  * Documents component displays various institutional documents, categorized into legal and operational.
  * It includes a search bar and allows users to view and download documents.
- * @returns {JSX.Element}
+ * @returns {React.ReactElement}
  */
 const Documents: React.FC = () => {
   const [activeDoc, setActiveDoc] = useState<string | null>("constitucion");

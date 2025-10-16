@@ -44,7 +44,7 @@ export const metadata: Metadata = {
 
 /**
  * About component displays information about BSK Motorcycle Team, including its history, mission, vision, and values.
- * @returns {JSX.Element}
+ * @returns {React.ReactElement}
  */
 const About: React.FC = () => {
   return (

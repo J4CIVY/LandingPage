@@ -13,7 +13,7 @@ import Link from 'next/link';
 /**
  * MembershipInfoPage component provides detailed information about the "Friend" membership.
  * It outlines benefits, duties, and obligations, and includes links for navigation.
- * @returns {JSX.Element}
+ * @returns {React.ReactElement}
  */
 const MembershipInfoPage: React.FC = () => {
   return (

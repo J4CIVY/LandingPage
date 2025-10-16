@@ -111,7 +111,7 @@ export default function Leaderboard() {
   };
 
   const getNivelIcon = (nivel: string) => {
-    const iconos: Record<string, JSX.Element> = {
+    const iconos: Record<string, React.ReactElement> = {
       'Aspirante': <FaSeedling className="inline text-green-500 dark:text-green-400" />, 
       'Explorador': <FaSearch className="inline text-gray-500 dark:text-gray-300" />, 
       'Participante': <FaRocket className="inline text-blue-500 dark:text-blue-400" />, 

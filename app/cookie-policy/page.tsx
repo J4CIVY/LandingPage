@@ -4,7 +4,7 @@ import React from 'react';
 
 /**
  * CookiePolicy component displays the detailed cookie policy of BSK Motorcycle Team.
- * @returns {JSX.Element}
+ * @returns {React.ReactElement}
  */
 const CookiePolicy: React.FC = () => {
   return (

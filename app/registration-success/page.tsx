@@ -10,7 +10,7 @@ import { Suspense } from 'react';
 /**
  * RegistrationSuccess component displays a success message after user registration.
  * It includes next steps and contact information.
- * @returns {JSX.Element}
+ * @returns {React.ReactElement}
  */
 const ContentWithSearchParams: React.FC = () => {
   const searchParams = useSearchParams();

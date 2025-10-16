@@ -76,7 +76,7 @@ interface EmergencyApiResponse {
 /**
  * Sos component provides emergency assistance features for BSK Motorcycle Team members.
  * It includes emergency contacts, an emergency request form, and a map of associated workshops.
- * @returns {JSX.Element}
+ * @returns {React.ReactElement}
  */
 const Sos: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"emergency" | "form" | "workshops">("emergency");

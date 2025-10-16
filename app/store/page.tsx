@@ -22,7 +22,7 @@ interface ProductsApiResponse {
 
 /**
  * Store component displays a list of products with filtering, searching, and a product modal.
- * @returns {JSX.Element}
+ * @returns {React.ReactElement}
  */
 const Store: React.FC = () => {
   // State for products, loading, and error handling
