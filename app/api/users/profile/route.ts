@@ -1,35 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verify } from 'jsonwebtoken';
+import { verifyAuth } from '@/lib/auth-utils';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
-
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
-
-interface JWTPayload {
-  userId: string;
-  email: string;
-}
 
 // GET - Obtener perfil del usuario
 export async function GET(request: NextRequest) {
   try {
-    await connectDB();
+    // Verificar autenticación usando la función centralizada
+    const authResult = await verifyAuth(request);
 
-    // Obtener token de las cookies
-    const token = request.cookies.get('bsk-access-token')?.value;
-
-    if (!token) {
+    if (!authResult.success || !authResult.isValid) {
       return NextResponse.json(
-        { success: false, message: 'Token de acceso requerido' },
+        { success: false, message: authResult.error || 'No autorizado' },
         { status: 401 }
       );
     }
 
-    // Verificar token
-    const decoded = verify(token, JWT_SECRET) as JWTPayload;
+    await connectDB();
     
     // Buscar usuario en la base de datos
-    const user = await User.findById(decoded.userId);
+    const user = await User.findById(authResult.user!.id);
 
     if (!user) {
       return NextResponse.json(
@@ -48,13 +38,6 @@ export async function GET(request: NextRequest) {
 
   } catch (error) {
     console.error('Error en GET /api/users/profile:', error);
-    
-    if (error instanceof Error && error.name === 'JsonWebTokenError') {
-      return NextResponse.json(
-        { success: false, message: 'Token inválido' },
-        { status: 401 }
-      );
-    }
 
     return NextResponse.json(
       { success: false, message: 'Error interno del servidor' },
@@ -66,20 +49,17 @@ export async function GET(request: NextRequest) {
 // PUT - Actualizar perfil del usuario
 export async function PUT(request: NextRequest) {
   try {
-    await connectDB();
+    // Verificar autenticación usando la función centralizada
+    const authResult = await verifyAuth(request);
 
-    // Obtener token de las cookies
-    const token = request.cookies.get('bsk-access-token')?.value;
-
-    if (!token) {
+    if (!authResult.success || !authResult.isValid) {
       return NextResponse.json(
-        { success: false, message: 'Token de acceso requerido' },
+        { success: false, message: authResult.error || 'No autorizado' },
         { status: 401 }
       );
     }
 
-    // Verificar token
-    const decoded = verify(token, JWT_SECRET) as JWTPayload;
+    await connectDB();
     
     // Obtener datos del cuerpo de la petición
     const body = await request.json();
@@ -105,10 +85,10 @@ export async function PUT(request: NextRequest) {
     }
 
     // Verificar si el email ya existe en otro usuario
-    if (email !== decoded.email) {
+    if (email !== authResult.user!.email) {
       const existingUser = await User.findOne({ 
         email: email.toLowerCase(), 
-        _id: { $ne: decoded.userId } 
+        _id: { $ne: authResult.user!.id } 
       });
 
       if (existingUser) {
@@ -119,29 +99,29 @@ export async function PUT(request: NextRequest) {
       }
     }
 
-    // Preparar datos para actualización
+    // Preparar datos para actualización con sanitización
     const updateData: any = {
-      firstName: firstName.trim(),
-      lastName: lastName.trim(),
-      email: email.toLowerCase().trim(),
-      phone: phone?.trim() || '',
-      address: address?.trim() || '',
-      city: city?.trim() || '',
-      country: country?.trim() || '',
+      firstName: firstName.toString().trim().substring(0, 100),
+      lastName: lastName.toString().trim().substring(0, 100),
+      email: email.toString().toLowerCase().trim().substring(0, 254),
+      phone: phone?.toString().trim().substring(0, 20) || '',
+      address: address?.toString().trim().substring(0, 200) || '',
+      city: city?.toString().trim().substring(0, 100) || '',
+      country: country?.toString().trim().substring(0, 100) || '',
       birthDate: dateOfBirth || null,
-      motorcycleBrand: motorcycleInfo?.brand?.trim() || '',
-      motorcycleModel: motorcycleInfo?.model?.trim() || '',
-      motorcycleYear: motorcycleInfo?.year?.trim() || '',
-      motorcyclePlate: motorcycleInfo?.licensePlate?.trim() || '',
-      emergencyContactName: emergencyContact?.name?.trim() || '',
-      emergencyContactPhone: emergencyContact?.phone?.trim() || '',
-      emergencyContactRelationship: emergencyContact?.relationship?.trim() || '',
+      motorcycleBrand: motorcycleInfo?.brand?.toString().trim().substring(0, 50) || '',
+      motorcycleModel: motorcycleInfo?.model?.toString().trim().substring(0, 50) || '',
+      motorcycleYear: motorcycleInfo?.year?.toString().trim().substring(0, 4) || '',
+      motorcyclePlate: motorcycleInfo?.licensePlate?.toString().trim().substring(0, 20) || '',
+      emergencyContactName: emergencyContact?.name?.toString().trim().substring(0, 100) || '',
+      emergencyContactPhone: emergencyContact?.phone?.toString().trim().substring(0, 20) || '',
+      emergencyContactRelationship: emergencyContact?.relationship?.toString().trim().substring(0, 50) || '',
       updatedAt: new Date()
     };
 
     // Actualizar usuario
     const updatedUser = await User.findByIdAndUpdate(
-      decoded.userId,
+      authResult.user!.id,
       updateData,
       { 
         new: true, 
@@ -192,13 +172,6 @@ export async function PUT(request: NextRequest) {
 
   } catch (error) {
     console.error('Error en PUT /api/users/profile:', error);
-    
-    if (error instanceof Error && error.name === 'JsonWebTokenError') {
-      return NextResponse.json(
-        { success: false, message: 'Token inválido' },
-        { status: 401 }
-      );
-    }
 
     if (error instanceof Error && error.name === 'ValidationError') {
       return NextResponse.json(

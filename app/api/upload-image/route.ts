@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { uploadToCloudinary, validateImageFile } from '@/lib/cloudinary-service';
 import { rateLimit } from '@/utils/rateLimit';
+import { verifyAuth } from '@/lib/auth-utils';
 
 // Configurar rate limiting para subida de imágenes
 const limiter = rateLimit({
@@ -10,6 +11,15 @@ const limiter = rateLimit({
 
 export async function POST(request: NextRequest) {
   try {
+    // Verificar autenticación primero (SECURITY FIX: Require authentication for uploads)
+    const authResult = await verifyAuth(request);
+    if (!authResult.success || !authResult.isValid) {
+      return NextResponse.json(
+        { error: 'No autorizado. Debes iniciar sesión para subir imágenes.' },
+        { status: 401 }
+      );
+    }
+
     // Obtener IP del cliente
     const clientIP = request.headers.get('x-forwarded-for') || 
                      request.headers.get('x-real-ip') || 
@@ -23,6 +33,18 @@ export async function POST(request: NextRequest) {
     const folder = formData.get('folder') as string || 'user-profiles';
     const publicId = formData.get('publicId') as string || undefined;
     const preserveOriginalSize = formData.get('preserveOriginalSize') === 'true';
+
+    // SECURITY FIX: Sanitize and validate folder path to prevent path traversal
+    const sanitizedFolder = folder.replace(/\.\./g, '').replace(/[^a-zA-Z0-9_\-\/]/g, '').substring(0, 100);
+    const allowedFolders = ['user-profiles', 'events', 'products', 'documents', 'gallery'];
+    const isValidFolder = allowedFolders.some(allowed => sanitizedFolder.startsWith(allowed));
+    
+    if (!isValidFolder) {
+      return NextResponse.json(
+        { error: 'Carpeta de destino no válida' },
+        { status: 400 }
+      );
+    }
 
     if (!file) {
       return NextResponse.json(
@@ -44,7 +66,7 @@ export async function POST(request: NextRequest) {
     const base64File = await fileToBase64(file);
 
     // Subir a Cloudinary
-    const result = await uploadToCloudinary(base64File, folder, publicId, preserveOriginalSize);
+    const result = await uploadToCloudinary(base64File, sanitizedFolder, publicId, preserveOriginalSize);
 
     return NextResponse.json({
       success: true,

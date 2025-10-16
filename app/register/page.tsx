@@ -72,12 +72,15 @@ const UserRegister: React.FC = () => {
     message: '¿Estás seguro de que quieres salir? Se perderán los cambios no guardados.'
   });
 
-  // Auto-save form data to localStorage
+  // Auto-save form data to localStorage (SECURITY FIX: Exclude sensitive data)
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       if (Object.keys(allFormData).length > 0 && (allFormData.firstName || allFormData.email || allFormData.documentNumber)) {
+        // SECURITY: Never save passwords or sensitive data to localStorage
+        const { password, confirmPassword, ...safeData } = allFormData;
+        
         localStorage.setItem('bskmt-registration-draft', JSON.stringify({
-          data: allFormData,
+          data: safeData,
           step: currentStep,
           timestamp: Date.now()
         }));
@@ -100,7 +103,8 @@ const UserRegister: React.FC = () => {
           );
           if (shouldRestore) {
             Object.keys(data).forEach(key => {
-              if (data[key] && data[key] !== '') {
+              // SECURITY: Skip password fields even if somehow present
+              if (key !== 'password' && key !== 'confirmPassword' && data[key] && data[key] !== '') {
                 setValue(key as any, data[key]);
               }
             });

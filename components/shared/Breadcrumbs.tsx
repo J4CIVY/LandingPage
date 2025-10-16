@@ -11,9 +11,22 @@ interface BreadcrumbsProps {
   items: BreadcrumbItem[];
 }
 
+/**
+ * Sanitize breadcrumb data to prevent XSS
+ */
+const sanitizeBreadcrumbItem = (item: BreadcrumbItem): BreadcrumbItem => {
+  return {
+    label: item.label.replace(/<[^>]*>/g, '').substring(0, 100),
+    href: item.href ? item.href.replace(/javascript:/gi, '').substring(0, 200) : undefined
+  };
+};
+
 const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
+  // SECURITY FIX: Sanitize items before processing
+  const sanitizedItems = items.map(sanitizeBreadcrumbItem);
+  
   // Generate JSON-LD structured data for breadcrumbs (SEO Enhancement)
-  const allItems = [{ label: 'Inicio', href: '/' }, ...items];
+  const allItems = [{ label: 'Inicio', href: '/' }, ...sanitizedItems];
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -53,10 +66,10 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
               <meta itemProp="position" content="1" />
             </li>
             
-            {items.map((item, index) => (
+            {sanitizedItems.map((item, index) => (
               <li key={index} className="flex items-center" itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
                 <FaChevronRight className="w-3 h-3 text-gray-400 dark:text-gray-600 mx-2" aria-hidden="true" />
-                {item.href && index < items.length - 1 ? (
+                {item.href && index < sanitizedItems.length - 1 ? (
                   <Link 
                     href={item.href}
                     className="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 hover:underline focus-enhanced transition-colors"

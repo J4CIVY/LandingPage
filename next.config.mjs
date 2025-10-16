@@ -106,6 +106,7 @@ const nextConfig = {
     dangerouslyAllowSVG: false, // Security: Prevent SVG XSS
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    unoptimized: false, // SECURITY FIX: Enable image optimization
   },
   // Performance: Optimize package imports
   experimental: {

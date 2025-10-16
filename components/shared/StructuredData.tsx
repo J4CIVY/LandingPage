@@ -5,6 +5,31 @@ interface StructuredDataProps {
   data: any;
 }
 
+/**
+ * Sanitize data to prevent XSS in JSON-LD
+ * JSON.stringify automatically escapes dangerous characters, but we add extra validation
+ */
+const sanitizeForJsonLd = (obj: any): any => {
+  if (typeof obj === 'string') {
+    // Remove any potential script tags or dangerous content
+    return obj.replace(/<script[^>]*>.*?<\/script>/gi, '')
+              .replace(/<iframe[^>]*>.*?<\/iframe>/gi, '')
+              .replace(/javascript:/gi, '')
+              .substring(0, 5000); // Limit string length
+  }
+  if (Array.isArray(obj)) {
+    return obj.map(sanitizeForJsonLd);
+  }
+  if (obj && typeof obj === 'object') {
+    const sanitized: any = {};
+    for (const [key, value] of Object.entries(obj)) {
+      sanitized[key] = sanitizeForJsonLd(value);
+    }
+    return sanitized;
+  }
+  return obj;
+};
+
 const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
   const generateSchema = () => {
     const baseContext = "https://schema.org";
@@ -255,11 +280,14 @@ const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
   };
 
   const schema = generateSchema();
+  
+  // SECURITY FIX: Sanitize schema before rendering
+  const sanitizedSchema = sanitizeForJsonLd(schema);
 
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(sanitizedSchema) }}
     />
   );
 };
