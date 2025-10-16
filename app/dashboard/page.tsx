@@ -3,6 +3,7 @@
 import { useAuth } from '@/hooks/useAuth';
 import { useState, useEffect } from 'react';
 import { FaSpinner } from 'react-icons/fa';
+import { getCSRFToken } from '@/lib/csrf-client';
 
 // Importar los nuevos componentes del dashboard
 import WelcomeHeader from '@/components/dashboard/sections/WelcomeHeader';

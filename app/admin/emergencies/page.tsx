@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
 import { useSecureForm } from '@/hooks/useSecureForm';
+import { getCSRFToken } from '@/lib/csrf-client';
 
 interface Emergency {
   _id: string;
@@ -84,9 +85,13 @@ export default function EmergenciesAdminPage() {
   const { isSubmitting, submit } = useSecureForm(async (data: any) => {
     // Esta función se ejecutará para operaciones seguras
     if (data.action === 'delete') {
+      const csrfToken = getCSRFToken();
       const response = await fetch(`/api/admin/emergencies/${data.id}`, {
         method: 'DELETE',
-        credentials: 'include'
+        credentials: 'include',
+        headers: {
+          'x-csrf-token': csrfToken || '',
+        },
       });
 
       if (!response.ok) {
@@ -95,10 +100,12 @@ export default function EmergenciesAdminPage() {
 
       await fetchEmergencies();
     } else if (data.action === 'updateStatus') {
+      const csrfToken = getCSRFToken();
       const response = await fetch(`/api/admin/emergencies/${data.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         credentials: 'include',
         body: JSON.stringify({ status: data.status })

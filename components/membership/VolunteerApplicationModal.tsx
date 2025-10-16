@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { getCSRFToken } from '@/lib/csrf-client';
 import { FaTimes, FaCheckCircle, FaSpinner, FaFileContract, FaShieldAlt, FaHandshake, FaDatabase } from 'react-icons/fa';
 import DocumentReader from './DocumentReader';
 import { VOLUNTEER_TERMS, ETHICS_CODE, DATA_PROCESSING_AGREEMENT, VOLUNTEER_AGREEMENT } from './VolunteerDocuments';
@@ -68,10 +69,12 @@ export default function VolunteerApplicationModal({
     setError(null);
 
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch('/api/membership/volunteer-application', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         credentials: 'include',
         body: JSON.stringify({

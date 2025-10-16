@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { getCSRFToken } from '@/lib/csrf-client';
 import { 
   FaSpinner, 
   FaBoxes, 
@@ -100,9 +101,13 @@ export default function AdminProductsPage() {
 
   const handleToggleProductStatus = async (productId: string, currentStatus: boolean) => {
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch(`/api/admin/products/${productId}/toggle-status`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
+        },
         body: JSON.stringify({ isActive: !currentStatus })
       });
 
@@ -118,9 +123,13 @@ export default function AdminProductsPage() {
 
   const handleToggleNewProduct = async (productId: string, currentNewProduct: boolean) => {
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch(`/api/admin/products/${productId}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
+        },
         body: JSON.stringify({ newProduct: !currentNewProduct })
       });
 
@@ -140,8 +149,12 @@ export default function AdminProductsPage() {
     }
 
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch(`/api/admin/products/${productId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          'x-csrf-token': csrfToken || '',
+        },
       });
 
       if (response.ok) {

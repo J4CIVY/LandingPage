@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
+import { getCSRFToken } from '@/lib/csrf-client';
 import { MembershipResponse } from '@/types/membership';
 import { getNextMembershipType } from '@/data/membershipConfig';
 
@@ -77,11 +78,13 @@ export default function MembershipPage() {
   const handleRenewal = async () => {
     setRenewalLoading(true);
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch('/api/membership/renew', {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
       });
 
@@ -110,11 +113,13 @@ export default function MembershipPage() {
 
     setCancellationLoading(true);
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch('/api/membership/cancel', {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify({
           reason: 'Cancelación solicitada por el usuario'

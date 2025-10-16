@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { getCSRFToken } from '@/lib/csrf-client';
 import AdminLayout from '@/components/admin/AdminLayout';
 import UserTable from '@/components/admin/UserTable';
 import { 
@@ -94,9 +95,13 @@ export default function AdminUsersPage() {
 
   const handleToggleUserStatus = async (userId: string, currentStatus: boolean) => {
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch(`/api/admin/users/${userId}/toggle-status`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
+        },
         body: JSON.stringify({ isActive: !currentStatus })
       });
 
@@ -112,9 +117,13 @@ export default function AdminUsersPage() {
 
   const handleChangeUserRole = async (userId: string, newRole: string) => {
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch(`/api/admin/users/${userId}/role`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
+        },
         body: JSON.stringify({ role: newRole })
       });
 
@@ -150,8 +159,12 @@ export default function AdminUsersPage() {
     }
 
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch(`/api/admin/users/${userId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          'x-csrf-token': csrfToken || '',
+        },
       });
 
       if (response.ok) {
@@ -167,9 +180,13 @@ export default function AdminUsersPage() {
     if (selectedUsers.length === 0) return;
 
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch('/api/admin/users/bulk', {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
+        },
         body: JSON.stringify({ 
           userIds: selectedUsers,
           action 

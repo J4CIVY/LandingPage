@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { getCSRFToken } from '@/lib/csrf-client';
 import { MembershipType, Membership, RequestUpgradeResponse } from '@/types/membership';
 import { MEMBERSHIP_CONFIG, getNextMembershipType } from '@/data/membershipConfig';
 import { FaTimes, FaCheck, FaSpinner, FaExclamationTriangle } from 'react-icons/fa';
@@ -32,10 +33,12 @@ export default function UpgradeFlowModal({
     setError(null);
 
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch('/api/membership/request-upgrade', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         credentials: 'include',
         body: JSON.stringify({

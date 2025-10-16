@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { getCSRFToken } from '@/lib/csrf-client';
 import { 
   FaSpinner, 
   FaCalendarAlt, 
@@ -105,9 +106,13 @@ export default function AdminEventsPage() {
 
   const handleToggleEventStatus = async (eventId: string, currentStatus: boolean) => {
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch(`/api/admin/events/${eventId}/toggle-status`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
+        },
         body: JSON.stringify({ isActive: !currentStatus })
       });
 
@@ -127,8 +132,12 @@ export default function AdminEventsPage() {
     }
 
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch(`/api/admin/events/${eventId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          'x-csrf-token': csrfToken || '',
+        },
       });
 
       if (response.ok) {

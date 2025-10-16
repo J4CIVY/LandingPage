@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { getCSRFToken } from '@/lib/csrf-client';
 import { 
   FaUserTie, 
   FaUsers, 
@@ -107,10 +108,12 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
 
   const handleDecision = async (decisionId: string, action: 'approve' | 'reject', comment?: string) => {
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch(`/api/leadership/decisions/${decisionId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify({ action, comment }),
       });
@@ -125,10 +128,12 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
 
   const createAnnouncement = async (announcement: Omit<Announcement, 'id' | 'status'>) => {
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch('/api/leadership/announcements', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify(announcement),
       });

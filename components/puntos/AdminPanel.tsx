@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { getCSRFToken } from '@/lib/csrf-client';
 import { 
   FaCog, 
   FaChartBar, 
@@ -118,10 +119,14 @@ export default function AdminPanel() {
     setSubmitting(true);
     
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch('/api/admin/gamification/rewards', {
         method: 'POST',
         credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
+        },
         body: JSON.stringify(nuevaRecompensa)
       });
 
@@ -161,10 +166,14 @@ export default function AdminPanel() {
     setSubmitting(true);
     
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch('/api/admin/gamification/assign-points', {
         method: 'POST',
         credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
+        },
         body: JSON.stringify(asignacionPuntos)
       });
 

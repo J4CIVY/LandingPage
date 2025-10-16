@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { getCSRFToken } from '@/lib/csrf-client'
 import { FaGoogle, FaFacebook, FaApple, FaLink, FaUnlink, FaShieldAlt, FaMoon, FaSun, FaDesktop, FaCheckCircle, FaTimesCircle, FaExclamationTriangle } from 'react-icons/fa'
 
 interface SocialAccount {
@@ -141,10 +142,12 @@ export default function AdvancedSettingsSection() {
     setSecurityAlerts(newValue)
 
     try {
+      const csrfToken = getCSRFToken()
       const response = await fetch('/api/user/security-alerts', {
         method: 'PATCH',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify({
           securityAlerts: newValue

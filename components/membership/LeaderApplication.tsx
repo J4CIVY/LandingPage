@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { getCSRFToken } from '@/lib/csrf-client';
 import { FaTimes, FaUserTie, FaSpinner, FaUpload, FaCheck } from 'react-icons/fa';
 
 interface LeaderApplicationProps {
@@ -48,10 +49,12 @@ export default function LeaderApplication({
     setStep('submitting');
 
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch('/api/membership/apply-leader', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         credentials: 'include',
         body: JSON.stringify(formData),

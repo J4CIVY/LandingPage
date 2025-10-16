@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
+import { getCSRFToken } from '@/lib/csrf-client';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { 
   FaBell, 
@@ -79,10 +80,12 @@ export default function AdminNotifications() {
   const generateNotifications = async () => {
     try {
       setGenerating(true);
+      const csrfToken = getCSRFToken();
       const response = await fetch('/api/notifications/admin/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify({ 
           source: 'admin_manual',
@@ -374,10 +377,12 @@ function CreateNotificationForm({ onSuccess }: { onSuccess: () => void }) {
     
     try {
       setLoading(true);
+      const csrfToken = getCSRFToken();
       const response = await fetch('/api/notifications/admin/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify(formData),
       });

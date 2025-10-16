@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { getCSRFToken } from '@/lib/csrf-client';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { 
   FaSpinner, 
@@ -146,10 +147,12 @@ export default function MembershipsAdminPage() {
   // Aprobar solicitud de membresía
   const handleApproveApplication = async (applicationId: string) => {
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch(`/api/admin/memberships/${applicationId}/approve`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify({
           reviewedBy: user?.id,
@@ -175,10 +178,12 @@ export default function MembershipsAdminPage() {
   // Rechazar solicitud de membresía
   const handleRejectApplication = async (applicationId: string) => {
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch(`/api/admin/memberships/${applicationId}/reject`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify({
           reviewedBy: user?.id,
@@ -210,10 +215,12 @@ export default function MembershipsAdminPage() {
     }
 
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch(`/api/admin/memberships/bulk-${action}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify({
           applicationIds: selectedApplications,

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { getCSRFToken } from '@/lib/csrf-client';
 import { useAuth } from '@/hooks/useAuth';
 import PuntosHeader from '@/components/puntos/PuntosHeader';
 import ProgresoNivel from '@/components/puntos/ProgresoNivel';
@@ -341,11 +342,13 @@ export default function PuntosPage() {
 
   const handleCanje = async (recompensaId: string, costoPuntos: number): Promise<boolean> => {
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch('/api/rewards/redeem', {
         method: 'POST',
         credentials: 'include',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify({
           recompensaId: recompensaId,

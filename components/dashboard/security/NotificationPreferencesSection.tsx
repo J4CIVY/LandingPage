@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { getCSRFToken } from '@/lib/csrf-client'
 import { FaBell, FaEnvelope, FaMobile, FaCalendarCheck, FaGlobe, FaClock, FaCheckCircle, FaTimesCircle, FaExclamationTriangle, FaSpinner, FaWhatsapp } from 'react-icons/fa'
 
 interface NotificationPreferences {
@@ -115,10 +116,12 @@ export default function NotificationPreferencesSection() {
 
   const updatePreferences = async (updates: any) => {
     try {
+      const csrfToken = getCSRFToken()
       const response = await fetch('/api/user/preferences', {
         method: 'PATCH',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify(updates)
       })

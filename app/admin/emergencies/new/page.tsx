@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
 import { useSecureForm } from '@/hooks/useSecureForm';
+import { getCSRFToken } from '@/lib/csrf-client';
 
 const EMERGENCY_TYPES = [
   { value: 'mechanical', label: 'Mecánica' },
@@ -41,10 +42,12 @@ export default function NewEmergencyPage() {
   const { user, isLoading } = useAuth();
   const { isSubmitting, submit } = useSecureForm(async (data: any) => {
     // Esta función se ejecutará con los datos seguros
+    const csrfToken = getCSRFToken();
     const response = await fetch('/api/admin/emergencies', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'x-csrf-token': csrfToken || '',
       },
       credentials: 'include',
       body: JSON.stringify(data)

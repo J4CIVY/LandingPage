@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
+import { getCSRFToken } from '@/lib/csrf-client';
 import {
   FaSpinner,
   FaArrowLeft,
@@ -52,11 +53,13 @@ export default function ProfilePage() {
 
   const handleSave = async (data: any) => {
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch('/api/users/profile', {
         method: 'PUT',
         credentials: 'include',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify(data)
       });
@@ -81,9 +84,13 @@ export default function ProfilePage() {
     formData.append('avatar', file);
 
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch('/api/users/upload-avatar', {
         method: 'POST',
         credentials: 'include',
+        headers: {
+          'x-csrf-token': csrfToken || '',
+        },
         body: formData
       });
 

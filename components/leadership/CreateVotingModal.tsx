@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { getCSRFToken } from '@/lib/csrf-client';
 import { 
   FaPlus, 
   FaTimes, 
@@ -86,10 +87,12 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
     setError(null);
 
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch('/api/leadership/voting', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify(formData),
       });

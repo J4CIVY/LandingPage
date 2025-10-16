@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
+import { getCSRFToken } from '@/lib/csrf-client';
 import BoldCheckoutButton from '@/components/shared/BoldCheckoutButton';
 import {
   FaCalendarAlt,
@@ -181,10 +182,14 @@ export default function DashboardEventDetailsPage() {
 
     setProcessing(true);
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch(`/api/events/${eventId}/register`, {
         method: action === 'register' ? 'POST' : 'DELETE',
         credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
+        },
       });
 
       if (response.ok) {
@@ -249,10 +254,14 @@ export default function DashboardEventDetailsPage() {
 
     setProcessing(true);
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch(`/api/events/${eventId}/favorite`, {
         method: isFavorite ? 'DELETE' : 'POST',
         credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
+        },
       });
 
       if (response.ok) {

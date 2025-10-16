@@ -6,6 +6,7 @@
 import { useAuth } from '@/hooks/useAuth';
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import { getCSRFToken } from '@/lib/csrf-client';
 import AdminLayout from '@/components/admin/AdminLayout';
 import ImageUpload from '@/components/shared/ImageUpload';
 import ImageGalleryUpload from '@/components/shared/ImageGalleryUpload';
@@ -289,9 +290,13 @@ export default function ProductFormPage() {
       const url = isEdit ? `/api/admin/products/${productId}` : '/api/admin/products';
       const method = isEdit ? 'PUT' : 'POST';
 
+      const csrfToken = getCSRFToken();
       const response = await fetch(url, {
         method,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
+        },
         body: JSON.stringify(productData)
       });
 

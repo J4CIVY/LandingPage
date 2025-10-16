@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { getCSRFToken } from '@/lib/csrf-client';
 import { 
   FaFileUpload, 
   FaUsers, 
@@ -163,10 +164,12 @@ const LeaderApplicationPlatform: React.FC<LeaderApplicationPlatformProps> = ({
 
   const requestEndorsement = async (endorserId: string, userType: 'leader' | 'master') => {
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch('/api/membership/request-endorsement', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify({
           endorserId,
@@ -204,10 +207,12 @@ const LeaderApplicationPlatform: React.FC<LeaderApplicationPlatformProps> = ({
   const saveAsDraft = async () => {
     try {
       setSaving(true);
+      const csrfToken = getCSRFToken();
       const response = await fetch('/api/membership/leader-application/draft', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify(formData),
       });
@@ -240,10 +245,12 @@ const LeaderApplicationPlatform: React.FC<LeaderApplicationPlatformProps> = ({
         throw new Error('Se requieren mínimo 5 avales de Masters activos');
       }
 
+      const csrfToken = getCSRFToken();
       const response = await fetch('/api/membership/leader-application/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify(formData),
       });

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { getCSRFToken } from '@/lib/csrf-client';
 import CreateVotingModal from './CreateVotingModal';
 import { 
   FaVoteYea, 
@@ -105,10 +106,12 @@ const VotingSystem: React.FC<VotingSystemProps> = ({
 
   const castVote = async (processId: string, vote: 'for' | 'against' | 'abstain', comment?: string) => {
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch(`/api/leadership/voting/${processId}/vote`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify({ vote, comment }),
       });
@@ -128,10 +131,12 @@ const VotingSystem: React.FC<VotingSystemProps> = ({
 
   const controlVotingProcess = async (processId: string, action: 'start' | 'stop' | 'cancel') => {
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch(`/api/leadership/voting/${processId}/control`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify({ action }),
       });

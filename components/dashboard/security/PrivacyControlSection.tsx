@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { getCSRFToken } from '@/lib/csrf-client'
 import { FaEye, FaUser, FaTrophy, FaImage, FaDownload, FaTrash, FaLock, FaCheckCircle, FaTimesCircle, FaExclamationTriangle, FaShieldAlt } from 'react-icons/fa'
 
 interface PrivacySettings {
@@ -78,10 +79,12 @@ export default function PrivacyControlSection() {
     }))
 
     try {
+      const csrfToken = getCSRFToken()
       const response = await fetch('/api/user/privacy', {
         method: 'PATCH',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify({
           [setting]: newValue
@@ -189,10 +192,12 @@ export default function PrivacyControlSection() {
     setIsLoading(true)
     
     try {
+      const csrfToken = getCSRFToken()
       const response = await fetch('/api/user/delete-account', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify({
           password: deletePassword,

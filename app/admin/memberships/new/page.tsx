@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
+import { getCSRFToken } from '@/lib/csrf-client';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { 
   FaSave, 
@@ -119,10 +120,12 @@ export default function NewMembershipPage() {
     setLoading(true);
 
     try {
+      const csrfToken = getCSRFToken();
       const response = await fetch('/api/admin/memberships', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-csrf-token': csrfToken || '',
         },
         body: JSON.stringify({
           ...formData,

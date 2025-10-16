@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { getCSRFToken } from '@/lib/csrf-client'
 import { FaDesktop, FaMobile, FaTabletAlt, FaMapMarkerAlt, FaClock, FaSignOutAlt, FaCheckCircle, FaTimesCircle, FaExclamationTriangle, FaSpinner } from 'react-icons/fa'
 
 interface Session {
@@ -95,8 +96,12 @@ export default function SessionManagementSection() {
     setIsLoading(true)
     
     try {
+      const csrfToken = getCSRFToken()
       const response = await fetch(`/api/user/sessions?sessionId=${sessionId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          'x-csrf-token': csrfToken || '',
+        },
       })
 
       if (!response.ok) {
@@ -128,8 +133,12 @@ export default function SessionManagementSection() {
     setIsLoading(true)
     
     try {
+      const csrfToken = getCSRFToken()
       const response = await fetch('/api/user/sessions/terminate-all', {
-        method: 'POST'
+        method: 'POST',
+        headers: {
+          'x-csrf-token': csrfToken || '',
+        },
       })
 
       if (!response.ok) {
