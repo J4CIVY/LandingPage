@@ -3,6 +3,7 @@ import { connectToDatabase } from '@/lib/mongodb';
 import { ChatMensaje, UsuarioRanking } from '@/lib/models/Comunidad';
 import { verifySession } from '@/lib/auth-utils';
 import { Types } from 'mongoose';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // GET - Obtener mensajes del chat
 export async function GET(request: NextRequest) {
@@ -90,6 +91,10 @@ export async function GET(request: NextRequest) {
 // POST - Enviar nuevo mensaje
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     await connectToDatabase();
     
     const session = await verifySession(request);

@@ -3,6 +3,7 @@ import { connectToDatabase } from '@/lib/mongodb';
 import { ChatMensaje } from '@/lib/models/Comunidad';
 import { verifySession } from '@/lib/auth-utils';
 import { Types } from 'mongoose';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 type Params = Promise<{
   id: string;
@@ -11,6 +12,10 @@ type Params = Promise<{
 // PUT - Editar mensaje
 export async function PUT(request: NextRequest, { params }: { params: Params }) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     await connectToDatabase();
     
     const session = await verifySession(request);
@@ -111,6 +116,10 @@ export async function PUT(request: NextRequest, { params }: { params: Params }) 
 // DELETE - Eliminar mensaje
 export async function DELETE(request: NextRequest, { params }: { params: Params }) {
   try {
+    // 0. CSRF Protection (Security Audit Phase 3)
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     await connectToDatabase();
     
     const session = await verifySession(request);

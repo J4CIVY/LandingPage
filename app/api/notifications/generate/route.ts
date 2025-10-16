@@ -3,10 +3,15 @@ import connectDB from '@/lib/mongodb';
 import Event from '@/lib/models/Event';
 import User from '@/lib/models/User';
 import Notification from '@/lib/models/Notification';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // POST - Generar notificaciones automáticas
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     await connectDB();
 
     const now = new Date();

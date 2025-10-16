@@ -3,10 +3,15 @@ import { connectToDatabase } from '@/lib/mongodb';
 import { Comentario, UsuarioRanking } from '@/lib/models/Comunidad';
 import { verifySession } from '@/lib/auth-utils';
 import { actualizarPuntos } from '@/lib/services/GamificacionService';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // POST - Crear nuevo comentario
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     await connectToDatabase();
     
     const session = await verifySession(request);

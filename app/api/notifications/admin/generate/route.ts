@@ -5,6 +5,7 @@ import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 import Event from '@/lib/models/Event';
 import Notification from '@/lib/models/Notification';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
@@ -16,6 +17,10 @@ interface JWTPayload {
 // POST - Ejecutar generación de notificaciones (solo para administradores)
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     await connectDB();
 
     // Obtener token de las cookies

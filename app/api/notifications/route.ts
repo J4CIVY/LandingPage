@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verify } from 'jsonwebtoken';
 import connectDB from '@/lib/mongodb';
 import Notification from '@/lib/models/Notification';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
@@ -94,6 +95,10 @@ export async function GET(request: NextRequest) {
 // PUT - Marcar notificación como leída
 export async function PUT(request: NextRequest) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     await connectDB();
 
     // Obtener token de las cookies
@@ -180,6 +185,10 @@ export async function PUT(request: NextRequest) {
 // DELETE - Eliminar notificación
 export async function DELETE(request: NextRequest) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     await connectDB();
 
     // Obtener token de las cookies

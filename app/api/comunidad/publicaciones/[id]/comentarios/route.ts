@@ -3,6 +3,7 @@ import { connectToDatabase } from '@/lib/mongodb';
 import { Comentario } from '@/lib/models/Comunidad';
 import { verifySession } from '@/lib/auth-utils';
 import { Types } from 'mongoose';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // GET - Obtener comentarios de una publicación específica
 export async function GET(

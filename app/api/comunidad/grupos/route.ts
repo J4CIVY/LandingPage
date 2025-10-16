@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { GrupoInteres } from '@/lib/models/Comunidad';
 import { verifySession } from '@/lib/auth-utils';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // GET - Obtener grupos de interés
 export async function GET(request: NextRequest) {
@@ -45,6 +46,10 @@ export async function GET(request: NextRequest) {
 // POST - Crear nuevo grupo
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     await connectToDatabase();
     
     

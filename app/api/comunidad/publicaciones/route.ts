@@ -5,6 +5,7 @@ import { IUser } from '@/lib/models/User';
 import { UsuarioRanking } from '@/lib/models/Comunidad';
 import { verifySession } from '@/lib/auth-utils';
 import { actualizarPuntos, esPrimeraPublicacion } from '@/lib/services/GamificacionService';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // GET - Obtener publicaciones
 export async function GET(request: NextRequest) {
@@ -82,6 +83,10 @@ export async function GET(request: NextRequest) {
 // POST - Crear nueva publicación
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     await connectToDatabase();
     
     // Verificar sesión

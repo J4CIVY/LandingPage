@@ -3,6 +3,7 @@ import { connectToDatabase } from '@/lib/mongodb';
 import { Publicacion, UsuarioRanking } from '@/lib/models/Comunidad';
 import { verifySession } from '@/lib/auth-utils';
 import { actualizarPuntos } from '@/lib/services/GamificacionService';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // POST - Toggle reacción en publicación
 export async function POST(
@@ -10,6 +11,10 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     await connectToDatabase();
     
     const session = await verifySession(request);

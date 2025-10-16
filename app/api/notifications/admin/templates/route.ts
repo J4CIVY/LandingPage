@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { verify } from 'jsonwebtoken';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // Plantillas predefinidas
 const NOTIFICATION_TEMPLATES = [
@@ -204,6 +205,10 @@ export async function GET(request: NextRequest) {
 // POST para usar una plantilla
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     await connectDB();
 
     // Verificar autenticación y permisos de admin

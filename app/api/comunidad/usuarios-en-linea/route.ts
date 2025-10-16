@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import User from '@/lib/models/User';
 import { verifySession } from '@/lib/auth-utils';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // GET - Obtener usuarios en línea
 export async function GET(request: NextRequest) {
@@ -56,6 +57,10 @@ export async function GET(request: NextRequest) {
 // POST - Actualizar actividad del usuario (marcar como en línea)
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     await connectToDatabase();
     
     const session = await verifySession(request);

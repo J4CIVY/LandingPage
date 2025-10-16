@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { Publicacion } from '@/lib/models/Comunidad';
 import { verifySession } from '@/lib/auth-utils';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 type Params = Promise<{
   id: string;
@@ -10,6 +11,10 @@ type Params = Promise<{
 // PUT - Editar publicación
 export async function PUT(request: NextRequest, { params }: { params: Params }) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     await connectToDatabase();
     
     const session = await verifySession(request);
@@ -97,6 +102,10 @@ export async function PUT(request: NextRequest, { params }: { params: Params }) 
 // DELETE - Eliminar publicación
 export async function DELETE(request: NextRequest, { params }: { params: Params }) {
   try {
+    // 0. CSRF Protection
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     await connectToDatabase();
     
     const session = await verifySession(request);
