@@ -11,32 +11,27 @@ import {
   extractDeviceInfo,
   getSessionExpirationDate
 } from '@/lib/auth-utils';
-import { rateLimit } from '@/utils/rateLimit';
+import { checkRateLimit, resetRateLimit, RateLimitPresets, addRateLimitHeaders } from '@/lib/distributed-rate-limit';
+import { verifyRecaptcha, RecaptchaThresholds, isLikelyHuman } from '@/lib/recaptcha-server';
+import { trackSuccessfulLogin, trackFailedLogin } from '@/lib/anomaly-detection';
 import { getEmailService } from '@/lib/email-service';
-
-// Rate limiting específico para login (más restrictivo)
-const loginRateLimit = rateLimit({
-  interval: 15 * 60 * 1000, // 15 minutos
-  uniqueTokenPerInterval: 100 // 100 IPs diferentes por intervalo
-});
 
 export async function POST(request: NextRequest) {
   try {
-    // Aplicar rate limiting
-    try {
-      const clientIP = request.headers.get('x-forwarded-for') || 
-                      request.headers.get('x-real-ip') || 
-                      'unknown';
-      await loginRateLimit.check(clientIP, 5); // 5 intentos por IP cada 15 minutos
-    } catch {
-      return NextResponse.json(
+    // 1. Enhanced Distributed Rate Limiting (Redis-backed)
+    const rateLimitResult = await checkRateLimit(request, RateLimitPresets.LOGIN);
+    
+    if (!rateLimitResult.success) {
+      const response = NextResponse.json(
         { 
           success: false, 
-          message: 'Demasiados intentos de inicio de sesión. Intenta nuevamente en 15 minutos.',
+          message: `Demasiados intentos de inicio de sesión. Intenta nuevamente en ${Math.ceil((rateLimitResult.retryAfter || 0) / 60)} minutos.`,
           error: 'RATE_LIMIT_EXCEEDED'
         },
         { status: 429 }
       );
+      addRateLimitHeaders(response.headers, rateLimitResult);
+      return response;
     }
 
     // Conectar a la base de datos
@@ -44,6 +39,26 @@ export async function POST(request: NextRequest) {
 
     // Validar datos de entrada
     const body = await request.json();
+    
+    // 2. reCAPTCHA v3 Verification
+    const recaptchaToken = body.recaptchaToken;
+    
+    if (recaptchaToken) {
+      const recaptchaResult = await verifyRecaptcha(recaptchaToken, 'login');
+      
+      if (!recaptchaResult.success || !isLikelyHuman(recaptchaResult.score, RecaptchaThresholds.LOGIN)) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: 'Verificación de seguridad fallida. Por favor, intenta de nuevo.',
+            error: 'RECAPTCHA_FAILED',
+            riskScore: recaptchaResult.score
+          },
+          { status: 403 }
+        );
+      }
+    }
+    
     const validationResult = loginSchema.safeParse(body);
 
     if (!validationResult.success) {
@@ -107,6 +122,13 @@ export async function POST(request: NextRequest) {
     if (!isPasswordValid) {
       // Incrementar intentos de login fallidos
       await user.incrementLoginAttempts();
+      
+      // 3. Track failed login for anomaly detection
+      const clientIP = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+                      request.headers.get('x-real-ip') || 'unknown';
+      const userAgent = request.headers.get('user-agent') || 'unknown';
+      
+      await trackFailedLogin(user._id.toString(), clientIP, userAgent);
 
       return NextResponse.json(
         {
@@ -122,9 +144,41 @@ export async function POST(request: NextRequest) {
     if (user.loginAttempts > 0) {
       await user.resetLoginAttempts();
     }
+    
+    // Reset rate limit after successful authentication
+    await resetRateLimit(request, RateLimitPresets.LOGIN.keyPrefix, user._id.toString());
 
     // Extraer información del dispositivo
     const deviceInfo = extractDeviceInfo(request);
+
+    // 4. Behavioral Anomaly Detection
+    const clientIP = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+                    request.headers.get('x-real-ip') || 'unknown';
+    const userAgent = request.headers.get('user-agent') || 'unknown';
+    
+    const anomalyResult = await trackSuccessfulLogin(
+      user._id.toString(),
+      clientIP,
+      userAgent,
+      { country: 'CO' } // You can integrate geolocation API here
+    );
+    
+    // If high-risk behavior detected, require additional verification
+    if (anomalyResult.shouldBlock) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Actividad sospechosa detectada. Por favor, verifica tu identidad.',
+          error: 'SUSPICIOUS_ACTIVITY',
+          reasons: anomalyResult.reasons,
+          requiresVerification: true
+        },
+        { status: 403 }
+      );
+    }
+    
+    // Medium risk - allow login but flag for monitoring
+    const requiresAdditionalVerification = anomalyResult.requiresVerification;
 
     // Verificar si es un nuevo dispositivo
     const isNewDevice = await checkIfNewDevice(user._id, deviceInfo);
@@ -203,11 +257,17 @@ export async function POST(request: NextRequest) {
           user: user.getPublicProfile(),
           accessToken,
           refreshToken,
-          expiresIn: 15 * 60 // 15 minutos en segundos
+          expiresIn: 15 * 60, // 15 minutos en segundos
+          requiresVerification: requiresAdditionalVerification, // Flag for client to show 2FA
+          anomalyDetected: anomalyResult.isAnomalous,
+          riskScore: anomalyResult.riskScore
         }
       },
       { status: 200 }
     );
+    
+    // Add rate limit headers to response
+    addRateLimitHeaders(response.headers, rateLimitResult);
 
     // Configurar cookies seguras
     const cookieOptions = {

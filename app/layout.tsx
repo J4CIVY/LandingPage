@@ -169,12 +169,17 @@ import { ToastProvider } from '@/components/shared/ToastProvider'
 import { PWAManager } from '@/components/pwa/ServiceWorkerManager'
 import { AuthProvider } from '@/hooks/useAuth'
 import AccessibilityHelper from '@/components/shared/AccessibilityHelper'
+import { getNonce } from '@/lib/csp-nonce'
+import { RecaptchaProvider } from '@/lib/recaptcha-client'
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Get CSP nonce for this request
+  const nonce = await getNonce();
+  
   return (
     <html lang="es" suppressHydrationWarning className={inter.variable}>
       <head>
@@ -184,19 +189,23 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="//res.cloudinary.com" />
         <link rel="dns-prefetch" href="//api.bskmt.com" />
         <link rel="dns-prefetch" href="//www.google-analytics.com" />
+        <link rel="dns-prefetch" href="//www.google.com" />
+        <link rel="dns-prefetch" href="//www.gstatic.com" />
         
         {/* Preconnect to critical third-party origins - Reduces latency */}
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://api.bskmt.com" />
+        <link rel="preconnect" href="https://www.google.com" />
+        <link rel="preconnect" href="https://www.gstatic.com" crossOrigin="anonymous" />
         
         {/* Performance optimizations */}
         <meta httpEquiv="x-dns-prefetch-control" content="on" />
         <meta name="color-scheme" content="light dark" />
         
-        {/* Critical CSS for preventing layout shifts and optimizing initial render */}
-        <style dangerouslySetInnerHTML={{
+        {/* Critical CSS with CSP nonce for security */}
+        <style nonce={nonce} dangerouslySetInnerHTML={{
           __html: `
             :root {
               --vh: 1vh;
@@ -258,18 +267,20 @@ export default function RootLayout({
           defaultTheme="light"
           enableSystem
         >
-          <AuthProvider>
-            <ToastProvider>
-              <PWAManager />
-              <DynamicThemeColor />
-              <AccessibilityHelper />
-              <Header />
-              <main id="main-content" className="pt-16" tabIndex={-1}>{children}</main>
-              <Footer />
-              <CookieBanner />
-              <ScrollToTop />
-            </ToastProvider>
-          </AuthProvider>
+          <RecaptchaProvider>
+            <AuthProvider>
+              <ToastProvider>
+                <PWAManager />
+                <DynamicThemeColor />
+                <AccessibilityHelper />
+                <Header />
+                <main id="main-content" className="pt-16" tabIndex={-1}>{children}</main>
+                <Footer />
+                <CookieBanner />
+                <ScrollToTop />
+              </ToastProvider>
+            </AuthProvider>
+          </RecaptchaProvider>
         </ThemeProvider>
       </body>
     </html>

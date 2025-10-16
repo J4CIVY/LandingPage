@@ -1,14 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { generateNonce, createCSPHeader } from '@/lib/csp-nonce';
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const response = NextResponse.next();
+
+  // Generate unique nonce for this request (CSP enhancement)
+  const nonce = generateNonce();
+  response.headers.set('x-nonce', nonce);
 
   // Headers de seguridad básicos
   response.headers.set('X-Content-Type-Options', 'nosniff');
   response.headers.set('X-Frame-Options', 'DENY');
   response.headers.set('X-XSS-Protection', '1; mode=block');
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  
+  // Enhanced CSP with nonce-based inline script protection
+  response.headers.set('Content-Security-Policy', createCSPHeader(nonce));
 
   // HSTS for production
   if (process.env.NODE_ENV === 'production') {
