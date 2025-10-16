@@ -5,9 +5,14 @@ import { forgotPasswordSchema } from '@/schemas/authSchemas';
 import { generateSecureToken } from '@/lib/auth-utils';
 import { checkRateLimit, RateLimitPresets, addRateLimitHeaders } from '@/lib/distributed-rate-limit';
 import { verifyRecaptcha, RecaptchaThresholds, isLikelyHuman } from '@/lib/recaptcha-server';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection (NEW in Security Audit Phase 2)
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     // 1. Enhanced Distributed Rate Limiting
     const rateLimitResult = await checkRateLimit(request, RateLimitPresets.PASSWORD_RESET);
     

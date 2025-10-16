@@ -4,6 +4,7 @@ import User from '@/lib/models/User';
 import { EmailService } from '@/lib/email-service';
 import { z } from 'zod';
 import { rateLimit } from '@/utils/rateLimit';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 const resendEmailSchema = z.object({
   email: z.string().email('Email inválido')
@@ -17,6 +18,10 @@ const resendEmailRateLimit = rateLimit({
 
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection (NEW in Security Audit Phase 2)
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     // Aplicar rate limiting
     try {
       const clientIP = request.headers.get('x-forwarded-for') || 

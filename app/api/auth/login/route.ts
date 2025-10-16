@@ -16,10 +16,15 @@ import { verifyRecaptcha, RecaptchaThresholds, isLikelyHuman } from '@/lib/recap
 import { trackSuccessfulLogin, trackFailedLogin } from '@/lib/anomaly-detection';
 import { getEmailService } from '@/lib/email-service';
 import { checkAndBlockMaliciousIP } from '@/lib/ip-reputation';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 export async function POST(request: NextRequest) {
   try {
-    // 0. IP Reputation Check (NEW in v2.5.0)
+    // 0. CSRF Protection (NEW in Security Audit Phase 2)
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
+    // 1. IP Reputation Check (NEW in v2.5.0)
     const ipCheck = await checkAndBlockMaliciousIP(request);
     
     if (ipCheck.shouldBlock) {

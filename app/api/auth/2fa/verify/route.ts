@@ -13,6 +13,7 @@ import {
   getSessionExpirationDate
 } from '@/lib/auth-utils';
 import { rateLimit } from '@/utils/rateLimit';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // Rate limiting para verificación de OTP
 const verifyRateLimit = rateLimit({
@@ -22,6 +23,10 @@ const verifyRateLimit = rateLimit({
 
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection (NEW in Security Audit Phase 2)
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     // Rate limiting
     try {
       const clientIP = request.headers.get('x-forwarded-for') || 

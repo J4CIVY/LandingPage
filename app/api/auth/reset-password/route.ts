@@ -4,9 +4,14 @@ import User from '@/lib/models/User';
 import { resetPasswordSchema } from '@/schemas/authSchemas';
 import { checkRateLimit, addRateLimitHeaders } from '@/lib/distributed-rate-limit';
 import { verifyRecaptcha, RecaptchaThresholds, isLikelyHuman } from '@/lib/recaptcha-server';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection (NEW in Security Audit Phase 2)
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     // 1. Rate Limiting for Reset Password
     const rateLimitResult = await checkRateLimit(request, {
       maxRequests: 5,

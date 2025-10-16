@@ -5,6 +5,7 @@ import TwoFactorCode from '@/lib/models/TwoFactorCode';
 import PreAuthToken from '@/lib/models/PreAuthToken';
 import { generateOTPCode, getOTPExpirationDate, sendOTPToMessageBird } from '@/lib/2fa-utils';
 import { rateLimit } from '@/utils/rateLimit';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // Rate limiting para generación de OTP
 const otpRateLimit = rateLimit({
@@ -14,6 +15,10 @@ const otpRateLimit = rateLimit({
 
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection (NEW in Security Audit Phase 2)
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     // Rate limiting
     try {
       const clientIP = request.headers.get('x-forwarded-for') || 

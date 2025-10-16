@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 import { z } from 'zod';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 const verifyEmailSchema = z.object({
   token: z.string().min(1, 'Token requerido')
@@ -58,6 +59,9 @@ async function processEmailVerification(user: any) {
 
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection (NEW in Security Audit Phase 2)
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
     await connectDB();
 
     const body = await request.json();

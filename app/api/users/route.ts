@@ -12,6 +12,7 @@ import { compatibleUserSchema } from '@/schemas/compatibleUserSchema';
 import { checkRateLimit, RateLimitPresets, addRateLimitHeaders } from '@/lib/distributed-rate-limit';
 import { verifyRecaptcha, RecaptchaThresholds, isLikelyHuman } from '@/lib/recaptcha-server';
 import { trackFailedLogin } from '@/lib/anomaly-detection';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 /**
  * GET /api/users
@@ -56,9 +57,13 @@ async function handleGet(request: NextRequest) {
 /**
  * POST /api/users
  * Registra un nuevo usuario
- * PROTECCIÓN: reCAPTCHA v3 + Rate Limiting + Anomaly Detection
+ * PROTECCIÓN: CSRF + reCAPTCHA v3 + Rate Limiting + Anomaly Detection
  */
 async function handlePost(request: NextRequest) {
+  // 0. CSRF Protection (NEW in Security Audit Phase 2)
+  const csrfError = requireCSRFToken(request);
+  if (csrfError) return csrfError;
+
   // 1. Enhanced Distributed Rate Limiting (Redis-backed)
   const rateLimitResult = await checkRateLimit(request, RateLimitPresets.REGISTER);
   

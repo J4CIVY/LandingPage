@@ -2,9 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Session from '@/lib/models/Session';
 import { extractTokenFromRequest, verifyAccessToken } from '@/lib/auth-utils';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 
 export async function POST(request: NextRequest) {
   try {
+    // 0. CSRF Protection (NEW in Security Audit Phase 2)
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) return csrfError;
+
     await connectDB();
 
     // Extraer token del header o cookies
