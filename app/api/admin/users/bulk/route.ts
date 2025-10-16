@@ -1,10 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin, AdminRequest } from '@/lib/auth-admin';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 
 export async function PATCH(req: NextRequest) {
   const adminRequest = req as AdminRequest;
+  
+  // SECURITY: CSRF Protection - Critical bulk operation
+  const csrfError = requireCSRFToken(adminRequest);
+  if (csrfError) {
+    console.error('[SECURITY] CSRF validation failed on bulk user operation');
+    return csrfError;
+  }
   
   // Verificar permisos de administrador
   const authCheck = await requireAdmin(adminRequest);

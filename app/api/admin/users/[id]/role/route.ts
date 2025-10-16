@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin, requireSuperAdmin, AdminRequest } from '@/lib/auth-admin';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 
@@ -8,6 +9,13 @@ export async function PATCH(
   context: { params: Promise<{ id: string }> }
 ) {
   const adminRequest = req as AdminRequest;
+  
+  // SECURITY: CSRF Protection - Critical operation (role change)
+  const csrfError = requireCSRFToken(adminRequest);
+  if (csrfError) {
+    console.error('[SECURITY] CSRF validation failed on role change endpoint');
+    return csrfError;
+  }
   
   try {
     const { role } = await req.json();

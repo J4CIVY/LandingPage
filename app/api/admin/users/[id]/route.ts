@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin, AdminRequest } from '@/lib/auth-admin';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 
@@ -46,6 +47,13 @@ export async function PUT(
   context: { params: Promise<{ id: string }> }
 ) {
   const adminRequest = req as AdminRequest;
+  
+  // SECURITY: CSRF Protection - Critical admin operation
+  const csrfError = requireCSRFToken(adminRequest);
+  if (csrfError) {
+    console.error('[SECURITY] CSRF validation failed on admin user update');
+    return csrfError;
+  }
   
   // Verificar permisos de administrador
   const authCheck = await requireAdmin(adminRequest);
@@ -99,6 +107,13 @@ export async function DELETE(
   context: { params: Promise<{ id: string }> }
 ) {
   const adminRequest = req as AdminRequest;
+  
+  // SECURITY: CSRF Protection - Critical admin operation (user deletion)
+  const csrfError = requireCSRFToken(adminRequest);
+  if (csrfError) {
+    console.error('[SECURITY] CSRF validation failed on admin user deletion');
+    return csrfError;
+  }
   
   // Verificar permisos de administrador
   const authCheck = await requireAdmin(adminRequest);

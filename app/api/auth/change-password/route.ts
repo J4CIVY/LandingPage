@@ -2,10 +2,17 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 import { verifyAuth, validatePasswordStrength } from '@/lib/auth-utils';
+import { requireCSRFToken } from '@/lib/csrf-protection';
 import bcrypt from 'bcryptjs';
 
 export async function POST(request: NextRequest) {
   try {
+    // SECURITY: CSRF Protection - Critical endpoint
+    const csrfError = requireCSRFToken(request);
+    if (csrfError) {
+      console.error('[SECURITY] CSRF validation failed on change-password endpoint');
+      return csrfError;
+    }
     
     // Paso 1: Conectar a BD
     await connectDB();
