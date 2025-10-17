@@ -126,40 +126,40 @@ if ($unprotectedList.Count -gt 0) {
     }
     Write-Host ""
     Write-Host "Estas rutas necesitan ser protegidas con:" -ForegroundColor Yellow
-    Write-Host "  - withApiProtection() para rutas que requieren autenticación" -ForegroundColor Yellow
-    Write-Host "  - withAdminProtection() para rutas solo de administrador" -ForegroundColor Yellow
+    Write-Host "  - withApiProtection para rutas que requieren autenticacion" -ForegroundColor Yellow
+    Write-Host "  - withAdminProtection para rutas solo de administrador" -ForegroundColor Yellow
     Write-Host ""
 }
 
 # Recomendaciones
 Write-Host "==================================================================" -ForegroundColor Cyan
-Write-Host "  PRÓXIMOS PASOS" -ForegroundColor Cyan
+Write-Host "  PROXIMOS PASOS" -ForegroundColor Cyan
 Write-Host "==================================================================" -ForegroundColor Cyan
 Write-Host ""
 
 if ($unprotectedRoutes -gt 0) {
-    Write-Host "1. Revisa las rutas sin protección listadas arriba" -ForegroundColor Yellow
-    Write-Host "2. Para cada ruta, determina si es pública o requiere protección" -ForegroundColor Yellow
-    Write-Host "3. Si es pública, agrégala a la lista \$publicRoutes en este script" -ForegroundColor Yellow
-    Write-Host "4. Si requiere protección, usa el wrapper apropiado:" -ForegroundColor Yellow
+    Write-Host "1. Revisa las rutas sin proteccion listadas arriba" -ForegroundColor Yellow
+    Write-Host "2. Para cada ruta, determina si es publica o requiere proteccion" -ForegroundColor Yellow
+    Write-Host "3. Si es publica, agregala a la lista publicRoutes en este script" -ForegroundColor Yellow
+    Write-Host "4. Si requiere proteccion, usa el wrapper apropiado" -ForegroundColor Yellow
     Write-Host ""
     Write-Host "   Para usuarios autenticados:" -ForegroundColor White
-    Write-Host "   export const GET = withApiProtection(async (req, ctx) => { ... });" -ForegroundColor Gray
+    Write-Host "   export const GET = withApiProtection(async req, ctx => { ... });" -ForegroundColor Gray
     Write-Host ""
     Write-Host "   Para solo administradores:" -ForegroundColor White
-    Write-Host "   export const GET = withAdminProtection(async (req, ctx) => { ... });" -ForegroundColor Gray
+    Write-Host "   export const GET = withAdminProtection(async req, ctx => { ... });" -ForegroundColor Gray
     Write-Host ""
     Write-Host "5. Ejecuta este script nuevamente para verificar el progreso" -ForegroundColor Yellow
     Write-Host ""
 } else {
-    Write-Host "✅ ¡Excelente! Todas las rutas están correctamente protegidas." -ForegroundColor Green
+    Write-Host "Excelente! Todas las rutas estan correctamente protegidas." -ForegroundColor Green
     Write-Host ""
-    Write-Host "Próximos pasos:" -ForegroundColor Yellow
-    Write-Host "1. Verifica que las variables de entorno BFF estén configuradas" -ForegroundColor White
-    Write-Host "2. Prueba cada ruta para asegurar que la protección funciona" -ForegroundColor White
-    Write-Host "3. Actualiza el frontend para usar useSecureApi()" -ForegroundColor White
+    Write-Host "Proximos pasos:" -ForegroundColor Yellow
+    Write-Host "1. Verifica que las variables de entorno BFF esten configuradas" -ForegroundColor White
+    Write-Host "2. Prueba cada ruta para asegurar que la proteccion funciona" -ForegroundColor White
+    Write-Host "3. Actualiza el frontend para usar useSecureApi" -ForegroundColor White
     Write-Host ""
 }
 
-Write-Host "Para más información, consulta: docs/BFF_IMPLEMENTATION.md" -ForegroundColor Cyan
+Write-Host "Para mas informacion, consulta: docs/BFF_IMPLEMENTATION.md" -ForegroundColor Cyan
 Write-Host ""
