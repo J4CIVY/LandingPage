@@ -13,24 +13,26 @@ import { checkRateLimit, RateLimitPresets, addRateLimitHeaders } from '@/lib/dis
 import { verifyRecaptcha, RecaptchaThresholds, isLikelyHuman } from '@/lib/recaptcha-server';
 import { trackFailedLogin } from '@/lib/anomaly-detection';
 import { requireCSRFToken } from '@/lib/csrf-protection';
-import { requireAdmin } from '@/lib/auth-utils';
+import { withAdminProtection, ApiAuthContext } from '@/lib/api-auth-middleware';
+import { requireResourcePermission } from '@/lib/authorization';
 
 /**
  * GET /api/users
  * Obtiene todos los usuarios registrados
- * PROTEGIDO: Solo administradores
+ * 
+ * ⚠️ PROTECCIÓN BFF ACTIVADA:
+ * - Requiere API Key válida
+ * - Requiere autenticación JWT
+ * - Solo administradores pueden acceder
  */
-async function handleGet(request: NextRequest) {
-  // 🔒 SEGURIDAD: Verificar que el usuario sea administrador
-  const authResult = await requireAdmin(request);
-  
-  if (!authResult.success || !authResult.isValid) {
+async function handleGet(request: NextRequest, context: ApiAuthContext) {
+  // Verificar permisos de lectura sobre usuarios
+  if (!requireResourcePermission(context.user, 'users', 'read')) {
     return createErrorResponse(
-      authResult.error || 'Acceso denegado. Se requieren permisos de administrador',
-      HTTP_STATUS.UNAUTHORIZED
+      'No tienes permisos para ver la lista de usuarios',
+      HTTP_STATUS.FORBIDDEN
     );
   }
-  
   await connectDB();
   
   const { searchParams } = new URL(request.url);
@@ -218,11 +220,13 @@ async function handlePost(request: NextRequest) {
   }
 }
 
-// Handler principal
-export async function GET(request: NextRequest) {
-  return withErrorHandling(handleGet)(request);
-}
+// Handler principal - PROTEGIDO CON BFF
+// Solo administradores con API Key válida pueden acceder
+export const GET = withAdminProtection(async (request: NextRequest, context: ApiAuthContext) => {
+  return withErrorHandling(() => handleGet(request, context))(request);
+});
 
+// POST sigue siendo público para registro, pero con protecciones existentes
 export async function POST(request: NextRequest) {
   return withErrorHandling(handlePost)(request);
 }

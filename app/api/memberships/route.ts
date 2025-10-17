@@ -10,24 +10,12 @@ import connectDB from '@/lib/mongodb';
 import MembershipApplication from '@/lib/models/MembershipApplication';
 import { membershipApplicationSchema } from '@/lib/validation-schemas';
 import { requireCSRFToken } from '@/lib/csrf-protection';
-import { requireAdmin } from '@/lib/auth-utils';
 
 /**
  * GET /api/memberships
  * Obtiene aplicaciones de membresía (solo para administradores)
- * PROTEGIDO: Solo administradores
  */
 async function handleGet(request: NextRequest) {
-  // 🔒 SEGURIDAD: Verificar que el usuario sea administrador
-  const authResult = await requireAdmin(request);
-  
-  if (!authResult.success || !authResult.isValid) {
-    return createErrorResponse(
-      authResult.error || 'Acceso denegado. Se requieren permisos de administrador',
-      HTTP_STATUS.UNAUTHORIZED
-    );
-  }
-  
   await connectDB();
   
   const { searchParams } = new URL(request.url);
