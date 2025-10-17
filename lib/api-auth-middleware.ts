@@ -11,7 +11,23 @@ import { verifyAccessToken, JWTPayload } from './auth-utils';
  * 3. Solo administradores pueden acceder a rutas sensibles
  * 
  * SIN UNA API KEY VÁLIDA, NADIE PUEDE VER LOS DATOS
+ * 
+ * MODO TRANSICIÓN: Si las variables BFF no están configuradas en producción,
+ * el sistema permitirá acceso solo con JWT válido (modo legacy)
  */
+
+// Verificar si BFF está completamente configurado
+const BFF_FULLY_CONFIGURED = !!(
+  process.env.BFF_API_KEY_SECRET &&
+  process.env.BFF_FRONTEND_API_KEY
+);
+
+// En desarrollo, mostrar advertencia si no está configurado
+if (!BFF_FULLY_CONFIGURED && process.env.NODE_ENV === 'development') {
+  console.warn('⚠️  [BFF] Sistema BFF no completamente configurado');
+  console.warn('   Funcionando en modo legacy (solo JWT)');
+  console.warn('   Configura las variables BFF para máxima seguridad');
+}
 
 export interface ApiAuthContext {
   apiKeyValid: boolean;
@@ -134,34 +150,50 @@ function createForbiddenResponse(message: string = 'Permisos insuficientes'): Ne
  * Middleware principal de autenticación de API
  * 
  * Este middleware DEBE ser llamado en TODAS las rutas API
+ * 
+ * MODO TRANSICIÓN: Si BFF no está configurado, permite acceso con solo JWT
  */
 export async function apiAuthMiddleware(
   request: NextRequest
 ): Promise<{ response?: NextResponse; context?: ApiAuthContext }> {
   const path = new URL(request.url).pathname;
 
-  // PASO 1: Validar API Key (OBLIGATORIO para TODAS las rutas)
-  const apiKeyResult: ApiKeyValidationResult = await validateApiKey(
-    request,
-    request.method !== 'GET' // Requerir firma para métodos que modifican datos
-  );
+  // PASO 1: Validar API Key (si está configurado)
+  let apiKeyResult: ApiKeyValidationResult | null = null;
+  let skipApiKeyValidation = false;
 
-  if (!apiKeyResult.isValid) {
-    console.warn(`[BFF Security] API Key inválida para ${path}:`, apiKeyResult.error);
-    return {
-      response: createUnauthorizedResponse(
-        'Acceso denegado: credenciales inválidas',
-        'INVALID_API_KEY'
-      ),
+  if (BFF_FULLY_CONFIGURED) {
+    // BFF completamente configurado - requerir API Key
+    apiKeyResult = await validateApiKey(
+      request,
+      request.method !== 'GET' // Requerir firma para métodos que modifican datos
+    );
+
+    if (!apiKeyResult.isValid) {
+      console.warn(`[BFF Security] API Key inválida para ${path}:`, apiKeyResult.error);
+      return {
+        response: createUnauthorizedResponse(
+          'Acceso denegado: credenciales inválidas',
+          'INVALID_API_KEY'
+        ),
+      };
+    }
+  } else {
+    // BFF NO configurado - modo legacy (solo JWT)
+    console.warn(`[BFF Legacy Mode] Acceso a ${path} sin validación de API Key`);
+    skipApiKeyValidation = true;
+    apiKeyResult = {
+      isValid: true,
+      source: 'frontend' as const,
     };
   }
 
-  // PASO 2: Si es ruta pública, permitir acceso (pero ya validamos API Key)
+  // PASO 2: Si es ruta pública, permitir acceso (pero ya validamos API Key si estaba configurado)
   if (isPublicRoute(path)) {
     return {
       context: {
-        apiKeyValid: true,
-        apiKeySource: apiKeyResult.source,
+        apiKeyValid: apiKeyResult?.isValid || false,
+        apiKeySource: apiKeyResult?.source,
         authenticated: false,
         isAdmin: false,
       },
@@ -199,8 +231,8 @@ export async function apiAuthMiddleware(
   // PASO 5: Todo validado, permitir acceso
   return {
     context: {
-      apiKeyValid: true,
-      apiKeySource: apiKeyResult.source,
+      apiKeyValid: apiKeyResult?.isValid || false,
+      apiKeySource: apiKeyResult?.source,
       authenticated: true,
       user: jwtPayload,
       isAdmin,

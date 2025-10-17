@@ -21,15 +21,20 @@ export function BFFProvider({ children }: { children: React.ReactNode }) {
     const apiKey = process.env.NEXT_PUBLIC_BFF_FRONTEND_API_KEY;
     
     if (!apiKey) {
-      console.error(
-        '❌ [BFF Provider] NEXT_PUBLIC_BFF_FRONTEND_API_KEY no está configurada!'
-      );
-      console.error(
-        '   Todas las llamadas a la API fallarán hasta que configures esta variable.'
-      );
-      console.error(
-        '   Ver: docs/BFF_IMPLEMENTATION.md para instrucciones'
-      );
+      if (process.env.NODE_ENV === 'development') {
+        console.warn(
+          '⚠️  [BFF Provider] NEXT_PUBLIC_BFF_FRONTEND_API_KEY no está configurada!'
+        );
+        console.warn(
+          '   Funcionando en modo legacy (solo JWT). Para máxima seguridad:'
+        );
+        console.warn(
+          '   1. Configura las variables BFF en .env.local'
+        );
+        console.warn(
+          '   2. Ver: docs/BFF_IMPLEMENTATION.md para instrucciones'
+        );
+      }
     } else {
       console.log('✅ [BFF Provider] Sistema BFF inicializado correctamente');
     }

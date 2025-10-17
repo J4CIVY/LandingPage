@@ -11,14 +11,23 @@ import { NextRequest } from 'next/server';
  * 1. API Key: Para comunicación frontend-backend
  * 2. JWT Token: Para usuarios autenticados
  * 3. Role-based access: Solo admin puede acceder a ciertos endpoints
+ * 
+ * MODO TRANSICIÓN: Si las variables no están configuradas, el sistema permite
+ * acceso con solo JWT (modo legacy) para facilitar la migración gradual.
  */
 
-// Validación crítica de seguridad
-if (!process.env.BFF_API_KEY_SECRET) {
-  throw new Error('CRITICAL SECURITY ERROR: BFF_API_KEY_SECRET must be defined in environment variables');
+// Validación de seguridad con modo legacy
+const BFF_CONFIGURED = !!(
+  process.env.BFF_API_KEY_SECRET &&
+  process.env.BFF_FRONTEND_API_KEY
+);
+
+if (!BFF_CONFIGURED && process.env.NODE_ENV === 'production') {
+  console.warn('⚠️  [BFF] Sistema funcionando en modo legacy (sin API Keys)');
+  console.warn('   Para máxima seguridad, configura BFF_API_KEY_SECRET y BFF_FRONTEND_API_KEY');
 }
 
-const BFF_API_KEY_SECRET = process.env.BFF_API_KEY_SECRET;
+const BFF_API_KEY_SECRET = process.env.BFF_API_KEY_SECRET || 'legacy-mode';
 const BFF_API_KEY_HEADER = 'x-api-key';
 const BFF_SIGNATURE_HEADER = 'x-api-signature';
 const BFF_TIMESTAMP_HEADER = 'x-api-timestamp';
@@ -27,7 +36,7 @@ const BFF_TIMESTAMP_HEADER = 'x-api-timestamp';
 const VALID_API_KEYS = new Set([
   process.env.BFF_FRONTEND_API_KEY, // Frontend
   process.env.BFF_ADMIN_API_KEY,    // Admin panel
-]);
+].filter(Boolean)); // Filtrar undefined/null
 
 export interface ApiKeyValidationResult {
   isValid: boolean;
