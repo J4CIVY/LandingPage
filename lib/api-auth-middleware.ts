@@ -78,14 +78,18 @@ async function extractAndValidateJWT(request: NextRequest): Promise<JWTPayload |
       }
     }
 
-    // Buscar token en cookies (fallback)
-    const cookieToken = request.cookies.get('auth-token')?.value;
-    if (cookieToken) {
-      try {
-        const payload = verifyAccessToken(cookieToken);
-        return payload;
-      } catch (error) {
-        // Token inválido o expirado
+    // Buscar token en cookies (múltiples formatos posibles)
+    const cookieNames = ['bsk-access-token', 'auth-token', 'access-token'];
+    for (const cookieName of cookieNames) {
+      const cookieToken = request.cookies.get(cookieName)?.value;
+      if (cookieToken) {
+        try {
+          const payload = verifyAccessToken(cookieToken);
+          return payload;
+        } catch (error) {
+          // Token inválido o expirado, intentar siguiente cookie
+          continue;
+        }
       }
     }
 

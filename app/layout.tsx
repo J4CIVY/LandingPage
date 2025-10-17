@@ -9,6 +9,7 @@ import StructuredData from "@/components/shared/StructuredData";
 import ScrollToTop from "@/components/shared/ScrollToTop";
 import SecurityMonitor from "@/components/shared/SecurityMonitor";
 import EnvStatus from "@/components/shared/EnvStatus";
+import { BFFProvider } from "@/components/shared/BFFProvider";
 
 // Font configuration with performance optimizations and accessibility in mind
 
@@ -269,22 +270,24 @@ export default async function RootLayout({
           defaultTheme="light"
           enableSystem
         >
-          <RecaptchaProvider>
-            <AuthProvider>
-              <ToastProvider>
-                <SecurityMonitor />
-                <EnvStatus />
-                <PWAManager />
-                <DynamicThemeColor />
-                <AccessibilityHelper />
-                <Header />
-                <main id="main-content" className="pt-16" tabIndex={-1}>{children}</main>
-                <Footer />
-                <CookieBanner />
-                <ScrollToTop />
-              </ToastProvider>
-            </AuthProvider>
-          </RecaptchaProvider>
+          <BFFProvider>
+            <RecaptchaProvider>
+              <AuthProvider>
+                <ToastProvider>
+                  <SecurityMonitor />
+                  <EnvStatus />
+                  <PWAManager />
+                  <DynamicThemeColor />
+                  <AccessibilityHelper />
+                  <Header />
+                  <main id="main-content" className="pt-16" tabIndex={-1}>{children}</main>
+                  <Footer />
+                  <CookieBanner />
+                  <ScrollToTop />
+                </ToastProvider>
+              </AuthProvider>
+            </RecaptchaProvider>
+          </BFFProvider>
         </ThemeProvider>
       </body>
     </html>
