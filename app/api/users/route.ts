@@ -13,12 +13,24 @@ import { checkRateLimit, RateLimitPresets, addRateLimitHeaders } from '@/lib/dis
 import { verifyRecaptcha, RecaptchaThresholds, isLikelyHuman } from '@/lib/recaptcha-server';
 import { trackFailedLogin } from '@/lib/anomaly-detection';
 import { requireCSRFToken } from '@/lib/csrf-protection';
+import { requireAdmin } from '@/lib/auth-utils';
 
 /**
  * GET /api/users
  * Obtiene todos los usuarios registrados
+ * PROTEGIDO: Solo administradores
  */
 async function handleGet(request: NextRequest) {
+  // 🔒 SEGURIDAD: Verificar que el usuario sea administrador
+  const authResult = await requireAdmin(request);
+  
+  if (!authResult.success || !authResult.isValid) {
+    return createErrorResponse(
+      authResult.error || 'Acceso denegado. Se requieren permisos de administrador',
+      HTTP_STATUS.UNAUTHORIZED
+    );
+  }
+  
   await connectDB();
   
   const { searchParams } = new URL(request.url);

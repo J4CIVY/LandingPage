@@ -9,6 +9,7 @@ import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 import mongoose from 'mongoose';
 import { requireCSRFToken } from '@/lib/csrf-protection';
+import { requireSelfOrAdmin } from '@/lib/auth-utils';
 
 interface RouteParams {
   params: Promise<{
@@ -19,6 +20,7 @@ interface RouteParams {
 /**
  * GET /api/users/[id]
  * Obtiene un usuario específico por ID
+ * PROTEGIDO: Solo el usuario mismo o administradores
  */
 async function handleGet(request: NextRequest, { params }: RouteParams) {
   await connectDB();
@@ -30,6 +32,16 @@ async function handleGet(request: NextRequest, { params }: RouteParams) {
     return createErrorResponse(
       'ID de usuario inválido',
       HTTP_STATUS.BAD_REQUEST
+    );
+  }
+  
+  // 🔒 SEGURIDAD: Verificar que el usuario tenga permiso para ver este perfil
+  const authResult = await requireSelfOrAdmin(request, id);
+  
+  if (!authResult.success || !authResult.isValid) {
+    return createErrorResponse(
+      authResult.error || 'No tienes permiso para acceder a este perfil',
+      HTTP_STATUS.FORBIDDEN
     );
   }
   
@@ -66,6 +78,7 @@ async function handleGet(request: NextRequest, { params }: RouteParams) {
 /**
  * PUT /api/users/[id]
  * Actualiza un usuario específico
+ * PROTEGIDO: Solo el usuario mismo o administradores
  */
 async function handlePut(request: NextRequest, { params }: RouteParams) {
   // 0. CSRF Protection
@@ -81,6 +94,16 @@ async function handlePut(request: NextRequest, { params }: RouteParams) {
     return createErrorResponse(
       'ID de usuario inválido',
       HTTP_STATUS.BAD_REQUEST
+    );
+  }
+  
+  // 🔒 SEGURIDAD: Verificar que el usuario tenga permiso para modificar este perfil
+  const authResult = await requireSelfOrAdmin(request, id);
+  
+  if (!authResult.success || !authResult.isValid) {
+    return createErrorResponse(
+      authResult.error || 'No tienes permiso para modificar este perfil',
+      HTTP_STATUS.FORBIDDEN
     );
   }
   
@@ -147,6 +170,7 @@ async function handlePut(request: NextRequest, { params }: RouteParams) {
 /**
  * DELETE /api/users/[id]
  * Elimina (desactiva) un usuario específico
+ * PROTEGIDO: Solo el usuario mismo o administradores
  */
 async function handleDelete(request: NextRequest, { params }: RouteParams) {
   // 0. CSRF Protection
@@ -162,6 +186,16 @@ async function handleDelete(request: NextRequest, { params }: RouteParams) {
     return createErrorResponse(
       'ID de usuario inválido',
       HTTP_STATUS.BAD_REQUEST
+    );
+  }
+  
+  // 🔒 SEGURIDAD: Verificar que el usuario tenga permiso para eliminar este perfil
+  const authResult = await requireSelfOrAdmin(request, id);
+  
+  if (!authResult.success || !authResult.isValid) {
+    return createErrorResponse(
+      authResult.error || 'No tienes permiso para eliminar este perfil',
+      HTTP_STATUS.FORBIDDEN
     );
   }
   

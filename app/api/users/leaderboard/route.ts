@@ -1,15 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
-import { verifyAuth } from '@/lib/auth-utils';
+import { requireAuth } from '@/lib/auth-utils';
 import { GamificationService } from '@/lib/services/GamificationService';
 
 // GET /api/users/leaderboard - Obtener tabla de clasificación
+// PROTEGIDO: Requiere autenticación
 export async function GET(request: NextRequest) {
   try {
     await connectDB();
     
-    // Autenticar usuario (opcional para leaderboard público)
-    const authResult = await verifyAuth(request);
+    // 🔒 SEGURIDAD: Requerir autenticación para ver leaderboard
+    const authResult = await requireAuth(request);
+    
+    if (!authResult.success || !authResult.isValid) {
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: authResult.error || 'Se requiere autenticación para ver el ranking' 
+        },
+        { status: 401 }
+      );
+    }
     
     const url = new URL(request.url);
     const limit = parseInt(url.searchParams.get('limit') || '20');
@@ -20,8 +31,8 @@ export async function GET(request: NextRequest) {
     
     let userPosition = null;
     
-    // Si hay usuario autenticado y se solicita incluir su posición
-    if (authResult.success && authResult.user && includeUser) {
+    // Si el usuario autenticado solicita incluir su posición
+    if (authResult.user && includeUser) {
       const ranking = await GamificationService.obtenerRankingUsuario(authResult.user.id);
       const userStats = await GamificationService.obtenerEstadisticasUsuario(authResult.user.id);
       

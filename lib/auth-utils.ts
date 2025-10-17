@@ -317,3 +317,64 @@ export async function verifyAuth(request: NextRequest): Promise<AuthResult> {
 
 // Alias para compatibilidad con código existente
 export { verifyAuth as verifySession };
+
+/**
+ * NUEVA FUNCIÓN: Require Authentication - Middleware para proteger rutas
+ * Retorna NextResponse con error 401 si no está autenticado
+ */
+export async function requireAuth(request: NextRequest): Promise<AuthResult> {
+  const authResult = await verifyAuth(request);
+  
+  if (!authResult.success || !authResult.isValid) {
+    return authResult;
+  }
+  
+  return authResult;
+}
+
+/**
+ * NUEVA FUNCIÓN: Require Admin - Verifica que el usuario tenga rol de administrador
+ */
+export async function requireAdmin(request: NextRequest): Promise<AuthResult> {
+  const authResult = await requireAuth(request);
+  
+  if (!authResult.success || !authResult.isValid) {
+    return authResult;
+  }
+  
+  // Verificar que el usuario sea admin
+  if (authResult.user?.role !== 'admin') {
+    return {
+      success: false,
+      isValid: false,
+      error: 'Acceso denegado. Se requieren permisos de administrador'
+    };
+  }
+  
+  return authResult;
+}
+
+/**
+ * NUEVA FUNCIÓN: Require Self or Admin - Verifica que el usuario acceda a sus propios datos o sea admin
+ */
+export async function requireSelfOrAdmin(request: NextRequest, targetUserId: string): Promise<AuthResult> {
+  const authResult = await requireAuth(request);
+  
+  if (!authResult.success || !authResult.isValid) {
+    return authResult;
+  }
+  
+  // Permitir si es el mismo usuario o es admin
+  const isSelf = authResult.user?.id === targetUserId;
+  const isAdmin = authResult.user?.role === 'admin';
+  
+  if (!isSelf && !isAdmin) {
+    return {
+      success: false,
+      isValid: false,
+      error: 'Acceso denegado. Solo puedes acceder a tus propios datos'
+    };
+  }
+  
+  return authResult;
+}
