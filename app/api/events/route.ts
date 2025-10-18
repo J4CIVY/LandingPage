@@ -10,12 +10,20 @@ import connectDB from '@/lib/mongodb';
 import Event from '@/lib/models/Event';
 import { requireCSRFToken } from '@/lib/csrf-protection';
 import { eventSchema } from '@/lib/validation-schemas';
+import { requireAuth, requireAdmin, createAuthErrorResponse } from '@/lib/api-auth-middleware';
 
 /**
  * GET /api/events
  * Obtiene eventos con filtros y paginación
+ * 🔒 REQUIERE: Autenticación (usuarios logueados)
  */
 async function handleGet(request: NextRequest) {
+  // 🔒 PROTECCIÓN: Verificar autenticación
+  const authContext = await requireAuth(request);
+  if (!authContext.isAuthenticated) {
+    return createAuthErrorResponse(authContext);
+  }
+
   try {
     await connectDB();
     
@@ -96,8 +104,15 @@ async function handleGet(request: NextRequest) {
 /**
  * POST /api/events
  * Crea un nuevo evento
+ * 🔒 REQUIERE: Autenticación + Rol de ADMIN
  */
 async function handlePost(request: NextRequest) {
+  // 🔒 PROTECCIÓN: Verificar autenticación y permisos de ADMIN
+  const authContext = await requireAdmin(request);
+  if (!authContext.isAuthenticated) {
+    return createAuthErrorResponse(authContext);
+  }
+
   // 0. CSRF Protection
   const csrfError = requireCSRFToken(request);
   if (csrfError) return csrfError;

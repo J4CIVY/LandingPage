@@ -13,26 +13,20 @@ import { checkRateLimit, RateLimitPresets, addRateLimitHeaders } from '@/lib/dis
 import { verifyRecaptcha, RecaptchaThresholds, isLikelyHuman } from '@/lib/recaptcha-server';
 import { trackFailedLogin } from '@/lib/anomaly-detection';
 import { requireCSRFToken } from '@/lib/csrf-protection';
-import { withAdminProtection, ApiAuthContext } from '@/lib/api-auth-middleware';
-import { requireResourcePermission } from '@/lib/authorization';
+import { requireAdmin, createAuthErrorResponse } from '@/lib/api-auth-middleware';
 
 /**
  * GET /api/users
  * Obtiene todos los usuarios registrados
- * 
- * ⚠️ PROTECCIÓN BFF ACTIVADA:
- * - Requiere API Key válida
- * - Requiere autenticación JWT
- * - Solo administradores pueden acceder
+ * 🔒 REQUIERE: Autenticación + Rol de ADMIN
  */
-async function handleGet(request: NextRequest, context: ApiAuthContext) {
-  // Verificar permisos de lectura sobre usuarios
-  if (!requireResourcePermission(context.user, 'users', 'read')) {
-    return createErrorResponse(
-      'No tienes permisos para ver la lista de usuarios',
-      HTTP_STATUS.FORBIDDEN
-    );
+async function handleGet(request: NextRequest) {
+  // 🔒 PROTECCIÓN: Verificar autenticación y permisos de ADMIN
+  const authContext = await requireAdmin(request);
+  if (!authContext.isAuthenticated) {
+    return createAuthErrorResponse(authContext);
   }
+
   await connectDB();
   
   const { searchParams } = new URL(request.url);
@@ -71,7 +65,8 @@ async function handleGet(request: NextRequest, context: ApiAuthContext) {
 /**
  * POST /api/users
  * Registra un nuevo usuario
- * PROTECCIÓN: CSRF + reCAPTCHA v3 + Rate Limiting + Anomaly Detection
+ * 🔒 PROTECCIÓN: CSRF + reCAPTCHA v3 + Rate Limiting + Anomaly Detection
+ * ⚠️ Endpoint público pero con múltiples capas de protección
  */
 async function handlePost(request: NextRequest) {
   // 0. CSRF Protection (NEW in Security Audit Phase 2)
@@ -220,13 +215,11 @@ async function handlePost(request: NextRequest) {
   }
 }
 
-// Handler principal - PROTEGIDO CON BFF
-// Solo administradores con API Key válida pueden acceder
-export const GET = withAdminProtection(async (request: NextRequest, context: ApiAuthContext) => {
-  return withErrorHandling(() => handleGet(request, context))(request);
-});
+// Handler principal
+export async function GET(request: NextRequest) {
+  return withErrorHandling(handleGet)(request);
+}
 
-// POST sigue siendo público para registro, pero con protecciones existentes
 export async function POST(request: NextRequest) {
   return withErrorHandling(handlePost)(request);
 }

@@ -1,10 +1,135 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { generateNonce, createCSPHeader } from '@/lib/csp-nonce';
 import { safeJsonParse } from '@/lib/json-utils';
+
+/**
+ * SECURITY CRITICAL: Rutas públicas de API que NO requieren autenticación
+ * Mantener esta lista MÍNIMA y revisarla regularmente
+ */
+const PUBLIC_API_ROUTES = [
+  '/api/health',
+  '/api/webhooks',
+  '/api/captcha',
+  '/api/auth/login',
+  '/api/auth/register',
+  '/api/auth/verify-email',
+  '/api/auth/reset-password',
+  '/api/auth/refresh-token',
+  '/api/weather/current', // Solo clima público
+];
+
+/**
+ * Rutas de API que requieren autenticación de ADMIN o superior
+ */
+const ADMIN_API_ROUTES = [
+  '/api/admin',
+  '/api/users/stats',
+  '/api/notifications/admin',
+  '/api/pqrsdf/estadisticas',
+];
+
+/**
+ * Verifica si una ruta es pública (no requiere autenticación)
+ */
+function isPublicApiRoute(pathname: string): boolean {
+  return PUBLIC_API_ROUTES.some(route => pathname.startsWith(route));
+}
+
+/**
+ * Verifica si una ruta requiere permisos de administrador
+ */
+function isAdminApiRoute(pathname: string): boolean {
+  return ADMIN_API_ROUTES.some(route => pathname.startsWith(route));
+}
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const response = NextResponse.next();
+
+  // ============================================================
+  // PROTECCIÓN CRÍTICA DE API - AUTENTICACIÓN OBLIGATORIA
+  // ============================================================
+  if (pathname.startsWith('/api/')) {
+    // Excluir rutas públicas explícitamente permitidas
+    if (!isPublicApiRoute(pathname)) {
+      const token = request.cookies.get('bsk-access-token')?.value;
+      
+      // ❌ Sin token = Sin acceso
+      if (!token) {
+        console.warn(`🚨 SECURITY: Unauthorized API access attempt to ${pathname}`);
+        return NextResponse.json(
+          { 
+            success: false, 
+            error: 'Autenticación requerida. Por favor inicia sesión.',
+            code: 'AUTH_REQUIRED'
+          }, 
+          { status: 401 }
+        );
+      }
+
+      // Validación básica del formato del token (3 partes JWT)
+      const parts = token.split('.');
+      if (parts.length !== 3) {
+        console.warn(`🚨 SECURITY: Invalid token format for ${pathname}`);
+        return NextResponse.json(
+          { 
+            success: false, 
+            error: 'Token de autenticación inválido.',
+            code: 'INVALID_TOKEN'
+          }, 
+          { status: 401 }
+        );
+      }
+
+      // Verificar expiración del token (validación básica sin verificar firma)
+      try {
+        const payload = safeJsonParse<any>(Buffer.from(parts[1], 'base64').toString(), {});
+        
+        if (payload.exp && payload.exp * 1000 < Date.now()) {
+          console.warn(`🚨 SECURITY: Expired token for ${pathname}`);
+          return NextResponse.json(
+            { 
+              success: false, 
+              error: 'Token expirado. Por favor inicia sesión nuevamente.',
+              code: 'TOKEN_EXPIRED'
+            }, 
+            { status: 401 }
+          );
+        }
+
+        // Verificar permisos de administrador para rutas admin
+        if (isAdminApiRoute(pathname)) {
+          const role = payload.role;
+          if (role !== 'admin' && role !== 'super-admin') {
+            console.warn(`🚨 SECURITY: Insufficient permissions for ${pathname}. Role: ${role}`);
+            return NextResponse.json(
+              { 
+                success: false, 
+                error: 'Permisos insuficientes. Se requiere rol de administrador.',
+                code: 'FORBIDDEN'
+              }, 
+              { status: 403 }
+            );
+          }
+        }
+
+        // Pasar userId en el header para uso en los endpoints
+        response.headers.set('x-user-id', payload.userId);
+        response.headers.set('x-user-role', payload.role || 'user');
+        
+      } catch (error) {
+        console.error(`🚨 SECURITY: Token parsing error for ${pathname}:`, error);
+        return NextResponse.json(
+          { 
+            success: false, 
+            error: 'Token de autenticación inválido.',
+            code: 'INVALID_TOKEN'
+          }, 
+          { status: 401 }
+        );
+      }
+    }
+  }
 
   // Generate unique nonce for this request (CSP enhancement)
   const nonce = generateNonce();
@@ -121,6 +246,7 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico|public).*)',
+    // Proteger TODAS las rutas incluyendo API
+    '/((?!_next/static|_next/image|favicon.ico).*)',
   ],
 }

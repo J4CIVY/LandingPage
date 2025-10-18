@@ -9,6 +9,7 @@ import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 import mongoose from 'mongoose';
 import { requireCSRFToken } from '@/lib/csrf-protection';
+import { requireAuth, canAccessUserResource, createAuthErrorResponse } from '@/lib/api-auth-middleware';
 
 interface RouteParams {
   params: Promise<{
@@ -19,11 +20,26 @@ interface RouteParams {
 /**
  * GET /api/users/[id]
  * Obtiene un usuario específico por ID
+ * 🔒 REQUIERE: Autenticación + (ser el mismo usuario O ser admin)
  */
 async function handleGet(request: NextRequest, { params }: RouteParams) {
+  // 🔒 PROTECCIÓN: Verificar autenticación
+  const authContext = await requireAuth(request);
+  if (!authContext.isAuthenticated) {
+    return createAuthErrorResponse(authContext);
+  }
+
   await connectDB();
   
   const { id } = await params;
+  
+  // 🔒 PROTECCIÓN: Verificar que el usuario tiene permiso para acceder a este recurso
+  if (!canAccessUserResource(authContext, id, true)) {
+    return createErrorResponse(
+      'No tienes permiso para acceder a esta información',
+      HTTP_STATUS.FORBIDDEN
+    );
+  }
   
   // Verificar que el ID es válido
   if (!mongoose.Types.ObjectId.isValid(id)) {

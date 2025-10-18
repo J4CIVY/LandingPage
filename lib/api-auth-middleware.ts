@@ -1,328 +1,266 @@
+﻿/**
+ * API Authentication Middleware - Sistema de autenticación robusto para proteger endpoints
+ * 
+ * SEGURIDAD CRÍTICA:
+ * - Valida tokens JWT en todas las peticiones protegidas
+ * - Verifica roles y permisos por endpoint
+ * - Previene acceso no autorizado a datos sensibles
+ * - Integra auditoría de seguridad
+ * 
+ * @author BSK Motorcycle Team - Security Team
+ * @version 2.0.0
+ */
+
 import { NextRequest, NextResponse } from 'next/server';
-import { validateApiKey, ApiKeyValidationResult } from './bff-api-keys';
-import { verifyAccessToken, JWTPayload } from './auth-utils';
+import { verifyAccessToken, extractTokenFromRequest, JWTPayload } from '@/lib/auth-utils';
+import { createErrorResponse, HTTP_STATUS } from '@/lib/api-utils';
+import connectDB from '@/lib/mongodb';
+import User from '@/lib/models/User';
 
 /**
- * Middleware de protección de API - BFF Pattern
- * 
- * Este middleware protege TODAS las rutas API garantizando que:
- * 1. Solo requests con API Key válida pueden acceder
- * 2. Usuarios deben estar autenticados (JWT válido)
- * 3. Solo administradores pueden acceder a rutas sensibles
- * 
- * SIN UNA API KEY VÁLIDA, NADIE PUEDE VER LOS DATOS
- * 
- * MODO TRANSICIÓN: Si las variables BFF no están configuradas en producción,
- * el sistema permitirá acceso solo con JWT válido (modo legacy)
+ * Roles del sistema y su jerarquía
  */
-
-// Verificar si BFF está completamente configurado
-const BFF_FULLY_CONFIGURED = !!(
-  process.env.BFF_API_KEY_SECRET &&
-  process.env.BFF_FRONTEND_API_KEY
-);
-
-// En desarrollo, mostrar advertencia si no está configurado
-if (!BFF_FULLY_CONFIGURED && process.env.NODE_ENV === 'development') {
-  console.warn('⚠️  [BFF] Sistema BFF no completamente configurado');
-  console.warn('   Funcionando en modo legacy (solo JWT)');
-  console.warn('   Configura las variables BFF para máxima seguridad');
-}
-
-export interface ApiAuthContext {
-  apiKeyValid: boolean;
-  apiKeySource?: 'frontend' | 'admin' | 'unknown';
-  authenticated: boolean;
-  user?: JWTPayload;
-  isAdmin: boolean;
+export enum UserRole {
+  USER = 'user',
+  VOLUNTEER = 'volunteer', 
+  LEADER = 'leader',
+  ADMIN = 'admin',
+  SUPER_ADMIN = 'super-admin'
 }
 
 /**
- * Lista de rutas que NO requieren autenticación (solo API Key)
- * Estas son rutas públicas que el frontend puede llamar sin login
+ * Jerarquía de roles (de mayor a menor privilegio)
  */
-const PUBLIC_ROUTES = [
-  '/api/auth/login',
-  '/api/auth/register',
-  '/api/auth/verify-email',
-  '/api/auth/reset-password',
-  '/api/auth/forgot-password',
-  '/api/health',
-  '/api/webhooks', // Webhooks tienen su propia validación
-];
+const ROLE_HIERARCHY: Record<UserRole, number> = {
+  [UserRole.SUPER_ADMIN]: 5,
+  [UserRole.ADMIN]: 4,
+  [UserRole.LEADER]: 3,
+  [UserRole.VOLUNTEER]: 2,
+  [UserRole.USER]: 1
+};
 
 /**
- * Lista de rutas que REQUIEREN permisos de administrador
+ * Resultado de autenticación
  */
-const ADMIN_ONLY_ROUTES = [
-  '/api/users',
-  '/api/admin',
-  '/api/membership/admin',
-  '/api/leadership/admin',
-  '/api/comunidad/reportes',
-  '/api/analytics',
-];
-
-/**
- * Verifica si una ruta es pública
- */
-function isPublicRoute(path: string): boolean {
-  return PUBLIC_ROUTES.some(route => path.startsWith(route));
+export interface AuthContext {
+  isAuthenticated: boolean;
+  user?: {
+    id: string;
+    email: string;
+    role: UserRole;
+    membershipType: string;
+    sessionId: string;
+  };
+  error?: string;
+  statusCode?: number;
 }
 
 /**
- * Verifica si una ruta requiere permisos de administrador
+ * Opciones de autenticación
  */
-function isAdminOnlyRoute(path: string): boolean {
-  return ADMIN_ONLY_ROUTES.some(route => path.startsWith(route));
+export interface AuthOptions {
+  requiredRole?: UserRole;
+  allowSelf?: boolean;
+  checkSession?: boolean;
 }
 
 /**
- * Extrae y valida el JWT token de la request
+ * Middleware principal de autenticación para APIs
  */
-async function extractAndValidateJWT(request: NextRequest): Promise<JWTPayload | null> {
+export async function authenticateApiRequest(
+  request: NextRequest,
+  options: AuthOptions = {}
+): Promise<AuthContext> {
   try {
-    // Buscar token en Authorization header
-    const authHeader = request.headers.get('authorization');
-    if (authHeader?.startsWith('Bearer ')) {
-      const token = authHeader.substring(7);
-      try {
-        const payload = verifyAccessToken(token);
-        return payload;
-      } catch (error) {
-        // Token inválido o expirado
-      }
-    }
+    const token = extractTokenFromRequest(request);
 
-    // Buscar token en cookies (múltiples formatos posibles)
-    const cookieNames = ['bsk-access-token', 'auth-token', 'access-token'];
-    for (const cookieName of cookieNames) {
-      const cookieToken = request.cookies.get(cookieName)?.value;
-      if (cookieToken) {
-        try {
-          const payload = verifyAccessToken(cookieToken);
-          return payload;
-        } catch (error) {
-          // Token inválido o expirado, intentar siguiente cookie
-          continue;
-        }
-      }
-    }
-
-    return null;
-  } catch (error) {
-    console.error('Error validando JWT:', error);
-    return null;
-  }
-}
-
-/**
- * Crea una respuesta de error estandarizada
- */
-function createUnauthorizedResponse(message: string, code: string = 'UNAUTHORIZED'): NextResponse {
-  return NextResponse.json(
-    {
-      success: false,
-      error: message,
-      code,
-      timestamp: new Date().toISOString(),
-    },
-    { status: 401 }
-  );
-}
-
-/**
- * Crea una respuesta de error de permisos insuficientes
- */
-function createForbiddenResponse(message: string = 'Permisos insuficientes'): NextResponse {
-  return NextResponse.json(
-    {
-      success: false,
-      error: message,
-      code: 'FORBIDDEN',
-      timestamp: new Date().toISOString(),
-    },
-    { status: 403 }
-  );
-}
-
-/**
- * Middleware principal de autenticación de API
- * 
- * Este middleware DEBE ser llamado en TODAS las rutas API
- * 
- * MODO TRANSICIÓN: Si BFF no está configurado, permite acceso con solo JWT
- */
-export async function apiAuthMiddleware(
-  request: NextRequest
-): Promise<{ response?: NextResponse; context?: ApiAuthContext }> {
-  const path = new URL(request.url).pathname;
-
-  // PASO 1: Validar API Key (si está configurado)
-  let apiKeyResult: ApiKeyValidationResult | null = null;
-  let skipApiKeyValidation = false;
-
-  if (BFF_FULLY_CONFIGURED) {
-    // BFF completamente configurado - requerir API Key
-    apiKeyResult = await validateApiKey(
-      request,
-      request.method !== 'GET' // Requerir firma para métodos que modifican datos
-    );
-
-    if (!apiKeyResult.isValid) {
-      console.warn(`[BFF Security] API Key inválida para ${path}:`, apiKeyResult.error);
+    if (!token) {
+      await logUnauthorizedAccess(request, 'No token provided');
       return {
-        response: createUnauthorizedResponse(
-          'Acceso denegado: credenciales inválidas',
-          'INVALID_API_KEY'
-        ),
+        isAuthenticated: false,
+        error: 'Token de autenticación requerido. Por favor inicia sesión.',
+        statusCode: HTTP_STATUS.UNAUTHORIZED
       };
     }
-  } else {
-    // BFF NO configurado - modo legacy (solo JWT)
-    console.warn(`[BFF Legacy Mode] Acceso a ${path} sin validación de API Key`);
-    skipApiKeyValidation = true;
-    apiKeyResult = {
-      isValid: true,
-      source: 'frontend' as const,
-    };
-  }
 
-  // PASO 2: Si es ruta pública, permitir acceso (pero ya validamos API Key si estaba configurado)
-  if (isPublicRoute(path)) {
-    return {
-      context: {
-        apiKeyValid: apiKeyResult?.isValid || false,
-        apiKeySource: apiKeyResult?.source,
-        authenticated: false,
-        isAdmin: false,
-      },
-    };
-  }
-
-  // PASO 3: Para rutas protegidas, validar JWT
-  const jwtPayload = await extractAndValidateJWT(request);
-
-  if (!jwtPayload) {
-    console.warn(`[BFF Security] JWT inválido o ausente para ${path}`);
-    return {
-      response: createUnauthorizedResponse(
-        'Sesión inválida o expirada. Por favor, inicia sesión nuevamente.',
-        'INVALID_SESSION'
-      ),
-    };
-  }
-
-  const isAdmin = jwtPayload.role === 'admin' || jwtPayload.role === 'superadmin';
-
-  // PASO 4: Verificar permisos de administrador para rutas admin-only
-  if (isAdminOnlyRoute(path) && !isAdmin) {
-    console.warn(
-      `[BFF Security] Usuario sin permisos de admin intentó acceder a ${path}:`,
-      jwtPayload.email
-    );
-    return {
-      response: createForbiddenResponse(
-        'Esta funcionalidad está reservada para administradores'
-      ),
-    };
-  }
-
-  // PASO 5: Todo validado, permitir acceso
-  return {
-    context: {
-      apiKeyValid: apiKeyResult?.isValid || false,
-      apiKeySource: apiKeyResult?.source,
-      authenticated: true,
-      user: jwtPayload,
-      isAdmin,
-    },
-  };
-}
-
-/**
- * Wrapper para proteger rutas API fácilmente
- * 
- * Uso:
- * export const GET = withApiProtection(async (request, context) => {
- *   // Tu código aquí
- *   // context.user tiene la info del usuario autenticado
- * });
- */
-export function withApiProtection<T extends any[]>(
-  handler: (request: NextRequest, context: ApiAuthContext, ...args: T) => Promise<NextResponse>
-) {
-  return async (request: NextRequest, ...args: T): Promise<NextResponse> => {
-    // Ejecutar middleware de autenticación
-    const { response, context } = await apiAuthMiddleware(request);
-
-    // Si hay una respuesta de error, retornarla
-    if (response) {
-      return response;
-    }
-
-    // Si no hay contexto (no debería pasar), error
-    if (!context) {
-      return createUnauthorizedResponse('Error de autenticación');
-    }
-
-    // Ejecutar el handler con el contexto
+    let payload: JWTPayload;
     try {
-      return await handler(request, context, ...args);
-    } catch (error) {
-      console.error('[BFF Security] Error en handler protegido:', error);
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Error interno del servidor',
-          code: 'INTERNAL_ERROR',
-        },
-        { status: 500 }
-      );
+      payload = verifyAccessToken(token);
+    } catch (error: any) {
+      await logUnauthorizedAccess(request, 'Invalid token: ' + error.message);
+      return {
+        isAuthenticated: false,
+        error: error.message || 'Token inválido o expirado',
+        statusCode: HTTP_STATUS.UNAUTHORIZED
+      };
     }
-  };
+
+    if (options.checkSession !== false) {
+      await connectDB();
+      
+      const user: any = await User.findById(payload.userId)
+        .select('sessions isActive role email membershipType')
+        .lean();
+
+      if (!user) {
+        await logUnauthorizedAccess(request, 'User not found');
+        return {
+          isAuthenticated: false,
+          error: 'Usuario no encontrado',
+          statusCode: HTTP_STATUS.UNAUTHORIZED
+        };
+      }
+
+      if (user.isActive === false) {
+        await logUnauthorizedAccess(request, 'User account disabled', payload.userId);
+        return {
+          isAuthenticated: false,
+          error: 'Cuenta de usuario desactivada',
+          statusCode: HTTP_STATUS.FORBIDDEN
+        };
+      }
+
+      const session = user.sessions?.find(
+        (s: any) => s.sessionId === payload.sessionId && s.isActive
+      );
+
+      if (!session) {
+        await logUnauthorizedAccess(request, 'Session not found or inactive', payload.userId);
+        return {
+          isAuthenticated: false,
+          error: 'Sesión inválida o expirada. Por favor inicia sesión nuevamente.',
+          statusCode: HTTP_STATUS.UNAUTHORIZED
+        };
+      }
+    }
+
+    if (options.requiredRole) {
+      const userRoleLevel = ROLE_HIERARCHY[payload.role as UserRole] || 0;
+      const requiredRoleLevel = ROLE_HIERARCHY[options.requiredRole] || 0;
+
+      if (userRoleLevel < requiredRoleLevel) {
+        await logUnauthorizedAccess(
+          request, 
+          'Insufficient permissions. Required: ' + options.requiredRole + ', Has: ' + payload.role,
+          payload.userId
+        );
+        return {
+          isAuthenticated: false,
+          error: 'Permisos insuficientes. Se requiere rol: ' + options.requiredRole,
+          statusCode: HTTP_STATUS.FORBIDDEN
+        };
+      }
+    }
+
+    // 5. Registrar acceso exitoso (simplificado - comentado por ahora para evitar dependencias)
+    // await ActivityLoggerService.logActivity({ ... });
+
+    // ✅ Autenticación exitosa
+    return {
+      isAuthenticated: true,
+      user: {
+        id: payload.userId,
+        email: payload.email,
+        role: payload.role as UserRole,
+        membershipType: payload.membershipType,
+        sessionId: payload.sessionId
+      }
+    };
+
+  } catch (error: any) {
+    console.error('❌ Authentication Error:', error);
+    return {
+      isAuthenticated: false,
+      error: 'Error al verificar autenticación',
+      statusCode: HTTP_STATUS.INTERNAL_SERVER_ERROR
+    };
+  }
 }
 
-/**
- * Wrapper específico para rutas que SOLO admin puede acceder
- */
-export function withAdminProtection<T extends any[]>(
-  handler: (request: NextRequest, context: ApiAuthContext, ...args: T) => Promise<NextResponse>
-) {
-  return withApiProtection(async (request: NextRequest, context: ApiAuthContext, ...args: T) => {
-    if (!context.isAdmin) {
-      return createForbiddenResponse('Esta funcionalidad está reservada para administradores');
-    }
-    return handler(request, context, ...args);
+export async function requireAuth(request: NextRequest): Promise<AuthContext> {
+  return authenticateApiRequest(request, { checkSession: true });
+}
+
+export async function requireAdmin(request: NextRequest): Promise<AuthContext> {
+  return authenticateApiRequest(request, { 
+    requiredRole: UserRole.ADMIN,
+    checkSession: true 
   });
 }
 
-/**
- * Helper para verificar permisos en handlers existentes
- */
-export async function requireAuth(request: NextRequest): Promise<ApiAuthContext> {
-  const { response, context } = await apiAuthMiddleware(request);
-  
-  if (response) {
-    throw new Error('Unauthorized');
-  }
-  
-  if (!context) {
-    throw new Error('Authentication context missing');
-  }
-  
-  return context;
+export async function requireSuperAdmin(request: NextRequest): Promise<AuthContext> {
+  return authenticateApiRequest(request, { 
+    requiredRole: UserRole.SUPER_ADMIN,
+    checkSession: true 
+  });
 }
 
-/**
- * Helper para verificar que el usuario sea admin
- */
-export async function requireAdmin(request: NextRequest): Promise<ApiAuthContext> {
-  const context = await requireAuth(request);
-  
-  if (!context.isAdmin) {
-    throw new Error('Admin privileges required');
-  }
-  
-  return context;
+export async function requireLeader(request: NextRequest): Promise<AuthContext> {
+  return authenticateApiRequest(request, { 
+    requiredRole: UserRole.LEADER,
+    checkSession: true 
+  });
 }
+
+export function canAccessUserResource(
+  authContext: AuthContext,
+  resourceUserId: string,
+  allowSelf: boolean = true
+): boolean {
+  if (!authContext.isAuthenticated || !authContext.user) {
+    return false;
+  }
+
+  if (allowSelf && authContext.user.id === resourceUserId) {
+    return true;
+  }
+
+  const userRoleLevel = ROLE_HIERARCHY[authContext.user.role] || 0;
+  const adminLevel = ROLE_HIERARCHY[UserRole.ADMIN];
+  
+  return userRoleLevel >= adminLevel;
+}
+
+export function createAuthErrorResponse(authContext: AuthContext): NextResponse {
+  return NextResponse.json(
+    createErrorResponse(
+      authContext.error || 'No autorizado',
+      authContext.statusCode || HTTP_STATUS.UNAUTHORIZED
+    ),
+    { status: authContext.statusCode || HTTP_STATUS.UNAUTHORIZED }
+  );
+}
+
+async function logUnauthorizedAccess(
+  request: NextRequest,
+  reason: string,
+  userId?: string
+): Promise<void> {
+  try {
+    // Log básico en consola (se puede mejorar con sistema de logging completo)
+    console.warn('🚨 SECURITY: Unauthorized access attempt', {
+      endpoint: request.nextUrl.pathname,
+      method: request.method,
+      reason,
+      userId: userId || 'anonymous',
+      timestamp: new Date().toISOString()
+    });
+    
+    // Opcional: Registrar en base de datos si ActivityLoggerService está disponible
+    // await ActivityLoggerService.logActivity({ ... });
+  } catch (error) {
+    console.error('❌ Error logging unauthorized access:', error);
+  }
+}
+
+export function extractUserIdFromPath(pathname: string): string | null {
+  const match = pathname.match(/\/api\/users\/([^\/]+)/);
+  return match ? match[1] : null;
+}
+
+export const withAuth = authenticateApiRequest;
+
+export {
+  verifyAccessToken,
+  extractTokenFromRequest
+} from '@/lib/auth-utils';
