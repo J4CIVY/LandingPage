@@ -4,15 +4,18 @@
  * Part of PWA functionality
  */
 
+'use client';
+
 import Link from 'next/link';
 import { FaWifi, FaHome } from 'react-icons/fa';
 
-export const metadata = {
-  title: 'Sin conexión | BSK Motorcycle Team',
-  description: 'Parece que no tienes conexión a Internet',
-};
-
 export default function OfflinePage() {
+  const handleRetry = () => {
+    if (typeof window !== 'undefined') {
+      window.location.reload();
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-950 px-4">
       <div className="max-w-md w-full text-center">
@@ -37,7 +40,7 @@ export default function OfflinePage() {
         <div className="space-y-4">
           {/* Retry Button */}
           <button
-            onClick={() => window.location.reload()}
+            onClick={handleRetry}
             className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
           >
             Intentar de nuevo

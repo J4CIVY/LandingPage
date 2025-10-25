@@ -19,7 +19,6 @@ const withPWA = withPWAInit({
     clientsClaim: true,
     cleanupOutdatedCaches: true,
     disableDevLogs: true,
-    // IMPORTANT: Disable all precaching
     additionalManifestEntries: [],
     exclude: [/./],
     runtimeCaching: [
