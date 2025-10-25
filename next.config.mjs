@@ -8,6 +8,9 @@ const withPWA = withPWAInit({
   register: true,
   skipWaiting: true,
   reloadOnOnline: true,
+  // Disable precaching completely to avoid 404 errors
+  cacheOnFrontEndNav: true,
+  aggressiveFrontEndNavCaching: false,
   fallbacks: {
     document: '/offline',
   },
@@ -16,30 +19,9 @@ const withPWA = withPWAInit({
     clientsClaim: true,
     cleanupOutdatedCaches: true,
     disableDevLogs: true,
-    // Deshabilitamos el precaching automático para evitar errores 404
-    mode: 'production',
-    // Don't precache anything - use runtime caching only
-    include: [],
-    exclude: [
-      /.*/,
-      /chunk-error-handler\.js$/,
-      /\.map$/,
-      /^build-manifest\.json$/,
-      /^react-loadable-manifest\.json$/,
-    ],
-    // Prevent precaching of Next.js chunks
-    manifestTransforms: [
-      (manifestEntries) => {
-        // Filter out any chunk-error-handler or problematic files
-        const manifest = manifestEntries.filter(entry => {
-          const url = entry.url;
-          return !url.includes('chunk-error-handler') &&
-                 !url.includes('webpack') &&
-                 !url.endsWith('.map');
-        });
-        return { manifest };
-      },
-    ],
+    // IMPORTANT: Disable all precaching
+    additionalManifestEntries: [],
+    exclude: [/./],
     runtimeCaching: [
       {
         urlPattern: /^https:\/\/bskmt\.com\/_next\/static\/.*/,
