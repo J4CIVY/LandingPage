@@ -49,11 +49,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         headers: {
           'Content-Type': 'application/json'
         }
-      }).catch(() => null);
+      });
 
-      if (response?.ok) {
+      if (response.ok) {
         const result = await response.json();
         
+        // Verificar si hay usuario autenticado
         if (result.success && result.data?.user) {
           updateAuthState({
             isAuthenticated: true,
@@ -65,7 +66,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       }
 
-      // 401 is expected when not authenticated - don't log it as error
+      // Sin sesión o error de autenticación (ahora retorna 200, no 401)
       updateAuthState({
         isAuthenticated: false,
         user: null,
@@ -75,15 +76,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return false;
 
     } catch (error) {
-      // Only log unexpected errors (not 401)
-      if (error instanceof Error && !error.message.includes('401')) {
-        console.error('Error verificando autenticación:', error);
-      }
+      // Solo errores de red
+      console.error('Error de conexión verificando autenticación:', error);
       updateAuthState({
         isAuthenticated: false,
         user: null,
         isLoading: false,
-        error: null // Don't show error to user for auth check
+        error: 'Error de conexión'
       });
       return false;
     }
