@@ -39,10 +39,17 @@ export function createCSPHeader(nonce: string): string {
   // SECURITY NOTE: This CSP is configured for production use with third-party integrations
   // Adjust based on your actual third-party services
   
+  // Note: For 'strict-dynamic', scripts loaded by trusted scripts inherit trust
+  // This allows dynamic script loading while maintaining security
+  
+  // Hash for Next.js inline scripts (needed for framework functionality)
+  const nextJsHash = "'sha256-J9cZHZf5nVZbsm7Pqxc8RsURv1AIXkMgbhfrZvoOs/A='";
+  
   return `
     default-src 'self';
-    script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https://www.googletagmanager.com https://www.google-analytics.com https://maps.googleapis.com https://static.cloudflareinsights.com https://connect.facebook.net https://www.facebook.com https://checkout.bold.co https://cdn.segment.com https://cdn.deviceinf.com https://cdn.seonintelligence.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/;
-    style-src 'self' 'nonce-${nonce}' 'unsafe-inline' https://fonts.googleapis.com https://checkout.bold.co;
+    script-src 'self' 'nonce-${nonce}' ${nextJsHash} 'strict-dynamic' https: http:;
+    script-src-elem 'self' 'nonce-${nonce}' ${nextJsHash} https://www.googletagmanager.com https://www.google-analytics.com https://maps.googleapis.com https://static.cloudflareinsights.com https://bskmt.com/cdn-cgi/ https://connect.facebook.net https://www.facebook.com https://checkout.bold.co https://cdn.segment.com https://cdn.deviceinf.com https://cdn.seonintelligence.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://checkout.bold.co;
     img-src 'self' data: https: blob: https://res.cloudinary.com https://images.unsplash.com https://www.facebook.com https://platform-lookaside.fbsbx.com;
     font-src 'self' https://fonts.gstatic.com data:;
     connect-src 'self' https://api.bskmt.com https://www.google-analytics.com https://maps.googleapis.com https://res.cloudinary.com https://cloudflareinsights.com https://static.cloudflareinsights.com https://fonts.googleapis.com https://fonts.gstatic.com https://www.facebook.com https://graph.facebook.com https://checkout.bold.co https://payment.bold.co https://payments.api.bold.co https://cdn.segment.com https://cdn.deviceinf.com https://cdn.seonintelligence.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/;
