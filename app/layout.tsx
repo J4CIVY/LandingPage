@@ -186,6 +186,9 @@ export default async function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning className={inter.variable}>
       <head>
+        {/* CSP Nonce meta tag for client-side script injection */}
+        <meta property="csp-nonce" content={nonce} />
+        
         {/* DNS prefetch for external domains - Performance optimization */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
