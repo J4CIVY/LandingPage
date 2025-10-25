@@ -105,7 +105,40 @@ export async function POST(req: NextRequest) {
 
   try {
     await connectDB();
-    const eventData = await req.json();
+    const rawBody = await req.json();
+    
+    // SECURITY: Sanitize user input to prevent XSS
+    const { sanitizeApiInput } = await import('@/lib/api-sanitization');
+    const eventData = sanitizeApiInput(rawBody, {
+      name: 'text',
+      description: 'html',
+      startDate: 'none',
+      endDate: 'none',
+      mainImage: 'url',
+      eventType: 'text',
+      status: 'text',
+      departureLocation: {
+        address: 'text',
+        city: 'text',
+        state: 'text',
+        coordinates: 'none',
+      },
+      destination: {
+        name: 'text',
+        address: 'text',
+        city: 'text',
+        state: 'text',
+        coordinates: 'none',
+      },
+      route: 'html',
+      requirements: 'html',
+      included: 'html',
+      notIncluded: 'html',
+      price: 'none',
+      maxParticipants: 'none',
+      contactPhone: 'phone',
+      contactEmail: 'email',
+    });
 
     // Validar datos requeridos
     const requiredFields = ['name', 'description', 'startDate', 'mainImage', 'eventType', 'departureLocation'];

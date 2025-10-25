@@ -54,7 +54,11 @@ async function handlePost(
   await connectDB();
   
   try {
-    const { type, message, notes } = await request.json();
+    const rawBody = await request.json();
+    
+    // SECURITY: Sanitize user input to prevent XSS
+    const { sanitizeApiInput, CommonSanitizationRules } = await import('@/lib/api-sanitization');
+    const { type, message, notes } = sanitizeApiInput(rawBody, CommonSanitizationRules.communication);
     
     // Validar campos requeridos
     if (!type || !message) {
@@ -107,7 +111,11 @@ async function handlePatch(
   await connectDB();
   
   try {
-    const body = await request.json();
+    const rawBody = await request.json();
+    
+    // SECURITY: Sanitize user input to prevent XSS
+    const { sanitizeApiInput, CommonSanitizationRules } = await import('@/lib/api-sanitization');
+    const body = sanitizeApiInput(rawBody, CommonSanitizationRules.communication);
     
     if (!body.type || !body.description?.trim()) {
       return createErrorResponse('El tipo y descripción de comunicación son requeridos', HTTP_STATUS.BAD_REQUEST);

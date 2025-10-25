@@ -85,7 +85,40 @@ export async function PUT(request: NextRequest) {
     await connectDB();
     
     // Obtener datos del cuerpo de la petición
-    const body = await request.json();
+    const rawBody = await request.json();
+    
+    // Sanitizar datos de entrada para prevenir XSS
+    const { sanitizeApiInput } = await import('@/lib/api-sanitization');
+    const body = sanitizeApiInput(rawBody, {
+      // Información personal
+      firstName: 'text',
+      lastName: 'text',
+      email: 'email',
+      phone: 'phone',
+      address: 'text',
+      city: 'text',
+      country: 'text',
+      dateOfBirth: 'text',
+      bloodType: 'text',
+      
+      // Información de motocicleta
+      motorcycleInfo: {
+        brand: 'text',
+        model: 'text',
+        year: 'text',
+        plate: 'text',
+        color: 'text'
+      },
+      
+      // Contacto de emergencia
+      emergencyContact: {
+        name: 'text',
+        relationship: 'text',
+        phone: 'phone',
+        email: 'email'
+      }
+    });
+    
     const {
       firstName,
       lastName,

@@ -64,7 +64,15 @@ export async function POST(request: NextRequest) {
     await connectDB();
 
     // Validar datos de entrada
-    const body = await request.json();
+    const rawBody = await request.json();
+    
+    // Sanitizar datos de entrada para prevenir XSS
+    const { sanitizeApiInput } = await import('@/lib/api-sanitization');
+    const body = sanitizeApiInput(rawBody, {
+      email: 'email',
+      password: 'none', // Password no se sanitiza para no afectar verificación
+      recaptchaToken: 'text'
+    });
     
     // 2. reCAPTCHA v3 Verification
     const recaptchaToken = body.recaptchaToken;

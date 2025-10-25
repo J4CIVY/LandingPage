@@ -13,19 +13,50 @@
  * Removes or encodes dangerous HTML/JavaScript
  * 
  * @param dirty - Potentially unsafe HTML string
+ * @param allowBasicFormatting - If true, allows safe HTML tags (b, i, p, br, etc.)
  * @returns Sanitized string safe for display
  */
-export function sanitizeHtml(dirty: string): string {
+export function sanitizeHtml(dirty: string, allowBasicFormatting: boolean = false): string {
   if (typeof dirty !== 'string') return '';
 
-  // Basic HTML entity encoding
-  return dirty
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#x27;')
-    .replace(/\//g, '&#x2F;');
+  // If no formatting allowed, escape everything
+  if (!allowBasicFormatting) {
+    return dirty
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#x27;')
+      .replace(/\//g, '&#x2F;');
+  }
+
+  // If basic formatting is allowed, use whitelist approach
+  // Remove dangerous tags and attributes but keep safe ones
+  let sanitized = dirty;
+
+  // 1. Remove script tags and their content
+  sanitized = sanitized.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+
+  // 2. Remove style tags and their content
+  sanitized = sanitized.replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '');
+
+  // 3. Remove iframe, object, embed tags
+  sanitized = sanitized.replace(/<(iframe|object|embed|applet|link|meta|base)[^>]*>/gi, '');
+
+  // 4. Remove all event handlers (onclick, onerror, etc.)
+  sanitized = sanitized.replace(/\s*on\w+\s*=\s*["'][^"']*["']/gi, '');
+  sanitized = sanitized.replace(/\s*on\w+\s*=\s*[^\s>]*/gi, '');
+
+  // 5. Remove javascript: and data: protocols
+  sanitized = sanitized.replace(/href\s*=\s*["']?javascript:[^"'>]*/gi, 'href="#"');
+  sanitized = sanitized.replace(/src\s*=\s*["']?javascript:[^"'>]*/gi, 'src=""');
+  sanitized = sanitized.replace(/href\s*=\s*["']?data:[^"'>]*/gi, 'href="#"');
+  sanitized = sanitized.replace(/src\s*=\s*["']?data:[^"'>]*/gi, 'src=""');
+
+  // 6. Remove dangerous attributes
+  sanitized = sanitized.replace(/\s*(formaction|action)\s*=\s*["'][^"']*["']/gi, '');
+
+  return sanitized;
 }
 
 /**

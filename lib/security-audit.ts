@@ -141,9 +141,19 @@ export function auditInlineScripts(): string[] {
   const issues: string[] = [];
 
   // Check for inline scripts without nonce
+  // IMPORTANT: Ignore Next.js framework scripts (they use hash-based CSP)
   const scripts = document.querySelectorAll('script:not([src]):not([nonce])');
-  if (scripts.length > 0) {
-    issues.push(`Found ${scripts.length} inline script(s) without CSP nonce`);
+  const userScripts = Array.from(scripts).filter(script => {
+    const content = script.textContent || '';
+    // Ignore Next.js internal scripts (they have CSP hash)
+    return !content.includes('self.__next_f') && 
+           !content.includes('__webpack') &&
+           !content.includes('__NEXT_DATA__') &&
+           !content.includes('requestAnimationFrame');
+  });
+  
+  if (userScripts.length > 0) {
+    issues.push(`Found ${userScripts.length} inline script(s) without CSP nonce`);
   }
 
   // Check for inline event handlers
@@ -228,14 +238,27 @@ export function auditCookies(): string[] {
   // not the HttpOnly, Secure, or SameSite flags
   // This is actually good for security (HttpOnly cookies aren't accessible)
 
+  // Known cookies that are intentionally readable by JS (for legitimate reasons)
+  const legitimateReadableCookies = [
+    'bsk-csrf-token-readable', // Required for CSRF protection (client must read and send)
+    'theme', // User preference cookies
+    'locale', // Language preference
+    'consent', // Cookie consent tracking
+  ];
+
   cookies.forEach(cookie => {
     const [name] = cookie.trim().split('=');
+    
+    // Skip known legitimate cookies
+    if (legitimateReadableCookies.some(allowed => name.includes(allowed))) {
+      return;
+    }
     
     // Check for potentially sensitive cookie names that shouldn't be accessible
     const sensitiveCookiePatterns = [
       /session/i,
-      /token/i,
-      /auth/i,
+      /^token$/i, // Exact match for "token" but not "csrf-token"
+      /auth(?!-csrf)/i, // "auth" but not "auth-csrf"
       /password/i,
     ];
 

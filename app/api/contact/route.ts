@@ -96,7 +96,19 @@ async function handlePost(request: NextRequest) {
   await connectDB();
   
   // 2. Get request body including reCAPTCHA token
-  const body = await request.json();
+  const rawBody = await request.json();
+  
+  // Sanitizar datos de entrada para prevenir XSS
+  const { sanitizeApiInput } = await import('@/lib/api-sanitization');
+  const body = sanitizeApiInput(rawBody, {
+    name: 'text',
+    email: 'email',
+    phone: 'phone',
+    subject: 'text',
+    message: 'html', // Puede contener saltos de línea seguros
+    recaptchaToken: 'text'
+  });
+  
   const recaptchaToken = body.recaptchaToken;
   
   // 3. reCAPTCHA v3 Verification

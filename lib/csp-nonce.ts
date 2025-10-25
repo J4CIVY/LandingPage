@@ -45,9 +45,13 @@ export function createCSPHeader(nonce: string): string {
   // Hash for Next.js inline scripts (needed for framework functionality)
   const nextJsHash = "'sha256-J9cZHZf5nVZbsm7Pqxc8RsURv1AIXkMgbhfrZvoOs/A='";
   
+  // In development, some Next.js features require eval (HMR, etc.)
+  // In production, we remove unsafe-eval for maximum security
+  const devOnlyDirectives = process.env.NODE_ENV === 'development' ? "'unsafe-eval'" : '';
+  
   return `
     default-src 'self';
-    script-src 'self' 'nonce-${nonce}' ${nextJsHash} 'strict-dynamic' https: http:;
+    script-src 'self' 'nonce-${nonce}' ${nextJsHash} ${devOnlyDirectives} 'strict-dynamic' https: http:;
     script-src-elem 'self' 'nonce-${nonce}' ${nextJsHash} https://www.googletagmanager.com https://www.google-analytics.com https://maps.googleapis.com https://static.cloudflareinsights.com https://bskmt.com/cdn-cgi/ https://connect.facebook.net https://www.facebook.com https://checkout.bold.co https://cdn.segment.com https://cdn.deviceinf.com https://cdn.seonintelligence.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/;
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://checkout.bold.co;
     img-src 'self' data: https: blob: https://res.cloudinary.com https://images.unsplash.com https://www.facebook.com https://platform-lookaside.fbsbx.com;

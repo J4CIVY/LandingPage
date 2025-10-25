@@ -71,7 +71,55 @@ async function handlePost(request: NextRequest) {
 
   await connectDB();
   
-  const validation = await validateRequestBody(request, membershipApplicationSchema);
+  // Sanitizar datos de entrada para prevenir XSS
+  const rawBody = await request.text();
+  const { sanitizeApiInput } = await import('@/lib/api-sanitization');
+  const sanitizedData = sanitizeApiInput(JSON.parse(rawBody), {
+    // Información personal
+    firstName: 'text',
+    lastName: 'text',
+    email: 'email',
+    phone: 'phone',
+    birthDate: 'text',
+    address: 'text',
+    city: 'text',
+    
+    // Información de membresía
+    membershipType: 'text',
+    membershipLevel: 'text',
+    
+    // Referencias
+    referredBy: 'text',
+    
+    // Información adicional
+    motorcycleBrand: 'text',
+    motorcycleModel: 'text',
+    motorcycleYear: 'text',
+    
+    // Razón y comentarios
+    reason: 'html',
+    comments: 'html',
+    
+    // Experiencia
+    ridingExperience: 'text',
+    clubExperience: 'html',
+    
+    // Emergencia
+    emergencyContact: {
+      name: 'text',
+      relationship: 'text',
+      phone: 'phone'
+    }
+  });
+  
+  const validation = await validateRequestBody(
+    new Request(request.url, {
+      method: 'POST',
+      headers: request.headers,
+      body: JSON.stringify(sanitizedData)
+    }) as any,
+    membershipApplicationSchema
+  );
   
   if (!validation.success) {
     return validation.response;
