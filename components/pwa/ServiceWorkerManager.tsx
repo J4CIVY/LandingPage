@@ -37,8 +37,31 @@ export function useServiceWorker() {
           });
         })
         .catch((registrationError) => {
-          console.log('SW registration failed: ', registrationError);
+          // Don't block the app if service worker fails
+          console.warn('SW registration failed: ', registrationError);
+          // Clear any corrupted caches
+          if ('caches' in window) {
+            caches.keys().then(names => {
+              names.forEach(name => {
+                if (name.includes('precache') || name.includes('workbox')) {
+                  caches.delete(name).catch(console.warn);
+                }
+              });
+            });
+          }
         });
+
+      // Listen for service worker errors
+      navigator.serviceWorker.addEventListener('error', (error) => {
+        console.warn('Service Worker error:', error);
+      });
+
+      // Handle service worker messages
+      navigator.serviceWorker.addEventListener('message', (event) => {
+        if (event.data && event.data.type === 'CACHE_ERROR') {
+          console.warn('Cache error from SW:', event.data.error);
+        }
+      });
     }
   }, []);
 }
