@@ -19,7 +19,10 @@ const withPWA = withPWAInit({
     clientsClaim: true,
     cleanupOutdatedCaches: true,
     disableDevLogs: true,
-    additionalManifestEntries: [],
+    // Only precache the offline fallback page (nothing else)
+    additionalManifestEntries: [
+      { url: '/offline', revision: null }
+    ],
     exclude: [/./],
     runtimeCaching: [
       {
