@@ -120,11 +120,6 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // Apply middleware to all routes except:
-    // - API routes (handled separately)
-    // - Static files (_next/static, _next/image)
-    // - Service worker files (sw.js, workbox-*.js)
-    // - Public assets (favicon, manifest, etc.)
-    '/((?!api|_next/static|_next/image|favicon.ico|public|sw.js|workbox-.*\\.js|manifest\\.json).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|public).*)',
   ],
 }

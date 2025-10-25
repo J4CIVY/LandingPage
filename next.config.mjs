@@ -144,31 +144,6 @@ const nextConfig = {
               style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
             `.replace(/\s+/g, ' ').trim(),
           },
-          {
-            key: 'Service-Worker-Allowed',
-            value: '/',
-          },
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=0, must-revalidate',
-          },
-        ],
-      },
-      {
-        source: '/workbox-:hash.js',
-        headers: [
-          {
-            key: 'Content-Security-Policy',
-            value: `
-              default-src 'self';
-              script-src 'self' 'unsafe-inline' 'unsafe-eval';
-              connect-src 'self' *;
-            `.replace(/\s+/g, ' ').trim(),
-          },
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
         ],
       },
       {
