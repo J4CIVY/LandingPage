@@ -16,30 +16,10 @@ const withPWA = withPWAInit({
     clientsClaim: true,
     cleanupOutdatedCaches: true,
     disableDevLogs: true,
-    // Deshabilitamos el precaching automático para evitar errores 404
-    mode: 'production',
-    // Don't precache anything - use runtime caching only
-    include: [],
-    exclude: [
-      /.*/,
-      /chunk-error-handler\.js$/,
-      /\.map$/,
-      /^build-manifest\.json$/,
-      /^react-loadable-manifest\.json$/,
-    ],
-    // Prevent precaching of Next.js chunks
-    manifestTransforms: [
-      (manifestEntries) => {
-        // Filter out any chunk-error-handler or problematic files
-        const manifest = manifestEntries.filter(entry => {
-          const url = entry.url;
-          return !url.includes('chunk-error-handler') &&
-                 !url.includes('webpack') &&
-                 !url.endsWith('.map');
-        });
-        return { manifest };
-      },
-    ],
+    // DESHABILITAMOS COMPLETAMENTE EL PRECACHING
+    // Esto evita el error "bad-precaching-response" con chunk-error-handler.js
+    // Solo usamos runtime caching (cache bajo demanda)
+    additionalManifestEntries: [],
     runtimeCaching: [
       {
         urlPattern: /^https:\/\/bskmt\.com\/_next\/static\/.*/,
