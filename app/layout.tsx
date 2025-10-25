@@ -8,6 +8,7 @@ import DynamicThemeColor from "@/components/shared/DynamicThemeColor";
 import StructuredData from "@/components/shared/StructuredData";
 import ScrollToTop from "@/components/shared/ScrollToTop";
 import SecurityMonitor from "@/components/shared/SecurityMonitor";
+import SuppressAuthErrors from "@/components/shared/SuppressAuthErrors";
 import EnvStatus from "@/components/shared/EnvStatus";
 import { BFFProvider } from "@/components/shared/BFFProvider";
 
@@ -277,6 +278,7 @@ export default async function RootLayout({
             <RecaptchaProvider>
               <AuthProvider>
                 <ToastProvider>
+                  <SuppressAuthErrors />
                   <SecurityMonitor />
                   <EnvStatus />
                   <PWAManager />
