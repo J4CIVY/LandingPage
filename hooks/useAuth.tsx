@@ -49,7 +49,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         headers: {
           'Content-Type': 'application/json'
         }
-      }).catch(() => null); // Suppress network errors silently
+      }).catch(() => null);
 
       if (response?.ok) {
         const result = await response.json();
