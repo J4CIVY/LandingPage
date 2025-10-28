@@ -166,12 +166,8 @@ export const metadata: Metadata = {
   },
 };
 
-import { ThemeProvider } from '@/providers/ThemeProvider'
-import { ToastProvider } from '@/components/shared/ToastProvider'
 import { PWAManager } from '@/components/pwa/ServiceWorkerManager'
-import { AuthProvider } from '@/hooks/useAuth'
 import AccessibilityHelper from '@/components/shared/AccessibilityHelper'
-import { RecaptchaProvider } from '@/lib/recaptcha-client'
 import { Suspense } from 'react'
 import { ClientProviders } from '@/components/shared/ClientProviders'
 
