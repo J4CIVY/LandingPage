@@ -10,20 +10,14 @@ import Emergency from '@/lib/models/Emergency';
 import mongoose from 'mongoose';
 import { requireCSRFToken } from '@/lib/csrf-protection';
 
-interface RouteParams {
-  params: Promise<{
-    id: string;
-  }>;
-}
-
 /**
  * GET /api/emergencies/[id]
  * Obtiene una emergencia específica por ID
  */
-async function handleGet(request: NextRequest, { params }: RouteParams) {
+async function handleGet(request: NextRequest, context: RouteContext<'/api/emergencies/[id]'>) {
   await connectDB();
   
-  const { id } = await params;
+  const { id } = await context.params;
   
   // Verificar que el ID es válido
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -55,14 +49,14 @@ async function handleGet(request: NextRequest, { params }: RouteParams) {
  * PUT /api/emergencies/[id]
  * Actualiza una emergencia específica
  */
-async function handlePut(request: NextRequest, { params }: RouteParams) {
+async function handlePut(request: NextRequest, context: RouteContext<'/api/emergencies/[id]'>) {
   // 0. CSRF Protection
   const csrfError = requireCSRFToken(request);
   if (csrfError) return csrfError;
 
   await connectDB();
   
-  const { id } = await params;
+  const { id } = await context.params;
   
   // Verificar que el ID es válido
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -132,14 +126,14 @@ async function handlePut(request: NextRequest, { params }: RouteParams) {
  * DELETE /api/emergencies/[id]
  * Cancela una emergencia específica
  */
-async function handleDelete(request: NextRequest, { params }: RouteParams) {
+async function handleDelete(request: NextRequest, context: RouteContext<'/api/emergencies/[id]'>) {
   // 0. CSRF Protection
   const csrfError = requireCSRFToken(request);
   if (csrfError) return csrfError;
 
   await connectDB();
   
-  const { id } = await params;
+  const { id } = await context.params;
   
   // Verificar que el ID es válido
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -175,14 +169,14 @@ async function handleDelete(request: NextRequest, { params }: RouteParams) {
 }
 
 // Handlers principales
-export async function GET(request: NextRequest, context: RouteParams) {
+export async function GET(request: NextRequest, context: RouteContext<'/api/emergencies/[id]'>) {
   return withErrorHandling((req) => handleGet(req, context))(request);
 }
 
-export async function PUT(request: NextRequest, context: RouteParams) {
+export async function PUT(request: NextRequest, context: RouteContext<'/api/emergencies/[id]'>) {
   return withErrorHandling((req) => handlePut(req, context))(request);
 }
 
-export async function DELETE(request: NextRequest, context: RouteParams) {
+export async function DELETE(request: NextRequest, context: RouteContext<'/api/emergencies/[id]'>) {
   return withErrorHandling((req) => handleDelete(req, context))(request);
 }

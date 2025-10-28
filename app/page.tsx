@@ -1,8 +1,12 @@
 import React from "react";
 import HeroSection from "@/components/home/HeroSection";
 import HomeContent from "@/components/home/HomeContent";
+import CachedHomeContent from "@/components/home/CachedHomeContent";
 import HomeWithAnalytics from "@/components/home/HomeWithAnalytics";
 import type { Metadata } from 'next';
+
+// Feature flag for cached components (Next.js 16 + React 19)
+const USE_CACHED_COMPONENTS = process.env.NEXT_PUBLIC_USE_CACHE === 'true' || true;
 
 export const metadata: Metadata = {
   title: "Inicio - BSK Motorcycle Team | Motoclub #1 en Colombia",
@@ -58,10 +62,20 @@ const Home: React.FC = () => {
   return (
     <>
       <HeroSection />
-      <HomeContent />
+      {USE_CACHED_COMPONENTS ? <CachedHomeContent /> : <HomeContent />}
+    </>
+  );
+};
+
+// Componente con analytics para producción
+const HomeProduction: React.FC = () => {
+  return (
+    <>
+      <HeroSection />
+      {USE_CACHED_COMPONENTS ? <CachedHomeContent /> : <HomeContent />}
     </>
   );
 };
 
 // Exportar componente con analytics solo en producción
-export default process.env.NODE_ENV === 'production' ? HomeWithAnalytics : Home;
+export default process.env.NODE_ENV === 'production' ? HomeProduction : Home;

@@ -21,24 +21,18 @@ import {
 import { ActivityLoggerService } from '@/lib/activity-logger';
 import { requireCSRFToken } from '@/lib/csrf-protection';
 
-interface RouteParams {
-  params: Promise<{
-    id: string;
-  }>;
-}
-
 /**
  * POST /api/events/[id]/register
  * Registra un usuario en un evento
  */
-async function handlePost(request: NextRequest, { params }: RouteParams) {
+async function handlePost(request: NextRequest, context: RouteContext<'/api/events/[id]/register'>) {
   // 0. CSRF Protection
   const csrfError = requireCSRFToken(request);
   if (csrfError) return csrfError;
 
   await connectDB();
   
-  const { id } = await params;
+  const { id } = await context.params;
   
   // Verificar autenticación
   const authResult = await verifyAuth(request);
@@ -255,14 +249,14 @@ async function handlePost(request: NextRequest, { params }: RouteParams) {
  * DELETE /api/events/[id]/register
  * Cancela el registro de un usuario en un evento
  */
-async function handleDelete(request: NextRequest, { params }: RouteParams) {
+async function handleDelete(request: NextRequest, context: RouteContext<'/api/events/[id]/register'>) {
   // 0. CSRF Protection (Security Audit Phase 3)
   const csrfError = requireCSRFToken(request);
   if (csrfError) return csrfError;
 
   await connectDB();
   
-  const { id } = await params;
+  const { id } = await context.params;
   
   // Verificar autenticación
   const authResult = await verifyAuth(request);
@@ -374,10 +368,10 @@ async function handleDelete(request: NextRequest, { params }: RouteParams) {
   );
 }
 
-export async function POST(request: NextRequest, context: RouteParams) {
+export async function POST(request: NextRequest, context: RouteContext<'/api/events/[id]/register'>) {
   return withErrorHandling(handlePost)(request, context);
 }
 
-export async function DELETE(request: NextRequest, context: RouteParams) {
+export async function DELETE(request: NextRequest, context: RouteContext<'/api/events/[id]/register'>) {
   return withErrorHandling(handleDelete)(request, context);
 }

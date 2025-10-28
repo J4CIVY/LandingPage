@@ -12,24 +12,18 @@ import { verifyAuth } from '@/lib/auth-utils';
 import mongoose from 'mongoose';
 import { requireCSRFToken } from '@/lib/csrf-protection';
 
-interface RouteParams {
-  params: Promise<{
-    id: string;
-  }>;
-}
-
 /**
  * POST /api/events/[id]/favorite
  * Agrega un evento a favoritos del usuario
  */
-async function handlePost(request: NextRequest, { params }: RouteParams) {
+async function handlePost(request: NextRequest, context: RouteContext<'/api/events/[id]/favorite'>) {
   // 0. CSRF Protection
   const csrfError = requireCSRFToken(request);
   if (csrfError) return csrfError;
 
   await connectDB();
   
-  const { id } = await params;
+  const { id } = await context.params;
   
   // Verificar autenticación
   const authResult = await verifyAuth(request);
@@ -96,14 +90,14 @@ async function handlePost(request: NextRequest, { params }: RouteParams) {
  * DELETE /api/events/[id]/favorite
  * Quita un evento de favoritos del usuario
  */
-async function handleDelete(request: NextRequest, { params }: RouteParams) {
+async function handleDelete(request: NextRequest, context: RouteContext<'/api/events/[id]/favorite'>) {
   // 0. CSRF Protection
   const csrfError = requireCSRFToken(request);
   if (csrfError) return csrfError;
 
   await connectDB();
   
-  const { id } = await params;
+  const { id } = await context.params;
   
   // Verificar autenticación
   const authResult = await verifyAuth(request);
@@ -156,10 +150,10 @@ async function handleDelete(request: NextRequest, { params }: RouteParams) {
   );
 }
 
-export async function POST(request: NextRequest, context: RouteParams) {
+export async function POST(request: NextRequest, context: RouteContext<'/api/events/[id]/favorite'>) {
   return withErrorHandling(handlePost)(request, context);
 }
 
-export async function DELETE(request: NextRequest, context: RouteParams) {
+export async function DELETE(request: NextRequest, context: RouteContext<'/api/events/[id]/favorite'>) {
   return withErrorHandling(handleDelete)(request, context);
 }

@@ -84,16 +84,18 @@ const bundleAnalyzer = withBundleAnalyzer({
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false, // SECURITY: Remove X-Powered-By header to hide Next.js
-  eslint: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors.
-    ignoreDuringBuilds: true,
+  
+  // Next.js 16: Turbopack configuration
+  turbopack: {
+    // Add any Turbopack-specific configuration here if needed
   },
+  
   compiler: {
     removeConsole: process.env.NODE_ENV === "production" ? {
       exclude: ['error', 'warn'], // Keep error and warn logs for monitoring
     } : false,
   },
+  
   // Performance: Optimize images
   images: {
     remotePatterns: [
@@ -119,6 +121,10 @@ const nextConfig = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;", // SECURITY: Strict CSP for images
     unoptimized: false, // SECURITY & PERFORMANCE: Enable image optimization
   },
+  
+  // React 19 Cache Components (Next.js 16+)
+  cacheComponents: true,
+  
   // Performance: Optimize package imports
   experimental: {
     optimizePackageImports: ['react-icons', '@react-google-maps/api'],

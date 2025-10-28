@@ -66,13 +66,7 @@ interface Emergency {
   isActive: boolean;
 }
 
-interface PageProps {
-  params: Promise<{
-    id: string;
-  }>;
-}
-
-export default function ViewEmergencyPage({ params }: PageProps) {
+export default function ViewEmergencyPage({ params }: PageProps<'/admin/emergencies/view/[id]'>) {
   const { user, isLoading } = useAuth();
   const { isSubmitting, submit } = useSecureForm(async (data: any) => {
     const { id } = await params;

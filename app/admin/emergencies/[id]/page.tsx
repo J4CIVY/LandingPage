@@ -60,13 +60,7 @@ interface Emergency {
   endTime?: string;
 }
 
-interface PageProps {
-  params: Promise<{
-    id: string;
-  }>;
-}
-
-export default function EditEmergencyPage({ params }: PageProps) {
+export default function EditEmergencyPage({ params }: PageProps<'/admin/emergencies/[id]'>) {
   const router = useRouter();
   const { user, isLoading } = useAuth();
   const { isSubmitting, submit } = useSecureForm(async (data: any) => {

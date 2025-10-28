@@ -11,18 +11,12 @@ import mongoose from 'mongoose';
 import { requireCSRFToken } from '@/lib/csrf-protection';
 import { requireAuth, canAccessUserResource, createAuthErrorResponse } from '@/lib/api-auth-middleware';
 
-interface RouteParams {
-  params: Promise<{
-    id: string;
-  }>;
-}
-
 /**
  * GET /api/users/[id]
  * Obtiene un usuario específico por ID
  * 🔒 REQUIERE: Autenticación + (ser el mismo usuario O ser admin)
  */
-async function handleGet(request: NextRequest, { params }: RouteParams) {
+async function handleGet(request: NextRequest, context: RouteContext<'/api/users/[id]'>) {
   // 🔒 PROTECCIÓN: Verificar autenticación
   const authContext = await requireAuth(request);
   if (!authContext.isAuthenticated) {
@@ -31,7 +25,7 @@ async function handleGet(request: NextRequest, { params }: RouteParams) {
 
   await connectDB();
   
-  const { id } = await params;
+  const { id } = await context.params;
   
   // 🔒 PROTECCIÓN: Verificar que el usuario tiene permiso para acceder a este recurso
   if (!canAccessUserResource(authContext, id, true)) {
@@ -81,16 +75,16 @@ async function handleGet(request: NextRequest, { params }: RouteParams) {
 
 /**
  * PUT /api/users/[id]
- * Actualiza un usuario específico
+ * Actualiza un usuario
  */
-async function handlePut(request: NextRequest, { params }: RouteParams) {
+async function handlePut(request: NextRequest, context: RouteContext<'/api/users/[id]'>) {
   // 0. CSRF Protection
   const csrfError = requireCSRFToken(request);
   if (csrfError) return csrfError;
 
   await connectDB();
   
-  const { id } = await params;
+  const { id } = await context.params;
   
   // Verificar que el ID es válido
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -164,14 +158,14 @@ async function handlePut(request: NextRequest, { params }: RouteParams) {
  * DELETE /api/users/[id]
  * Elimina (desactiva) un usuario específico
  */
-async function handleDelete(request: NextRequest, { params }: RouteParams) {
+async function handleDelete(request: NextRequest, context: RouteContext<'/api/users/[id]'>) {
   // 0. CSRF Protection
   const csrfError = requireCSRFToken(request);
   if (csrfError) return csrfError;
 
   await connectDB();
   
-  const { id } = await params;
+  const { id } = await context.params;
   
   // Verificar que el ID es válido
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -202,14 +196,14 @@ async function handleDelete(request: NextRequest, { params }: RouteParams) {
 }
 
 // Handlers principales
-export async function GET(request: NextRequest, context: RouteParams) {
+export async function GET(request: NextRequest, context: RouteContext<'/api/users/[id]'>) {
   return withErrorHandling((req) => handleGet(req, context))(request);
 }
 
-export async function PUT(request: NextRequest, context: RouteParams) {
+export async function PUT(request: NextRequest, context: RouteContext<'/api/users/[id]'>) {
   return withErrorHandling((req) => handlePut(req, context))(request);
 }
 
-export async function DELETE(request: NextRequest, context: RouteParams) {
+export async function DELETE(request: NextRequest, context: RouteContext<'/api/users/[id]'>) {
   return withErrorHandling((req) => handleDelete(req, context))(request);
 }

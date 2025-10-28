@@ -1,14 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-interface RouteParams {
-  params: Promise<{ width: string; height: string }>;
-}
-
 export async function GET(
   request: NextRequest,
-  { params }: RouteParams
+  context: RouteContext<'/api/placeholder/[width]/[height]'>
 ) {
-  const { width, height } = await params;
+  const { width, height } = await context.params;
   
   // Validar parámetros
   const w = parseInt(width);

@@ -8,18 +8,12 @@ import {
 import { db } from '@/lib/database';
 import { requireCSRFToken } from '@/lib/csrf-protection';
 
-interface RouteParams {
-  params: Promise<{
-    id: string;
-  }>;
-}
-
 /**
  * GET /api/contact/[id]
  * Obtiene un mensaje de contacto específico por ID
  */
-async function handleGet(request: NextRequest, { params }: RouteParams) {
-  const { id } = await params;
+async function handleGet(request: NextRequest, context: RouteContext<'/api/contact/[id]'>) {
+  const { id } = await context.params;
   
   const message = db.getContactMessageById(id);
   
@@ -40,12 +34,12 @@ async function handleGet(request: NextRequest, { params }: RouteParams) {
  * PUT /api/contact/[id]
  * Actualiza el estado de un mensaje de contacto
  */
-async function handlePut(request: NextRequest, { params }: RouteParams) {
+async function handlePut(request: NextRequest, context: RouteContext<'/api/contact/[id]'>) {
   // 0. CSRF Protection
   const csrfError = requireCSRFToken(request);
   if (csrfError) return csrfError;
 
-  const { id } = await params;
+  const { id } = await context.params;
   
   try {
     const body = await request.json();
@@ -105,12 +99,12 @@ async function handlePut(request: NextRequest, { params }: RouteParams) {
  * DELETE /api/contact/[id]
  * Marca un mensaje de contacto como cerrado
  */
-async function handleDelete(request: NextRequest, { params }: RouteParams) {
+async function handleDelete(request: NextRequest, context: RouteContext<'/api/contact/[id]'>) {
   // 0. CSRF Protection
   const csrfError = requireCSRFToken(request);
   if (csrfError) return csrfError;
 
-  const { id } = await params;
+  const { id } = await context.params;
   
   const message = db.getContactMessageById(id);
   if (!message) {
@@ -140,14 +134,14 @@ async function handleDelete(request: NextRequest, { params }: RouteParams) {
 }
 
 // Handlers principales
-export async function GET(request: NextRequest, context: RouteParams) {
+export async function GET(request: NextRequest, context: RouteContext<'/api/contact/[id]'>) {
   return withErrorHandling(handleGet)(request, context);
 }
 
-export async function PUT(request: NextRequest, context: RouteParams) {
+export async function PUT(request: NextRequest, context: RouteContext<'/api/contact/[id]'>) {
   return withErrorHandling(handlePut)(request, context);
 }
 
-export async function DELETE(request: NextRequest, context: RouteParams) {
+export async function DELETE(request: NextRequest, context: RouteContext<'/api/contact/[id]'>) {
   return withErrorHandling(handleDelete)(request, context);
 }
