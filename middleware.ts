@@ -44,6 +44,11 @@ function isAdminApiRoute(pathname: string): boolean {
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  
+  // Handle prefetch/speculation requests
+  const purpose = request.headers.get('sec-purpose');
+  const isPrefetch = purpose === 'prefetch' || request.headers.get('purpose') === 'prefetch';
+  
   const response = NextResponse.next();
 
   // ============================================================
@@ -134,10 +139,17 @@ export function middleware(request: NextRequest) {
   // Generate unique nonce for this request (CSP enhancement)
   const nonce = generateNonce();
   response.headers.set('x-nonce', nonce);
+  
+  // Allow prefetch for public pages
+  if (isPrefetch) {
+    response.headers.set('Cache-Control', 'public, max-age=60');
+    // Don't add strict security headers for prefetch to avoid 503
+    return response;
+  }
 
   // SECURITY: Essential security headers
   response.headers.set('X-Content-Type-Options', 'nosniff'); // Prevent MIME sniffing
-  response.headers.set('X-Frame-Options', 'DENY'); // Prevent clickjacking
+  response.headers.set('X-Frame-Options', 'SAMEORIGIN'); // Prevent clickjacking (allow same origin for prefetch)
   response.headers.set('X-XSS-Protection', '1; mode=block'); // Legacy XSS protection (still useful for older browsers)
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin'); // Control referrer info
   response.headers.set('X-DNS-Prefetch-Control', 'on'); // Allow DNS prefetch
@@ -150,14 +162,13 @@ export function middleware(request: NextRequest) {
     'camera=()',
     'microphone=()',
     'geolocation=(self)',
-    'interest-cohort=()', // Disable FLoC (Google's tracking tech)
+    'interest-cohort=()',
     'payment=(self "https://checkout.bold.co")',
     'usb=()',
     'bluetooth=()',
     'magnetometer=()',
     'gyroscope=()',
     'accelerometer=()',
-    'ambient-light-sensor=()',
     'autoplay=(self)',
     'encrypted-media=(self)',
     'fullscreen=(self)',

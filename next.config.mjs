@@ -5,14 +5,25 @@ import withBundleAnalyzer from '@next/bundle-analyzer';
 const withPWA = withPWAInit({
   dest: "public",
   disable: process.env.NODE_ENV === "development",
+  register: true,
+  skipWaiting: true,
+  reloadOnOnline: true,
+  // Disable precaching completely to avoid 404 errors
+  cacheOnFrontEndNav: true,
+  aggressiveFrontEndNavCaching: false,
+  fallbacks: {
+    document: '/offline',
+  },
   workboxOptions: {
     skipWaiting: true,
     clientsClaim: true,
     cleanupOutdatedCaches: true,
     disableDevLogs: true,
-    // Deshabilitamos el precaching automático para evitar errores 404
-    include: [],
-    exclude: [/.*/], // Excluir todo del precaching automático
+    // Only precache the offline fallback page (nothing else)
+    additionalManifestEntries: [
+      { url: '/offline', revision: null }
+    ],
+    exclude: [/./],
     runtimeCaching: [
       {
         urlPattern: /^https:\/\/bskmt\.com\/_next\/static\/.*/,
@@ -172,25 +183,6 @@ const nextConfig = {
           {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=(), payment=(self "https://checkout.bold.co"), usb=(), magnetometer=(self), gyroscope=(self), accelerometer=(self), interest-cohort=()',
-          },
-          {
-            key: 'Content-Security-Policy',
-            value: `
-              default-src 'self';
-              script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://maps.googleapis.com https://static.cloudflareinsights.com https://connect.facebook.net https://www.facebook.com https://checkout.bold.co https://cdn.segment.com https://cdn.deviceinf.com https://cdn.seonintelligence.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/;
-              style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://checkout.bold.co;
-              img-src 'self' data: https: blob: https://res.cloudinary.com https://images.unsplash.com https://www.facebook.com https://platform-lookaside.fbsbx.com;
-              font-src 'self' https://fonts.gstatic.com;
-              connect-src 'self' https://api.bskmt.com https://www.google-analytics.com https://maps.googleapis.com https://res.cloudinary.com https://cloudflareinsights.com https://static.cloudflareinsights.com https://fonts.googleapis.com https://fonts.gstatic.com https://www.facebook.com https://graph.facebook.com https://checkout.bold.co https://payment.bold.co https://payments.api.bold.co https://cdn.segment.com https://cdn.deviceinf.com https://cdn.seonintelligence.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/;
-              media-src 'self' https: data: blob:;
-              object-src 'none';
-              frame-src 'self' https://www.google.com https://maps.google.com https://www.facebook.com https://web.facebook.com https://evp.sire.gov.co https://app.sab.gov.co/ https://checkout.bold.co https://payment.bold.co https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/;
-              base-uri 'self';
-              form-action 'self';
-              frame-ancestors 'none';
-              upgrade-insecure-requests;
-              block-all-mixed-content;
-            `.replace(/\s+/g, ' ').trim(),
           },
           {
             key: 'X-DNS-Prefetch-Control',

@@ -152,7 +152,23 @@ async function handlePost(request: NextRequest) {
   await connectDB();
   
   try {
-    const emergencyData = await request.json();
+    const rawBody = await request.json();
+    
+    // SECURITY: Sanitize user input to prevent XSS
+    const { sanitizeApiInput } = await import('@/lib/api-sanitization');
+    const emergencyData = sanitizeApiInput(rawBody, {
+      name: 'text',
+      memberId: 'none',
+      emergencyType: 'text',
+      description: 'html',
+      location: 'text',
+      contactPhone: 'phone',
+      contactEmail: 'email',
+      severity: 'text',
+      notes: 'html',
+      status: 'text',
+      priority: 'text',
+    });
     
     // Validación básica
     const requiredFields = ['name', 'memberId', 'emergencyType', 'description', 'location', 'contactPhone'];

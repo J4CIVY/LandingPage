@@ -41,7 +41,28 @@ export default function BoldCheckoutButton({
   const checkoutInstanceRef = useRef<any>(null);
 
   /**
-   * Carga el script de Bold
+   * Get CSP nonce from document for script injection
+   */
+  const getCSPNonce = (): string | null => {
+    if (typeof document === 'undefined') return null;
+    
+    // Try to get nonce from an existing inline style with nonce attribute
+    const styleWithNonce = document.querySelector('style[nonce]');
+    if (styleWithNonce) {
+      return styleWithNonce.getAttribute('nonce');
+    }
+    
+    // Try to get from meta tag if set
+    const nonceMeta = document.querySelector('meta[property="csp-nonce"]');
+    if (nonceMeta) {
+      return nonceMeta.getAttribute('content');
+    }
+    
+    return null;
+  };
+
+  /**
+   * Carga el script de Bold con soporte CSP nonce
    */
   const loadBoldScript = (): Promise<void> => {
     return new Promise((resolve, reject) => {
@@ -61,6 +82,12 @@ export default function BoldCheckoutButton({
       const script = document.createElement('script');
       script.src = BOLD_CLIENT_CONFIG.CHECKOUT_SCRIPT_URL;
       script.async = true;
+
+      // SECURITY: Add CSP nonce for inline script execution
+      const nonce = getCSPNonce();
+      if (nonce) {
+        script.setAttribute('nonce', nonce);
+      }
 
       script.onload = () => {
         setIsScriptLoaded(true);

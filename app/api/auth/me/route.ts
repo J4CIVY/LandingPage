@@ -16,13 +16,15 @@ export async function GET(request: NextRequest) {
     }
 
     if (!token) {
+      // Retornar 200 para evitar error en consola (es esperado no tener sesión)
       return NextResponse.json(
         {
           success: false,
           message: 'Token de acceso no encontrado',
-          error: 'NO_TOKEN'
+          error: 'NO_TOKEN',
+          data: { user: null }
         },
-        { status: 401 }
+        { status: 200 }
       );
     }
 
@@ -34,13 +36,15 @@ export async function GET(request: NextRequest) {
       const session = await Session.findById(payload.sessionId);
       
       if (!session || !session.isActive || session.expiresAt < new Date()) {
+        // Retornar 200 para evitar error en consola
         return NextResponse.json(
           {
             success: false,
             message: 'Sesión inválida o expirada',
-            error: 'INVALID_SESSION'
+            error: 'INVALID_SESSION',
+            data: { user: null }
           },
-          { status: 401 }
+          { status: 200 }
         );
       }
 
@@ -48,13 +52,15 @@ export async function GET(request: NextRequest) {
       const user = await User.findById(payload.userId);
 
       if (!user || !user.isActive) {
+        // Retornar 200 para evitar error en consola
         return NextResponse.json(
           {
             success: false,
             message: 'Usuario no encontrado o inactivo',
-            error: 'USER_NOT_FOUND'
+            error: 'USER_NOT_FOUND',
+            data: { user: null }
           },
-          { status: 401 }
+          { status: 200 }
         );
       }
 
@@ -74,13 +80,15 @@ export async function GET(request: NextRequest) {
       );
 
     } catch (tokenError) {
+      // Retornar 200 para evitar error en consola
       return NextResponse.json(
         {
           success: false,
           message: 'Token inválido o expirado',
-          error: 'INVALID_TOKEN'
+          error: 'INVALID_TOKEN',
+          data: { user: null }
         },
-        { status: 401 }
+        { status: 200 }
       );
     }
 

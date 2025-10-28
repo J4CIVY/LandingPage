@@ -37,6 +37,11 @@ export function setCSRFToken(response: NextResponse): string {
   });
   
   // Also set in a readable cookie for client-side access
+  // SECURITY NOTE: This cookie is intentionally NOT HttpOnly because:
+  // 1. Client JavaScript needs to read it to include in request headers
+  // 2. The actual CSRF validation happens server-side comparing both cookies
+  // 3. This implements the "Double Submit Cookie" pattern for CSRF protection
+  // 4. Even if XSS reads this, they can't use it (SameSite=Strict + server validation)
   response.cookies.set(`${CSRF_COOKIE_NAME}-readable`, token, {
     httpOnly: false, // Client needs to read this
     secure: process.env.NODE_ENV === 'production',

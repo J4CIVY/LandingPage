@@ -99,7 +99,47 @@ export async function POST(req: NextRequest) {
 
   try {
     await connectDB();
-    const userData = await req.json();
+    const rawUserData = await req.json();
+
+    // Sanitizar datos de entrada para prevenir XSS
+    const { sanitizeApiInput } = await import('@/lib/api-sanitization');
+    const userData = sanitizeApiInput(rawUserData, {
+      // Información personal
+      firstName: 'text',
+      lastName: 'text',
+      documentType: 'text',
+      documentNumber: 'text',
+      birthPlace: 'text',
+      
+      // Contacto
+      email: 'email',
+      phone: 'phone',
+      address: 'text',
+      city: 'text',
+      country: 'text',
+      
+      // Información adicional
+      binaryGender: 'text',
+      bloodType: 'text',
+      
+      // Contacto de emergencia
+      emergencyContactName: 'text',
+      emergencyContactRelationship: 'text',
+      emergencyContactPhone: 'phone',
+      
+      // Información de vehículo (si existe)
+      vehicleInfo: {
+        brand: 'text',
+        model: 'text',
+        year: 'text',
+        plate: 'text',
+        color: 'text',
+        soatNumber: 'text'
+      },
+      
+      // Password no se sanitiza (se hashea)
+      password: 'none'
+    });
 
     // Validar datos requeridos
     const requiredFields = [

@@ -54,6 +54,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (response.ok) {
         const result = await response.json();
         
+        // Verificar si hay usuario autenticado
         if (result.success && result.data?.user) {
           updateAuthState({
             isAuthenticated: true,
@@ -65,6 +66,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       }
 
+      // Sin sesión o error de autenticación (ahora retorna 200, no 401)
       updateAuthState({
         isAuthenticated: false,
         user: null,
@@ -74,7 +76,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return false;
 
     } catch (error) {
-      console.error('Error verificando autenticación:', error);
+      // Solo errores de red
+      console.error('Error de conexión verificando autenticación:', error);
       updateAuthState({
         isAuthenticated: false,
         user: null,

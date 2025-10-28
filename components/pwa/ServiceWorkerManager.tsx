@@ -6,7 +6,6 @@
 'use client';
 
 import { useEffect } from 'react';
-import ServiceWorkerCleanup from './ServiceWorkerCleanup';
 
 export function useServiceWorker() {
   useEffect(() => {
@@ -37,8 +36,31 @@ export function useServiceWorker() {
           });
         })
         .catch((registrationError) => {
-          console.log('SW registration failed: ', registrationError);
+          // Don't block the app if service worker fails
+          console.warn('SW registration failed: ', registrationError);
+          // Clear any corrupted caches
+          if ('caches' in window) {
+            caches.keys().then(names => {
+              names.forEach(name => {
+                if (name.includes('precache') || name.includes('workbox')) {
+                  caches.delete(name).catch(console.warn);
+                }
+              });
+            });
+          }
         });
+
+      // Listen for service worker errors
+      navigator.serviceWorker.addEventListener('error', (error) => {
+        console.warn('Service Worker error:', error);
+      });
+
+      // Handle service worker messages
+      navigator.serviceWorker.addEventListener('message', (event) => {
+        if (event.data && event.data.type === 'CACHE_ERROR') {
+          console.warn('Cache error from SW:', event.data.error);
+        }
+      });
     }
   }, []);
 }
@@ -101,27 +123,43 @@ export const PWAManager: React.FC = () => {
           // Crea notificación de instalación
           const installBanner = document.createElement('div');
           installBanner.className = 'fixed bottom-4 left-4 right-4 bg-green-600 text-white p-4 rounded-lg shadow-lg z-50 flex items-center justify-between';
-          installBanner.innerHTML = `
-            <div>
-              <p class="font-semibold">Instala BSK MT</p>
-              <p class="text-sm">Acceso rápido desde tu dispositivo</p>
-            </div>
-            <div class="flex gap-2">
-              <button id="install-btn" class="bg-white text-green-600 px-3 py-1 rounded text-sm font-medium">
-                Instalar
-              </button>
-              <button id="dismiss-btn" class="text-white underline text-sm">
-                Cerrar
-              </button>
-            </div>
-          `;
+          
+          // SECURITY FIX: Build DOM safely instead of innerHTML
+          const contentDiv = document.createElement('div');
+          
+          const titleP = document.createElement('p');
+          titleP.className = 'font-semibold';
+          titleP.textContent = 'Instala BSK MT';
+          
+          const descP = document.createElement('p');
+          descP.className = 'text-sm';
+          descP.textContent = 'Acceso rápido desde tu dispositivo';
+          
+          contentDiv.appendChild(titleP);
+          contentDiv.appendChild(descP);
+          
+          const buttonsDiv = document.createElement('div');
+          buttonsDiv.className = 'flex gap-2';
+          
+          const installBtn = document.createElement('button');
+          installBtn.id = 'install-btn';
+          installBtn.className = 'bg-white text-green-600 px-3 py-1 rounded text-sm font-medium';
+          installBtn.textContent = 'Instalar';
+          
+          const dismissBtn = document.createElement('button');
+          dismissBtn.id = 'dismiss-btn';
+          dismissBtn.className = 'text-white underline text-sm';
+          dismissBtn.textContent = 'Cerrar';
+          
+          buttonsDiv.appendChild(installBtn);
+          buttonsDiv.appendChild(dismissBtn);
+          
+          installBanner.appendChild(contentDiv);
+          installBanner.appendChild(buttonsDiv);
           
           document.body.appendChild(installBanner);
           
-          const installBtn = document.getElementById('install-btn');
-          const dismissBtn = document.getElementById('dismiss-btn');
-          
-          installBtn?.addEventListener('click', async () => {
+          installBtn.addEventListener('click', async () => {
             if (deferredPrompt) {
               deferredPrompt.prompt();
               const result = await deferredPrompt.userChoice;
@@ -162,11 +200,7 @@ export const PWAManager: React.FC = () => {
     };
   }, []);
 
-  return (
-    <>
-      <ServiceWorkerCleanup />
-    </>
-  );
+  return null;
 };
 
 // Hook para gestión de estado offline (mantener si hay contexto útil)
