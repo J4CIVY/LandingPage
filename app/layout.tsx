@@ -173,17 +173,13 @@ import { AuthProvider } from '@/hooks/useAuth'
 import AccessibilityHelper from '@/components/shared/AccessibilityHelper'
 import { getNonce } from '@/lib/csp-nonce'
 import { RecaptchaProvider } from '@/lib/recaptcha-client'
-import { connection } from 'next/server'
 
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Opt into dynamic rendering for CSP nonce generation
-  await connection();
-  
-  // Get CSP nonce for this request
+  // Get CSP nonce for this request (returns empty string for static pages)
   const nonce = await getNonce();
   
   return (
