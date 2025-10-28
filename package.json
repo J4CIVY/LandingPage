@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint .",
+    "lint": "eslint . --config eslint.config.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:preauth": "tsx scripts/test-preauth-token.ts",
