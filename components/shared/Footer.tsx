@@ -2,8 +2,12 @@ import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 import Link from 'next/link';
 import { footerImages } from '@/data/images';
 import Image from 'next/image';
+import { cacheLife } from 'next/cache';
 
 const Footer: React.FC = () => {
+  'use cache';
+  cacheLife('days');
+  
   const currentYear = new Date().getFullYear();
 
   return (
