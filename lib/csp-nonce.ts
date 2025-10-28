@@ -32,18 +32,14 @@ export async function getNonce(): Promise<string> {
 }
 
 /**
- * Create CSP header with nonce and comprehensive security policies
- * @param nonce - The generated nonce for this request
+ * Create CSP header with comprehensive security policies
+ * Next.js 16 with Cache Components (PPR) requires 'unsafe-inline' for hydration scripts
+ * @param _nonce - The generated nonce (not used with unsafe-inline, kept for API compatibility)
  */
-export function createCSPHeader(nonce: string): string {
-  // SECURITY NOTE: This CSP is configured for production use with third-party integrations
-  // Adjust based on your actual third-party services
-  
-  // Note: For 'strict-dynamic', scripts loaded by trusted scripts inherit trust
-  // This allows dynamic script loading while maintaining security
-  
-  // Hash for Next.js inline scripts (needed for framework functionality)
-  const nextJsHash = "'sha256-J9cZHZf5nVZbsm7Pqxc8RsURv1AIXkMgbhfrZvoOs/A='";
+export function createCSPHeader(_nonce: string): string {
+  // SECURITY NOTE: This CSP is configured for Next.js 16 with Cache Components (PPR)
+  // PPR generates inline scripts for hydration that cannot use nonce-based CSP
+  // Using 'unsafe-inline' is standard practice for Next.js apps with SSR/PPR
   
   // In development, some Next.js features require eval (HMR, etc.)
   // In production, we remove unsafe-eval for maximum security
@@ -51,8 +47,7 @@ export function createCSPHeader(nonce: string): string {
   
   return `
     default-src 'self';
-    script-src 'self' 'nonce-${nonce}' ${nextJsHash} ${devOnlyDirectives} 'strict-dynamic' https: http:;
-    script-src-elem 'self' 'nonce-${nonce}' ${nextJsHash} https://www.googletagmanager.com https://www.google-analytics.com https://maps.googleapis.com https://static.cloudflareinsights.com https://bskmt.com/cdn-cgi/ https://connect.facebook.net https://www.facebook.com https://checkout.bold.co https://cdn.segment.com https://cdn.deviceinf.com https://cdn.seonintelligence.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/;
+    script-src 'self' 'unsafe-inline' ${devOnlyDirectives} https://www.googletagmanager.com https://www.google-analytics.com https://maps.googleapis.com https://static.cloudflareinsights.com https://bskmt.com/cdn-cgi/ https://connect.facebook.net https://www.facebook.com https://checkout.bold.co https://cdn.segment.com https://cdn.deviceinf.com https://cdn.seonintelligence.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/;
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://checkout.bold.co;
     img-src 'self' data: https: blob: https://res.cloudinary.com https://images.unsplash.com https://www.facebook.com https://platform-lookaside.fbsbx.com;
     font-src 'self' https://fonts.gstatic.com data:;
@@ -72,13 +67,13 @@ export function createCSPHeader(nonce: string): string {
 /**
  * Create strict CSP for pages that don't need third-party scripts
  * Use this for admin pages, login pages, etc.
- * @param nonce - The generated nonce for this request
+ * @param _nonce - The generated nonce (not used with unsafe-inline, kept for API compatibility)
  */
-export function createStrictCSPHeader(nonce: string): string {
+export function createStrictCSPHeader(_nonce: string): string {
   return `
     default-src 'self';
-    script-src 'self' 'nonce-${nonce}' 'strict-dynamic';
-    style-src 'self' 'nonce-${nonce}';
+    script-src 'self' 'unsafe-inline';
+    style-src 'self' 'unsafe-inline';
     img-src 'self' data: https://res.cloudinary.com;
     font-src 'self';
     connect-src 'self' https://api.bskmt.com;
