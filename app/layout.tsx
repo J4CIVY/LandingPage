@@ -171,16 +171,15 @@ import { ToastProvider } from '@/components/shared/ToastProvider'
 import { PWAManager } from '@/components/pwa/ServiceWorkerManager'
 import { AuthProvider } from '@/hooks/useAuth'
 import AccessibilityHelper from '@/components/shared/AccessibilityHelper'
-import { getNonce } from '@/lib/csp-nonce'
 import { RecaptchaProvider } from '@/lib/recaptcha-client'
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Get CSP nonce for this request (returns empty string for static pages)
-  const nonce = await getNonce();
+  // Note: CSP nonce removed to support static prerendering with cacheComponents
+  // CSP is still enforced through middleware headers
   
   return (
     <html 
@@ -190,9 +189,6 @@ export default async function RootLayout({
       data-scroll-behavior="smooth"
     >
       <head>
-        {/* CSP Nonce meta tag for client-side script injection */}
-        <meta property="csp-nonce" content={nonce} />
-        
         {/* DNS prefetch for external domains - Performance optimization */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
@@ -214,8 +210,8 @@ export default async function RootLayout({
         <meta httpEquiv="x-dns-prefetch-control" content="on" />
         <meta name="color-scheme" content="light dark" />
         
-        {/* Critical CSS with CSP nonce for security */}
-        <style nonce={nonce} dangerouslySetInnerHTML={{
+        {/* Critical CSS for performance */}
+        <style dangerouslySetInnerHTML={{
           __html: `
             :root {
               --vh: 1vh;

@@ -24,18 +24,11 @@ export function generateNonce(): string {
 
 /**
  * Get the current request's nonce from headers
- * Should be called in Server Components
- * Returns empty string during static generation (e.g., 404 page)
+ * Should be called in Server Components wrapped in Suspense
  */
 export async function getNonce(): Promise<string> {
-  try {
-    const headersList = await headers();
-    return headersList.get('x-nonce') || '';
-  } catch {
-    // During static generation (e.g., not-found page), headers() throws
-    // Return empty string - CSP will still work without nonce for static content
-    return '';
-  }
+  const headersList = await headers();
+  return headersList.get('x-nonce') || '';
 }
 
 /**
