@@ -4,7 +4,7 @@ import { footerImages } from '@/data/images';
 import Image from 'next/image';
 import { cacheLife } from 'next/cache';
 
-const Footer: React.FC = () => {
+const Footer = async () => {
   'use cache';
   cacheLife('days');
   
