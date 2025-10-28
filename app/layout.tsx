@@ -172,6 +172,8 @@ import { PWAManager } from '@/components/pwa/ServiceWorkerManager'
 import { AuthProvider } from '@/hooks/useAuth'
 import AccessibilityHelper from '@/components/shared/AccessibilityHelper'
 import { RecaptchaProvider } from '@/lib/recaptcha-client'
+import { Suspense } from 'react'
+import { ClientProviders } from '@/components/shared/ClientProviders'
 
 export default function RootLayout({
   children,
@@ -268,28 +270,24 @@ export default function RootLayout({
         <StructuredData type="localBusiness" data={{}} />
         <StructuredData type="website" data={{}} />
         <StructuredData type="motorcycleClub" data={{}} />
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-        >
-          <RecaptchaProvider>
-            <AuthProvider>
-              <ToastProvider>
-                <SecurityMonitor />
-                <EnvStatus />
-                <PWAManager />
-                <DynamicThemeColor />
-                <AccessibilityHelper />
-                <Header />
-                <main id="main-content" className="pt-16" tabIndex={-1}>{children}</main>
-                <Footer />
-                <CookieBanner />
-                <ScrollToTop />
-              </ToastProvider>
-            </AuthProvider>
-          </RecaptchaProvider>
-        </ThemeProvider>
+        <Suspense fallback={
+          <div className="flex items-center justify-center min-h-screen">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          </div>
+        }>
+          <ClientProviders>
+            <SecurityMonitor />
+            <EnvStatus />
+            <PWAManager />
+            <DynamicThemeColor />
+            <AccessibilityHelper />
+            <Header />
+            <main id="main-content" className="pt-16" tabIndex={-1}>{children}</main>
+            <Footer />
+            <CookieBanner />
+            <ScrollToTop />
+          </ClientProviders>
+        </Suspense>
       </body>
     </html>
   );
