@@ -172,7 +172,6 @@ export function proxy(request: NextRequest) {
     'camera=()',
     'microphone=()',
     'geolocation=(self)',
-    'interest-cohort=()',
     'payment=(self "https://checkout.bold.co")',
     'usb=()',
     'bluetooth=()',

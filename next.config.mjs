@@ -197,7 +197,7 @@ const nextConfig = {
           },
           {
             key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=(), payment=(self "https://checkout.bold.co"), usb=(), magnetometer=(self), gyroscope=(self), accelerometer=(self), interest-cohort=()',
+            value: 'camera=(), microphone=(), geolocation=(), payment=(self "https://checkout.bold.co"), usb=(), magnetometer=(self), gyroscope=(self), accelerometer=(self)',
           },
           {
             key: 'X-DNS-Prefetch-Control',
