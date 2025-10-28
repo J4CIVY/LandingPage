@@ -5,6 +5,11 @@ import { useAuth } from '@/hooks/useAuth';
 import { useParams, useRouter } from 'next/navigation';
 import { FiDownload, FiCalendar, FiBarChart, FiArrowLeft, FiRefreshCw, FiFilter } from 'react-icons/fi';
 
+// Prevent static generation - this is a dynamic admin page
+export function generateStaticParams() {
+  return [];
+}
+
 interface ReportData {
   reportType: string;
   period: {
