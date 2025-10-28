@@ -132,7 +132,8 @@ const nextConfig = {
   },
   
   // React 19 Cache Components (Next.js 16+)
-  cacheComponents: true,
+  // Temporarily disabled until all pages are compatible with PPR
+  // cacheComponents: true,
   
   // Performance: Optimize package imports
   experimental: {
