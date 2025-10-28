@@ -21,12 +21,16 @@ import EventsList from '@/components/eventos/EventsList';
 import SEOComponent from '@/components/home/SEOComponent';
 import { generateBreadcrumb } from '@/lib/seo-config';
 import { getPublicEventsServerSide, filterEventsInSixMonths, getUniqueLocations } from '@/lib/events-server';
+import { connection } from 'next/server';
 
 /**
  * Events Page - Server Component
  * Displays upcoming events with server-side rendering for optimal SEO
  */
 export default async function EventsPage() {
+  // Force dynamic rendering due to new Date() usage in filterEventsInSixMonths
+  await connection();
+  
   // ✅ Fetch events server-side (this runs on the server)
   const allEvents = await getPublicEventsServerSide({ upcoming: true, limit: 50 });
   
