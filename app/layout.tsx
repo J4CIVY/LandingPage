@@ -10,6 +10,9 @@ import ScrollToTop from "@/components/shared/ScrollToTop";
 import SecurityMonitor from "@/components/shared/SecurityMonitor";
 import EnvStatus from "@/components/shared/EnvStatus";
 
+// Force dynamic rendering for all routes due to CSP nonce generation
+export const dynamic = 'force-dynamic';
+
 // Font configuration with performance optimizations and accessibility in mind
 
 const inter = Inter({ 
