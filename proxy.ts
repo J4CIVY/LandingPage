@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { generateNonce, createCSPHeader } from '@/lib/csp-nonce';
 import { safeJsonParse } from '@/lib/json-utils';
 
@@ -42,7 +42,17 @@ function isAdminApiRoute(pathname: string): boolean {
   return ADMIN_API_ROUTES.some(route => pathname.startsWith(route));
 }
 
-export function middleware(request: NextRequest) {
+/**
+ * Next.js 16 Proxy Function (formerly middleware)
+ * Runtime: Node.js (edge runtime not supported in proxy)
+ * 
+ * Handles:
+ * - API authentication and authorization
+ * - Security headers (CSP, HSTS, etc.)
+ * - Admin route protection
+ * - Token validation
+ */
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
   // Handle prefetch/speculation requests
@@ -217,7 +227,7 @@ export function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/dashboard?error=unauthorized', request.url));
       }
     } catch (error) {
-      console.error('Token validation error in middleware:', error);
+      console.error('Token validation error in proxy:', error);
       return NextResponse.redirect(new URL('/login?error=invalid_token', request.url));
     }
   }
@@ -247,7 +257,7 @@ export function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/login?error=token_expired&returnUrl=' + encodeURIComponent(pathname), request.url));
       }
     } catch (error) {
-      console.error('Token validation error in middleware:', error);
+      console.error('Token validation error in proxy:', error);
       return NextResponse.redirect(new URL('/login?error=invalid_token', request.url));
     }
   }

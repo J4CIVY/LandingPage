@@ -204,20 +204,40 @@ export function preloadCachedData<T extends any[], R>(
 }
 
 /**
- * Utility to invalidate cache by tags
- * Note: This is a placeholder for the Next.js revalidateTag API
+ * Utility to invalidate cache by tags using Next.js 16 revalidateTag
+ * 
+ * @param tags - Array of cache tags to invalidate
+ * @param cacheLife - Cache life profile: 'default', 'max', or 'min' (default: 'default')
  * 
  * @example
+ * // Soft revalidation (users see stale data while it revalidates)
+ * await invalidateCacheTags(['events'], 'max');
+ * 
+ * @example
+ * // Default revalidation
  * await invalidateCacheTags(['events']);
  */
-export async function invalidateCacheTags(tags: string[]): Promise<void> {
-  // This will be implemented with Next.js revalidateTag
-  // For now, we just log the intent
-  console.log(`Cache invalidation requested for tags: ${tags.join(', ')}`);
-  
-  // In production, you would use:
-  // const { revalidateTag } = await import('next/cache');
-  // tags.forEach(tag => revalidateTag(tag));
+export async function invalidateCacheTags(
+  tags: string[], 
+  cacheLife: 'default' | 'max' | 'min' = 'default'
+): Promise<void> {
+  const { revalidateTag } = await import('next/cache');
+  tags.forEach(tag => revalidateTag(tag, cacheLife));
+}
+
+/**
+ * Utility to immediately update cache using Next.js 16 updateTag
+ * Provides read-your-writes semantics - users see changes immediately
+ * 
+ * @param tags - Array of cache tags to update
+ * 
+ * @example
+ * // User profile updated - show changes immediately
+ * await updateCacheTags(['user-123']);
+ */
+export async function updateCacheTags(tags: string[]): Promise<void> {
+  const { updateTag } = await import('next/cache');
+  tags.forEach(tag => updateTag(tag));
 }
 
 /**

@@ -85,6 +85,10 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false, // SECURITY: Remove X-Powered-By header to hide Next.js
   
+  // React Compiler (Next.js 16 + React 19.2)
+  // Automatically memoizes components to reduce unnecessary re-renders
+  reactCompiler: true,
+  
   // Next.js 16: Turbopack configuration
   turbopack: {
     // Add any Turbopack-specific configuration here if needed
@@ -113,7 +117,9 @@ const nextConfig = {
       }
     ],
     formats: ['image/avif', 'image/webp'],
-    minimumCacheTTL: 31536000, // 1 year for better caching
+    // Next.js 16 default: 14400 (4 hours)
+    // Using 30 days for Cloudinary images (good balance)
+    minimumCacheTTL: 2592000, // 30 days - Cloudinary images are relatively stable
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     dangerouslyAllowSVG: false, // SECURITY: Prevent SVG XSS attacks
