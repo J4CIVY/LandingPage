@@ -1,51 +1,32 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import js from "@eslint/js";
+import tseslint from "typescript-eslint";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+const eslintConfig = tseslint.config(
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
   {
-    files: ["**/*.{js,jsx,ts,tsx}"],
+    files: ["**/*.{js,jsx,mjs}"],
     rules: {
-      // TypeScript rules (only critical ones)
-      "@typescript-eslint/no-unused-vars": "warn",
-      "@typescript-eslint/no-empty-interface": "warn",
-      
-      // React rules (only critical ones)
-      "react-hooks/exhaustive-deps": "warn",
-      "react/jsx-no-duplicate-props": "error",
-      "react/jsx-no-undef": "error",
-      "react/no-array-index-key": "off",
-      "react/no-unescaped-entities": "off",
-      
-      // Performance rules (relaxed)
       "prefer-const": "warn",
       "no-var": "error",
       "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
-      
-      // Code quality (relaxed)
       "no-duplicate-imports": "warn",
       "no-unused-expressions": "warn",
-      "prefer-template": "off",
-      "object-shorthand": "off",
-      
-      // Next.js specific (only critical ones)
-      "@next/next/no-html-link-for-pages": "error",
-      "@next/next/no-img-element": "warn",
-      "@next/next/no-page-custom-font": "warn",
+    },
+  },
+  {
+    files: ["**/*.{ts,tsx}"],
+    rules: {
+      "@typescript-eslint/no-unused-vars": "warn",
+      "@typescript-eslint/no-explicit-any": "warn",
+      "prefer-const": "warn",
+      "no-var": "error",
+      "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     },
   },
   {
     files: ["**/*.test.{js,jsx,ts,tsx}", "**/*.spec.{js,jsx,ts,tsx}"],
     rules: {
-      // Relax some rules for test files
       "@typescript-eslint/no-explicit-any": "off",
       "no-console": "off",
     },
@@ -60,8 +41,10 @@ const eslintConfig = [
       "coverage/**",
       "*.config.js",
       "*.config.mjs",
+      "public/sw.js",
+      "public/workbox-*.js",
     ],
   },
-];
+);
 
 export default eslintConfig;
