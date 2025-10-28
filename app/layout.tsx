@@ -183,7 +183,12 @@ export default async function RootLayout({
   const nonce = await getNonce();
   
   return (
-    <html lang="es" suppressHydrationWarning className={inter.variable}>
+    <html 
+      lang="es" 
+      suppressHydrationWarning 
+      className={inter.variable}
+      data-scroll-behavior="smooth"
+    >
       <head>
         {/* CSP Nonce meta tag for client-side script injection */}
         <meta property="csp-nonce" content={nonce} />

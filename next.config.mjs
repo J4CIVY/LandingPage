@@ -121,7 +121,10 @@ const nextConfig = {
     // Using 30 days for Cloudinary images (good balance)
     minimumCacheTTL: 2592000, // 30 days - Cloudinary images are relatively stable
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    imageSizes: [32, 48, 64, 96, 128, 256, 384], // Next.js 16 removed 16px (retina displays fetch 32px anyway)
+    // SECURITY: Next.js 16 breaking changes
+    dangerouslyAllowLocalIP: false, // Block local IPs (production security)
+    maximumRedirects: 0, // Cloudinary URLs are direct (no redirects needed)
     dangerouslyAllowSVG: false, // SECURITY: Prevent SVG XSS attacks
     contentDispositionType: 'attachment', // SECURITY: Force download for untrusted content
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;", // SECURITY: Strict CSP for images
