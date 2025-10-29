@@ -1,307 +1,301 @@
-🌎 Traducción al Inglés
-Aquí tienes la traducción completa al inglés del contenido proporcionado:
+# BSK Motorcycle Team - Landing Page
 
-BSK Motorcycle Team - Landing Page
-This is the repository for the frontend of the official BSK Motorcycle Team website. The project is built with Next.js and TypeScript, providing a modern, fast, and responsive user experience.
+This is the repository for the frontend of the official website for **BSK Motorcycle Team**. The project is built with Next.js and TypeScript, providing a modern, fast, and responsive user experience.
 
-✨ Key Features
-Static and Dynamic Pages: Multiple sections such as About Us, Events, Store, Contact, and more.
+## ✨ Key Features
 
-Responsive Design: Fully adaptive user interface built with Tailwind CSS.
+- **Static and Dynamic Pages:** Multiple sections such as About Us, Events, Shop, Contact, and more.
+- **Responsive Design:** Fully adaptive user interface built with Tailwind CSS.
+- **Light/Dark Theme:** Support for switching between color themes.
+- **Event Calendar:** Displays the club's upcoming events.
+- **Registration Form:** Registration form with local validation using Zod (ready for future API integration).
+- **SEO Optimized:** Components and configuration to improve search engine ranking.
 
-Light/Dark Theme: Support for switching between color themes.
+## 🚀 Technology Stack
 
-Event Calendar: Displays the club's upcoming events.
+- **Framework:** [Next.js](https://nextjs.org/)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Form Management:** [React Hook Form](https://react-hook-form.com/)
+- **Schema Validation:** [Zod](https://zod.dev/)
+- **HTTP Client:** [Axios](https://axios-http.com/)
+- **Testing:** [Vitest](https://vitest.dev/)
+- **Icons:** [React Icons](https://react-icons.github.io/react-icons/)
 
-Registration Form: Registration form with local validation using Zod (prepared for future API integration).
+## 📂 Project Structure
 
-SEO Optimized: Components and configuration to improve search engine ranking.
-
-🚀 Tech Stack
-Framework: Next.js
-
-Language: TypeScript
-
-Styling: Tailwind CSS
-
-Form Management: React Hook Form
-
-Schema Validation: Zod
-
-HTTP Client: Axios
-
-Testing: Vitest
-
-Icons: React Icons
-
-📂 Project Structure
 The project follows an organized structure to facilitate maintenance and scalability:
 
+```
 /
-├── app/                # Application routing and pages
-│   ├── about/
-│   ├── contact/
-│   └── ...
-├── components/         # Reusable React components
-│   ├── home/           # Homepage-specific components
-│   └── shared/         # Shared components (Header, Footer, etc.)
-├── data/               # Static data (form options, images)
-├── hooks/              # Custom React hooks
-├── http/               # HTTP client configuration (Axios)
-├── providers/          # Context providers (e.g., ThemeProvider)
-├── public/             # Static assets (images, favicons)
-├── schemas/            # Validation schemas (Zod)
-├── tests/              # Unit and integration tests
-└── types/              # TypeScript type definitions
-🏁 Quick Start Guide
+├── app/                # Application routing and pages
+│   ├── about/
+│   ├── contact/
+│   └── ...
+├── components/         # Reusable React components
+│   ├── home/           # Components specific to the home page
+│   └── shared/         # Shared components (Header, Footer, etc.)
+├── data/               # Static data (form options, images)
+├── hooks/              # Custom React hooks
+├── http/               # HTTP client configuration (Axios)
+├── providers/          # Context providers (e.g., ThemeProvider)
+├── public/             # Static assets (images, favicons)
+├── schemas/            # Validation schemas (Zod)
+├── tests/              # Unit and integration tests
+└── types/              # TypeScript type definitions
+```
+
+## 🏁 Quick Start Guide
+
 Follow these steps to set up and run the project in your local environment.
 
-Prerequisites
-Node.js (version 20.x or higher)
+### Prerequisites
 
-npm or yarn
+- [Node.js](https://nodejs.org/) (version 20.x or higher)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
 
-Installation
-Clone the repository:
+### Installation
 
-Bash
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/BSKMT/LandingPage.git
+    ```
+2.  Navigate to the project directory:
+    ```bash
+    cd LandingPage
+    ```
+3.  Install the dependencies:
+    ```bash
+    npm install
+    ```
 
-git clone https://github.com/BSKMT/LandingPage.git
-Navigate to the project directory:
+### Execution
 
-Bash
-
-cd LandingPage
-Install dependencies:
-
-Bash
-
-npm install
-Running
 To start the development server:
 
-Bash
-
+```bash
 npm run dev
-Open http://localhost:3000 in your browser to view the application.
+```
 
-📜 Available Scripts
-This project includes the following scripts defined in package.json:
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
-npm run dev: Starts the application in development mode.
+## 📜 Available Scripts
 
-npm run build: Compiles the application for production.
+This project includes the following scripts defined in `package.json`:
 
-npm run start: Starts a production server.
+-   `npm run dev`: Starts the application in development mode.
+-   `npm run build`: Builds the application for production.
+-   `npm run start`: Starts a production server.
+-   `npm run lint`: Runs ESLint to analyze code for problems.
+-   `npm run test`: Runs unit tests with Vitest.
+-   `npm run test:watch`: Runs tests in watch mode.
 
-npm run lint: Runs ESLint to analyze code for problems.
+## ⚙️ Configuration
 
-npm run test: Executes unit tests with Vitest.
+The project uses environment variables to manage configuration. Create a `.env.local` file in the project root and add the necessary variables.
 
-npm run test:watch: Executes tests in watch mode.
+### HTTP Client and API Key
 
-⚙️ Configuration
-The project uses environment variables to manage configuration. Create a .env.local file in the project root and add the necessary variables.
+The HTTP client (`http/client.ts`) is configured to handle authentication intelligently:
 
-HTTP Client and API Key
-The HTTP client (http/client.ts) is configured to manage authentication intelligently:
+-   If a JWT exists (via a cookie), requests include the `Authorization: Bearer <token>` header.
+-   If there is no JWT and the route is in the whitelist (`apiKeyRoutes`), the client adds the `x-api-key` header with the value of `NEXT_PUBLIC_API_KEY`.
+-   Optionally, request signing (HMAC-SHA256) can be enabled by setting `NEXT_PUBLIC_USE_HMAC` to `true`.
 
-If a JWT exists (via a cookie), requests include the Authorization: Bearer <token> header.
+#### Environment Variables
 
-If there is no JWT and the route is whitelisted (apiKeyRoutes), the client adds the x-api-key header with the NEXT_PUBLIC_API_KEY value.
+-   `NEXT_PUBLIC_API_KEY`: The public API key for the domain.
+-   `NEXT_PUBLIC_USE_HMAC`: `true` or `false` to enable/disable HMAC request signing.
 
-Optionally, request signing (HMAC-SHA256) can be enabled by setting NEXT_PUBLIC_USE_HMAC to true.
+## ✅ Testing
 
-Environment Variables
-NEXT_PUBLIC_API_KEY: The public API key for the domain.
-
-NEXT_PUBLIC_USE_HMAC: true or false to enable/disable HMAC request signing.
-
-✅ Testing
 To run the test suite, use the following command:
 
-Bash
-
+```bash
 npm run test
-This will execute all unit tests defined in the tests/ directory using Vitest.
+```
 
-Security Tests
-To run the specific secure authentication system tests:
+This will run all unit tests defined in the `tests/` directory using Vitest.
 
-Bash
+### Security Tests
 
+To run specific tests for the secure authentication system:
+
+```bash
 npm run test:preauth
-This will execute the PreAuthToken model tests and verify the correct implementation of the pre-authentication token system.
+```
 
-🔒 Security
-Progressive Authentication System (v2.3.1)
-This project implements a 3-step login system similar to Google and Microsoft, featuring RSA-2048 encryption, mandatory 2FA authentication, and intelligent inactivity detection.
+This will run the tests for the `PreAuthToken` model and verify the correct implementation of the pre-authentication token system.
 
-🎯 3-Step Login Flow
-Step 1: Email          →  Step 2: Password  →  Step 3: 2FA WhatsApp
-  📧 Verification           🔒 RSA-2048            🛡️ 6-digit code
-  ⏱️ No timer              ⏱️ 90 seconds         ⏱️ 120 seconds
-Advantages:
+## 🔒 Security
 
-✅ Familiar UX: Used by Google, Microsoft, LinkedIn
+### Progressive Authentication System (v2.3.1)
 
-✅ Early Validation: Detects errors sooner (non-existent email)
+This project implements a **3-step login system** similar to Google and Microsoft, with **RSA-2048 encryption**, **mandatory 2FA**, and **intelligent inactivity detection**.
 
-✅ Specific Feedback: Direct links to solutions
+#### 🎯 3-Step Login Flow
 
-✅ Inactivity Detection: Warnings and help options
+```
+Step 1: Email          →  Step 2: Password   →  Step 3: WhatsApp 2FA
+  📧 Verification           🔒 RSA-2048            🛡️ 6-digit code
+  ⏱️ No timer              ⏱️ 90 seconds         ⏱️ 120 seconds
+```
 
-✅ Professional: Enterprise look & feel
+**Advantages**:
+- ✅ **Familiar UX**: Used by Google, Microsoft, LinkedIn
+- ✅ **Early Validation**: Detects errors sooner (non-existent email)
+- ✅ **Specific Feedback**: Direct links to solutions
+- ✅ **Inactivity Detection**: Warnings and help options
+- ✅ **Professional**: Enterprise look & feel
 
-Multi-Layer Protection
-1. Progressive Login (v2.2.0)
+#### Multi-Layer Protection
 
-✅ Step 1 - Email: Existence + status verification
+**1. Progressive Login (v2.2.0)**
+- ✅ **Step 1 - Email**: Existence verification + status
+- ✅ **Step 2 - Password**: Validation with RSA-2048 encryption
+- ✅ **Step 3 - 2FA**: Mandatory WhatsApp code
+- ✅ **Intuitive Navigation**: "Back" button to correct errors
 
-✅ Step 2 - Password: Validation with RSA-2048 encryption
+**2. Inactivity System (v2.3.0)**
+- ✅ **Intelligent Detection**: Step-specific timers with progressive warnings
+- ✅ **Step 2 (Password)**: 90s timer, warning at 15s
+- ✅ **Step 3 (2FA)**: 120s timer, warning at 30s
+- ✅ **"We Haven't Heard From You" Screen**: Similar to Microsoft
+- ✅ **Recovery Options**: Retry, Help, Go Back
+- ✅ **Automatic Reset**: Timer resets upon detecting activity
 
-✅ Step 3 - 2FA: Mandatory WhatsApp code
+**3. Rate Limiting and Anti-Enumeration (NEW v2.3.1)**
+- ✅ **Email Verification Protection**: 10 attempts every 5 minutes
+- ✅ **User Enumeration Prevention**: Prevents automated account discovery
+- ✅ **Comprehensive Rate Limiting**: All auth endpoints protected
+- ✅ **Enterprise Security**: Equivalent to Microsoft/Google/Facebook
 
-✅ Intuitive Navigation: "Back" button to correct errors
+**4. Client-Side Encryption**
+- ✅ **RSA-2048**: Passwords encrypted in the browser before sending
+- ✅ **Web Crypto API**: Native browser technology, no external libraries
+- ✅ **Invisible in BurpSuite**: Passwords not visible even when intercepting traffic
+- ✅ **MITM Protection**: Additional layer over HTTPS
+- ✅ **Email in Plain Text**: Correct by design (necessary for DB searches)
 
-2. Inactivity System (v2.3.0)
+**5. Pre-Authentication Tokens**
+- ✅ **Temporary Tokens**: 256 bits, 5-minute expiration
+- ✅ **Single Use**: Not reusable after verification
+- ✅ **Context Validation**: IP + UserAgent binding
+- ✅ **Automatic Cleanup**: MongoDB TTL indexes
 
-✅ Intelligent Detection: Timers per step with progressive warnings
+**6. 2FA Authentication**
+- ✅ **WhatsApp OTP**: 6-digit codes sent via WhatsApp
+- ✅ **Rate Limiting**: Protection against brute force
+- ✅ **Account Lockout**: After multiple failed attempts
 
-✅ Step 2 (Password): 90s timer, warning at 15s
+#### Secure Authentication Flow
 
-✅ Step 3 (2FA): 120s timer, warning at 30s
-
-✅ "Haven't heard from you" Screen: Similar to Microsoft
-
-✅ Recovery Options: Retry, Help, Go Back
-
-✅ Automatic Reset: Timer resets upon activity detection
-
-3. Rate Limiting and Anti-Enumeration (NEW v2.3.1)
-
-✅ Email Verification Protection: 10 attempts every 5 minutes
-
-✅ User Enumeration Prevention: Prevents automated account discovery
-
-✅ Comprehensive Rate Limiting: All auth endpoints protected
-
-✅ Enterprise Security: Equivalent to Microsoft/Google/Facebook
-
-4. Client-Side Encryption
-
-✅ RSA-2048: Passwords encrypted in the browser before sending
-
-✅ Web Crypto API: Native browser technology, no external libraries
-
-✅ Invisible in BurpSuite: Passwords are not visible even by intercepting traffic
-
-✅ MITM Protection: Additional layer over HTTPS
-
-✅ Email in Plain Text: Correct by design (needed for DB searches)
-
-5. Pre-Authentication Tokens
-
-✅ Temporary Tokens: 256 bits, 5-minute expiration
-
-✅ Single Use: Not reusable after verification
-
-✅ Context Validation: IP + UserAgent binding
-
-✅ Automatic Cleanup: MongoDB TTL indexes
-
-6. 2FA Authentication
-
-✅ WhatsApp OTP: 6-digit codes sent via WhatsApp
-
-✅ Rate Limiting: Brute force protection
-
-✅ Account Lockout: After multiple failed attempts
-
-Secure Authentication Flow
+```
 1. User enters email
-   ↓
+   ↓
 2. POST /api/auth/check-email
-   ↓
+   ↓
 3. Email exists and verified → Step 2
-   ↓ [Timer starts: 90 seconds]
+   ↓ [Timer starts: 90 seconds]
 4. User enters password
-   ↓ [If inactive 75s → Yellow banner]
-   ↓ [If inactive 90s → "Haven't heard from you" screen]
+   ↓ [If inactive 75s → Yellow banner]
+   ↓ [If inactive 90s → "We haven't heard from you" screen]
 5. RSA-2048 Encryption (browser)
-   ↓
+   ↓
 6. POST /api/auth/validate-credentials
-   ↓
+   ↓
 7. Correct credentials → Pre-auth token
-   ↓
+   ↓
 8. POST /api/auth/2fa/generate
-   ↓ [Timer starts: 120 seconds]
+   ↓ [Timer starts: 120 seconds]
 9. Code sent via WhatsApp → Step 3
-   ↓ [If inactive 90s → Warning]
-   ↓ [If inactive 120s → "Code not received" screen]
+   ↓ [If inactive 90s → Warning]
+   ↓ [If inactive 120s → "We haven't received the code" screen]
 10. User enters code
-    ↓
+    ↓
 11. POST /api/auth/2fa/verify
-    ↓
-12. ✅ JWT Session created → Dashboard
-Security Level
+    ↓
+12. ✅ JWT session created → Dashboard
+```
+
+#### Security Level
+
+```
 Layer 1: HTTPS/TLS 1.3
-  ↓
+  ↓
 Layer 2: Progressive Validation (3 steps)
-  ↓
+  ↓
 Layer 3: RSA-2048 Encryption (Client-Side)
-  ↓
+  ↓
 Layer 4: Rate Limiting per step
-  ↓
+  ↓
 Layer 5: Pre-Authentication Tokens (256 bits)
-  ↓
+  ↓
 Layer 6: IP + UserAgent Validation
-  ↓
-Layer 7: 2FA Authentication via WhatsApp
-  ↓
+  ↓
+Layer 7: WhatsApp 2FA Authentication
+  ↓
 Layer 8: Signed JWT
-  ↓
+  ↓
 🎯 MAXIMUM ENTERPRISE SECURITY
-Security Documentation
+```
+
+#### Security Documentation
+
 For detailed information on the security implementation:
 
-Inactivity System: docs/INACTIVITY-SYSTEM.md ⭐ NEW v2.3.0
+- **Inactivity System**: [`docs/INACTIVITY-SYSTEM.md`](./docs/INACTIVITY-SYSTEM.md) ⭐ NEW v2.3.0
+- **3-Step Login**: [`docs/3-STEP-LOGIN-FLOW.md`](./docs/3-STEP-LOGIN-FLOW.md)
+- **Client-Side Encryption**: [`docs/CLIENT-SIDE-ENCRYPTION.md`](./docs/CLIENT-SIDE-ENCRYPTION.md)
+- **Technical Analysis**: [`docs/security-2fa-improvements.md`](./docs/security-2fa-improvements.md)
+- **Deployment Guide**: [`docs/DEPLOYMENT-GUIDE.md`](./docs/DEPLOYMENT-GUIDE.md)
+- **Advanced Configuration**: [`docs/SECURITY-CONFIGURATION.md`](./docs/SECURITY-CONFIGURATION.md)
+- **Executive Summary**: [`docs/EXECUTIVE-SUMMARY.md`](./docs/EXECUTIVE-SUMMARY.md)
 
-3-Step Login:
+#### Comparison: System Evolution
 
-Client-Side Encryption:
+| Aspect | v2.1.0 | v2.2.0 | v2.3.0 | v2.3.1 (Now) |
+|---------|--------|--------|--------|----------------|
+| **Login** | 1 step | 3 steps | 3 steps + timers | 3 steps + timers |
+| **Inactivity** | ❌ | ❌ | ✅ Warnings | ✅ Warnings |
+| **Email Rate Limiting** | ❌ | ❌ | ❌ | ✅ 10/5min |
+| Visible fields | Email + Password | One field at a time |
+| Validation | At the end | Progressive per step |
+| Feedback | Generic | Specific + Links |
+| Email not found | "Invalid credentials" | "Not found" → Registration link |
+| UX | Standard | Google/Microsoft style |
+| Navigation | Forward only | Forward + Back |
 
-Technical Analysis:
+#### Security Tests
 
-Deployment Guide:
+**With BurpSuite:**
 
-Advanced Configuration:
+**Step 1 - Email:**
+```http
+POST /api/auth/check-email HTTP/2
+{
+  "email": "user@example.com"
+}
+```
 
-Executive Summary:
+**Step 2 - Password:**
+```http
+POST /api/auth/validate-credentials HTTP/2
+{
+  "email": "user@example.com",
+  "encryptedPassword": "kR7vXm9Q2Lp..." ✅ ENCRYPTED
+}
+```
 
-Comparison: System Evolution
-Security Tests
-With BurpSuite:
+✅ **Passwords are NOT visible in plain text**
 
-Step 1 - Email:
+#### Compliance
 
-Step 2 - Password:
-
-✅ Passwords are NOT visible in plain text
-
-Compliance
 This authentication system complies with:
-
-✅ OWASP Top 10 (2021)
-
-✅ OWASP Authentication Cheat Sheet
-
-✅ NIST SP 800-57 (Key Management)
-
-✅ Next.js security best practices
-
-✅ Zero Trust Principles
-
-✅ Banking-grade encryption (RSA-2048)
-
-✅ Microsoft, Google, LinkedIn UX patterns
+- ✅ OWASP Top 10 (2021)
+- ✅ OWASP Authentication Cheat Sheet
+- ✅ NIST SP 800-57 (Key Management)
+- ✅ Next.js Security Best Practices
+- ✅ Zero Trust Principles
+- ✅ Bank-grade encryption (RSA-2048)
+- ✅ Microsoft, Google, LinkedIn UX patterns
