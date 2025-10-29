@@ -83,8 +83,8 @@ const AccessibilityHelper: React.FC = () => {
         {announcement}
       </div>
 
-      {/* Keyboard shortcuts help panel */}
-      <details className="fixed bottom-4 right-4 z-50 bg-white dark:bg-slate-900 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 max-w-sm">
+      {/* Keyboard shortcuts help panel - Hidden on mobile devices */}
+      <details className="hidden md:block fixed bottom-4 right-4 z-50 bg-white dark:bg-slate-900 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 max-w-sm">
         <summary className="px-4 py-3 cursor-pointer font-semibold text-sm text-slate-950 dark:text-white hover:bg-gray-50 dark:hover:bg-slate-800 rounded-t-lg focus-enhanced">
           ⌨️ Atajos de teclado
         </summary>
