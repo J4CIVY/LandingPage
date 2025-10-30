@@ -70,7 +70,22 @@ export async function POST(request: NextRequest) {
     const publicId = rawPublicId ? sanitizeFilename(rawPublicId) : undefined;
 
     // SECURITY FIX: Sanitize and validate folder path to prevent path traversal
-    const sanitizedFolder = folder.replace(/\.\./g, '').replace(/[^a-zA-Z0-9_\-\/]/g, '').substring(0, 100);
+    // Apply repeatedly to prevent nested patterns like "...." becoming ".."
+    let sanitizedFolder = folder;
+    let previous: string;
+    let iterations = 0;
+    const MAX_ITERATIONS = 10;
+    
+    do {
+      previous = sanitizedFolder;
+      sanitizedFolder = sanitizedFolder
+        .replace(/\.\./g, '') // Remove directory traversal patterns
+        .replace(/[^a-zA-Z0-9_\-/]/g, ''); // Only allow safe characters
+      iterations++;
+    } while (sanitizedFolder !== previous && iterations < MAX_ITERATIONS);
+    
+    sanitizedFolder = sanitizedFolder.substring(0, 100);
+    
     const allowedFolders = ['user-profiles', 'events', 'products', 'documents', 'gallery'];
     const isValidFolder = allowedFolders.some(allowed => sanitizedFolder.startsWith(allowed));
     

@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { FaHome, FaChevronRight } from 'react-icons/fa';
+import sanitizeHtml from 'sanitize-html';
 
 interface BreadcrumbItem {
   label: string;
@@ -13,6 +14,7 @@ interface BreadcrumbsProps {
 
 /**
  * Sanitize breadcrumb data to prevent XSS
+ * Uses sanitize-html library to properly handle nested tags
  * Removes dangerous URL schemes: javascript:, data:, vbscript:
  */
 const sanitizeBreadcrumbItem = (item: BreadcrumbItem): BreadcrumbItem => {
@@ -20,12 +22,34 @@ const sanitizeBreadcrumbItem = (item: BreadcrumbItem): BreadcrumbItem => {
   
   if (sanitizedHref) {
     // Remove dangerous URL schemes (javascript:, data:, vbscript:)
-    const dangerousSchemes = /^(javascript|data|vbscript):/gi;
-    sanitizedHref = sanitizedHref.replace(dangerousSchemes, '').substring(0, 200);
+    // Apply repeatedly to prevent nested patterns like "jajavascript:"
+    let previous: string;
+    let iterations = 0;
+    const MAX_ITERATIONS = 10;
+    
+    do {
+      previous = sanitizedHref;
+      sanitizedHref = sanitizedHref
+        .replace(/javascript\s*:/gi, '')
+        .replace(/data\s*:/gi, '')
+        .replace(/vbscript\s*:/gi, '');
+      iterations++;
+    } while (sanitizedHref !== previous && iterations < MAX_ITERATIONS);
+    
+    sanitizedHref = sanitizedHref.substring(0, 200);
   }
   
+  // Use sanitize-html library to properly remove all HTML tags
+  // This handles nested tags like <<script>script> correctly
+  const sanitizedLabel = sanitizeHtml(item.label, {
+    allowedTags: [], // Remove all HTML tags
+    allowedAttributes: {}, // Remove all attributes
+    disallowedTagsMode: 'recursiveEscape',
+    enforceHtmlBoundary: true,
+  });
+  
   return {
-    label: item.label.replace(/<[^>]*>/g, '').substring(0, 100),
+    label: sanitizedLabel.substring(0, 100),
     href: sanitizedHref
   };
 };

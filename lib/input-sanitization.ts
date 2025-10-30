@@ -111,11 +111,22 @@ export function sanitizeUrl(url: string): string {
 export function sanitizeFilename(filename: string): string {
   if (typeof filename !== 'string') return 'file';
 
-  return filename
+  let sanitized = filename
     .replace(/[^a-zA-Z0-9._-]/g, '_') // Remove special chars
-    .replace(/\.\.+/g, '.') // Remove directory traversal
-    .replace(/^\.+/, '') // Remove leading dots
-    .substring(0, 255); // Limit length
+    .replace(/^\.+/, ''); // Remove leading dots
+  
+  // Remove directory traversal patterns iteratively
+  let previous: string;
+  let iterations = 0;
+  const MAX_ITERATIONS = 10;
+  
+  do {
+    previous = sanitized;
+    sanitized = sanitized.replace(/\.\.+/g, '.'); // Remove multiple dots
+    iterations++;
+  } while (sanitized !== previous && iterations < MAX_ITERATIONS);
+  
+  return sanitized.substring(0, 255); // Limit length
 }
 
 /**
