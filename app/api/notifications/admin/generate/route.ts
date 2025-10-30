@@ -6,6 +6,7 @@ import User from '@/lib/models/User';
 import Event from '@/lib/models/Event';
 import Notification from '@/lib/models/Notification';
 import { requireCSRFToken } from '@/lib/csrf-protection';
+import { internalApiFetch } from '@/lib/internal-api-client';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
@@ -44,8 +45,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Ejecutar la generación automática
-    const generateResponse = await fetch(`${request.nextUrl.origin}/api/notifications/generate`, {
+    // Ejecutar la generación automática usando internal API client (SSRF protection)
+    const generateResponse = await internalApiFetch('/api/notifications/generate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

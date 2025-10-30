@@ -4,6 +4,7 @@ import { verify } from 'jsonwebtoken';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 import { requireCSRFToken } from '@/lib/csrf-protection';
+import { internalApiFetch } from '@/lib/internal-api-client';
 
 // Plantillas predefinidas
 const NOTIFICATION_TEMPLATES = [
@@ -250,8 +251,8 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Crear notificación usando la API de creación
-    const createNotificationResponse = await fetch(`${request.nextUrl.origin}/api/notifications/admin/create`, {
+    // Crear notificación usando la API de creación (SSRF protection)
+    const createNotificationResponse = await internalApiFetch('/api/notifications/admin/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
