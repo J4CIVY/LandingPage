@@ -22,8 +22,8 @@ const sanitizeForJsonLd = (obj: any): any => {
     do {
       previous = sanitized;
       sanitized = sanitized
-        .replace(/<script[\s\S]*?<\/script[^>]*>/gi, '') // Remove script blocks
-        .replace(/<script[^>]*>/gi, '') // Remove opening script tags
+        .replace(/<.*>/gi, '') // Remove script blocks
+        .replace(/<.*>/gi, '') // Remove opening script tags
         .replace(/<\/script[^>]*>/gi, '') // Remove closing script tags
         .replace(/<iframe[\s\S]*?<\/iframe[^>]*>/gi, '') // Remove iframe blocks
         .replace(/<iframe[^>]*>/gi, '') // Remove opening iframe tags
