@@ -1,4 +1,5 @@
 import React from 'react';
+import sanitizeHtml from 'sanitize-html';
 
 interface StructuredDataProps {
   type: 'organization' | 'event' | 'product' | 'article' | 'localBusiness' | 'website' | 'motorcycleClub';
@@ -7,33 +8,29 @@ interface StructuredDataProps {
 
 /**
  * Sanitize data to prevent XSS in JSON-LD
- * JSON.stringify automatically escapes dangerous characters, but we add extra validation
- * Applies replacements repeatedly to prevent nested tag bypass attacks
+ * Uses the well-tested sanitize-html library to handle all edge cases
+ * including nested tags and incomplete multi-character patterns
  */
 const sanitizeForJsonLd = (obj: any): any => {
   if (typeof obj === 'string') {
-    // Remove any potential script tags or dangerous content
-    let sanitized = obj;
-    let previous: string;
-    let iterations = 0;
-    const MAX_ITERATIONS = 10;
+    // Use sanitize-html library with strict configuration
+    // This handles nested tags and complex attack vectors properly
+    const sanitized = sanitizeHtml(obj, {
+      allowedTags: [], // Remove all HTML tags
+      allowedAttributes: {}, // Remove all attributes
+      disallowedTagsMode: 'recursiveEscape', // Recursively escape disallowed tags
+      enforceHtmlBoundary: true,
+      parseStyleAttributes: false,
+    });
     
-    // Apply replacements repeatedly until no more changes
-    do {
-      previous = sanitized;
-      sanitized = sanitized
-        .replace(/<.*>/gi, '') // Remove script blocks
-        .replace(/<.*>/gi, '') // Remove opening script tags
-        .replace(/<\/script[^>]*>/gi, '') // Remove closing script tags
-        .replace(/<iframe[\s\S]*?<\/iframe[^>]*>/gi, '') // Remove iframe blocks
-        .replace(/<iframe[^>]*>/gi, '') // Remove opening iframe tags
-        .replace(/<\/iframe[^>]*>/gi, '') // Remove closing iframe tags
-        .replace(/javascript\s*:/gi, '') // Remove javascript: protocol
-        .replace(/on\w+\s*=/gi, ''); // Remove event handlers
-      iterations++;
-    } while (sanitized !== previous && iterations < MAX_ITERATIONS);
+    // Additional protocol and event handler removal as defense in depth
+    const cleaned = sanitized
+      .replace(/javascript\s*:/gi, '') // Remove javascript: protocol
+      .replace(/data\s*:/gi, '') // Remove data: protocol
+      .replace(/vbscript\s*:/gi, '') // Remove vbscript: protocol
+      .replace(/on\w+\s*=/gi, ''); // Remove event handlers
     
-    return sanitized.substring(0, 5000); // Limit string length
+    return cleaned.substring(0, 5000); // Limit string length to prevent DoS
   }
   if (Array.isArray(obj)) {
     return obj.map(sanitizeForJsonLd);
