@@ -4,10 +4,13 @@ declare global {
   var mongoose: any; // This must be a `var` and not a `let / const`
 }
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://bskmt:6j4q3Az78Qto2Q3ZIu2TCTwCf5BPIHQ3@bskmtbd.ddgvaxa.mongodb.net/?retryWrites=true&w=majority&appName=BSKMTBD';
+const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
+  throw new Error(
+    'Please define the MONGODB_URI environment variable inside .env.local\n' +
+    'Never hardcode credentials in source code!'
+  );
 }
 
 let cached = global.mongoose;
@@ -30,7 +33,8 @@ async function connectDB() {
       family: 4
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+    // TypeScript: MONGODB_URI is guaranteed to be defined due to the check above
+    cached.promise = mongoose.connect(MONGODB_URI as string, opts).then((mongoose) => {
       console.log('✅ MongoDB Atlas connected successfully');
       return mongoose;
     }).catch((error) => {
