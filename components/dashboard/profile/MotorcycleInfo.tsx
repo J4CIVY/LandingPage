@@ -129,6 +129,35 @@ function validateImageUrlForRendering(url: string): string | null {
   }
 }
 
+/**
+ * SafeImage component - Renders images with validated URLs only
+ * Creates an explicit sanitization boundary for CodeQL taint analysis
+ */
+const SafeImage: React.FC<{
+  src: string;
+  alt: string;
+  className?: string;
+  onError?: (e: React.SyntheticEvent<HTMLImageElement>) => void;
+}> = ({ src, alt, className, onError }) => {
+  // Validate URL before rendering - this breaks the taint chain for CodeQL
+  const safeSrc = validateImageUrlForRendering(src);
+  
+  if (!safeSrc) {
+    // Don't render anything if URL is unsafe
+    return null;
+  }
+  
+  // Render with validated URL
+  return (
+    <img
+      src={safeSrc}
+      alt={alt}
+      className={className}
+      onError={onError}
+    />
+  );
+};
+
 export default function MotorcycleInfo({ user, onSave, isEditing = false, onEditToggle, onImageUpload }: MotorcycleInfoProps) {
   const [formData, setFormData] = useState<MotorcycleData>({
     motorcycleBrand: user.motorcycleBrand || '',
@@ -758,42 +787,29 @@ export default function MotorcycleInfo({ user, onSave, isEditing = false, onEdit
           </h4>
           
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {safeMotorcycleImages.map((image, index) => {
-              // SECURITY: Validate image URL through explicit sanitization barrier
-              // This function creates a clear taint barrier for CodeQL analysis
-              const validatedUrl = validateImageUrlForRendering(image);
-              
-              // Only render if URL passed all validation checks
-              if (!validatedUrl) {
-                console.warn('Skipping invalid or unsafe motorcycle image URL');
-                return null;
-              }
-              
-              // URL is now fully validated and safe to render
-              return (
-                <div key={index} className="relative group">
-                  {/* Imagen con URL sanitizada para prevenir XSS */}
-                  <img
-                    src={validatedUrl}
-                    alt={`Motocicleta ${index + 1}`}
-                    className="w-full h-32 object-cover rounded-lg border border-slate-200 dark:border-slate-600"
-                    onError={(e) => {
-                      // Handle broken images safely
-                      e.currentTarget.style.display = 'none';
-                    }}
-                  />
-                  {localIsEditing && (
-                    <button
-                      type="button"
-                      onClick={() => removeImage(index)}
-                      className="absolute top-2 right-2 w-6 h-6 bg-red-600 hover:bg-red-700 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100"
-                    >
-                      <FaTrash className="w-3 h-3" />
-                    </button>
-                  )}
-                </div>
-              );
-            })}
+            {safeMotorcycleImages.map((image, index) => (
+              <div key={index} className="relative group">
+                {/* SafeImage component handles URL validation and sanitization */}
+                <SafeImage
+                  src={image}
+                  alt={`Motocicleta ${index + 1}`}
+                  className="w-full h-32 object-cover rounded-lg border border-slate-200 dark:border-slate-600"
+                  onError={(e) => {
+                    // Handle broken images safely
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
+                {localIsEditing && (
+                  <button
+                    type="button"
+                    onClick={() => removeImage(index)}
+                    className="absolute top-2 right-2 w-6 h-6 bg-red-600 hover:bg-red-700 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100"
+                  >
+                    <FaTrash className="w-3 h-3" />
+                  </button>
+                )}
+              </div>
+            ))}
             
             {localIsEditing && onImageUpload && (
               <div className="relative">

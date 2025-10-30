@@ -146,6 +146,35 @@ function validateImageUrlForRendering(url: string): string | null {
   }
 }
 
+/**
+ * SafeImage component - Renders images with validated URLs only
+ * Creates an explicit sanitization boundary for CodeQL taint analysis
+ */
+const SafeImage: React.FC<{
+  src: string;
+  alt: string;
+  className?: string;
+  onError?: (e: React.SyntheticEvent<HTMLImageElement>) => void;
+}> = ({ src, alt, className, onError }) => {
+  // Validate URL before rendering - this breaks the taint chain for CodeQL
+  const safeSrc = validateImageUrlForRendering(src);
+  
+  if (!safeSrc) {
+    // Don't render anything if URL is unsafe
+    return null;
+  }
+  
+  // Render with validated URL
+  return (
+    <img
+      src={safeSrc}
+      alt={alt}
+      className={className}
+      onError={onError}
+    />
+  );
+};
+
 const categories = [
   { value: 'cascos', label: 'Cascos' },
   { value: 'chaquetas', label: 'Chaquetas' },
@@ -707,39 +736,26 @@ export default function ProductFormPage() {
                 </div>
                 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  {safeGallery.map((image, index) => {
-                    // SECURITY: Validate image URL through explicit sanitization barrier
-                    // This function creates a clear taint barrier for CodeQL analysis
-                    const validatedUrl = validateImageUrlForRendering(image);
-                    
-                    // Only render if URL passed all validation checks
-                    if (!validatedUrl) {
-                      console.warn('Skipping invalid or unsafe image URL');
-                      return null;
-                    }
-                    
-                    // URL is now fully validated and safe to render
-                    return (
-                      <div key={index} className="relative group">
-                        {/* Imagen con URL sanitizada para prevenir XSS */}
-                        <img
-                          src={validatedUrl}
-                          alt={`Galería ${index + 1}`}
-                          className="w-full h-24 object-cover rounded border"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = '/placeholder-product.jpg';
-                          }}
-                        />
-                        <button
-                          type="button"
-                          onClick={() => removeFromGallery(index)}
-                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
-                        >
-                          ×
-                        </button>
-                      </div>
-                    );
-                  })}
+                  {safeGallery.map((image, index) => (
+                    <div key={index} className="relative group">
+                      {/* SafeImage component handles URL validation and sanitization */}
+                      <SafeImage
+                        src={image}
+                        alt={`Galería ${index + 1}`}
+                        className="w-full h-24 object-cover rounded border"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = '/placeholder-product.jpg';
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeFromGallery(index)}
+                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
