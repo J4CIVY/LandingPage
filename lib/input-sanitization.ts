@@ -222,13 +222,21 @@ export function sanitizePhone(phone: string): string {
 export function sanitizeText(text: string, maxLength: number = 10000): string {
   if (typeof text !== 'string') return '';
 
-  return text
-    .trim()
-    .substring(0, maxLength)
-    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '') // Remove scripts
-    .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '') // Remove iframes
-    .replace(/javascript:/gi, '') // Remove javascript: protocol
-    .replace(/on\w+\s*=/gi, ''); // Remove event handlers
+  let sanitized = text.trim().substring(0, maxLength);
+  
+  // Apply replacements repeatedly until no more matches to prevent nested tag bypass
+  // This prevents attacks like: <scrip<script>t>alert()</script>
+  let previous: string;
+  do {
+    previous = sanitized;
+    sanitized = sanitized
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '') // Remove scripts
+      .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '') // Remove iframes
+      .replace(/javascript:/gi, '') // Remove javascript: protocol
+      .replace(/on\w+\s*=/gi, ''); // Remove event handlers
+  } while (sanitized !== previous);
+  
+  return sanitized;
 }
 
 /**
