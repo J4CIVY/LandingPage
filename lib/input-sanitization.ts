@@ -227,14 +227,23 @@ export function sanitizeText(text: string, maxLength: number = 10000): string {
   // Apply replacements repeatedly until no more matches to prevent nested tag bypass
   // This prevents attacks like: <scrip<script>t>alert()</script>
   let previous: string;
+  let iterations = 0;
+  const MAX_ITERATIONS = 10; // Prevent infinite loops
+  
   do {
     previous = sanitized;
+    // Remove dangerous tags and protocols using simpler character-based approach
     sanitized = sanitized
-      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '') // Remove scripts
-      .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '') // Remove iframes
+      .replace(/<script[\s\S]*?<\/script>/gi, '') // Remove script tags (simpler pattern)
+      .replace(/<script[^>]*>/gi, '') // Remove opening script tags
+      .replace(/<\/script>/gi, '') // Remove closing script tags
+      .replace(/<iframe[\s\S]*?<\/iframe>/gi, '') // Remove iframe tags (simpler pattern)
+      .replace(/<iframe[^>]*>/gi, '') // Remove opening iframe tags
+      .replace(/<\/iframe>/gi, '') // Remove closing iframe tags
       .replace(/javascript:/gi, '') // Remove javascript: protocol
       .replace(/on\w+\s*=/gi, ''); // Remove event handlers
-  } while (sanitized !== previous);
+    iterations++;
+  } while (sanitized !== previous && iterations < MAX_ITERATIONS);
   
   return sanitized;
 }
