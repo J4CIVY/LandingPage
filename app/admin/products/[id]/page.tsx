@@ -112,6 +112,40 @@ function sanitizeImageUrl(url: string): string {
   }
 }
 
+/**
+ * Valida y sanitiza una URL de imagen antes de renderizarla
+ * Esta función crea una barrera de sanitización explícita que CodeQL puede rastrear
+ * @param url - URL potencialmente no segura
+ * @returns URL sanitizada o null si no es segura
+ */
+function validateImageUrlForRendering(url: string): string | null {
+  if (!url || typeof url !== 'string') {
+    return null;
+  }
+  
+  // Bloquear protocolos peligrosos
+  if (/^(javascript|vbscript|file|data:(?!image\/))/i.test(url)) {
+    console.error('Blocked dangerous protocol in image URL');
+    return null;
+  }
+  
+  // Validar estructura de URL
+  try {
+    if (url.startsWith('data:image/')) {
+      // Validar data URL estrictamente
+      const isValid = /^data:image\/(jpeg|jpg|png|webp|gif);base64,[A-Za-z0-9+/=]+$/.test(url);
+      return isValid ? url : null;
+    } else {
+      // Validar URL regular
+      const parsed = new URL(url, window.location.origin);
+      const isValid = parsed.protocol === 'http:' || parsed.protocol === 'https:';
+      return isValid ? url : null;
+    }
+  } catch {
+    return null;
+  }
+}
+
 const categories = [
   { value: 'cascos', label: 'Cascos' },
   { value: 'chaquetas', label: 'Chaquetas' },
@@ -674,44 +708,22 @@ export default function ProductFormPage() {
                 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {safeGallery.map((image, index) => {
-                    // SECURITY: Double-check sanitization at render time to prevent XSS
-                    // This creates an explicit sanitization barrier that CodeQL can track
-                    if (!image || typeof image !== 'string') return null;
+                    // SECURITY: Validate image URL through explicit sanitization barrier
+                    // This function creates a clear taint barrier for CodeQL analysis
+                    const validatedUrl = validateImageUrlForRendering(image);
                     
-                    // SECURITY: Verify the URL doesn't contain dangerous patterns
-                    // Block javascript:, vbscript:, file:, and malicious data: URLs
-                    const isDangerousUrl = /^(javascript|data:(?!image\/)|vbscript|file):/i.test(image);
-                    if (isDangerousUrl) {
-                      console.error('Blocked potentially dangerous image URL at render time');
+                    // Only render if URL passed all validation checks
+                    if (!validatedUrl) {
+                      console.warn('Skipping invalid or unsafe image URL');
                       return null;
                     }
                     
-                    // SECURITY: Additional validation - ensure it's a valid URL or data:image
-                    let isValidUrl = false;
-                    try {
-                      if (image.startsWith('data:image/')) {
-                        // Validate data URL structure strictly
-                        isValidUrl = /^data:image\/(jpeg|jpg|png|webp|gif);base64,[A-Za-z0-9+/=]+$/.test(image);
-                      } else {
-                        // Validate regular URL
-                        const url = new URL(image, window.location.origin);
-                        isValidUrl = url.protocol === 'http:' || url.protocol === 'https:';
-                      }
-                    } catch {
-                      isValidUrl = false;
-                    }
-                    
-                    if (!isValidUrl) {
-                      console.error('Invalid image URL format');
-                      return null;
-                    }
-                    
-                    // URL is now sanitized and validated - safe to render
+                    // URL is now fully validated and safe to render
                     return (
                       <div key={index} className="relative group">
                         {/* Imagen con URL sanitizada para prevenir XSS */}
                         <img
-                          src={image}
+                          src={validatedUrl}
                           alt={`Galería ${index + 1}`}
                           className="w-full h-24 object-cover rounded border"
                           onError={(e) => {
