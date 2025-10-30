@@ -8,14 +8,32 @@ interface StructuredDataProps {
 /**
  * Sanitize data to prevent XSS in JSON-LD
  * JSON.stringify automatically escapes dangerous characters, but we add extra validation
+ * Applies replacements repeatedly to prevent nested tag bypass attacks
  */
 const sanitizeForJsonLd = (obj: any): any => {
   if (typeof obj === 'string') {
     // Remove any potential script tags or dangerous content
-    return obj.replace(/<script[^>]*>.*?<\/script>/gi, '')
-              .replace(/<iframe[^>]*>.*?<\/iframe>/gi, '')
-              .replace(/javascript:/gi, '')
-              .substring(0, 5000); // Limit string length
+    let sanitized = obj;
+    let previous: string;
+    let iterations = 0;
+    const MAX_ITERATIONS = 10;
+    
+    // Apply replacements repeatedly until no more changes
+    do {
+      previous = sanitized;
+      sanitized = sanitized
+        .replace(/<script[\s\S]*?<\/script[^>]*>/gi, '') // Remove script blocks
+        .replace(/<script[^>]*>/gi, '') // Remove opening script tags
+        .replace(/<\/script[^>]*>/gi, '') // Remove closing script tags
+        .replace(/<iframe[\s\S]*?<\/iframe[^>]*>/gi, '') // Remove iframe blocks
+        .replace(/<iframe[^>]*>/gi, '') // Remove opening iframe tags
+        .replace(/<\/iframe[^>]*>/gi, '') // Remove closing iframe tags
+        .replace(/javascript\s*:/gi, '') // Remove javascript: protocol
+        .replace(/on\w+\s*=/gi, ''); // Remove event handlers
+      iterations++;
+    } while (sanitized !== previous && iterations < MAX_ITERATIONS);
+    
+    return sanitized.substring(0, 5000); // Limit string length
   }
   if (Array.isArray(obj)) {
     return obj.map(sanitizeForJsonLd);
