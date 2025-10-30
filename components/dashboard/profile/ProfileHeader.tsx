@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { FaUser, FaEdit, FaCamera, FaCheck, FaTimes } from 'react-icons/fa';
 import { IUser } from '@/lib/models/User';
-import { sanitizeText } from '@/lib/input-sanitization';
+import { sanitizeText, sanitizeUrl } from '@/lib/input-sanitization';
 
 interface ProfileHeaderProps {
   user: any;
@@ -51,6 +51,29 @@ export default function ProfileHeader({ user, onEdit, onAvatarChange, isEditing 
   const safeFirstName = sanitizeText(user.firstName || '', 50);
   const safeLastName = sanitizeText(user.lastName || '', 50);
   const safeEmail = user.email; // Email already validated by schema
+  
+  // SECURITY: Sanitize profile image URL to prevent XSS
+  const safeProfileImage = useMemo(() => {
+    if (!user.profileImage) return null;
+    
+    const sanitized = sanitizeUrl(user.profileImage);
+    if (!sanitized) {
+      console.warn('Blocked unsafe profile image URL');
+      return null;
+    }
+    
+    // Additional check for image-specific URLs
+    try {
+      const url = new URL(sanitized, window.location.origin);
+      if (url.protocol !== 'http:' && url.protocol !== 'https:' && !sanitized.startsWith('data:image/')) {
+        return null;
+      }
+    } catch {
+      return null;
+    }
+    
+    return sanitized;
+  }, [user.profileImage]);
 
   const handleAvatarChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -83,11 +106,15 @@ export default function ProfileHeader({ user, onEdit, onAvatarChange, isEditing 
             onMouseLeave={() => setIsHovering(false)}
           >
             <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-slate-200 dark:border-slate-600 bg-slate-100 dark:bg-slate-700 flex items-center justify-center relative">
-              {user.profileImage ? (
+              {safeProfileImage ? (
                 <img
-                  src={user.profileImage}
+                  src={safeProfileImage}
                   alt={`${safeFirstName} ${safeLastName}`}
                   className="w-full h-full object-cover"
+                  onError={(e) => {
+                    // Handle broken/malicious images
+                    e.currentTarget.style.display = 'none';
+                  }}
                 />
               ) : (
                 <FaUser className="w-12 h-12 text-slate-400 dark:text-slate-500" />

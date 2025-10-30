@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { FaUser } from 'react-icons/fa';
+import { sanitizeUrl } from '@/lib/input-sanitization';
 
 interface UserAvatarProps {
   imageUrl?: string;
@@ -16,6 +17,30 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
   className = '',
   showBorder = true,
 }) => {
+  // SECURITY: Sanitize image URL to prevent XSS
+  const safeImageUrl = useMemo(() => {
+    if (!imageUrl) return null;
+    
+    const sanitized = sanitizeUrl(imageUrl);
+    if (!sanitized) {
+      console.warn('Blocked unsafe avatar URL');
+      return null;
+    }
+    
+    // Additional validation for image URLs
+    try {
+      const url = new URL(sanitized, window.location.origin);
+      if (url.protocol !== 'http:' && url.protocol !== 'https:' && !sanitized.startsWith('data:image/')) {
+        return null;
+      }
+    } catch {
+      // Invalid URL
+      return null;
+    }
+    
+    return sanitized;
+  }, [imageUrl]);
+
   const sizeClasses = {
     sm: 'w-8 h-8',
     md: 'w-12 h-12',
@@ -54,9 +79,9 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
         ${className}
       `}
     >
-      {imageUrl ? (
+      {safeImageUrl ? (
         <img
-          src={imageUrl}
+          src={safeImageUrl}
           alt={name || 'Avatar de usuario'}
           className="w-full h-full object-cover"
           onError={(e) => {
