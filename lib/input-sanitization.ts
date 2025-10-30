@@ -36,7 +36,7 @@ export function sanitizeHtml(dirty: string, allowBasicFormatting: boolean = fals
 
   // If basic formatting is allowed, use sanitize-html library
   // This properly handles nested tags and complex attack vectors
-  const sanitized = sanitizeHtmlLib(dirty, {
+  let sanitized = sanitizeHtmlLib(dirty, {
     allowedTags: ['b', 'i', 'em', 'strong', 'p', 'br', 'ul', 'ol', 'li', 'a', 'span'],
     allowedAttributes: {
       'a': ['href', 'title', 'target'],
@@ -49,11 +49,22 @@ export function sanitizeHtml(dirty: string, allowBasicFormatting: boolean = fals
   });
 
   // Additional protocol and event handler removal as defense in depth
-  return sanitized
-    .replace(/javascript\s*:/gi, '') // Remove javascript: protocol
-    .replace(/data\s*:/gi, '') // Remove data: protocol
-    .replace(/vbscript\s*:/gi, '') // Remove vbscript: protocol
-    .replace(/on\w+\s*=/gi, ''); // Remove event handlers
+  // Apply repeatedly to prevent nested patterns like "jajavascript:" or "ononclick="
+  let previous: string;
+  let iterations = 0;
+  const MAX_ITERATIONS = 10;
+  
+  do {
+    previous = sanitized;
+    sanitized = sanitized
+      .replace(/javascript\s*:/gi, '') // Remove javascript: protocol
+      .replace(/data\s*:/gi, '') // Remove data: protocol
+      .replace(/vbscript\s*:/gi, '') // Remove vbscript: protocol
+      .replace(/on\w+\s*=/gi, ''); // Remove event handlers
+    iterations++;
+  } while (sanitized !== previous && iterations < MAX_ITERATIONS);
+  
+  return sanitized;
 }
 
 /**
@@ -224,7 +235,7 @@ export function sanitizeText(text: string, maxLength: number = 10000): string {
   
   // Use sanitize-html library with strict configuration
   // This properly handles nested tags like <iframe<iframe>...</iframe>>
-  const sanitized = sanitizeHtmlLib(truncated, {
+  let sanitized = sanitizeHtmlLib(truncated, {
     allowedTags: [], // Remove all HTML tags
     allowedAttributes: {}, // Remove all attributes
     disallowedTagsMode: 'recursiveEscape', // Recursively escape disallowed tags
@@ -233,11 +244,22 @@ export function sanitizeText(text: string, maxLength: number = 10000): string {
   });
   
   // Additional protocol and event handler removal as defense in depth
-  return sanitized
-    .replace(/javascript\s*:/gi, '') // Remove javascript: protocol (with optional whitespace)
-    .replace(/data\s*:/gi, '') // Remove data: protocol
-    .replace(/vbscript\s*:/gi, '') // Remove vbscript: protocol
-    .replace(/on\w+\s*=/gi, ''); // Remove event handlers
+  // Apply repeatedly to prevent nested patterns like "jajavascript:" or "ononclick="
+  let previous: string;
+  let iterations = 0;
+  const MAX_ITERATIONS = 10;
+  
+  do {
+    previous = sanitized;
+    sanitized = sanitized
+      .replace(/javascript\s*:/gi, '') // Remove javascript: protocol (with optional whitespace)
+      .replace(/data\s*:/gi, '') // Remove data: protocol
+      .replace(/vbscript\s*:/gi, '') // Remove vbscript: protocol
+      .replace(/on\w+\s*=/gi, ''); // Remove event handlers
+    iterations++;
+  } while (sanitized !== previous && iterations < MAX_ITERATIONS);
+  
+  return sanitized;
 }
 
 /**

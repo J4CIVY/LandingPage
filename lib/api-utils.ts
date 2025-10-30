@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ZodSchema, ZodError } from 'zod';
+import sanitizeHtmlLib from 'sanitize-html';
 
 /**
  * Tipos para las respuestas de la API
@@ -15,7 +16,7 @@ export interface ApiResponse<T = any> {
 /**
  * Tipos para errores de la API
  */
-export interface ApiError {
+export interface ApiErrorResponse {
   status: number;
   message: string;
   details?: any;
@@ -207,27 +208,32 @@ export function isValidColombianPhone(phone: string): boolean {
 
 /**
  * Sanitiza strings para prevenir inyecciones
- * Aplica reemplazos repetidamente para prevenir ataques de bypass con tags anidados
+ * Usa la librería sanitize-html para manejar correctamente todos los casos edge
+ * incluyendo tags anidados y patrones de múltiples caracteres incompletos
  */
 export function sanitizeString(input: string): string {
-  let sanitized = input;
+  // Use sanitize-html library with strict configuration
+  let sanitized = sanitizeHtmlLib(input, {
+    allowedTags: [], // Remove all HTML tags
+    allowedAttributes: {}, // Remove all attributes
+    disallowedTagsMode: 'recursiveEscape', // Recursively escape disallowed tags
+    enforceHtmlBoundary: true,
+    parseStyleAttributes: false,
+  });
+  
+  // Additional protocol and event handler removal as defense in depth
+  // Apply repeatedly to prevent nested patterns like "jajavascript:" or "ononclick="
   let previous: string;
   let iterations = 0;
-  const MAX_ITERATIONS = 10; // Prevenir loops infinitos
+  const MAX_ITERATIONS = 10;
   
-  // Aplicar reemplazos repetidamente hasta que no haya más cambios
   do {
     previous = sanitized;
     sanitized = sanitized
-      .replace(/<script[\s\S]*?<\/script[^>]*>/gi, '') // Remover bloques script (maneja </script foo="bar">)
-      .replace(/<script[^>]*>/gi, '') // Remover tags script de apertura
-      .replace(/<\/script[^>]*>/gi, '') // Remover tags script de cierre con atributos
-      .replace(/<iframe[\s\S]*?<\/iframe[^>]*>/gi, '') // Remover bloques iframe
-      .replace(/<iframe[^>]*>/gi, '') // Remover tags iframe de apertura
-      .replace(/<\/iframe[^>]*>/gi, '') // Remover tags iframe de cierre
       .replace(/javascript\s*:/gi, '') // Remover protocolo javascript:
-      .replace(/on\w+\s*=/gi, '') // Remover event handlers
-      .replace(/[<>]/g, ''); // Remover caracteres < y > restantes
+      .replace(/data\s*:/gi, '') // Remover protocolo data:
+      .replace(/vbscript\s*:/gi, '') // Remover protocolo vbscript:
+      .replace(/on\w+\s*=/gi, ''); // Remover event handlers
     iterations++;
   } while (sanitized !== previous && iterations < MAX_ITERATIONS);
   

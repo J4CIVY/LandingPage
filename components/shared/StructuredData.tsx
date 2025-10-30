@@ -15,7 +15,7 @@ const sanitizeForJsonLd = (obj: any): any => {
   if (typeof obj === 'string') {
     // Use sanitize-html library with strict configuration
     // This handles nested tags and complex attack vectors properly
-    const sanitized = sanitizeHtml(obj, {
+    let sanitized = sanitizeHtml(obj, {
       allowedTags: [], // Remove all HTML tags
       allowedAttributes: {}, // Remove all attributes
       disallowedTagsMode: 'recursiveEscape', // Recursively escape disallowed tags
@@ -24,13 +24,22 @@ const sanitizeForJsonLd = (obj: any): any => {
     });
     
     // Additional protocol and event handler removal as defense in depth
-    const cleaned = sanitized
-      .replace(/javascript\s*:/gi, '') // Remove javascript: protocol
-      .replace(/data\s*:/gi, '') // Remove data: protocol
-      .replace(/vbscript\s*:/gi, '') // Remove vbscript: protocol
-      .replace(/on\w+\s*=/gi, ''); // Remove event handlers
+    // Apply repeatedly to prevent nested patterns like "jajavascript:" or "ononclick="
+    let previous: string;
+    let iterations = 0;
+    const MAX_ITERATIONS = 10;
     
-    return cleaned.substring(0, 5000); // Limit string length to prevent DoS
+    do {
+      previous = sanitized;
+      sanitized = sanitized
+        .replace(/javascript\s*:/gi, '') // Remove javascript: protocol
+        .replace(/data\s*:/gi, '') // Remove data: protocol
+        .replace(/vbscript\s*:/gi, '') // Remove vbscript: protocol
+        .replace(/on\w+\s*=/gi, ''); // Remove event handlers
+      iterations++;
+    } while (sanitized !== previous && iterations < MAX_ITERATIONS);
+    
+    return sanitized.substring(0, 5000); // Limit string length to prevent DoS
   }
   if (Array.isArray(obj)) {
     return obj.map(sanitizeForJsonLd);
