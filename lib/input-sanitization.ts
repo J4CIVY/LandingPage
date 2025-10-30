@@ -232,15 +232,16 @@ export function sanitizeText(text: string, maxLength: number = 10000): string {
   
   do {
     previous = sanitized;
-    // Remove dangerous tags and protocols using simpler character-based approach
+    // Remove dangerous tags - handles malformed closing tags that browsers accept
+    // e.g., </script foo="bar"> is valid to browsers even though it's malformed
     sanitized = sanitized
-      .replace(/<script[\s\S]*?<\/script>/gi, '') // Remove script tags (simpler pattern)
+      .replace(/<script[\s\S]*?<\/script[^>]*>/gi, '') // Remove script blocks (handles </script foo="bar">)
       .replace(/<script[^>]*>/gi, '') // Remove opening script tags
-      .replace(/<\/script>/gi, '') // Remove closing script tags
-      .replace(/<iframe[\s\S]*?<\/iframe>/gi, '') // Remove iframe tags (simpler pattern)
+      .replace(/<\/script[^>]*>/gi, '') // Remove closing script tags with attributes
+      .replace(/<iframe[\s\S]*?<\/iframe[^>]*>/gi, '') // Remove iframe blocks (handles </iframe foo="bar">)
       .replace(/<iframe[^>]*>/gi, '') // Remove opening iframe tags
-      .replace(/<\/iframe>/gi, '') // Remove closing iframe tags
-      .replace(/javascript:/gi, '') // Remove javascript: protocol
+      .replace(/<\/iframe[^>]*>/gi, '') // Remove closing iframe tags with attributes
+      .replace(/javascript\s*:/gi, '') // Remove javascript: protocol (with optional whitespace)
       .replace(/on\w+\s*=/gi, ''); // Remove event handlers
     iterations++;
   } while (sanitized !== previous && iterations < MAX_ITERATIONS);
