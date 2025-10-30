@@ -1,6 +1,35 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { FaCamera, FaSpinner, FaUser, FaTimes } from 'react-icons/fa';
 import { useImageUpload } from '@/hooks/useImageUpload';
+
+/**
+ * Sanitize image URL to prevent XSS attacks
+ * Only allows safe protocols: https, http, and data URLs
+ */
+const sanitizeImageUrl = (url: string | null): string | null => {
+  if (!url) return null;
+  
+  try {
+    // Allow data URLs (from FileReader)
+    if (url.startsWith('data:image/')) {
+      return url;
+    }
+    
+    // Parse and validate regular URLs
+    const parsedUrl = new URL(url, window.location.origin);
+    
+    // Only allow http and https protocols
+    if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
+      console.warn('Blocked unsafe URL protocol:', parsedUrl.protocol);
+      return null;
+    }
+    
+    return parsedUrl.toString();
+  } catch (error) {
+    console.warn('Invalid URL:', url);
+    return null;
+  }
+};
 
 interface ImageUploadProps {
   onImageUploaded: (imageUrl: string) => void;
@@ -25,6 +54,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { uploading, uploadImage, uploadError, clearError } = useImageUpload();
+
+  // Sanitize preview URL to prevent XSS
+  const safePreviewUrl = useMemo(() => sanitizeImageUrl(previewUrl), [previewUrl]);
 
   const handleFileSelect = async (file: File) => {
     if (disabled || uploading) return;
@@ -137,11 +169,11 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         `}
       >
         {/* Contenido del círculo */}
-        {previewUrl ? (
+        {safePreviewUrl ? (
           <>
-            {/* Imagen preview */}
+            {/* Imagen preview con URL sanitizada para prevenir XSS */}
             <img
-              src={previewUrl}
+              src={safePreviewUrl}
               alt="Preview"
               className="w-full h-full object-cover"
             />

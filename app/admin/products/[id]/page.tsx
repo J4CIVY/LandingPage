@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuth } from '@/hooks/useAuth';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { getCSRFToken } from '@/lib/csrf-client';
 import AdminLayout from '@/components/admin/AdminLayout';
@@ -67,6 +67,36 @@ const initialFormData: ProductFormData = {
   tags: []
 };
 
+/**
+ * Sanitiza URLs de imágenes para prevenir XSS
+ * Solo permite protocolos seguros: http, https, y data:image
+ */
+function sanitizeImageUrl(url: string): string {
+  if (!url) return '';
+  
+  try {
+    // Para data URLs, validar que sea una imagen
+    if (url.startsWith('data:')) {
+      if (url.startsWith('data:image/')) {
+        return url;
+      }
+      return ''; // Bloquear data URLs que no sean imágenes
+    }
+    
+    // Para URLs normales, validar protocolo
+    const parsedUrl = new URL(url);
+    if (parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:') {
+      return url;
+    }
+    
+    // Bloquear protocolos peligrosos como javascript:
+    return '';
+  } catch {
+    // Si no es una URL válida, retornar vacío
+    return '';
+  }
+}
+
 const categories = [
   { value: 'cascos', label: 'Cascos' },
   { value: 'chaquetas', label: 'Chaquetas' },
@@ -95,6 +125,11 @@ export default function ProductFormPage() {
   const [newTag, setNewTag] = useState('');
   const [newSpecKey, setNewSpecKey] = useState('');
   const [newSpecValue, setNewSpecValue] = useState('');
+
+  // Sanitizar URLs de galería para prevenir XSS
+  const safeGallery = useMemo(() => {
+    return formData.gallery.map(sanitizeImageUrl).filter(url => url !== '');
+  }, [formData.gallery]);
 
   // Verificar autenticación y permisos
   useEffect(() => {
@@ -623,8 +658,9 @@ export default function ProductFormPage() {
                 </div>
                 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  {formData.gallery.map((image, index) => (
+                  {safeGallery.map((image, index) => (
                     <div key={index} className="relative group">
+                      {/* Imagen con URL sanitizada para prevenir XSS */}
                       <img
                         src={image}
                         alt={`Galería ${index + 1}`}

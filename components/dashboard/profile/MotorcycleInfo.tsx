@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { FaMotorcycle, FaEdit, FaSave, FaTimes, FaExclamationTriangle, FaCamera, FaCalendarAlt, FaCheckCircle, FaTimesCircle, FaCertificate, FaIdCard, FaImage, FaPlus, FaTrash } from 'react-icons/fa';
 import { IUser } from '@/lib/models/User';
 
@@ -50,6 +50,36 @@ const licenseCategories = [
 const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 50 }, (_, i) => currentYear - i);
 
+/**
+ * Sanitiza URLs de imágenes para prevenir XSS
+ * Solo permite protocolos seguros: http, https, y data:image
+ */
+function sanitizeImageUrl(url: string): string {
+  if (!url) return '';
+  
+  try {
+    // Para data URLs, validar que sea una imagen
+    if (url.startsWith('data:')) {
+      if (url.startsWith('data:image/')) {
+        return url;
+      }
+      return ''; // Bloquear data URLs que no sean imágenes
+    }
+    
+    // Para URLs normales, validar protocolo
+    const parsedUrl = new URL(url);
+    if (parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:') {
+      return url;
+    }
+    
+    // Bloquear protocolos peligrosos como javascript:
+    return '';
+  } catch {
+    // Si no es una URL válida, retornar vacío
+    return '';
+  }
+}
+
 export default function MotorcycleInfo({ user, onSave, isEditing = false, onEditToggle, onImageUpload }: MotorcycleInfoProps) {
   const [formData, setFormData] = useState<MotorcycleData>({
     motorcycleBrand: user.motorcycleBrand || '',
@@ -70,6 +100,11 @@ export default function MotorcycleInfo({ user, onSave, isEditing = false, onEdit
   const [isSaving, setIsSaving] = useState(false);
   const [localIsEditing, setLocalIsEditing] = useState(isEditing);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
+
+  // Sanitizar URLs de imágenes para prevenir XSS
+  const safeMotorcycleImages = useMemo(() => {
+    return (formData.motorcycleImages || []).map(sanitizeImageUrl).filter(url => url !== '');
+  }, [formData.motorcycleImages]);
 
   useEffect(() => {
     setLocalIsEditing(isEditing);
@@ -674,8 +709,9 @@ export default function MotorcycleInfo({ user, onSave, isEditing = false, onEdit
           </h4>
           
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {formData.motorcycleImages?.map((image, index) => (
+            {safeMotorcycleImages.map((image, index) => (
               <div key={index} className="relative group">
+                {/* Imagen con URL sanitizada para prevenir XSS */}
                 <img
                   src={image}
                   alt={`Motocicleta ${index + 1}`}

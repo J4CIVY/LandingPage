@@ -1,6 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { FaCamera, FaSpinner, FaTimes, FaPlus } from 'react-icons/fa';
 import { useImageUpload } from '@/hooks/useImageUpload';
+
+/**
+ * Sanitize image URL to prevent XSS attacks
+ * Only allows safe protocols: https, http, and data URLs
+ */
+const sanitizeImageUrl = (url: string | null): string | null => {
+  if (!url) return null;
+  
+  try {
+    // Allow data URLs (from FileReader)
+    if (url.startsWith('data:image/')) {
+      return url;
+    }
+    
+    // Parse and validate regular URLs
+    const parsedUrl = new URL(url, window.location.origin);
+    
+    // Only allow http and https protocols
+    if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
+      console.warn('Blocked unsafe URL protocol:', parsedUrl.protocol);
+      return null;
+    }
+    
+    return parsedUrl.toString();
+  } catch (error) {
+    console.warn('Invalid URL:', url);
+    return null;
+  }
+};
 
 interface ImageGalleryUploadProps {
   images: string[];
@@ -23,6 +52,12 @@ const ImageGalleryUpload: React.FC<ImageGalleryUploadProps> = ({
 }) => {
   const [dragOver, setDragOver] = useState(false);
   const { uploading, uploadImage, uploadError, clearError } = useImageUpload();
+
+  // Sanitize all image URLs to prevent XSS
+  const safeImages = useMemo(() => 
+    images.map(url => sanitizeImageUrl(url)).filter((url): url is string => url !== null),
+    [images]
+  );
 
   const handleFileSelect = async (files: FileList | null) => {
     if (!files || uploading) return;
@@ -141,13 +176,14 @@ const ImageGalleryUpload: React.FC<ImageGalleryUploadProps> = ({
       )}
 
       {/* Preview de imágenes */}
-      {images.length > 0 && (
-  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {images.map((imageUrl, index) => (
+      {safeImages.length > 0 && (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {safeImages.map((imageUrl, index) => (
             <div
               key={index}
               className="relative group aspect-square rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
             >
+              {/* Imagen con URL sanitizada para prevenir XSS */}
               <img
                 src={imageUrl}
                 alt={`Imagen ${index + 1}`}
