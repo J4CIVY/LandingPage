@@ -674,17 +674,39 @@ export default function ProductFormPage() {
                 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {safeGallery.map((image, index) => {
-                    // Double-check sanitization at render time to prevent XSS
-                    // CodeQL: This ensures the URL is safe before rendering
+                    // SECURITY: Double-check sanitization at render time to prevent XSS
+                    // This creates an explicit sanitization barrier that CodeQL can track
                     if (!image || typeof image !== 'string') return null;
                     
-                    // Verify the URL doesn't contain dangerous patterns
+                    // SECURITY: Verify the URL doesn't contain dangerous patterns
+                    // Block javascript:, vbscript:, file:, and malicious data: URLs
                     const isDangerousUrl = /^(javascript|data:(?!image\/)|vbscript|file):/i.test(image);
                     if (isDangerousUrl) {
                       console.error('Blocked potentially dangerous image URL at render time');
                       return null;
                     }
                     
+                    // SECURITY: Additional validation - ensure it's a valid URL or data:image
+                    let isValidUrl = false;
+                    try {
+                      if (image.startsWith('data:image/')) {
+                        // Validate data URL structure strictly
+                        isValidUrl = /^data:image\/(jpeg|jpg|png|webp|gif);base64,[A-Za-z0-9+/=]+$/.test(image);
+                      } else {
+                        // Validate regular URL
+                        const url = new URL(image, window.location.origin);
+                        isValidUrl = url.protocol === 'http:' || url.protocol === 'https:';
+                      }
+                    } catch {
+                      isValidUrl = false;
+                    }
+                    
+                    if (!isValidUrl) {
+                      console.error('Invalid image URL format');
+                      return null;
+                    }
+                    
+                    // URL is now sanitized and validated - safe to render
                     return (
                       <div key={index} className="relative group">
                         {/* Imagen con URL sanitizada para prevenir XSS */}
