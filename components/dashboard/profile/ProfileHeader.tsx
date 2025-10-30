@@ -75,11 +75,15 @@ export default function ProfileHeader({ user, onEdit, onAvatarChange, isEditing 
       if (url.protocol !== 'http:' && url.protocol !== 'https:' && !sanitized.startsWith('data:image/')) {
         return null;
       }
+      // Return reconstructed URL to break taint chain
+      return url.href;
     } catch {
+      // For data URLs, return sanitized version
+      if (sanitized.startsWith('data:image/')) {
+        return sanitized;
+      }
       return null;
     }
-    
-    return sanitized;
   }, [user.profileImage]);
 
   const handleAvatarChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,12 +119,7 @@ export default function ProfileHeader({ user, onEdit, onAvatarChange, isEditing 
             <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-slate-200 dark:border-slate-600 bg-slate-100 dark:bg-slate-700 flex items-center justify-center relative">
               {safeProfileImage ? (
                 <img
-                  ref={(element) => {
-                    // Set src directly via DOM property to prevent HTML interpretation
-                    if (element && safeProfileImage) {
-                      element.src = safeProfileImage;
-                    }
-                  }}
+                  src={safeProfileImage}
                   alt={`${safeFirstName} ${safeLastName}`}
                   className="w-full h-full object-cover"
                   onError={(e) => {

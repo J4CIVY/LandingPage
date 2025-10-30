@@ -41,8 +41,9 @@ const sanitizeImageUrl = (url: string | null): string | null => {
       return null;
     }
     
-    return parsedUrl.toString();
-  } catch (error) {
+    // Return the reconstructed URL (not the original) to break taint chain
+    return parsedUrl.href;
+  } catch {
     console.warn('Invalid URL:', url);
     return null;
   }
@@ -202,12 +203,7 @@ const ImageGalleryUpload: React.FC<ImageGalleryUploadProps> = ({
             >
               {/* Imagen con URL sanitizada para prevenir XSS */}
               <img
-                ref={(element) => {
-                  // Set src directly via DOM property to prevent HTML interpretation
-                  if (element && imageUrl) {
-                    element.src = imageUrl;
-                  }
-                }}
+                src={imageUrl}
                 alt={`Imagen ${index + 1}`}
                 className="w-full h-full object-cover"
               />

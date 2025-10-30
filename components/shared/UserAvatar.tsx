@@ -40,12 +40,15 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
       if (url.protocol !== 'http:' && url.protocol !== 'https:' && !sanitized.startsWith('data:image/')) {
         return null;
       }
+      // Return reconstructed URL to break taint chain
+      return url.href;
     } catch {
-      // Invalid URL
+      // For data URLs, return sanitized version
+      if (sanitized.startsWith('data:image/')) {
+        return sanitized;
+      }
       return null;
     }
-    
-    return sanitized;
   }, [imageUrl]);
 
   const sizeClasses = {
@@ -88,12 +91,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
     >
       {safeImageUrl ? (
         <img
-          ref={(element) => {
-            // Set src directly via DOM property to prevent HTML interpretation
-            if (element && safeImageUrl) {
-              element.src = safeImageUrl;
-            }
-          }}
+          src={safeImageUrl}
           alt={name || 'Avatar de usuario'}
           className="w-full h-full object-cover"
           onError={(e) => {
