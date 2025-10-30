@@ -8,9 +8,13 @@
  * - Sending to APIs
  */
 
+import sanitizeHtmlLib from 'sanitize-html';
+
 /**
  * Sanitize HTML string to prevent XSS attacks
  * Removes or encodes dangerous HTML/JavaScript
+ * Uses the well-tested sanitize-html library to handle all edge cases
+ * including nested tags and incomplete multi-character patterns
  * 
  * @param dirty - Potentially unsafe HTML string
  * @param allowBasicFormatting - If true, allows safe HTML tags (b, i, p, br, etc.)
@@ -30,53 +34,26 @@ export function sanitizeHtml(dirty: string, allowBasicFormatting: boolean = fals
       .replace(/\//g, '&#x2F;');
   }
 
-  // If basic formatting is allowed, use whitelist approach
-  // Remove dangerous tags and attributes but keep safe ones
-  let sanitized = dirty;
-  let previous: string;
-  let iterations = 0;
-  const MAX_ITERATIONS = 10;
+  // If basic formatting is allowed, use sanitize-html library
+  // This properly handles nested tags and complex attack vectors
+  const sanitized = sanitizeHtmlLib(dirty, {
+    allowedTags: ['b', 'i', 'em', 'strong', 'p', 'br', 'ul', 'ol', 'li', 'a', 'span'],
+    allowedAttributes: {
+      'a': ['href', 'title', 'target'],
+      'span': ['class']
+    },
+    allowedSchemes: ['http', 'https', 'mailto', 'tel'],
+    disallowedTagsMode: 'recursiveEscape', // Recursively escape disallowed tags
+    enforceHtmlBoundary: true,
+    parseStyleAttributes: false,
+  });
 
-  // Apply replacements repeatedly to handle nested tags and malformed closing tags
-  do {
-    previous = sanitized;
-    
-    // 1. Remove script tags and their content (handles malformed closing tags like </script foo="bar">)
-    sanitized = sanitized
-      .replace(/<script[\s\S]*?<\/script[^>]*>/gi, '') // Full script blocks
-      .replace(/<script[^>]*>/gi, '') // Opening tags
-      .replace(/<\/script[^>]*>/gi, ''); // Closing tags with attributes
-
-    // 2. Remove style tags and their content (handles malformed closing tags)
-    sanitized = sanitized
-      .replace(/<style[\s\S]*?<\/style[^>]*>/gi, '') // Full style blocks
-      .replace(/<style[^>]*>/gi, '') // Opening tags
-      .replace(/<\/style[^>]*>/gi, ''); // Closing tags with attributes
-
-    // 3. Remove iframe, object, embed tags (with malformed closing tags)
-    sanitized = sanitized
-      .replace(/<iframe[\s\S]*?<\/iframe[^>]*>/gi, '')
-      .replace(/<iframe[^>]*>/gi, '')
-      .replace(/<\/iframe[^>]*>/gi, '')
-      .replace(/<(object|embed|applet|link|meta|base)[^>]*>/gi, '');
-    
-    iterations++;
-  } while (sanitized !== previous && iterations < MAX_ITERATIONS);
-
-  // 4. Remove all event handlers (onclick, onerror, etc.)
-  sanitized = sanitized.replace(/\s*on\w+\s*=\s*["'][^"']*["']/gi, '');
-  sanitized = sanitized.replace(/\s*on\w+\s*=\s*[^\s>]*/gi, '');
-
-  // 5. Remove javascript: and data: protocols
-  sanitized = sanitized.replace(/href\s*=\s*["']?javascript:[^"'>]*/gi, 'href="#"');
-  sanitized = sanitized.replace(/src\s*=\s*["']?javascript:[^"'>]*/gi, 'src=""');
-  sanitized = sanitized.replace(/href\s*=\s*["']?data:[^"'>]*/gi, 'href="#"');
-  sanitized = sanitized.replace(/src\s*=\s*["']?data:[^"'>]*/gi, 'src=""');
-
-  // 6. Remove dangerous attributes
-  sanitized = sanitized.replace(/\s*(formaction|action)\s*=\s*["'][^"']*["']/gi, '');
-
-  return sanitized;
+  // Additional protocol and event handler removal as defense in depth
+  return sanitized
+    .replace(/javascript\s*:/gi, '') // Remove javascript: protocol
+    .replace(/data\s*:/gi, '') // Remove data: protocol
+    .replace(/vbscript\s*:/gi, '') // Remove vbscript: protocol
+    .replace(/on\w+\s*=/gi, ''); // Remove event handlers
 }
 
 /**
@@ -234,6 +211,7 @@ export function sanitizePhone(phone: string): string {
 /**
  * Sanitize user-generated text content
  * Allows basic formatting but removes dangerous content
+ * Uses sanitize-html library to properly handle nested tags
  * 
  * @param text - Text to sanitize
  * @param maxLength - Maximum allowed length
@@ -242,31 +220,24 @@ export function sanitizePhone(phone: string): string {
 export function sanitizeText(text: string, maxLength: number = 10000): string {
   if (typeof text !== 'string') return '';
 
-  let sanitized = text.trim().substring(0, maxLength);
+  const truncated = text.trim().substring(0, maxLength);
   
-  // Apply replacements repeatedly until no more matches to prevent nested tag bypass
-  // This prevents attacks like: <scrip<script>t>alert()</script>
-  let previous: string;
-  let iterations = 0;
-  const MAX_ITERATIONS = 10; // Prevent infinite loops
+  // Use sanitize-html library with strict configuration
+  // This properly handles nested tags like <iframe<iframe>...</iframe>>
+  const sanitized = sanitizeHtmlLib(truncated, {
+    allowedTags: [], // Remove all HTML tags
+    allowedAttributes: {}, // Remove all attributes
+    disallowedTagsMode: 'recursiveEscape', // Recursively escape disallowed tags
+    enforceHtmlBoundary: true,
+    parseStyleAttributes: false,
+  });
   
-  do {
-    previous = sanitized;
-    // Remove dangerous tags - handles malformed closing tags that browsers accept
-    // e.g., </script foo="bar"> is valid to browsers even though it's malformed
-    sanitized = sanitized
-      .replace(/<script[\s\S]*?<\/script[^>]*>/gi, '') // Remove script blocks (handles </script foo="bar">)
-      .replace(/<script[^>]*>/gi, '') // Remove opening script tags
-      .replace(/<\/script[^>]*>/gi, '') // Remove closing script tags with attributes
-      .replace(/<iframe[\s\S]*?<\/iframe[^>]*>/gi, '') // Remove iframe blocks (handles </iframe foo="bar">)
-      .replace(/<iframe[^>]*>/gi, '') // Remove opening iframe tags
-      .replace(/<\/iframe[^>]*>/gi, '') // Remove closing iframe tags with attributes
-      .replace(/javascript\s*:/gi, '') // Remove javascript: protocol (with optional whitespace)
-      .replace(/on\w+\s*=/gi, ''); // Remove event handlers
-    iterations++;
-  } while (sanitized !== previous && iterations < MAX_ITERATIONS);
-  
-  return sanitized;
+  // Additional protocol and event handler removal as defense in depth
+  return sanitized
+    .replace(/javascript\s*:/gi, '') // Remove javascript: protocol (with optional whitespace)
+    .replace(/data\s*:/gi, '') // Remove data: protocol
+    .replace(/vbscript\s*:/gi, '') // Remove vbscript: protocol
+    .replace(/on\w+\s*=/gi, ''); // Remove event handlers
 }
 
 /**
