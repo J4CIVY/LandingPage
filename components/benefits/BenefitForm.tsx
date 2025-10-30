@@ -4,6 +4,20 @@ import { useState, useEffect } from 'react';
 import { FaTimes, FaUpload, FaCalendarAlt, FaPlus, FaTrash } from 'react-icons/fa';
 import { BenefitFormProps, CategoryType } from '@/types/benefits';
 
+/**
+ * Sanitize data URL from FileReader to prevent XSS attacks
+ * Validates that the data URL is a legitimate base64-encoded image
+ */
+const sanitizeDataUrl = (dataUrl: string): string | null => {
+  // Validate data URL format: data:image/<type>;base64,<data>
+  const dataUrlPattern = /^data:image\/(jpeg|jpg|png|webp|gif);base64,[A-Za-z0-9+/=]+$/;
+  if (!dataUrlPattern.test(dataUrl)) {
+    console.warn('Invalid or potentially malicious data URL format');
+    return null;
+  }
+  return dataUrl;
+};
+
 const BenefitForm: React.FC<BenefitFormProps> = ({
   isOpen,
   onClose,
@@ -142,7 +156,11 @@ const BenefitForm: React.FC<BenefitFormProps> = ({
       setImageFile(file);
       const reader = new FileReader();
       reader.onload = (e) => {
-        setImagePreview(e.target?.result as string);
+        const dataUrl = e.target?.result as string;
+        const safeUrl = sanitizeDataUrl(dataUrl);
+        if (safeUrl) {
+          setImagePreview(safeUrl);
+        }
       };
       reader.readAsDataURL(file);
     }

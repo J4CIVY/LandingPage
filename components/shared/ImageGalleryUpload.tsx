@@ -4,14 +4,22 @@ import { useImageUpload } from '@/hooks/useImageUpload';
 
 /**
  * Sanitize image URL to prevent XSS attacks
- * Only allows safe protocols: https, http, and data URLs
+ * Only allows safe protocols: https, http, and validated data URLs
+ * Validates data URLs to ensure they are legitimate base64-encoded images
  */
 const sanitizeImageUrl = (url: string | null): string | null => {
   if (!url) return null;
   
   try {
-    // Allow data URLs (from FileReader)
+    // Validate and sanitize data URLs (from FileReader or other sources)
     if (url.startsWith('data:image/')) {
+      // Validate data URL format: data:image/<type>;base64,<data>
+      const dataUrlPattern = /^data:image\/(jpeg|jpg|png|webp|gif);base64,[A-Za-z0-9+/=]+$/;
+      if (!dataUrlPattern.test(url)) {
+        console.warn('Invalid or potentially malicious data URL format');
+        return null;
+      }
+      // Data URLs are safe - they're base64 encoded and can't execute scripts
       return url;
     }
     

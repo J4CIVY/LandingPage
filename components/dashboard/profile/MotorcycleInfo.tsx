@@ -52,18 +52,23 @@ const years = Array.from({ length: 50 }, (_, i) => currentYear - i);
 
 /**
  * Sanitiza URLs de imágenes para prevenir XSS
- * Solo permite protocolos seguros: http, https, y data:image
+ * Solo permite protocolos seguros: http, https, y data URLs validados
+ * Valida que los data URLs sean imágenes base64 legítimas
  */
 function sanitizeImageUrl(url: string): string {
   if (!url) return '';
   
   try {
-    // Para data URLs, validar que sea una imagen
+    // Para data URLs, validar estrictamente que sea una imagen base64
     if (url.startsWith('data:')) {
-      if (url.startsWith('data:image/')) {
+      // Validate data URL format: data:image/<type>;base64,<data>
+      const dataUrlPattern = /^data:image\/(jpeg|jpg|png|webp|gif);base64,[A-Za-z0-9+/=]+$/;
+      if (dataUrlPattern.test(url)) {
         return url;
       }
-      return ''; // Bloquear data URLs que no sean imágenes
+      // Bloquear data URLs que no cumplan el formato esperado
+      console.warn('Blocked invalid data URL format');
+      return '';
     }
     
     // Para URLs normales, validar protocolo
@@ -72,7 +77,8 @@ function sanitizeImageUrl(url: string): string {
       return url;
     }
     
-    // Bloquear protocolos peligrosos como javascript:
+    // Bloquear protocolos peligrosos como javascript:, vbscript:, etc.
+    console.warn('Blocked unsafe URL protocol:', parsedUrl.protocol);
     return '';
   } catch {
     // Si no es una URL válida, retornar vacío

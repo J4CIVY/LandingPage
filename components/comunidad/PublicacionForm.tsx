@@ -4,6 +4,20 @@ import { useState, useRef } from 'react';
 import { FaImage, FaTimes, FaSpinner, FaPaperPlane } from 'react-icons/fa';
 import { Publicacion, FormularioPublicacion, EstadoCarga } from '@/types/comunidad';
 
+/**
+ * Sanitize data URL from FileReader to prevent XSS attacks
+ * Validates that the data URL is a legitimate base64-encoded image
+ */
+const sanitizeDataUrl = (dataUrl: string): string | null => {
+  // Validate data URL format: data:image/<type>;base64,<data>
+  const dataUrlPattern = /^data:image\/(jpeg|jpg|png|webp|gif);base64,[A-Za-z0-9+/=]+$/;
+  if (!dataUrlPattern.test(dataUrl)) {
+    console.warn('Invalid or potentially malicious data URL format');
+    return null;
+  }
+  return dataUrl;
+};
+
 interface PublicacionFormProps {
   onPublicar: (publicacion: Publicacion) => void;
   onCancelar: () => void;
@@ -68,7 +82,11 @@ export default function PublicacionForm({
     imagenesValidas.forEach(imagen => {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setPrevisualizaciones(prev => [...prev, e.target?.result as string]);
+        const dataUrl = e.target?.result as string;
+        const safeUrl = sanitizeDataUrl(dataUrl);
+        if (safeUrl) {
+          setPrevisualizaciones(prev => [...prev, safeUrl]);
+        }
       };
       reader.readAsDataURL(imagen);
     });
