@@ -119,7 +119,8 @@ const UserSchema = new Schema<IUser>({
     unique: true, 
     lowercase: true,
     trim: true,
-    match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Email inválido']
+    // Fixed: Simplified regex to prevent ReDoS - removed nested quantifiers
+    match: [/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i, 'Email inválido']
   },
   address: { type: String, required: true, trim: true },
   neighborhood: { type: String, trim: true },
