@@ -10,6 +10,7 @@
  */
 
 import { revalidateTag, updateTag, refresh } from 'next/cache';
+import { internalApiFetch } from '@/lib/internal-api-client';
 
 // ============================================================================
 // EVENTOS - Usa revalidateTag con 'max' (soft revalidation)
@@ -22,7 +23,7 @@ import { revalidateTag, updateTag, refresh } from 'next/cache';
  */
 export async function createEvent(eventData: any) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events`, {
+    const response = await internalApiFetch('/api/events', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(eventData),
@@ -45,7 +46,7 @@ export async function createEvent(eventData: any) {
  */
 export async function updateEvent(eventId: string, eventData: any) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events/${eventId}`, {
+    const response = await internalApiFetch(`/api/events/${eventId}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(eventData),
@@ -74,7 +75,7 @@ export async function updateEvent(eventId: string, eventData: any) {
  */
 export async function updateUserProfile(userId: string, profileData: any) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/${userId}`, {
+    const response = await internalApiFetch(`/api/users/${userId}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(profileData),
@@ -97,7 +98,7 @@ export async function updateUserProfile(userId: string, profileData: any) {
  */
 export async function updateUserSettings(userId: string, settings: any) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/${userId}/settings`, {
+    const response = await internalApiFetch(`/api/users/${userId}/settings`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(settings),
@@ -124,7 +125,7 @@ export async function updateUserSettings(userId: string, settings: any) {
  */
 export async function markNotificationAsRead(notificationId: string) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/notifications/${notificationId}`, {
+    const response = await internalApiFetch(`/api/notifications/${notificationId}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ read: true }),
@@ -146,7 +147,7 @@ export async function markNotificationAsRead(notificationId: string) {
  */
 export async function markAllNotificationsAsRead(userId: string) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/notifications/mark-all-read`, {
+    const response = await internalApiFetch('/api/notifications/mark-all-read', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId }),
@@ -173,7 +174,7 @@ export async function markAllNotificationsAsRead(userId: string) {
  */
 export async function updateEmergencyStatus(emergencyId: string, status: string) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/emergencies/${emergencyId}`, {
+    const response = await internalApiFetch(`/api/emergencies/${emergencyId}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status }),
@@ -204,7 +205,7 @@ export async function updateEmergencyStatus(emergencyId: string, status: string)
  */
 export async function updateProduct(productId: string, productData: any) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/${productId}`, {
+    const response = await internalApiFetch(`/api/products/${productId}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(productData),
@@ -233,7 +234,7 @@ export async function updateProduct(productId: string, productData: any) {
  */
 export async function registerForEvent(eventId: string, userId: string) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events/${eventId}/register`, {
+    const response = await internalApiFetch(`/api/events/${eventId}/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId }),
@@ -256,7 +257,7 @@ export async function registerForEvent(eventId: string, userId: string) {
  */
 export async function cancelEventRegistration(eventId: string, userId: string) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events/${eventId}/register`, {
+    const response = await internalApiFetch(`/api/events/${eventId}/register`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId }),

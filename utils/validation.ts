@@ -338,7 +338,8 @@ export function sanitizeForDisplay(html: string): string {
 export const PATTERNS = {
   EMAIL: /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/,
   PHONE_COLOMBIAN: /^(\+?57)?3\d{9}$/,
-  URL: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
+  // Fixed: Removed nested quantifier to prevent ReDoS - changed ([\/\w \.-]*)* to [\/\w \.-]*
+  URL: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)\/?$/,
   NUMERIC: /^\d+$/,
   ALPHANUMERIC: /^[a-zA-Z0-9]+$/,
   ALPHA: /^[a-zA-Z]+$/,
