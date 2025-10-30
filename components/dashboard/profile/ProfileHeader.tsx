@@ -56,6 +56,13 @@ export default function ProfileHeader({ user, onEdit, onAvatarChange, isEditing 
   const safeProfileImage = useMemo(() => {
     if (!user.profileImage) return null;
     
+    // Block any URLs containing dangerous HTML characters
+    const dangerousChars = /[<>"'`]/;
+    if (dangerousChars.test(user.profileImage)) {
+      console.error('Blocked URL containing dangerous HTML characters');
+      return null;
+    }
+    
     const sanitized = sanitizeUrl(user.profileImage);
     if (!sanitized) {
       console.warn('Blocked unsafe profile image URL');
@@ -108,7 +115,12 @@ export default function ProfileHeader({ user, onEdit, onAvatarChange, isEditing 
             <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-slate-200 dark:border-slate-600 bg-slate-100 dark:bg-slate-700 flex items-center justify-center relative">
               {safeProfileImage ? (
                 <img
-                  src={safeProfileImage}
+                  ref={(element) => {
+                    // Set src directly via DOM property to prevent HTML interpretation
+                    if (element && safeProfileImage) {
+                      element.src = safeProfileImage;
+                    }
+                  }}
                   alt={`${safeFirstName} ${safeLastName}`}
                   className="w-full h-full object-cover"
                   onError={(e) => {

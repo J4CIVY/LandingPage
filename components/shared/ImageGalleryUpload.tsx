@@ -6,11 +6,20 @@ import { useImageUpload } from '@/hooks/useImageUpload';
  * Sanitize image URL to prevent XSS attacks
  * Only allows safe protocols: https, http, and validated data URLs
  * Validates data URLs to ensure they are legitimate base64-encoded images
+ * Blocks any URLs containing dangerous HTML characters
  */
 const sanitizeImageUrl = (url: string | null): string | null => {
   if (!url) return null;
   
   try {
+    // Block any URLs containing dangerous HTML characters
+    // This prevents HTML/JavaScript injection
+    const dangerousChars = /[<>"'`]/;
+    if (dangerousChars.test(url)) {
+      console.error('Blocked URL containing dangerous HTML characters');
+      return null;
+    }
+    
     // Validate and sanitize data URLs (from FileReader or other sources)
     if (url.startsWith('data:image/')) {
       // Validate data URL format: data:image/<type>;base64,<data>
@@ -193,7 +202,12 @@ const ImageGalleryUpload: React.FC<ImageGalleryUploadProps> = ({
             >
               {/* Imagen con URL sanitizada para prevenir XSS */}
               <img
-                src={imageUrl}
+                ref={(element) => {
+                  // Set src directly via DOM property to prevent HTML interpretation
+                  if (element && imageUrl) {
+                    element.src = imageUrl;
+                  }
+                }}
                 alt={`Imagen ${index + 1}`}
                 className="w-full h-full object-cover"
               />

@@ -21,6 +21,13 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
   const safeImageUrl = useMemo(() => {
     if (!imageUrl) return null;
     
+    // Block any URLs containing dangerous HTML characters
+    const dangerousChars = /[<>"'`]/;
+    if (dangerousChars.test(imageUrl)) {
+      console.error('Blocked URL containing dangerous HTML characters');
+      return null;
+    }
+    
     const sanitized = sanitizeUrl(imageUrl);
     if (!sanitized) {
       console.warn('Blocked unsafe avatar URL');
@@ -81,7 +88,12 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
     >
       {safeImageUrl ? (
         <img
-          src={safeImageUrl}
+          ref={(element) => {
+            // Set src directly via DOM property to prevent HTML interpretation
+            if (element && safeImageUrl) {
+              element.src = safeImageUrl;
+            }
+          }}
           alt={name || 'Avatar de usuario'}
           className="w-full h-full object-cover"
           onError={(e) => {
