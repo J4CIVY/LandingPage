@@ -198,7 +198,23 @@ const UserSchema = new Schema<IUser>({
       validator: function(v: string) {
         // Validar que sea una URL de Cloudinary válida si está presente
         if (!v) return true;
-        return v.includes('cloudinary.com') || v.includes('res.cloudinary.com');
+        
+        try {
+          const url = new URL(v);
+          const hostname = url.hostname;
+          
+          // Lista de hostnames permitidos de Cloudinary
+          const allowedHosts = [
+            'cloudinary.com',
+            'res.cloudinary.com'
+          ];
+          
+          // Verificar hostname exacto o subdominios válidos de cloudinary.com
+          return allowedHosts.includes(hostname) || hostname.endsWith('.cloudinary.com');
+        } catch {
+          // Si la URL no se puede parsear, es inválida
+          return false;
+        }
       },
       message: 'La imagen de perfil debe ser una URL válida de Cloudinary'
     }

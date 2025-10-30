@@ -33,15 +33,35 @@ export function sanitizeHtml(dirty: string, allowBasicFormatting: boolean = fals
   // If basic formatting is allowed, use whitelist approach
   // Remove dangerous tags and attributes but keep safe ones
   let sanitized = dirty;
+  let previous: string;
+  let iterations = 0;
+  const MAX_ITERATIONS = 10;
 
-  // 1. Remove script tags and their content
-  sanitized = sanitized.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+  // Apply replacements repeatedly to handle nested tags and malformed closing tags
+  do {
+    previous = sanitized;
+    
+    // 1. Remove script tags and their content (handles malformed closing tags like </script foo="bar">)
+    sanitized = sanitized
+      .replace(/<script[\s\S]*?<\/script[^>]*>/gi, '') // Full script blocks
+      .replace(/<script[^>]*>/gi, '') // Opening tags
+      .replace(/<\/script[^>]*>/gi, ''); // Closing tags with attributes
 
-  // 2. Remove style tags and their content
-  sanitized = sanitized.replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '');
+    // 2. Remove style tags and their content (handles malformed closing tags)
+    sanitized = sanitized
+      .replace(/<style[\s\S]*?<\/style[^>]*>/gi, '') // Full style blocks
+      .replace(/<style[^>]*>/gi, '') // Opening tags
+      .replace(/<\/style[^>]*>/gi, ''); // Closing tags with attributes
 
-  // 3. Remove iframe, object, embed tags
-  sanitized = sanitized.replace(/<(iframe|object|embed|applet|link|meta|base)[^>]*>/gi, '');
+    // 3. Remove iframe, object, embed tags (with malformed closing tags)
+    sanitized = sanitized
+      .replace(/<iframe[\s\S]*?<\/iframe[^>]*>/gi, '')
+      .replace(/<iframe[^>]*>/gi, '')
+      .replace(/<\/iframe[^>]*>/gi, '')
+      .replace(/<(object|embed|applet|link|meta|base)[^>]*>/gi, '');
+    
+    iterations++;
+  } while (sanitized !== previous && iterations < MAX_ITERATIONS);
 
   // 4. Remove all event handlers (onclick, onerror, etc.)
   sanitized = sanitized.replace(/\s*on\w+\s*=\s*["'][^"']*["']/gi, '');

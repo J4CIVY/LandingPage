@@ -13,11 +13,20 @@ interface BreadcrumbsProps {
 
 /**
  * Sanitize breadcrumb data to prevent XSS
+ * Removes dangerous URL schemes: javascript:, data:, vbscript:
  */
 const sanitizeBreadcrumbItem = (item: BreadcrumbItem): BreadcrumbItem => {
+  let sanitizedHref = item.href;
+  
+  if (sanitizedHref) {
+    // Remove dangerous URL schemes (javascript:, data:, vbscript:)
+    const dangerousSchemes = /^(javascript|data|vbscript):/gi;
+    sanitizedHref = sanitizedHref.replace(dangerousSchemes, '').substring(0, 200);
+  }
+  
   return {
     label: item.label.replace(/<[^>]*>/g, '').substring(0, 100),
-    href: item.href ? item.href.replace(/javascript:/gi, '').substring(0, 200) : undefined
+    href: sanitizedHref
   };
 };
 

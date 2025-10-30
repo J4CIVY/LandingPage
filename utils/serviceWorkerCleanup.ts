@@ -6,14 +6,37 @@
 export const cleanupObsoleteServiceWorkers = async () => {
   if ('serviceWorker' in navigator) {
     try {
-  // Obtiene todas las registraciones de Service Workers
+      // Obtiene todas las registraciones de Service Workers
       const registrations = await navigator.serviceWorker.getRegistrations();
       
-  // Desregistra Service Workers obsoletos
+      // Lista de hosts permitidos para Service Workers
+      const allowedHosts = [
+        'bskmt.com',
+        'www.bskmt.com',
+        'localhost',
+        '127.0.0.1'
+      ];
+      
+      // Desregistra Service Workers obsoletos
       for (const registration of registrations) {
-        if (registration.scope.includes('bskmt.com')) {
-          console.log('[SW Cleanup] Limpiando Service Worker obsoleto:', registration.scope);
-          await registration.unregister();
+        try {
+          // Parsear la URL del scope para obtener el hostname
+          const scopeUrl = new URL(registration.scope);
+          const hostname = scopeUrl.hostname;
+          
+          // Verificar si el hostname está en la lista de permitidos
+          // o si es un subdominio válido de bskmt.com
+          const isAllowed = allowedHosts.includes(hostname) || 
+                           hostname.endsWith('.bskmt.com');
+          
+          if (isAllowed) {
+            console.log('[SW Cleanup] Limpiando Service Worker obsoleto:', registration.scope);
+            await registration.unregister();
+          } else {
+            console.warn('[SW Cleanup] Service Worker de dominio no permitido ignorado:', hostname);
+          }
+        } catch (error) {
+          console.error('[SW Cleanup] Error al parsear scope del Service Worker:', registration.scope, error);
         }
       }
 
