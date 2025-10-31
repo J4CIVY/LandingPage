@@ -12,6 +12,7 @@ const PUBLIC_API_ROUTES = [
   '/api/captcha',
   '/api/auth/login',
   '/api/auth/register',
+  '/api/auth/check-email',
   '/api/auth/verify-email',
   '/api/auth/reset-password',
   '/api/auth/refresh-token',
