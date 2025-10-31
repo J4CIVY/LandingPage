@@ -75,7 +75,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Generar nuevo token de verificación
-    const emailVerificationToken = require('crypto').randomBytes(32).toString('hex');
+    const crypto = await import('crypto');
+    const emailVerificationToken = crypto.randomBytes(32).toString('hex');
     user.emailVerificationToken = emailVerificationToken;
     await user.save();
 

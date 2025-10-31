@@ -152,6 +152,7 @@ export async function GET(req: NextRequest) {
         canjesEsteMes,
         totalPuntosCirculacion: puntosCirculacion[0]?.total || 0,
         recompensasMasCanjeadas,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         topMiembrosActivos: topMiembrosActivos.map((stat: any) => ({
           id: stat.usuarioId?._id,
           nombre: `${stat.usuarioId?.firstName} ${stat.usuarioId?.lastName}`,

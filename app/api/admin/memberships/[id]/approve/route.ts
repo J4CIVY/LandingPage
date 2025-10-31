@@ -20,6 +20,7 @@ async function verifyAdminAuth(request: NextRequest) {
     }
 
     const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secure-jwt-secret-change-in-production';
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const decoded = jwt.verify(token, JWT_SECRET) as any;
     
     await connectDB();
@@ -30,7 +31,7 @@ async function verifyAdminAuth(request: NextRequest) {
     }
 
     return { success: true, user };
-  } catch (error) {
+  } catch {
     return { success: false, error: 'Token inválido', status: HTTP_STATUS.UNAUTHORIZED };
   }
 }

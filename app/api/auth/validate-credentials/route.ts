@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 import PreAuthToken from '@/lib/models/PreAuthToken';
-import { generateSecureToken } from '@/lib/auth-utils';
 import { rateLimit } from '@/utils/rateLimit';
 import { decryptWithPrivateKey, validateEncryptedData, getOrCreateKeyPair } from '@/lib/encryption-utils';
 import crypto from 'crypto';

@@ -9,6 +9,7 @@ const verifyEmailSchema = z.object({
 });
 
 // Función auxiliar para verificar email y enviar bienvenida
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function processEmailVerification(user: any) {
   // Verificar email y activar cuenta
   user.isEmailVerified = true;
@@ -45,15 +46,13 @@ async function processEmailVerification(user: any) {
         user.membershipType
       );
       
-      if (whatsappSent) {
-      } else {
+      if (!whatsappSent) {
         console.warn('⚠️ No se pudo enviar la notificación de WhatsApp para:', user.firstName);
       }
     } catch (whatsappError) {
       console.error('❌ Error enviando notificación de WhatsApp:', whatsappError);
       // No fallar la verificación si la notificación de WhatsApp falla
     }
-  } else {
   }
 }
 

@@ -37,6 +37,7 @@ async function handleGet(request: NextRequest) {
   
   try {
     // Construir query
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const query: any = { isActive: true };
     
     // Filtro de búsqueda por nombre, memberId o descripción
@@ -201,6 +202,7 @@ async function handlePost(request: NextRequest) {
       HTTP_STATUS.CREATED
     );
     
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error.name === 'ValidationError') {
       return createErrorResponse(

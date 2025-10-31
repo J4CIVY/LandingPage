@@ -79,7 +79,7 @@ export async function GET(request: NextRequest) {
         { status: 200 }
       );
 
-    } catch (tokenError) {
+    } catch {
       // Retornar 200 para evitar error en consola
       return NextResponse.json(
         {

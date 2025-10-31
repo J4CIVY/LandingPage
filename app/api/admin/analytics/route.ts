@@ -1,9 +1,7 @@
 import { NextRequest } from 'next/server';
 import { 
   withErrorHandling, 
-  createSuccessResponse, 
-  createErrorResponse,
-  HTTP_STATUS 
+  createSuccessResponse
 } from '@/lib/api-utils';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
@@ -213,6 +211,7 @@ async function handleGet(request: NextRequest) {
 }
 
 // Función para calcular tiempo promedio de respuesta de emergencias (mantener si hay contexto útil)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function calculateAverageResponseTime(emergencies: any[]) {
   const resolvedEmergencies = emergencies.filter(e => 
     e.status === 'resolved' && e.startTime && e.endTime
@@ -230,6 +229,7 @@ function calculateAverageResponseTime(emergencies: any[]) {
 }
 
 // Función para calcular salud del sistema (mantener si hay contexto útil)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function calculateSystemHealth(stats: any) {
   let score = 100;
   
@@ -250,6 +250,7 @@ function calculateSystemHealth(stats: any) {
 }
 
 // Función para generar alertas (mantener si hay contexto útil)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function generateAlerts(stats: any) {
   const alerts = [];
   
@@ -281,6 +282,7 @@ function generateAlerts(stats: any) {
 }
 
 // Función para calcular métricas de crecimiento (mantener si hay contexto útil)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function calculateGrowthMetrics(users: any[], events: any[], memberships: any[], fromDate: Date, toDate: Date) {
   const previousPeriodStart = new Date(fromDate.getTime() - (toDate.getTime() - fromDate.getTime()));
   const previousPeriodEnd = fromDate;
@@ -321,12 +323,14 @@ async function getMostActiveUsers() {
       .sort({ lastLoginAt: -1 })
       .limit(5);
     return activeUsers;
-  } catch (error) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (_error) {
     return [];
   }
 }
 
 // Función para obtener eventos populares (mantener si hay contexto útil)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getPopularEvents(events: any[]) {
   return events
     .filter(e => e.participants && e.participants.length > 0)
@@ -340,6 +344,7 @@ function getPopularEvents(events: any[]) {
 }
 
 // Función para obtener productos más populares (mantener si hay contexto útil)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getTopProducts(products: any[]) {
   return products
     .filter(p => p.views || p.purchases)

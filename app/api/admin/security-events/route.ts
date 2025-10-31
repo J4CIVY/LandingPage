@@ -6,7 +6,6 @@ import {
   getEventsByType,
   getEventsByIP,
   getEventsBySeverity,
-  getSecurityStatistics,
   resolveSecurityEvent,
   SecurityEventType,
   SecurityEvent,

@@ -110,11 +110,13 @@ export async function PUT(
       product
     });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Error actualizando producto:', error);
     
     // Manejar errores de validación de mongoose
     if (error.name === 'ValidationError') {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const validationErrors = Object.values(error.errors).map((err: any) => err.message);
       return NextResponse.json(
         { success: false, error: 'Error de validación', details: validationErrors },

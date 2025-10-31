@@ -3,7 +3,6 @@ import {
   withErrorHandling, 
   createSuccessResponse, 
   createErrorResponse,
-  validateRequestBody,
   HTTP_STATUS 
 } from '@/lib/api-utils';
 import connectDB from '@/lib/mongodb';
@@ -21,6 +20,7 @@ async function verifyAdminAuth(request: NextRequest) {
     }
 
     const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secure-jwt-secret-change-in-production';
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const decoded = jwt.verify(token, JWT_SECRET) as any;
     
     await connectDB();
@@ -31,7 +31,7 @@ async function verifyAdminAuth(request: NextRequest) {
     }
 
     return { success: true, user };
-  } catch (error) {
+  } catch {
     return { success: false, error: 'Token inválido', status: HTTP_STATUS.UNAUTHORIZED };
   }
 }
@@ -59,6 +59,7 @@ async function handleGet(request: NextRequest) {
   const sortOrder = searchParams.get('sortOrder') === 'asc' ? 1 : -1;
   
   // Construir filtros de MongoDB
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mongoFilters: any = {};
   
   if (status && status !== 'all') {
@@ -85,6 +86,7 @@ async function handleGet(request: NextRequest) {
   const skip = (page - 1) * limit;
   
   // Definir el campo de ordenamiento
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const sortField: any = {};
   sortField[sortBy] = sortOrder;
   
@@ -210,6 +212,7 @@ async function handlePost(request: NextRequest) {
       message: 'Solicitud de membresía creada exitosamente'
     });
     
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Error creating membership application:', error);
     

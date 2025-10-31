@@ -129,7 +129,7 @@ export async function POST(request: NextRequest) {
 
       return response;
 
-    } catch (tokenError) {
+    } catch {
       return NextResponse.json(
         {
           success: false,

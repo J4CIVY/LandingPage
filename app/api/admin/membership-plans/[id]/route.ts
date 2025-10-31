@@ -40,6 +40,7 @@ export async function GET(
     const isAdmin = authResult.success && authResult.user?.role === 'admin';
 
     // Si no es admin y la membresía no es pública, denegar acceso
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (!isAdmin && (!(membership as any).display?.showInPublic || (membership as any).status !== 'active')) {
       return NextResponse.json({
         success: false,
@@ -149,6 +150,7 @@ export async function PUT(
       message: 'Plan de membresía actualizado exitosamente'
     });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Error updating membership:', error);
     

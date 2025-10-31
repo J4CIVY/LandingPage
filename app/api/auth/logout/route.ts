@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
 
       return response;
 
-    } catch (tokenError) {
+    } catch {
       // Token inválido o expirado, pero aún así limpiamos las cookies
       const response = NextResponse.json(
         {

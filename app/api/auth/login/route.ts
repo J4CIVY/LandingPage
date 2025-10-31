@@ -218,14 +218,6 @@ export async function POST(request: NextRequest) {
     const isNewDevice = await checkIfNewDevice(user._id, deviceInfo);
 
     // Generar JWT tokens primero (temporales sin sessionId)
-    const tempAccessToken = generateAccessToken({
-      userId: user._id.toString(),
-      email: user.email,
-      membershipType: user.membershipType,
-      role: user.role,
-      sessionId: '' // Temporal
-    });
-
     const tempRefreshToken = generateRefreshToken({
       userId: user._id.toString(),
       sessionId: '' // Temporal
@@ -322,7 +314,7 @@ export async function POST(request: NextRequest) {
     });
 
     // SECURITY: Generate and set CSRF token for this session
-    const csrfToken = setCSRFToken(response);
+    setCSRFToken(response);
     console.log('[SECURITY] CSRF token generated for user:', user._id);
 
     return response;
@@ -345,7 +337,9 @@ export async function POST(request: NextRequest) {
  * Verifica si el dispositivo es nuevo comparando con sesiones previas
  */
 async function checkIfNewDevice(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   userId: any,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   currentDeviceInfo: any
 ): Promise<boolean> {
   try {
@@ -385,7 +379,9 @@ async function checkIfNewDevice(
  * Envía alerta de seguridad si el usuario tiene las alertas activadas
  */
 async function sendSecurityAlertIfEnabled(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   user: any,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   deviceInfo: any
 ): Promise<void> {
   try {

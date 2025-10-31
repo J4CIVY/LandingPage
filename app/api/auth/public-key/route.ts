@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { getPublicKey } from '@/lib/encryption-utils';
 
 /**
@@ -7,7 +7,7 @@ import { getPublicKey } from '@/lib/encryption-utils';
  * 
  * GET /api/auth/public-key
  */
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // Obtener la llave pública
     const publicKey = getPublicKey();

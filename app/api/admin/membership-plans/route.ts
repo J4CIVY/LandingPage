@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { requireCSRFToken } from '@/lib/csrf-protection';
-import Membership, { IMembership } from '@/lib/models/Membership';
+import Membership from '@/lib/models/Membership';
 import { membershipSchema, membershipFiltersSchema } from '@/lib/validation-schemas';
 import { verifyAuth } from '@/lib/auth-utils';
 
@@ -24,6 +24,7 @@ export async function GET(request: NextRequest) {
     const isAdmin = authResult.success && authResult.user?.role === 'admin';
 
   // Construye query de MongoDB
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let query: any = {};
 
   // Si no es admin, solo muestra membresías públicas y activas
@@ -139,6 +140,7 @@ export async function POST(request: NextRequest) {
       message: 'Plan de membresía creado exitosamente'
     }, { status: 201 });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Error creating membership:', error);
     

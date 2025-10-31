@@ -29,6 +29,7 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let updateData: any = {};
     let message = '';
 
@@ -41,7 +42,7 @@ export async function PATCH(req: NextRequest) {
         updateData = { isActive: false };
         message = 'Usuarios desactivados exitosamente';
         break;
-      case 'export':
+      case 'export': {
         // Para exportar, devolvemos los datos de los usuarios
         const users = await User.find({ _id: { $in: userIds } })
           .select('-password -emailVerificationToken -passwordResetToken');
@@ -51,6 +52,7 @@ export async function PATCH(req: NextRequest) {
           data: users,
           message: 'Datos de usuarios exportados'
         });
+      }
       default:
         return NextResponse.json(
           { success: false, error: 'Acción no válida' },

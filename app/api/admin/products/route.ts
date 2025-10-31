@@ -22,6 +22,7 @@ export async function GET(req: NextRequest) {
     const status = searchParams.get('status') || 'all';
 
   // Construye filtros
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const filters: any = {};
 
     if (search) {
@@ -147,11 +148,13 @@ export async function POST(req: NextRequest) {
       product: newProduct
     }, { status: 201 });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Error creando producto:', error);
     
   // Maneja errores de validación de mongoose
     if (error.name === 'ValidationError') {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const validationErrors = Object.values(error.errors).map((err: any) => err.message);
       return NextResponse.json(
         { success: false, error: 'Error de validación', details: validationErrors },

@@ -42,7 +42,7 @@ export async function GET(req: NextRequest) {
       emergencies = await Emergency.countDocuments({
         status: 'active'
       });
-    } catch (error) {
+    } catch {
       // Si el modelo Emergency no existe, continuamos con 0
     }
 

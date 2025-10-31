@@ -89,6 +89,7 @@ async function handlePut(request: NextRequest, { params }: { params: Promise<{ i
       'estimatedCost', 'finalCost', 'coordinates'
     ];
     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updates: any = {};
     Object.keys(updateData).forEach(key => {
       if (allowedUpdates.includes(key)) {
@@ -132,6 +133,7 @@ async function handlePut(request: NextRequest, { params }: { params: Promise<{ i
       'Emergencia actualizada exitosamente'
     );
     
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error.name === 'ValidationError') {
       return createErrorResponse(

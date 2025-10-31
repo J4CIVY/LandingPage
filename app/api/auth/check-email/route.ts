@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
     
     try {
       await checkEmailRateLimit.check(clientIP, 10); // 10 verificaciones cada 5 minutos
-    } catch (rateLimitError) {
+    } catch {
       return NextResponse.json(
         {
           success: false,

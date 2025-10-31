@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
-import User from '@/lib/models/User';
 import TwoFactorCode from '@/lib/models/TwoFactorCode';
 import PreAuthToken from '@/lib/models/PreAuthToken';
 import { generateOTPCode, getOTPExpirationDate, sendOTPToMessageBird } from '@/lib/2fa-utils';
@@ -97,6 +96,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const user = preAuthTokenDoc.userId as any;
 
     if (!user || !user.isActive) {

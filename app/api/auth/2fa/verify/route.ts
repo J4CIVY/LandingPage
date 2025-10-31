@@ -181,14 +181,6 @@ export async function POST(request: NextRequest) {
     const deviceInfo = extractDeviceInfo(request);
 
     // Generar JWT tokens
-    const accessToken = generateAccessToken({
-      userId: user._id.toString(),
-      email: user.email,
-      membershipType: user.membershipType,
-      role: user.role,
-      sessionId: '' // Temporal, se actualizará después de crear la sesión
-    });
-
     const refreshToken = generateRefreshToken({
       userId: user._id.toString(),
       sessionId: '' // Temporal, se actualizará después de crear la sesión
@@ -272,7 +264,7 @@ export async function POST(request: NextRequest) {
     });
 
     // SECURITY: Generate and set CSRF token after successful 2FA verification
-    const csrfToken = setCSRFToken(response);
+    setCSRFToken(response);
     console.log('[SECURITY] CSRF token generated after 2FA verification for user:', user._id);
 
     return response;

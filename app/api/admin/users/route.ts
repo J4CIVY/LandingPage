@@ -26,6 +26,7 @@ export async function GET(req: NextRequest) {
 
 
     // Construir filtros
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const filters: any = {};
 
     if (search) {
