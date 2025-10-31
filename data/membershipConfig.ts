@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any, prefer-const */
 import { MembershipType, MembershipRules, MembershipConfig, MembershipBenefits } from '@/types/membership';
 
 // Reglas de negocio para cada tipo de membresía

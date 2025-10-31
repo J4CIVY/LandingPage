@@ -5,8 +5,6 @@ import { getCSRFToken } from '@/lib/csrf-client';
 import CreateVotingModal from './CreateVotingModal';
 import { 
   FaVoteYea, 
-  FaUsers, 
-  FaChartBar,
   FaClock,
   FaCheckCircle,
   FaTimesCircle,

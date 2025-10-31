@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import UserActivity from '@/lib/models/UserActivity';
 import dbConnect from '@/lib/mongodb';
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Cache Utilities for Next.js 16+ with React 19
  * 

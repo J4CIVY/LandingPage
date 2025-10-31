@@ -31,7 +31,7 @@ export function getOTPExpirationDate(): Date {
  */
 export function formatWhatsAppNumber(phone: string): string {
   // Remover espacios, guiones y paréntesis
-  let cleaned = phone.replace(/[\s\-()]/g, '');
+  const cleaned = phone.replace(/[\s\-()]/g, '');
   
   // Si ya tiene +, devolverlo tal cual
   if (cleaned.startsWith('+')) {

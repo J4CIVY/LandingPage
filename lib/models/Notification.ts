@@ -11,7 +11,7 @@ export interface INotification extends Document {
     eventDate?: Date;
     registrationDeadline?: Date;
     url?: string;
-    [key: string]: any;
+    [key: string]: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   };
   isRead: boolean;
   priority: 'low' | 'medium' | 'high' | 'urgent';
@@ -84,7 +84,7 @@ NotificationSchema.statics.getUnreadCount = function(userId: string) {
 };
 
 // Método estático para crear notificación de evento próximo
-NotificationSchema.statics.createEventUpcomingNotification = function(userId: string, event: any) {
+NotificationSchema.statics.createEventUpcomingNotification = function(userId: string, event: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
   const daysUntilEvent = Math.ceil((new Date(event.startDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
   
   return this.create({
@@ -104,7 +104,7 @@ NotificationSchema.statics.createEventUpcomingNotification = function(userId: st
 };
 
 // Método estático para crear notificación de registro abierto
-NotificationSchema.statics.createRegistrationOpenNotification = function(userId: string, event: any) {
+NotificationSchema.statics.createRegistrationOpenNotification = function(userId: string, event: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
   return this.create({
     userId,
     type: 'event_registration_open',

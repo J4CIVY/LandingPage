@@ -23,7 +23,7 @@ interface NotificationEmailData {
   type: 'welcome' | 'password_reset' | 'account_verification' | 'event_reminder' | 'membership_update';
   recipientEmail: string;
   recipientName: string;
-  templateData?: Record<string, any>;
+  templateData?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   priority?: 'low' | 'medium' | 'high';
 }
 

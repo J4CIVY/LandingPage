@@ -16,8 +16,8 @@ export const useScrollToSection = () => {
   ) => {
     const {
       behavior = 'smooth',
-      block = 'start',
-      inline = 'nearest',
+      block = 'start', // eslint-disable-line @typescript-eslint/no-unused-vars
+      inline = 'nearest', // eslint-disable-line @typescript-eslint/no-unused-vars
   offset = 80
     } = options;
 

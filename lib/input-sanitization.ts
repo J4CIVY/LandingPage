@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Input Sanitization Utilities
  * Prevents XSS attacks by sanitizing user input

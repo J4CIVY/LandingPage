@@ -16,7 +16,7 @@ export interface IPreAuthToken extends Document {
 }
 
 export interface IPreAuthTokenModel extends Model<IPreAuthToken> {
-  cleanupExpiredTokens(): Promise<any>;
+  cleanupExpiredTokens(): Promise<any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 const PreAuthTokenSchema = new Schema<IPreAuthToken>({

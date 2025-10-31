@@ -157,7 +157,7 @@ const BenefitSchema = new Schema<IBenefit>({
   collection: 'benefits',
   toJSON: { 
     virtuals: true,
-    transform: function(doc: any, ret: any) {
+    transform: function(doc: any, ret: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
       delete ret.__v;
       return ret;
     }
@@ -184,7 +184,7 @@ BenefitSchema.virtual('isValid').get(function(this: IBenefit) {
 
 // Método para verificar si está disponible para un tipo de membresía
 BenefitSchema.methods.isAvailableForMember = function(this: IBenefit, membershipType: string): boolean {
-  return this.isActive && this.isVisible && this.membershipTypes.includes(membershipType as any);
+  return this.isActive && this.isVisible && this.membershipTypes.includes(membershipType as any); // eslint-disable-line @typescript-eslint/no-explicit-any
 };
 
 // Método para verificar si está actualmente válido

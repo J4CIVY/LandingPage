@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose';
+import crypto from 'crypto';
 
 export interface IEventRegistration extends Document {
   userId: mongoose.Types.ObjectId;
@@ -65,7 +66,6 @@ EventRegistrationSchema.statics.generateRegistrationNumber = function(): string 
 
 // Método estático para generar token de acceso seguro
 EventRegistrationSchema.statics.generateAccessToken = function(): string {
-  const crypto = require('crypto');
   return crypto.randomBytes(32).toString('hex');
 };
 

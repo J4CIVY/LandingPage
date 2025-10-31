@@ -56,7 +56,7 @@ export const useImageUpload = (): UseImageUploadReturn => {
       }
 
       return result.data;
-    } catch (error: any) {
+    } catch (error: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
       const errorMessage = error.message || 'Error desconocido al subir la imagen';
       setUploadError(errorMessage);
       throw new Error(errorMessage);

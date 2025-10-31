@@ -98,7 +98,7 @@ export function proxy(request: NextRequest) {
 
       // Verificar expiración del token (validación básica sin verificar firma)
       try {
-        const payload = safeJsonParse<any>(Buffer.from(parts[1], 'base64').toString(), {});
+        const payload = safeJsonParse<any>(Buffer.from(parts[1], 'base64').toString(), {}); // eslint-disable-line @typescript-eslint/no-explicit-any
         
         if (payload.exp && payload.exp * 1000 < Date.now()) {
           console.warn(`🚨 SECURITY: Expired token for ${pathname}`);
@@ -214,7 +214,7 @@ export function proxy(request: NextRequest) {
       
       // Decode payload to check expiration (without full verification due to Edge Runtime limits)
       // SECURITY: Use safeJsonParse to prevent prototype pollution
-      const payload = safeJsonParse<any>(Buffer.from(parts[1], 'base64').toString(), {});
+      const payload = safeJsonParse<any>(Buffer.from(parts[1], 'base64').toString(), {}); // eslint-disable-line @typescript-eslint/no-explicit-any
       
       // Check if token is expired
       if (payload.exp && payload.exp * 1000 < Date.now()) {
@@ -249,7 +249,7 @@ export function proxy(request: NextRequest) {
       }
       
       // SECURITY: Use safeJsonParse to prevent prototype pollution
-      const payload = safeJsonParse<any>(Buffer.from(parts[1], 'base64').toString(), {});
+      const payload = safeJsonParse<any>(Buffer.from(parts[1], 'base64').toString(), {}); // eslint-disable-line @typescript-eslint/no-explicit-any
       
       // Check token expiration
       if (payload.exp && payload.exp * 1000 < Date.now()) {

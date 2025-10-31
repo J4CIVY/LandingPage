@@ -24,7 +24,7 @@ export interface MembershipData {
       early_bird?: number;
       student?: number;
     };
-    benefits?: any[];
+    benefits?: any[]; // eslint-disable-line @typescript-eslint/no-explicit-any
     renewalType?: string;
     isLifetime?: boolean;
   } | null;

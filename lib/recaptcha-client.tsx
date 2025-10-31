@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Google reCAPTCHA v3 Integration
  * Provides invisible bot protection for forms

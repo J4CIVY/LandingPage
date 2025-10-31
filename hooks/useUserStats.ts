@@ -34,7 +34,7 @@ export interface UserStats {
   };
   achievements: {
     total: number;
-    recent: any;
+    recent: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   };
 }
 

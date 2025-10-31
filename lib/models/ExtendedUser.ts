@@ -92,7 +92,7 @@ export interface IUserActivity {
   id: string;
   type: 'login' | 'logout' | 'profile_update' | 'document_upload' | 'password_change' | 'email_change' | 'membership_action' | 'admin_action';
   description: string;
-  details?: Record<string, any>;
+  details?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   ipAddress?: string;
   userAgent?: string;
   location?: {

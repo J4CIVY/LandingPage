@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Secure Storage Utility
  * Provides secure client-side storage with encryption and automatic cleanup

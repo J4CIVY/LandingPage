@@ -201,7 +201,7 @@ const MembershipHistorySchema = new Schema<IMembershipHistory>({
   collection: 'membership_history',
   toJSON: { 
     virtuals: true,
-    transform: function(doc: any, ret: any) {
+    transform: function(doc: any, ret: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
       delete ret.__v;
       delete ret.internalNotes;
       return ret;
@@ -275,7 +275,7 @@ MembershipHistorySchema.methods.canBeRenewed = function(this: IMembershipHistory
 // Middleware para generar número de factura
 MembershipHistorySchema.pre('save', async function(next) {
   if (this.isNew && !this.invoiceNumber && this.paymentStatus === 'completed') {
-    const count = await (this.constructor as any).countDocuments();
+    const count = await (this.constructor as any).countDocuments(); // eslint-disable-line @typescript-eslint/no-explicit-any
     this.invoiceNumber = `BSK-INV-${new Date().getFullYear()}-${String(count + 1).padStart(6, '0')}`;
   }
   

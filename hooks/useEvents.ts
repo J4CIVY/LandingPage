@@ -27,7 +27,7 @@ export const useEvents = (upcoming = false, limit = 10) => {
         console.error('❌ useEvents: Error response:', data);
         setError(data.message || 'Error al cargar eventos');
       }
-    } catch (err: any) {
+    } catch (err: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
       console.error('❌ useEvents: Fetch error:', err);
       if (process.env.NODE_ENV === 'development') {
         console.error('Error fetching events:', err);

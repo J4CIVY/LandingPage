@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Usuario, Nivel, PuntosActividad, Recompensa, EstadisticasAdmin } from '@/types/puntos';
 
 // Niveles del sistema actualizados

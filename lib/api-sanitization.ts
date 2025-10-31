@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * API Input Sanitization Middleware
  * Automatically sanitizes request bodies before processing

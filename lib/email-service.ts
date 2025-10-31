@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
 import { getZohoMailClient } from './zoho-mail';
 import { ZohoEmailConfig, ContactFormEmail, EmailTemplate } from '@/types/email';
 

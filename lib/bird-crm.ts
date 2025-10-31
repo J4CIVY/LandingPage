@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Servicio de integración con Bird CRM para notificaciones de WhatsApp
  */

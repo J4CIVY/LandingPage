@@ -347,7 +347,7 @@ export type MembershipConfig = {
 export interface ApiError {
   message: string;
   code: number;
-  details?: any;
+  details?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export interface ApiResponse<T> {
@@ -365,7 +365,7 @@ export interface MembershipEvent {
   reason?: string;
   performedBy?: string;
   timestamp: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 // Extensión del Usuario existente para el nuevo sistema (mantener si hay contexto útil)

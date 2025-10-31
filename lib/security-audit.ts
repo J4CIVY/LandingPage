@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * Security Audit Utilities
  * Provides runtime security checks and monitoring

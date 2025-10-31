@@ -54,7 +54,7 @@ export const usePdfUpload = (): UsePdfUploadReturn => {
       }
 
       return result.data;
-    } catch (error: any) {
+    } catch (error: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
       const errorMessage = error.message || 'Error desconocido al subir el PDF';
       setUploadError(errorMessage);
       throw new Error(errorMessage);

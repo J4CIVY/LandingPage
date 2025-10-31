@@ -126,7 +126,7 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
     }
   };
 
-  const createAnnouncement = async (announcement: Omit<Announcement, 'id' | 'status'>) => {
+  const createAnnouncement = async (announcement: Omit<Announcement, 'id' | 'status'>) => { // eslint-disable-line @typescript-eslint/no-unused-vars
     try {
       const csrfToken = getCSRFToken();
       const response = await fetch('/api/leadership/announcements', {
@@ -184,7 +184,7 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
     <div className="space-y-6">
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6 rounded-lg">
+        <div className="bg-linear-to-r from-blue-500 to-blue-600 text-white p-6 rounded-lg">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-blue-100">Miembros Totales</p>
@@ -194,7 +194,7 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-green-500 to-green-600 text-white p-6 rounded-lg">
+        <div className="bg-linear-to-r from-green-500 to-green-600 text-white p-6 rounded-lg">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-green-100">Postulaciones Activas</p>
@@ -204,7 +204,7 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-6 rounded-lg">
+        <div className="bg-linear-to-r from-purple-500 to-purple-600 text-white p-6 rounded-lg">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-purple-100">Votaciones Pendientes</p>
@@ -214,7 +214,7 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white p-6 rounded-lg">
+        <div className="bg-linear-to-r from-orange-500 to-orange-600 text-white p-6 rounded-lg">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-orange-100">Decisiones Pendientes</p>
@@ -224,7 +224,7 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-teal-500 to-teal-600 text-white p-6 rounded-lg">
+        <div className="bg-linear-to-r from-teal-500 to-teal-600 text-white p-6 rounded-lg">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-teal-100">Eventos Este Mes</p>
@@ -234,7 +234,7 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white p-6 rounded-lg">
+        <div className="bg-linear-to-r from-indigo-500 to-indigo-600 text-white p-6 rounded-lg">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-indigo-100">Equipo Gestionado</p>

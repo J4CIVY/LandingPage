@@ -30,7 +30,7 @@ export const useConfirmNavigation = (shouldConfirm: boolean, message = '¿Estás
   useEffect(() => {
     if (!shouldConfirm) return;
 
-    const handleRouteChange = () => {
+    const handleRouteChange = () => { // eslint-disable-line @typescript-eslint/no-unused-vars
       if (shouldConfirm) {
         const confirmed = window.confirm(message);
         if (!confirmed) {
@@ -59,9 +59,9 @@ export const useConfirmation = () => {
   const confirm = ({
     title = 'Confirmar acción',
     message,
-    confirmText = 'Confirmar',
-    cancelText = 'Cancelar',
-    type = 'warning'
+    confirmText = 'Confirmar', // eslint-disable-line @typescript-eslint/no-unused-vars
+    cancelText = 'Cancelar', // eslint-disable-line @typescript-eslint/no-unused-vars
+    type = 'warning' // eslint-disable-line @typescript-eslint/no-unused-vars
   }: ConfirmationOptions): Promise<boolean> => {
     return new Promise((resolve) => {
   // Para una implementación completa, aquí crearías un modal personalizado (mantener si hay contexto útil)

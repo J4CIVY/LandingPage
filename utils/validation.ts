@@ -271,7 +271,7 @@ export function validatePassword(password: string): ValidationResult {
   }
   
   // Check for at least one special character
-  if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+  if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password)) {
     return {
       isValid: false,
       error: 'La contraseña debe contener al menos un carácter especial',
@@ -339,7 +339,7 @@ export const PATTERNS = {
   EMAIL: /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/,
   PHONE_COLOMBIAN: /^(\+?57)?3\d{9}$/,
   // Fixed: Removed nested quantifier to prevent ReDoS - changed ([\/\w \.-]*)* to [\/\w \.-]*
-  URL: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)\/?$/,
+  URL: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)\/?$/,
   NUMERIC: /^\d+$/,
   ALPHANUMERIC: /^[a-zA-Z0-9]+$/,
   ALPHA: /^[a-zA-Z]+$/,

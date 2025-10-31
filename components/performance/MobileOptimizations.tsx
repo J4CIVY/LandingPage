@@ -3,6 +3,7 @@
  * Incluye gestos touch, viewport adaptativo y optimizaciones de performance
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';

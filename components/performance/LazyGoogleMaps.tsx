@@ -6,7 +6,6 @@
 'use client';
 
 import { lazy, Suspense } from 'react';
-import { SkeletonCard } from '../shared/SkeletonLoaders';
 
 // Skeleton específico para mapas
 const SkeletonMap = () => (
@@ -22,6 +21,7 @@ const SkeletonMap = () => (
 // Lazy load del componente GoogleMap
 const GoogleMapComponent = lazy(() => 
   import('@react-google-maps/api').then(module => ({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     default: ({ children, ...props }: any) => (
       <module.GoogleMap {...props}>
         {children}

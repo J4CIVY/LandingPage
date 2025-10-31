@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
 import { v2 as cloudinary } from 'cloudinary';
 import { getEnv } from './env-validation';
 

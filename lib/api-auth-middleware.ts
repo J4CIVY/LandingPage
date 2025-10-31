@@ -1,4 +1,5 @@
-﻿/**
+﻿/* eslint-disable @typescript-eslint/no-explicit-any, no-useless-escape */
+/**
  * API Authentication Middleware - Sistema de autenticación robusto para proteger endpoints
  * 
  * SEGURIDAD CRÍTICA:

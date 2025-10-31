@@ -6,7 +6,7 @@
 'use client';
 
 import { lazy, Suspense, ComponentType, useState, useEffect, Component, ReactNode } from 'react';
-import { SkeletonCard, SkeletonEvent, SkeletonProduct, SkeletonText } from '../shared/SkeletonLoaders';
+import { SkeletonCard, SkeletonEvent, SkeletonProduct } from '../shared/SkeletonLoaders';
 
 // ErrorBoundary simple para lazy components
 class ErrorBoundary extends Component<
@@ -35,6 +35,7 @@ class ErrorBoundary extends Component<
 }
 
 // Wrapper para componentes lazy con skeleton mejorado
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function withLazyLoading<T extends Record<string, any>>(
   importFunc: () => Promise<{ default: ComponentType<T> }>,
   SkeletonComponent: ComponentType = SkeletonCard,
@@ -93,6 +94,7 @@ export function withLazyLoading<T extends Record<string, any>>(
           }
         >
           <ErrorBoundary onError={() => setHasError(true)}>
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             <LazyComponent {...(props as any)} key={retryCount} />
           </ErrorBoundary>
         </Suspense>

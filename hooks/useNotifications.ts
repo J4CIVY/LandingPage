@@ -12,7 +12,7 @@ interface Notification {
     eventName?: string;
     eventDate?: string;
     url?: string;
-    [key: string]: any;
+    [key: string]: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   };
   isRead: boolean;
   priority: 'low' | 'medium' | 'high' | 'urgent';

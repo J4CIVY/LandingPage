@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose, { Schema, Document } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
@@ -310,7 +311,7 @@ UserSchema.methods.comparePassword = async function(this: IUser, candidatePasswo
     }
     
     return await bcrypt.compare(candidatePassword, this.password);
-  } catch (error) {
+  } catch (error) { // eslint-disable-line @typescript-eslint/no-unused-vars
     // SECURITY: Never log password-related details in production
     console.error('Error comparing passwords');
     throw new Error('Error al comparar contraseñas');

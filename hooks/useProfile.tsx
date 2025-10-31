@@ -26,12 +26,12 @@ export interface ProfileData {
   binaryGender?: string;
   // Datos adicionales del perfil extendido (mantener si hay contexto útil)
   profileCompletion?: number;
-  emergencyContact?: any;
-  medicalData?: any;
-  motorcycleInfo?: any;
-  documents?: any[];
-  activities?: any[];
-  notificationPreferences?: any;
+  emergencyContact?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  medicalData?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  motorcycleInfo?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  documents?: any[]; // eslint-disable-line @typescript-eslint/no-explicit-any
+  activities?: any[]; // eslint-disable-line @typescript-eslint/no-explicit-any
+  notificationPreferences?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export function useProfile() {

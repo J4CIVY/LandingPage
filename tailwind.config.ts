@@ -130,7 +130,7 @@ const config: Config = {
   },
   plugins: [
     // Plugin personalizado para text-shadow
-    function({ addUtilities }: any) {
+    function({ addUtilities }: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
       const newUtilities = {
         '.text-shadow-sm': {
           textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)',

@@ -34,7 +34,7 @@ export const resetPasswordSchema = z.object({
     .regex(/[a-z]/, 'Debe contener al menos una letra minúscula')
     .regex(/[A-Z]/, 'Debe contener al menos una letra mayúscula')
     .regex(/\d/, 'Debe contener al menos un número')
-    .regex(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>?]/, 'Debe contener al menos un carácter especial'),
+    .regex(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>?]/, 'Debe contener al menos un carácter especial'),
   confirmPassword: z.string().min(1, 'Confirmar contraseña es requerido')
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Las contraseñas no coinciden",
@@ -50,7 +50,7 @@ export const changePasswordSchema = z.object({
     .regex(/[a-z]/, 'Debe contener al menos una letra minúscula')
     .regex(/[A-Z]/, 'Debe contener al menos una letra mayúscula')
     .regex(/\d/, 'Debe contener al menos un número')
-    .regex(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>?]/, 'Debe contener al menos un carácter especial'),
+    .regex(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>?]/, 'Debe contener al menos un carácter especial'),
   confirmNewPassword: z.string().min(1, 'Confirmar nueva contraseña es requerido')
 }).refine((data) => data.newPassword === data.confirmNewPassword, {
   message: "Las nuevas contraseñas no coinciden",
@@ -95,7 +95,7 @@ export interface AuthResponse {
   error?: string;
 }
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = any> { // eslint-disable-line @typescript-eslint/no-explicit-any
   success: boolean;
   message: string;
   data?: T;

@@ -47,25 +47,28 @@ function generateMathChallenge(difficulty: 'easy' | 'medium' | 'hard'): { questi
       question = `¿Cuánto es ${num1} + ${num2}?`;
       answer = num1 + num2;
       break;
-    case '-':
+    case '-': {
       const larger = Math.max(num1, num2);
       const smaller = Math.min(num1, num2);
       question = `¿Cuánto es ${larger} - ${smaller}?`;
       answer = larger - smaller;
       break;
-    case '*':
+    }
+    case '*': {
       const smallNum1 = Math.floor(Math.random() * 10) + 1;
       const smallNum2 = Math.floor(Math.random() * 10) + 1;
       question = `¿Cuánto es ${smallNum1} × ${smallNum2}?`;
       answer = smallNum1 * smallNum2;
       break;
-    case '/':
+    }
+    case '/': {
       const divisor = Math.floor(Math.random() * 9) + 2;
       const result = Math.floor(Math.random() * 10) + 1;
       const dividend = divisor * result;
       question = `¿Cuánto es ${dividend} ÷ ${divisor}?`;
       answer = result;
       break;
+    }
     default:
       question = `¿Cuánto es ${num1} + ${num2}?`;
       answer = num1 + num2;

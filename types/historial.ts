@@ -9,7 +9,7 @@ export interface HistorialItem {
   referencia?: string; // id de evento, pqrs, etc.
   icono?: string;
   colorIcon?: string;
-  detalles?: any; // Información específica según el tipo
+  detalles?: any; // eslint-disable-line @typescript-eslint/no-explicit-any -- Información específica según el tipo
 }
 
 export interface EventoHistorial {

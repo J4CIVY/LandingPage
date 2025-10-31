@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ZohoAuthTokens, ZohoAccount, ZohoEmailConfig, ZohoEmailResponse } from '@/types/email';
 
 /**

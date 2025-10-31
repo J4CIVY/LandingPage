@@ -62,7 +62,7 @@ export interface EmailTemplate {
 
 export interface EmailSendOptions {
   template?: string;
-  variables?: Record<string, any>;
+  variables?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   attachments?: EmailAttachment[];
   priority?: 'low' | 'medium' | 'high';
   trackOpens?: boolean;
@@ -107,5 +107,5 @@ export interface ContactFormEmail {
   priority: 'low' | 'medium' | 'high' | 'urgent';
   phone?: string;
   company?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }

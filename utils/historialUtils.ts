@@ -12,7 +12,7 @@ export const formatearFecha = (fecha: string, formato: 'corta' | 'larga' | 'rela
       return format(fechaObj, 'dd/MM/yyyy', { locale: es });
     case 'larga':
       return format(fechaObj, "d 'de' MMMM 'de' yyyy", { locale: es });
-    case 'relativa':
+    case 'relativa': {
       const diasDiferencia = differenceInDays(new Date(), fechaObj);
       if (diasDiferencia === 0) return 'Hoy';
       if (diasDiferencia === 1) return 'Ayer';
@@ -20,6 +20,7 @@ export const formatearFecha = (fecha: string, formato: 'corta' | 'larga' | 'rela
       if (diasDiferencia < 30) return `Hace ${Math.floor(diasDiferencia / 7)} semanas`;
       if (diasDiferencia < 365) return `Hace ${Math.floor(diasDiferencia / 30)} meses`;
       return `Hace ${Math.floor(diasDiferencia / 365)} años`;
+    }
     default:
       return format(fechaObj, "d 'de' MMMM 'de' yyyy", { locale: es });
   }
@@ -255,7 +256,7 @@ export const ordenarHistorial = (
   direccion: 'asc' | 'desc' = 'desc'
 ) => {
   return [...items].sort((a, b) => {
-    let valorA: any, valorB: any;
+    let valorA: any, valorB: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
     switch (criterio) {
       case 'fecha':

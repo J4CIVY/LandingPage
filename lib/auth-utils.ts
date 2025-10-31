@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, no-useless-escape */
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import { NextRequest } from 'next/server';

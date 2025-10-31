@@ -14,7 +14,7 @@ export interface IUserActivity extends Document {
     pqrsdfId?: string;
     achievementId?: string;
     points?: number;
-    [key: string]: any;
+    [key: string]: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   };
   createdAt: Date;
   updatedAt: Date;

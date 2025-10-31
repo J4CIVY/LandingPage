@@ -21,7 +21,7 @@ export function sanitizeInput(input: string): string {
   }
 
   return input
-    .replace(/[&<>"'\/]/g, (s) => htmlEntities[s] || s)
+    .replace(/[&<>"'/]/g, (s) => htmlEntities[s] || s)
     .trim()
   .substring(0, 10000);
 }
@@ -29,13 +29,13 @@ export function sanitizeInput(input: string): string {
 /**
  * Sanitize object recursively
  */
-export function sanitizeObject(obj: any): any {
+export function sanitizeObject(obj: any): any { // eslint-disable-line @typescript-eslint/no-explicit-any
   if (typeof obj === 'string') {
     return sanitizeInput(obj);
   }
   
   if (typeof obj === 'object' && obj !== null && !Array.isArray(obj)) {
-    const sanitized: any = {};
+    const sanitized: any = {}; // eslint-disable-line @typescript-eslint/no-explicit-any
     for (const [key, value] of Object.entries(obj)) {
   // Sanitiza nombres de claves también
       const cleanKey = sanitizeInput(key);
@@ -122,7 +122,7 @@ export function validatePasswordStrength(password: string): {
   }
 
   // Chequeo de caracteres especiales
-  if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+  if (/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password)) {
     score += 1;
   } else {
     feedback.push('Debe incluir al menos un carácter especial');

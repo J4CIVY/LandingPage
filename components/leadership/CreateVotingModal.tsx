@@ -3,10 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { getCSRFToken } from '@/lib/csrf-client';
 import { 
-  FaPlus, 
   FaTimes, 
   FaCalendarAlt,
-  FaUsers,
   FaUserCheck,
   FaCogs,
   FaSpinner,
@@ -65,6 +63,7 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
       if (response.ok) {
         const result = await response.json();
         // Filtrar para mostrar solo candidatos potenciales (no Leaders o Masters actuales)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const potentialCandidates = result.data.filter((user: any) => 
           user.membershipType !== 'leader' && user.membershipType !== 'master'
         );
@@ -105,7 +104,7 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
         const result = await response.json();
         setError(result.error || 'Error al crear el proceso de votación');
       }
-    } catch (error) {
+    } catch (error) { // eslint-disable-line @typescript-eslint/no-unused-vars
       setError('Error de conexión');
     } finally {
       setLoading(false);
