@@ -3,7 +3,6 @@ import { connectToDatabase } from '@/lib/mongodb';
 import { Comentario } from '@/lib/models/Comunidad';
 import { verifySession } from '@/lib/auth-utils';
 import { Types } from 'mongoose';
-import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // GET - Obtener comentarios de una publicación específica
 export async function GET(
@@ -57,6 +56,7 @@ export async function GET(
       comentarioPadreId: comentario.comentarioPadreId?.toString(),
       respuestas: [], // Las respuestas se pueden cargar por separado si es necesario
       reacciones: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         meGusta: comentario.reacciones.meGusta.map((id: any) => id.toString())
       }
     }));

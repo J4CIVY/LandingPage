@@ -44,6 +44,7 @@ async function queryBoldTransactionStatus(orderId: string): Promise<{
       status: null,
       found: false
     };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error(`Error querying Bold for order ${orderId}:`, error.message);
     return {
@@ -94,6 +95,7 @@ export async function POST(request: NextRequest) {
       approved: 0,
       failed: 0,
       errors: 0,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       transactions: [] as any[]
     };
 
@@ -144,6 +146,7 @@ export async function POST(request: NextRequest) {
             boldStatus: boldStatus || 'NOT_FOUND'
           });
         }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         console.error(`Error processing transaction ${transaction.orderId}:`, error);
         results.errors++;
@@ -160,6 +163,7 @@ export async function POST(request: NextRequest) {
       }
     });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Error cleaning up expired transactions:', error);
     return NextResponse.json(
@@ -205,6 +209,7 @@ export async function GET(request: NextRequest) {
       }
     });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Error checking expired transactions:', error);
     return NextResponse.json(

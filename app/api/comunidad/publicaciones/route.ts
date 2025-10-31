@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { Publicacion } from '@/lib/models/Comunidad';
-import { IUser } from '@/lib/models/User';
-import { UsuarioRanking } from '@/lib/models/Comunidad';
 import { verifySession } from '@/lib/auth-utils';
 import { actualizarPuntos, esPrimeraPublicacion } from '@/lib/services/GamificacionService';
 import { requireCSRFToken } from '@/lib/csrf-protection';
@@ -18,6 +16,7 @@ export async function GET(request: NextRequest) {
     const offset = parseInt(searchParams.get('offset') || '0');
 
     // Construir filtros
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const filtros: any = { activa: true };
     if (grupoId) {
       filtros.grupoId = grupoId;
@@ -53,8 +52,11 @@ export async function GET(request: NextRequest) {
       fechaCreacion: pub.fechaCreacion,
       fechaActualizacion: pub.fechaActualizacion,
       reacciones: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         meGusta: pub.reacciones.meGusta.map((id: any) => id.toString()),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         corazones: pub.reacciones.corazones.map((id: any) => id.toString()),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         fuego: pub.reacciones.fuego.map((id: any) => id.toString())
       },
       comentarios: [], // Los comentarios se cargan por separado

@@ -31,6 +31,7 @@ export async function GET(request: NextRequest) {
       .exec();
 
     // Transformar datos para el frontend
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const usuariosTransformados = usuariosEnLinea.map((usuario: any) => ({
       id: usuario._id.toString(),
       nombre: `${usuario.firstName} ${usuario.lastName}`,

@@ -3,7 +3,7 @@ import connectDB from '@/lib/mongodb';
 import Benefit from '@/lib/models/Benefit';
 import { verifyAuth } from '@/lib/auth-utils';
 import { requireCSRFToken } from '@/lib/csrf-protection';
-import { validateRequestBody, createSuccessResponse, HTTP_STATUS } from '@/lib/api-utils';
+import { validateRequestBody } from '@/lib/api-utils';
 import { benefitSchema } from '@/lib/validation-schemas';
 
 // GET /api/benefits - Obtener beneficios disponibles para el usuario
@@ -26,6 +26,7 @@ export async function GET(request: NextRequest) {
     const includeInactive = searchParams.get('includeInactive') === 'true';
 
     // Construir filtros
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const filters: any = {
       isVisible: true,
       membershipTypes: { $in: [user.membershipType] }

@@ -5,7 +5,7 @@ import { verifySession } from '@/lib/auth-utils';
 import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // GET - Obtener grupos de interés
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     await connectToDatabase();
     
@@ -22,6 +22,7 @@ export async function GET(request: NextRequest) {
       nombre: grupo.nombre,
       descripcion: grupo.descripcion,
       icono: grupo.icono,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       miembros: grupo.miembros.map((id: any) => id.toString()),
       adminId: grupo.adminId._id.toString(),
       fechaCreacion: grupo.fechaCreacion,
@@ -110,6 +111,7 @@ export async function POST(request: NextRequest) {
       nombre: nuevoGrupo.nombre,
       descripcion: nuevoGrupo.descripcion,
       icono: nuevoGrupo.icono,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       miembros: nuevoGrupo.miembros.map((id: any) => id.toString()),
       adminId: nuevoGrupo.adminId._id.toString(),
       fechaCreacion: nuevoGrupo.fechaCreacion,

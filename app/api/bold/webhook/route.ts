@@ -1,14 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
-import BoldTransaction, { TransactionStatus, PaymentMethod } from '@/lib/models/BoldTransaction';
+import BoldTransaction, { TransactionStatus } from '@/lib/models/BoldTransaction';
 import Event from '@/lib/models/Event';
 import User from '@/lib/models/User';
 import { getEmailService } from '@/lib/email-service';
 import { 
   sendEventRegistrationNotification, 
   formatEventDate, 
-  formatPaymentAmount,
-  generateInvoiceUrl 
+  formatPaymentAmount
 } from '@/lib/bird-crm';
 import { ActivityLoggerService } from '@/lib/activity-logger';
 
@@ -29,15 +28,7 @@ export async function POST(request: NextRequest) {
     // Extraer datos importantes
     const {
       reference_id: referenceId,
-      transaction_id: transactionId,
-      payment_status: paymentStatus,
-      payment_method: paymentMethod,
-      total,
-      subtotal,
-      description,
-      payer_email: payerEmail,
-      transaction_date: transactionDate,
-      link_id: linkId
+      payment_status: paymentStatus
     } = webhookData;
 
     if (!referenceId) {
@@ -103,6 +94,7 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('❌ Error processing Bold webhook:', error);
     
@@ -120,12 +112,13 @@ export async function POST(request: NextRequest) {
 /**
  * Maneja un pago aprobado
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function handleApprovedPayment(transaction: any, webhookData: any) {
   try {
 
     // Generar token de acceso si no existe
     if (!transaction.accessToken) {
-      const crypto = require('crypto');
+      const crypto = await import('crypto');
       transaction.accessToken = crypto.randomBytes(32).toString('hex');
     }
 
@@ -237,8 +230,7 @@ async function handleApprovedPayment(transaction: any, webhookData: any) {
 
         const whatsappResult = await sendEventRegistrationNotification(notificationData);
         
-        if (whatsappResult.success) {
-        } else {
+        if (!whatsappResult.success) {
           console.error(`❌ Error al enviar notificación de WhatsApp: ${whatsappResult.error}`);
         }
       } else {
@@ -271,6 +263,7 @@ async function handleApprovedPayment(transaction: any, webhookData: any) {
 /**
  * Maneja un pago rechazado
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function handleRejectedPayment(transaction: any, webhookData: any) {
   await transaction.markAsRejected(webhookData);
   
@@ -311,6 +304,7 @@ async function handleRejectedPayment(transaction: any, webhookData: any) {
 /**
  * Maneja un pago fallido
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function handleFailedPayment(transaction: any, webhookData: any) {
   await transaction.markAsFailed(webhookData);
 }
@@ -318,6 +312,7 @@ async function handleFailedPayment(transaction: any, webhookData: any) {
 /**
  * Maneja un pago anulado
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function handleVoidedPayment(transaction: any, webhookData: any) {
   
   transaction.status = TransactionStatus.VOIDED;
@@ -333,6 +328,7 @@ async function handleVoidedPayment(transaction: any, webhookData: any) {
     // Remover del evento
     if (user.eventsRegistered?.includes(transaction.eventId)) {
       user.eventsRegistered = user.eventsRegistered.filter(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (id: any) => id.toString() !== transaction.eventId.toString()
       );
       await user.save();
@@ -349,6 +345,7 @@ async function handleVoidedPayment(transaction: any, webhookData: any) {
 /**
  * Maneja un pago pendiente o en proceso
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function handlePendingPayment(transaction: any, webhookData: any) {
   
   const status = webhookData.payment_status === 'PROCESSING' 

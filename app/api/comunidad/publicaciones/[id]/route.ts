@@ -77,8 +77,11 @@ export async function PUT(request: NextRequest, { params }: { params: Params }) 
       imagenes: publicacion.imagenes || [],
       tipoPublicacion: publicacion.tipoPublicacion,
       reacciones: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         meGusta: publicacion.reacciones.meGusta.map((id: any) => id.toString()),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         corazones: publicacion.reacciones.corazones.map((id: any) => id.toString()),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         fuego: publicacion.reacciones.fuego.map((id: any) => id.toString())
       },
       cantidadComentarios: publicacion.cantidadComentarios || 0,

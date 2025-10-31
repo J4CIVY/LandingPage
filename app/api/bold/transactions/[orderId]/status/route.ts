@@ -150,6 +150,7 @@ export async function GET(
           { status: 200 }
         );
       }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (boldError: any) {
       console.error('Error querying Bold API:', boldError);
       
@@ -176,6 +177,7 @@ export async function GET(
       );
     }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Error checking transaction status:', error);
     
@@ -193,6 +195,7 @@ export async function GET(
 /**
  * Registra al usuario en el evento después de un pago aprobado
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function registerUserToEvent(transaction: any) {
   try {
     const event = await Event.findById(transaction.eventId);
@@ -225,7 +228,7 @@ async function registerUserToEvent(transaction: any) {
       user.eventsRegistered.push(transaction.eventId);
       await user.save();
 
-    } else {
+      console.log(`✅ User ${user._id} registered to event ${event._id}`);
     }
   } catch (error) {
     console.error('Error registering user to event:', error);

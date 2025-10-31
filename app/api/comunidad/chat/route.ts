@@ -25,6 +25,7 @@ export async function GET(request: NextRequest) {
     const skip = (pagina - 1) * limite;
 
     // Construir filtro
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const filtro: any = { activo: true };
     if (grupoId) {
       if (!Types.ObjectId.isValid(grupoId)) {

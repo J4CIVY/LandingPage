@@ -118,7 +118,7 @@ export async function PUT(request: NextRequest, { params }: { params: Params }) 
 async function eliminarContenido(tipo: string, contenidoId: string): Promise<boolean> {
   try {
     switch (tipo) {
-      case 'publicacion':
+      case 'publicacion': {
         const publicacion = await Publicacion.findById(contenidoId);
         if (publicacion) {
           publicacion.activo = false;
@@ -126,8 +126,9 @@ async function eliminarContenido(tipo: string, contenidoId: string): Promise<boo
           return true;
         }
         break;
+      }
 
-      case 'comentario':
+      case 'comentario': {
         const comentario = await Comentario.findById(contenidoId);
         if (comentario) {
           comentario.activo = false;
@@ -135,8 +136,9 @@ async function eliminarContenido(tipo: string, contenidoId: string): Promise<boo
           return true;
         }
         break;
+      }
 
-      case 'mensaje':
+      case 'mensaje': {
         const mensaje = await ChatMensaje.findById(contenidoId);
         if (mensaje) {
           mensaje.activo = false;
@@ -144,6 +146,7 @@ async function eliminarContenido(tipo: string, contenidoId: string): Promise<boo
           return true;
         }
         break;
+      }
 
       default:
         return false;

@@ -20,6 +20,7 @@ export async function GET(
     const accessToken = searchParams.get('token');
 
     // Si hay token, verificar con token. Si no, verificar autenticación
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let transaction: any;
     
     if (accessToken) {
@@ -108,6 +109,7 @@ export async function GET(
       }
     });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Error generating invoice:', error);
     return NextResponse.json(
@@ -117,6 +119,7 @@ export async function GET(
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function generateInvoiceHTML({ transaction, user, event }: any) {
   const fecha = new Date(transaction.createdAt);
   const fechaFormateada = fecha.toLocaleDateString('es-CO', {

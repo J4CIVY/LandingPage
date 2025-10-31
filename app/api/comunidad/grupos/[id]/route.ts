@@ -84,6 +84,7 @@ export async function PUT(request: NextRequest, { params }: { params: Params }) 
       nombre: grupo.nombre,
       descripcion: grupo.descripcion,
       icono: grupo.icono,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       miembros: grupo.miembros.map((id: any) => id.toString()),
       adminId: grupo.adminId._id.toString(),
       fechaCreacion: grupo.fechaCreacion,

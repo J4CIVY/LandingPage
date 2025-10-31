@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
-import { Comentario, UsuarioRanking } from '@/lib/models/Comunidad';
+import { Comentario } from '@/lib/models/Comunidad';
 import { verifySession } from '@/lib/auth-utils';
 import { actualizarPuntos } from '@/lib/services/GamificacionService';
 import { requireCSRFToken } from '@/lib/csrf-protection';

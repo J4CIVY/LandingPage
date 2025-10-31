@@ -41,6 +41,7 @@ export async function POST(
     const { orderId } = await params;
 
     // Obtener la transacción
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const transaction: any = await BoldTransaction.findById(orderId).lean();
 
     if (!transaction) {
@@ -51,6 +52,7 @@ export async function POST(
     }
 
     // Verificar que la transacción pertenece al usuario (o que sea admin)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const user: any = await ExtendedUser.findById(authResult.session.userId);
     const isAdmin = user?.role === 'admin' || user?.role === 'superadmin';
     
@@ -74,6 +76,7 @@ export async function POST(
     }
 
     // Obtener información del evento y usuario completo
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [event, transactionUser]: [any, any] = await Promise.all([
       Event.findById(transaction.eventId).lean(),
       ExtendedUser.findById(transaction.userId).lean()
@@ -144,6 +147,7 @@ export async function POST(
       );
     }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Error al reenviar notificación:', error);
     return NextResponse.json(

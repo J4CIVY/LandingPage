@@ -52,6 +52,7 @@ export async function GET(request: NextRequest) {
       { $limit: limite }
     ]).toArray();
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const usuariosConBadges = rankings.map((usuario: any, index: number) => {
       const puntosTotal = usuario.puntos || 0;
       const badges = generarBadges(puntosTotal);
@@ -78,6 +79,7 @@ export async function GET(request: NextRequest) {
     });
 
     const posicionUsuario = usuariosConBadges.findIndex(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (u: any) => u.id === session.user!.id
     ) + 1;
 

@@ -33,7 +33,7 @@ async function quickCheckBoldStatus(orderId: string): Promise<string | null> {
     }
 
     return null;
-  } catch (error) {
+  } catch {
     // En caso de error o timeout, retornar null para no bloquear
     return null;
   }
@@ -79,7 +79,7 @@ export async function GET(request: NextRequest) {
         
         transaction.updatedAt = new Date();
         await transaction.save();
-      } catch (error) {
+      } catch {
         // Si hay error, cancelar por expiración
         transaction.status = TransactionStatus.CANCELLED;
         transaction.updatedAt = new Date();
@@ -94,6 +94,7 @@ export async function GET(request: NextRequest) {
 
     // Enriquecer con información del evento
     const enrichedTransactions = await Promise.all(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       transactions.map(async (transaction: any) => {
         // Si ya tiene eventName en la BD, usarlo
         if (transaction.eventName) {
@@ -103,6 +104,7 @@ export async function GET(request: NextRequest) {
         // Si no tiene eventName pero tiene eventId, buscar el evento
         if (transaction.eventId) {
           try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const event: any = await Event.findById(transaction.eventId).lean();
             const eventName = event?.name || null;
             
@@ -111,7 +113,7 @@ export async function GET(request: NextRequest) {
               eventName,
               eventNotFound: !event
             };
-          } catch (error) {
+          } catch {
             return {
               ...transaction,
               eventName: null,
@@ -134,6 +136,7 @@ export async function GET(request: NextRequest) {
         transactions: enrichedTransactions
       }
     });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Error fetching user transactions:', error);
     return NextResponse.json(

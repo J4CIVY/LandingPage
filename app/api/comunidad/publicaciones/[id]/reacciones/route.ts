@@ -53,6 +53,7 @@ export async function POST(
     if (yaReacciono) {
       // Quitar reacción
       publicacion.reacciones[tipo as keyof typeof publicacion.reacciones] = 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         reacciones.filter((id: any) => id.toString() !== usuarioId);
       
       // No descontamos puntos al quitar reacciones para evitar penalizaciones
@@ -84,8 +85,11 @@ export async function POST(
       fechaCreacion: publicacion.fechaCreacion,
       fechaActualizacion: publicacion.fechaActualizacion,
       reacciones: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         meGusta: publicacion.reacciones.meGusta.map((id: any) => id.toString()),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         corazones: publicacion.reacciones.corazones.map((id: any) => id.toString()),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         fuego: publicacion.reacciones.fuego.map((id: any) => id.toString())
       },
       comentarios: [],
@@ -108,7 +112,8 @@ export async function POST(
   }
 }
 
-// Función auxiliar para actualizar puntos por reacciones
+// Función auxiliar para actualizar puntos por reacciones (no utilizada actualmente)
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function actualizarPuntosReaccion(usuarioId: string, cambio: number) {
   try {
     let ranking = await UsuarioRanking.findOne({ usuarioId });

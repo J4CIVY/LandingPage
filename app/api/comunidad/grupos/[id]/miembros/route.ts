@@ -52,6 +52,7 @@ export async function POST(request: NextRequest, { params }: { params: Params })
     }
 
     const usuarioId = new Types.ObjectId(session.user!.id);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const yaEsMiembro = grupo.miembros.some((miembroId: any) => 
       miembroId.toString() === session.user!.id
     );
@@ -112,6 +113,7 @@ export async function POST(request: NextRequest, { params }: { params: Params })
       }
 
       // Salir del grupo
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       grupo.miembros = grupo.miembros.filter((miembroId: any) => 
         miembroId.toString() !== session.user!.id
       );
