@@ -28,12 +28,49 @@ export function generateKeyPair(): { publicKey: string; privateKey: string } {
 }
 
 /**
+ * Carga las llaves RSA desde variables de entorno
+ */
+function loadKeysFromEnv(): { publicKey: string; privateKey: string } | null {
+  const publicKey = process.env.RSA_PUBLIC_KEY;
+  const privateKey = process.env.RSA_PRIVATE_KEY;
+
+  if (publicKey && privateKey) {
+    // Restaurar el formato PEM si las claves están en formato de una línea
+    const formattedPublicKey = publicKey.includes('-----BEGIN') 
+      ? publicKey 
+      : `-----BEGIN PUBLIC KEY-----\n${publicKey.match(/.{1,64}/g)?.join('\n')}\n-----END PUBLIC KEY-----`;
+    
+    const formattedPrivateKey = privateKey.includes('-----BEGIN')
+      ? privateKey
+      : `-----BEGIN PRIVATE KEY-----\n${privateKey.match(/.{1,64}/g)?.join('\n')}\n-----END PRIVATE KEY-----`;
+
+    return {
+      publicKey: formattedPublicKey,
+      privateKey: formattedPrivateKey
+    };
+  }
+
+  return null;
+}
+
+/**
  * Obtiene o genera el par de llaves del servidor
+ * Primero intenta cargar desde variables de entorno, sino genera nuevas
  */
 export function getOrCreateKeyPair(): { publicKey: string; privateKey: string } {
   if (!keyPair) {
-    console.log('🔑 Generando nuevo par de llaves RSA...');
-    keyPair = generateKeyPair();
+    // Intentar cargar desde variables de entorno primero
+    const envKeys = loadKeysFromEnv();
+    
+    if (envKeys) {
+      console.log('🔑 Cargando llaves RSA desde variables de entorno...');
+      keyPair = envKeys;
+    } else {
+      console.log('⚠️  No se encontraron llaves RSA en variables de entorno.');
+      console.log('🔑 Generando nuevo par de llaves RSA (temporal - se perderán al reiniciar)...');
+      console.log('💡 Para persistir las llaves, configura RSA_PUBLIC_KEY y RSA_PRIVATE_KEY en .env');
+      keyPair = generateKeyPair();
+    }
   }
   return keyPair;
 }

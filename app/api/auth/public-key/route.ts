@@ -23,7 +23,7 @@ export async function GET() {
       { 
         status: 200,
         headers: {
-          'Cache-Control': 'public, max-age=3600', // Cachear por 1 hora
+          'Cache-Control': 'no-store, no-cache, must-revalidate, private',
           'Content-Type': 'application/json'
         }
       }

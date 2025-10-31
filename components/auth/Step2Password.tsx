@@ -128,7 +128,9 @@ export default function Step2Password({ email, onPasswordVerified, onBack }: Ste
       const encoder = new TextEncoder();
       const encodedPassword = encoder.encode(password);
       const encryptedBuffer = await window.crypto.subtle.encrypt(
-        { name: 'RSA-OAEP' },
+        { 
+          name: 'RSA-OAEP'
+        },
         cryptoKey,
         encodedPassword
       );
