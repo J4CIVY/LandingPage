@@ -18,7 +18,7 @@ const PUBLIC_API_ROUTES = [
   '/api/auth/verify-email',
   '/api/auth/reset-password',
   '/api/auth/refresh-token',
-  '/api/weather/current', // Solo clima público
+  '/api/weather/current',
 ];
 
 /**
