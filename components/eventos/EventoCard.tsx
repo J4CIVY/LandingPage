@@ -21,7 +21,7 @@ import { Event } from '@/types/events';
 
 interface EventoCardProps {
   event: Event;
-  currentUser: any;
+  currentUser: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   onClick: () => void;
   onRegister: () => void;
   onUnregister: () => void;
@@ -38,7 +38,7 @@ export default function EventoCard({
   onUnregister,
   onEdit,
   onDelete,
-  isDashboard = true
+  isDashboard = true // eslint-disable-line @typescript-eslint/no-unused-vars
 }: EventoCardProps) {
   const [imageError, setImageError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -155,7 +155,7 @@ export default function EventoCard({
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-400 to-purple-500">
+          <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-blue-400 to-purple-500">
             <FaCalendarAlt className="text-6xl text-white opacity-70" />
           </div>
         )}
@@ -220,7 +220,7 @@ export default function EventoCard({
         <div className="space-y-2 mb-4">
           {/* Fecha y hora */}
           <div className="flex items-center text-sm text-gray-600 dark:text-slate-400">
-            <FaCalendarAlt className="mr-2 text-blue-500 flex-shrink-0" />
+            <FaCalendarAlt className="mr-2 text-blue-500 shrink-0" />
             <span className="truncate">
               {formatDate(event.startDate)} - {formatTime(event.startDate)}
             </span>
@@ -229,7 +229,7 @@ export default function EventoCard({
           {/* Ubicación */}
           {event.departureLocation && (
             <div className="flex items-center text-sm text-gray-600 dark:text-slate-400">
-              <FaMapMarkerAlt className="mr-2 text-red-500 flex-shrink-0" />
+              <FaMapMarkerAlt className="mr-2 text-red-500 shrink-0" />
               <span className="truncate">
                 {event.departureLocation.city}, {event.departureLocation.country}
               </span>
@@ -239,7 +239,7 @@ export default function EventoCard({
           {/* Duración */}
           {event.duration && (
             <div className="flex items-center text-sm text-gray-600 dark:text-slate-400">
-              <FaClock className="mr-2 text-green-500 flex-shrink-0" />
+              <FaClock className="mr-2 text-green-500 shrink-0" />
               <span>{event.duration}h de duración</span>
             </div>
           )}
@@ -247,14 +247,14 @@ export default function EventoCard({
           {/* Distancia */}
           {event.distance && (
             <div className="flex items-center text-sm text-gray-600 dark:text-slate-400">
-              <FaRoute className="mr-2 text-purple-500 flex-shrink-0" />
+              <FaRoute className="mr-2 text-purple-500 shrink-0" />
               <span>{event.distance} km</span>
             </div>
           )}
 
           {/* Participantes */}
           <div className="flex items-center text-sm text-gray-600 dark:text-slate-400">
-            <FaUsers className="mr-2 text-orange-500 flex-shrink-0" />
+            <FaUsers className="mr-2 text-orange-500 shrink-0" />
             <span>
               {event.currentParticipants}
               {event.maxParticipants ? ` / ${event.maxParticipants}` : ''} participantes

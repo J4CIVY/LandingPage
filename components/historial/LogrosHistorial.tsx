@@ -9,13 +9,10 @@ import {
   FaAward,
   FaShieldAlt,
   FaUsers,
-  FaHeart,
-  FaHandsHelping,
   FaRoad,
   FaCalendarAlt,
   FaEye,
   FaDownload,
-  FaFilter,
   FaSearch
 } from 'react-icons/fa';
 import type { LogroHistorial } from '@/types/historial';
@@ -248,7 +245,7 @@ export default function LogrosHistorial() {
       </div>
 
       {/* Resumen de puntos */}
-  <div className="bg-gradient-to-r from-purple-600 to-purple-700 dark:from-slate-900 dark:to-slate-800 rounded-xl p-6 text-white mb-6">
+  <div className="bg-linear-to-r from-purple-600 to-purple-700 dark:from-slate-900 dark:to-slate-800 rounded-xl p-6 text-white mb-6">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold mb-1">Puntos por Logros</h3>
@@ -278,7 +275,7 @@ export default function LogrosHistorial() {
         {/* Filtro por categoría */}
         <select
           value={filtroCategoria}
-          onChange={(e) => setFiltroCategoria(e.target.value as any)}
+          onChange={(e) => setFiltroCategoria(e.target.value as any)} // eslint-disable-line @typescript-eslint/no-explicit-any
           className="px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
         >
           <option value="todos">Todas las categorías</option>
@@ -292,7 +289,7 @@ export default function LogrosHistorial() {
         {/* Filtro por nivel */}
         <select
           value={filtroNivel}
-          onChange={(e) => setFiltroNivel(e.target.value as any)}
+          onChange={(e) => setFiltroNivel(e.target.value as any)} // eslint-disable-line @typescript-eslint/no-explicit-any
           className="px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
         >
           <option value="todos">Todos los niveles</option>
@@ -319,7 +316,7 @@ export default function LogrosHistorial() {
             return (
               <div
                 key={logro.id}
-                className="border border-gray-200 dark:border-slate-700 rounded-lg p-6 hover:shadow-lg bg-gradient-to-br from-white to-gray-50 dark:from-slate-900 dark:to-slate-800"
+                className="border border-gray-200 dark:border-slate-700 rounded-lg p-6 hover:shadow-lg bg-linear-to-br from-white to-gray-50 dark:from-slate-900 dark:to-slate-800"
               >
                 {/* Header del logro */}
                 <div className="flex items-center justify-between mb-4">

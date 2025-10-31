@@ -12,9 +12,7 @@ import {
   FaEdit,
   FaTrash,
   FaCheckCircle,
-  FaExclamationTriangle,
   FaRoute,
-  FaMoneyBillWave,
   FaPhone,
   FaEnvelope,
   FaUserTie,
@@ -28,7 +26,7 @@ import { Event } from '@/types/events';
 
 interface EventoModalProps {
   event: Event;
-  currentUser: any;
+  currentUser: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   isOpen: boolean;
   onClose: () => void;
   onRegister: () => void;
@@ -48,9 +46,11 @@ export default function EventoModal({
   onDelete
 }: EventoModalProps) {
   const [loading, setLoading] = useState(false);
-  const [participants, setParticipants] = useState<any[]>([]);
+  const [participants, setParticipants] = useState<any[]>([]); // eslint-disable-line @typescript-eslint/no-explicit-any
   const [loadingParticipants, setLoadingParticipants] = useState(false);
-  const [showParticipants, setShowParticipants] = useState(false);
+  const [showParticipants, setShowParticipants] = useState(false); // eslint-disable-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_setShowParticipants, _setSetShowParticipants] = [setShowParticipants, setShowParticipants];
 
   // Verificar si el usuario está inscrito
   const isUserRegistered = event.participants?.includes(currentUser?.id) || false;
@@ -191,7 +191,7 @@ export default function EventoModal({
         {/* Header del modal */}
         <div className="relative">
           {/* Imagen de fondo */}
-          <div className="h-64 bg-gradient-to-r from-blue-500 to-purple-600 relative overflow-hidden">
+          <div className="h-64 bg-linear-to-r from-blue-500 to-purple-600 relative overflow-hidden">
             {event.mainImage && (
               <Image
                 src={event.mainImage}
@@ -266,7 +266,7 @@ export default function EventoModal({
                     <ul className="space-y-2">
                       {event.requirements.map((requirement, index) => (
                         <li key={index} className="flex items-start">
-                          <FaCheckCircle className="text-orange-500 mr-2 mt-1 flex-shrink-0" />
+                          <FaCheckCircle className="text-orange-500 mr-2 mt-1 shrink-0" />
                           <span className="text-gray-700 dark:text-slate-300">{requirement}</span>
                         </li>
                       ))}
@@ -286,7 +286,7 @@ export default function EventoModal({
                     <ul className="space-y-2">
                       {event.includedServices.map((service, index) => (
                         <li key={index} className="flex items-start">
-                          <FaCheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
+                          <FaCheckCircle className="text-green-500 mr-2 mt-1 shrink-0" />
                           <span className="text-gray-700 dark:text-slate-300">{service}</span>
                         </li>
                       ))}

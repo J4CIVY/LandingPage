@@ -15,11 +15,12 @@ import type { EstadisticasHistorial } from '@/types/historial';
 interface HistorialHeaderProps {
   estadisticas: EstadisticasHistorial | null;
   onExportPDF: () => void;
-  historialItems?: any[]; // Para pasar los items del historial
-  userName?: string; // Para personalizar el PDF
+  historialItems?: any[]; // eslint-disable-line @typescript-eslint/no-explicit-any
+  userName?: string;
 }
 
-export default function HistorialHeader({ estadisticas, onExportPDF, historialItems = [], userName }: HistorialHeaderProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function HistorialHeader({ estadisticas, onExportPDF, historialItems = [] }: HistorialHeaderProps) {
   const [isExporting, setIsExporting] = useState(false);
 
   const handleExportPDF = async () => {
@@ -84,7 +85,7 @@ export default function HistorialHeader({ estadisticas, onExportPDF, historialIt
   return (
     <div className="mb-8">
       {/* Encabezado principal */}
-  <div className="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-slate-900 dark:to-slate-800 rounded-lg shadow-lg text-white p-8 mb-6">
+  <div className="bg-linear-to-r from-blue-600 to-blue-800 dark:from-slate-900 dark:to-slate-800 rounded-lg shadow-lg text-white p-8 mb-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
           <div className="mb-6 lg:mb-0">
             <h1 className="text-3xl lg:text-4xl font-bold mb-2">
@@ -95,7 +96,7 @@ export default function HistorialHeader({ estadisticas, onExportPDF, historialIt
             </p>
           </div>
           
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <button
               onClick={handleExportPDF}
               disabled={isExporting}

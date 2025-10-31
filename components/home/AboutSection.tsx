@@ -92,7 +92,7 @@ const AboutSection: React.FC = () => {
                 height={768}
               />
             </picture>
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 dark:from-slate-950 dark:to-transparent to-transparent opacity-70"></div>
+            <div className="absolute inset-0 bg-linear-to-t from-slate-950 dark:from-slate-950 dark:to-transparent to-transparent opacity-70"></div>
             <div className="absolute bottom-0 left-0 p-6 text-white dark:text-gray-200">
               <p className="text-xl italic">
                 "Más que rutas, creamos recuerdos. Desde el primer día, eres parte de algo más grande."

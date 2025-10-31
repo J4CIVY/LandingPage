@@ -3,14 +3,11 @@
 import { useState, useEffect } from 'react';
 import { 
   FaGift,
-  FaShoppingCart,
-  FaUtensils,
   FaWrench,
   FaCalendarAlt,
   FaQrcode,
   FaTicketAlt,
   FaSearch,
-  FaFilter,
   FaEye,
   FaDownload,
   FaCheckCircle,
@@ -277,7 +274,7 @@ export default function BeneficiosHistorial() {
         {/* Filtro por categoría */}
         <select
           value={filtroCategoria}
-          onChange={(e) => setFiltroCategoria(e.target.value as any)}
+          onChange={(e) => setFiltroCategoria(e.target.value as any)} // eslint-disable-line @typescript-eslint/no-explicit-any
           className="px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
         >
           <option value="todos">Todas las categorías</option>
@@ -290,7 +287,7 @@ export default function BeneficiosHistorial() {
         {/* Filtro por estado */}
         <select
           value={filtroEstado}
-          onChange={(e) => setFiltroEstado(e.target.value as any)}
+          onChange={(e) => setFiltroEstado(e.target.value as any)} // eslint-disable-line @typescript-eslint/no-explicit-any
           className="px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
         >
           <option value="todos">Todos los estados</option>

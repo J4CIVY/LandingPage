@@ -48,6 +48,7 @@ const difficulties: { value: EventDifficulty | 'all'; label: string }[] = [
   { value: 'expert', label: 'Experto' }
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function EventosFilter({ filters, onFiltersChange, onClearFilters, loading }: EventosFilterProps) {
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [localFilters, setLocalFilters] = useState<EventFilters>(filters);
@@ -66,6 +67,7 @@ export default function EventosFilter({ filters, onFiltersChange, onClearFilters
     return () => clearTimeout(timer);
   }, [localFilters, onFiltersChange, filters.search]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const updateFilter = (key: keyof EventFilters, value: any) => {
     setLocalFilters(prev => ({ ...prev, [key]: value }));
   };

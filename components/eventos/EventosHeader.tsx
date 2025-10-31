@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { FaPlus, FaCalendarAlt } from 'react-icons/fa';
 
 interface EventosHeaderProps {
@@ -31,7 +30,7 @@ export default function EventosHeader({ isAdmin, onCreateEvent, stats, loading }
   return (
     <div className="mb-8">
       {/* Encabezado principal */}
-      <div className="bg-gradient-to-r from-emerald-600 to-sky-600 rounded-xl p-8 text-white mb-6">
+      <div className="bg-linear-to-r from-emerald-600 to-sky-600 rounded-xl p-8 text-white mb-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
           <div className="mb-6 lg:mb-0">
             <div className="flex items-center mb-3">
@@ -50,7 +49,7 @@ export default function EventosHeader({ isAdmin, onCreateEvent, stats, loading }
           
           {/* Botón crear evento - solo admin */}
           {isAdmin && (
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
               <button
                 onClick={onCreateEvent}
                 className="
@@ -129,7 +128,7 @@ export default function EventosHeader({ isAdmin, onCreateEvent, stats, loading }
       {/* Información adicional */}
       <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
         <div className="flex items-start space-x-3">
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <div className="w-8 h-8 bg-blue-100 dark:bg-blue-800 rounded-full flex items-center justify-center">
               <FaCalendarAlt className="text-blue-600 dark:text-blue-400 text-sm" />
             </div>

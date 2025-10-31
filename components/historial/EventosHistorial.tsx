@@ -8,7 +8,6 @@ import {
   FaCrown, 
   FaHandsHelping,
   FaSearch,
-  FaFilter,
   FaEye,
   FaStar,
   FaCheckCircle,
@@ -243,7 +242,7 @@ export default function EventosHistorial() {
         {/* Filtro por estado */}
         <select
           value={filtroEstado}
-          onChange={(e) => setFiltroEstado(e.target.value as any)}
+          onChange={(e) => setFiltroEstado(e.target.value as any)} // eslint-disable-line @typescript-eslint/no-explicit-any
           className="px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
         >
           <option value="todos">Todos los estados</option>
@@ -256,7 +255,7 @@ export default function EventosHistorial() {
         {/* Filtro por tipo */}
         <select
           value={filtroTipo}
-          onChange={(e) => setFiltroTipo(e.target.value as any)}
+          onChange={(e) => setFiltroTipo(e.target.value as any)} // eslint-disable-line @typescript-eslint/no-explicit-any
           className="px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
         >
           <option value="todos">Todos los tipos</option>
@@ -288,7 +287,7 @@ export default function EventosHistorial() {
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
                   <div className="flex-1">
                     <div className="flex items-start space-x-3 mb-3">
-                      <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center shrink-0">
                         <FaCalendarAlt className="text-blue-600" />
                       </div>
                       

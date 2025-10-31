@@ -132,7 +132,7 @@ export default function EventsList({ initialEvents, locations }: EventsListProps
               <p className="text-gray-500 dark:text-gray-400 mb-6">
                 No hay eventos programados para los próximos 6 meses que coincidan con tus filtros. Ajusta los filtros o únete al club para no perderte nuestras próximas aventuras.
               </p>
-              <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-slate-800 dark:to-slate-700 p-6 rounded-xl max-w-md mx-auto">
+              <div className="bg-linear-to-r from-green-50 to-blue-50 dark:from-slate-800 dark:to-slate-700 p-6 rounded-xl max-w-md mx-auto">
                 <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
                   ¡Únete al BSK Motorcycle Team para estar al tanto de futuros eventos y recibir notificaciones exclusivas!
                 </p>

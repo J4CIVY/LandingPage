@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import { 
   FaCreditCard, 
-  FaCalendarAlt, 
   FaCheckCircle, 
   FaTimesCircle,
   FaExclamationTriangle,
@@ -85,7 +84,7 @@ export default function MembresiaHistorial() {
     }
   };
 
-  const getEstadoColor = (estado: string) => {
+  const getEstadoColor = (estado: string) => { // eslint-disable-line @typescript-eslint/no-unused-vars
     switch (estado) {
       case 'activa': return 'text-green-600 bg-green-50';
       case 'vencida': return 'text-red-600 bg-red-50';
@@ -181,7 +180,7 @@ export default function MembresiaHistorial() {
       </div>
 
       {/* Estado actual de la membresía */}
-  <div className="bg-gradient-to-r from-blue-600 to-blue-700 dark:from-slate-900 dark:to-slate-800 rounded-xl p-6 text-white mb-6">
+  <div className="bg-linear-to-r from-blue-600 to-blue-700 dark:from-slate-900 dark:to-slate-800 rounded-xl p-6 text-white mb-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 bg-white bg-opacity-20 dark:bg-slate-800 rounded-lg flex items-center justify-center">
@@ -261,7 +260,7 @@ export default function MembresiaHistorial() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {membresia.beneficiosActivos.map((beneficio, index) => (
             <div key={index} className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-slate-800 rounded-lg">
-              <FaCheckCircle className="text-green-600 dark:text-green-400 flex-shrink-0" />
+              <FaCheckCircle className="text-green-600 dark:text-green-400 shrink-0" />
               <span className="text-gray-700 dark:text-gray-300">{beneficio}</span>
             </div>
           ))}

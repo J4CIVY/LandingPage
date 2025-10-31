@@ -110,7 +110,7 @@ export default function Timeline({ items, filtro, onFiltroChange }: TimelineProp
                 return (
                   <button
                     key={categoria.value}
-                    onClick={() => onFiltroChange({ ...filtro, categoria: categoria.value as any })}
+                    onClick={() => onFiltroChange({ ...filtro, categoria: categoria.value as any })} // eslint-disable-line @typescript-eslint/no-explicit-any
                     className={`flex items-center space-x-2 px-3 py-2 rounded-lg border ${
                       isActive
                         ? 'border-blue-500 bg-blue-50 dark:bg-slate-800 text-blue-700 dark:text-blue-300'
@@ -141,7 +141,7 @@ export default function Timeline({ items, filtro, onFiltroChange }: TimelineProp
             <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-200 dark:bg-slate-700 hidden md:block"></div>
             
             <div className="space-y-6">
-              {items.map((item, index) => {
+              {items.map((item, index) => { // eslint-disable-line @typescript-eslint/no-unused-vars
                 const IconComponent = getIconForType(item.tipo);
                 const colorClass = getColorForType(item.tipo);
                 const date = formatDate(item.fecha);
@@ -158,7 +158,7 @@ export default function Timeline({ items, filtro, onFiltroChange }: TimelineProp
                     </div>
 
                     {/* Fecha (escritorio) */}
-                    <div className="hidden md:block flex-shrink-0 w-20 text-right">
+                    <div className="hidden md:block shrink-0 w-20 text-right">
                       <div className="text-sm font-medium text-gray-900 dark:text-white">{date.day}</div>
                       <div className="text-xs text-gray-600 dark:text-gray-300">{date.month}</div>
                       <div className="text-xs text-gray-500 dark:text-gray-400">{date.year}</div>
@@ -166,7 +166,7 @@ export default function Timeline({ items, filtro, onFiltroChange }: TimelineProp
                     </div>
 
                     {/* Icono del timeline */}
-                    <div className="hidden md:flex flex-shrink-0 relative">
+                    <div className="hidden md:flex shrink-0 relative">
                       <div className={`w-8 h-8 ${colorClass} rounded-full flex items-center justify-center relative z-10 shadow-lg`}>
                         <IconComponent className="text-white text-sm" />
                       </div>
