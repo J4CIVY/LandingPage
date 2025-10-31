@@ -14,6 +14,7 @@ const PUBLIC_API_ROUTES = [
   '/api/auth/register',
   '/api/auth/check-email',
   '/api/auth/public-key',
+  '/api/auth/validate-credentials',
   '/api/auth/verify-email',
   '/api/auth/reset-password',
   '/api/auth/refresh-token',
