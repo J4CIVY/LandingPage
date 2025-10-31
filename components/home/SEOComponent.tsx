@@ -25,7 +25,7 @@ interface SEOComponentProps {
   type?: string;
   robots?: string;
   canonical?: string;
-  structuredData?: any;
+  structuredData?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   children?: React.ReactNode;
 }
 

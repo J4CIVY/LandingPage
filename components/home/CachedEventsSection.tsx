@@ -109,7 +109,7 @@ export default async function CachedEventsSection() {
                     loading="lazy"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-red-500 to-red-700">
+                  <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-red-500 to-red-700">
                     <FaCalendarAlt className="text-6xl text-white opacity-50" />
                   </div>
                 )}

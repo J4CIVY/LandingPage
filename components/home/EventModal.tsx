@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import React, { useEffect } from 'react';
@@ -111,8 +112,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
                       {/* Tags for difficulty, event type, and internal type */}
                       <div className="mt-2 flex flex-wrap gap-2">
                         <span className={`px-2 py-1 rounded-full text-xs font-semibold text-white ${getDifficultyColor((event as any).difficultyLevel)}`}>
-                          {(event as any).difficultyLevel === 'low' ? 'Baja' : 
-                          (event as any).difficultyLevel === 'medium' ? 'Media' : 'Alta'} dificultad
+                          {(event as any).difficultyLevel === 'low' ? 'Baja' : (event as any).difficultyLevel === 'medium' ? 'Media' : 'Alta'} dificultad
                         </span>
                         <span className={`px-2 py-1 rounded-full text-xs font-semibold text-white ${getEventTypeColor(event.eventType)}`}>
                           {event.eventType === 'Rodada' ? 'Rodada' : 'Encuentro'}
@@ -235,7 +235,7 @@ const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
                               {/* Map through activities for each day */}
                               {day.activities.map((activity: any, activityIndex: number) => (
                                 <div key={activityIndex} className="flex">
-                                  <div className="flex-shrink-0 w-16 text-sm font-medium text-gray-500 dark:text-gray-400">
+                                  <div className="shrink-0 w-16 text-sm font-medium text-gray-500 dark:text-gray-400">
                                     {activity.time}
                                   </div>
                                   <div className="ml-2 text-sm text-gray-700 dark:text-gray-300">

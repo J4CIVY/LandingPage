@@ -317,7 +317,7 @@ const FAQSection: React.FC = () => {
       
       <div className="flex flex-wrap justify-center gap-2 mb-6">
         {/* Filter buttons */}
-        {['all', 'membership', 'events', 'benefits', 'general', 'organization'].map((filter, index) => (
+        {['all', 'membership', 'events', 'benefits', 'general', 'organization'].map((filter, index) => ( // eslint-disable-line @typescript-eslint/no-unused-vars
           <button
             key={filter}
             onClick={() => setFaqFilter(filter as 'all' | 'membership' | 'events' | 'benefits' | 'general' | 'organization')}

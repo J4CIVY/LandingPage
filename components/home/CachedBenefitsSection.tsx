@@ -95,7 +95,7 @@ export default async function CachedBenefitsSection() {
 
         {/* Benefits Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {benefits.map((benefit: any) => (
+          {benefits.map((benefit: any) => ( // eslint-disable-line @typescript-eslint/no-explicit-any
             <div
               key={benefit.id || benefit._id}
               className="bg-white dark:bg-slate-950 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"

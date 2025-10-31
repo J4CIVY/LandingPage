@@ -22,7 +22,7 @@ const StoreSection: React.FC = () => {
         await new Promise(resolve => setTimeout(resolve, 1000));
         // Set empty products array since external API is removed
         setFeaturedProducts([]);
-      } catch (err: any) { // Using 'any' for catch error type as it can be various types
+      } catch (err: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
         console.error('Error fetching featured products:', err);
         // Provide a more user-friendly error message
         setError(err.response?.data?.message || err.message || 'Error al cargar los productos destacados.');
@@ -82,7 +82,7 @@ const StoreSection: React.FC = () => {
         {featuredProducts.length > 0 ? (
           <>
             <div className="grid md:grid-cols-3 gap-8">
-              {featuredProducts.map((product: any, index: number) => (
+              {featuredProducts.map((product: any, index: number) => ( // eslint-disable-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
                 <div className="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg hover:scale-105">
                   <div className="relative" style={{ aspectRatio: '1/1' }}>
                     <Image

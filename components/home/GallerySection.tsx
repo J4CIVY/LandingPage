@@ -104,7 +104,7 @@ const GallerySection: React.FC = () => {
             ))}
           </div>
 
-          <div className="absolute inset-0 bg-gradient-to-t from-black dark:from-slate-950 to-transparent opacity-50"></div>
+          <div className="absolute inset-0 bg-linear-to-t from-black dark:from-slate-950 to-transparent opacity-50"></div>
           <div className="absolute bottom-0 left-0 p-6 text-white dark:text-gray-200">
             <p className="text-xl">{galleryImages[activeGalleryImage].alt}</p>
           </div>

@@ -32,13 +32,6 @@ const HeroSection: React.FC = () => {
     https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_webp,w_1366/${imagePath} 1366w,
   `;
 
-  const srcSetJpg: string = `
-    https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_480/${imagePath} 480w,
-    https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_768/${imagePath} 768w,
-    https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_1024/${imagePath} 1024w,
-    https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_1366/${imagePath} 1366w,
-  `;
-
   // Fallback source for browsers that don't support picture or webp/avif
   const fallbackSrc: string = `https://res.cloudinary.com/${cloudName}/image/upload/${commonParams},f_jpg,w_1366/${imagePath}`;
 
@@ -60,8 +53,8 @@ const HeroSection: React.FC = () => {
     });
     
     // Analytics opcional (si tienes configurado)
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', 'scroll_to_next_section', {
+    if (typeof window !== 'undefined' && (window as any).gtag) { // eslint-disable-line @typescript-eslint/no-explicit-any
+      (window as any).gtag('event', 'scroll_to_next_section', { // eslint-disable-line @typescript-eslint/no-explicit-any
         event_category: 'engagement',
         event_label: 'hero_scroll_arrow'
       });
@@ -100,7 +93,7 @@ const HeroSection: React.FC = () => {
           />
         </picture>
         {/* Overlay to darken the image and improve text readability */}
-  <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/60 dark:from-slate-950/80 dark:via-slate-900/60 dark:to-slate-950/80" aria-hidden="true"></div>
+  <div className="absolute inset-0 bg-linear-to-r from-black/60 via-black/40 to-black/60 dark:from-slate-950/80 dark:via-slate-900/60 dark:to-slate-950/80" aria-hidden="true"></div>
       </div>
 
       {/* Hero content: title, description, and call-to-action button */}
@@ -126,7 +119,7 @@ const HeroSection: React.FC = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-10">
           <button 
             onClick={handleJoinClick}
-            className="group relative bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-10 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 ease-out focus-enhanced touch-target"
+            className="group relative bg-linear-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-10 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 ease-out focus-enhanced touch-target"
             aria-label="Únete a BSK Motorcycle Team - Accede a membresías exclusivas del motoclub líder en Colombia"
           >
             <span className="flex items-center justify-center gap-2">
@@ -202,8 +195,8 @@ const HeroSection: React.FC = () => {
           </button>
 
           {/* Línea indicadora */}
-          <div className="w-0.5 h-12 bg-gradient-to-b from-white/60 dark:from-gray-300/60 via-white/30 dark:via-gray-300/30 to-transparent relative overflow-hidden">
-            <div className="absolute top-0 w-full h-4 bg-gradient-to-b from-green-400/60 dark:from-green-300/60 to-transparent opacity-80"></div>
+          <div className="w-0.5 h-12 bg-linear-to-b from-white/60 dark:from-gray-300/60 via-white/30 dark:via-gray-300/30 to-transparent relative overflow-hidden">
+            <div className="absolute top-0 w-full h-4 bg-linear-to-b from-green-400/60 dark:from-green-300/60 to-transparent opacity-80"></div>
           </div>
         </div>
       </div>

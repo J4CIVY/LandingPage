@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Suspense, useState, useEffect } from "react";
+import React, { Suspense } from "react";
 import { useEvents } from "@/hooks/useEvents";
 import { 
   LazyAboutSection,
@@ -11,9 +11,8 @@ import {
   LazyBlogSection, 
   LazyStoreSection
 } from "@/components/performance/LazyComponents";
-import { SkeletonCard, SkeletonEvent, SkeletonText } from "@/components/shared/SkeletonLoaders";
+import { SkeletonCard } from "@/components/shared/SkeletonLoaders";
 import { 
-  useAdaptiveLoading, 
   OfflineIndicator, 
   SlowConnectionIndicator,
   useDeviceInfo 
@@ -23,7 +22,6 @@ const HermandadSection = React.lazy(() => import("@/components/home/HermandadSec
 
 export default function HomeContent() {
   const { events, loading, error } = useEvents(true, 6); // Solo eventos futuros, máximo 6
-  const { shouldLazyLoad, shouldPreloadImages } = useAdaptiveLoading();
   const { isMobile } = useDeviceInfo();
 
   return (
@@ -68,7 +66,8 @@ export default function HomeContent() {
       </section>
 
       {/* Sección Store */}
-      {(!isMobile || shouldPreloadImages) && (
+            {/* Lazy load non-critical sections */}
+      {(!isMobile) && (
         <section className="lazy-container intersection-stable bg-gray-50 dark:bg-slate-900">
           <LazyStoreSection />
         </section>

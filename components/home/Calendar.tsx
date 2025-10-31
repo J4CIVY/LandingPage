@@ -167,7 +167,7 @@ const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMon
     while (day <= endDate) {
       for (let i = 0; i < 7; i++) {
         const currentDay: Date = day;
-        const dayEvents: Event[] = events.filter((event: any) => {
+        const dayEvents: Event[] = events.filter((event: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
           // Ensure event.startDate is a valid ISO string before parsing
           if (!event.startDate) return false;
           const eventDate: Date = new Date(event.startDate);
@@ -183,7 +183,7 @@ const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMon
           >
             <span className="text-sm font-medium self-end text-slate-950 dark:text-white">{currentDay.getDate()}</span>
             <div className="flex-1 overflow-y-auto custom-scrollbar">
-              {dayEvents.map((event: any) => (
+              {dayEvents.map((event: any) => ( // eslint-disable-line @typescript-eslint/no-explicit-any
                 <div 
                   key={event._id}
                   className="text-xs p-1 my-0.5 rounded bg-red-600 dark:bg-red-700 text-white dark:text-white truncate w-full pointer-events-none"
