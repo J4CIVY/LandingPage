@@ -17,8 +17,6 @@ import {
   FaCalendarCheck,
   FaMapMarkerAlt,
   FaUsers,
-  FaClock,
-  FaFilter,
   FaUserCheck
 } from 'react-icons/fa';
 

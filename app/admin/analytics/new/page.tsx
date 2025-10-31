@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
-import { FiPlus, FiSave, FiX, FiCalendar, FiDownload, FiRefreshCw } from 'react-icons/fi';
+import { FiPlus, FiSave, FiX, FiCalendar } from 'react-icons/fi';
 
 interface ReportConfig {
   name: string;
@@ -63,12 +63,12 @@ export default function NewAnalyticsReportPage() {
 
       // Simular creación de configuración de reporte
       // En una implementación real, esto se guardaría en la base de datos
-      const reportConfig = {
-        ...formData,
-        id: Date.now().toString(),
-        createdAt: new Date().toISOString(),
-        createdBy: user?.email
-      };
+      // const reportConfig = {
+      //   ...formData,
+      //   id: Date.now().toString(),
+      //   createdAt: new Date().toISOString(),
+      //   createdBy: user?.email
+      // };
 
       
       // Generar reporte inmediatamente si es de tipo "once"

@@ -9,16 +9,12 @@ import {
   FaSpinner, 
   FaPlus, 
   FaSync,
-  FaUsers,
   FaCalendarAlt,
   FaExclamationTriangle,
   FaBullhorn,
   FaCheck,
   FaTimes,
-  FaEye,
-  FaTrash,
-  FaFilter,
-  FaSearch
+  FaEye
 } from 'react-icons/fa';
 
 interface NotificationStats {
@@ -48,7 +44,7 @@ interface NotificationTemplate {
   message: string;
   targetUsers: 'all' | 'active' | 'premium' | 'specific';
   specificUsers?: string[];
-  metadata?: any;
+  metadata?: Record<string, unknown>;
 }
 
 export default function AdminNotifications() {
@@ -57,7 +53,6 @@ export default function AdminNotifications() {
   const [stats, setStats] = useState<NotificationStats | null>(null);
   const [loadingStats, setLoadingStats] = useState(true);
   const [generating, setGenerating] = useState(false);
-  const [showCreateModal, setShowCreateModal] = useState(false);
   const [activeTab, setActiveTab] = useState<'overview' | 'create' | 'templates' | 'history'>('overview');
 
   // Cargar estadísticas
@@ -160,7 +155,7 @@ export default function AdminNotifications() {
               {generating ? 'Generando...' : 'Generar Automáticas'}
             </button>
             <button
-              onClick={() => setShowCreateModal(true)}
+              onClick={() => setActiveTab('create')}
               className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
             >
               <FaPlus className="mr-2" />
@@ -180,7 +175,7 @@ export default function AdminNotifications() {
             ].map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => setActiveTab(tab.id as 'overview' | 'create' | 'templates' | 'history')}
                 className={`flex items-center py-2 px-1 border-b-2 font-medium text-sm ${
                   activeTab === tab.id
                     ? 'border-blue-500 text-blue-600 dark:text-blue-400'
@@ -207,7 +202,7 @@ export default function AdminNotifications() {
                 {/* Total Notifications */}
                 <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                   <div className="flex items-center">
-                    <div className="flex-shrink-0">
+                    <div className="shrink-0">
                       <FaBell className="h-8 w-8 text-blue-600" />
                     </div>
                     <div className="ml-4">
@@ -224,7 +219,7 @@ export default function AdminNotifications() {
                 {/* Unread Notifications */}
                 <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                   <div className="flex items-center">
-                    <div className="flex-shrink-0">
+                    <div className="shrink-0">
                       <FaExclamationTriangle className="h-8 w-8 text-orange-600" />
                     </div>
                     <div className="ml-4">
@@ -241,7 +236,7 @@ export default function AdminNotifications() {
                 {/* Recent Notifications */}
                 <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                   <div className="flex items-center">
-                    <div className="flex-shrink-0">
+                    <div className="shrink-0">
                       <FaCalendarAlt className="h-8 w-8 text-green-600" />
                     </div>
                     <div className="ml-4">
@@ -258,7 +253,7 @@ export default function AdminNotifications() {
                 {/* Expired Notifications */}
                 <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                   <div className="flex items-center">
-                    <div className="flex-shrink-0">
+                    <div className="shrink-0">
                       <FaTimes className="h-8 w-8 text-red-600" />
                     </div>
                     <div className="ml-4">
@@ -418,7 +413,7 @@ function CreateNotificationForm({ onSuccess }: { onSuccess: () => void }) {
           </label>
           <select
             value={formData.type}
-            onChange={(e) => setFormData({ ...formData, type: e.target.value as any })}
+            onChange={(e) => setFormData({ ...formData, type: e.target.value as 'event_upcoming' | 'event_registration_open' | 'event_reminder' | 'membership_update' | 'system_announcement' })}
             className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             required
           >
@@ -437,7 +432,7 @@ function CreateNotificationForm({ onSuccess }: { onSuccess: () => void }) {
           </label>
           <select
             value={formData.priority}
-            onChange={(e) => setFormData({ ...formData, priority: e.target.value as any })}
+            onChange={(e) => setFormData({ ...formData, priority: e.target.value as 'low' | 'medium' | 'high' | 'urgent' })}
             className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             required
           >
@@ -486,7 +481,7 @@ function CreateNotificationForm({ onSuccess }: { onSuccess: () => void }) {
         </label>
         <select
           value={formData.targetUsers}
-          onChange={(e) => setFormData({ ...formData, targetUsers: e.target.value as any })}
+          onChange={(e) => setFormData({ ...formData, targetUsers: e.target.value as 'all' | 'active' | 'premium' | 'specific' })}
           className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
           required
         >

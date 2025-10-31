@@ -5,16 +5,13 @@ import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import AdminLayout from '@/components/admin/AdminLayout';
 import ImageUpload from '@/components/shared/ImageUpload';
-import ImageGalleryUpload from '@/components/shared/ImageGalleryUpload';
 import { 
   FaSpinner, 
   FaSave,
   FaArrowLeft,
   FaCalendarAlt,
-  FaClock,
   FaMapMarkerAlt,
   FaUsers,
-  FaDollarSign,
   FaImage,
   FaTags,
   FaInfoCircle
@@ -213,7 +210,7 @@ export default function EditEventPage() {
       setFormData(prev => ({
         ...prev,
         [parent]: {
-          ...prev[parent as keyof EventFormData] as any,
+          ...(prev[parent as keyof EventFormData] as Record<string, string>),
           [child]: value
         }
       }));

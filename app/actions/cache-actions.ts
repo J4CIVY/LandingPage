@@ -21,7 +21,7 @@ import { internalApiFetch } from '@/lib/internal-api-client';
  * Crear un nuevo evento
  * Soft revalidation: Los lectores ven lista antigua mientras se actualiza
  */
-export async function createEvent(eventData: any) {
+export async function createEvent(eventData: Record<string, unknown>) {
   try {
     const response = await internalApiFetch('/api/events', {
       method: 'POST',
@@ -44,7 +44,7 @@ export async function createEvent(eventData: any) {
 /**
  * Actualizar un evento existente
  */
-export async function updateEvent(eventId: string, eventData: any) {
+export async function updateEvent(eventId: string, eventData: Record<string, unknown>) {
   try {
     const response = await internalApiFetch(`/api/events/${eventId}`, {
       method: 'PUT',
@@ -73,7 +73,7 @@ export async function updateEvent(eventId: string, eventData: any) {
  * Actualizar perfil de usuario
  * Immediate update: El usuario ve sus cambios al instante
  */
-export async function updateUserProfile(userId: string, profileData: any) {
+export async function updateUserProfile(userId: string, profileData: Record<string, unknown>) {
   try {
     const response = await internalApiFetch(`/api/users/${userId}`, {
       method: 'PUT',
@@ -96,7 +96,7 @@ export async function updateUserProfile(userId: string, profileData: any) {
 /**
  * Actualizar configuración de usuario
  */
-export async function updateUserSettings(userId: string, settings: any) {
+export async function updateUserSettings(userId: string, settings: Record<string, unknown>) {
   try {
     const response = await internalApiFetch(`/api/users/${userId}/settings`, {
       method: 'PUT',
@@ -203,7 +203,7 @@ export async function updateEmergencyStatus(emergencyId: string, status: string)
  * Actualizar producto en la tienda
  * Soft revalidation - catálogo de productos
  */
-export async function updateProduct(productId: string, productData: any) {
+export async function updateProduct(productId: string, productData: Record<string, unknown>) {
   try {
     const response = await internalApiFetch(`/api/products/${productId}`, {
       method: 'PUT',

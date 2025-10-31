@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { 
-  FaSpinner, 
   FaUsers, 
   FaCalendarAlt,
   FaBoxes,
@@ -242,7 +241,7 @@ export default function AdminDashboard() {
         <div className="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-400 p-4 mb-6 lg:mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center gap-3">
             <div className="flex items-start">
-              <FaExclamationTriangle className="text-red-400 mr-3 mt-0.5 flex-shrink-0" />
+              <FaExclamationTriangle className="text-red-400 mr-3 mt-0.5 shrink-0" />
               <div className="flex-1">
                 <h3 className="text-sm font-medium text-red-800 dark:text-red-300">
                   ¡Atención! Hay {stats.emergencies} emergencia(s) activa(s)
@@ -254,7 +253,7 @@ export default function AdminDashboard() {
             </div>
             <Link
               href="/admin/emergencies"
-              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors text-center flex-shrink-0"
+              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors text-center shrink-0"
             >
               Ver Emergencias
             </Link>
@@ -266,7 +265,7 @@ export default function AdminDashboard() {
         <div className="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 p-4 mb-6 lg:mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center gap-3">
             <div className="flex items-start">
-              <FaIdCard className="text-yellow-400 mr-3 mt-0.5 flex-shrink-0" />
+              <FaIdCard className="text-yellow-400 mr-3 mt-0.5 shrink-0" />
               <div className="flex-1">
                 <h3 className="text-sm font-medium text-yellow-800 dark:text-yellow-300">
                   Muchas solicitudes de membresía pendientes
@@ -278,7 +277,7 @@ export default function AdminDashboard() {
             </div>
             <Link
               href="/admin/memberships"
-              className="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors text-center flex-shrink-0"
+              className="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors text-center shrink-0"
             >
               Revisar Solicitudes
             </Link>
@@ -326,7 +325,7 @@ export default function AdminDashboard() {
         <div className="p-4 lg:p-6">
           <div className="space-y-4">
             <div className="flex items-center space-x-4 p-4 bg-gray-50 dark:bg-slate-700 rounded-lg">
-              <div className="h-8 w-8 lg:h-10 lg:w-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center flex-shrink-0">
+              <div className="h-8 w-8 lg:h-10 lg:w-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center shrink-0">
                 <FaUsers className="text-blue-600 dark:text-blue-400 text-sm lg:text-base" />
               </div>
               <div className="flex-1 min-w-0">
@@ -337,7 +336,7 @@ export default function AdminDashboard() {
                   Panel de control disponible para gestión completa
                 </p>
               </div>
-              <span className="text-xs text-gray-400 dark:text-gray-500 flex-shrink-0">Ahora</span>
+              <span className="text-xs text-gray-400 dark:text-gray-500 shrink-0">Ahora</span>
             </div>
             
             <div className="text-center py-8">

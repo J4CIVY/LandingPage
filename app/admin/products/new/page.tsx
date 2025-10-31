@@ -173,6 +173,7 @@ export default function ProductFormPage() {
       setFormData(prev => ({
         ...prev,
         [parent]: {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           ...prev[parent as keyof ProductFormData] as any,
           [child]: type === 'number' ? (value === '' ? '' : Number(value)) : value
         }

@@ -8,13 +8,10 @@ import {
   FaSpinner, 
   FaArrowLeft,
   FaUsers,
-  FaCheckCircle,
-  FaTimesCircle,
   FaCalendarCheck,
   FaUserCheck,
   FaUserTimes,
   FaSearch,
-  FaDownload,
   FaCheck,
   FaTimes
 } from 'react-icons/fa';
@@ -303,7 +300,7 @@ export default function EventAttendancePage() {
             <div className="sm:w-64">
               <select
                 value={filterAttendance}
-                onChange={(e) => setFilterAttendance(e.target.value as any)}
+                onChange={(e) => setFilterAttendance(e.target.value as 'all' | 'attended' | 'not-attended')}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="all">Todos los participantes</option>

@@ -11,12 +11,7 @@ import {
   FaSearch, 
   FaFilter,
   FaStar,
-  FaToggleOn,
-  FaToggleOff,
-  FaSpinner,
-  FaCalendarAlt,
-  FaMoneyBillWave,
-  FaUsers
+  FaSpinner
 } from 'react-icons/fa';
 
 interface MembershipPlan {

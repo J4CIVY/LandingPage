@@ -11,7 +11,6 @@ import {
   FaSpinner, 
   FaUsers, 
   FaSearch,
-  FaFilter,
   FaDownload,
   FaPlus,
   FaArrowLeft
@@ -112,28 +111,6 @@ export default function AdminUsersPage() {
       }
     } catch (error) {
       console.error('Error cambiando status del usuario:', error);
-    }
-  };
-
-  const handleChangeUserRole = async (userId: string, newRole: string) => {
-    try {
-      const csrfToken = getCSRFToken();
-      const response = await fetch(`/api/admin/users/${userId}/role`, {
-        method: 'PATCH',
-        headers: { 
-          'Content-Type': 'application/json',
-          'x-csrf-token': csrfToken || '',
-        },
-        body: JSON.stringify({ role: newRole })
-      });
-
-      if (response.ok) {
-        setUsers(users.map(u => 
-          u._id === userId ? { ...u, role: newRole } : u
-        ));
-      }
-    } catch (error) {
-      console.error('Error cambiando rol del usuario:', error);
     }
   };
 

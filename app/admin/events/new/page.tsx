@@ -12,7 +12,6 @@ import {
   FaSave,
   FaArrowLeft,
   FaImage,
-  FaCalendarAlt,
   FaMapMarkerAlt,
   FaInfoCircle,
   FaUsers,
@@ -141,7 +140,7 @@ export default function NewEventPage() {
       setFormData(prev => ({
         ...prev,
         [parent]: {
-          ...prev[parent as keyof EventFormData] as any,
+          ...(prev[parent as keyof EventFormData] as Record<string, unknown>),
           [child]: type === 'number' ? (value === '' ? '' : Number(value)) : value
         }
       }));
@@ -297,9 +296,9 @@ export default function NewEventPage() {
       // Redirigir a la lista de eventos
       router.push('/admin/events');
       
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error al crear evento:', error);
-      setErrors({ submit: error.message || 'Error desconocido al crear el evento' });
+      setErrors({ submit: (error as Error).message || 'Error desconocido al crear el evento' });
     } finally {
       setSaving(false);
     }

@@ -11,7 +11,6 @@ import {
   FaTrash, 
   FaSpinner,
   FaEye,
-  FaEyeSlash,
   FaInfoCircle,
   FaStar
 } from 'react-icons/fa';
@@ -228,9 +227,9 @@ export default function NewMembershipPlanPage() {
       } else {
         setError(data.message || 'Error al crear el plan');
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error creating plan:', error);
-      setError(error.message || 'Error al conectar con el servidor');
+      setError((error as Error).message || 'Error al conectar con el servidor');
     } finally {
       setIsSubmitting(false);
     }
@@ -260,7 +259,7 @@ export default function NewMembershipPlanPage() {
     }));
   };
 
-  const updateBenefit = (id: string, field: keyof MembershipBenefit, value: any) => {
+  const updateBenefit = (id: string, field: keyof MembershipBenefit, value: string | boolean | number) => {
     setFormData(prev => ({
       ...prev,
       benefits: prev.benefits.map(benefit =>
@@ -274,6 +273,7 @@ export default function NewMembershipPlanPage() {
       const newData = { ...prev };
       const path = subfield ? field.split('.') : [field];
       
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let current: any = newData;
       for (let i = 0; i < path.length - 1; i++) {
         current = current[path[i]];
@@ -295,6 +295,7 @@ export default function NewMembershipPlanPage() {
       const newData = { ...prev };
       const path = subfield ? field.split('.') : [field];
       
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let current: any = newData;
       for (let i = 0; i < path.length - 1; i++) {
         current = current[path[i]];
@@ -302,9 +303,9 @@ export default function NewMembershipPlanPage() {
       
       const finalField = path[path.length - 1];
       if (subfield) {
-        current[finalField][subfield] = current[finalField][subfield].filter((_: any, i: number) => i !== index);
+        current[finalField][subfield] = current[finalField][subfield].filter((_: unknown, i: number) => i !== index);
       } else {
-        current[finalField] = current[finalField].filter((_: any, i: number) => i !== index);
+        current[finalField] = current[finalField].filter((_: unknown, i: number) => i !== index);
       }
       
       return newData;
@@ -316,6 +317,7 @@ export default function NewMembershipPlanPage() {
       const newData = { ...prev };
       const path = subfield ? field.split('.') : [field];
       
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let current: any = newData;
       for (let i = 0; i < path.length - 1; i++) {
         current = current[path[i]];
@@ -475,7 +477,7 @@ export default function NewMembershipPlanPage() {
                           value={formData.status}
                           onChange={(e) => setFormData(prev => ({ 
                             ...prev, 
-                            status: e.target.value as any
+                            status: e.target.value as 'draft' | 'active' | 'inactive'
                           }))}
                           className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
                         >
@@ -748,7 +750,7 @@ export default function NewMembershipPlanPage() {
                                 value={formData.renewalType}
                                 onChange={(e) => setFormData(prev => ({ 
                                   ...prev, 
-                                  renewalType: e.target.value as any
+                                  renewalType: e.target.value as 'monthly' | 'quarterly' | 'biannual' | 'annual' | 'lifetime'
                                 }))}
                                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
                               >

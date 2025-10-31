@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import UserAvatar from '@/components/shared/UserAvatar';
 import { 
@@ -15,7 +15,6 @@ import {
   FaUserShield,
   FaCrown,
   FaMotorcycle,
-  FaIdCard,
   FaHeart,
   FaBirthdayCake,
   FaHome,
@@ -69,7 +68,6 @@ interface UserDetails {
 
 export default function UserDetailsPage() {
   const params = useParams();
-  const router = useRouter();
   const [user, setUser] = useState<UserDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');

@@ -9,11 +9,8 @@ import {
   FaSave,
   FaArrowLeft,
   FaCalendarAlt,
-  FaClock,
   FaMapMarkerAlt,
   FaUsers,
-  FaDollarSign,
-  FaImage,
   FaTags,
   FaInfoCircle
 } from 'react-icons/fa';
@@ -211,7 +208,7 @@ export default function EventFormPage() {
       setFormData(prev => ({
         ...prev,
         [parent]: {
-          ...prev[parent as keyof EventFormData] as any,
+          ...(prev[parent as keyof EventFormData] as Record<string, string>),
           [child]: value
         }
       }));

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { FiBarChart, FiTrendingUp, FiUsers, FiAlertTriangle, FiDownload, FiRefreshCw, FiCalendar, FiActivity, FiDollarSign } from 'react-icons/fi';
+import { FiBarChart, FiUsers, FiAlertTriangle, FiDownload, FiRefreshCw, FiCalendar, FiActivity, FiDollarSign } from 'react-icons/fi';
 
 interface AnalyticsData {
   totalStats: {
@@ -71,9 +71,9 @@ interface AnalyticsData {
       membershipGrowth: number;
     };
     topMetrics: {
-      mostActiveUsers: any[];
-      popularEvents: any[];
-      topProducts: any[];
+      mostActiveUsers: Array<Record<string, unknown>>;
+      popularEvents: Array<Record<string, unknown>>;
+      topProducts: Array<Record<string, unknown>>;
       urgentEmergencies: number;
     };
   };

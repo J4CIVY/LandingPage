@@ -313,7 +313,7 @@ export default function MembershipsAdminPage() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <div className="bg-white p-6 rounded-lg shadow">
             <div className="flex items-center">
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <FaIdCard className="h-8 w-8 text-blue-600" />
               </div>
               <div className="ml-4">
@@ -325,7 +325,7 @@ export default function MembershipsAdminPage() {
 
           <div className="bg-white p-6 rounded-lg shadow">
             <div className="flex items-center">
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <FaClock className="h-8 w-8 text-yellow-600" />
               </div>
               <div className="ml-4">
@@ -337,7 +337,7 @@ export default function MembershipsAdminPage() {
 
           <div className="bg-white p-6 rounded-lg shadow">
             <div className="flex items-center">
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <FaCheckCircle className="h-8 w-8 text-green-600" />
               </div>
               <div className="ml-4">
@@ -349,7 +349,7 @@ export default function MembershipsAdminPage() {
 
           <div className="bg-white p-6 rounded-lg shadow">
             <div className="flex items-center">
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <FaTimesCircle className="h-8 w-8 text-red-600" />
               </div>
               <div className="ml-4">
@@ -525,7 +525,7 @@ export default function MembershipsAdminPage() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <div className="flex-shrink-0 h-10 w-10">
+                          <div className="shrink-0 h-10 w-10">
                             <div className="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center">
                               <FaUser className="text-gray-600" />
                             </div>

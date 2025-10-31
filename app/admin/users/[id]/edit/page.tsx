@@ -6,12 +6,9 @@ import Link from 'next/link';
 import { 
   FaUser, 
   FaEnvelope, 
-  FaPhone, 
   FaMapMarkerAlt, 
   FaSave,
   FaArrowLeft,
-  FaMotorcycle,
-  FaHeart,
   FaExclamationTriangle,
   FaSpinner
 } from 'react-icons/fa';

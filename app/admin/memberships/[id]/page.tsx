@@ -15,10 +15,8 @@ import {
   FaSpinner,
   FaArrowLeft,
   FaExclamationTriangle,
-  FaEdit,
   FaCheckCircle,
-  FaTimesCircle,
-  FaClock
+  FaTimesCircle
 } from 'react-icons/fa';
 import Link from 'next/link';
 

@@ -29,7 +29,7 @@ interface Activity {
   icon: string;
   iconColor: string;
   bgColor: string;
-  details?: any;
+  details?: Record<string, unknown>;
 }
 
 interface Pagination {
@@ -168,7 +168,7 @@ export default function ActivityPage() {
           
           <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 p-6">
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 rounded-full flex items-center justify-center">
+              <div className="w-12 h-12 bg-linear-to-br from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 rounded-full flex items-center justify-center">
                 <FaHistory className="text-2xl text-white" />
               </div>
               <div>
@@ -245,14 +245,14 @@ export default function ActivityPage() {
             <>
               <div className="p-6">
                 <div className="space-y-4">
-                  {filteredActivities.map((activity, index) => {
+                  {filteredActivities.map((activity) => {
                     const IconComponent = getActivityIcon(activity.icon);
                     return (
                       <div
                         key={activity.id}
                         className="flex items-start space-x-4 p-4 bg-gray-50 dark:bg-slate-700/50 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700/70"
                       >
-                        <div className={`${activity.bgColor} p-3 rounded-full flex-shrink-0`}>
+                        <div className={`${activity.bgColor} p-3 rounded-full shrink-0`}>
                           <IconComponent className={`${activity.iconColor} text-lg`} />
                         </div>
                         <div className="flex-1 min-w-0">

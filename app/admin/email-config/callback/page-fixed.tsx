@@ -83,7 +83,7 @@ const CallbackContent: React.FC = () => {
         {error ? (
           <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg p-6">
             <div className="flex items-center mb-4">
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <span className="text-2xl">❌</span>
               </div>
               <div className="ml-3">
@@ -113,7 +113,7 @@ const CallbackContent: React.FC = () => {
             {/* Éxito */}
             <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-6">
               <div className="flex items-center mb-4">
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <span className="text-2xl">✅</span>
                 </div>
                 <div className="ml-3">

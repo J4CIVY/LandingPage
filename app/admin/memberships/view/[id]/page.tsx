@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { 
@@ -55,7 +55,6 @@ interface MembershipApplication {
 
 export default function ViewMembershipPage() {
   const { user } = useAuth();
-  const router = useRouter();
   const params = useParams();
   const membershipId = params.id as string;
   

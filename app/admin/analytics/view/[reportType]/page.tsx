@@ -13,6 +13,7 @@ interface ReportData {
     days: number;
   };
   generatedAt: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any;
   format: string;
 }
@@ -273,6 +274,7 @@ export default function ViewAnalyticsReportPage() {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function renderReportContent(reportType: string, reportData: any) {
   switch (reportType) {
     case 'users':
@@ -304,6 +306,7 @@ function renderReportContent(reportType: string, reportData: any) {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function renderUsersReport(data: any) {
   return (
     <div className="space-y-6">
@@ -366,7 +369,8 @@ function renderUsersReport(data: any) {
                 </tr>
               </thead>
               <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                {data.userDetails.slice(0, 10).map((user: any, index: number) => (
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                {data.userDetails?.slice(0, 10).map((user: any, index: number) => (
                   <tr key={index}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                       {user.name}
@@ -391,6 +395,7 @@ function renderUsersReport(data: any) {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function renderEventsReport(data: any) {
   return (
     <div className="space-y-6">
@@ -442,6 +447,7 @@ function renderEventsReport(data: any) {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function renderProductsReport(data: any) {
   return (
     <div className="space-y-6">
@@ -493,6 +499,7 @@ function renderProductsReport(data: any) {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function renderMembershipsReport(data: any) {
   return (
     <div className="space-y-6">
@@ -544,6 +551,7 @@ function renderMembershipsReport(data: any) {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function renderEmergenciesReport(data: any) {
   return (
     <div className="space-y-6">
@@ -604,6 +612,7 @@ function renderEmergenciesReport(data: any) {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function renderFinancialReport(data: any) {
   return (
     <div className="space-y-6">
@@ -641,6 +650,7 @@ function renderFinancialReport(data: any) {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function renderActivityReport(data: any) {
   return (
     <div className="space-y-6">
@@ -664,6 +674,7 @@ function renderActivityReport(data: any) {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function renderPerformanceReport(data: any) {
   return (
     <div className="space-y-6">
@@ -699,6 +710,7 @@ function renderPerformanceReport(data: any) {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function renderSummaryReport(data: any) {
   return (
     <div className="space-y-6">
@@ -758,7 +770,8 @@ function renderSummaryReport(data: any) {
         <div>
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Alertas del Sistema</h3>
           <div className="space-y-2">
-            {data.alerts.map((alert: any, index: number) => (
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+            {data.alerts?.map((alert: any, index: number) => (
               <div
                 key={index}
                 className={`p-3 rounded-lg border ${

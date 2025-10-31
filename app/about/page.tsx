@@ -1,6 +1,5 @@
 import React from 'react';
 import { FaMotorcycle, FaHandsHelping, FaShieldAlt } from 'react-icons/fa';
-import Image from 'next/image';
 import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: "Sobre Nosotros - Historia y Valores del Motoclub BSK MT",

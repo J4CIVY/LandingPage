@@ -9,7 +9,6 @@ import {
   FaSpinner, 
   FaEdit,
   FaArrowLeft,
-  FaEye,
   FaToggleOn,
   FaToggleOff,
   FaDollarSign,
@@ -479,7 +478,7 @@ export default function ProductViewPage() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {product.weight && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+                      <label className="flex items-center text-sm font-medium text-gray-700 mb-1">
                         <FaWeight className="mr-1" />
                         Peso
                       </label>
@@ -537,7 +536,7 @@ export default function ProductViewPage() {
                   <ul className="space-y-2">
                     {product.features.map((feature, index) => (
                       <li key={index} className="flex items-start">
-                        <FaCheckCircle className="text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                        <FaCheckCircle className="text-green-500 mt-0.5 mr-2 shrink-0" />
                         <span className="text-gray-700">{feature}</span>
                       </li>
                     ))}

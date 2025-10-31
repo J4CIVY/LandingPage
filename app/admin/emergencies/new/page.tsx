@@ -40,7 +40,7 @@ interface User {
 export default function NewEmergencyPage() {
   const router = useRouter();
   const { user, isLoading } = useAuth();
-  const { isSubmitting, submit } = useSecureForm(async (data: any) => {
+  const { isSubmitting, submit } = useSecureForm(async (data: Record<string, unknown>) => {
     // Esta función se ejecutará con los datos seguros
     const csrfToken = getCSRFToken();
     const response = await fetch('/api/admin/emergencies', {
@@ -117,7 +117,7 @@ export default function NewEmergencyPage() {
       setFormData(prev => ({
         ...prev,
         [parent]: {
-          ...prev[parent as keyof typeof prev] as any,
+          ...(prev[parent as keyof typeof prev] as Record<string, string>),
           [child]: value
         }
       }));

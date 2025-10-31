@@ -68,7 +68,7 @@ interface Emergency {
 
 export default function ViewEmergencyPage({ params }: PageProps<'/admin/emergencies/view/[id]'>) {
   const { user, isLoading } = useAuth();
-  const { isSubmitting, submit } = useSecureForm(async (data: any) => {
+  const { isSubmitting, submit } = useSecureForm(async (data: Record<string, unknown>) => {
     const { id } = await params;
     const csrfToken = getCSRFToken();
     const response = await fetch(`/api/admin/emergencies/${id}`, {

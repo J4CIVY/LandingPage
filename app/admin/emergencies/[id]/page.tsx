@@ -63,7 +63,7 @@ interface Emergency {
 export default function EditEmergencyPage({ params }: PageProps<'/admin/emergencies/[id]'>) {
   const router = useRouter();
   const { user, isLoading } = useAuth();
-  const { isSubmitting, submit } = useSecureForm(async (data: any) => {
+  const { isSubmitting, submit } = useSecureForm(async (data: Record<string, unknown>) => {
     const { id } = await params;
     const csrfToken = getCSRFToken();
     const response = await fetch(`/api/admin/emergencies/${id}`, {
@@ -189,7 +189,7 @@ export default function EditEmergencyPage({ params }: PageProps<'/admin/emergenc
       setFormData(prev => ({
         ...prev,
         [parent]: {
-          ...prev[parent as keyof typeof prev] as any,
+          ...(prev[parent as keyof typeof prev] as Record<string, string>),
           [child]: value
         }
       }));
