@@ -83,7 +83,7 @@ const ContentWithSearchParams: React.FC = () => {
             }
           ].map((step, index) => (
             <div className="flex items-start" key={index}>
-              <div className="flex-shrink-0 mt-1">
+              <div className="shrink-0 mt-1">
                 <div className="h-5 w-5 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center" aria-hidden="true">
                   <div className="h-2 w-2 rounded-full bg-red-600 dark:bg-red-400"></div>
                 </div>

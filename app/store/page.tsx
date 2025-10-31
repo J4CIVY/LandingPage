@@ -13,6 +13,7 @@ import Image from 'next/image';
  * @property {Object} data - Data payload.
  * @property {Product[]} data.products - Array of products.
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface ProductsApiResponse {
   status: string;
   data: {
@@ -50,6 +51,7 @@ const Store: React.FC = () => {
         // Set empty products array since external API is removed
         setProducts([]);
         setFilteredProducts([]);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) { // Use 'any' for error type as Axios errors can be complex
         // Log the full error for debugging, but show a user-friendly message
         console.error("Failed to fetch products:", err);

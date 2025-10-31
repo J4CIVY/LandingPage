@@ -10,7 +10,6 @@ import { getPublicEventsServerSide } from '@/lib/events-server'
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://bskmt.com'
   const currentDate = new Date()
-  const lastModified = currentDate.toISOString()
   
   // High-priority routes (Homepage and key conversion pages)
   const highPriorityRoutes = [

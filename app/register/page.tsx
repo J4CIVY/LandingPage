@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { compatibleUserSchema as userSchema, type CompatibleUserSchema as FormUserSchema } from '@/schemas/compatibleUserSchema';
-import { FaUser, FaPhone, FaEnvelope, FaMapMarkerAlt, FaBriefcase, FaHeartbeat, FaMotorcycle, FaShieldAlt, FaLock, FaEye, FaEyeSlash, FaVenusMars, FaUserMd, FaExclamationTriangle, FaCheckCircle } from 'react-icons/fa';
+import { FaUser, FaPhone, FaHeartbeat, FaMotorcycle, FaLock, FaEye, FaEyeSlash, FaVenusMars, FaExclamationTriangle, FaCheckCircle } from 'react-icons/fa';
 import { GiSteelwingEmblem } from 'react-icons/gi';
 import { useRouter } from 'next/navigation';
 import FormError from '../../components/shared/FormError';
@@ -29,6 +29,7 @@ const years = generateYears();
 
 const UserRegister: React.FC = () => {
   const { register, handleSubmit, formState: { errors }, watch, trigger, setValue } = useForm<FormUserSchema>({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(userSchema) as any,
     mode: 'onTouched',
     defaultValues: {
@@ -91,6 +92,7 @@ const UserRegister: React.FC = () => {
     const timeoutId = setTimeout(() => {
       if (Object.keys(allFormData).length > 0 && (allFormData.firstName || allFormData.email || allFormData.documentNumber)) {
         // SECURITY: Never save passwords or sensitive data to localStorage
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password, confirmPassword, ...safeData } = allFormData;
         
         localStorage.setItem('bskmt-registration-draft', JSON.stringify({
@@ -109,6 +111,7 @@ const UserRegister: React.FC = () => {
     const savedData = localStorage.getItem('bskmt-registration-draft');
     if (savedData) {
       try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const parsed = safeJsonParse<{ data: Record<string, any>; step: number; timestamp: number }>(
           savedData, 
           { data: {}, step: 1, timestamp: 0 }
@@ -124,6 +127,7 @@ const UserRegister: React.FC = () => {
             Object.keys(data).forEach(key => {
               // SECURITY: Skip password fields even if somehow present
               if (key !== 'password' && key !== 'confirmPassword' && data[key] && data[key] !== '') {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 setValue(key as any, data[key]);
               }
             });
@@ -165,10 +169,12 @@ const UserRegister: React.FC = () => {
       const monthDiff = today.getMonth() - birthDate.getMonth();
       
       if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        age--; // age is calculated but not used - kept for potential future use
       }
       
       // Remover confirmPassword y preparar datos para la API
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { confirmPassword, ...submissionData } = data;
 
       // Mapear los datos del formulario al formato esperado por la API
@@ -259,6 +265,7 @@ const UserRegister: React.FC = () => {
         // Mostrar errores de validación específicos si están disponibles
         if (response.status === 422 && result.errors) {
           const validationErrors = Array.isArray(result.errors) 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             ? result.errors.map((err: any) => err.message || err).join(', ')
             : typeof result.errors === 'string' 
               ? result.errors 
@@ -296,6 +303,7 @@ const UserRegister: React.FC = () => {
         });
 
         if (emailResponse.ok) {
+          // Email sent successfully
         } else {
           console.warn('⚠️ Error enviando correo de bienvenida, pero el registro fue exitoso');
         }
@@ -317,6 +325,7 @@ const UserRegister: React.FC = () => {
         router.push('/registration-success');
       }, 2000);
       
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error('❌ Error en registro:', error);
       
@@ -376,7 +385,7 @@ const UserRegister: React.FC = () => {
               <Icon />
             </div>
             {index < totalSteps - 1 && (
-              <div className={`h-1 flex-grow ${currentStep > index + 1 ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+              <div className={`h-1 grow ${currentStep > index + 1 ? 'bg-green-500' : 'bg-gray-300'}`}></div>
             )}
           </React.Fragment>
         ))}

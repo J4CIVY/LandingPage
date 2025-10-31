@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -11,7 +11,6 @@ import {
   FaSpinner, 
   FaExclamationTriangle,
   FaClock,
-  FaUser,
   FaTimes,
   FaCheck,
   FaPaperclip,
@@ -35,7 +34,6 @@ import { PQRSDFService } from '@/lib/services/pqrsdf-service';
 export default function DetalleSolicitudPage() {
   const { user } = useAuth();
   const params = useParams();
-  const router = useRouter();
   const solicitudId = params.id as string;
 
   // Estados
@@ -79,6 +77,7 @@ export default function DetalleSolicitudPage() {
   };
 
   // Enviar mensaje
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleEnviarMensaje = async (contenido: string, adjuntos?: File[]) => {
     if (!solicitud || !user) return;
 

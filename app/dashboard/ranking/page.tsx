@@ -130,7 +130,7 @@ export default function RankingPage() {
 
         {/* Tu ranking (destacado) */}
         {userRanking && (
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-6 mb-8 shadow-lg">
+          <div className="bg-linear-to-r from-blue-600 to-purple-600 rounded-xl p-6 mb-8 shadow-lg">
             <div className="flex items-center justify-between text-white">
               <div>
                 <p className="text-blue-100 text-sm font-medium mb-1">Tu Posición Actual</p>
@@ -196,6 +196,7 @@ export default function RankingPage() {
         {/* Top 3 - Destacados */}
         {!loading && filteredLeaderboard.length >= 3 && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            {/* eslint-disable-next-line @typescript-eslint/no-unused-vars */}
             {filteredLeaderboard.slice(0, 3).map((member, index) => {
               const badge = getRankingBadge(member.position);
               const memberConfig = MEMBERSHIP_CONFIG[member.membershipType];
@@ -208,7 +209,7 @@ export default function RankingPage() {
                     member.position === 1 ? 'md:col-span-3 md:order-first' : ''
                   }`}
                 >
-                  <div className={`bg-gradient-to-br ${
+                  <div className={`bg-linear-to-br ${
                     member.position === 1 
                       ? 'from-yellow-100 to-orange-100 dark:from-yellow-900/40 dark:to-orange-900/40' 
                       : member.position === 2

@@ -14,6 +14,7 @@ interface WelcomeData {
 
 const WelcomeContent: React.FC = () => {
   const searchParams = useSearchParams();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const router = useRouter();
   const [welcomeData, setWelcomeData] = useState<WelcomeData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -33,7 +34,7 @@ const WelcomeContent: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-linear-to-br from-red-50 to-orange-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
         <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8 max-w-2xl w-full text-center">
           <FaSpinner className="text-6xl text-red-600 dark:text-red-400 mx-auto animate-spin mb-4" />
           <h1 className="text-2xl font-bold text-gray-900 dark:text-slate-100">
@@ -45,7 +46,7 @@ const WelcomeContent: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-linear-to-br from-red-50 to-orange-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
       <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8 max-w-4xl w-full">
         {/* Header con logo */}
         <div className="text-center mb-8">
@@ -188,7 +189,7 @@ const WelcomeContent: React.FC = () => {
 const WelcomePage: React.FC = () => {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-linear-to-br from-red-50 to-orange-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
         <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
           <div className="mb-6">
             <FaSpinner className="text-6xl text-red-600 dark:text-red-400 mx-auto animate-spin" />

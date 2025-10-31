@@ -8,7 +8,6 @@ import {
   FaMapMarkedAlt
 } from "react-icons/fa";
 import { 
-  WiDaySunny, // Not used, can be removed if not intended for future use
   WiRaindrop
 } from "react-icons/wi";
 import SEOComponent from '@/components/home/SEOComponent';
@@ -36,6 +35,7 @@ interface TabContent {
  */
 const Weather: React.FC = () => {
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isMobile, setIsMobile] = useState<boolean>(false); // Inicializa como false
 
   const [activeTab, setActiveTab] = useState<string>('radar');

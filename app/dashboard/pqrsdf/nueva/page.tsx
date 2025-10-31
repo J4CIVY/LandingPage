@@ -247,6 +247,7 @@ function NuevaSolicitudPageContent() {
   };
 
   // Manejar cambios en el formulario
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (campo: keyof CrearSolicitudDto, valor: any) => {
     setFormulario(prev => ({
       ...prev,
@@ -264,6 +265,7 @@ function NuevaSolicitudPageContent() {
   };
 
   // Manejar cambios en datos bancarios
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleDatosBancariosChange = (campo: keyof DatosBancariosReembolso, valor: any) => {
     setDatosBancarios(prev => ({
       ...prev,

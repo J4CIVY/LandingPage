@@ -5,7 +5,6 @@ import { Benefit, CategoryType, BenefitFormData } from '@/types/benefits';
 import { 
   categories, 
   benefitsMock, 
-  usageHistoryMock,
   getBenefitsByCategory,
   getHistoryByUser 
 } from '@/data/benefitsData';
@@ -84,6 +83,7 @@ const BenefitsPage = () => {
     setFormModalOpen(true);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleEditBenefit = (benefit: Benefit) => {
     setSelectedBenefit(benefit);
     setFormModalOpen(true);

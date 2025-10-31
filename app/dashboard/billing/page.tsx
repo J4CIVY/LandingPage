@@ -11,8 +11,6 @@ import {
   FaTimesCircle,
   FaCalendarAlt,
   FaCreditCard,
-  FaDownload,
-  FaEye,
   FaFilter,
   FaSearch,
   FaInfoCircle,
@@ -102,6 +100,7 @@ export default function BillingPage() {
       } else {
         throw new Error('No se pudieron cargar las transacciones');
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -353,7 +352,7 @@ export default function BillingPage() {
           </div>
 
           {/* Monto Total */}
-          <div className="bg-gradient-to-br from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+          <div className="bg-linear-to-br from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-blue-100">Monto Total</p>

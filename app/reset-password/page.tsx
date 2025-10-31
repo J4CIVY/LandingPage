@@ -16,6 +16,7 @@ const resetPasswordFormSchema = z.object({
     .regex(/[a-z]/, 'Debe contener al menos una letra minúscula')
     .regex(/[A-Z]/, 'Debe contener al menos una letra mayúscula')
     .regex(/\d/, 'Debe contener al menos un número')
+    // eslint-disable-next-line no-useless-escape
     .regex(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>?]/, 'Debe contener al menos un carácter especial'),
   confirmPassword: z.string().min(1, 'Confirmar contraseña es requerido')
 }).refine((data) => data.password === data.confirmPassword, {
@@ -125,7 +126,7 @@ function ResetPasswordForm() {
   // Mostrar loading mientras se valida el token
   if (tokenValid === null) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-gray-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
         <div className="text-center">
           <FaSpinner className="animate-spin text-4xl text-blue-600 mx-auto mb-4" />
           <p className="text-gray-600 dark:text-slate-400">Validando token...</p>
@@ -137,7 +138,7 @@ function ResetPasswordForm() {
   // Mostrar error si el token no es válido
   if (!tokenValid) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-gray-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
         <div className="max-w-md w-full space-y-8">
           <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-8 border border-gray-100 dark:border-slate-700">
             <div className="text-center mb-8">
@@ -175,7 +176,7 @@ function ResetPasswordForm() {
   // Mostrar éxito
   if (isSuccess) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-gray-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
         <div className="max-w-md w-full space-y-8">
           <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-8 border border-gray-100 dark:border-slate-700">
             <div className="text-center mb-8">
@@ -212,7 +213,7 @@ function ResetPasswordForm() {
   const password = watch('password');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-gray-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
       <div className="max-w-md w-full space-y-8">
         <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-8 border border-gray-100 dark:border-slate-700">
           {/* Encabezado */}
@@ -336,7 +337,9 @@ function ResetPasswordForm() {
                     <div className={`w-2 h-2 rounded-full mr-2 ${/\d/.test(password) ? 'bg-green-500' : 'bg-gray-300'}`}></div>
                     Un número
                   </div>
+                  {/* eslint-disable-next-line no-useless-escape */}
                   <div className={`flex items-center ${/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>?]/.test(password) ? 'text-green-600' : 'text-gray-500'}`}>
+                    {/* eslint-disable-next-line no-useless-escape */}
                     <div className={`w-2 h-2 rounded-full mr-2 ${/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>?]/.test(password) ? 'bg-green-500' : 'bg-gray-300'}`}></div>
                     Un carácter especial
                   </div>
@@ -400,7 +403,7 @@ function ResetPasswordForm() {
 export default function ResetPasswordPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-gray-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
         <div className="text-center">
           <FaSpinner className="animate-spin text-4xl text-blue-600 mx-auto mb-4" />
           <p className="text-gray-600 dark:text-slate-400">Cargando...</p>

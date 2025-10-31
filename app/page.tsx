@@ -2,7 +2,6 @@ import React from "react";
 import HeroSection from "@/components/home/HeroSection";
 import HomeContent from "@/components/home/HomeContent";
 import CachedHomeContent from "@/components/home/CachedHomeContent";
-import HomeWithAnalytics from "@/components/home/HomeWithAnalytics";
 import type { Metadata } from 'next';
 
 // Feature flag for cached components (Next.js 16 + React 19)

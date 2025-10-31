@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { FaUser, FaHeart, FaMotorcycle, FaFileAlt, FaCog, FaHistory, FaCrown, FaEdit, FaSave, FaTimes, FaExclamationCircle } from 'react-icons/fa';
+import { FaUser, FaHeart, FaMotorcycle, FaFileAlt, FaCog, FaHistory, FaCrown, FaExclamationCircle } from 'react-icons/fa';
 import { 
   ProfileHeader, 
   PersonalInfo, 
@@ -20,6 +20,7 @@ interface ProfileTab {
   id: string;
   label: string;
   icon: React.ComponentType<{className?: string}>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   component: React.ComponentType<any>;
   adminOnly?: boolean;
   description: string;
@@ -27,6 +28,7 @@ interface ProfileTab {
 
 export default function ProfilePage() {
   const { user: authUser } = useAuth();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { profileData, loading, error, profileCompletion, updateProfile, uploadAvatar, refresh } = useProfile();
   const [currentUserRole, setCurrentUserRole] = useState<'user' | 'admin' | 'super-admin'>('user');
   const [activeTab, setActiveTab] = useState('personal');
@@ -112,10 +114,12 @@ export default function ProfilePage() {
   );
 
   // Handlers para callbacks de componentes
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleAvatarUpload = async (file: File) => {
     // Implementar subida de avatar
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleUserUpdate = async (updatedData: any) => {
     // Implementar actualización de usuario usando el hook
     try {
@@ -126,18 +130,22 @@ export default function ProfilePage() {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleStatusChange = async (newStatus: 'active' | 'suspended' | 'inactive') => {
     // Implementar cambio de estado
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleRoleChange = async (newRole: 'user' | 'admin') => {
     // Implementar cambio de rol
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleDocumentApproval = async (documentId: string, approved: boolean, notes?: string) => {
     // Implementar aprobación de documentos
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleProfileApproval = async (approved: boolean, notes?: string) => {
     // Implementar aprobación de perfil
   };
@@ -145,6 +153,7 @@ export default function ProfilePage() {
   const handleGenerateReport = async () => {
     // Implementar generación de reporte
     if (user) {
+      // TODO: Implement report generation
     }
   };
 
@@ -181,6 +190,7 @@ export default function ProfilePage() {
 
   // Props comunes para todos los componentes
   const commonProps = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     user: user as any,
     isEditMode,
     onEdit: () => setIsEditMode(true),
@@ -205,7 +215,7 @@ export default function ProfilePage() {
   // Show loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-slate-600 dark:text-slate-400">Cargando perfil...</p>
@@ -217,7 +227,7 @@ export default function ProfilePage() {
   // Show error state
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
         <div className="text-center">
           <FaExclamationCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
           <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">Error al cargar el perfil</h2>
@@ -236,7 +246,7 @@ export default function ProfilePage() {
   // Don't render if no user data
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
         <div className="text-center">
           <FaExclamationCircle className="w-12 h-12 text-amber-500 mx-auto mb-4" />
           <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">No se encontró información del usuario</h2>
@@ -247,7 +257,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Page Header */}
         <div className="mb-8">
@@ -290,7 +300,7 @@ export default function ProfilePage() {
                           : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-slate-100'
                       }`}
                     >
-                      <Icon className={`w-4 h-4 flex-shrink-0 ${
+                      <Icon className={`w-4 h-4 shrink-0 ${
                         isActive ? 'text-blue-600 dark:text-blue-400' : ''
                       }`} />
                       <div className="flex-1 min-w-0">
@@ -314,7 +324,7 @@ export default function ProfilePage() {
                 </div>
                 <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
                   <div 
-                    className="bg-gradient-to-r from-blue-500 to-green-500 h-2 rounded-full transition-all duration-300"
+                    className="bg-linear-to-r from-blue-500 to-green-500 h-2 rounded-full transition-all duration-300"
                     style={{ width: `${profileCompletion}%` }}
                   ></div>
                 </div>
@@ -381,7 +391,7 @@ export default function ProfilePage() {
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white dark:bg-slate-800 rounded-lg p-6 w-full max-w-md mx-4">
               <div className="flex items-start gap-3">
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <FaExclamationCircle className="w-6 h-6 text-amber-500" />
                 </div>
                 <div className="flex-1">

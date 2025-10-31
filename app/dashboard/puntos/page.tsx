@@ -21,6 +21,7 @@ import { FaSeedling, FaSearch, FaRocket, FaHandshake, FaMotorcycle, FaBolt, FaTr
 
 // Niveles del sistema actualizados para alinear con membresías
 type NivelConIcono = Omit<Nivel, 'icono'> & { icono: ReactNode };
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const NIVELES: NivelConIcono[] = [
   {
     id: 1,
@@ -178,6 +179,7 @@ interface GamificationData {
     percentile: number;
     change: number;
   };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   nextRewards: any[];
   user: {
     id: string;
@@ -277,7 +279,7 @@ export default function PuntosPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
       </div>
     );
@@ -285,7 +287,7 @@ export default function PuntosPage() {
 
   if (!user || !gamificationData) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-800 mb-2">Error al cargar datos</h2>
           <p className="text-gray-600">No se pudo cargar la información del usuario</p>
@@ -399,7 +401,7 @@ export default function PuntosPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-slate-950 dark:to-slate-900">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 dark:from-slate-950 dark:to-slate-900">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">
@@ -438,6 +440,7 @@ export default function PuntosPage() {
             {tabs.map((tab) => (
               <button
                 key={tab.id}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 onClick={() => setTabActiva(tab.id as any)}
                 className={`flex items-center gap-2 px-4 py-3 rounded-t-lg font-medium transition-all duration-200 ${
                   tabActiva === tab.id

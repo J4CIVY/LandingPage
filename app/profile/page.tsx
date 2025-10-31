@@ -24,6 +24,7 @@ import {
 export default function ProfilePage() {
   const router = useRouter();
   const { user, isLoading, isAuthenticated } = useAuth();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -51,6 +52,7 @@ export default function ProfilePage() {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSave = async (data: any) => {
     try {
       const csrfToken = getCSRFToken();
@@ -74,6 +76,7 @@ export default function ProfilePage() {
       } else {
         setMessage({ type: 'error', text: result.message || 'Error al actualizar el perfil' });
       }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       setMessage({ type: 'error', text: 'Error de conexión. Inténtalo de nuevo.' });
     }
@@ -102,6 +105,7 @@ export default function ProfilePage() {
       } else {
         setMessage({ type: 'error', text: result.message || 'Error al subir la imagen' });
       }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       setMessage({ type: 'error', text: 'Error al subir la imagen' });
     }

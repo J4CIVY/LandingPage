@@ -3,7 +3,6 @@
 import { useAuth } from '@/hooks/useAuth';
 import { useState, useEffect } from 'react';
 import { FaSpinner } from 'react-icons/fa';
-import { getCSRFToken } from '@/lib/csrf-client';
 
 // Importar los nuevos componentes del dashboard
 import WelcomeHeader from '@/components/dashboard/sections/WelcomeHeader';
@@ -15,9 +14,11 @@ import QuickActions from '@/components/dashboard/sections/QuickActions';
 import GamificationPanel from '@/components/dashboard/sections/GamificationPanel';
 
 export default function DashboardPage() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { user, logout, isLoading, isAuthenticated, isInitialized } = useAuth();
   
   // Estados para datos del usuario
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [userProfile, setUserProfile] = useState(null);
   const [stats, setStats] = useState({
     eventsRegistered: 0,
@@ -136,6 +137,7 @@ export default function DashboardPage() {
         
         {/* Encabezado de Bienvenida */}
         <div className="mb-6">
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           {user && <WelcomeHeader user={user as any} />}
         </div>
 
@@ -161,6 +163,7 @@ export default function DashboardPage() {
             
             {/* Estado de la Membresía */}
             {!loadingStats && user && (
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               <MembershipStatus user={user as any} stats={stats} />
             )}
             

@@ -44,6 +44,7 @@ export default function HistorialPage() {
         const activities = data.data?.activities || [];
         
         // Convertir actividades de la API al formato del historial
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const historialData: HistorialItem[] = activities.map((activity: any) => {
           // Mapear tipos de actividad
           let tipo = 'Evento';
@@ -77,18 +78,25 @@ export default function HistorialPage() {
         
         // Calcular estadísticas desde los datos reales
         const stats: EstadisticasHistorial = {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           totalEventos: activities.filter((a: any) => a.type.includes('event')).length,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           eventosAsistidos: activities.filter((a: any) => 
             a.type === 'event_attendance' || a.type === 'event_registration'
           ).length,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           beneficiosUsados: activities.filter((a: any) => a.type === 'store_purchase').length,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           pqrsdfAbiertas: activities.filter((a: any) => 
             a.type === 'pqrsdf_sent' && a.status === 'pending'
           ).length,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           logrosObtenidos: activities.filter((a: any) => a.type === 'achievement_earned').length,
           añosMembresia: 0, // Se puede calcular desde la fecha de registro del usuario
           puntosAcumulados: activities
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .filter((a: any) => a.metadata?.points)
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .reduce((sum: number, a: any) => sum + (a.metadata.points || 0), 0)
         };
 

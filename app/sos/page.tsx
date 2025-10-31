@@ -68,6 +68,7 @@ interface EmergencyFormData {
  * @property {string} message - Response message from the API.
  * @property {boolean} success - Indicates if the request was successful.
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface EmergencyApiResponse {
   message: string;
   success: boolean;
@@ -202,6 +203,7 @@ const Sos: React.FC = () => {
         description: "",
         location: userLocation ? `Lat: ${userLocation.lat.toFixed(4)}, Lng: ${userLocation.lng.toFixed(4)}` : ""
       });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) { // Use 'any' for error type as Axios errors can be complex
       console.error('Error enviando solicitud:', error.response ? error.response.data : error.message);
       alert('Error al enviar la solicitud. Por favor, intenta nuevamente.');
@@ -413,7 +415,7 @@ const Sos: React.FC = () => {
               <form onSubmit={handleSubmit} aria-label="Formulario de Solicitud de Emergencia">
                 <div className="grid md:grid-cols-2 gap-6 mb-6">
                   <div>
-                    <label htmlFor="full-name" className="block text-gray-700 dark:text-gray-200 mb-2 flex items-center">
+                    <label htmlFor="full-name" className="flex text-gray-700 dark:text-gray-200 mb-2 items-center">
                       <FaUserAlt className="mr-2 text-gray-500" aria-hidden="true" />
                       Nombre Completo
                     </label>
@@ -429,7 +431,7 @@ const Sos: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <label htmlFor="member-id" className="block text-gray-700 dark:text-gray-200 mb-2 flex items-center">
+                    <label htmlFor="member-id" className="flex text-gray-700 dark:text-gray-200 mb-2 items-center">
                       <FaUserShield className="mr-2 text-gray-500" aria-hidden="true" />
                       Número de Socio BSK
                     </label>
@@ -447,7 +449,7 @@ const Sos: React.FC = () => {
                 </div>
 
                 <div className="mb-6">
-                  <label htmlFor="emergency-type" className="block text-gray-700 dark:text-gray-200 mb-2 flex items-center">
+                  <label htmlFor="emergency-type" className="flex text-gray-700 dark:text-gray-200 mb-2 items-center">
                     <FaShieldAlt className="mr-2 text-gray-500" aria-hidden="true" />
                     Tipo de Emergencia
                   </label>
@@ -482,7 +484,7 @@ const Sos: React.FC = () => {
                 </div>
 
                 <div className="mb-6">
-                  <label htmlFor="location" className="block text-gray-700 dark:text-gray-200 mb-2 flex items-center">
+                  <label htmlFor="location" className="flex text-gray-700 dark:text-gray-200 mb-2 items-center">
                     <FaMapMarkerAlt className="mr-2 text-gray-500" aria-hidden="true" />
                     Ubicación
                   </label>

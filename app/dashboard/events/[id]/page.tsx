@@ -6,7 +6,6 @@ import { useAuth } from '@/hooks/useAuth';
 import { getCSRFToken } from '@/lib/csrf-client';
 import BoldCheckoutButton from '@/components/shared/BoldCheckoutButton';
 import {
-  FaCalendarAlt,
   FaMapMarkerAlt,
   FaClock,
   FaUsers,
@@ -84,6 +83,7 @@ export default function DashboardEventDetailsPage() {
   const [processing, setProcessing] = useState(false);
   const [hasApprovedPayment, setHasApprovedPayment] = useState(false);
   const [paymentConfig, setPaymentConfig] = useState<{
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     config: any;
     integritySignature: string;
     orderId: string;
@@ -122,6 +122,7 @@ export default function DashboardEventDetailsPage() {
       } else {
         throw new Error('Error al cargar el evento');
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -270,6 +271,7 @@ export default function DashboardEventDetailsPage() {
         const errorData = await response.json();
         alert(`Error: ${errorData.message || 'No se pudo completar la acción'}`);
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       alert('Error de conexión. Inténtalo de nuevo.');
     } finally {
@@ -309,6 +311,7 @@ export default function DashboardEventDetailsPage() {
         console.error('Invalid server response:', data);
         throw new Error('Respuesta inválida del servidor');
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error('Error creating payment transaction:', error);
       alert(`Error al iniciar el pago: ${error.message || 'Intenta de nuevo'}`);
@@ -562,7 +565,7 @@ export default function DashboardEventDetailsPage() {
                         <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
                           {event.includedServices.map((service, index) => (
                             <li key={index} className="flex items-center text-gray-700 dark:text-slate-300">
-                              <span className="w-2 h-2 bg-blue-500 rounded-full mr-3 flex-shrink-0"></span>
+                              <span className="w-2 h-2 bg-blue-500 rounded-full mr-3 shrink-0"></span>
                               {service}
                             </li>
                           ))}
@@ -582,7 +585,7 @@ export default function DashboardEventDetailsPage() {
                         <ul className="space-y-2">
                           {event.requirements.map((requirement, index) => (
                             <li key={index} className="flex items-start text-gray-700 dark:text-slate-300">
-                              <span className="w-2 h-2 bg-orange-500 rounded-full mr-3 mt-2 flex-shrink-0"></span>
+                              <span className="w-2 h-2 bg-orange-500 rounded-full mr-3 mt-2 shrink-0"></span>
                               {requirement}
                             </li>
                           ))}
@@ -681,6 +684,7 @@ export default function DashboardEventDetailsPage() {
                                 onPaymentSuccess={() => {
                                   router.push(`/events/${event._id}/payment-result?orderId=${paymentConfig.orderId}`);
                                 }}
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 onPaymentError={(error: any) => {
                                   console.error('Error en el pago:', error);
                                   alert(`Error al procesar el pago: ${error.message || 'Intenta de nuevo'}`);

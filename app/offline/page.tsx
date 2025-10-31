@@ -17,7 +17,7 @@ export default function OfflinePage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-950 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-950 px-4">
       <div className="max-w-md w-full text-center">
         <div className="mb-8 relative">
           {/* Animated Offline Icon */}
