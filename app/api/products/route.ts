@@ -3,7 +3,6 @@ import {
   withErrorHandling, 
   createSuccessResponse, 
   createErrorResponse,
-  validateRequestBody,
   getQueryParams,
   HTTP_STATUS 
 } from '@/lib/api-utils';
@@ -43,6 +42,7 @@ async function handleGet(request: NextRequest) {
   const filters = filtersResult.data;
   
   // Construir filtros de MongoDB
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mongoFilters: any = { isActive: true };
   
   if (filters.category) {
@@ -144,6 +144,7 @@ async function handlePost(request: NextRequest) {
       HTTP_STATUS.CREATED
     );
     
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error.name === 'ValidationError') {
       return createErrorResponse(

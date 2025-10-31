@@ -141,7 +141,7 @@ async function handlePut(request: NextRequest, context: RouteContext<'/api/users
       { user: updatedUser },
       'Usuario actualizado exitosamente'
     );
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error.name === 'ValidationError') {
       return createErrorResponse(

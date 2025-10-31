@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '50');
     const page = parseInt(searchParams.get('page') || '1');
     const type = searchParams.get('type'); // Filtrar por tipo
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const query: any = { userId: authResult.session.userId };
     
     if (type && type !== 'all') {
@@ -46,6 +46,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       success: true,
       data: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         activities: activities.map((activity: any) => ({
           id: activity._id.toString(),
           type: activity.type,
@@ -63,7 +64,7 @@ export async function GET(request: NextRequest) {
         }
       }
     });
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Error fetching user activities:', error);
     return NextResponse.json(

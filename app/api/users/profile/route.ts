@@ -180,6 +180,7 @@ export async function PUT(request: NextRequest) {
     }
 
     // Preparar datos para actualización con sanitización
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updateData: any = {
       firstName: firstName.toString().trim().substring(0, 100),
       lastName: lastName.toString().trim().substring(0, 100),

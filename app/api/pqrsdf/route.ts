@@ -4,8 +4,6 @@ import PQRSDF from '@/lib/models/PQRSDF';
 import { rateLimit } from '@/utils/rateLimit';
 import { verifyAuth } from '@/lib/auth-utils';
 import { requireCSRFToken } from '@/lib/csrf-protection';
-import { validateRequestBody, createErrorResponse, HTTP_STATUS } from '@/lib/api-utils';
-import { pqrsdfSchema } from '@/lib/validation-schemas';
 
 // Rate limiting
 const limiter = rateLimit({
@@ -49,6 +47,7 @@ export async function GET(request: NextRequest) {
     const sortOrder = searchParams.get('sortOrder') || 'desc';
 
     // Construir filtros
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const filtros: any = {};
     
     if (usuarioId) {
@@ -72,6 +71,7 @@ export async function GET(request: NextRequest) {
     const skip = (page - 1) * limit;
 
     // Construir sort
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const sort: any = {};
     sort[sortBy] = sortOrder === 'desc' ? -1 : 1;
 
@@ -86,6 +86,7 @@ export async function GET(request: NextRequest) {
     const total = await PQRSDF.countDocuments(filtros);
 
     // Formatear fechas para el frontend
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const solicitudesFormateadas = solicitudes.map((solicitud: any) => ({
       ...solicitud,
       id: solicitud._id.toString(),
@@ -94,10 +95,12 @@ export async function GET(request: NextRequest) {
       fechaActualizacion: solicitud.fechaActualizacion,
       fechaCierre: solicitud.fechaCierre || undefined,
       fechaLimiteRespuesta: solicitud.fechaLimiteRespuesta || undefined,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       mensajes: solicitud.mensajes.map((mensaje: any) => ({
         ...mensaje,
         fechaCreacion: mensaje.fechaCreacion
       })),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       timeline: solicitud.timeline.map((evento: any) => ({
         ...evento,
         fecha: evento.fecha
@@ -156,9 +159,13 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     
     // 1. Validate request body with pqrsdfSchema
-    const validationResult = await validateRequestBody(body, pqrsdfSchema);
+    const { pqrsdfSchema } = await import('@/lib/validation-schemas');
+    const validationResult = pqrsdfSchema.safeParse(body);
     if (!validationResult.success) {
-      return validationResult.response;
+      return NextResponse.json(
+        { error: 'Datos inválidos', details: validationResult.error.issues },
+        { status: 400 }
+      );
     }
     
     const validatedData = validationResult.data;
@@ -168,6 +175,7 @@ export async function POST(request: NextRequest) {
 
     // Crear la solicitud
     const fechaActual = new Date();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const datosNuevaSolicitud: any = {
       numeroSolicitud,
       usuarioId: authResult.user.id,
@@ -209,7 +217,9 @@ export async function POST(request: NextRequest) {
     // Formatear respuesta
     const solicitudFormateada = {
       ...nuevaSolicitud.toObject(),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       id: (nuevaSolicitud._id as any).toString(),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       _id: (nuevaSolicitud._id as any).toString()
     };
 

@@ -28,11 +28,10 @@ export default function PaymentResultPage() {
   const params = useParams();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { user, isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
   
   const eventId = params.id as string;
   const orderId = searchParams.get('orderId') || searchParams.get('bold-order-id');
-  const txStatus = searchParams.get('bold-tx-status');
   
   const [transaction, setTransaction] = useState<TransactionResult | null>(null);
   const [loading, setLoading] = useState(true);
@@ -92,6 +91,7 @@ export default function PaymentResultPage() {
       } else {
         throw new Error('Respuesta inválida del servidor');
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error('Error fetching transaction:', err);
       setError(err.message);
@@ -210,9 +210,9 @@ export default function PaymentResultPage() {
           
           {/* Header con estado */}
           <div className={`p-8 text-center ${
-            transaction.status === 'APPROVED' ? 'bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20' :
-            transaction.status === 'REJECTED' || transaction.status === 'FAILED' ? 'bg-gradient-to-br from-red-50 to-rose-50 dark:from-red-900/20 dark:to-rose-900/20' :
-            'bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20'
+            transaction.status === 'APPROVED' ? 'bg-linear-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20' :
+            transaction.status === 'REJECTED' || transaction.status === 'FAILED' ? 'bg-linear-to-br from-red-50 to-rose-50 dark:from-red-900/20 dark:to-rose-900/20' :
+            'bg-linear-to-br from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20'
           }`}>
             <div className="mb-4">
               {getStatusIcon()}

@@ -40,6 +40,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Buscar información de la membresía correspondiente
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let membershipInfo: any = null;
     if (user.membershipType) {
       membershipInfo = await Membership.findOne({ 
@@ -70,6 +71,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Obtener beneficios reales de la membresía o usar beneficios por defecto
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const benefits = membershipInfo?.benefits?.filter((b: any) => b.isActive) || [
       {
         id: 'default-1',

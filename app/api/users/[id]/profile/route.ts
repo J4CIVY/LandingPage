@@ -144,6 +144,7 @@ export async function PUT(
     const protectedFields = ['password', 'role', 'isActive', 'membershipNumber'];
     const filteredUpdates = Object.keys(updates)
       .filter(key => !protectedFields.includes(key))
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .reduce((obj: any, key) => {
         obj[key] = updates[key];
         return obj;

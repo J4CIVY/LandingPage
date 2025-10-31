@@ -150,7 +150,7 @@ const MembershipInfoPage: React.FC = () => {
           <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">Deberes y Obligaciones</h2>
           <div className="space-y-4">
             <div className="flex items-start">
-              <div className="flex-shrink-0 mt-1">
+              <div className="shrink-0 mt-1">
                 <div className="h-5 w-5 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center" aria-hidden="true">
                   <div className="h-2 w-2 rounded-full bg-red-600 dark:bg-red-400"></div>
                 </div>
@@ -160,7 +160,7 @@ const MembershipInfoPage: React.FC = () => {
               </p>
             </div>
             <div className="flex items-start">
-              <div className="flex-shrink-0 mt-1">
+              <div className="shrink-0 mt-1">
                 <div className="h-5 w-5 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center" aria-hidden="true">
                   <div className="h-2 w-2 rounded-full bg-red-600 dark:bg-red-400"></div>
                 </div>
@@ -170,7 +170,7 @@ const MembershipInfoPage: React.FC = () => {
               </p>
             </div>
             <div className="flex items-start">
-              <div className="flex-shrink-0 mt-1">
+              <div className="shrink-0 mt-1">
                 <div className="h-5 w-5 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center" aria-hidden="true">
                   <div className="h-2 w-2 rounded-full bg-red-600 dark:bg-red-400"></div>
                 </div>
@@ -180,7 +180,7 @@ const MembershipInfoPage: React.FC = () => {
               </p>
             </div>
             <div className="flex items-start">
-              <div className="flex-shrink-0 mt-1">
+              <div className="shrink-0 mt-1">
                 <div className="h-5 w-5 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center" aria-hidden="true">
                   <div className="h-2 w-2 rounded-full bg-red-600 dark:bg-red-400"></div>
                 </div>

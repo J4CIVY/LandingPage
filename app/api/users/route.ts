@@ -3,7 +3,6 @@ import {
   withErrorHandling, 
   createSuccessResponse, 
   createErrorResponse,
-  validateRequestBody,
   HTTP_STATUS 
 } from '@/lib/api-utils';
 import connectDB from '@/lib/mongodb';
@@ -36,6 +35,7 @@ async function handleGet(request: NextRequest) {
   const isActive = searchParams.get('isActive');
   
   // Construir filtros
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const filters: any = {};
   if (role) filters.role = role;
   if (isActive !== null) filters.isActive = isActive === 'true';
@@ -115,6 +115,7 @@ async function handlePost(request: NextRequest) {
   }
   
   // Remover confirmPassword antes de validar
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { confirmPassword, recaptchaToken: _, ...dataToValidate } = requestData;
   
   // Crear un esquema sin confirmPassword para validación del backend
@@ -149,7 +150,8 @@ async function handlePost(request: NextRequest) {
     }
 
     // Generar token de verificación de email
-    const emailVerificationToken = require('crypto').randomBytes(32).toString('hex');
+    const crypto = await import('crypto');
+    const emailVerificationToken = crypto.randomBytes(32).toString('hex');
     
     // Crear nuevo usuario - el middleware del modelo se encarga del hashing
     const newUser = new User({
@@ -197,6 +199,7 @@ async function handlePost(request: NextRequest) {
       'Usuario registrado exitosamente',
       HTTP_STATUS.CREATED
     );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('❌ Error en validación o registro:', error);
     

@@ -40,6 +40,7 @@ export async function GET(request: NextRequest) {
     const usuarioId = searchParams.get('usuarioId');
 
     // Construir filtros
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const filtros: any = {};
     
     // Si no es admin, solo mostrar estadísticas del usuario

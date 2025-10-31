@@ -23,6 +23,7 @@ export async function GET(request: NextRequest) {
     const userId = authResult.session.userId;
 
     // Obtener datos del usuario desde ExtendedUser (más completo)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let user: any = await ExtendedUser.findById(userId)
       .select('-password -emailVerificationToken -passwordResetToken')
       .lean();

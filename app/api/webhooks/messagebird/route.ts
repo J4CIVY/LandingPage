@@ -6,7 +6,8 @@ import { NextRequest, NextResponse } from 'next/server';
  */
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const _body = await request.json();
 
     // Aquí puedes agregar lógica adicional como:
     // - Actualizar el estado del código 2FA en la base de datos

@@ -45,6 +45,7 @@ async function handleGet(request: NextRequest) {
     }
 
     // Extraer solo los IDs de los eventos para el componente
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const registrations = user.events ? user.events.map((event: any) => event._id.toString()) : [];
 
     return createSuccessResponse(
@@ -54,7 +55,7 @@ async function handleGet(request: NextRequest) {
       },
       'Registros obtenidos exitosamente'
     );
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Error fetching user registrations:', error);
     return createErrorResponse(

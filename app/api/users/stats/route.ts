@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verify } from 'jsonwebtoken';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
-import Event from '@/lib/models/Event';
 import { GamificationService } from '@/lib/services/GamificationService';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
@@ -48,12 +47,16 @@ export async function GET(request: NextRequest) {
     const estadisticasGamificacion = await GamificationService.obtenerEstadisticasUsuario(decoded.userId);
 
     // Contar eventos
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const registeredEventsCount = (user as any).events?.length || 0;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const favoriteEventsCount = (user as any).favoriteEvents?.length || 0;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const attendedEventsCount = (user as any).attendedEvents?.length || 0;
 
     // Calcular días como miembro
     const now = new Date();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const joinDate = (user as any).joinDate || (user as any).createdAt;
     const daysSinceJoining = Math.floor(
       (now.getTime() - new Date(joinDate).getTime()) / (1000 * 60 * 60 * 24)
@@ -65,8 +68,11 @@ export async function GET(request: NextRequest) {
       eventsAttended: attendedEventsCount,
       favoriteEvents: favoriteEventsCount,
       daysSinceJoining: daysSinceJoining,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       memberSince: joinDate ? new Date(joinDate).toISOString() : new Date((user as any).createdAt).toISOString(),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       membershipType: (user as any).membershipType,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       isActive: (user as any).isActive,
       
       // Datos de gamificación

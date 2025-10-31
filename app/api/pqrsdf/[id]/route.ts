@@ -72,16 +72,20 @@ export async function GET(
     // Formatear fechas para el frontend
     const solicitudFormateada = {
       ...solicitud,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       id: (solicitud._id as any).toString(),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       _id: (solicitud._id as any).toString(),
       fechaCreacion: solicitud.fechaCreacion,
       fechaActualizacion: solicitud.fechaActualizacion,
       fechaCierre: solicitud.fechaCierre || undefined,
       fechaLimiteRespuesta: solicitud.fechaLimiteRespuesta || undefined,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       mensajes: solicitud.mensajes.map((mensaje: any) => ({
         ...mensaje,
         fechaCreacion: mensaje.fechaCreacion
       })),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       timeline: solicitud.timeline.map((evento: any) => ({
         ...evento,
         fecha: evento.fecha
@@ -169,6 +173,7 @@ export async function PUT(
 
     switch (accion) {
       case 'agregar_mensaje':
+      case 'mensaje': {
         if (!datos.contenido) {
           return NextResponse.json(
             { error: 'El contenido del mensaje es requerido' },
@@ -201,8 +206,9 @@ export async function PUT(
 
         solicitud.timeline.push(timelineEvento);
         break;
+      }
 
-      case 'cambiar_estado':
+      case 'cambiar_estado': {
         if (!esAdmin) {
           return NextResponse.json(
             { error: 'Solo los administradores pueden cambiar el estado' },
@@ -250,8 +256,24 @@ export async function PUT(
 
         solicitud.timeline.push(timelineEstado);
         break;
+      }
 
-      case 'calificar':
+      case 'agregar_adjunto': {
+        solicitud.adjuntos.push(datos.adjunto);
+
+        const timelineAdjunto = {
+          id: `tl_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          tipo: 'actualizada' as const,
+          descripcion: 'Adjunto agregado',
+          fecha: new Date(),
+          autorId: authResult.user.id,
+          autorNombre: authResult.user.email || 'Usuario'
+        };
+        solicitud.timeline.push(timelineAdjunto);
+        break;
+      }
+
+      case 'calificar': {
         if (!esPropietario) {
           return NextResponse.json(
             { error: 'Solo el propietario puede calificar la solicitud' },
@@ -280,8 +302,9 @@ export async function PUT(
         };
         solicitud.timeline.push(timelineCalificacion);
         break;
+      }
 
-      case 'asignar':
+      case 'asignar': {
         if (!esAdmin) {
           return NextResponse.json(
             { error: 'Solo los administradores pueden asignar solicitudes' },
@@ -302,6 +325,7 @@ export async function PUT(
         };
         solicitud.timeline.push(timelineAsignacion);
         break;
+      }
 
       default:
         return NextResponse.json(
@@ -316,7 +340,9 @@ export async function PUT(
     // Formatear respuesta
     const solicitudFormateada = {
       ...solicitud.toObject(),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       id: (solicitud._id as any).toString(),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       _id: (solicitud._id as any).toString()
     };
 

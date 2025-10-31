@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import { 
-  FaFileAlt, 
-  FaCogs, 
   FaDownload, 
   FaShieldAlt, 
   FaClock, 

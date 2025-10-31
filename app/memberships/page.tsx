@@ -10,21 +10,16 @@ import {
   FaLock,
   FaCalendarAlt,
   FaShieldAlt,
-  FaMoneyBillWave,
   FaGift,
   FaCheck,
   FaEnvelope,
   FaPhone,
   FaMapMarkerAlt,
   FaChevronRight,
-  FaMotorcycle,
-  FaWrench,
-  FaHandsHelping,
   FaPaperPlane,
   FaUser
 } from 'react-icons/fa';
 import { 
-  GiMechanicGarage,
   GiSteeringWheel,
   GiRoad,
   GiFullMotorcycleHelmet
@@ -305,7 +300,7 @@ const Memberships: React.FC = () => {
           <div className="max-w-3xl mx-auto">
             <div className="space-y-4">
               <div className="flex items-start">
-                <div className="flex-shrink-0 mt-1">
+                <div className="shrink-0 mt-1">
                   <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" />
                 </div>
                 <div className="ml-3">
@@ -314,7 +309,7 @@ const Memberships: React.FC = () => {
               </div>
               
               <div className="flex items-start">
-                <div className="flex-shrink-0 mt-1">
+                <div className="shrink-0 mt-1">
                   <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" />
                 </div>
                 <div className="ml-3">
@@ -323,7 +318,7 @@ const Memberships: React.FC = () => {
               </div>
               
               <div className="flex items-start">
-                <div className="flex-shrink-0 mt-1">
+                <div className="shrink-0 mt-1">
                   <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" />
                 </div>
                 <div className="ml-3">
@@ -332,7 +327,7 @@ const Memberships: React.FC = () => {
               </div>
               
               <div className="flex items-start">
-                <div className="flex-shrink-0 mt-1">
+                <div className="shrink-0 mt-1">
                   <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" />
                 </div>
                 <div className="ml-3">
@@ -341,7 +336,7 @@ const Memberships: React.FC = () => {
               </div>
               
               <div className="flex items-start">
-                <div className="flex-shrink-0 mt-1">
+                <div className="shrink-0 mt-1">
                   <FaCheck className="h-6 w-6 text-green-400" aria-hidden="true" />
                 </div>
                 <div className="ml-3">
