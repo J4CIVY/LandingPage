@@ -111,6 +111,7 @@ export const PWAManager: React.FC = () => {
   
   useEffect(() => {
   // Gestión de instalación PWA (mantener si hay contexto útil)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let deferredPrompt: any;
     
     const handleBeforeInstallPrompt = (e: Event) => {

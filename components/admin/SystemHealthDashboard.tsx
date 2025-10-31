@@ -182,11 +182,11 @@ function HealthCheckCard({ service, status, message, icon: Icon }: HealthStatus)
 
   return (
     <div className={`${config.bg} border ${config.border} rounded-lg p-3 flex items-start gap-3`}>
-      <Icon className={`text-xl ${config.iconColor} mt-0.5 flex-shrink-0`} />
+      <Icon className={`text-xl ${config.iconColor} mt-0.5 shrink-0`} />
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between gap-2">
           <h4 className="font-medium text-gray-900 dark:text-white text-sm">{service}</h4>
-          <StatusIcon className={`${config.iconColor} text-sm flex-shrink-0`} />
+          <StatusIcon className={`${config.iconColor} text-sm shrink-0`} />
         </div>
         <p className={`text-xs ${config.textColor} mt-1`}>{message}</p>
       </div>

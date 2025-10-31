@@ -42,6 +42,7 @@ interface EstadisticasGamificacionAdmin {
 
 export default function AdminPanel() {
   const [estadisticas, setEstadisticas] = useState<EstadisticasGamificacionAdmin | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [recompensas, setRecompensas] = useState<any[]>([]);
   const [tabActiva, setTabActiva] = useState<'estadisticas' | 'recompensas' | 'puntos'>('estadisticas');
   const [loading, setLoading] = useState(true);
@@ -255,6 +256,7 @@ export default function AdminPanel() {
           <button
             key={tab.id}
             onClick={() => {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               setTabActiva(tab.id as any);
               setError(null);
               setSuccessMessage(null);
@@ -502,6 +504,7 @@ export default function AdminPanel() {
             </h4>
             {recompensas.length > 0 ? (
               <div className="space-y-3">
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                 {recompensas.map((recompensa: any) => (
                   <div key={recompensa._id} className="flex items-center justify-between p-4 border dark:border-slate-700 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors">
                     <div className="flex-1">

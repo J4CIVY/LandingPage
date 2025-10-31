@@ -5,8 +5,7 @@ import {
   FaMedal, 
   FaTimes, 
   FaCheckCircle, 
-  FaBullseye,
-  FaExclamationCircle
+  FaBullseye
 } from 'react-icons/fa';
 
 interface Logro {
@@ -40,6 +39,7 @@ interface LogrosProps {
   puntosActuales: number;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps) {
   const [logros, setLogros] = useState<Logro[]>([]);
   const [estadisticas, setEstadisticas] = useState<EstadisticasLogros | null>(null);
@@ -160,6 +160,7 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
     {/* Filtros (mantener si hay contexto útil) */}
         <select
           value={filtroCategoria}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onChange={(e) => setFiltroCategoria(e.target.value as any)}
           className="text-sm border border-gray-300 dark:border-slate-700 rounded-lg px-3 py-1 bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-200"
         >
@@ -179,7 +180,7 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
         </div>
         <div className="bg-gray-200 dark:bg-slate-800 rounded-full h-2">
           <div 
-            className="bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-700 dark:to-purple-900 h-2 rounded-full"
+            className="bg-linear-to-r from-blue-500 to-purple-600 dark:from-blue-700 dark:to-purple-900 h-2 rounded-full"
             style={{ width: `${estadisticas?.porcentajeCompletado || 0}%` }}
           />
         </div>
@@ -192,7 +193,7 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
             key={logro.id}
             className={`p-4 rounded-lg border-2 ${
               logro.desbloqueado
-                ? 'bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900 dark:to-green-800 border-green-200 dark:border-green-800'
+                ? 'bg-linear-to-r from-green-50 to-green-100 dark:from-green-900 dark:to-green-800 border-green-200 dark:border-green-800'
                 : 'bg-gray-50 dark:bg-slate-800 border-gray-200 dark:border-slate-700'
             }`}
           >

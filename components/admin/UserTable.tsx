@@ -9,7 +9,6 @@ import {
   FaEye,
   FaUserCheck,
   FaUserTimes,
-  FaUserShield,
   FaChevronDown,
   FaChevronUp
 } from 'react-icons/fa';

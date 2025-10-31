@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { FaShieldAlt, FaSpinner, FaWhatsapp, FaRedo, FaClock, FaEnvelope, FaExclamationTriangle } from 'react-icons/fa';
+import { FaSpinner, FaWhatsapp, FaRedo, FaClock, FaEnvelope, FaExclamationTriangle } from 'react-icons/fa';
 import Image from 'next/image';
 
 interface TwoFactorVerificationProps {
@@ -153,6 +153,7 @@ export default function TwoFactorVerification({
     setError(null);
 
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const requestBody: any = {
         twoFactorId,
         code: codeToVerify
@@ -223,6 +224,7 @@ export default function TwoFactorVerification({
       setAttemptsRemaining(null);
       setShowEmailBackup(false);
       inputRefs.current[0]?.focus();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       setError('Error al reenviar el código');
     } finally {
@@ -399,7 +401,7 @@ export default function TwoFactorVerification({
           {showEmailBackup && (
             <div className="mb-4 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
               <div className="flex items-start gap-2">
-                <FaExclamationTriangle className="text-amber-600 dark:text-amber-400 mt-1 flex-shrink-0" />
+                <FaExclamationTriangle className="text-amber-600 dark:text-amber-400 mt-1 shrink-0" />
                 <div>
                   <p className="text-sm font-semibold text-amber-800 dark:text-amber-300 mb-2">
                     Has excedido los intentos por WhatsApp

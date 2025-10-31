@@ -29,6 +29,7 @@ interface UserEvent {
 
 // Hook para métricas de Core Web Vitals
 export function useCoreWebVitals() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const sendMetric = useCallback((metric: any) => {
     // Adaptar métrica de web-vitals a nuestro formato
     const adaptedMetric: PerformanceMetric = {
@@ -170,6 +171,7 @@ export function usePerformanceMonitoring() {
     // Monitor de memoria (Chrome)
     const monitorMemory = () => {
       if ('memory' in performance && process.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const memory = (performance as any).memory;
         const memoryUsage = {
           used: memory.usedJSHeapSize,

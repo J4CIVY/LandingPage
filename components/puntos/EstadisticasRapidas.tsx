@@ -259,7 +259,7 @@ export default function EstadisticasRapidas({ usuarioId, puntosActuales = 0 }: E
       </div>
 
       {/* Motivación */}
-      <div className="mt-4 p-3 bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-700 dark:to-purple-800 rounded-lg text-white text-center">
+      <div className="mt-4 p-3 bg-linear-to-r from-blue-500 to-purple-600 dark:from-blue-700 dark:to-purple-800 rounded-lg text-white text-center">
         <p className="text-sm font-medium flex items-center justify-center">
           {(() => {
             const message = getMotivationalMessage();

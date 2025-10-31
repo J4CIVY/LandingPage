@@ -10,7 +10,7 @@ interface PuntosHeaderProps {
 
 export default function PuntosHeader({ usuario }: PuntosHeaderProps) {
   return (
-  <div className="bg-gradient-to-r from-blue-600 to-blue-700 dark:from-slate-900 dark:to-slate-800 rounded-xl p-6 text-white dark:text-blue-100 shadow-lg">
+  <div className="bg-linear-to-r from-blue-600 to-blue-700 dark:from-slate-900 dark:to-slate-800 rounded-xl p-6 text-white dark:text-blue-100 shadow-lg">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold mb-2 flex items-center gap-2">

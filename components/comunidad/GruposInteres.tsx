@@ -6,9 +6,7 @@ import {
   FaPlus, 
   FaTimes, 
   FaLock, 
-  FaUnlock, 
   FaSpinner,
-  FaCog,
   FaEdit,
   FaTrash
 } from 'react-icons/fa';
@@ -57,6 +55,7 @@ export default function GruposInteres({
   const esAdmin = usuarioActual?.role === 'admin' || usuarioActual?.role === 'super-admin';
 
   // Función para manejar cambios en el formulario
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const manejarCambioFormulario = (campo: keyof FormularioGrupo, valor: any) => {
     setFormulario(prev => ({ ...prev, [campo]: valor }));
   };

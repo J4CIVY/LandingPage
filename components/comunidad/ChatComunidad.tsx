@@ -30,6 +30,7 @@ export default function ChatComunidad({
 }: ChatComunidadProps) {
   const [nuevoMensaje, setNuevoMensaje] = useState('');
   const [usuariosEnLinea, setUsuariosEnLinea] = useState<UsuarioEnLinea[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cargandoUsuarios, setCargandoUsuarios] = useState(false);
   const [mostrarUsuarios, setMostrarUsuarios] = useState(false);
   const [menuAbierto, setMenuAbierto] = useState<string | null>(null);
@@ -307,7 +308,7 @@ export default function ChatComunidad({
                 <div className={`flex max-w-xs lg:max-w-md ${esPropio ? 'flex-row-reverse' : 'flex-row'} items-end space-x-2`}>
                   {/* Avatar */}
                   {!esPropio && mostrarAvatar && (
-                    <div className="h-8 w-8 rounded-full bg-blue-600 dark:bg-blue-700 flex items-center justify-center text-white text-xs font-medium flex-shrink-0">
+                    <div className="h-8 w-8 rounded-full bg-blue-600 dark:bg-blue-700 flex items-center justify-center text-white text-xs font-medium shrink-0">
                       {mensaje.autor.firstName[0]}{mensaje.autor.lastName[0]}
                     </div>
                   )}

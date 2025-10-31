@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { FaEnvelope, FaArrowRight, FaSpinner, FaCheckCircle, FaShieldAlt } from 'react-icons/fa';
+import { FaEnvelope, FaArrowRight, FaSpinner, FaShieldAlt } from 'react-icons/fa';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -11,11 +10,11 @@ interface Step1EmailProps {
   returnUrl: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function Step1Email({ onEmailVerified, returnUrl }: Step1EmailProps) {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
 
   const cloudName = "dz0peilmu";
   

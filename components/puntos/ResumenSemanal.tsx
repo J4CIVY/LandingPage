@@ -19,6 +19,7 @@ interface ResumenSemanalProps {
 }
 
 // Función helper para calcular actividad semanal desde transacciones
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const calcularActividadSemanal = (transacciones: any[]): ActividadSemanal[] => {
   const diasSemana = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
   const hoy = new Date();
@@ -153,8 +154,8 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
                   <div
                     className={`w-full rounded-t ${
                       esHoy 
-                        ? 'bg-gradient-to-t from-blue-500 to-blue-400 dark:from-blue-700 dark:to-blue-400' 
-                        : 'bg-gradient-to-t from-gray-300 to-gray-200 dark:from-slate-700 dark:to-slate-800'
+                        ? 'bg-linear-to-t from-blue-500 to-blue-400 dark:from-blue-700 dark:to-blue-400' 
+                        : 'bg-linear-to-t from-gray-300 to-gray-200 dark:from-slate-700 dark:to-slate-800'
                     }`}
                     style={{ height: `${altura}%` }}
                   />
@@ -202,7 +203,7 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
   {/* Leyenda (mantener si hay contexto útil) */}
   <div className="text-xs text-gray-500 dark:text-gray-300 space-y-1">
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 bg-gradient-to-t from-blue-500 to-blue-400 dark:from-blue-700 dark:to-blue-400 rounded"></div>
+          <div className="w-3 h-3 bg-linear-to-t from-blue-500 to-blue-400 dark:from-blue-700 dark:to-blue-400 rounded"></div>
           <span>Hoy</span>
         </div>
         <div className="flex items-center gap-2">
@@ -213,7 +214,7 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
 
   {/* Motivación (mantener si hay contexto útil) */}
       {totalPuntosSemana > 0 && (
-        <div className="mt-4 p-3 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900 dark:to-blue-900 rounded-lg border border-green-200 dark:border-green-700">
+        <div className="mt-4 p-3 bg-linear-to-r from-green-50 to-blue-50 dark:from-green-900 dark:to-blue-900 rounded-lg border border-green-200 dark:border-green-700">
           <p className="text-sm text-green-800 dark:text-green-300 text-center flex items-center justify-center gap-2">
             {totalPuntosSemana >= 100 
               ? <><FaFire className="text-orange-500 dark:text-orange-400" /> ¡Semana increíble! Sigues en racha</>

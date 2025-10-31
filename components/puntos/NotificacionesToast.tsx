@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import { Notificacion } from '@/types/puntos';
 import { 
   FaCheckCircle, 

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { FaTimes, FaUpload, FaCalendarAlt, FaPlus, FaTrash } from 'react-icons/fa';
+import { FaTimes, FaCalendarAlt, FaPlus, FaTrash } from 'react-icons/fa';
 import { BenefitFormProps, CategoryType } from '@/types/benefits';
 
 /**

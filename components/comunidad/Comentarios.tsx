@@ -142,7 +142,7 @@ function ComentarioItem({
     <div className={`${nivel > 0 ? 'ml-8 pl-4 border-l-2 border-gray-200 dark:border-slate-700' : ''}`}>
       <div className="flex space-x-3">
         {/* Avatar */}
-        <div className="h-8 w-8 rounded-full bg-blue-600 dark:bg-blue-700 flex items-center justify-center text-white text-sm font-medium flex-shrink-0">
+        <div className="h-8 w-8 rounded-full bg-blue-600 dark:bg-blue-700 flex items-center justify-center text-white text-sm font-medium shrink-0">
           {comentario.autor.firstName[0]}{comentario.autor.lastName[0]}
         </div>
 
@@ -392,6 +392,7 @@ export default function Comentarios({
       });
 
       if (response.ok) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const data = await response.json();
         
         // Recargar comentarios
@@ -476,7 +477,7 @@ export default function Comentarios({
           )}
           
           <div className="flex space-x-3">
-            <div className="h-8 w-8 rounded-full bg-blue-600 dark:bg-blue-700 flex items-center justify-center text-white text-sm font-medium flex-shrink-0">
+            <div className="h-8 w-8 rounded-full bg-blue-600 dark:bg-blue-700 flex items-center justify-center text-white text-sm font-medium shrink-0">
               {usuarioActual.firstName[0]}{usuarioActual.lastName[0]}
             </div>
             <div className="flex-1">

@@ -56,7 +56,7 @@ export default function ProgresoNivel({ usuario }: ProgresoNivelProps) {
           <div className="mb-6">
             <div className="bg-gray-200 dark:bg-slate-800 rounded-full h-4 overflow-hidden">
               <div 
-                className="h-full bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-700 dark:to-blue-900 rounded-full"
+                className="h-full bg-linear-to-r from-blue-500 to-blue-600 dark:from-blue-700 dark:to-blue-900 rounded-full"
                 style={{ width: `${progreso}%` }}
               />
             </div>
@@ -99,7 +99,7 @@ export default function ProgresoNivel({ usuario }: ProgresoNivelProps) {
             {usuario.puntosTotales.toLocaleString()} puntos
           </p>
           {/* Beneficios del nivel actual (mantener si hay contexto útil) */}
-          <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 dark:from-yellow-900 dark:to-yellow-800 rounded-lg p-4 mt-4">
+          <div className="bg-linear-to-r from-yellow-50 to-yellow-100 dark:from-yellow-900 dark:to-yellow-800 rounded-lg p-4 mt-4">
             <h5 className="font-semibold text-gray-800 dark:text-slate-100 mb-2">
               Beneficios de tu nivel:
             </h5>

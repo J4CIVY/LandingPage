@@ -58,6 +58,7 @@ export default function Leaderboard() {
           const leaderboardData: LeaderboardUser[] = result.data;
           
           // Mapear a formato esperado por el componente
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const usuariosMapeados: any[] = leaderboardData.map(item => ({
             id: item.usuario._id,
             nombre: `${item.usuario.firstName} ${item.usuario.lastName}`,
@@ -206,13 +207,13 @@ export default function Leaderboard() {
         <div className="space-y-4">
           {/* Top 3 destacado */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            {usuarios.slice(0, 3).map((usuario, index) => (
+            {usuarios.slice(0, 3).map((usuario) => (
               <div
                 key={usuario.id}
                 className={`${getMedalColor(usuario.posicionRanking)} rounded-xl p-6 text-white text-center relative overflow-hidden dark:border dark:border-slate-800`}
               >
                 {/* Efecto de brillo */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-10 -skew-x-12 animate-pulse"></div>
+                <div className="absolute inset-0 bg-linear-to-r from-transparent via-white to-transparent opacity-10 -skew-x-12 animate-pulse"></div>
                 
                 <div className="relative z-10">
                   <div className="text-4xl mb-2">

@@ -16,7 +16,9 @@ interface TransaccionReal {
   metadata: {
     fuente?: string;
     categoria?: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     eventoId?: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     recompensaId?: any;
   };
   fechaTransaccion: string;
@@ -34,7 +36,9 @@ export default function HistorialPuntos({ usuarioId }: HistorialPuntosProps) {
   const [filtros, setFiltros] = useState<FiltroHistorial>({});
   const [loading, setLoading] = useState(true);
   const [historialFiltrado, setHistorialFiltrado] = useState<PuntosActividad[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [pagina, setPagina] = useState(1);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [totalPaginas, setTotalPaginas] = useState(1);
 
   const mapearTransaccionReal = (transaccion: TransaccionReal, saldoAcumulado: number): PuntosActividad => {

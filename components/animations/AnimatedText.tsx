@@ -19,6 +19,7 @@ export const AnimatedText = forwardRef<HTMLElement, AnimatedTextProps>(
     children, 
     className = '', 
     ...props 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   }, forwardedRef) => {
     const { ref, className: animationClassName } = useTextAnimation({
       animationType,
@@ -27,6 +28,7 @@ export const AnimatedText = forwardRef<HTMLElement, AnimatedTextProps>(
       threshold: 0.1
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const Component = as as any;
     const combinedClassName = `${animationClassName} ${className}`.trim();
 
@@ -49,6 +51,7 @@ export const AnimatedHeading = forwardRef<HTMLHeadingElement, Omit<AnimatedTextP
   ({ level = 2, animationType = 'fadeIn', delay = 0, ...props }, ref) => (
     <AnimatedText
       ref={ref}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       as={`h${level}` as any}
       animationType={animationType}
       delay={delay}

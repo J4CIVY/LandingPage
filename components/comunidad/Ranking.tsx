@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { 
   FaTrophy, 
-  FaStar, 
   FaMedal, 
   FaFire, 
   FaComment, 
@@ -96,6 +95,7 @@ export default function Ranking({
     : 0;
 
   // Función para obtener el color de la posición
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const getColorPosicion = (posicion: number) => {
     if (posicion === 1) return 'text-yellow-600'; // Oro
     if (posicion === 2) return 'text-gray-500'; // Plata
@@ -196,7 +196,7 @@ export default function Ranking({
 
       {/* Tu posición actual */}
       {usuarioActual && posicionUsuarioActual > 0 && vistaActual === 'ranking' && (
-  <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-slate-800 dark:to-slate-900 rounded-lg border border-blue-200 dark:border-slate-600">
+  <div className="mb-6 p-4 bg-linear-to-r from-blue-50 to-purple-50 dark:from-slate-800 dark:to-slate-900 rounded-lg border border-blue-200 dark:border-slate-600">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="h-10 w-10 rounded-full bg-blue-600 dark:bg-blue-700 flex items-center justify-center text-white font-medium">
@@ -256,7 +256,7 @@ export default function Ranking({
                   </div>
 
                   {/* Avatar */}
-                  <div className="h-10 w-10 rounded-full bg-blue-600 dark:bg-blue-700 flex items-center justify-center text-white font-medium flex-shrink-0">
+                  <div className="h-10 w-10 rounded-full bg-blue-600 dark:bg-blue-700 flex items-center justify-center text-white font-medium shrink-0">
                     {(usuario.firstName?.[0] || '?')}{(usuario.lastName?.[0] || '?')}
                   </div>
 

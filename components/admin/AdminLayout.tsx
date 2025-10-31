@@ -4,7 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { useEffect, ReactNode, useState } from 'react';
 import AdminSidebar from '@/components/admin/AdminSidebar';
-import { FaSpinner, FaShieldAlt, FaBars, FaTimes } from 'react-icons/fa';
+import { FaSpinner, FaShieldAlt, FaBars } from 'react-icons/fa';
 import Link from 'next/link';
 
 interface AdminLayoutProps {

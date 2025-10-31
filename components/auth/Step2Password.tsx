@@ -220,7 +220,7 @@ export default function Step2Password({ email, onPasswordVerified, onBack }: Ste
             {showWarning && (
               <div className="mb-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 animate-pulse">
                 <div className="flex items-center gap-2 text-yellow-800 dark:text-yellow-200 text-sm">
-                  <FaCheckCircle className="text-lg flex-shrink-0" />
+                  <FaCheckCircle className="text-lg shrink-0" />
                   <span>
                     Ingresa tu contraseña pronto. Tiempo restante: {Math.ceil(timeRemaining / 1000)}s
                   </span>
