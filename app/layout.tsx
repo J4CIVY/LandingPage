@@ -7,7 +7,6 @@ import CookieBanner from "@/components/shared/CookieBanner";
 import DynamicThemeColor from "@/components/shared/DynamicThemeColor";
 import StructuredData from "@/components/shared/StructuredData";
 import ScrollToTop from "@/components/shared/ScrollToTop";
-import SecurityMonitor from "@/components/shared/SecurityMonitor";
 import EnvStatus from "@/components/shared/EnvStatus";
 
 // Font configuration with performance optimizations and accessibility in mind
@@ -272,7 +271,6 @@ export default function RootLayout({
           </div>
         }>
           <ClientProviders>
-            <SecurityMonitor />
             <EnvStatus />
             <PWAManager />
             <DynamicThemeColor />
