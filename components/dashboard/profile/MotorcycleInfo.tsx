@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { FaMotorcycle, FaEdit, FaSave, FaTimes, FaExclamationTriangle, FaCamera, FaCalendarAlt, FaCheckCircle, FaTimesCircle, FaCertificate, FaIdCard, FaImage, FaPlus, FaTrash } from 'react-icons/fa';
+import { FaMotorcycle, FaEdit, FaSave, FaTimes, FaExclamationTriangle, FaCamera, FaCheckCircle, FaTimesCircle, FaCertificate, FaImage, FaPlus, FaTrash } from 'react-icons/fa';
 import { IUser } from '@/lib/models/User';
 import { sanitizeUrl } from '@/lib/input-sanitization';
 
@@ -183,6 +183,7 @@ export default function MotorcycleInfo({ user, onSave, isEditing = false, onEdit
     licenseNumber: user.licenseNumber || '',
     licenseCategory: user.licenseCategory || '',
     licenseExpirationDate: user.licenseExpirationDate || '',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     motorcycleImages: (user as any).motorcycleImages || []
   });
 
@@ -351,6 +352,7 @@ export default function MotorcycleInfo({ user, onSave, isEditing = false, onEdit
       licenseNumber: user.licenseNumber || '',
       licenseCategory: user.licenseCategory || '',
       licenseExpirationDate: user.licenseExpirationDate || '',
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       motorcycleImages: (user as any).motorcycleImages || []
     });
     setErrors({});

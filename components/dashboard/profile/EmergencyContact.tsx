@@ -141,11 +141,11 @@ export default function EmergencyContact({ user, onSave, isEditing = false, onEd
   const isFormComplete = formData.emergencyContactName && formData.emergencyContactRelationship && formData.emergencyContactPhone;
 
   return (
-    <div className="bg-gradient-to-br from-red-50 to-orange-50 dark:from-red-950/20 dark:to-orange-950/20 border-2 border-red-200 dark:border-red-800 rounded-xl shadow-lg p-6">
+    <div className="bg-linear-to-br from-red-50 to-orange-50 dark:from-red-950/20 dark:to-orange-950/20 border-2 border-red-200 dark:border-red-800 rounded-xl shadow-lg p-6">
       {/* Alert Header */}
       <div className="bg-red-100 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
         <div className="flex items-start gap-3">
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <FaExclamationTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
           </div>
           <div className="flex-1">
@@ -453,7 +453,7 @@ export default function EmergencyContact({ user, onSave, isEditing = false, onEd
       <div className="mt-6 pt-4 border-t border-red-200 dark:border-red-800">
         <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg p-3">
           <div className="flex items-start gap-2">
-            <FaExclamationTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
+            <FaExclamationTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 mt-0.5 shrink-0" />
             <div className="text-xs text-amber-700 dark:text-amber-300">
               <p className="font-medium mb-1">Aviso de Privacidad para Emergencias:</p>
               <p>Esta información será utilizada exclusivamente por el equipo administrativo de BSK Motorcycle Team en casos de emergencia durante eventos oficiales. Los datos están protegidos según nuestra política de privacidad y no serán compartidos con terceros excepto en situaciones de emergencia médica o de seguridad.</p>

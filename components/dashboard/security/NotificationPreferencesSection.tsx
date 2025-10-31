@@ -114,6 +114,7 @@ export default function NotificationPreferencesSection() {
     { value: 'Europe/Madrid', label: 'Madrid (GMT+1)', country: 'España' }
   ]
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const updatePreferences = async (updates: any) => {
     try {
       const csrfToken = getCSRFToken()
@@ -138,6 +139,7 @@ export default function NotificationPreferencesSection() {
   }
 
   const handleNotificationToggle = async (category: 'email' | 'whatsapp' | 'push', field: string) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const currentValue = (notificationPreferences[category] as any)[field]
     const newValue = !currentValue
     

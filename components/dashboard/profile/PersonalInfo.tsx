@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { FaUser, FaIdCard, FaCalendarAlt, FaMapMarkerAlt, FaPhone, FaEnvelope, FaEdit, FaSave, FaTimes, FaExclamationTriangle } from 'react-icons/fa';
+import { FaUser, FaIdCard, FaMapMarkerAlt, FaPhone, FaEdit, FaSave, FaTimes, FaExclamationTriangle } from 'react-icons/fa';
 import { IUser } from '@/lib/models/User';
 
 interface PersonalInfoProps {

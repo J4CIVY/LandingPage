@@ -20,6 +20,7 @@ interface ChatBoxProps {
   className?: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ICONOS_TIPO: Record<MensajeTipo, { icon: React.ComponentType<any>, color: string }> = {
   usuario: { icon: FaUser, color: 'bg-blue-600' },
   admin: { icon: FaUserTie, color: 'bg-green-600' },
@@ -121,7 +122,7 @@ export default function ChatBox({
                     </div>
                     
                     {/* Contenido */}
-                    <p className="text-sm whitespace-pre-wrap break-words">
+                    <p className="text-sm whitespace-pre-wrap wrap-break-word">
                       {mensaje.contenido}
                     </p>
                     

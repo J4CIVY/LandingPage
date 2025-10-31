@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { IUser } from '@/lib/models/User';
 import { 
   FaUser, 
-  FaCalendarAlt, 
   FaEye, 
   FaStar,
   FaAward,
@@ -28,6 +27,7 @@ interface MembershipStatusProps {
 interface MembershipInfo {
   current: string;
   displayName: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   icon: React.ComponentType<any>;
   color: string;
   bgColor: string;
@@ -44,6 +44,7 @@ interface UserPoints {
   nextLevelPoints: number;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const membershipConfig: Record<string, any> = {
   'friend': {
     displayName: 'Friend',
@@ -215,7 +216,9 @@ export default function MembershipStatus({ user, stats }: MembershipStatusProps)
           icon: config.icon,
           color: config.color,
           bgColor: config.bgColor,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           isVolunteer: (user as any)?.isVolunteer || false,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           isLeader: (user as any)?.membershipType === 'leader' || (user as any)?.isLeader || false,
           nextUpgrade: config.nextUpgrade,
           canUpgrade: canUpgrade
@@ -231,7 +234,9 @@ export default function MembershipStatus({ user, stats }: MembershipStatusProps)
           icon: config.icon,
           color: config.color,
           bgColor: config.bgColor,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           isVolunteer: (user as any)?.isVolunteer || false,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           isLeader: (user as any)?.membershipType === 'leader' || (user as any)?.isLeader || false,
           nextUpgrade: config.nextUpgrade,
           canUpgrade: false
@@ -275,7 +280,9 @@ export default function MembershipStatus({ user, stats }: MembershipStatusProps)
     icon: membershipConfig[user?.membershipType || 'friend']?.icon || FaHeart,
     color: membershipConfig[user?.membershipType || 'friend']?.color || 'text-pink-600',
     bgColor: membershipConfig[user?.membershipType || 'friend']?.bgColor || 'bg-pink-50',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     isVolunteer: (user as any)?.isVolunteer || false,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     isLeader: (user as any)?.membershipType === 'leader' || (user as any)?.isLeader || false,
     nextUpgrade: membershipConfig[user?.membershipType || 'friend']?.nextUpgrade,
     canUpgrade: false

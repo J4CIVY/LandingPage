@@ -6,6 +6,7 @@ import { IUser } from '@/lib/models/User';
 
 interface AccountSettingsProps {
   user: IUser;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSave?: (data: any) => Promise<void>;
   isEditing?: boolean;
   onEditToggle?: () => void;
@@ -401,7 +402,7 @@ export default function AccountSettings({ user, onSave, isEditing = false, onEdi
           
           <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
             <div className="flex items-start gap-3">
-              <FaShieldAlt className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
+              <FaShieldAlt className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
               <div>
                 <h5 className="font-medium text-blue-900 dark:text-blue-100 mb-2">
                   Próximamente: Autenticación de Dos Factores
@@ -425,7 +426,7 @@ export default function AccountSettings({ user, onSave, isEditing = false, onEdi
       <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-600">
         <div className="bg-slate-50 dark:bg-slate-700 rounded-lg p-3">
           <div className="flex items-start gap-2">
-            <FaCheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+            <FaCheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 mt-0.5 shrink-0" />
             <div className="text-xs text-slate-600 dark:text-slate-400">
               <p className="font-medium mb-1">Consejos de Seguridad:</p>
               <ul className="space-y-1">

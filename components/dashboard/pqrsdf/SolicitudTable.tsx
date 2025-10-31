@@ -29,7 +29,9 @@ export default function SolicitudTable({ solicitudes, className = '' }: Solicitu
   };
 
   const sortedSolicitudes = [...solicitudes].sort((a, b) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let valueA: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let valueB: any;
 
     switch (sortField) {

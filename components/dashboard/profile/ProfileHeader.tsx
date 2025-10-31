@@ -2,16 +2,17 @@
 
 import { useState, useMemo } from 'react';
 import { FaUser, FaEdit, FaCamera, FaCheck, FaTimes } from 'react-icons/fa';
-import { IUser } from '@/lib/models/User';
 import { sanitizeText, sanitizeUrl } from '@/lib/input-sanitization';
 
 interface ProfileHeaderProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   user: any;
   onEdit?: () => void;
   onAvatarUpload?: (file: File) => Promise<void>;
   onAvatarChange?: (file: File) => void;
   isEditing?: boolean;
   isEditMode?: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSave?: (data: any) => Promise<void>;
   onCancel?: () => void;
   onChange?: () => void;
@@ -50,6 +51,7 @@ export default function ProfileHeader({ user, onEdit, onAvatarChange, isEditing 
   // SECURITY: Sanitize user-generated content to prevent XSS
   const safeFirstName = sanitizeText(user.firstName || '', 50);
   const safeLastName = sanitizeText(user.lastName || '', 50);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const safeEmail = user.email; // Email already validated by schema
   
   // SECURITY: Sanitize profile image URL to prevent XSS

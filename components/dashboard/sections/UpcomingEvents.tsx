@@ -51,8 +51,8 @@ export default function UpcomingEvents() {
       } else {
         setError('No se pudieron cargar los eventos');
       }
-    } catch (err: any) {
-      setError(`Error de conexión: ${err.message}`);
+    } catch (err: unknown) {
+      setError(`Error de conexión: ${err instanceof Error ? err.message : 'Desconocido'}`);
     } finally {
       setLoading(false);
     }

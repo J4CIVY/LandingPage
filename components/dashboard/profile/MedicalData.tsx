@@ -45,8 +45,11 @@ export default function MedicalData({ user, onSave, isEditing = false, onEditTog
     rhFactor: user.rhFactor || '',
     allergies: user.allergies || '',
     healthInsurance: user.healthInsurance || '',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     medications: (user as any).medications || '',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     medicalConditions: (user as any).medicalConditions || '',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     emergencyMedicalNotes: (user as any).emergencyMedicalNotes || ''
   });
 
@@ -109,8 +112,11 @@ export default function MedicalData({ user, onSave, isEditing = false, onEditTog
       rhFactor: user.rhFactor || '',
       allergies: user.allergies || '',
       healthInsurance: user.healthInsurance || '',
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       medications: (user as any).medications || '',
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       medicalConditions: (user as any).medicalConditions || '',
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       emergencyMedicalNotes: (user as any).emergencyMedicalNotes || ''
     });
     setErrors({});
@@ -135,14 +141,15 @@ export default function MedicalData({ user, onSave, isEditing = false, onEditTog
   };
 
   const hasBasicMedicalInfo = formData.bloodType || formData.rhFactor || formData.allergies || formData.healthInsurance;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const hasExtendedMedicalInfo = formData.medications || formData.medicalConditions || formData.emergencyMedicalNotes;
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 border-2 border-blue-200 dark:border-blue-800 rounded-xl shadow-lg p-6">
+    <div className="bg-linear-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 border-2 border-blue-200 dark:border-blue-800 rounded-xl shadow-lg p-6">
       {/* Privacy Alert Header */}
       <div className="bg-blue-100 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6">
         <div className="flex items-start gap-3">
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <FaLock className="w-6 h-6 text-blue-600 dark:text-blue-400" />
           </div>
           <div className="flex-1">
@@ -243,7 +250,7 @@ export default function MedicalData({ user, onSave, isEditing = false, onEditTog
       {!hasAcceptedPrivacy && !isDataVisible && !localIsEditing && (
         <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4 mb-6">
           <div className="flex items-start gap-3">
-            <FaShieldAlt className="w-5 h-5 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
+            <FaShieldAlt className="w-5 h-5 text-amber-600 dark:text-amber-400 mt-0.5 shrink-0" />
             <div className="flex-1">
               <h4 className="font-medium text-amber-900 dark:text-amber-100 mb-2">
                 Aviso de Privacidad Médica
@@ -392,7 +399,7 @@ export default function MedicalData({ user, onSave, isEditing = false, onEditTog
                   placeholder="Describe cualquier alergia a medicamentos, alimentos, materiales, etc. Si no tienes alergias conocidas, escribe 'Ninguna conocida'"
                 />
               ) : (
-                <div className="px-3 py-2 bg-slate-50 dark:bg-slate-700 rounded-lg text-slate-900 dark:text-white min-h-[80px]">
+                <div className="px-3 py-2 bg-slate-50 dark:bg-slate-700 rounded-lg text-slate-900 dark:text-white min-h-20">
                   {formData.allergies ? (
                     <span className={formData.allergies.toLowerCase().includes('ninguna') ? 'text-green-600' : 'text-red-600'}>
                       {formData.allergies}
@@ -475,7 +482,7 @@ export default function MedicalData({ user, onSave, isEditing = false, onEditTog
                     placeholder="Información adicional importante para personal médico de emergencia"
                   />
                 ) : (
-                  <div className="px-3 py-2 bg-slate-50 dark:bg-slate-700 rounded-lg text-slate-900 dark:text-white min-h-[80px]">
+                  <div className="px-3 py-2 bg-slate-50 dark:bg-slate-700 rounded-lg text-slate-900 dark:text-white min-h-20">
                     {formData.emergencyMedicalNotes || 'No especificado'}
                   </div>
                 )}
@@ -489,7 +496,7 @@ export default function MedicalData({ user, onSave, isEditing = false, onEditTog
       <div className="mt-6 pt-4 border-t border-blue-200 dark:border-blue-800">
         <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-3">
           <div className="flex items-start gap-2">
-            <FaLock className="w-4 h-4 text-slate-500 mt-0.5 flex-shrink-0" />
+            <FaLock className="w-4 h-4 text-slate-500 mt-0.5 shrink-0" />
             <div className="text-xs text-slate-600 dark:text-slate-400">
               <p className="font-medium mb-1">Protección de Datos Médicos:</p>
               <p>Esta información está encriptada y protegida según las normativas de protección de datos personales. Solo personal médico autorizado y administradores del motoclub pueden acceder a estos datos en situaciones de emergencia. Puedes solicitar la eliminación de esta información en cualquier momento contactando al administrador.</p>

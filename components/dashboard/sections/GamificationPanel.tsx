@@ -50,6 +50,7 @@ interface GamificationData {
   stats: StatsData;
   level: LevelInfo;
   ranking: RankingInfo;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   nextRewards: any[];
   user: {
     id: string;
@@ -158,6 +159,7 @@ export default function GamificationPanel() {
     return Math.round(((gamificationData.stats.participationScore || 0) / gamificationData.stats.maxParticipationScore) * 100);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const getLevelColor = (level: string) => {
     return gamificationData?.level?.color || '#10B981';
   };
@@ -263,7 +265,7 @@ export default function GamificationPanel() {
             </div>
             <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
               <div 
-                className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full"
+                className="bg-linear-to-r from-blue-500 to-purple-600 h-2 rounded-full"
                 style={{ width: `${Math.min(Math.max(level.progress || 0, 0), 100)}%` }}
               ></div>
             </div>
@@ -317,7 +319,7 @@ export default function GamificationPanel() {
           </div>
             <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-3">
               <div 
-                className="bg-gradient-to-r from-green-400 to-blue-500 h-3 rounded-full"
+                className="bg-linear-to-r from-green-400 to-blue-500 h-3 rounded-full"
                 style={{ width: `${getParticipationPercentage()}%` }}
               ></div>
             </div>
@@ -398,7 +400,7 @@ export default function GamificationPanel() {
         <div className="border-t border-gray-200 dark:border-slate-700 pt-4">
           <Link 
             href="/dashboard/puntos"
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-2 px-4 rounded-lg flex items-center justify-center gap-2 group"
+            className="w-full bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-2 px-4 rounded-lg flex items-center justify-center gap-2 group"
           >
             <FaTrophy className="w-4 h-4" />
             <span>Ver Sistema Completo de Puntos</span>

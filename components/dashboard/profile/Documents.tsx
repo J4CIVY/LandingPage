@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { FaFileAlt, FaUpload, FaDownload, FaTrash, FaEye, FaCheck, FaTimes, FaExclamationTriangle, FaFilePdf, FaFileImage, FaFile, FaCalendarAlt, FaPlus, FaSpinner } from 'react-icons/fa';
+import { FaFileAlt, FaUpload, FaDownload, FaTrash, FaEye, FaCheck, FaTimes, FaExclamationTriangle, FaFilePdf, FaFileImage, FaFile, FaPlus, FaSpinner } from 'react-icons/fa';
 
 interface DocumentsProps {
   userId: string;
@@ -46,6 +46,7 @@ const categoryColors = {
   other: { bg: 'bg-purple-100 dark:bg-purple-900/30', text: 'text-purple-600 dark:text-purple-400', border: 'border-purple-200 dark:border-purple-800' }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function Documents({ userId, onDocumentUpload, onDocumentDelete, onDocumentView, isEditing = false, onEditToggle }: DocumentsProps) {
   const [documents, setDocuments] = useState<DocumentInfo[]>([
     // Mock data - En producción esto vendría de la API
@@ -498,7 +499,7 @@ export default function Documents({ userId, onDocumentUpload, onDocumentDelete, 
       <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-600">
         <div className="bg-slate-50 dark:bg-slate-700 rounded-lg p-3">
           <div className="flex items-start gap-2">
-            <FaExclamationTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
+            <FaExclamationTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 mt-0.5 shrink-0" />
             <div className="text-xs text-slate-600 dark:text-slate-400">
               <p className="font-medium mb-1">Recomendaciones de Seguridad:</p>
               <ul className="space-y-1">

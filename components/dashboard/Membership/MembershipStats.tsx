@@ -33,6 +33,7 @@ interface Badge {
   earned: boolean;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function MembershipStats({ user, membershipData }: MembershipStatsProps) {
   const { stats, loading, error } = useUserStats();
   
@@ -153,28 +154,28 @@ export default function MembershipStats({ user, membershipData }: MembershipStat
 
       {/* Estadísticas principales usando datos reales */}
       <div className="grid grid-cols-2 gap-4 mb-6">
-        <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 rounded-lg">
+        <div className="text-center p-4 bg-linear-to-br from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 rounded-lg">
           <div className="text-2xl font-bold text-blue-600 dark:text-blue-300 mb-1">
             {calculateMembershipDuration()}
           </div>
           <p className="text-sm text-blue-700 dark:text-blue-200">Como miembro</p>
         </div>
 
-        <div className="text-center p-4 bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900 dark:to-green-800 rounded-lg">
+        <div className="text-center p-4 bg-linear-to-br from-green-50 to-green-100 dark:from-green-900 dark:to-green-800 rounded-lg">
           <div className="text-2xl font-bold text-green-600 dark:text-green-300 mb-1">
             {calculateRenewals()}
           </div>
           <p className="text-sm text-green-700 dark:text-green-200">Renovaciones</p>
         </div>
 
-        <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900 dark:to-purple-800 rounded-lg">
+        <div className="text-center p-4 bg-linear-to-br from-purple-50 to-purple-100 dark:from-purple-900 dark:to-purple-800 rounded-lg">
           <div className="text-2xl font-bold text-purple-600 dark:text-purple-300 mb-1">
             {stats.eventsAttended}
           </div>
           <p className="text-sm text-purple-700 dark:text-purple-200">Eventos</p>
         </div>
 
-        <div className="text-center p-4 bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900 dark:to-yellow-800 rounded-lg">
+        <div className="text-center p-4 bg-linear-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900 dark:to-yellow-800 rounded-lg">
           <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-300 mb-1">
             {stats.totalPoints}
           </div>
@@ -229,7 +230,7 @@ export default function MembershipStats({ user, membershipData }: MembershipStat
           Tu Posición
         </h4>
         
-        <div className="text-center p-4 bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-900 dark:to-indigo-800 rounded-lg">
+        <div className="text-center p-4 bg-linear-to-br from-indigo-50 to-indigo-100 dark:from-indigo-900 dark:to-indigo-800 rounded-lg">
           <div className="text-xl font-bold text-indigo-600 dark:text-indigo-300 mb-1">
             #{stats.ranking.position || 'N/A'}
           </div>
@@ -256,7 +257,7 @@ export default function MembershipStats({ user, membershipData }: MembershipStat
           </div>
           <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
             <div 
-              className="bg-gradient-to-r from-green-500 to-green-600 dark:from-green-700 dark:to-green-500 h-2 rounded-full"
+              className="bg-linear-to-r from-green-500 to-green-600 dark:from-green-700 dark:to-green-500 h-2 rounded-full"
               style={{ width: `${Math.round(stats.levelProgress)}%` }}
             ></div>
           </div>

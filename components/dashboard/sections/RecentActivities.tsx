@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
-import { FaHistory, FaCalendarAlt, FaShoppingCart, FaEnvelope, FaMotorcycle, FaCheck, FaSpinner } from 'react-icons/fa';
+import { FaHistory, FaCalendarAlt, FaShoppingCart, FaEnvelope, FaMotorcycle, FaSpinner } from 'react-icons/fa';
 
 interface Activity {
   id: string;
@@ -19,6 +19,7 @@ export default function RecentActivities() {
   const router = useRouter();
   const [activities, setActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(true);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -46,7 +47,8 @@ export default function RecentActivities() {
       } else {
         setActivities([]);
       }
-    } catch (err: any) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err: unknown) {
       setActivities([]);
       setError('Error al cargar actividades');
     } finally {
@@ -153,7 +155,7 @@ export default function RecentActivities() {
                 key={activity.id}
                 className="flex items-start space-x-4 p-4 border border-gray-200 dark:border-slate-700 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700/50"
               >
-                <div className="flex-shrink-0 mt-1">
+                <div className="shrink-0 mt-1">
                   {getActivityIcon(activity.type, activity.status)}
                 </div>
                 

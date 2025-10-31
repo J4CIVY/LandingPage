@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { FaHistory, FaUser, FaCalendarAlt, FaMapMarkerAlt, FaMobile, FaDesktop, FaTablet, FaGlobe, FaShieldAlt, FaSignInAlt, FaEdit, FaClock } from 'react-icons/fa';
+import { useState } from 'react';
+import { FaHistory, FaMapMarkerAlt, FaMobile, FaDesktop, FaTablet, FaGlobe, FaShieldAlt, FaSignInAlt, FaEdit, FaClock } from 'react-icons/fa';
 import { IUser } from '@/lib/models/User';
 
 interface UserActivityProps {
@@ -32,6 +32,7 @@ interface LoginSession {
 }
 
 export default function UserActivity({ user }: UserActivityProps) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [activities, setActivities] = useState<ActivityLog[]>([
     // Mock data - En producción vendría de la API
     {
@@ -392,7 +393,7 @@ export default function UserActivity({ user }: UserActivityProps) {
       <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-600">
         <div className="bg-slate-50 dark:bg-slate-700 rounded-lg p-4">
           <div className="flex items-start gap-3">
-            <FaShieldAlt className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
+            <FaShieldAlt className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
             <div className="flex-1">
               <h4 className="font-medium text-slate-900 dark:text-white mb-2">
                 Resumen de Seguridad

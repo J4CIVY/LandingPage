@@ -1,6 +1,6 @@
 'use client';
 
-import { FaGift, FaEye, FaSpinner } from 'react-icons/fa';
+import { FaGift, FaEye } from 'react-icons/fa';
 
 interface Benefit {
   id: string;

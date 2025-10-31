@@ -7,7 +7,6 @@ import {
   FaPlus, 
   FaEdit, 
   FaCheck, 
-  FaTimes, 
   FaExclamationTriangle, 
   FaComments,
   FaClock
@@ -56,7 +55,7 @@ export default function Timeline({ eventos, className = '' }: TimelineProps) {
           return (
             <div key={evento.id} className="flex items-start space-x-3 relative">
               {/* Icono */}
-              <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${iconColor}`}>
+              <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${iconColor}`}>
                 <IconComponent className="w-4 h-4" />
               </div>
               {/* Contenido */}
@@ -65,7 +64,7 @@ export default function Timeline({ eventos, className = '' }: TimelineProps) {
                   <p className="text-sm font-medium text-gray-900 dark:text-slate-100">
                     {evento.descripcion}
                   </p>
-                  <time className="text-xs text-gray-500 dark:text-slate-400 flex-shrink-0 ml-2">
+                  <time className="text-xs text-gray-500 dark:text-slate-400 shrink-0 ml-2">
                     {format(evento.fecha, 'dd/MM/yyyy HH:mm', { locale: es })}
                   </time>
                 </div>

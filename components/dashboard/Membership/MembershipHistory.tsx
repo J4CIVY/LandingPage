@@ -96,10 +96,12 @@ export default function MembershipHistory({ history }: MembershipHistoryProps) {
     );
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleDownloadReceipt = (historyItem: MembershipHistoryItem) => {
     // Aquí implementar la lógica para descargar el recibo
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleViewDetails = (historyItem: MembershipHistoryItem) => {
     // Aquí implementar la lógica para ver detalles
   };

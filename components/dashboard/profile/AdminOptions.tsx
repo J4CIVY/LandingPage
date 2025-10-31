@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { FaUserShield, FaCheck, FaTimes, FaEye, FaEdit, FaTrash, FaExclamationTriangle, FaClipboardCheck, FaCrown, FaUserTimes, FaUserCheck, FaHistory, FaDownload } from 'react-icons/fa';
+import { FaUserShield, FaCheck, FaTimes, FaEye, FaEdit, FaExclamationTriangle, FaClipboardCheck, FaCrown, FaHistory, FaDownload } from 'react-icons/fa';
 import { IUser } from '@/lib/models/User';
 
 interface AdminOptionsProps {
@@ -138,11 +138,11 @@ export default function AdminOptions({
   }
 
   return (
-    <div className="bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-950/20 dark:to-indigo-950/20 border-2 border-purple-200 dark:border-purple-800 rounded-xl shadow-lg p-6">
+    <div className="bg-linear-to-br from-purple-50 to-indigo-50 dark:from-purple-950/20 dark:to-indigo-950/20 border-2 border-purple-200 dark:border-purple-800 rounded-xl shadow-lg p-6">
       {/* Admin Header */}
       <div className="bg-purple-100 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-800 rounded-lg p-4 mb-6">
         <div className="flex items-start gap-3">
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <FaCrown className="w-6 h-6 text-purple-600 dark:text-purple-400" />
           </div>
           <div className="flex-1">
@@ -186,6 +186,7 @@ export default function AdminOptions({
                 {membershipStatusOptions.map(option => (
                   <button
                     key={option.value}
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     onClick={() => handleStatusChange(option.value as any)}
                     disabled={isChangingStatus || getCurrentStatus() === option.value}
                     className={`px-3 py-2 rounded-lg text-xs font-medium ${
@@ -228,6 +229,7 @@ export default function AdminOptions({
                   {roleOptions.map(option => (
                     <button
                       key={option.value}
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       onClick={() => handleRoleChange(option.value as any)}
                       disabled={isChangingRole || user.role === option.value}
                       className={`px-3 py-2 rounded-lg text-xs font-medium ${
@@ -429,7 +431,7 @@ export default function AdminOptions({
       <div className="mt-6 pt-4 border-t border-purple-200 dark:border-purple-800">
         <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg p-3">
           <div className="flex items-start gap-2">
-            <FaExclamationTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
+            <FaExclamationTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 mt-0.5 shrink-0" />
             <div className="text-xs text-amber-700 dark:text-amber-300">
               <p className="font-medium mb-1">Responsabilidad Administrativa:</p>
               <p>Todas las acciones realizadas desde este panel quedan registradas en el log de auditoría. Asegúrate de documentar adecuadamente las decisiones tomadas. Los cambios de estado y rol requieren justificación válida según las políticas del motoclub.</p>

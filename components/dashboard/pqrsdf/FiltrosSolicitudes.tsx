@@ -17,6 +17,7 @@ export default function FiltrosSolicitudes({
 }: FiltrosSolicitudesProps) {
   const [mostrarFiltros, setMostrarFiltros] = useState(false);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const actualizarFiltro = (campo: keyof FiltroSolicitudes, valor: any) => {
     onFiltrosChange({
       ...filtros,
