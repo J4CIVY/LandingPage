@@ -43,7 +43,7 @@ async function handlePut(request: NextRequest, context: RouteContext<'/api/membe
   
   try {
     const body = await request.json();
-    const { status, notes } = body;
+    const { status } = body;
     
     // Validar estado
     if (!status || !['pending', 'approved', 'rejected'].includes(status)) {
@@ -63,6 +63,7 @@ async function handlePut(request: NextRequest, context: RouteContext<'/api/membe
     }
 
     // Preparar actualizaciones
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updates: any = { status };
 
     const updatedApplication = db.updateMembershipApplication(id, updates);
@@ -78,14 +79,17 @@ async function handlePut(request: NextRequest, context: RouteContext<'/api/membe
 
     // Simular envío de email al aplicante
     if (status === 'approved') {
+      // TODO: Implementar envío de email de aprobación
     } else if (status === 'rejected') {
+      // TODO: Implementar envío de email de rechazo
     }
 
     return createSuccessResponse(
       { application: updatedApplication },
       'Aplicación de membresía actualizada exitosamente'
     );
-  } catch (error) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (_error) {
     return createErrorResponse(
       'Error al procesar la solicitud',
       HTTP_STATUS.BAD_REQUEST

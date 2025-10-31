@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
-import User from '@/lib/models/User';
 import { EstadisticasUsuario } from '@/lib/models/Gamification';
 import { LeaderboardResponse, LeaderboardMember, MembershipType } from '@/types/membership';
 
@@ -25,12 +24,14 @@ export async function GET(request: NextRequest) {
 
     // Crear leaderboard con datos reales (ya populado)
     const membersWithPoints: LeaderboardMember[] = userStats
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .map((stat: any, index) => {
         const user = stat.usuarioId; // Datos populados del usuario
         
         if (!user || !user.isActive) return null; // Skip si el usuario no existe o no está activo
         
         return {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           userId: (user._id as any).toString(),
           name: `${user.firstName} ${user.lastName}`,
           points: stat.puntos?.total || 0, // Usar puntos.total del schema

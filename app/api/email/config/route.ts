@@ -14,6 +14,7 @@ import { requireAdmin } from '@/lib/auth-admin';
  */
 async function handleGet(request: NextRequest) {
   // Verificar autenticación de administrador
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const authResult = await requireAdmin(request as any);
   if (authResult) {
     return authResult;
@@ -54,6 +55,7 @@ async function handleGet(request: NextRequest) {
  */
 async function handlePost(request: NextRequest) {
   // Verificar autenticación de administrador
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const authResult = await requireAdmin(request as any);
   if (authResult) {
     return authResult;
@@ -104,6 +106,7 @@ async function handlePost(request: NextRequest) {
  */
 async function handleGetStatus(request: NextRequest) {
   // Verificar autenticación de administrador
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const authResult = await requireAdmin(request as any);
   if (authResult) {
     return authResult;

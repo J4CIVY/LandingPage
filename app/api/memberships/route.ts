@@ -25,6 +25,7 @@ async function handleGet(request: NextRequest) {
   const membershipType = searchParams.get('membershipType');
   
   // Construir filtros de MongoDB
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mongoFilters: any = { isActive: true };
   
   if (status) {
@@ -117,6 +118,7 @@ async function handlePost(request: NextRequest) {
       method: 'POST',
       headers: request.headers,
       body: JSON.stringify(sanitizedData)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }) as any,
     membershipApplicationSchema
   );
@@ -174,6 +176,7 @@ async function handlePost(request: NextRequest) {
       HTTP_STATUS.CREATED
     );
     
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error.name === 'ValidationError') {
       return createErrorResponse(

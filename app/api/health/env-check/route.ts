@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { getSafeEnvInfo, getSecurityChecklist } from '@/lib/env-validation';
 
 /**
@@ -7,7 +7,7 @@ import { getSafeEnvInfo, getSecurityChecklist } from '@/lib/env-validation';
  * 
  * GET /api/health/env-check
  */
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // Get safe environment info
     const envInfo = getSafeEnvInfo();

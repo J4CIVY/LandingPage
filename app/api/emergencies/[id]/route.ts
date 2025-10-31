@@ -110,6 +110,7 @@ async function handlePut(request: NextRequest, context: RouteContext<'/api/emerg
       'Emergencia actualizada exitosamente'
     );
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error.name === 'ValidationError') {
       return createErrorResponse(

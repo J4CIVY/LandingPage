@@ -43,6 +43,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       data: availableEndorsers.map((user: any) => ({
         id: user._id.toString(),
         name: user.name,

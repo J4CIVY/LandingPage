@@ -14,9 +14,7 @@ import { verifyAuth } from '@/lib/auth-utils';
 import mongoose from 'mongoose';
 import { 
   sendEventRegistrationNotification, 
-  formatEventDate, 
-  formatPaymentAmount,
-  generateInvoiceUrl 
+  formatEventDate
 } from '@/lib/bird-crm';
 import { ActivityLoggerService } from '@/lib/activity-logger';
 import { requireCSRFToken } from '@/lib/csrf-protection';
@@ -127,7 +125,9 @@ async function handlePost(request: NextRequest, context: RouteContext<'/api/even
   
   if (event.price === 0 || !event.price) {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const registrationNumber = (EventRegistration as any).generateRegistrationNumber();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       accessToken = (EventRegistration as any).generateAccessToken();
       
       const registration = await EventRegistration.create({
@@ -210,6 +210,7 @@ async function handlePost(request: NextRequest, context: RouteContext<'/api/even
         const whatsappResult = await sendEventRegistrationNotification(notificationData);
         
         if (whatsappResult.success) {
+          console.log(`✅ Notificación de WhatsApp enviada exitosamente a ${phoneNumber}`);
         } else {
           console.error(`❌ Error al enviar notificación de WhatsApp: ${whatsappResult.error}`);
         }

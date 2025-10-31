@@ -131,11 +131,13 @@ export async function POST(request: NextRequest) {
       
       // Avales
       endorsements: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         leaders: leaderEndorsements.map((e: any) => ({
           endorserId: e.endorserId,
           endorserName: e.endorserName,
           approvedAt: e.approvedAt
         })),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         masters: masterEndorsements.map((e: any) => ({
           endorserId: e.endorserId,
           endorserName: e.endorserName,

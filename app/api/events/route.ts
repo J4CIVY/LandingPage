@@ -34,6 +34,7 @@ async function handleGet(request: NextRequest) {
     
     
     // Construir filtros de MongoDB
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const mongoFilters: any = { isActive: true };
     
     if (upcoming) {
@@ -50,9 +51,6 @@ async function handleGet(request: NextRequest) {
     
     // Calcular skip para paginación
     const skip = (page - 1) * limit;
-    
-    // Primero verificar si hay eventos en total
-    const totalEvents = await Event.countDocuments({});
     
     const totalActiveEvents = await Event.countDocuments(mongoFilters);
     
@@ -92,6 +90,7 @@ async function handleGet(request: NextRequest) {
         }
       };    return createSuccessResponse(result, 'Eventos obtenidos exitosamente');
     
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('❌ API Events: Error:', error);
     return createErrorResponse(
@@ -189,6 +188,7 @@ async function handlePost(request: NextRequest) {
       HTTP_STATUS.CREATED
     );
     
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error.name === 'ValidationError') {
       return createErrorResponse(

@@ -39,6 +39,7 @@ export async function GET(request: NextRequest) {
       }
     });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Error fetching application status:', error);
     return NextResponse.json(

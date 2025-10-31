@@ -120,14 +120,14 @@ export async function POST(request: NextRequest) {
     
     // Crear solicitud de liderazgo
     // TODO: Crear registro en tabla dedicada para aplicaciones de Leader
-    const applicationData = {
+    console.log('Leader application data:', {
       userId: user._id,
       applicationText: applicationText.trim(),
       attachments: attachments || [],
       submittedAt: new Date(),
       status: 'pending',
       userStats: userStats
-    };
+    });
 
     // Por ahora, simular la creación exitosa
 
@@ -180,6 +180,7 @@ function mapLegacyMembershipType(legacyType: string): MembershipType {
   return mapping[legacyType] || 'Friend';
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function calculateUserStats(user: any) {
   const joinDate = user.joinDate || user.createdAt;
   const daysSinceJoining = Math.floor((Date.now() - joinDate.getTime()) / (1000 * 60 * 60 * 24));

@@ -175,7 +175,8 @@ export async function POST(request: NextRequest) {
   }
 }
 
-async function handleRenewal(user: any, data: any) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+async function handleRenewal(_user: any, _data: any) {
   // Implementar lógica de renovación
   // Por ahora retornar un placeholder
   return NextResponse.json({
@@ -184,7 +185,8 @@ async function handleRenewal(user: any, data: any) {
   });
 }
 
-async function handleCancellation(user: any, data: any) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+async function handleCancellation(_user: any, _data: any) {
   // Implementar lógica de cancelación
   // Por ahora retornar un placeholder
   return NextResponse.json({
@@ -193,6 +195,7 @@ async function handleCancellation(user: any, data: any) {
   });
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function handleAutoRenewalToggle(user: any, data: any) {
   // Buscar membresía activa
   const activeMembership = await MembershipHistory.findOne({

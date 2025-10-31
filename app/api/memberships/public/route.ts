@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import Membership from '@/lib/models/Membership';
 
 // GET - Obtener membresías públicas para mostrar en la web
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     await connectToDatabase();
     
@@ -61,6 +61,7 @@ export async function GET(request: NextRequest) {
         student: membership.pricing.student,
       },
       level: membership.level,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       benefits: membership.benefits.filter((b: any) => b.isActive),
       information: {
         targetAudience: membership.information?.targetAudience,

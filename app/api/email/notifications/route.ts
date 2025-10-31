@@ -28,6 +28,7 @@ async function handlePost(request: NextRequest) {
   // Solo requerir autenticación para tipos que no sean públicos
   const publicNotificationTypes = ['welcome', 'password_reset'];
   if (!publicNotificationTypes.includes(notificationData.type)) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const authResult = await requireAdmin(request as any);
     if (authResult) {
       return authResult; // Retorna el error de autenticación

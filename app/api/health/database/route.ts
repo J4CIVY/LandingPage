@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import mongoose from 'mongoose';
 
@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
  * 
  * GET /api/health/database
  */
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // Attempt to connect to database
     await connectDB();

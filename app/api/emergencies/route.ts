@@ -26,6 +26,7 @@ async function handleGet(request: NextRequest) {
   const emergencyType = searchParams.get('emergencyType');
   
   // Construir filtros de MongoDB
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mongoFilters: any = { isActive: true };
   
   if (status) {
@@ -119,6 +120,7 @@ async function handlePost(request: NextRequest) {
       HTTP_STATUS.CREATED
     );
     
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error.name === 'ValidationError') {
       return createErrorResponse(

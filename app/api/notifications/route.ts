@@ -37,6 +37,7 @@ export async function GET(request: NextRequest) {
     const decoded = verify(token, JWT_SECRET) as JWTPayload;
     
     // Construir filtros
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const filters: any = { userId: decoded.userId };
     if (unreadOnly) {
       filters.isRead = false;

@@ -9,7 +9,7 @@ import { db } from '@/lib/database';
  * GET /api/health
  * Verifica el estado de salud de la API
  */
-async function handleGet(request: NextRequest) {
+async function handleGet() {
   const start = Date.now();
   
   try {
@@ -44,7 +44,7 @@ async function handleGet(request: NextRequest) {
       healthStatus,
       'API funcionando correctamente'
     );
-  } catch (error) {
+  } catch {
     return createSuccessResponse(
       {
         status: 'unhealthy',

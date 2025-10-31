@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { getEnv } from '@/lib/env-validation';
 
 /**
@@ -7,7 +7,7 @@ import { getEnv } from '@/lib/env-validation';
  * 
  * GET /api/health/cloudinary
  */
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const env = getEnv();
     

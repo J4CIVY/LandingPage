@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { verifyAuth } from '@/lib/auth-utils';
-import { ObjectId } from 'mongodb';
 import { requireCSRFToken } from '@/lib/csrf-protection';
 
 // POST - Crear nuevo anuncio
@@ -153,6 +152,7 @@ export async function GET(request: NextRequest) {
     const { db } = await connectToDatabase();
 
     // Construir filtros
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const filters: any = {
       $or: [
         { createdBy: user.id },
@@ -175,6 +175,7 @@ export async function GET(request: NextRequest) {
     // Contar total para paginación
     const total = await db.collection('leadership_announcements').countDocuments(filters);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const formattedAnnouncements = announcements.map((announcement: any) => ({
       id: announcement._id.toString(),
       title: announcement.title,

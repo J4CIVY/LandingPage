@@ -34,6 +34,7 @@ export async function GET(request: NextRequest) {
       .lean();
 
     // Formatear la respuesta
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const eventosFormateados = eventos.map((evento: any) => ({
       id: evento._id.toString(),
       nombre: evento.name,

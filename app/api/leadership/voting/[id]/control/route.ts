@@ -66,7 +66,8 @@ export async function POST(
       );
     }
 
-    let updateData: any = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const updateData: any = {
       updatedAt: new Date(),
       lastControlledBy: user.id,
       lastControlledAt: new Date()
@@ -76,7 +77,7 @@ export async function POST(
     let logType = '';
 
     switch (action) {
-      case 'start':
+      case 'start': {
         if (votingProcess.status !== 'draft') {
           return NextResponse.json(
             { error: 'Solo se pueden iniciar procesos en estado borrador' },
@@ -89,8 +90,9 @@ export async function POST(
         message = 'Proceso de votación iniciado exitosamente';
         logType = 'voting_process_started';
         break;
+      }
 
-      case 'stop':
+      case 'stop': {
         if (votingProcess.status !== 'active') {
           return NextResponse.json(
             { error: 'Solo se pueden finalizar procesos activos' },
@@ -108,8 +110,9 @@ export async function POST(
         message = 'Proceso de votación finalizado exitosamente';
         logType = 'voting_process_completed';
         break;
+      }
 
-      case 'cancel':
+      case 'cancel': {
         if (votingProcess.status === 'completed') {
           return NextResponse.json(
             { error: 'No se pueden cancelar procesos ya completados' },
@@ -123,8 +126,9 @@ export async function POST(
         message = 'Proceso de votación cancelado exitosamente';
         logType = 'voting_process_cancelled';
         break;
+      }
 
-      case 'extend':
+      case 'extend': {
         if (votingProcess.status !== 'active') {
           return NextResponse.json(
             { error: 'Solo se pueden extender procesos activos' },
@@ -141,6 +145,7 @@ export async function POST(
         message = 'Proceso de votación extendido por 24 horas';
         logType = 'voting_process_extended';
         break;
+      }
     }
 
     // Actualizar el proceso
@@ -193,6 +198,7 @@ export async function POST(
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function calculateFinalStats(db: any, processId: string) {
   try {
     const voteStats = await db.collection('votes').aggregate([
@@ -213,6 +219,7 @@ async function calculateFinalStats(db: any, processId: string) {
       result: 'no_result'
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     voteStats.forEach((stat: any) => {
       stats.total += stat.count;
       if (stat._id === 'for') stats.for = stat.count;
@@ -243,6 +250,7 @@ async function calculateFinalStats(db: any, processId: string) {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function processCompletionNotifications(db: any, processId: string, votingProcess: any, finalStats: any) {
   try {
     // Aquí podrías implementar notificaciones por email, WhatsApp, etc.

@@ -165,6 +165,7 @@ export async function POST(
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function updateVotingStats(db: any, processId: string) {
   try {
     // Recalcular estadísticas de votos
@@ -185,6 +186,7 @@ async function updateVotingStats(db: any, processId: string) {
       abstain: 0
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     voteStats.forEach((stat: any) => {
       stats.total += stat.count;
       if (stat._id === 'for') stats.for = stat.count;
@@ -209,6 +211,7 @@ async function updateVotingStats(db: any, processId: string) {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function checkAutoFinalization(db: any, processId: string, votingProcess: any) {
   try {
     // Verificar si todos los votantes elegibles han votado

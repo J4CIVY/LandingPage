@@ -64,6 +64,7 @@ async function handlePost(request: NextRequest) {
       'Mensaje enviado correctamente'
     );
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Error sending contact email:', error);
     

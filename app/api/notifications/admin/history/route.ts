@@ -17,6 +17,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const decoded = verify(token, process.env.JWT_SECRET!) as any;
     const adminUser = await User.findById(decoded.userId);
 
@@ -35,6 +36,7 @@ export async function GET(request: NextRequest) {
     const endDate = searchParams.get('endDate');
 
     // Construir filtros
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const filters: any = {};
 
     if (type) filters.type = type;
@@ -110,11 +112,13 @@ export async function GET(request: NextRequest) {
     };
 
     // Contar por tipo y prioridad
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const typeCounts = stats.byType.reduce((acc: any, type: string) => {
       acc[type] = (acc[type] || 0) + 1;
       return acc;
     }, {});
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const priorityCounts = stats.byPriority.reduce((acc: any, priority: string) => {
       acc[priority] = (acc[priority] || 0) + 1;
       return acc;

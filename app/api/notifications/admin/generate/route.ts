@@ -3,7 +3,6 @@ import { cookies } from 'next/headers';
 import { verify } from 'jsonwebtoken';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
-import Event from '@/lib/models/Event';
 import Notification from '@/lib/models/Notification';
 import { requireCSRFToken } from '@/lib/csrf-protection';
 import { internalApiFetch } from '@/lib/internal-api-client';
@@ -36,9 +35,10 @@ export async function POST(request: NextRequest) {
 
     // Verificar token y permisos de administrador
     const decoded = verify(token, JWT_SECRET) as JWTPayload;
-    const user = await User.findById(decoded.userId).select('role').lean();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const user = await User.findById(decoded.userId).select('role').lean() as any;
 
-    if (!user || ((user as any).role !== 'admin' && (user as any).role !== 'super-admin')) {
+    if (!user || (user.role !== 'admin' && user.role !== 'super-admin')) {
       return NextResponse.json(
         { success: false, message: 'Permisos de administrador requeridos' },
         { status: 403 }
@@ -83,6 +83,7 @@ export async function POST(request: NextRequest) {
 }
 
 // GET - Obtener estadísticas de notificaciones (solo para administradores)
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function GET(request: NextRequest) {
   try {
     await connectDB();
@@ -95,6 +96,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const decoded = verify(token, process.env.JWT_SECRET!) as any;
     const adminUser = await User.findById(decoded.userId);
 
@@ -137,7 +139,7 @@ export async function GET(request: NextRequest) {
     };
 
     byTypeStats.forEach(stat => {
-      if (byType.hasOwnProperty(stat._id)) {
+      if (Object.prototype.hasOwnProperty.call(byType, stat._id)) {
         byType[stat._id as keyof typeof byType] = stat.count;
       }
     });
@@ -160,7 +162,7 @@ export async function GET(request: NextRequest) {
     };
 
     byPriorityStats.forEach(stat => {
-      if (byPriority.hasOwnProperty(stat._id)) {
+      if (Object.prototype.hasOwnProperty.call(byPriority, stat._id)) {
         byPriority[stat._id as keyof typeof byPriority] = stat.count;
       }
     });

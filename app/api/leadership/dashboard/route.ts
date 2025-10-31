@@ -100,6 +100,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function calculateLeaderStats(db: any, user: any): Promise<LeaderStats> {
   try {
     // Total de miembros activos
@@ -171,6 +172,7 @@ async function calculateLeaderStats(db: any, user: any): Promise<LeaderStats> {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function getTeamMembers(db: any, user: any): Promise<TeamMember[]> {
   try {
     const members = await db.collection('users').find({
@@ -178,6 +180,7 @@ async function getTeamMembers(db: any, user: any): Promise<TeamMember[]> {
       assignedLeader: user.id
     }).limit(20).toArray();
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return members.map((member: any) => ({
       id: member._id.toString(),
       name: member.name || 'Sin nombre',
@@ -194,6 +197,7 @@ async function getTeamMembers(db: any, user: any): Promise<TeamMember[]> {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function getPendingDecisions(db: any, user: any): Promise<PendingDecision[]> {
   try {
     const decisions = await db.collection('leadership_decisions').find({
@@ -204,6 +208,7 @@ async function getPendingDecisions(db: any, user: any): Promise<PendingDecision[
       ]
     }).sort({ priority: -1, deadline: 1 }).limit(10).toArray();
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return decisions.map((decision: any) => ({
       id: decision._id.toString(),
       type: decision.type || 'proposal',
@@ -225,6 +230,7 @@ async function getPendingDecisions(db: any, user: any): Promise<PendingDecision[
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function getAnnouncements(db: any, user: any): Promise<Announcement[]> {
   try {
     const announcements = await db.collection('leadership_announcements').find({
@@ -234,6 +240,7 @@ async function getAnnouncements(db: any, user: any): Promise<Announcement[]> {
       ]
     }).sort({ createdAt: -1 }).limit(10).toArray();
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return announcements.map((announcement: any) => ({
       id: announcement._id.toString(),
       title: announcement.title || 'Anuncio sin título',

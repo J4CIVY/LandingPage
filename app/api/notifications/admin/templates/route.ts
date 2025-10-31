@@ -132,6 +132,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const decoded = verify(token, process.env.JWT_SECRET!) as any;
     const adminUser = await User.findById(decoded.userId);
 
@@ -160,6 +161,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Agrupar por categoría
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const templatesByCategory = filteredTemplates.reduce((acc: any, template) => {
       if (!acc[template.category]) {
         acc[template.category] = [];
@@ -171,14 +173,17 @@ export async function GET(request: NextRequest) {
     // Estadísticas
     const stats = {
       total: filteredTemplates.length,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       byCategory: Object.keys(templatesByCategory).reduce((acc: any, category) => {
         acc[category] = templatesByCategory[category].length;
         return acc;
       }, {}),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       byType: filteredTemplates.reduce((acc: any, template) => {
         acc[template.type] = (acc[template.type] || 0) + 1;
         return acc;
       }, {}),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       byPriority: filteredTemplates.reduce((acc: any, template) => {
         acc[template.priority] = (acc[template.priority] || 0) + 1;
         return acc;
@@ -220,6 +225,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const decoded = verify(token, process.env.JWT_SECRET!) as any;
     const adminUser = await User.findById(decoded.userId);
 

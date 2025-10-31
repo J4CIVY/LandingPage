@@ -43,7 +43,9 @@ export async function GET(request: NextRequest) {
     const allEvents = await Event.find({}).lean();
     
   // Obtiene eventos específicos del usuario
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const userEventIds = (user as any).events || [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const userFavoriteIds = (user as any).favoriteEvents || [];
     
     const userEvents = await Event.find({
@@ -57,29 +59,34 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       success: true,
       debug: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         userId: (user as any)._id,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         userEmail: (user as any).email,
         userEventIds: userEventIds,
         userFavoriteIds: userFavoriteIds,
         totalEventsInDB: allEvents.length,
         userEventsFound: userEvents.length,
         userFavoritesFound: userFavorites.length,
-        allEvents: allEvents.map(event => ({
-          id: (event as any)._id,
-          name: (event as any).name,
-          startDate: (event as any).startDate
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        allEvents: allEvents.map((event: any) => ({
+          id: event._id,
+          name: event.name,
+          startDate: event.startDate
         })),
-        userEvents: userEvents.map(event => ({
-          id: (event as any)._id,
-          name: (event as any).name,
-          startDate: (event as any).startDate,
-          departureLocation: (event as any).departureLocation
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        userEvents: userEvents.map((event: any) => ({
+          id: event._id,
+          name: event.name,
+          startDate: event.startDate,
+          departureLocation: event.departureLocation
         })),
-        userFavorites: userFavorites.map(event => ({
-          id: (event as any)._id,
-          name: (event as any).name,
-          startDate: (event as any).startDate,
-          departureLocation: (event as any).departureLocation
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        userFavorites: userFavorites.map((event: any) => ({
+          id: event._id,
+          name: event.name,
+          startDate: event.startDate,
+          departureLocation: event.departureLocation
         }))
       }
     });

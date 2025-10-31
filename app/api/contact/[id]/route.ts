@@ -63,6 +63,7 @@ async function handlePut(request: NextRequest, context: RouteContext<'/api/conta
     }
 
     // Preparar actualizaciones
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updates: any = { status };
     if (response) {
       updates.response = response;
@@ -78,16 +79,18 @@ async function handlePut(request: NextRequest, context: RouteContext<'/api/conta
     }
 
     // Log del cambio de estado
+    console.log(`Mensaje de contacto ${id} actualizado a estado: ${status}`);
 
     // Simular envío de respuesta por email
     if (status === 'resolved' && response) {
+      console.log(`Enviando respuesta a ${existingMessage.email}`);
     }
 
     return createSuccessResponse(
       { message: updatedMessage },
       'Mensaje de contacto actualizado exitosamente'
     );
-  } catch (error) {
+  } catch {
     return createErrorResponse(
       'Error al procesar la solicitud',
       HTTP_STATUS.BAD_REQUEST

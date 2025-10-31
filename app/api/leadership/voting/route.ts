@@ -33,6 +33,7 @@ export async function GET(request: NextRequest) {
     const { db } = await connectToDatabase();
 
     // Construir filtros
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const filters: any = {};
     
     if (status !== 'all') {
@@ -54,6 +55,7 @@ export async function GET(request: NextRequest) {
 
     // Formatear procesos de votación
     const formattedProcesses = await Promise.all(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       processes.map(async (process: any) => {
         // Contar votos por proceso
         const voteStats = await db.collection('votes').aggregate([
@@ -74,6 +76,7 @@ export async function GET(request: NextRequest) {
           participation: 0
         };
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         voteStats.forEach((stat: any) => {
           votes.total += stat.count;
           if (stat._id === 'for') votes.for = stat.count;
@@ -113,6 +116,7 @@ export async function GET(request: NextRequest) {
     );
 
     // Formatear votos del usuario
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const formattedUserVotes = userVotes.map((vote: any) => ({
       id: vote._id.toString(),
       votingProcessId: vote.votingProcessId,
@@ -307,6 +311,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function calculateEligibleVoters(db: any) {
   try {
     // Contar Leaders activos

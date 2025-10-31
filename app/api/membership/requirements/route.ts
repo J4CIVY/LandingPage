@@ -1,15 +1,14 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { MembershipRequirement } from '@/types/membership';
-import { MEMBERSHIP_RULES, MEMBERSHIP_CONFIG } from '@/data/membershipConfig';
+import { MEMBERSHIP_RULES } from '@/data/membershipConfig';
 
 // GET - Obtener lista canónica de requisitos para todas las membresías
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const requirements: MembershipRequirement[] = [];
 
     // Generar requisitos para cada tipo de membresía
     Object.entries(MEMBERSHIP_RULES).forEach(([membershipType, rules]) => {
-      const config = MEMBERSHIP_CONFIG[membershipType as keyof typeof MEMBERSHIP_CONFIG];
       
       if (membershipType === 'Volunteer') {
         // Volunteer es un rol especial
@@ -17,6 +16,7 @@ export async function GET(request: NextRequest) {
           id: `${membershipType.toLowerCase()}-basic`,
           label: 'Compromiso de voluntariado',
           description: 'Compromiso activo con actividades de voluntariado en la comunidad',
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           membershipType: membershipType as any,
           category: 'volunteering'
         });
@@ -29,6 +29,7 @@ export async function GET(request: NextRequest) {
           label: `${rules.pointsRequired.toLocaleString()} puntos`,
           description: `Acumular ${rules.pointsRequired.toLocaleString()} puntos a través de participación en eventos y actividades`,
           pointsRequired: rules.pointsRequired,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           membershipType: membershipType as any,
           category: 'points'
         });
@@ -40,6 +41,7 @@ export async function GET(request: NextRequest) {
           label: `${rules.eventsRequired} eventos`,
           description: `Asistir a ${rules.eventsRequired} eventos oficiales de BSK Motorcycle Team`,
           eventsRequired: rules.eventsRequired,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           membershipType: membershipType as any,
           category: 'events'
         });
@@ -51,6 +53,7 @@ export async function GET(request: NextRequest) {
           label: `${rules.volunteeringRequired} voluntariados`,
           description: `Completar ${rules.volunteeringRequired} actividades de voluntariado`,
           volunteeringRequired: rules.volunteeringRequired,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           membershipType: membershipType as any,
           category: 'volunteering'
         });
@@ -62,6 +65,7 @@ export async function GET(request: NextRequest) {
           id: `${membershipType.toLowerCase()}-time`,
           label: `${timeInMonths} ${timeInMonths === 1 ? 'mes' : 'meses'} de experiencia`,
           description: `Mantener membresía activa por al menos ${rules.timeRequired} días`,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           membershipType: membershipType as any,
           category: 'time'
         });
@@ -111,7 +115,7 @@ export async function GET(request: NextRequest) {
       data: {
         requirements,
         pointsSystem,
-        membershipTypes: Object.keys(MEMBERSHIP_CONFIG),
+        membershipTypes: Object.keys(MEMBERSHIP_RULES),
         description: 'Sistema de requisitos para avance en membresías BSK Motorcycle Team'
       }
     });

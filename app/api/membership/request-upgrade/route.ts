@@ -3,7 +3,7 @@ import { verify } from 'jsonwebtoken';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 import { RequestUpgradeRequest, RequestUpgradeResponse, MembershipType } from '@/types/membership';
-import { canUpgradeToMembership, MEMBERSHIP_RULES } from '@/data/membershipConfig';
+import { canUpgradeToMembership } from '@/data/membershipConfig';
 import { requireCSRFToken } from '@/lib/csrf-protection';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
@@ -168,6 +168,7 @@ function mapLegacyMembershipType(legacyType: string): MembershipType {
   return mapping[legacyType] || 'Friend';
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function calculateUserStats(user: any) {
   const joinDate = user.joinDate || user.createdAt;
   const daysSinceJoining = Math.floor((Date.now() - joinDate.getTime()) / (1000 * 60 * 60 * 24));
@@ -183,7 +184,6 @@ async function calculateUserStats(user: any) {
   const volunteeringDone = user.pqrsd?.length || Math.floor(eventsAttended / 5);
   points += volunteeringDone * 200; // 200 puntos por voluntariado
   
-  const currentMembershipType = mapLegacyMembershipType(user.membershipType);
   const daysInCurrentMembership = daysSinceJoining;
   
   return {

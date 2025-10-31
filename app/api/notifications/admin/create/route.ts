@@ -22,6 +22,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
     const adminUser = await User.findById(decoded.userId);
 
@@ -53,12 +54,13 @@ export async function POST(request: NextRequest) {
     let targetUserIds: string[] = [];
 
     switch (targetUsers) {
-      case 'all':
+      case 'all': {
         const allUsers = await User.find({}, '_id');
         targetUserIds = allUsers.map(user => user._id.toString());
         break;
+      }
 
-      case 'active':
+      case 'active': {
         const activeUsers = await User.find(
           { 
             isActive: true,
@@ -68,14 +70,16 @@ export async function POST(request: NextRequest) {
         );
         targetUserIds = activeUsers.map(user => user._id.toString());
         break;
+      }
 
-      case 'premium':
+      case 'premium': {
         const premiumUsers = await User.find(
           { membershipType: { $in: ['premium', 'vip'] } },
           '_id'
         );
         targetUserIds = premiumUsers.map(user => user._id.toString());
         break;
+      }
 
       case 'specific':
         if (!specificUsers || !Array.isArray(specificUsers)) {

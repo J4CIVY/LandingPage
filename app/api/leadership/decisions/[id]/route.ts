@@ -69,6 +69,7 @@ export async function POST(
     }
 
     // Procesar la decisión
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updateData: any = {
       status: action === 'approve' ? 'approved' : 'rejected',
       processedBy: user.id,
@@ -94,7 +95,9 @@ export async function POST(
 
       if (totalVotes >= requiredVotes) {
         // Contar votos
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const approvals = Object.values(votes).filter((vote: any) => vote.vote === 'approve').length;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const rejections = Object.values(votes).filter((vote: any) => vote.vote === 'reject').length;
 
         // Determinar resultado final (mayoría simple)

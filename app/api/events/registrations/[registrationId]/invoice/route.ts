@@ -26,6 +26,7 @@ export async function GET(
     }
 
     // Obtener el registro con el token (select: false por defecto, así que lo incluimos explícitamente)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const registration: any = await EventRegistration.findById(registrationId)
       .select('+accessToken')
       .lean();
@@ -58,6 +59,7 @@ export async function GET(
     }
 
     // Obtener información del evento y usuario completo
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [event, registrationUser]: [any, any] = await Promise.all([
       Event.findById(registration.eventId).lean(),
       ExtendedUser.findById(registration.userId).select('firstName lastName email documentNumber phone membershipNumber').lean()
@@ -84,6 +86,7 @@ export async function GET(
       }
     });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Error generating free event invoice:', error);
     return NextResponse.json(
@@ -93,6 +96,7 @@ export async function GET(
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function generateFreeEventInvoiceHTML({ registration, user, event }: any) {
   const fecha = new Date(registration.registrationDate);
   const fechaFormateada = fecha.toLocaleDateString('es-CO', {

@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verify } from 'jsonwebtoken';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
-import { RenewMembershipRequest } from '@/types/membership';
 import { requireCSRFToken } from '@/lib/csrf-protection';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';

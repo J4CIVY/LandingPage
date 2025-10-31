@@ -26,6 +26,7 @@ export async function GET(request: NextRequest) {
     const membershipType = searchParams.get('membershipType');
 
     // Construir filtros
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const filters: any = { userId: user.id };
 
     if (status) {
