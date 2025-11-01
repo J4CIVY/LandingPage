@@ -42,7 +42,7 @@ export default async function CachedAboutSection() {
           {/* Image Section */}
           <div className="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
             <Image
-              src="https://res.cloudinary.com/dz0peilmu/image/upload/f_auto,q_auto:best,w_800/v1/BSK_MT/about-us"
+              src="https://res.cloudinary.com/dz0peilmu/image/upload/f_auto,q_auto:best,w_1200,h_630,c_fill,g_auto/Banner_Landing_Page_BSK_Motorcycle_Team_Julio_o2fcql.jpg"
               alt="BSK Motorcycle Team - Comunidad de motociclistas"
               fill
               className="object-cover"
