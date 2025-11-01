@@ -99,7 +99,8 @@ export function useMembership() {
       });
 
       if (!response.ok) {
-        throw new Error(`Error fetching membership data: ${response.status}`);
+        setError(`Error fetching membership data: ${response.status}`);
+        return;
       }
 
       const result = await response.json();
@@ -107,7 +108,7 @@ export function useMembership() {
       if (result.success) {
         setMembershipData(result.data);
       } else {
-        throw new Error(result.message || 'Error al obtener datos de membresía');
+        setError(result.message || 'Error al obtener datos de membresía');
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al obtener datos de membresía');

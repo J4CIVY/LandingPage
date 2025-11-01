@@ -243,11 +243,15 @@ const LeaderApplicationPlatform: React.FC<LeaderApplicationPlatformProps> = ({
       const masterEndorsements = formData.endorsements.filter(e => e.userType === 'master' && e.status === 'approved');
       
       if (leaderEndorsements.length < 3) {
-        throw new Error('Se requieren mínimo 3 avales de Leaders activos');
+        setError('Se requieren mínimo 3 avales de Leaders activos');
+        setLoading(false);
+        return;
       }
       
       if (masterEndorsements.length < 5) {
-        throw new Error('Se requieren mínimo 5 avales de Masters activos');
+        setError('Se requieren mínimo 5 avales de Masters activos');
+        setLoading(false);
+        return;
       }
 
       const csrfToken = getCSRFToken();

@@ -211,7 +211,9 @@ export default function BoldCheckoutButton({
           hasConfig: !!config,
           hasIntegritySignature: !!integritySignature
         });
-        throw new Error(errorMsg);
+        setScriptError(errorMsg);
+        setIsProcessing(false);
+        return;
       }
 
       // Abrir el checkout

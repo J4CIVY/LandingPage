@@ -66,7 +66,13 @@ export default function NotificationPreferencesSection() {
       const response = await fetch('/api/user/preferences')
       
       if (!response.ok) {
-        throw new Error('Error al cargar preferencias')
+        console.error('Error al cargar preferencias')
+        showToast({
+          type: 'error',
+          title: 'Error',
+          description: 'Error al cargar preferencias'
+        })
+        return
       }
       
       const data = await response.json()

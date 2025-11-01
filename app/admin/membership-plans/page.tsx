@@ -170,7 +170,8 @@ export default function AdminMembershipPlansPage() {
       });
 
       if (!response.ok) {
-        throw new Error('Error al archivar el plan');
+        setError('Error al archivar el plan');
+        return;
       }
 
       const data = await response.json();

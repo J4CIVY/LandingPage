@@ -60,14 +60,15 @@ const LeaderRequirements: React.FC<LeaderRequirementsProps> = ({
       });
 
       if (!response.ok) {
-        throw new Error('Error al cargar requisitos de Leader');
+        setError('Error al cargar requisitos de Leader');
+        return;
       }
 
       const result = await response.json();
       if (result.success) {
         setData(result.data);
       } else {
-        throw new Error(result.message || 'Error desconocido');
+        setError(result.message || 'Error desconocido');
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error desconocido');

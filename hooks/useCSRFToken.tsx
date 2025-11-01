@@ -134,7 +134,10 @@ export function useCSRFTokenAdvanced(): UseCSRFTokenReturn {
       });
 
       if (!response.ok) {
-        throw new Error(`Failed to fetch CSRF token: ${response.status}`);
+        const errorMessage = `Failed to fetch CSRF token: ${response.status}`;
+        setError(errorMessage);
+        console.error('CSRF token fetch error:', errorMessage);
+        return;
       }
 
       const data = await response.json();
@@ -142,7 +145,8 @@ export function useCSRFTokenAdvanced(): UseCSRFTokenReturn {
       if (data.success && data.data?.csrfToken) {
         setToken(data.data.csrfToken);
       } else {
-        throw new Error('Invalid CSRF token response');
+        setError('Invalid CSRF token response');
+        console.error('CSRF token fetch error: Invalid CSRF token response');
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error';

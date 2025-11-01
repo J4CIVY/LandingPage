@@ -63,7 +63,8 @@ export function useUserStats() {
       });
 
       if (!response.ok) {
-        throw new Error(`Error fetching user stats: ${response.status}`);
+        setError(`Error fetching user stats: ${response.status}`);
+        return;
       }
 
       const result = await response.json();
@@ -71,7 +72,7 @@ export function useUserStats() {
       if (result.success) {
         setStats(result.data.stats);
       } else {
-        throw new Error(result.message || 'Error al obtener estadísticas');
+        setError(result.message || 'Error al obtener estadísticas');
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al obtener estadísticas');

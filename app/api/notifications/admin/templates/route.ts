@@ -280,7 +280,10 @@ export async function POST(request: NextRequest) {
     });
 
     if (!createNotificationResponse.ok) {
-      throw new Error('Error al crear notificación desde plantilla');
+      return NextResponse.json(
+        { success: false, error: 'Error al crear notificación desde plantilla' },
+        { status: 500 }
+      );
     }
 
     const result = await createNotificationResponse.json();

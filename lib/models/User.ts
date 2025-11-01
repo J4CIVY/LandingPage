@@ -303,18 +303,20 @@ UserSchema.pre('save', async function(next) {
 UserSchema.methods.comparePassword = async function(this: IUser, candidatePassword: string): Promise<boolean> {
   try {
     if (!candidatePassword) {
-      throw new Error('candidatePassword is required');
+      console.error('candidatePassword is required');
+      return false;
     }
     
     if (!this.password) {
-      throw new Error('stored password is empty');
+      console.error('stored password is empty');
+      return false;
     }
     
     return await bcrypt.compare(candidatePassword, this.password);
   } catch (error) { // eslint-disable-line @typescript-eslint/no-unused-vars
     // SECURITY: Never log password-related details in production
     console.error('Error comparing passwords');
-    throw new Error('Error al comparar contraseñas');
+    return false;
   }
 };
 

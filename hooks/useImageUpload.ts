@@ -48,18 +48,22 @@ export const useImageUpload = (): UseImageUploadReturn => {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Error al subir la imagen');
+        const errorMessage = result.error || 'Error al subir la imagen';
+        setUploadError(errorMessage);
+        return { url: '', publicId: '', width: 0, height: 0, format: '', bytes: 0 };
       }
 
       if (!result.success) {
-        throw new Error(result.error || 'Error al procesar la imagen');
+        const errorMessage = result.error || 'Error al procesar la imagen';
+        setUploadError(errorMessage);
+        return { url: '', publicId: '', width: 0, height: 0, format: '', bytes: 0 };
       }
 
       return result.data;
     } catch (error: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
       const errorMessage = error.message || 'Error desconocido al subir la imagen';
       setUploadError(errorMessage);
-      throw new Error(errorMessage);
+      return { url: '', publicId: '', width: 0, height: 0, format: '', bytes: 0 };
     } finally {
       setUploading(false);
     }

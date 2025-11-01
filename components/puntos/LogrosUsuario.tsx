@@ -56,7 +56,10 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
         const response = await fetch('/api/users/achievements');
         
         if (!response.ok) {
-          throw new Error(`Error ${response.status}: ${response.statusText}`);
+          const errorMsg = `Error ${response.status}: ${response.statusText}`;
+          setError(errorMsg);
+          setLoading(false);
+          return;
         }
 
         const data = await response.json();
@@ -65,7 +68,7 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
           setLogros(data.logros);
           setEstadisticas(data.estadisticas);
         } else {
-          throw new Error(data.error || 'Error cargando logros');
+          setError(data.error || 'Error cargando logros');
         }
       } catch (error) {
         console.error('Error cargando logros:', error);

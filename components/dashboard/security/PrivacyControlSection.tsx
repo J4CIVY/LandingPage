@@ -134,7 +134,13 @@ export default function PrivacyControlSection() {
       const response = await fetch('/api/user/download-data')
       
       if (!response.ok) {
-        throw new Error('Error al descargar datos')
+        console.error('Error al descargar datos')
+        showToast({
+          title: 'Error',
+          description: 'Error al descargar datos',
+          type: 'error'
+        })
+        return
       }
 
       // Obtener el blob del response

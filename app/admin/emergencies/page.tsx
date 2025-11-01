@@ -156,7 +156,8 @@ export default function EmergenciesAdminPage() {
       });
 
       if (!response.ok) {
-        throw new Error('Error al cargar emergencias');
+        setError('Error al cargar emergencias');
+        return;
       }
 
       const data: { data: EmergencyResponse } = await response.json();

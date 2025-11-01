@@ -48,20 +48,20 @@ export const usePdfUpload = (): UsePdfUploadReturn => {
       if (!response.ok) {
         const errorMessage = result.error || 'Error al subir el PDF';
         setUploadError(errorMessage);
-        throw new Error(errorMessage);
+        return { url: '', publicId: '', format: '', bytes: 0 };
       }
 
       if (!result.success) {
         const errorMessage = result.error || 'Error al procesar el PDF';
         setUploadError(errorMessage);
-        throw new Error(errorMessage);
+        return { url: '', publicId: '', format: '', bytes: 0 };
       }
 
       return result.data;
     } catch (error: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
       const errorMessage = error.message || 'Error desconocido al subir el PDF';
       setUploadError(errorMessage);
-      throw new Error(errorMessage);
+      return { url: '', publicId: '', format: '', bytes: 0 };
     } finally {
       setUploading(false);
     }

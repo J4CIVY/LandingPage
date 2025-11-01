@@ -92,7 +92,9 @@ export function useProfile() {
       });
 
       if (!response.ok) {
-        throw new Error(`Error updating profile: ${response.status}`);
+        const errorMsg = `Error updating profile: ${response.status}`;
+        setError(errorMsg);
+        throw new Error(errorMsg);
       }
 
       const data = await response.json();
@@ -156,7 +158,9 @@ export function useProfile() {
       });
 
       if (!response.ok) {
-        throw new Error(`Error uploading document: ${response.status}`);
+        const errorMsg = `Error uploading document: ${response.status}`;
+        setError(errorMsg);
+        throw new Error(errorMsg);
       }
 
       const data = await response.json();

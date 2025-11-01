@@ -133,7 +133,9 @@ export async function markNotificationAsRead(notificationId: string) {
       body: JSON.stringify({ read: true }),
     });
 
-    if (!response.ok) throw new Error('Error al marcar notificación');
+    if (!response.ok) {
+      return { success: false, error: 'Error al marcar notificación' };
+    }
 
     // Refresh router para actualizar contador en header
     refresh();
@@ -215,7 +217,9 @@ export async function updateProduct(productId: string, productData: Record<strin
       body: JSON.stringify(productData),
     });
 
-    if (!response.ok) throw new Error('Error al actualizar producto');
+    if (!response.ok) {
+      return { success: false, error: 'Error al actualizar producto' };
+    }
 
     // Soft revalidation para catálogo
     revalidateTag('products-list', 'max');
@@ -244,7 +248,9 @@ export async function registerForEvent(eventId: string, userId: string) {
       body: JSON.stringify({ userId }),
     });
 
-    if (!response.ok) throw new Error('Error al registrarse en evento');
+    if (!response.ok) {
+      return { success: false, error: 'Error al registrarse en evento' };
+    }
 
     // Immediate update - el usuario debe ver su registro
     updateTag(`event-${eventId}`);
@@ -267,7 +273,9 @@ export async function cancelEventRegistration(eventId: string, userId: string) {
       body: JSON.stringify({ userId }),
     });
 
-    if (!response.ok) throw new Error('Error al cancelar registro');
+    if (!response.ok) {
+      return { success: false, error: 'Error al cancelar registro' };
+    }
 
     // Immediate update
     updateTag(`event-${eventId}`);

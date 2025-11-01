@@ -54,7 +54,10 @@ export async function POST(request: NextRequest) {
     });
 
     if (!generateResponse.ok) {
-      throw new Error('Error al generar notificaciones');
+      return NextResponse.json(
+        { success: false, error: 'Error al generar notificaciones' },
+        { status: 500 }
+      );
     }
 
     const generateData = await generateResponse.json();

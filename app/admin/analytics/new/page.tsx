@@ -99,7 +99,8 @@ export default function NewAnalyticsReportPage() {
       });
 
       if (!response.ok) {
-        throw new Error('Error al generar reporte');
+        alert('Error al generar reporte');
+        return;
       }
 
       const result = await response.json();

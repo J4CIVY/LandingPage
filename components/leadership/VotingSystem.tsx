@@ -93,7 +93,7 @@ const VotingSystem: React.FC<VotingSystemProps> = ({
         setVotingProcesses(result.data.processes);
         setUserVotes(result.data.userVotes);
       } else {
-        throw new Error('Error al cargar procesos de votación');
+        setError('Error al cargar procesos de votación');
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error desconocido');

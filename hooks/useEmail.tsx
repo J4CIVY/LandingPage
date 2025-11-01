@@ -179,7 +179,15 @@ export function useEmail() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Error al enviar el correo de prueba');
+        const errorMessage = result.error || 'Error al enviar el correo de prueba';
+        setStatus({
+          isLoading: false,
+          isSuccess: false,
+          isError: true,
+          error: errorMessage,
+          message: null,
+        });
+        return { success: false, error: errorMessage };
       }
 
       setStatus({
@@ -235,7 +243,8 @@ export function useEmail() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Error al obtener URL de autorización');
+        const errorMessage = result.error || 'Error al obtener URL de autorización';
+        return { success: false, error: errorMessage };
       }
 
       return { success: true, data: result.data };

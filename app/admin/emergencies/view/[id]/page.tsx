@@ -103,7 +103,8 @@ export default function ViewEmergencyPage({ params }: PageProps<'/admin/emergenc
       });
 
       if (!response.ok) {
-        throw new Error('Error al cargar la emergencia');
+        alert('Error al cargar la emergencia');
+        return;
       }
 
       const data = await response.json();

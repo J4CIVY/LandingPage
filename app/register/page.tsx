@@ -270,11 +270,19 @@ const UserRegister: React.FC = () => {
             : typeof result.errors === 'string' 
               ? result.errors 
               : 'Errores de validación en los datos enviados';
-          throw new Error(`Errores de validación: ${validationErrors}`);
+          const errorMsg = `Errores de validación: ${validationErrors}`;
+          console.error('❌ Error en registro:', errorMsg);
+          errorToast('Error de validación', errorMsg);
+          return;
         } else if (result.message) {
-          throw new Error(result.message);
+          console.error('❌ Error en registro:', result.message);
+          errorToast('Error de registro', result.message);
+          return;
         } else {
-          throw new Error(`Error ${response.status}: ${response.statusText}`);
+          const errorMsg = `Error ${response.status}: ${response.statusText}`;
+          console.error('❌ Error en registro:', errorMsg);
+          errorToast('Error de registro', errorMsg);
+          return;
         }
       }
 

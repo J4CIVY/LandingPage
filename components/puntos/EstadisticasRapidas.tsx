@@ -83,10 +83,12 @@ export default function EstadisticasRapidas({ usuarioId, puntosActuales = 0 }: E
           
           setEstadisticas(statsData);
         } else {
-          throw new Error('Error en la respuesta del servidor');
+          console.error('Error en la respuesta del servidor');
+          setError('Error en la respuesta del servidor');
         }
       } else {
-        throw new Error('Error al cargar datos del servidor');
+        console.error('Error al cargar datos del servidor');
+        setError('Error al cargar datos del servidor');
       }
     } catch (err) {
       console.error('Error cargando estadísticas:', err);

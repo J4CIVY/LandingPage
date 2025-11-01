@@ -93,7 +93,7 @@ export default function AdminNotifications() {
         alert(`✅ Generadas ${data.generated} notificaciones automáticas`);
         await loadStats(); // Recargar estadísticas
       } else {
-        throw new Error('Error al generar notificaciones');
+        alert('❌ Error al generar notificaciones');
       }
     } catch (error) {
       console.error('Error generating notifications:', error);
