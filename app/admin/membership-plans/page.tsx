@@ -176,7 +176,7 @@ export default function AdminMembershipPlansPage() {
       const data = await response.json();
       if (data.success) {
         setSuccess('Plan archivado exitosamente');
-        fetchMembershipPlans(); // Recargar la lista
+        await fetchMembershipPlans(); // Recargar la lista
       } else {
         setError(data.message || 'Error al archivar el plan');
       }

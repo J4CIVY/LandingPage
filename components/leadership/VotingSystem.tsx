@@ -115,7 +115,7 @@ const VotingSystem: React.FC<VotingSystemProps> = ({
       });
 
       if (response.ok) {
-        fetchVotingData(); // Recargar datos
+        await fetchVotingData(); // Recargar datos
         // Mostrar mensaje de éxito
       } else {
         const error = await response.json();
@@ -140,7 +140,7 @@ const VotingSystem: React.FC<VotingSystemProps> = ({
       });
 
       if (response.ok) {
-        fetchVotingData(); // Recargar datos
+        await fetchVotingData(); // Recargar datos
       } else {
         const error = await response.json();
         throw new Error(error.message || 'Error al controlar proceso');

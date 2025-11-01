@@ -119,7 +119,7 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
       });
 
       if (response.ok) {
-        fetchDashboardData(); // Recargar datos
+        await fetchDashboardData(); // Recargar datos
       }
     } catch (error) {
       console.error('Error processing decision:', error);
@@ -139,7 +139,7 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
       });
 
       if (response.ok) {
-        fetchDashboardData(); // Recargar datos
+        await fetchDashboardData(); // Recargar datos
       }
     } catch (error) {
       console.error('Error creating announcement:', error);

@@ -735,7 +735,12 @@ export default function ProductFormPage() {
                     type="url"
                     value={newGalleryImage}
                     onChange={(e) => setNewGalleryImage(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addToGallery())}
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        addToGallery();
+                      }
+                    }}
                     className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="URL de imagen adicional..."
                   />
@@ -867,7 +872,12 @@ export default function ProductFormPage() {
                   type="text"
                   value={newSpecValue}
                   onChange={(e) => setNewSpecValue(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTechnicalSpec())}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      addTechnicalSpec();
+                    }
+                  }}
                   className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Valor (ej: Fibra de carbono)"
                 />
@@ -912,7 +922,12 @@ export default function ProductFormPage() {
                   type="text"
                   value={newFeature}
                   onChange={(e) => setNewFeature(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addToArray('features', newFeature))}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      addToArray('features', newFeature);
+                    }
+                  }}
                   className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Agregar característica..."
                 />
@@ -962,7 +977,12 @@ export default function ProductFormPage() {
                     type="text"
                     value={newTag}
                     onChange={(e) => setNewTag(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addToArray('tags', newTag))}
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        addToArray('tags', newTag);
+                      }
+                    }}
                     className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Agregar etiqueta..."
                   />

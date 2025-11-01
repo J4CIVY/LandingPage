@@ -700,7 +700,7 @@ export class GamificationService {
         await session.abortTransaction();
         throw error;
       } finally {
-        session.endSession();
+        await session.endSession();
       }
 
     } catch (error) {

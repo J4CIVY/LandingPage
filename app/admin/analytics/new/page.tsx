@@ -333,7 +333,12 @@ export default function NewAnalyticsReportPage() {
                     onChange={(e) => setNewRecipient(e.target.value)}
                     placeholder="email@ejemplo.com"
                     className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addRecipient())}
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        addRecipient();
+                      }
+                    }}
                   />
                   <button
                     type="button"
