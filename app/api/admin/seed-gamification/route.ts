@@ -161,6 +161,14 @@ export async function POST(request: NextRequest) {
     // Obtener estadísticas actualizadas
     const estadisticasAdmin = await GamificationService.obtenerEstadisticasUsuario(authResult.user.id);
 
+    // Type assertions for the statistics response
+    const stats = estadisticasAdmin.estadisticas as {
+      puntos?: { total?: number };
+    };
+    const ranking = estadisticasAdmin.ranking as {
+      posicion?: number;
+    };
+
     return NextResponse.json({
       success: true,
       message: 'Datos de gamificación creados exitosamente',
@@ -168,9 +176,9 @@ export async function POST(request: NextRequest) {
         recompensasCreadas: recompensasCreadas.length,
         puntosOtorgados: transacciones.reduce((sum, t) => sum + t.cantidad, 0),
         estadisticasAdmin: {
-          puntosTotal: estadisticasAdmin.estadisticas?.puntos?.total || 0,
+          puntosTotal: stats?.puntos?.total || 0,
           nivel: estadisticasAdmin.nivelInfo?.actual || 'Novato',
-          ranking: estadisticasAdmin.ranking?.posicion || 0
+          ranking: ranking?.posicion || 0
         },
         recompensas: recompensasCreadas.map(r => ({
           id: r._id,

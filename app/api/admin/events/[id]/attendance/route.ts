@@ -1,6 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { 
-  withErrorHandling, 
   createSuccessResponse, 
   createErrorResponse,
   HTTP_STATUS 
@@ -107,7 +106,7 @@ export async function PATCH(
 
       // Otorgar puntos por asistencia al evento
       try {
-        const puntosOtorgados = await otorgarPuntosPorAsistencia(participantId, id);
+        await otorgarPuntosPorAsistencia(participantId, id);
       } catch (error) {
         console.error('Error otorgando puntos por asistencia:', error);
         // No fallar la operación por errores en puntos, solo registrar el error
@@ -142,7 +141,7 @@ export async function PATCH(
 
       // Revocar puntos por cancelación de asistencia
       try {
-        const puntosRevocados = await revocarPuntosPorAsistencia(participantId, id);
+        await revocarPuntosPorAsistencia(participantId, id);
       } catch (error) {
         console.error('Error revocando puntos por asistencia:', error);
         // No fallar la operación por errores en puntos, solo registrar el error
@@ -206,10 +205,18 @@ export async function GET(
       );
     }
 
+    interface Participant {
+      _id: mongoose.Types.ObjectId;
+      firstName: string;
+      lastName: string;
+      email: string;
+      membershipType?: string;
+    }
+
     // Crear una lista combinada con información de asistencia
-    const participantsList = (event.participants || []).map((participant: any) => {
+    const participantsList = (event.participants || []).map((participant: Participant) => {
       const hasAttended = event.attendedParticipants?.some(
-        (attended: any) => attended._id.toString() === participant._id.toString()
+        (attended: Participant) => attended._id.toString() === participant._id.toString()
       ) || false;
 
       return {
