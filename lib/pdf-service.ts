@@ -235,7 +235,8 @@ export const generateHistorialPDF = async (
     // Crear una nueva ventana para imprimir
     const printWindow = window.open('', '_blank');
     if (!printWindow) {
-      throw new Error('No se pudo abrir la ventana de impresión. Por favor, permite las ventanas emergentes.');
+      console.error('No se pudo abrir la ventana de impresión. Por favor, permite las ventanas emergentes.');
+      return;
     }
 
     printWindow.document.write(htmlContent);

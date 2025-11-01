@@ -29,7 +29,7 @@ export async function createEvent(eventData: Record<string, unknown>) {
       body: JSON.stringify(eventData),
     });
 
-    if (!response.ok) throw new Error('Error al crear evento');
+    if (!response.ok) return { success: false, error: 'Error al crear evento' };
 
     // Soft revalidation - usuarios ven datos antiguos mientras actualiza
     revalidateTag('events-list', 'max');
@@ -83,7 +83,7 @@ export async function updateUserProfile(userId: string, profileData: Record<stri
       body: JSON.stringify(profileData),
     });
 
-    if (!response.ok) throw new Error('Error al actualizar perfil');
+    if (!response.ok) return { success: false, error: 'Error al actualizar perfil' };
 
     // Immediate update - el usuario ve sus cambios al instante
     updateTag(`user-${userId}`);

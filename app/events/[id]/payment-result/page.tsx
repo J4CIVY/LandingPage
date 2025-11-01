@@ -81,7 +81,8 @@ export default function PaymentResultPage() {
       });
 
       if (!response.ok) {
-        throw new Error('No se pudo obtener el estado de la transacción');
+        setError('No se pudo obtener el estado de la transacción');
+        return;
       }
 
       const data = await response.json();
@@ -89,7 +90,7 @@ export default function PaymentResultPage() {
       if (data.success && data.data?.transaction) {
         setTransaction(data.data.transaction);
       } else {
-        throw new Error('Respuesta inválida del servidor');
+        setError('Respuesta inválida del servidor');
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {

@@ -698,7 +698,11 @@ export class GamificationService {
 
       } catch (error) {
         await session.abortTransaction();
-        throw error;
+        console.error('Error en transacción:', error);
+        return { 
+          success: false, 
+          error: error instanceof Error ? error.message : 'Error procesando canje' 
+        };
       } finally {
         await session.endSession();
       }

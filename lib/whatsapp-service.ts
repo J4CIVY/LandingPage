@@ -40,7 +40,8 @@ export class WhatsAppService {
 
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(`Error ${response.status}: ${response.statusText} - ${errorText}`);
+        console.error(`Error ${response.status}: ${response.statusText} - ${errorText}`);
+        return;
       }
 
       console.log('✅ Notificación de WhatsApp enviada exitosamente');

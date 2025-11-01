@@ -201,7 +201,7 @@ export default function Normas({ usuarioActual }: NormasProps) {
         const data = await response.json();
         setReportes(data.datos || []);
       } else {
-        throw new Error('Error al cargar reportes');
+        setErrorReportes('Error al cargar los reportes');
       }
     } catch (error) {
       console.error('Error al cargar reportes:', error);

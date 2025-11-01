@@ -138,7 +138,14 @@ export function useEmail() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Error al enviar la notificación');
+        setStatus({
+          isLoading: false,
+          isSuccess: false,
+          isError: true,
+          error: result.error || 'Error al enviar la notificación',
+          message: null,
+        });
+        return { success: false, error: result.error };
       }
 
       setStatus({

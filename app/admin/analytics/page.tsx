@@ -100,7 +100,8 @@ export default function AnalyticsPage() {
       });
 
       if (!response.ok) {
-        throw new Error('Error al cargar analytics');
+        setError('Error al cargar analytics');
+        return;
       }
 
       const result = await response.json();

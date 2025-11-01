@@ -148,7 +148,7 @@ export default function ProductViewPage() {
         const data = await response.json();
         setProduct(prev => prev ? { ...prev, availability: data.product.availability } : null);
       } else {
-        throw new Error('Error al cambiar estado');
+        alert('Error al cambiar el estado del producto');
       }
     } catch (error) {
       console.error('Error cambiando estado:', error);

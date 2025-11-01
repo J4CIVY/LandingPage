@@ -145,7 +145,8 @@ export default function ContactTabs({ contactInfo }: ContactTabsProps) {
           };
           break;
         default:
-          throw new Error('Tipo de formulario no válido');
+          alert('Tipo de formulario no válido');
+          return;
       }
 
       // 2. Send to API with reCAPTCHA token
@@ -160,7 +161,8 @@ export default function ContactTabs({ contactInfo }: ContactTabsProps) {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.message || 'Error al enviar el formulario');
+        alert(result.message || 'Error al enviar el formulario');
+        return;
       }
 
       alert('Formulario enviado correctamente. Nos pondremos en contacto contigo pronto.');

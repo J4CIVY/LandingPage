@@ -202,7 +202,7 @@ const LeaderApplicationPlatform: React.FC<LeaderApplicationPlatformProps> = ({
           endorsements: [...formData.endorsements, newEndorsement]
         });
       } else {
-        throw new Error('Error al solicitar aval');
+        setError('Error al solicitar aval');
       }
     } catch {
       setError('Error al solicitar aval');

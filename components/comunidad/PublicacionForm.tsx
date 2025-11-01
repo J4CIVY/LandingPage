@@ -146,7 +146,11 @@ export default function PublicacionForm({
         setPrevisualizaciones([]);
       } else {
         const errorData = await response.json();
-        throw new Error(errorData.mensaje || 'Error al crear la publicación');
+        setEstado({
+          cargando: false,
+          error: errorData.mensaje || 'Error al crear la publicación',
+          exito: false
+        });
       }
     } catch (error) {
       console.error('Error:', error);

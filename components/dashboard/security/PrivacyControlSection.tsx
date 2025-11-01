@@ -43,7 +43,12 @@ export default function PrivacyControlSection() {
       const response = await fetch('/api/user/privacy')
       
       if (!response.ok) {
-        throw new Error('Error al cargar preferencias')
+        showToast({
+          title: 'Error',
+          description: 'No se pudieron cargar las preferencias de privacidad',
+          type: 'error'
+        })
+        return;
       }
 
       const data = await response.json()

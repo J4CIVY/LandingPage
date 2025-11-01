@@ -319,7 +319,7 @@ export default function EditEventPage() {
         router.push(`/admin/events/view/${eventId}`);
       } else {
         const data = await response.json();
-        throw new Error(data.error || 'Error al actualizar evento');
+        alert(data.error || 'Error al actualizar evento');
       }
     } catch (error) {
       console.error('Error actualizando evento:', error);

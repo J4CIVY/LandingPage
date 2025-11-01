@@ -80,7 +80,13 @@ export async function POST(request: NextRequest) {
       isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password);
     } catch (bcryptError) {
       console.error('❌ Paso 7: Error en bcrypt.compare:', bcryptError);
-      throw new Error(`Error en bcrypt.compare: ${bcryptError instanceof Error ? bcryptError.message : String(bcryptError)}`);
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: `Error en bcrypt.compare: ${bcryptError instanceof Error ? bcryptError.message : String(bcryptError)}` 
+        },
+        { status: 500 }
+      );
     }
     
     if (!isCurrentPasswordValid) {
@@ -127,7 +133,13 @@ export async function POST(request: NextRequest) {
       await user.save();
     } catch (saveError) {
       console.error('❌ Paso 9: Error en save():', saveError);
-      throw new Error(`Error guardando usuario: ${saveError instanceof Error ? saveError.message : String(saveError)}`);
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: `Error guardando usuario: ${saveError instanceof Error ? saveError.message : String(saveError)}` 
+        },
+        { status: 500 }
+      );
     }
     
     // Paso 10: Enviar email de notificación de forma segura

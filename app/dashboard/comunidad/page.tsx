@@ -74,7 +74,12 @@ export default function ComunidadPage() {
         setPublicaciones(Array.isArray(data.datos) ? data.datos : []);
         setEstadoPublicaciones({ cargando: false, error: null, exito: true });
       } else {
-        throw new Error('Error al cargar publicaciones');
+        setPublicaciones([]);
+        setEstadoPublicaciones({ 
+          cargando: false, 
+          error: 'Error al cargar las publicaciones', 
+          exito: false 
+        });
       }
     } catch (error) {
       console.error('Error:', error);

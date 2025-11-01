@@ -38,7 +38,12 @@ export default function SessionManagementSection() {
       const response = await fetch('/api/user/sessions')
       
       if (!response.ok) {
-        throw new Error('Error al cargar sesiones')
+        showToast({
+          title: "Error",
+          description: "No se pudieron cargar las sesiones activas",
+          type: "error"
+        })
+        return;
       }
       
       const data = await response.json()

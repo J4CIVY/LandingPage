@@ -158,7 +158,14 @@ export default function AdvancedSettingsSection() {
       const data = await response.json()
 
       if (!response.ok || !data.success) {
-        throw new Error(data.message || 'Error al actualizar alertas de seguridad')
+        showToast({
+          title: 'Error',
+          description: data.message || 'Error al actualizar alertas de seguridad',
+          type: 'error'
+        })
+        // Revertir cambio en caso de error
+        setSecurityAlerts(previousValue)
+        return;
       }
       
       showToast({

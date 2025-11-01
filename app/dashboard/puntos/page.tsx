@@ -385,10 +385,15 @@ export default function PuntosPage() {
           
           return true; // Canje exitoso
         } else {
-          throw new Error(result.error || 'Error en el canje');
+          notificarError(
+            'Error en canje',
+            result.error || 'Error en el canje'
+          );
+          return false;
         }
       } else {
-        throw new Error('Error del servidor');
+        notificarError('Error en canje', 'Error del servidor');
+        return false;
       }
     } catch (error) {
       console.error('Error en canje:', error);
