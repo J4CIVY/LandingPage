@@ -62,7 +62,7 @@ export default function CaptchaFallback({ onVerified, onCancel }: CaptchaFallbac
       } else {
         setError('Error al cargar el challenge. Por favor, intenta de nuevo.');
       }
-    } catch (err) {
+    } catch {
       setError('Error de conexión. Por favor, intenta de nuevo.');
     } finally {
       setIsLoading(false);
@@ -100,7 +100,7 @@ export default function CaptchaFallback({ onVerified, onCancel }: CaptchaFallbac
         setError(result.message || 'Respuesta incorrecta. Intenta de nuevo.');
         setAnswer('');
       }
-    } catch (err) {
+    } catch {
       setError('Error de conexión. Por favor, intenta de nuevo.');
     } finally {
       setIsLoading(false);

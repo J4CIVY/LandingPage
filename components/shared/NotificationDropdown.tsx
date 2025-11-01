@@ -5,7 +5,6 @@ import { useNotifications } from '@/hooks/useNotifications';
 import {
   FaBell,
   FaSpinner,
-  FaCheck,
   FaTrash,
   FaTimes,
   FaCalendarAlt,
@@ -15,6 +14,24 @@ import {
   FaCheckDouble,
   FaEye
 } from 'react-icons/fa';
+
+interface Notification {
+  _id: string;
+  type: 'event_upcoming' | 'event_registration_open' | 'event_reminder' | 'membership_update' | 'system_announcement';
+  title: string;
+  message: string;
+  data?: {
+    eventId?: string;
+    eventName?: string;
+    eventDate?: string;
+    url?: string;
+    [key: string]: unknown;
+  };
+  isRead: boolean;
+  priority: 'low' | 'medium' | 'high' | 'urgent';
+  createdAt: string;
+  readAt?: string;
+}
 
 interface NotificationDropdownProps {
   className?: string;
@@ -35,7 +52,7 @@ export default function NotificationDropdown({ className = '' }: NotificationDro
   const [isOpen, setIsOpen] = useState(false);
   const [showAll, setShowAll] = useState(false);
 
-  const handleNotificationClick = async (notification: any) => {
+  const handleNotificationClick = async (notification: Notification) => {
     if (!notification.isRead) {
       await markAsRead(notification._id);
     }
@@ -167,7 +184,7 @@ export default function NotificationDropdown({ className = '' }: NotificationDro
                       onClick={() => handleNotificationClick(notification)}
                     >
                       <div className="flex items-start space-x-3">
-                        <div className="flex-shrink-0 mt-1">
+                        <div className="shrink-0 mt-1">
                           {getNotificationIcon(notification.type, notification.priority)}
                         </div>
                         

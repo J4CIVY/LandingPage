@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { FaCamera, FaSpinner, FaTimes, FaPlus } from 'react-icons/fa';
+import { FaSpinner, FaTimes, FaPlus } from 'react-icons/fa';
 import { useImageUpload } from '@/hooks/useImageUpload';
 
 /**

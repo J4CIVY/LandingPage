@@ -137,6 +137,7 @@ export function SafeLink({
   rel 
 }: SafeLinkProps) {
   // Import sanitizeUrl dynamically to avoid circular dependencies
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { sanitizeUrl } = require('@/lib/input-sanitization');
   const safeHref = sanitizeUrl(href);
   
@@ -166,7 +167,7 @@ export function SafeLink({
  * HOC for wrapping components with sanitization
  * Useful for automatically sanitizing all text props
  */
-export function withSanitization<P extends Record<string, any>>(
+export function withSanitization<P extends Record<string, unknown>>(
   Component: React.ComponentType<P>,
   propsToSanitize: (keyof P)[]
 ) {

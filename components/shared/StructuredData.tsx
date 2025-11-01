@@ -3,7 +3,7 @@ import sanitizeHtml from 'sanitize-html';
 
 interface StructuredDataProps {
   type: 'organization' | 'event' | 'product' | 'article' | 'localBusiness' | 'website' | 'motorcycleClub';
-  data: any;
+  data: Record<string, unknown>;
 }
 
 /**
@@ -11,7 +11,7 @@ interface StructuredDataProps {
  * Uses the well-tested sanitize-html library to handle all edge cases
  * including nested tags and incomplete multi-character patterns
  */
-const sanitizeForJsonLd = (obj: any): any => {
+const sanitizeForJsonLd = (obj: unknown): unknown => {
   if (typeof obj === 'string') {
     // Use sanitize-html library with strict configuration
     // This handles nested tags and complex attack vectors properly
@@ -45,7 +45,7 @@ const sanitizeForJsonLd = (obj: any): any => {
     return obj.map(sanitizeForJsonLd);
   }
   if (obj && typeof obj === 'object') {
-    const sanitized: any = {};
+    const sanitized: Record<string, unknown> = {};
     for (const [key, value] of Object.entries(obj)) {
       sanitized[key] = sanitizeForJsonLd(value);
     }
@@ -210,10 +210,10 @@ const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
           "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
           "location": {
             "@type": "Place",
-            "name": data.location?.name || "Colombia",
+            "name": (data.location as { name?: string; city?: string })?.name || "Colombia",
             "address": {
               "@type": "PostalAddress",
-              "addressLocality": data.location?.city || "Bogotá",
+              "addressLocality": (data.location as { name?: string; city?: string })?.city || "Bogotá",
               "addressCountry": "CO"
             }
           },

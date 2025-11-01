@@ -5,12 +5,18 @@ import { FaSpinner, FaLock, FaCreditCard } from 'react-icons/fa';
 import { BOLD_CLIENT_CONFIG, validateBoldClientConfig } from '@/lib/bold-client-config';
 import { type BoldPaymentConfig } from '@/lib/bold-utils';
 
+interface BoldCheckoutWindow extends Window {
+  BoldCheckout?: new (config: Record<string, unknown>) => {
+    open: () => void;
+  };
+}
+
 interface BoldCheckoutButtonProps {
   config: BoldPaymentConfig;
   integritySignature: string;
   onPaymentStart?: () => void;
   onPaymentSuccess?: () => void;
-  onPaymentError?: (error: any) => void;
+  onPaymentError?: (error: Error) => void;
   buttonText?: string;
   buttonClassName?: string;
   disabled?: boolean;
@@ -27,18 +33,16 @@ export default function BoldCheckoutButton({
   config,
   integritySignature,
   onPaymentStart,
-  onPaymentSuccess,
   onPaymentError,
   buttonText = 'Pagar con Bold',
   buttonClassName,
   disabled = false,
-  renderMode = 'embedded'
 }: BoldCheckoutButtonProps) {
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
   const [isScriptLoading, setIsScriptLoading] = useState(false);
   const [scriptError, setScriptError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const checkoutInstanceRef = useRef<any>(null);
+  const checkoutInstanceRef = useRef<{ open: () => void } | null>(null);
 
   /**
    * Get CSP nonce from document for script injection
@@ -118,7 +122,8 @@ export default function BoldCheckoutButton({
    * Inicializa la instancia de Bold Checkout
    */
   const initializeBoldCheckout = () => {
-    if (typeof window === 'undefined' || !(window as any).BoldCheckout) {
+    const boldWindow = window as unknown as BoldCheckoutWindow;
+    if (typeof window === 'undefined' || !boldWindow.BoldCheckout) {
       console.error('BoldCheckout is not available on window');
       return null;
     }
@@ -126,7 +131,7 @@ export default function BoldCheckoutButton({
 
     try {
       // Preparar la configuración para Bold Checkout
-      const boldConfig: any = {
+      const boldConfig: Record<string, unknown> = {
         orderId: config.orderId,
         currency: config.currency || BOLD_CLIENT_CONFIG.DEFAULT_CURRENCY,
         amount: config.amount.toString(),
@@ -134,7 +139,6 @@ export default function BoldCheckoutButton({
         integritySignature: integritySignature,
         description: config.description,
         redirectionUrl: config.redirectionUrl,
-        renderMode: renderMode,
       };
 
       // Agregar campos opcionales si existen
@@ -168,7 +172,7 @@ export default function BoldCheckoutButton({
         boldConfig.extraData2 = config.extraData2;
       }
 
-      const checkout = new (window as any).BoldCheckout(boldConfig);
+      const checkout = new boldWindow.BoldCheckout(boldConfig);
       return checkout;
     } catch (error) {
       console.error('Error initializing Bold Checkout:', error);
@@ -200,9 +204,10 @@ export default function BoldCheckoutButton({
 
       if (!checkoutInstanceRef.current) {
         const errorMsg = 'Failed to initialize Bold Checkout. Check console for details.';
+        const boldWindow = window as unknown as BoldCheckoutWindow;
         console.error(errorMsg, {
           scriptLoaded: isScriptLoaded,
-          hasBoldCheckout: !!(window as any).BoldCheckout,
+          hasBoldCheckout: !!boldWindow.BoldCheckout,
           hasConfig: !!config,
           hasIntegritySignature: !!integritySignature
         });
@@ -215,15 +220,16 @@ export default function BoldCheckoutButton({
       // El pago continúa en la pasarela de Bold
       // El resultado se manejará mediante el webhook o redirección
       
-    } catch (error: any) {
-      console.error('Error opening Bold Checkout:', error);
-      const errorMessage = error.message || 'Error desconocido al abrir el checkout';
+    } catch (error) {
+      const typedError = error as Error;
+      console.error('Error opening Bold Checkout:', typedError);
+      const errorMessage = typedError.message || 'Error desconocido al abrir el checkout';
       setScriptError(errorMessage);
       
       // Mostrar alerta al usuario con más contexto
       alert(`Error al procesar el pago: ${errorMessage}\n\nPor favor, verifica la consola para más detalles o contacta al soporte.`);
       
-      onPaymentError?.(error);
+      onPaymentError?.(typedError);
     } finally {
       setIsProcessing(false);
     }

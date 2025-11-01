@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
-import { FaUser, FaSignOutAlt, FaUserCircle, FaTachometerAlt, FaSpinner } from 'react-icons/fa';
+import { FaUser, FaSignOutAlt, FaTachometerAlt, FaSpinner } from 'react-icons/fa';
 import { useAuth } from '@/hooks/useAuth';
 
 interface AuthButtonProps {
@@ -84,7 +83,7 @@ export default function AuthButton({ isMobile = false, onMobileAction }: AuthBut
         aria-label={`Menú de usuario - ${user.firstName} ${user.lastName}`}
         type="button"
       >
-        <div className="relative w-8 h-8 rounded-full overflow-hidden bg-gradient-to-br from-blue-500 to-blue-600 border-2 border-gray-300 dark:border-slate-600 flex items-center justify-center">
+        <div className="relative w-8 h-8 rounded-full overflow-hidden bg-linear-to-br from-blue-500 to-blue-600 border-2 border-gray-300 dark:border-slate-600 flex items-center justify-center">
           <span className="text-white text-sm font-semibold">
             {user.firstName[0]}{user.lastName[0]}
           </span>

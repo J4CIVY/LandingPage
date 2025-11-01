@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { FaFilePdf, FaSpinner, FaTimes, FaUpload, FaDownload, FaEye } from 'react-icons/fa';
+import { FaFilePdf, FaSpinner, FaTimes, FaUpload, FaEye } from 'react-icons/fa';
 import { usePdfUpload } from '@/hooks/usePdfUpload';
 
 interface PdfUploadProps {

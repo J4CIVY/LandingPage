@@ -125,8 +125,8 @@ export default function ContactTabs({ contactInfo }: ContactTabsProps) {
         return;
       }
 
-      let formDataToSend: any = {};
-      let formType = activeTab;
+      let formDataToSend: Record<string, unknown> = {};
+      const formType = activeTab;
 
       switch (formType) {
         case "complaint":
@@ -212,13 +212,13 @@ export default function ContactTabs({ contactInfo }: ContactTabsProps) {
       {/* Contacto General */}
       <div role="tabpanel" id="panel-general" aria-labelledby="tab-general" hidden={activeTab !== "general"}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div>
+            <div>
             <h2 className="text-2xl font-bold text-slate-950 dark:text-white mb-6">
               Información de Contacto del Motoclub
             </h2>
             <div className="space-y-6">
               <div className="flex items-start">
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <div className="flex items-center justify-center h-10 w-10 rounded-md bg-slate-950 dark:bg-green-500 text-white">
                       <FaMapMarkerAlt className="text-xl" />
                   </div>
@@ -234,7 +234,7 @@ export default function ContactTabs({ contactInfo }: ContactTabsProps) {
               </div>
               
               <div className="flex items-start">
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <div className="flex items-center justify-center h-10 w-10 rounded-md bg-slate-950 dark:bg-green-500 text-white">
                       <FaPhoneAlt className="text-xl" />
                   </div>
@@ -250,7 +250,7 @@ export default function ContactTabs({ contactInfo }: ContactTabsProps) {
               </div>
               
               <div className="flex items-start">
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <div className="flex items-center justify-center h-10 w-10 rounded-md bg-slate-950 dark:bg-green-500 text-white">
                       <FaRegEnvelope className="text-xl" />
                   </div>
@@ -266,7 +266,7 @@ export default function ContactTabs({ contactInfo }: ContactTabsProps) {
               </div>
               
               <div className="flex items-start">
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <div className="flex items-center justify-center h-10 w-10 rounded-md bg-slate-950 dark:bg-green-500 text-white">
                       <FaRegClock className="text-xl" />
                   </div>
