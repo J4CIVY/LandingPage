@@ -39,10 +39,11 @@ export async function GET(request: NextRequest) {
         deviceType = 'tablet';
       }
 
-      // Obtener geolocalización por IP
-      const ip = session.deviceInfo?.ip || '';
-      const geoLocation = await getLocationByIP(ip);
-      const location = formatLocation(geoLocation);
+  // Obtener geolocalización por IP
+  const ip = session.deviceInfo?.ip || '';
+  const geoLocation = await getLocationByIP(ip);
+  // getLocationByIP puede devolver null; evitar pasar null a formatLocation
+  const location = geoLocation ? formatLocation(geoLocation) : null;
 
       return {
         id: session._id.toString(),
