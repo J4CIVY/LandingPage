@@ -269,7 +269,7 @@ const LeaderApplicationPlatform: React.FC<LeaderApplicationPlatformProps> = ({
         setCurrentStep(1); // Resetear formulario
       } else {
         const result = await response.json();
-        throw new Error(result.message || 'Error al enviar postulación');
+        setError(result.message || 'Error al enviar postulación');
       }
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Error al enviar postulación');

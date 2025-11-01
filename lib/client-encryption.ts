@@ -80,7 +80,8 @@ export async function getPublicKey(): Promise<string | null> {
     });
 
     if (!response.ok) {
-      throw new Error('Error al obtener la llave pública');
+      console.error('Error al obtener la llave pública');
+      return null;
     }
 
     const data = await response.json();

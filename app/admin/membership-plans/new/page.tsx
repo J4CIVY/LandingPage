@@ -219,7 +219,8 @@ export default function NewMembershipPlanPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Error al crear el plan');
+        setError(data.message || 'Error al crear el plan');
+        return;
       }
 
       if (data.success) {

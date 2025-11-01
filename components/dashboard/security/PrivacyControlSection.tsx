@@ -220,7 +220,12 @@ export default function PrivacyControlSection() {
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || 'Error al eliminar cuenta')
+        showToast({
+          title: 'Error',
+          description: data.error || 'Error al eliminar cuenta',
+          type: 'error'
+        });
+        return;
       }
       
       if (data.success) {

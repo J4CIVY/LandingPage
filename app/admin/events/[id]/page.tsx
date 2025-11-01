@@ -325,7 +325,7 @@ export default function EventFormPage() {
         router.push('/admin/events');
       } else {
         const data = await response.json();
-        throw new Error(data.error || 'Error al guardar evento');
+        alert(data.error || 'Error al guardar evento');
       }
     } catch (error) {
       console.error('Error guardando evento:', error);

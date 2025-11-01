@@ -159,7 +159,9 @@ export async function markAllNotificationsAsRead(userId: string) {
       body: JSON.stringify({ userId }),
     });
 
-    if (!response.ok) throw new Error('Error al marcar notificaciones');
+    if (!response.ok) {
+      return { success: false, error: 'Error al marcar notificaciones' };
+    }
 
     // Refresh router completo
     refresh();

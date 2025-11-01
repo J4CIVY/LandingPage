@@ -276,7 +276,8 @@ export function useEmail() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Error al intercambiar código por tokens');
+        const errorMessage = result.error || 'Error al intercambiar código por tokens';
+        return { success: false, error: errorMessage };
       }
 
       return { success: true, data: result.data };

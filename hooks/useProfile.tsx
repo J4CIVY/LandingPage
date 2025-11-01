@@ -60,7 +60,8 @@ export function useProfile() {
       });
 
       if (!response.ok) {
-        throw new Error(`Error fetching profile: ${response.status}`);
+        setError(`Error fetching profile: ${response.status}`);
+        return;
       }
 
       const data = await response.json();
@@ -191,7 +192,8 @@ export function useProfile() {
       });
 
       if (!response.ok) {
-        throw new Error(`Error fetching activities: ${response.status}`);
+        console.error(`Error fetching activities: ${response.status}`);
+        return [];
       }
 
       const data = await response.json();

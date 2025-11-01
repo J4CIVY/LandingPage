@@ -65,7 +65,7 @@ export default function MembershipPage() {
       if (response.ok && data.success) {
         setMembershipData(data.data);
       } else {
-        throw new Error(data.message || 'Error al obtener datos de membresía');
+        setError(data.message || 'Error al obtener datos de membresía');
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al obtener datos de membresía');

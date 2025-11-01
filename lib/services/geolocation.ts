@@ -12,7 +12,7 @@ interface GeoLocation {
 /**
  * Obtener ubicación por IP usando ip-api.com (gratuito)
  */
-export async function getLocationByIP(ip: string): Promise<GeoLocation> {
+export async function getLocationByIP(ip: string): Promise<GeoLocation | null> {
   try {
     // Ignorar IPs locales
     if (!ip || ip === 'unknown' || ip.startsWith('192.168.') || ip.startsWith('127.0.') || ip === '::1') {
@@ -28,7 +28,8 @@ export async function getLocationByIP(ip: string): Promise<GeoLocation> {
     });
 
     if (!response.ok) {
-      throw new Error('Error al obtener geolocalización');
+      console.error('Error al obtener geolocalización');
+      return null;
     }
 
     const data = await response.json();

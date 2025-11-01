@@ -100,7 +100,11 @@ export default function GruposInteres({
         setEstado({ cargando: false, error: null, exito: true });
       } else {
         const errorData = await response.json();
-        throw new Error(errorData.mensaje || 'Error al guardar el grupo');
+        setEstado({
+          cargando: false,
+          error: errorData.mensaje || 'Error al guardar el grupo',
+          exito: false
+        });
       }
     } catch (error) {
       console.error('Error:', error);
