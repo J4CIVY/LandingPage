@@ -1,9 +1,7 @@
 import { 
   Solicitud, 
   Mensaje, 
-  TimelineEvento, 
   CrearSolicitudDto,
-  SolicitudCategoria,
   SolicitudEstado,
   EstadisticasSolicitudes
 } from '@/types/pqrsdf';
@@ -337,7 +335,7 @@ export class PQRSDFService {
   }
 
   // Cerrar solicitud
-  static async cerrarSolicitud(solicitudId: string, autorNombre: string): Promise<void> {
+  static async cerrarSolicitud(solicitudId: string): Promise<void> {
     try {
       await this.cambiarEstado(solicitudId, 'cerrada', 'Solicitud cerrada por el usuario');
     } catch (error) {

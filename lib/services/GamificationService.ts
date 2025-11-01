@@ -1,18 +1,14 @@
 import mongoose from 'mongoose';
 import User from '@/lib/models/User';
-import Event from '@/lib/models/Event';
 import connectToDatabase from '@/lib/mongodb';
 import { 
   TransaccionPuntos, 
   EstadisticasUsuario, 
   Recompensa, 
   CanjeRecompensa,
-  ITransaccionPuntos,
-  IEstadisticasUsuario,
-  IRecompensa,
-  ICanjeRecompensa
+  ITransaccionPuntos
 } from '@/lib/models/Gamification';
-import { Achievement, UserAchievement, IAchievement, IUserAchievement } from '@/lib/models/Achievement';
+import { Achievement, UserAchievement, IAchievement } from '@/lib/models/Achievement';
 
 export interface AccionPuntos {
   tipo: 'registro_evento' | 'asistencia_evento' | 'publicacion' | 'comentario' | 'reaccion' | 'bonificacion' | 'bonificacion_admin' | 'referido' | 'voluntariado' | 'organizacion_evento' | 'liderazgo_proyecto' | 'mentoría';
@@ -101,7 +97,21 @@ export const NIVELES = [
 export class GamificationService {
   
   // Obtener estadísticas completas del usuario
-  static async obtenerEstadisticasUsuario(usuarioId: string): Promise<any> {
+  static async obtenerEstadisticasUsuario(usuarioId: string): Promise<{
+    usuario: unknown;
+    estadisticas: unknown;
+    ranking: unknown;
+    nivel: unknown;
+    proximasRecompensas: unknown[];
+    nivelInfo: {
+      actual: string;
+      icono: string;
+      color: string;
+      puntosActuales: number;
+      puntosSiguienteNivel: number;
+      progreso: number;
+    };
+  }> {
     try {
       // Buscar o crear estadísticas del usuario
       let estadisticas = await EstadisticasUsuario.findOne({ usuarioId });
@@ -144,7 +154,7 @@ export class GamificationService {
   }
 
   // Crear estadísticas iniciales para un usuario
-  static async crearEstadisticasIniciales(usuarioId: string): Promise<any> {
+  static async crearEstadisticasIniciales(usuarioId: string): Promise<unknown> {
     const estadisticas = new EstadisticasUsuario({
       usuarioId,
       puntos: {
@@ -247,12 +257,13 @@ export class GamificationService {
         .reduce((sum, t) => sum + t.cantidad, 0);
 
       // Calcular estadísticas de eventos
-      const eventosRegistrados = (user as any).events?.length || 0;
-      const eventosAsistidos = (user as any).attendedEvents?.length || 0;
-      const eventosFavoritos = (user as any).favoriteEvents?.length || 0;
+      const userDoc = user as { events?: unknown[]; attendedEvents?: unknown[]; favoriteEvents?: unknown[]; joinDate?: Date; createdAt?: Date };
+      const eventosRegistrados = userDoc.events?.length || 0;
+      const eventosAsistidos = userDoc.attendedEvents?.length || 0;
+      const eventosFavoritos = userDoc.favoriteEvents?.length || 0;
 
       // Calcular días activo
-      const joinDate = new Date((user as any).joinDate || (user as any).createdAt);
+      const joinDate = new Date(userDoc.joinDate || userDoc.createdAt || new Date());
       const diasActivo = Math.floor((hoy.getTime() - joinDate.getTime()) / (1000 * 60 * 60 * 24));
 
       // Actualizar estadísticas
@@ -300,7 +311,7 @@ export class GamificationService {
   static async otorgarPuntos(
     usuarioId: string, 
     tipoAccion: string, 
-    metadata?: any
+    metadata?: Record<string, unknown>
   ): Promise<ITransaccionPuntos> {
     const accion = ACCIONES_PUNTOS[tipoAccion];
     if (!accion) {
@@ -312,8 +323,9 @@ export class GamificationService {
     let razon = accion.descripcion;
     
     if (tipoAccion === 'bonificacion_admin' && metadata) {
-      cantidad = metadata.cantidad || accion.puntos;
-      razon = metadata.razonPersonalizada || accion.descripcion;
+      const metaData = metadata as { cantidad?: number; razonPersonalizada?: string };
+      cantidad = metaData.cantidad || accion.puntos;
+      razon = metaData.razonPersonalizada || accion.descripcion;
     }
 
     const transaccion = new TransaccionPuntos({
@@ -340,7 +352,21 @@ export class GamificationService {
   }
 
   // Calcular nivel basado en puntos
-  static calcularNivel(puntos: number): any {
+  static calcularNivel(puntos: number): {
+    nombre: string;
+    icono: string;
+    color: string;
+    puntos: number;
+    siguienteNivel?: {
+      nombre: string;
+      icono: string;
+      color: string;
+      puntos: number;
+    };
+    progreso: number;
+    puntosParaSiguienteNivel: number;
+    puntosEnNivelActual: number;
+  } {
     let nivelActual = NIVELES[0];
     let siguienteNivel = NIVELES[1];
 
@@ -367,7 +393,11 @@ export class GamificationService {
   }
 
   // Obtener ranking del usuario
-  static async obtenerRankingUsuario(usuarioId: string): Promise<any> {
+  static async obtenerRankingUsuario(usuarioId: string): Promise<{
+    posicion: number;
+    totalUsuarios: number;
+    percentil: number;
+  }> {
     try {
       const estadisticas = await EstadisticasUsuario.find({})
         .sort({ 'puntos.total': -1 })
@@ -388,7 +418,7 @@ export class GamificationService {
   }
 
   // Obtener próximas recompensas alcanzables
-  static async obtenerProximasRecompensas(puntosActuales: number): Promise<any[]> {
+  static async obtenerProximasRecompensas(puntosActuales: number): Promise<unknown[]> {
     try {
       const recompensas = await Recompensa.find({
         disponible: true,
@@ -414,7 +444,12 @@ export class GamificationService {
     usuarioId: string, 
     limite: number = 10, 
     pagina: number = 1
-  ): Promise<any> {
+  ): Promise<{
+    transacciones: unknown[];
+    total: number;
+    pagina: number;
+    totalPaginas: number;
+  }> {
     try {
       const skip = (pagina - 1) * limite;
       
@@ -441,7 +476,7 @@ export class GamificationService {
   }
 
     // Obtener leaderboard
-  static async obtenerLeaderboard(limite: number = 10): Promise<any> {
+  static async obtenerLeaderboard(limite: number = 10): Promise<unknown[]> {
     try {
       const leaderboard = await EstadisticasUsuario.find({})
         .sort({ 'puntos.total': -1 })
@@ -463,7 +498,15 @@ export class GamificationService {
   }
 
   // Obtener actividad semanal del usuario
-  static async obtenerActividadSemanal(usuarioId: string): Promise<any> {
+  static async obtenerActividadSemanal(usuarioId: string): Promise<{
+    actividades: unknown[];
+    resumen: {
+      totalPuntosSemana: number;
+      totalActividadesSemana: number;
+      promedioDiario: number;
+      diasActivos: number;
+    };
+  }> {
     try {
       await connectToDatabase();
       
@@ -540,7 +583,7 @@ export class GamificationService {
   }
 
   // Obtener todas las recompensas disponibles
-  static async obtenerRecompensas(): Promise<any[]> {
+  static async obtenerRecompensas(): Promise<unknown[]> {
     try {
       await connectToDatabase();
       
@@ -556,7 +599,11 @@ export class GamificationService {
   }
 
   // Canjear una recompensa
-  static async canjearRecompensa(usuarioId: string, recompensaId: string): Promise<any> {
+  static async canjearRecompensa(usuarioId: string, recompensaId: string): Promise<{
+    success: boolean;
+    error?: string;
+    canje?: unknown;
+  }> {
     try {
       await connectToDatabase();
       
@@ -908,7 +955,7 @@ export class GamificationService {
   /**
    * Obtener todos los logros de un usuario con su progreso
    */
-  async obtenerLogrosUsuario(usuarioId: string): Promise<any[]> {
+  async obtenerLogrosUsuario(usuarioId: string): Promise<unknown[]> {
     try {
       await connectToDatabase();
 
@@ -985,26 +1032,29 @@ export class GamificationService {
       let valorActual = 0;
 
       switch (tipo) {
-        case 'puntos_acumulados':
+        case 'puntos_acumulados': {
           const estadisticas = await EstadisticasUsuario.findOne({
             usuarioId: new mongoose.Types.ObjectId(usuarioId)
           });
           valorActual = estadisticas?.estadisticas?.puntos?.total || 0;
           break;
+        }
 
-        case 'recompensas_canjeadas':
+        case 'recompensas_canjeadas': {
           const canjes = await CanjeRecompensa.countDocuments({
             usuarioId: new mongoose.Types.ObjectId(usuarioId)
           });
           valorActual = canjes;
           break;
+        }
 
-        case 'eventos_participados':
+        case 'eventos_participados': {
           const user = await User.findById(usuarioId).select('events');
           valorActual = user?.events?.length || 0;
           break;
+        }
 
-        case 'meses_activo':
+        case 'meses_activo': {
           const usuario = await User.findById(usuarioId).select('fechaRegistro');
           if (usuario?.fechaRegistro) {
             const mesesActivo = Math.floor(
@@ -1013,11 +1063,13 @@ export class GamificationService {
             valorActual = mesesActivo;
           }
           break;
+        }
 
-        case 'ranking_posicion':
+        case 'ranking_posicion': {
           // Obtener posición actual simplificada
           valorActual = 999; // Valor por defecto para cuando no está en el ranking
           break;
+        }
 
         default:
           valorActual = 0;
