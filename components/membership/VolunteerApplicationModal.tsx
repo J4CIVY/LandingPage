@@ -137,7 +137,12 @@ export default function VolunteerApplicationModal({
   ];
 
   const getColorClasses = (color: string) => {
-    const colors: any = {
+    const colors: Record<string, {
+      bg: string;
+      text: string;
+      border: string;
+      button: string;
+    }> = {
       blue: {
         bg: 'bg-blue-100 dark:bg-blue-900/30',
         text: 'text-blue-600 dark:text-blue-400',
@@ -177,7 +182,7 @@ export default function VolunteerApplicationModal({
         <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
           <div className="relative transform overflow-hidden rounded-lg bg-white dark:bg-slate-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-4xl">
             {/* Header */}
-            <div className="bg-gradient-to-r from-cyan-600 to-blue-600 px-6 py-4">
+            <div className="bg-linear-to-r from-cyan-600 to-blue-600 px-6 py-4">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-2xl font-bold text-white">
@@ -312,7 +317,7 @@ export default function VolunteerApplicationModal({
                 </div>
                 <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
                   <div
-                    className="bg-gradient-to-r from-cyan-600 to-blue-600 h-2 rounded-full transition-all duration-300"
+                    className="bg-linear-to-r from-cyan-600 to-blue-600 h-2 rounded-full transition-all duration-300"
                     style={{ width: `${(Object.values(documentsAccepted).filter(v => v).length / 4) * 100}%` }}
                   />
                 </div>
@@ -333,7 +338,7 @@ export default function VolunteerApplicationModal({
                 disabled={!allDocumentsAccepted || submitting}
                 className={`px-8 py-2 rounded-lg font-medium transition-all ${
                   allDocumentsAccepted && !submitting
-                    ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white hover:from-cyan-700 hover:to-blue-700 shadow-md'
+                    ? 'bg-linear-to-r from-cyan-600 to-blue-600 text-white hover:from-cyan-700 hover:to-blue-700 shadow-md'
                     : 'bg-gray-300 dark:bg-slate-700 text-gray-500 dark:text-slate-500 cursor-not-allowed'
                 }`}
               >

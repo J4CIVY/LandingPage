@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { FaHeart, FaSpinner, FaUserPlus, FaClock, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { FaHeart, FaUserPlus, FaClock, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import VolunteerApplicationModal from './VolunteerApplicationModal';
 
 interface VolunteerToggleProps {
@@ -30,7 +30,6 @@ export default function VolunteerToggle({
   disabled = false,
   className = '' 
 }: VolunteerToggleProps) {
-  const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [applicationStatus, setApplicationStatus] = useState<ApplicationStatus>({ status: 'none' });
 
@@ -132,20 +131,11 @@ export default function VolunteerToggle({
         {!isVolunteer && applicationStatus.status !== 'pending' && (
           <button
             onClick={() => setShowModal(true)}
-            disabled={disabled || loading}
-            className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white font-medium rounded-lg transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={disabled}
+            className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-linear-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white font-medium rounded-lg transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? (
-              <>
-                <FaSpinner className="animate-spin" />
-                <span>Procesando...</span>
-              </>
-            ) : (
-              <>
-                <FaUserPlus />
-                <span>Solicitar Ser Voluntario</span>
-              </>
-            )}
+            <FaUserPlus />
+            <span>Solicitar Ser Voluntario</span>
           </button>
         )}
 

@@ -452,7 +452,7 @@ export const VOLUNTEER_AGREEMENT = (
       </p>
     </section>
 
-    <section className="mt-6 p-4 bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-900/20 dark:to-blue-900/20 rounded-lg border border-cyan-200 dark:border-cyan-800">
+    <section className="mt-6 p-4 bg-linear-to-r from-cyan-50 to-blue-50 dark:from-cyan-900/20 dark:to-blue-900/20 rounded-lg border border-cyan-200 dark:border-cyan-800">
       <p className="text-sm text-cyan-900 dark:text-cyan-100">
         <strong>Compromiso Final:</strong> Al aceptar este acuerdo, confirmo que he leído, comprendido 
         y acepto todos los términos aquí establecidos. Me comprometo a cumplir con mis responsabilidades 

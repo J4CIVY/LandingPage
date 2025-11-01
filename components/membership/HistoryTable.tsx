@@ -65,7 +65,7 @@ export default function HistoryTable({ history, className = '' }: HistoryTablePr
           
           return (
             <div key={index} className="flex items-start space-x-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-              <div className={`flex-shrink-0 p-2 rounded-lg ${iconClass}`}>
+              <div className={`shrink-0 p-2 rounded-lg ${iconClass}`}>
                 <FaCalendarAlt className="h-4 w-4" />
               </div>
               

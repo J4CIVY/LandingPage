@@ -55,7 +55,7 @@ export default function MembershipProgress({
 
   if (!progress.nextType) {
     return (
-      <div className={`bg-gradient-to-r from-yellow-400 to-yellow-600 text-white p-6 rounded-xl dark:bg-gradient-to-r dark:from-yellow-700 dark:to-yellow-900 ${className}`}>
+      <div className={`bg-linear-to-r from-yellow-400 to-yellow-600 text-white p-6 rounded-xl dark:bg-linear-to-r dark:from-yellow-700 dark:to-yellow-900 ${className}`}>
         <div className="text-center">
           <div className="text-3xl mb-2">🏆</div>
           <h3 className="text-lg font-bold mb-1">¡Nivel Máximo Alcanzado!</h3>
@@ -87,7 +87,7 @@ export default function MembershipProgress({
         {/* Barra de progreso principal */}
         <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 mb-2">
           <div 
-            className={`h-3 rounded-full bg-gradient-to-r ${nextConfig?.gradient}`}
+            className={`h-3 rounded-full bg-linear-to-r ${nextConfig?.gradient}`}
             style={{ width: `${progress.percent}%` }}
           ></div>
         </div>
@@ -102,7 +102,7 @@ export default function MembershipProgress({
         {progress.requirements.map((requirement) => (
           <div key={requirement.id} className="flex items-start space-x-3">
             {/* Icono de estado */}
-            <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center mt-0.5 ${
+            <div className={`shrink-0 w-6 h-6 rounded-full flex items-center justify-center mt-0.5 ${
               requirement.fulfilled 
                 ? 'bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-200' 
                 : requirement.progress > 0 

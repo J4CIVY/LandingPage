@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { MembershipType, Membership } from '@/types/membership';
+import { Membership } from '@/types/membership';
 import { MEMBERSHIP_CONFIG } from '@/data/membershipConfig';
 import { 
   FaUserFriends, 
@@ -79,7 +79,7 @@ export default function MembershipCard({
     `}>
       {/* Header con gradiente */}
       <div 
-        className={`p-6 bg-gradient-to-r ${config.gradient} text-white relative dark:text-white`}
+        className={`p-6 bg-linear-to-r ${config.gradient} text-white relative dark:text-white`}
         style={{ backgroundColor: config.color }}
       >
         <div className="flex items-center justify-between">
@@ -161,7 +161,7 @@ export default function MembershipCard({
             </div>
             <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
               <div 
-                className={`h-2 rounded-full bg-gradient-to-r ${config.gradient}`}
+                className={`h-2 rounded-full bg-linear-to-r ${config.gradient}`}
                 style={{ width: `${membership.progress.percent}%` }}
               ></div>
             </div>

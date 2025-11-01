@@ -70,7 +70,12 @@ const LeaderApplicationPlatform: React.FC<LeaderApplicationPlatformProps> = ({
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [availableEndorsers, setAvailableEndorsers] = useState<any[]>([]);
+  const [availableEndorsers, setAvailableEndorsers] = useState<Array<{
+    id: string;
+    name: string;
+    membershipType: string;
+    [key: string]: unknown;
+  }>>([]);
 
   const steps = [
     { id: 1, title: 'Plan de Liderazgo', icon: FaClipboardCheck },
@@ -199,7 +204,7 @@ const LeaderApplicationPlatform: React.FC<LeaderApplicationPlatformProps> = ({
       } else {
         throw new Error('Error al solicitar aval');
       }
-    } catch (error) {
+    } catch {
       setError('Error al solicitar aval');
     }
   };
@@ -222,7 +227,7 @@ const LeaderApplicationPlatform: React.FC<LeaderApplicationPlatformProps> = ({
       } else {
         throw new Error('Error al guardar borrador');
       }
-    } catch (error) {
+    } catch {
       setError('Error al guardar borrador');
     } finally {
       setSaving(false);
@@ -517,7 +522,7 @@ const LeaderApplicationPlatform: React.FC<LeaderApplicationPlatformProps> = ({
                         <p className="text-sm text-gray-600 dark:text-gray-400">{endorser.membershipType}</p>
                       </div>
                       <button
-                        onClick={() => requestEndorsement(endorser.id, endorser.membershipType.toLowerCase())}
+                        onClick={() => requestEndorsement(endorser.id, endorser.membershipType.toLowerCase() as 'leader' | 'master')}
                         disabled={formData.endorsements.some(e => e.userId === endorser.id)}
                         className="px-3 py-1 bg-purple-600 text-white rounded text-sm hover:bg-purple-700 disabled:bg-gray-400"
                       >

@@ -73,7 +73,7 @@ export default function LeaderApplication({
         setErrors({ submit: data.message || 'Error al enviar la solicitud' });
         setStep('form');
       }
-    } catch (error) {
+    } catch {
       setErrors({ submit: 'Error de conexión. Inténtalo de nuevo.' });
       setStep('form');
     }

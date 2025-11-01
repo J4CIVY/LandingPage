@@ -1,8 +1,7 @@
 import { NextRequest } from 'next/server';
 import { 
   withErrorHandling, 
-  createSuccessResponse, 
-  HTTP_STATUS 
+  createSuccessResponse
 } from '@/lib/api-utils';
 import connectDB from '@/lib/mongodb';
 import Emergency from '@/lib/models/Emergency';
@@ -16,14 +15,6 @@ async function handleGet(request: NextRequest) {
   
   const { searchParams } = new URL(request.url);
   const limit = parseInt(searchParams.get('limit') || '20');
-  
-  // Definir el orden de prioridad para el sort
-  const priorityOrder = {
-    'critical': 4,
-    'high': 3,
-    'medium': 2,
-    'low': 1
-  };
   
   // Obtener emergencias pendientes
   const emergencies = await Emergency.find({

@@ -109,10 +109,7 @@ export default function DetalleSolicitudPage() {
     try {
       setCerrandoSolicitud(true);
       
-      await PQRSDFService.cerrarSolicitud(
-        solicitud.id,
-        `${user.firstName} ${user.lastName}`
-      );
+      await PQRSDFService.cerrarSolicitud(solicitud.id);
       
       // Recargar para mostrar el estado actualizado
       await cargarSolicitud();

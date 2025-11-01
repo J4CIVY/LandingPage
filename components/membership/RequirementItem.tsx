@@ -62,7 +62,7 @@ export default function RequirementItem({
     <div className={`border rounded-lg p-4 ${statusInfo.bgClass} ${className}`}>
       <div className="flex items-start space-x-3">
         {/* Icono de estado */}
-        <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${statusInfo.iconClass}`}>
+        <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${statusInfo.iconClass}`}>
           <IconComponent className="h-4 w-4" />
         </div>
 

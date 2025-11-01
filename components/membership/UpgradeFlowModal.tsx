@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { getCSRFToken } from '@/lib/csrf-client';
-import { MembershipType, Membership, RequestUpgradeResponse } from '@/types/membership';
+import { Membership, RequestUpgradeResponse } from '@/types/membership';
 import { MEMBERSHIP_CONFIG, getNextMembershipType } from '@/data/membershipConfig';
 import { FaTimes, FaCheck, FaSpinner, FaExclamationTriangle } from 'react-icons/fa';
 
@@ -72,7 +72,7 @@ export default function UpgradeFlowModal({
           setStep('confirm');
         }
       }
-    } catch (err) {
+    } catch {
       setError('Error de conexión. Inténtalo de nuevo.');
       setStep('confirm');
     }
@@ -187,10 +187,10 @@ export default function UpgradeFlowModal({
                     <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
                       Tu ascenso ha sido procesado exitosamente. Ahora tienes acceso a todos los beneficios de {nextConfig.name}.
                     </p>
-                    {(result as any).estimatedReviewTime && (
+                    {(result as { estimatedReviewTime?: string }).estimatedReviewTime && (
                       <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
                         <p className="text-sm text-blue-700 dark:text-blue-200">
-                          Tu solicitud está en revisión. Tiempo estimado: {(result as any).estimatedReviewTime}
+                          Tu solicitud está en revisión. Tiempo estimado: {(result as { estimatedReviewTime?: string }).estimatedReviewTime}
                         </p>
                       </div>
                     )}

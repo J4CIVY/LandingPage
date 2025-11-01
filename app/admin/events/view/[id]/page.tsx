@@ -9,12 +9,8 @@ import {
   FaEdit,
   FaTrash,
   FaArrowLeft,
-  FaCalendarAlt,
-  FaClock,
   FaMapMarkerAlt,
   FaUsers,
-  FaDollarSign,
-  FaImage,
   FaTags,
   FaInfoCircle,
   FaPhone,
@@ -63,7 +59,14 @@ interface Event {
     phone: string;
     email: string;
   };
-  participants?: any[];
+  participants?: Array<{
+    _id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    hasAttended?: boolean;
+    attendedAt?: string;
+  }>;
   tags?: string[];
   isActive: boolean;
   createdAt: string;
@@ -107,7 +110,18 @@ export default function EventDetailPage() {
   const [event, setEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState(true);
   const [showParticipants, setShowParticipants] = useState(false);
-  const [attendanceData, setAttendanceData] = useState<any>(null);
+  const [attendanceData, setAttendanceData] = useState<{
+    totalAttended?: number;
+    participants?: Array<{
+      _id: string;
+      firstName: string;
+      lastName: string;
+      email: string;
+      membershipType?: string;
+      hasAttended?: boolean;
+      attendedAt?: string;
+    }>;
+  } | null>(null);
   const [loadingAttendance, setLoadingAttendance] = useState(false);
 
   // Verificar autenticación y permisos
@@ -484,7 +498,7 @@ export default function EventDetailPage() {
                   
                   {attendanceData?.participants && attendanceData.participants.length > 0 ? (
                     <div className="space-y-2 max-h-96 overflow-y-auto">
-                      {attendanceData.participants.map((participant: any) => (
+                      {attendanceData.participants.map((participant) => (
                         <div key={participant._id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border">
                           <div className="flex-1">
                             <div className="flex items-center space-x-3">
@@ -508,7 +522,7 @@ export default function EventDetailPage() {
                             )}
                             
                             <button
-                              onClick={() => handleToggleAttendance(participant._id, participant.hasAttended)}
+                              onClick={() => handleToggleAttendance(participant._id, participant.hasAttended ?? false)}
                               className={`px-3 py-1 rounded text-xs font-medium transition-colors ${
                                 participant.hasAttended
                                   ? 'bg-red-100 text-red-800 hover:bg-red-200'
