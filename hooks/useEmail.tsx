@@ -213,7 +213,7 @@ export function useEmail() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Error al obtener configuración');
+        return { success: false, error: result.error || 'Error al obtener configuración' };
       }
 
       return { success: true, data: result.data };

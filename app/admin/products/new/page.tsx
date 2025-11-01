@@ -305,7 +305,7 @@ export default function ProductFormPage() {
         router.push('/admin/products');
       } else {
         const data = await response.json();
-        throw new Error(data.error || 'Error al guardar producto');
+        alert(data.error || 'Error al guardar producto');
       }
     } catch (error) {
       console.error('Error guardando producto:', error);

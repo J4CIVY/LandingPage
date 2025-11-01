@@ -20173,7 +20173,7 @@
       },
       "invocations": [
         {
-          "startTimeUtc": "2025-11-01T18:51:44.2950078Z",
+          "startTimeUtc": "2025-11-01T20:12:00.9632879Z",
           "exitCode": 0,
           "executionSuccessful": true
         }
@@ -20182,7 +20182,7 @@
       "versionControlProvenance": [
         {
           "repositoryUri": "https://github.com/J4CIVY/LandingPage.git",
-          "revisionId": "4cb6aff5c934fff45d18eaef0686d08f994dd135",
+          "revisionId": "8b5f742a812a7f306137bc2273607747c8b87642",
           "branch": "main",
           "properties": {
             "repoUrl": "https://github.com/J4CIVY/LandingPage.git",
@@ -20193,804 +20193,6 @@
         }
       ],
       "results": [
-        {
-          "ruleId": "CommaExpressionJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Comma expression",
-            "markdown": "Comma expression"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/products/new/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 707,
-                  "startColumn": 78,
-                  "charOffset": 27797,
-                  "charLength": 1,
-                  "snippet": {
-                    "text": ","
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 705,
-                  "startColumn": 1,
-                  "charOffset": 27611,
-                  "charLength": 411,
-                  "snippet": {
-                    "text": "                  value={newSpecValue}\r\n                  onChange={(e) => setNewSpecValue(e.target.value)}\r\n                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTechnicalSpec())}\r\n                  className=\"flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent\"\r\n                  placeholder=\"Valor (ej: Fibra de carbono)\"\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "875e6319a292617a",
-            "equalIndicator/v1": "1e589524d11775059cc2dd2c191a36fc0b822c9532443139ea1cbe9700e910f5"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "CommaExpressionJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Comma expression",
-            "markdown": "Comma expression"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/events/[id]/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 833,
-                  "startColumn": 78,
-                  "charOffset": 33390,
-                  "charLength": 1,
-                  "snippet": {
-                    "text": ","
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 831,
-                  "startColumn": 1,
-                  "charOffset": 33200,
-                  "charLength": 435,
-                  "snippet": {
-                    "text": "                  value={newRequirement}\r\n                  onChange={(e) => setNewRequirement(e.target.value)}\r\n                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addToArray('requirements', newRequirement))}\r\n                  className=\"flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent\"\r\n                  placeholder=\"Agregar requerimiento...\"\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "4f2cf397a731d0d8",
-            "equalIndicator/v1": "328b59223a65af484c2db09433eca8740931b8d40bafa2aacb052713d816e207"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "CommaExpressionJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Comma expression",
-            "markdown": "Comma expression"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/products/new/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 802,
-                  "startColumn": 80,
-                  "charOffset": 31916,
-                  "charLength": 1,
-                  "snippet": {
-                    "text": ","
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 800,
-                  "startColumn": 1,
-                  "charOffset": 31736,
-                  "charLength": 408,
-                  "snippet": {
-                    "text": "                    value={newTag}\r\n                    onChange={(e) => setNewTag(e.target.value)}\r\n                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addToArray('tags', newTag))}\r\n                    className=\"flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent\"\r\n                    placeholder=\"Agregar etiqueta...\"\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "cfa8d8dd1e368411",
-            "equalIndicator/v1": "334bd7202e6e78a8c787a598bc7561706ac603fe45376c153a796b7da0def9b8"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "CommaExpressionJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Comma expression",
-            "markdown": "Comma expression"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/products/[id]/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 870,
-                  "startColumn": 78,
-                  "charOffset": 33537,
-                  "charLength": 1,
-                  "snippet": {
-                    "text": ","
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 868,
-                  "startColumn": 1,
-                  "charOffset": 33351,
-                  "charLength": 411,
-                  "snippet": {
-                    "text": "                  value={newSpecValue}\r\n                  onChange={(e) => setNewSpecValue(e.target.value)}\r\n                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTechnicalSpec())}\r\n                  className=\"flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent\"\r\n                  placeholder=\"Valor (ej: Fibra de carbono)\"\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "31546c6995cb56dc",
-            "equalIndicator/v1": "34a2c8aa0ffb814fc612b0e2e7d3829710a6893ce9277bc4688d1d9a138d86da"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "CommaExpressionJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Comma expression",
-            "markdown": "Comma expression"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/events/[id]/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 879,
-                  "startColumn": 78,
-                  "charOffset": 35372,
-                  "charLength": 1,
-                  "snippet": {
-                    "text": ","
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 877,
-                  "startColumn": 1,
-                  "charOffset": 35198,
-                  "charLength": 398,
-                  "snippet": {
-                    "text": "                  value={newTag}\r\n                  onChange={(e) => setNewTag(e.target.value)}\r\n                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addToArray('tags', newTag))}\r\n                  className=\"flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent\"\r\n                  placeholder=\"Agregar etiqueta...\"\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "0e25a0e08010b925",
-            "equalIndicator/v1": "59881d1b4f79d3abf6474351288787023c9487bf74369763ab421a8a943c1e2d"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "CommaExpressionJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Comma expression",
-            "markdown": "Comma expression"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/products/[id]/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 915,
-                  "startColumn": 78,
-                  "charOffset": 35506,
-                  "charLength": 1,
-                  "snippet": {
-                    "text": ","
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 913,
-                  "startColumn": 1,
-                  "charOffset": 35324,
-                  "charLength": 420,
-                  "snippet": {
-                    "text": "                  value={newFeature}\r\n                  onChange={(e) => setNewFeature(e.target.value)}\r\n                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addToArray('features', newFeature))}\r\n                  className=\"flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent\"\r\n                  placeholder=\"Agregar característica...\"\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "7b97846f77e1acff",
-            "equalIndicator/v1": "5a93ac52e9232cad01a75b2e1ac5e0c8186674a20d5f48e8665fbd5b7e68f018"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "CommaExpressionJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Comma expression",
-            "markdown": "Comma expression"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/events/new/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 810,
-                  "startColumn": 80,
-                  "charOffset": 31669,
-                  "charLength": 1,
-                  "snippet": {
-                    "text": ","
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 808,
-                  "startColumn": 1,
-                  "charOffset": 31481,
-                  "charLength": 438,
-                  "snippet": {
-                    "text": "                    value={newInclude}\r\n                    onChange={(e) => setNewInclude(e.target.value)}\r\n                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addToArray('includes', newInclude))}\r\n                    className=\"flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent\"\r\n                    placeholder=\"Ej: Desayuno, almuerzo, seguro...\"\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "576fe2a8afc5a4f3",
-            "equalIndicator/v1": "5de53713022bc7c395c771a7d0f167f2a1671dd18a0244952fdd3329851b0df1"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "CommaExpressionJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Comma expression",
-            "markdown": "Comma expression"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/analytics/new/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 336,
-                  "startColumn": 80,
-                  "charOffset": 14673,
-                  "charLength": 1,
-                  "snippet": {
-                    "text": ","
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 334,
-                  "startColumn": 1,
-                  "charOffset": 14322,
-                  "charLength": 419,
-                  "snippet": {
-                    "text": "                    placeholder=\"email@ejemplo.com\"\r\n                    className=\"flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-white\"\r\n                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addRecipient())}\r\n                  />\r\n                  <button\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "f5a01aebe8da37c9",
-            "equalIndicator/v1": "5deccae87728fe562d80f911ddbe68114311e5cd072db04165bf1baffbcac6ed"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "CommaExpressionJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Comma expression",
-            "markdown": "Comma expression"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/events/edit/[id]/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 827,
-                  "startColumn": 78,
-                  "charOffset": 33190,
-                  "charLength": 1,
-                  "snippet": {
-                    "text": ","
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 825,
-                  "startColumn": 1,
-                  "charOffset": 33000,
-                  "charLength": 435,
-                  "snippet": {
-                    "text": "                  value={newRequirement}\r\n                  onChange={(e) => setNewRequirement(e.target.value)}\r\n                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addToArray('requirements', newRequirement))}\r\n                  className=\"flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent\"\r\n                  placeholder=\"Agregar requerimiento...\"\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "3467517e0d136ed3",
-            "equalIndicator/v1": "9144975e6f1b885c7ea1f0242718a74a1d9615a64bc79876c1c043489ab36810"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "CommaExpressionJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Comma expression",
-            "markdown": "Comma expression"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/events/edit/[id]/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 782,
-                  "startColumn": 78,
-                  "charOffset": 31244,
-                  "charLength": 1,
-                  "snippet": {
-                    "text": ","
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 780,
-                  "startColumn": 1,
-                  "charOffset": 31062,
-                  "charLength": 431,
-                  "snippet": {
-                    "text": "                  value={newService}\r\n                  onChange={(e) => setNewService(e.target.value)}\r\n                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addToArray('includedServices', newService))}\r\n                  className=\"flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent\"\r\n                  placeholder=\"Agregar servicio incluido...\"\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "84d7f98a31d8eb13",
-            "equalIndicator/v1": "aad6b71bf3f0e8c7fce8344a84531134873f74b71eeb23b188995694f27f0dcc"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "CommaExpressionJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Comma expression",
-            "markdown": "Comma expression"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/events/edit/[id]/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 873,
-                  "startColumn": 78,
-                  "charOffset": 35172,
-                  "charLength": 1,
-                  "snippet": {
-                    "text": ","
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 871,
-                  "startColumn": 1,
-                  "charOffset": 34998,
-                  "charLength": 398,
-                  "snippet": {
-                    "text": "                  value={newTag}\r\n                  onChange={(e) => setNewTag(e.target.value)}\r\n                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addToArray('tags', newTag))}\r\n                  className=\"flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent\"\r\n                  placeholder=\"Agregar etiqueta...\"\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "27eda9c476c4bd58",
-            "equalIndicator/v1": "b0306da68a21681f3cca236adf0d6b56e2aebca7a8df6b4423dc399fe1024c2a"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "CommaExpressionJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Comma expression",
-            "markdown": "Comma expression"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/products/new/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 752,
-                  "startColumn": 78,
-                  "charOffset": 29766,
-                  "charLength": 1,
-                  "snippet": {
-                    "text": ","
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 750,
-                  "startColumn": 1,
-                  "charOffset": 29584,
-                  "charLength": 420,
-                  "snippet": {
-                    "text": "                  value={newFeature}\r\n                  onChange={(e) => setNewFeature(e.target.value)}\r\n                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addToArray('features', newFeature))}\r\n                  className=\"flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent\"\r\n                  placeholder=\"Agregar característica...\"\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "6c7608c14e45ce4b",
-            "equalIndicator/v1": "c05c182282a20d4f6a2762d13e9c48cd325afdc4069b7d2b2ad91730084477a7"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "CommaExpressionJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Comma expression",
-            "markdown": "Comma expression"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/products/[id]/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 965,
-                  "startColumn": 80,
-                  "charOffset": 37656,
-                  "charLength": 1,
-                  "snippet": {
-                    "text": ","
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 963,
-                  "startColumn": 1,
-                  "charOffset": 37476,
-                  "charLength": 408,
-                  "snippet": {
-                    "text": "                    value={newTag}\r\n                    onChange={(e) => setNewTag(e.target.value)}\r\n                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addToArray('tags', newTag))}\r\n                    className=\"flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent\"\r\n                    placeholder=\"Agregar etiqueta...\"\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "9a195fd5bac3baaf",
-            "equalIndicator/v1": "c06cb13662377f4f52197727f57764967bfd2fdcdfe2d6033d81a7fbc5fdaf87"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "CommaExpressionJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Comma expression",
-            "markdown": "Comma expression"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/events/new/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 849,
-                  "startColumn": 80,
-                  "charOffset": 33478,
-                  "charLength": 1,
-                  "snippet": {
-                    "text": ","
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 847,
-                  "startColumn": 1,
-                  "charOffset": 33298,
-                  "charLength": 425,
-                  "snippet": {
-                    "text": "                    value={newTag}\r\n                    onChange={(e) => setNewTag(e.target.value)}\r\n                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addToArray('tags', newTag))}\r\n                    className=\"flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent\"\r\n                    placeholder=\"Ej: aventura, montaña, naturaleza...\"\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "6d0958d638e56bb2",
-            "equalIndicator/v1": "c145c9cf4c273c8566a0512d4b76d95c958eaf30eb65d3de4040f85a01b30fcf"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
         {
           "ruleId": "CommaExpressionJS",
           "kind": "fail",
@@ -21102,405 +20304,6 @@
             "problemType": "REGULAR",
             "tags": [
               "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "CommaExpressionJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Comma expression",
-            "markdown": "Comma expression"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/products/[id]/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 738,
-                  "startColumn": 80,
-                  "charOffset": 27791,
-                  "charLength": 1,
-                  "snippet": {
-                    "text": ","
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 736,
-                  "startColumn": 1,
-                  "charOffset": 27593,
-                  "charLength": 421,
-                  "snippet": {
-                    "text": "                    value={newGalleryImage}\r\n                    onChange={(e) => setNewGalleryImage(e.target.value)}\r\n                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addToGallery())}\r\n                    className=\"flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent\"\r\n                    placeholder=\"URL de imagen adicional...\"\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "81968e4616ce930e",
-            "equalIndicator/v1": "f006c702b866fbac4ae778bdc5f6519295cbdebcb1092b1b26323fd6f02efda0"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ES6MissingAwait",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Missing await for an async function call",
-            "markdown": "Missing await for an async function call"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/leadership/LeaderDashboard.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 122,
-                  "startColumn": 9,
-                  "charOffset": 3183,
-                  "charLength": 18,
-                  "snippet": {
-                    "text": "fetchDashboardData"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                },
-                "contextRegion": {
-                  "startLine": 120,
-                  "startColumn": 1,
-                  "charOffset": 3147,
-                  "charLength": 108,
-                  "snippet": {
-                    "text": "\r\n      if (response.ok) {\r\n        fetchDashboardData(); // Recargar datos\r\n      }\r\n    } catch (error) {\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "4240e9750c06a55d",
-            "equalIndicator/v1": "026c2a27b22fd14b2cbf59878aa07629223f204e7e3e736276bce41276181191"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "TypeScript JSX"
-            ]
-          }
-        },
-        {
-          "ruleId": "ES6MissingAwait",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Missing await for an async function call",
-            "markdown": "Missing await for an async function call"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/membership-plans/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 179,
-                  "startColumn": 9,
-                  "charOffset": 4981,
-                  "charLength": 20,
-                  "snippet": {
-                    "text": "fetchMembershipPlans"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                },
-                "contextRegion": {
-                  "startLine": 177,
-                  "startColumn": 1,
-                  "charOffset": 4894,
-                  "charLength": 212,
-                  "snippet": {
-                    "text": "      if (data.success) {\r\n        setSuccess('Plan archivado exitosamente');\r\n        fetchMembershipPlans(); // Recargar la lista\r\n      } else {\r\n        setError(data.message || 'Error al archivar el plan');\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "7ee9c87e31c83fd0",
-            "equalIndicator/v1": "02fd4180adf09a136ef3ce5c64c34becd844af13dcf66231f2dbe7bf06fa5788"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "TypeScript JSX"
-            ]
-          }
-        },
-        {
-          "ruleId": "ES6MissingAwait",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Missing await for an async function call",
-            "markdown": "Missing await for an async function call"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/services/GamificationService.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 703,
-                  "startColumn": 9,
-                  "charOffset": 22782,
-                  "charLength": 18,
-                  "snippet": {
-                    "text": "session.endSession"
-                  },
-                  "sourceLanguage": "TypeScript"
-                },
-                "contextRegion": {
-                  "startLine": 701,
-                  "startColumn": 1,
-                  "charOffset": 22733,
-                  "charLength": 82,
-                  "snippet": {
-                    "text": "        throw error;\r\n      } finally {\r\n        session.endSession();\r\n      }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "83ecd23353f96166",
-            "equalIndicator/v1": "67da715d2274a96459990272636b9593aaf3d64ddda866c1c7efbaf08826593c"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "TypeScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ES6MissingAwait",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Missing await for an async function call",
-            "markdown": "Missing await for an async function call"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/leadership/VotingSystem.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 118,
-                  "startColumn": 9,
-                  "charOffset": 3184,
-                  "charLength": 15,
-                  "snippet": {
-                    "text": "fetchVotingData"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                },
-                "contextRegion": {
-                  "startLine": 116,
-                  "startColumn": 1,
-                  "charOffset": 3148,
-                  "charLength": 126,
-                  "snippet": {
-                    "text": "\r\n      if (response.ok) {\r\n        fetchVotingData(); // Recargar datos\r\n        // Mostrar mensaje de éxito\r\n      } else {\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "de94158c6185e4de",
-            "equalIndicator/v1": "bc8ed731c7d8c1812e714e395026c5cee4e91740b8661d8266a791c014c6afd6"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "TypeScript JSX"
-            ]
-          }
-        },
-        {
-          "ruleId": "ES6MissingAwait",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Missing await for an async function call",
-            "markdown": "Missing await for an async function call"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/leadership/LeaderDashboard.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 142,
-                  "startColumn": 9,
-                  "charOffset": 3843,
-                  "charLength": 18,
-                  "snippet": {
-                    "text": "fetchDashboardData"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                },
-                "contextRegion": {
-                  "startLine": 140,
-                  "startColumn": 1,
-                  "charOffset": 3807,
-                  "charLength": 108,
-                  "snippet": {
-                    "text": "\r\n      if (response.ok) {\r\n        fetchDashboardData(); // Recargar datos\r\n      }\r\n    } catch (error) {\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "bcb20c9e8725df0b",
-            "equalIndicator/v1": "dd8769a5b71b21621b219dff93720ad8e0d0f418c8334722d2ca70508da1cacb"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "TypeScript JSX"
-            ]
-          }
-        },
-        {
-          "ruleId": "ES6MissingAwait",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Missing await for an async function call",
-            "markdown": "Missing await for an async function call"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/leadership/VotingSystem.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 143,
-                  "startColumn": 9,
-                  "charOffset": 4041,
-                  "charLength": 15,
-                  "snippet": {
-                    "text": "fetchVotingData"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                },
-                "contextRegion": {
-                  "startLine": 141,
-                  "startColumn": 1,
-                  "charOffset": 4005,
-                  "charLength": 135,
-                  "snippet": {
-                    "text": "\r\n      if (response.ok) {\r\n        fetchVotingData(); // Recargar datos\r\n      } else {\r\n        const error = await response.json();\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "0d16e67e845cc6d2",
-            "equalIndicator/v1": "fb05ec116d1424b5720c33048c3b8df652fd24c0db9fa9f8ae29c56956b7f73a"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "TypeScript JSX"
             ]
           }
         },
@@ -22634,63 +21437,6 @@
           "partialFingerprints": {
             "equalIndicator/v2": "abc9df90bd2535bc",
             "equalIndicator/v1": "1a96fab15faceebda868f8bb0429156af9dc4f6373f90e64624b6244ae78037b"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/services/GamificationService.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 701,
-                  "startColumn": 9,
-                  "charOffset": 22741,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 699,
-                  "startColumn": 1,
-                  "charOffset": 22665,
-                  "charLength": 139,
-                  "snippet": {
-                    "text": "      } catch (error) {\r\n        await session.abortTransaction();\r\n        throw error;\r\n      } finally {\r\n        session.endSession();\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "d1a3c87eb514baa4",
-            "equalIndicator/v1": "1c0bb5167d0bdc9d3723e6e29a7d38e45bff7dedabf9618c4988275ddcea6d82"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -24401,6 +23147,63 @@
           "partialFingerprints": {
             "equalIndicator/v2": "79b66156f996fdfd",
             "equalIndicator/v1": "54d08063384d5e38f2154b3f8b56ddb698b80242997d2c54686fe9f32aa22eff"
+          },
+          "properties": {
+            "ideaSeverity": "WARNING",
+            "qodanaSeverity": "High",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "ExceptionCaughtLocallyJS",
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "'throw' of exception caught locally",
+            "markdown": "'throw' of exception caught locally"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "components/leadership/VotingSystem.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 122,
+                  "startColumn": 9,
+                  "charOffset": 3335,
+                  "charLength": 5,
+                  "snippet": {
+                    "text": "throw"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 120,
+                  "startColumn": 1,
+                  "charOffset": 3265,
+                  "charLength": 163,
+                  "snippet": {
+                    "text": "      } else {\r\n        const error = await response.json();\r\n        throw new Error(error.message || 'Error al registrar voto');\r\n      }\r\n    } catch (error) {\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "563f5f6d14fade6b",
+            "equalIndicator/v1": "562db646e8bd0f52fa3e33687960c663d4523f82c01dce7a815b06b7dc55676f"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -26760,63 +25563,6 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "components/leadership/VotingSystem.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 122,
-                  "startColumn": 9,
-                  "charOffset": 3329,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 120,
-                  "startColumn": 1,
-                  "charOffset": 3259,
-                  "charLength": 163,
-                  "snippet": {
-                    "text": "      } else {\r\n        const error = await response.json();\r\n        throw new Error(error.message || 'Error al registrar voto');\r\n      }\r\n    } catch (error) {\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "336ef9eb5a9e49ec",
-            "equalIndicator/v1": "bcd28ca3f7ee60a639eada7c2e683c1e5817ad9b9c3812a21a676471593e6862"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
                   "uri": "components/shared/ContactTabs.tsx",
                   "uriBaseId": "SRCROOT"
                 },
@@ -27330,63 +26076,6 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "components/leadership/VotingSystem.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 146,
-                  "startColumn": 9,
-                  "charOffset": 4149,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 144,
-                  "startColumn": 1,
-                  "charOffset": 4079,
-                  "charLength": 166,
-                  "snippet": {
-                    "text": "      } else {\r\n        const error = await response.json();\r\n        throw new Error(error.message || 'Error al controlar proceso');\r\n      }\r\n    } catch (error) {\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "cbc74071bcb2e9b6",
-            "equalIndicator/v1": "d0737f2b12b1655b2fda9f404b36574c4cfe28ceeceaf40ad332162f4b5d4fbb"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
                   "uri": "app/events/[id]/page.tsx",
                   "uriBaseId": "SRCROOT"
                 },
@@ -27843,6 +26532,63 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
+                  "uri": "lib/services/GamificationService.ts",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 701,
+                  "startColumn": 9,
+                  "charOffset": 22741,
+                  "charLength": 5,
+                  "snippet": {
+                    "text": "throw"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 699,
+                  "startColumn": 1,
+                  "charOffset": 22665,
+                  "charLength": 145,
+                  "snippet": {
+                    "text": "      } catch (error) {\r\n        await session.abortTransaction();\r\n        throw error;\r\n      } finally {\r\n        await session.endSession();\r"
+                  },
+                  "sourceLanguage": "TypeScript"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "29861b8b86533677",
+            "equalIndicator/v1": "dcb912ba6c3df5700e466d71c6821bafb5f631cb238534b1ec9f03a8de71c835"
+          },
+          "properties": {
+            "ideaSeverity": "WARNING",
+            "qodanaSeverity": "High",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "ExceptionCaughtLocallyJS",
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "'throw' of exception caught locally",
+            "markdown": "'throw' of exception caught locally"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
                   "uri": "components/dashboard/security/AdvancedSettingsSection.tsx",
                   "uriBaseId": "SRCROOT"
                 },
@@ -28049,6 +26795,63 @@
           "partialFingerprints": {
             "equalIndicator/v2": "00909ff808653328",
             "equalIndicator/v1": "e69dc9e0aee7bfeeff0c58fbdf7b7414811205ce10d79b61541895206da3772f"
+          },
+          "properties": {
+            "ideaSeverity": "WARNING",
+            "qodanaSeverity": "High",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "ExceptionCaughtLocallyJS",
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "'throw' of exception caught locally",
+            "markdown": "'throw' of exception caught locally"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "components/leadership/VotingSystem.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 146,
+                  "startColumn": 9,
+                  "charOffset": 4161,
+                  "charLength": 5,
+                  "snippet": {
+                    "text": "throw"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 144,
+                  "startColumn": 1,
+                  "charOffset": 4091,
+                  "charLength": 166,
+                  "snippet": {
+                    "text": "      } else {\r\n        const error = await response.json();\r\n        throw new Error(error.message || 'Error al controlar proceso');\r\n      }\r\n    } catch (error) {\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "d00eda6307787636",
+            "equalIndicator/v1": "ea772a5267a44d43db5d15db90bac9c439ec3ef19864487b39a8fdd70e310fd3"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -42151,63 +40954,6 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "lib/services/GamificationService.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 1079,
-                  "startColumn": 26,
-                  "charOffset": 33723,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "false"
-                  },
-                  "sourceLanguage": "TypeScript"
-                },
-                "contextRegion": {
-                  "startLine": 1077,
-                  "startColumn": 1,
-                  "charOffset": 33652,
-                  "charLength": 134,
-                  "snippet": {
-                    "text": "\r\n      // Evaluar si se cumple la condición\r\n      let desbloqueado = false;\r\n      switch (operador) {\r\n        case 'mayor_igual':\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "b2b6ddecd8ad18af",
-            "equalIndicator/v1": "2770486f4b2de91897692809bf69f0a907412c7191cbf1ae9b6b2416aaba2916"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "TypeScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSUnusedAssignment",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Variable initializer is redundant",
-            "markdown": "Variable initializer is redundant"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
                   "uri": "app/api/membership/status/route.ts",
                   "uriBaseId": "SRCROOT"
                 },
@@ -42243,6 +40989,63 @@
           "partialFingerprints": {
             "equalIndicator/v2": "dfd4264f1940ba8c",
             "equalIndicator/v1": "44f67c0ceb4f43418167230b42cad0f4e754a2e4947e9f5329d25e02cb7d1755"
+          },
+          "properties": {
+            "ideaSeverity": "WARNING",
+            "qodanaSeverity": "High",
+            "problemType": "REGULAR",
+            "tags": [
+              "TypeScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "JSUnusedAssignment",
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "Variable initializer is redundant",
+            "markdown": "Variable initializer is redundant"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "lib/services/GamificationService.ts",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 1079,
+                  "startColumn": 26,
+                  "charOffset": 33729,
+                  "charLength": 5,
+                  "snippet": {
+                    "text": "false"
+                  },
+                  "sourceLanguage": "TypeScript"
+                },
+                "contextRegion": {
+                  "startLine": 1077,
+                  "startColumn": 1,
+                  "charOffset": 33658,
+                  "charLength": 134,
+                  "snippet": {
+                    "text": "\r\n      // Evaluar si se cumple la condición\r\n      let desbloqueado = false;\r\n      switch (operador) {\r\n        case 'mayor_igual':\r"
+                  },
+                  "sourceLanguage": "TypeScript"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "a4d7abe1ad6ea254",
+            "equalIndicator/v1": "a4afcb144662fa185cbb878478ce9b3eeb650b7040760515e67d230b284deb65"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -42357,63 +41160,6 @@
           "partialFingerprints": {
             "equalIndicator/v2": "573e3a4e15846330",
             "equalIndicator/v1": "0235fbe7b35b0d930d694f1665cbdd8e4f5a3ef01504e2b0ebec603f7670b34b"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSUnusedLocalSymbols",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Unused constant createAnnouncement",
-            "markdown": "Unused constant createAnnouncement"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/leadership/LeaderDashboard.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 129,
-                  "startColumn": 9,
-                  "charOffset": 3338,
-                  "charLength": 18,
-                  "snippet": {
-                    "text": "createAnnouncement"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 127,
-                  "startColumn": 1,
-                  "charOffset": 3322,
-                  "charLength": 209,
-                  "snippet": {
-                    "text": "  };\r\n\r\n  const createAnnouncement = async (announcement: Omit<Announcement, 'id' | 'status'>) => { // eslint-disable-line @typescript-eslint/no-unused-vars\r\n    try {\r\n      const csrfToken = getCSRFToken();\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "f61e6447509949d0",
-            "equalIndicator/v1": "0265c3206f746cf355fea4d8e7abc3ce8e6a160ba677949eee4581031885e750"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -44523,6 +43269,63 @@
           "partialFingerprints": {
             "equalIndicator/v2": "97da9f312559d10b",
             "equalIndicator/v1": "933b5d463e6167067a998d280cd0e62a4fecc6bc30f327136b79517be3387ec1"
+          },
+          "properties": {
+            "ideaSeverity": "WARNING",
+            "qodanaSeverity": "High",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "JSUnusedLocalSymbols",
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "Unused constant createAnnouncement",
+            "markdown": "Unused constant createAnnouncement"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "components/leadership/LeaderDashboard.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 129,
+                  "startColumn": 9,
+                  "charOffset": 3344,
+                  "charLength": 18,
+                  "snippet": {
+                    "text": "createAnnouncement"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 127,
+                  "startColumn": 1,
+                  "charOffset": 3328,
+                  "charLength": 209,
+                  "snippet": {
+                    "text": "  };\r\n\r\n  const createAnnouncement = async (announcement: Omit<Announcement, 'id' | 'status'>) => { // eslint-disable-line @typescript-eslint/no-unused-vars\r\n    try {\r\n      const csrfToken = getCSRFToken();\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "5a74bb54e27ad035",
+            "equalIndicator/v1": "94c60894dd202361fb2be5462715ffeaece84b3366a136461f0016be1c6a6741"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -53143,7 +51946,7 @@
       ],
       "automationDetails": {
         "id": "LandingPage/qodana/2025-11-01",
-        "guid": "ba87e984-63f1-4816-9e7b-a4ac7dbd89f4",
+        "guid": "7bccd143-df1e-4b51-a569-c5705ad65593",
         "properties": {
           "jobUrl": "",
           "analysisKind": "ide"
@@ -53156,39 +51959,39 @@
       "properties": {
         "qodana.promo.results": [
           {
-            "ruleId": "RegExpSimplifiable",
+            "ruleId": "UnnecessaryLocalVariableJS",
             "kind": "fail",
-            "level": "note",
+            "level": "warning",
             "message": {
-              "text": "'[^\\s]' can be simplified to '\\S'",
-              "markdown": "`[^\\s]` can be simplified to '\\\\S'"
+              "text": "Local variable 'IconComponent' is redundant",
+              "markdown": "Local variable IconComponent is redundant"
             },
             "locations": [
               {
                 "physicalLocation": {
                   "artifactLocation": {
-                    "uri": "lib/bold-utils.ts",
+                    "uri": "app/activity/page.tsx",
                     "uriBaseId": "SRCROOT"
                   },
                   "region": {
-                    "startLine": 147,
-                    "startColumn": 33,
-                    "charOffset": 4212,
-                    "charLength": 5,
+                    "startLine": 106,
+                    "startColumn": 11,
+                    "charOffset": 2585,
+                    "charLength": 13,
                     "snippet": {
-                      "text": "[^\\s]"
+                      "text": "IconComponent"
                     },
-                    "sourceLanguage": "RegExp"
+                    "sourceLanguage": "JavaScript"
                   },
                   "contextRegion": {
-                    "startLine": 145,
+                    "startLine": 104,
                     "startColumn": 1,
-                    "charOffset": 4125,
-                    "charLength": 199,
+                    "charOffset": 2522,
+                    "charLength": 168,
                     "snippet": {
-                      "text": "\r\n  // Validar que no contenga URLs en la descripción\r\n  const urlRegex = /(https?:\\/\\/[^\\s]+)/g;\r\n  if (urlRegex.test(config.description)) {\r\n    throw new Error('Description cannot contain URLs');\r"
+                      "text": "\r\n  const getActivityIcon = (iconName: string) => {\r\n    const IconComponent = iconMap[iconName as keyof typeof iconMap] || FaHistory;\r\n    return IconComponent;\r\n  };\r"
                     },
-                    "sourceLanguage": "TypeScript"
+                    "sourceLanguage": "TypeScript JSX"
                   }
                 },
                 "logicalLocations": [
@@ -53200,16 +52003,15 @@
               }
             ],
             "partialFingerprints": {
-              "equalIndicator/v2": "b46c7c3f359c44ff",
-              "equalIndicator/v1": "20dfe9813ed6d774635e516913270ae557e8f29a8bd421a9e6ac5b6e99f9df32"
+              "equalIndicator/v2": "f86887462218c10d",
+              "equalIndicator/v1": "1ccf1a92c326bc28782373fd522f0c180d7b5b4a8a15a82f5ecf33c058767ee5"
             },
             "properties": {
-              "ideaSeverity": "WEAK WARNING",
-              "qodanaSeverity": "Moderate",
+              "ideaSeverity": "WARNING",
+              "qodanaSeverity": "High",
               "problemType": "REGULAR",
-              "hasFixes": true,
               "tags": [
-                "RegExp"
+                "JavaScript"
               ]
             }
           },
@@ -53218,33 +52020,33 @@
             "kind": "fail",
             "level": "warning",
             "message": {
-              "text": "Local variable 'status' is redundant",
-              "markdown": "Local variable status is redundant"
+              "text": "Local variable 'response' is redundant",
+              "markdown": "Local variable response is redundant"
             },
             "locations": [
               {
                 "physicalLocation": {
                   "artifactLocation": {
-                    "uri": "app/api/bold/webhook/route.ts",
+                    "uri": "app/api/auth/forgot-password/route.ts",
                     "uriBaseId": "SRCROOT"
                   },
                   "region": {
-                    "startLine": 351,
-                    "startColumn": 9,
-                    "charOffset": 11302,
-                    "charLength": 6,
+                    "startLine": 139,
+                    "startColumn": 11,
+                    "charOffset": 4649,
+                    "charLength": 8,
                     "snippet": {
-                      "text": "status"
+                      "text": "response"
                     },
                     "sourceLanguage": "JavaScript"
                   },
                   "contextRegion": {
-                    "startLine": 349,
+                    "startLine": 137,
                     "startColumn": 1,
-                    "charOffset": 11215,
-                    "charLength": 212,
+                    "charOffset": 4577,
+                    "charLength": 136,
                     "snippet": {
-                      "text": "async function handlePendingPayment(transaction: any, webhookData: any) {\r\n  \r\n  const status = webhookData.payment_status === 'PROCESSING' \r\n    ? TransactionStatus.PROCESSING \r\n    : TransactionStatus.PENDING;\r"
+                      "text": "    console.error('Error en forgot password:', error);\r\n    \r\n    const response = NextResponse.json(\r\n      {\r\n        success: false,\r"
                     },
                     "sourceLanguage": "TypeScript"
                   }
@@ -53258,8 +52060,8 @@
               }
             ],
             "partialFingerprints": {
-              "equalIndicator/v2": "fa2e00963305495b",
-              "equalIndicator/v1": "75e197e3e0023fe4498d39592a3e03b7d109d095f6e76834fcb25e55367fcf40"
+              "equalIndicator/v2": "a6e50caaa8991d7c",
+              "equalIndicator/v1": "77eeecea8544bb66178a9a04944b145deff7c3ab2124957c7aa2a98508703b50"
             },
             "properties": {
               "ideaSeverity": "WARNING",
@@ -53275,14 +52077,14 @@
         "configProfile": "starter",
         "deviceId": "101025103da69cc-f9c8-4a4b-b2dc-9cf68aab4b7e",
         "qodanaNewResultSummary": {
-          "high": 285,
-          "moderate": 293,
-          "total": 578
+          "high": 270,
+          "moderate": 287,
+          "total": 557
         }
       }
     }
   ],
   "properties": {
-    "runTimestamp": "1762023233414"
+    "runTimestamp": "1762027994169"
   }
 }

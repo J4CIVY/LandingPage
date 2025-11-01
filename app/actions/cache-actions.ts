@@ -52,7 +52,9 @@ export async function updateEvent(eventId: string, eventData: Record<string, unk
       body: JSON.stringify(eventData),
     });
 
-    if (!response.ok) throw new Error('Error al actualizar evento');
+    if (!response.ok) {
+      return { success: false, error: 'Error al actualizar evento' };
+    }
 
     // Revalidar tanto la lista como el evento específico
     revalidateTag('events-list', 'max');
@@ -180,7 +182,9 @@ export async function updateEmergencyStatus(emergencyId: string, status: string)
       body: JSON.stringify({ status }),
     });
 
-    if (!response.ok) throw new Error('Error al actualizar emergencia');
+    if (!response.ok) {
+      return { success: false, error: 'Error al actualizar emergencia' };
+    }
 
     // Immediate update - información crítica
     updateTag(`emergency-${emergencyId}`);

@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getZohoMailClient } from './zoho-mail';
-import { ZohoEmailConfig, ContactFormEmail, EmailTemplate } from '@/types/email';
+import { ZohoEmailConfig, ContactFormEmail } from '@/types/email';
 
 /**
  * Servicio de alto nivel para el manejo de correos electrónicos

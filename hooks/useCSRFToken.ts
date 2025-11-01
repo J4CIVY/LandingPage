@@ -49,7 +49,8 @@ export function useCSRFToken() {
       });
 
       if (!response.ok) {
-        throw new Error(`Error obteniendo token CSRF: ${response.status}`);
+        setError(new Error(`Error obteniendo token CSRF: ${response.status}`));
+        return;
       }
 
       const data = await response.json();
@@ -57,7 +58,7 @@ export function useCSRFToken() {
       if (data.success && data.csrfToken) {
         setToken(data.csrfToken);
       } else {
-        throw new Error('Respuesta inválida del servidor');
+        setError(new Error('Respuesta inválida del servidor'));
       }
     } catch (err) {
       console.error('Error en useCSRFToken:', err);

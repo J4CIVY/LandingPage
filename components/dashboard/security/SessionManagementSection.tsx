@@ -143,7 +143,12 @@ export default function SessionManagementSection() {
 
       if (!response.ok) {
         const error = await response.json()
-        throw new Error(error.error || 'Error al cerrar sesiones')
+        showToast({
+          title: "❌ Error",
+          description: error.error || 'Error al cerrar sesiones',
+          type: "error"
+        })
+        return
       }
 
       const data = await response.json()

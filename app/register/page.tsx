@@ -17,9 +17,9 @@ import {
   colombianEPS,
   motorcycleBrands,
   generateYears,
-} from '../../data/formOptions';
-import { useBeforeUnload } from '../../hooks/useConfirmation';
-import { useSuccessToast, useErrorToast, useInfoToast } from '../../components/shared/ToastProvider';
+} from '@/data/formOptions';
+import { useBeforeUnload } from '@/hooks/useConfirmation';
+import { useSuccessToast, useErrorToast, useInfoToast } from '@/components/shared/ToastProvider';
 import { useRecaptcha, RecaptchaActions } from '@/lib/recaptcha-client';
 import { safeJsonParse } from '@/lib/json-utils';
 import { useEmailValidation } from '@/hooks/useEmailValidation';

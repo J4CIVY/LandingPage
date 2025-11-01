@@ -46,11 +46,15 @@ export const usePdfUpload = (): UsePdfUploadReturn => {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Error al subir el PDF');
+        const errorMessage = result.error || 'Error al subir el PDF';
+        setUploadError(errorMessage);
+        throw new Error(errorMessage);
       }
 
       if (!result.success) {
-        throw new Error(result.error || 'Error al procesar el PDF');
+        const errorMessage = result.error || 'Error al procesar el PDF';
+        setUploadError(errorMessage);
+        throw new Error(errorMessage);
       }
 
       return result.data;
