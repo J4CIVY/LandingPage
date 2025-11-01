@@ -92,7 +92,12 @@ export default function PrivacyControlSection() {
       })
 
       if (!response.ok) {
-        throw new Error('Error al guardar preferencia')
+        showToast({
+          title: 'Error',
+          description: 'Error al guardar preferencia',
+          type: 'error'
+        });
+        return;
       }
 
       const data = await response.json()

@@ -113,14 +113,15 @@ export default function DashboardEventDetailsPage() {
       });
 
       if (!response.ok) {
-        throw new Error('Evento no encontrado');
+        setError('Evento no encontrado');
+        return;
       }
 
       const data = await response.json();
       if (data.success && data.data?.event) {
         setEvent(data.data.event);
       } else {
-        throw new Error('Error al cargar el evento');
+        setError('Error al cargar el evento');
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
@@ -297,7 +298,8 @@ export default function DashboardEventDetailsPage() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Error al crear la transacción');
+        alert(errorData.message || 'Error al crear la transacción');
+        return false;
         }
   
         const data = await response.json();      if (data.success && data.data) {
@@ -309,7 +311,8 @@ export default function DashboardEventDetailsPage() {
         return true;
       } else {
         console.error('Invalid server response:', data);
-        throw new Error('Respuesta inválida del servidor');
+        alert('Respuesta inválida del servidor');
+        return false;
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

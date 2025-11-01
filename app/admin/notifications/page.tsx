@@ -393,7 +393,7 @@ function CreateNotificationForm({ onSuccess }: { onSuccess: () => void }) {
         });
         onSuccess();
       } else {
-        throw new Error('Error al crear la notificación');
+        alert('❌ Error al crear la notificación');
       }
     } catch (error) {
       console.error('Error:', error);

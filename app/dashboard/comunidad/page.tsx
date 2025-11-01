@@ -105,7 +105,12 @@ export default function ComunidadPage() {
         setGrupos(Array.isArray(data.datos) ? data.datos : []);
         setEstadoGrupos({ cargando: false, error: null, exito: true });
       } else {
-        throw new Error('Error al cargar grupos');
+        setGrupos([]);
+        setEstadoGrupos({ 
+          cargando: false, 
+          error: 'Error al cargar los grupos', 
+          exito: false 
+        });
       }
     } catch (error) {
       console.error('Error:', error);

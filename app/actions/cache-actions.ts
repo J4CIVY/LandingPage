@@ -106,7 +106,9 @@ export async function updateUserSettings(userId: string, settings: Record<string
       body: JSON.stringify(settings),
     });
 
-    if (!response.ok) throw new Error('Error al actualizar configuración');
+    if (!response.ok) {
+      return { success: false, error: 'Error al actualizar configuración' };
+    }
 
     // Immediate update para ajustes de usuario
     updateTag(`user-settings-${userId}`);

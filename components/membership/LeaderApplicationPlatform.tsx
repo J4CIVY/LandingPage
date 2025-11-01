@@ -225,7 +225,7 @@ const LeaderApplicationPlatform: React.FC<LeaderApplicationPlatformProps> = ({
       if (response.ok) {
         setSuccess('Borrador guardado exitosamente');
       } else {
-        throw new Error('Error al guardar borrador');
+        setError('Error al guardar borrador');
       }
     } catch {
       setError('Error al guardar borrador');

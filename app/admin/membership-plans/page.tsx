@@ -100,7 +100,9 @@ export default function AdminMembershipPlansPage() {
       });
 
       if (!response.ok) {
-        throw new Error('Error al cargar los planes de membresía');
+        setError('Error al cargar los planes de membresía');
+        setPlans([]);
+        return;
       }
 
       const data = await response.json();

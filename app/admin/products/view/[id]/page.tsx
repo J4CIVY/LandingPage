@@ -120,7 +120,7 @@ export default function ProductViewPage() {
           setSelectedImage(data.product.featuredImage);
         } else {
           const errorData = await response.json();
-          throw new Error(errorData.error || 'Error al cargar producto');
+          setError(errorData.error || 'Error al cargar producto');
         }
       } catch (error) {
         console.error('Error cargando producto:', error);

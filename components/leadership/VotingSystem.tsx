@@ -119,7 +119,7 @@ const VotingSystem: React.FC<VotingSystemProps> = ({
         // Mostrar mensaje de éxito
       } else {
         const error = await response.json();
-        throw new Error(error.message || 'Error al registrar voto');
+        setError(error.message || 'Error al registrar voto');
       }
     } catch (error) {
       console.error('Error casting vote:', error);
@@ -143,7 +143,7 @@ const VotingSystem: React.FC<VotingSystemProps> = ({
         await fetchVotingData(); // Recargar datos
       } else {
         const error = await response.json();
-        throw new Error(error.message || 'Error al controlar proceso');
+        setError(error.message || 'Error al controlar proceso');
       }
     } catch (error) {
       console.error('Error controlling process:', error);

@@ -289,7 +289,8 @@ export default function NewEventPage() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.message || 'Error al crear el evento');
+        setErrors({ submit: result.message || 'Error al crear el evento' });
+        return;
       }
 
       

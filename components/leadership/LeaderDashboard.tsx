@@ -97,7 +97,7 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
         setPendingDecisions(result.data.pendingDecisions);
         setAnnouncements(result.data.announcements);
       } else {
-        throw new Error('Error al cargar datos del dashboard');
+        setError('Error al cargar datos del dashboard');
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error desconocido');

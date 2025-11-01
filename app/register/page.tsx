@@ -159,7 +159,8 @@ const UserRegister: React.FC = () => {
       const recaptchaToken = await verify(RecaptchaActions.REGISTER);
       
       if (!recaptchaToken) {
-        throw new Error('Error en la verificación de seguridad. Por favor, recarga la página e intenta nuevamente.');
+        errorToast('Error en la verificación de seguridad. Por favor, recarga la página e intenta nuevamente.');
+        return;
       }
       
       // Calcular edad más precisa

@@ -81,7 +81,15 @@ export function useEmail() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Error al enviar el correo');
+        const errorMsg = result.error || 'Error al enviar el correo';
+        setStatus({
+          isLoading: false,
+          isSuccess: false,
+          isError: true,
+          error: errorMsg,
+          message: null,
+        });
+        return { success: false, error: errorMsg };
       }
 
       setStatus({

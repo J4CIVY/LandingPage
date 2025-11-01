@@ -90,10 +90,12 @@ export default function GamificationPanel() {
         if (data.success) {
           setGamificationData(data.data);
         } else {
-          throw new Error(data.error || 'Error al cargar datos');
+          setError(data.error || 'Error al cargar datos');
+          setGamificationData(getBasicData());
         }
       } else {
-        throw new Error('Error del servidor');
+        setError('Error del servidor');
+        setGamificationData(getBasicData());
       }
     } catch (err) {
       console.error('Error fetching gamification stats:', err);

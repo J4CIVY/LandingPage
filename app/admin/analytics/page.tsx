@@ -138,7 +138,8 @@ export default function AnalyticsPage() {
       });
 
       if (!response.ok) {
-        throw new Error('Error al generar reporte');
+        alert('Error al generar reporte');
+        return;
       }
 
       const result = await response.json();

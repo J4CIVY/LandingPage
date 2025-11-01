@@ -281,12 +281,14 @@ export class MembershipRenewalService {
     try {
       const user = await User.findById(notification.userId);
       if (!user) {
-        throw new Error(`Usuario ${notification.userId} no encontrado`);
+        console.error(`Usuario ${notification.userId} no encontrado`);
+        return;
       }
 
       const membership = await Membership.findById(notification.membershipId);
       if (!membership) {
-        throw new Error(`Membresía ${notification.membershipId} no encontrada`);
+        console.error(`Membresía ${notification.membershipId} no encontrada`);
+        return;
       }
 
       // Determinar tipo de notificación

@@ -20173,7 +20173,7 @@
       },
       "invocations": [
         {
-          "startTimeUtc": "2025-11-01T20:23:56.8485911Z",
+          "startTimeUtc": "2025-11-01T20:46:02.8925893Z",
           "exitCode": 0,
           "executionSuccessful": true
         }
@@ -20182,7 +20182,7 @@
       "versionControlProvenance": [
         {
           "repositoryUri": "https://github.com/J4CIVY/LandingPage.git",
-          "revisionId": "b7b7850b0916528c8b31c7244f7750bc9c12b7ec",
+          "revisionId": "afb1d134da93072bfc67482925cf1f24800d7953",
           "branch": "main",
           "properties": {
             "repoUrl": "https://github.com/J4CIVY/LandingPage.git",
@@ -20262,13 +20262,13 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "components/dashboard/security/NotificationPreferencesSection.tsx",
+                  "uri": "hooks/useProfile.tsx",
                   "uriBaseId": "SRCROOT"
                 },
                 "region": {
-                  "startLine": 69,
+                  "startLine": 97,
                   "startColumn": 9,
-                  "charOffset": 1916,
+                  "charOffset": 3050,
                   "charLength": 5,
                   "snippet": {
                     "text": "throw"
@@ -20276,12 +20276,12 @@
                   "sourceLanguage": "JavaScript"
                 },
                 "contextRegion": {
-                  "startLine": 67,
+                  "startLine": 95,
                   "startColumn": 1,
-                  "charOffset": 1873,
-                  "charLength": 108,
+                  "charOffset": 2941,
+                  "charLength": 147,
                   "snippet": {
-                    "text": "      \r\n      if (!response.ok) {\r\n        throw new Error('Error al cargar preferencias')\r\n      }\r\n      \r"
+                    "text": "        const errorMsg = `Error updating profile: ${response.status}`;\r\n        setError(errorMsg);\r\n        throw new Error(errorMsg);\r\n      }\r\n\r"
                   },
                   "sourceLanguage": "TypeScript JSX"
                 }
@@ -20295,749 +20295,8 @@
             }
           ],
           "partialFingerprints": {
-            "equalIndicator/v2": "83ab1ff03c9d2f1c",
-            "equalIndicator/v1": "06d7f1ab8386f518fae983f3fafda0ee1ff94c3b147cc2037faa95ff26ee8222"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/actions/cache-actions.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 270,
-                  "startColumn": 23,
-                  "charOffset": 8903,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 268,
-                  "startColumn": 1,
-                  "charOffset": 8870,
-                  "charLength": 107,
-                  "snippet": {
-                    "text": "    });\r\n\r\n    if (!response.ok) throw new Error('Error al cancelar registro');\r\n\r\n    // Immediate update\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "8c236a1e4c99cf79",
-            "equalIndicator/v1": "09604563ce48dc8b49dd0cf73518b71f6e40ecbcd2bcb1dd54d66787ff09b861"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/register/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 275,
-                  "startColumn": 11,
-                  "charOffset": 11867,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 273,
-                  "startColumn": 1,
-                  "charOffset": 11745,
-                  "charLength": 253,
-                  "snippet": {
-                    "text": "          throw new Error(`Errores de validación: ${validationErrors}`);\r\n        } else if (result.message) {\r\n          throw new Error(result.message);\r\n        } else {\r\n          throw new Error(`Error ${response.status}: ${response.statusText}`);\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "32f7b197d0e51248",
-            "equalIndicator/v1": "0d2005a8352e845b0fb0da13be87ecb2a38080cc34ac8744802c4440c2ff6147"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/membership/LeaderRequirements.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 63,
-                  "startColumn": 9,
-                  "charOffset": 1367,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 61,
-                  "startColumn": 1,
-                  "charOffset": 1330,
-                  "charLength": 105,
-                  "snippet": {
-                    "text": "\r\n      if (!response.ok) {\r\n        throw new Error('Error al cargar requisitos de Leader');\r\n      }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "a46516271739cd05",
-            "equalIndicator/v1": "17c073d66f9eae47e049a007f214e6fd8b0f4a69c15b41a7b863f800104e2b5e"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/puntos/EstadisticasRapidas.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 89,
-                  "startColumn": 9,
-                  "charOffset": 2580,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 87,
-                  "startColumn": 1,
-                  "charOffset": 2545,
-                  "charLength": 120,
-                  "snippet": {
-                    "text": "        }\r\n      } else {\r\n        throw new Error('Error al cargar datos del servidor');\r\n      }\r\n    } catch (err) {\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "19f9f3686951ca1c",
-            "equalIndicator/v1": "19284c48f43c7b17f8ee5a07304e8bf7ee240c70104bf5b9431a22f91593fda1"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/dashboard/security/PrivacyControlSection.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 137,
-                  "startColumn": 9,
-                  "charOffset": 3960,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 135,
-                  "startColumn": 1,
-                  "charOffset": 3917,
-                  "charLength": 98,
-                  "snippet": {
-                    "text": "      \r\n      if (!response.ok) {\r\n        throw new Error('Error al descargar datos')\r\n      }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "abc9df90bd2535bc",
-            "equalIndicator/v1": "1a96fab15faceebda868f8bb0429156af9dc4f6373f90e64624b6244ae78037b"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/useEmail.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 238,
-                  "startColumn": 9,
-                  "charOffset": 6619,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 236,
-                  "startColumn": 1,
-                  "charOffset": 6582,
-                  "charLength": 121,
-                  "snippet": {
-                    "text": "\r\n      if (!response.ok) {\r\n        throw new Error(result.error || 'Error al obtener URL de autorización');\r\n      }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "6612dcd6bdac47a4",
-            "equalIndicator/v1": "1c0faa407e1498b519df21c0e778da26e17354ce74142c4a756682dd86d65f6a"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/usePdfUpload.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 57,
-                  "startColumn": 9,
-                  "charOffset": 1605,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 55,
-                  "startColumn": 1,
-                  "charOffset": 1484,
-                  "charLength": 163,
-                  "snippet": {
-                    "text": "        const errorMessage = result.error || 'Error al procesar el PDF';\r\n        setUploadError(errorMessage);\r\n        throw new Error(errorMessage);\r\n      }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "4a677c4735428051",
-            "equalIndicator/v1": "1ecf94fec4bbef653c3eb0925d93b92cfe5e9c9a6d04b2af13fb7919e7df4343"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/models/User.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 310,
-                  "startColumn": 7,
-                  "charOffset": 10393,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 308,
-                  "startColumn": 1,
-                  "charOffset": 10354,
-                  "charLength": 97,
-                  "snippet": {
-                    "text": "    \r\n    if (!this.password) {\r\n      throw new Error('stored password is empty');\r\n    }\r\n    \r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "1b36305de4d8f878",
-            "equalIndicator/v1": "1f92b626c76414d9c8c9cfc1c7b719b93f9592f5a8b929cf4f2f235e5f1edcfe"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/useMembership.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 102,
-                  "startColumn": 9,
-                  "charOffset": 2463,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 100,
-                  "startColumn": 1,
-                  "charOffset": 2426,
-                  "charLength": 119,
-                  "snippet": {
-                    "text": "\r\n      if (!response.ok) {\r\n        throw new Error(`Error fetching membership data: ${response.status}`);\r\n      }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "c944972ab9e211fe",
-            "equalIndicator/v1": "1fdd90046c19bd6852895813df158ab1a5fa454261c3e62b8712447712bbf212"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/analytics/new/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 102,
-                  "startColumn": 9,
-                  "charOffset": 3438,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 100,
-                  "startColumn": 1,
-                  "charOffset": 3401,
-                  "charLength": 93,
-                  "snippet": {
-                    "text": "\r\n      if (!response.ok) {\r\n        throw new Error('Error al generar reporte');\r\n      }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "f467fe1bbdb51f23",
-            "equalIndicator/v1": "23ba86682368f04dca7e38cbaf3b2d9ccb67b31e50a937d8c692e4cbdd677701"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/actions/cache-actions.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 247,
-                  "startColumn": 23,
-                  "charOffset": 8214,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 245,
-                  "startColumn": 1,
-                  "charOffset": 8181,
-                  "charLength": 145,
-                  "snippet": {
-                    "text": "    });\r\n\r\n    if (!response.ok) throw new Error('Error al registrarse en evento');\r\n\r\n    // Immediate update - el usuario debe ver su registro\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "1ba5c895092a8890",
-            "equalIndicator/v1": "2519bccd486590cbaf8759696209e0fa35acbcc9aaa2f6f0d17aaf6de3107252"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/api/notifications/admin/templates/route.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 283,
-                  "startColumn": 7,
-                  "charOffset": 10226,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 281,
-                  "startColumn": 1,
-                  "charOffset": 10175,
-                  "charLength": 124,
-                  "snippet": {
-                    "text": "\r\n    if (!createNotificationResponse.ok) {\r\n      throw new Error('Error al crear notificación desde plantilla');\r\n    }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "8f567c4f16c723e1",
-            "equalIndicator/v1": "263d23e108ba7ed98fcdfe2e9364fe7dc148c320fc38ad6f5711553e1ae8cf60"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/notifications/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 96,
-                  "startColumn": 9,
-                  "charOffset": 2725,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 94,
-                  "startColumn": 1,
-                  "charOffset": 2648,
-                  "charLength": 161,
-                  "snippet": {
-                    "text": "        await loadStats(); // Recargar estadísticas\r\n      } else {\r\n        throw new Error('Error al generar notificaciones');\r\n      }\r\n    } catch (error) {\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "10926864e2e7f9e3",
-            "equalIndicator/v1": "26dff0d6f2696b7797de473f82a632af69a0b635d35eb235370121d94468359e"
+            "equalIndicator/v2": "409193105905ae15",
+            "equalIndicator/v1": "04a0f1cfd11a850af28470161df12e570f994c38e56f0eedd9dbc54f33e82018"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -21064,9 +20323,9 @@
                   "uriBaseId": "SRCROOT"
                 },
                 "region": {
-                  "startLine": 96,
+                  "startLine": 122,
                   "startColumn": 9,
-                  "charOffset": 2478,
+                  "charOffset": 3328,
                   "charLength": 5,
                   "snippet": {
                     "text": "throw"
@@ -21074,12 +20333,12 @@
                   "sourceLanguage": "JavaScript"
                 },
                 "contextRegion": {
-                  "startLine": 94,
+                  "startLine": 120,
                   "startColumn": 1,
-                  "charOffset": 2408,
-                  "charLength": 157,
+                  "charOffset": 3258,
+                  "charLength": 163,
                   "snippet": {
-                    "text": "        setUserVotes(result.data.userVotes);\r\n      } else {\r\n        throw new Error('Error al cargar procesos de votación');\r\n      }\r\n    } catch (err) {\r"
+                    "text": "      } else {\r\n        const error = await response.json();\r\n        throw new Error(error.message || 'Error al registrar voto');\r\n      }\r\n    } catch (error) {\r"
                   },
                   "sourceLanguage": "TypeScript JSX"
                 }
@@ -21093,8 +20352,8 @@
             }
           ],
           "partialFingerprints": {
-            "equalIndicator/v2": "6c8ed3b9c80cbc17",
-            "equalIndicator/v1": "26e677bb6a0571359ca997d53fb5b518d2c7bafb3e72bdc4ce492bfc5f8435df"
+            "equalIndicator/v2": "feb4fa810d37cce3",
+            "equalIndicator/v1": "30ca2c1ad1af3942be0ae2d7ea70116ac7b6591c26a7eafe2a8d1018b904a6eb"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -21121,9 +20380,9 @@
                   "uriBaseId": "SRCROOT"
                 },
                 "region": {
-                  "startLine": 159,
+                  "startLine": 163,
                   "startColumn": 9,
-                  "charOffset": 4830,
+                  "charOffset": 4998,
                   "charLength": 5,
                   "snippet": {
                     "text": "throw"
@@ -21131,12 +20390,12 @@
                   "sourceLanguage": "JavaScript"
                 },
                 "contextRegion": {
-                  "startLine": 157,
+                  "startLine": 161,
                   "startColumn": 1,
-                  "charOffset": 4793,
-                  "charLength": 113,
+                  "charOffset": 4887,
+                  "charLength": 149,
                   "snippet": {
-                    "text": "\r\n      if (!response.ok) {\r\n        throw new Error(`Error uploading document: ${response.status}`);\r\n      }\r\n\r"
+                    "text": "        const errorMsg = `Error uploading document: ${response.status}`;\r\n        setError(errorMsg);\r\n        throw new Error(errorMsg);\r\n      }\r\n\r"
                   },
                   "sourceLanguage": "TypeScript JSX"
                 }
@@ -21150,920 +20409,8 @@
             }
           ],
           "partialFingerprints": {
-            "equalIndicator/v2": "798053222718aa61",
-            "equalIndicator/v1": "299c9f2d32c53ed0465247e1a7cd3faf2eb423f5c13e1ae25814c55151f7953b"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/actions/cache-actions.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 218,
-                  "startColumn": 23,
-                  "charOffset": 7203,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 216,
-                  "startColumn": 1,
-                  "charOffset": 7170,
-                  "charLength": 124,
-                  "snippet": {
-                    "text": "    });\r\n\r\n    if (!response.ok) throw new Error('Error al actualizar producto');\r\n\r\n    // Soft revalidation para catálogo\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "e76b0e6542ee6bf9",
-            "equalIndicator/v1": "2d117a485e8128bfef654747b0181bd233fb8192bfc9062f97ec27c323a8d8c8"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/emergencies/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 159,
-                  "startColumn": 9,
-                  "charOffset": 4939,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 157,
-                  "startColumn": 1,
-                  "charOffset": 4902,
-                  "charLength": 96,
-                  "snippet": {
-                    "text": "\r\n      if (!response.ok) {\r\n        throw new Error('Error al cargar emergencias');\r\n      }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "641506c1d6e02a27",
-            "equalIndicator/v1": "2fbdfc86756495dc5a7f0059b9004d82ed18076197e1c4208ba60b6fda440fff"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/useEmail.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 182,
-                  "startColumn": 9,
-                  "charOffset": 4792,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 180,
-                  "startColumn": 1,
-                  "charOffset": 4755,
-                  "charLength": 120,
-                  "snippet": {
-                    "text": "\r\n      if (!response.ok) {\r\n        throw new Error(result.error || 'Error al enviar el correo de prueba');\r\n      }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "a089dbde80d3df41",
-            "equalIndicator/v1": "30f3c27481cbe0604d782b4a22c1811c2fb1e52a67f2119eeb33f4c5f3735edb"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/useUserStats.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 74,
-                  "startColumn": 9,
-                  "charOffset": 1825,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 72,
-                  "startColumn": 1,
-                  "charOffset": 1763,
-                  "charLength": 160,
-                  "snippet": {
-                    "text": "        setStats(result.data.stats);\r\n      } else {\r\n        throw new Error(result.message || 'Error al obtener estadísticas');\r\n      }\r\n    } catch (err) {\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "3303a96e2a01d5b3",
-            "equalIndicator/v1": "313a0c67a245a5d89162b79936a741a643897c8b086f253fc8304f4322206890"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/api/notifications/admin/generate/route.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 57,
-                  "startColumn": 7,
-                  "charOffset": 1896,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 55,
-                  "startColumn": 1,
-                  "charOffset": 1855,
-                  "charLength": 102,
-                  "snippet": {
-                    "text": "\r\n    if (!generateResponse.ok) {\r\n      throw new Error('Error al generar notificaciones');\r\n    }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "61b90a069c776c65",
-            "equalIndicator/v1": "36abfd25c2239aec3efe280f3aa1a315b77a57d5b3cc8774a523e67657250016"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/useImageUpload.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 51,
-                  "startColumn": 9,
-                  "charOffset": 1459,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 49,
-                  "startColumn": 1,
-                  "charOffset": 1422,
-                  "charLength": 109,
-                  "snippet": {
-                    "text": "\r\n      if (!response.ok) {\r\n        throw new Error(result.error || 'Error al subir la imagen');\r\n      }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "ad937de4d266b62d",
-            "equalIndicator/v1": "37446498c688bfb895fdc2e30790a33e32381f2e1f1ed78c39a9bb5ff21c1fbf"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/useProfile.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 95,
-                  "startColumn": 9,
-                  "charOffset": 2949,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 93,
-                  "startColumn": 1,
-                  "charOffset": 2912,
-                  "charLength": 111,
-                  "snippet": {
-                    "text": "\r\n      if (!response.ok) {\r\n        throw new Error(`Error updating profile: ${response.status}`);\r\n      }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "e6d8943016f3e6d4",
-            "equalIndicator/v1": "3d30b4ba9a22a94653ea8b3f8c643f58185e019dd57840baf43f7d5b27d506ef"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/dashboard/security/SessionManagementSection.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 109,
-                  "startColumn": 9,
-                  "charOffset": 3208,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 107,
-                  "startColumn": 1,
-                  "charOffset": 3128,
-                  "charLength": 154,
-                  "snippet": {
-                    "text": "      if (!response.ok) {\r\n        const error = await response.json()\r\n        throw new Error(error.error || 'Error al cerrar sesión')\r\n      }\r\n      \r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "54f24b6980334bbe",
-            "equalIndicator/v1": "3daffb8e9069d30cccaa7fe998eae34921f4ca1811259e7a3610c8ee1407bb26"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/membership/LeaderApplicationPlatform.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 246,
-                  "startColumn": 9,
-                  "charOffset": 6755,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 244,
-                  "startColumn": 1,
-                  "charOffset": 6695,
-                  "charLength": 145,
-                  "snippet": {
-                    "text": "      \r\n      if (leaderEndorsements.length < 3) {\r\n        throw new Error('Se requieren mínimo 3 avales de Leaders activos');\r\n      }\r\n      \r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "0b84e2dff99321a9",
-            "equalIndicator/v1": "405d89b75677d190c69ad7ee379c23a6445de0692e2cc33eedea627ebea79c44"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/emergencies/view/[id]/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 106,
-                  "startColumn": 9,
-                  "charOffset": 3172,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 104,
-                  "startColumn": 1,
-                  "charOffset": 3135,
-                  "charLength": 98,
-                  "snippet": {
-                    "text": "\r\n      if (!response.ok) {\r\n        throw new Error('Error al cargar la emergencia');\r\n      }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "c6124b54b61aea24",
-            "equalIndicator/v1": "413159a5270e5bf7318db99b9fb5d5928ce59091e599e2f25e2a273ac094467b"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/actions/cache-actions.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 136,
-                  "startColumn": 23,
-                  "charOffset": 4619,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 134,
-                  "startColumn": 1,
-                  "charOffset": 4586,
-                  "charLength": 142,
-                  "snippet": {
-                    "text": "    });\r\n\r\n    if (!response.ok) throw new Error('Error al marcar notificación');\r\n\r\n    // Refresh router para actualizar contador en header\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "81c8fa16419ef2f8",
-            "equalIndicator/v1": "429e6f1b4ffe3880bfa5804254851969319dfd2a80616d5bf38988847f559d4c"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/puntos/LogrosUsuario.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 59,
-                  "startColumn": 11,
-                  "charOffset": 1499,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 57,
-                  "startColumn": 1,
-                  "charOffset": 1450,
-                  "charLength": 131,
-                  "snippet": {
-                    "text": "        \r\n        if (!response.ok) {\r\n          throw new Error(`Error ${response.status}: ${response.statusText}`);\r\n        }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "52c96697ddc5e271",
-            "equalIndicator/v1": "457799c1973baab88cb635281fc1d48465f79b3dcec264303082638355ea16ae"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/membership-plans/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 173,
-                  "startColumn": 9,
-                  "charOffset": 4793,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 171,
-                  "startColumn": 1,
-                  "charOffset": 4756,
-                  "charLength": 94,
-                  "snippet": {
-                    "text": "\r\n      if (!response.ok) {\r\n        throw new Error('Error al archivar el plan');\r\n      }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "a8a7801b1d4c4984",
-            "equalIndicator/v1": "471bf03788401e51c68e5f8c479f3e5919887884a5203c8349b93ca6f30413d7"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/shared/BoldCheckoutButton.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 214,
-                  "startColumn": 9,
-                  "charOffset": 6645,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 212,
-                  "startColumn": 1,
-                  "charOffset": 6569,
-                  "charLength": 114,
-                  "snippet": {
-                    "text": "          hasIntegritySignature: !!integritySignature\r\n        });\r\n        throw new Error(errorMsg);\r\n      }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "58cd0626fbbf690b",
-            "equalIndicator/v1": "49112f6e523f2eeb019a6cc7b3923336c77c1828800bda220c4601f67136476a"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/useCSRFToken.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 137,
-                  "startColumn": 9,
-                  "charOffset": 3448,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 135,
-                  "startColumn": 1,
-                  "charOffset": 3411,
-                  "charLength": 115,
-                  "snippet": {
-                    "text": "\r\n      if (!response.ok) {\r\n        throw new Error(`Failed to fetch CSRF token: ${response.status}`);\r\n      }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "2026638dda0be0da",
-            "equalIndicator/v1": "4914cbbea4bdd9061a8892b9885be5fb0e36c61eec1fcc8d8a2acfac818c80fb"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/useCSRFToken.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 145,
-                  "startColumn": 9,
-                  "charOffset": 3687,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 143,
-                  "startColumn": 1,
-                  "charOffset": 3623,
-                  "charLength": 142,
-                  "snippet": {
-                    "text": "        setToken(data.data.csrfToken);\r\n      } else {\r\n        throw new Error('Invalid CSRF token response');\r\n      }\r\n    } catch (err) {\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "5779e93397a68878",
-            "equalIndicator/v1": "4ccaa6fffdaf6382644cbbed104c7a4ac57b637c2fc2b11e73ca01e609595496"
+            "equalIndicator/v2": "4a2ad41f4d747d21",
+            "equalIndicator/v1": "381fad005f2743fd4d2eda941d21cbef5e496754a329445706187176341ed1f7"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -22314,63 +20661,6 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "components/membership/LeaderRequirements.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 70,
-                  "startColumn": 9,
-                  "charOffset": 1565,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 68,
-                  "startColumn": 1,
-                  "charOffset": 1510,
-                  "charLength": 141,
-                  "snippet": {
-                    "text": "        setData(result.data);\r\n      } else {\r\n        throw new Error(result.message || 'Error desconocido');\r\n      }\r\n    } catch (err) {\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "36bc9bb8cc16994b",
-            "equalIndicator/v1": "547e37ed775d0934fa671a3fd1e51fad57071411ef8041d56497bb8e15d852fa"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
                   "uri": "app/dashboard/comunidad/page.tsx",
                   "uriBaseId": "SRCROOT"
                 },
@@ -22432,9 +20722,9 @@
                   "uriBaseId": "SRCROOT"
                 },
                 "region": {
-                  "startLine": 122,
+                  "startLine": 146,
                   "startColumn": 9,
-                  "charOffset": 3335,
+                  "charOffset": 4154,
                   "charLength": 5,
                   "snippet": {
                     "text": "throw"
@@ -22442,12 +20732,12 @@
                   "sourceLanguage": "JavaScript"
                 },
                 "contextRegion": {
-                  "startLine": 120,
+                  "startLine": 144,
                   "startColumn": 1,
-                  "charOffset": 3265,
-                  "charLength": 163,
+                  "charOffset": 4084,
+                  "charLength": 166,
                   "snippet": {
-                    "text": "      } else {\r\n        const error = await response.json();\r\n        throw new Error(error.message || 'Error al registrar voto');\r\n      }\r\n    } catch (error) {\r"
+                    "text": "      } else {\r\n        const error = await response.json();\r\n        throw new Error(error.message || 'Error al controlar proceso');\r\n      }\r\n    } catch (error) {\r"
                   },
                   "sourceLanguage": "TypeScript JSX"
                 }
@@ -22461,65 +20751,8 @@
             }
           ],
           "partialFingerprints": {
-            "equalIndicator/v2": "563f5f6d14fade6b",
-            "equalIndicator/v1": "562db646e8bd0f52fa3e33687960c663d4523f82c01dce7a815b06b7dc55676f"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/membership/LeaderApplicationPlatform.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 268,
-                  "startColumn": 9,
-                  "charOffset": 7547,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 266,
-                  "startColumn": 1,
-                  "charOffset": 7476,
-                  "charLength": 169,
-                  "snippet": {
-                    "text": "      } else {\r\n        const result = await response.json();\r\n        throw new Error(result.message || 'Error al enviar postulación');\r\n      }\r\n    } catch (error) {\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "406598a6b7690ab0",
-            "equalIndicator/v1": "588adad272ea3a1b84f08d73a6e6540e59a1f0ed66294afd0ae751dbe350a73a"
+            "equalIndicator/v2": "2cac6ae82648084b",
+            "equalIndicator/v1": "56975473603a6d686ae7e386a55bf9bcb0f66340f445a2c5c2ad3e809d6e98ba"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -22577,6 +20810,63 @@
           "partialFingerprints": {
             "equalIndicator/v2": "4ed1db3ed04b758e",
             "equalIndicator/v1": "5a5de98622c651bb03a014fa5d5a263fd40b46e07dae3f139dadc52f9d2e47d1"
+          },
+          "properties": {
+            "ideaSeverity": "WARNING",
+            "qodanaSeverity": "High",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "ExceptionCaughtLocallyJS",
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "'throw' of exception caught locally",
+            "markdown": "'throw' of exception caught locally"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/admin/notifications/page.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 396,
+                  "startColumn": 9,
+                  "charOffset": 14908,
+                  "charLength": 5,
+                  "snippet": {
+                    "text": "throw"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 394,
+                  "startColumn": 1,
+                  "charOffset": 14862,
+                  "charLength": 129,
+                  "snippet": {
+                    "text": "        onSuccess();\r\n      } else {\r\n        throw new Error('Error al crear la notificación');\r\n      }\r\n    } catch (error) {\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "c7961f26a532396c",
+            "equalIndicator/v1": "5dc70323465c8c8dbf1424ec614dacb611493635a24afc918aeae864037bcf66"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -22827,63 +21117,6 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "components/puntos/LogrosUsuario.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 68,
-                  "startColumn": 11,
-                  "charOffset": 1776,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 66,
-                  "startColumn": 1,
-                  "charOffset": 1701,
-                  "charLength": 167,
-                  "snippet": {
-                    "text": "          setEstadisticas(data.estadisticas);\r\n        } else {\r\n          throw new Error(data.error || 'Error cargando logros');\r\n        }\r\n      } catch (error) {\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "d1a1225c4a1cd70b",
-            "equalIndicator/v1": "69291b6cc06f83842fcfb3784e31e80bd753f702fd3c90ec6555b58a589b3ac3"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
                   "uri": "hooks/usePublicEvents.ts",
                   "uriBaseId": "SRCROOT"
                 },
@@ -22998,177 +21231,6 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "hooks/usePdfUpload.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 51,
-                  "startColumn": 9,
-                  "charOffset": 1411,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 49,
-                  "startColumn": 1,
-                  "charOffset": 1293,
-                  "charLength": 160,
-                  "snippet": {
-                    "text": "        const errorMessage = result.error || 'Error al subir el PDF';\r\n        setUploadError(errorMessage);\r\n        throw new Error(errorMessage);\r\n      }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "037ad8f5ac9e1f56",
-            "equalIndicator/v1": "6fbba7bac0466e579de8f924f0b7247b72fac9dd111c2871a2b476b1dceaecf1"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/useImageUpload.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 55,
-                  "startColumn": 9,
-                  "charOffset": 1570,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 53,
-                  "startColumn": 1,
-                  "charOffset": 1530,
-                  "charLength": 115,
-                  "snippet": {
-                    "text": "\r\n      if (!result.success) {\r\n        throw new Error(result.error || 'Error al procesar la imagen');\r\n      }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "7cbb5d0cc8b289ad",
-            "equalIndicator/v1": "75031a713b1d4d925d0fd9dc5f773bcc34850e65dc3b3ce8a7c750249b4b9d3f"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/useUserStats.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 66,
-                  "startColumn": 9,
-                  "charOffset": 1603,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 64,
-                  "startColumn": 1,
-                  "charOffset": 1566,
-                  "charLength": 114,
-                  "snippet": {
-                    "text": "\r\n      if (!response.ok) {\r\n        throw new Error(`Error fetching user stats: ${response.status}`);\r\n      }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "8f6bb71c2f9b5946",
-            "equalIndicator/v1": "7824d4ff56c98bd51bd55a68197f376cec032235819ea91353ae91434df627ea"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
                   "uri": "app/api/auth/change-password/route.ts",
                   "uriBaseId": "SRCROOT"
                 },
@@ -23204,63 +21266,6 @@
           "partialFingerprints": {
             "equalIndicator/v2": "3349bcedd2a848fd",
             "equalIndicator/v1": "7831998cfce304750c1016a9e7add267644fe682771d0a50d1668b03e2f6fe3b"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/useMembership.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 110,
-                  "startColumn": 9,
-                  "charOffset": 2693,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 108,
-                  "startColumn": 1,
-                  "charOffset": 2628,
-                  "charLength": 169,
-                  "snippet": {
-                    "text": "        setMembershipData(result.data);\r\n      } else {\r\n        throw new Error(result.message || 'Error al obtener datos de membresía');\r\n      }\r\n    } catch (err) {\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "3f7e52caf2030b10",
-            "equalIndicator/v1": "794fa01fedfff541710583825f8bce5afafaac8bbe803c9366b311d28eb8b30a"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -23625,63 +21630,6 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "app/admin/notifications/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 396,
-                  "startColumn": 9,
-                  "charOffset": 14916,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 394,
-                  "startColumn": 1,
-                  "charOffset": 14870,
-                  "charLength": 129,
-                  "snippet": {
-                    "text": "        onSuccess();\r\n      } else {\r\n        throw new Error('Error al crear la notificación');\r\n      }\r\n    } catch (error) {\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "8ce43d107a5918f8",
-            "equalIndicator/v1": "88188938db6d414842c826430a6937b34112daadfb931110ffd76ec25da34557"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
                   "uri": "components/membership/LeaderApplicationPlatform.tsx",
                   "uriBaseId": "SRCROOT"
                 },
@@ -23717,6 +21665,63 @@
           "partialFingerprints": {
             "equalIndicator/v2": "ac57168b870c18e3",
             "equalIndicator/v1": "90792908f3ffc7be7b3addb126a2ad96c4a5bf9ec4972131671016a60cde7568"
+          },
+          "properties": {
+            "ideaSeverity": "WARNING",
+            "qodanaSeverity": "High",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "ExceptionCaughtLocallyJS",
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "'throw' of exception caught locally",
+            "markdown": "'throw' of exception caught locally"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "hooks/useProfile.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 128,
+                  "startColumn": 9,
+                  "charOffset": 3853,
+                  "charLength": 5,
+                  "snippet": {
+                    "text": "throw"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 126,
+                  "startColumn": 1,
+                  "charOffset": 3816,
+                  "charLength": 111,
+                  "snippet": {
+                    "text": "\r\n      if (!response.ok) {\r\n        throw new Error(`Error uploading avatar: ${response.status}`);\r\n      }\r\n\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "c455748268f506a0",
+            "equalIndicator/v1": "90e31c09f02c4b777d3bbbdc370f56ec842b13979a01efedb829f09c397509ab"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -24366,127 +22371,13 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "hooks/useProfile.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 126,
-                  "startColumn": 9,
-                  "charOffset": 3788,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 124,
-                  "startColumn": 1,
-                  "charOffset": 3751,
-                  "charLength": 111,
-                  "snippet": {
-                    "text": "\r\n      if (!response.ok) {\r\n        throw new Error(`Error uploading avatar: ${response.status}`);\r\n      }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "a5270dcc4e9a7937",
-            "equalIndicator/v1": "af65bbad3b681b1a36692e674108716e356f71bd7b4149919e470de07b92e99b"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/membership/LeaderApplicationPlatform.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 250,
-                  "startColumn": 9,
-                  "charOffset": 6893,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 248,
-                  "startColumn": 1,
-                  "charOffset": 6833,
-                  "charLength": 139,
-                  "snippet": {
-                    "text": "      \r\n      if (masterEndorsements.length < 5) {\r\n        throw new Error('Se requieren mínimo 5 avales de Masters activos');\r\n      }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "2bd463cd4d9b0783",
-            "equalIndicator/v1": "b3632c0bf7c24e9ca704c9ca78bba742079d7eaf5937ba8a1172bfa94233bd6c"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
                   "uri": "app/actions/cache-actions.ts",
                   "uriBaseId": "SRCROOT"
                 },
                 "region": {
-                  "startLine": 158,
+                  "startLine": 160,
                   "startColumn": 23,
-                  "charOffset": 5245,
+                  "charOffset": 5278,
                   "charLength": 5,
                   "snippet": {
                     "text": "throw"
@@ -24494,9 +22385,9 @@
                   "sourceLanguage": "JavaScript"
                 },
                 "contextRegion": {
-                  "startLine": 156,
+                  "startLine": 158,
                   "startColumn": 1,
-                  "charOffset": 5212,
+                  "charOffset": 5245,
                   "charLength": 118,
                   "snippet": {
                     "text": "    });\r\n\r\n    if (!response.ok) throw new Error('Error al marcar notificaciones');\r\n\r\n    // Refresh router completo\r"
@@ -24513,8 +22404,8 @@
             }
           ],
           "partialFingerprints": {
-            "equalIndicator/v2": "b470989943d1d74a",
-            "equalIndicator/v1": "b4706c42ade3ada3291364b4ffb4d4ccd234652a596bf0dfd1d376a702662949"
+            "equalIndicator/v2": "e1c811f7efc07768",
+            "equalIndicator/v1": "ae3776c540cd25439947cc9191d1c2fb0a05d88f87a3e602a53d1a1aa67e03b5"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -24651,63 +22542,6 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "hooks/useEmail.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 262,
-                  "startColumn": 9,
-                  "charOffset": 7454,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 260,
-                  "startColumn": 1,
-                  "charOffset": 7417,
-                  "charLength": 124,
-                  "snippet": {
-                    "text": "\r\n      if (!response.ok) {\r\n        throw new Error(result.error || 'Error al intercambiar código por tokens');\r\n      }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "ffcaaa71e65cc8a8",
-            "equalIndicator/v1": "b9b61eac9f6e0f6db0b3a4642b0f0482c44dd659547b4f34361314240adcf141"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
                   "uri": "components/shared/ContactTabs.tsx",
                   "uriBaseId": "SRCROOT"
                 },
@@ -24822,6 +22656,63 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
+                  "uri": "hooks/useEmail.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 271,
+                  "startColumn": 9,
+                  "charOffset": 7752,
+                  "charLength": 5,
+                  "snippet": {
+                    "text": "throw"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 269,
+                  "startColumn": 1,
+                  "charOffset": 7715,
+                  "charLength": 124,
+                  "snippet": {
+                    "text": "\r\n      if (!response.ok) {\r\n        throw new Error(result.error || 'Error al intercambiar código por tokens');\r\n      }\r\n\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "7b6d204f8047cfc3",
+            "equalIndicator/v1": "bf6bbc7c49beebcb559f0ab1f224eaeabbfee9518ce0df97f27b7c84d77bf920"
+          },
+          "properties": {
+            "ideaSeverity": "WARNING",
+            "qodanaSeverity": "High",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "ExceptionCaughtLocallyJS",
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "'throw' of exception caught locally",
+            "markdown": "'throw' of exception caught locally"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
                   "uri": "app/admin/analytics/page.tsx",
                   "uriBaseId": "SRCROOT"
                 },
@@ -24879,6 +22770,63 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
+                  "uri": "hooks/useProfile.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 192,
+                  "startColumn": 9,
+                  "charOffset": 5787,
+                  "charLength": 5,
+                  "snippet": {
+                    "text": "throw"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 190,
+                  "startColumn": 1,
+                  "charOffset": 5750,
+                  "charLength": 114,
+                  "snippet": {
+                    "text": "\r\n      if (!response.ok) {\r\n        throw new Error(`Error fetching activities: ${response.status}`);\r\n      }\r\n\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "052e31228cda0726",
+            "equalIndicator/v1": "c55ddb22b1398a1b344ef4eb86733b7dd831ea532d2fe88226ab98b191caf978"
+          },
+          "properties": {
+            "ideaSeverity": "WARNING",
+            "qodanaSeverity": "High",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "ExceptionCaughtLocallyJS",
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "'throw' of exception caught locally",
+            "markdown": "'throw' of exception caught locally"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
                   "uri": "app/dashboard/comunidad/page.tsx",
                   "uriBaseId": "SRCROOT"
                 },
@@ -24914,63 +22862,6 @@
           "partialFingerprints": {
             "equalIndicator/v2": "b6240cb958f5cba7",
             "equalIndicator/v1": "c6314725365f5ea536aadf6e740cc18b8cfa1253f1157c82487851adc3a88b44"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/register/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 277,
-                  "startColumn": 11,
-                  "charOffset": 11929,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 275,
-                  "startColumn": 1,
-                  "charOffset": 11857,
-                  "charLength": 161,
-                  "snippet": {
-                    "text": "          throw new Error(result.message);\r\n        } else {\r\n          throw new Error(`Error ${response.status}: ${response.statusText}`);\r\n        }\r\n      }\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "4a1581b7137615f3",
-            "equalIndicator/v1": "c809a82b7d60add2db658ce1ac57e16c3ddeee72fa9e66fc0fa9b27ef69fc233"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -25107,63 +22998,6 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "components/dashboard/security/PrivacyControlSection.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 212,
-                  "startColumn": 9,
-                  "charOffset": 6023,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 210,
-                  "startColumn": 1,
-                  "charOffset": 5986,
-                  "charLength": 112,
-                  "snippet": {
-                    "text": "\r\n      if (!response.ok) {\r\n        throw new Error(data.error || 'Error al eliminar cuenta')\r\n      }\r\n      \r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "5f95763b525b56cf",
-            "equalIndicator/v1": "cbf4d3a1a26568fb24f1197e9bbbf576e6e642b70d09df594f3f455b7fde00eb"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
                   "uri": "lib/pdf-service.ts",
                   "uriBaseId": "SRCROOT"
                 },
@@ -25278,13 +23112,13 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "lib/models/User.ts",
+                  "uri": "components/dashboard/security/PrivacyControlSection.tsx",
                   "uriBaseId": "SRCROOT"
                 },
                 "region": {
-                  "startLine": 306,
-                  "startColumn": 7,
-                  "charOffset": 10296,
+                  "startLine": 218,
+                  "startColumn": 9,
+                  "charOffset": 6174,
                   "charLength": 5,
                   "snippet": {
                     "text": "throw"
@@ -25292,14 +23126,14 @@
                   "sourceLanguage": "JavaScript"
                 },
                 "contextRegion": {
-                  "startLine": 304,
+                  "startLine": 216,
                   "startColumn": 1,
-                  "charOffset": 10250,
-                  "charLength": 109,
+                  "charOffset": 6137,
+                  "charLength": 112,
                   "snippet": {
-                    "text": "  try {\r\n    if (!candidatePassword) {\r\n      throw new Error('candidatePassword is required');\r\n    }\r\n    \r"
+                    "text": "\r\n      if (!response.ok) {\r\n        throw new Error(data.error || 'Error al eliminar cuenta')\r\n      }\r\n      \r"
                   },
-                  "sourceLanguage": "TypeScript"
+                  "sourceLanguage": "TypeScript JSX"
                 }
               },
               "logicalLocations": [
@@ -25311,8 +23145,8 @@
             }
           ],
           "partialFingerprints": {
-            "equalIndicator/v2": "522dabde8cd5f438",
-            "equalIndicator/v1": "d4fecd18cfe9df150af48a9299e8e267e78afb809d217533187192c4d7eafba4"
+            "equalIndicator/v2": "4c4549258b72ab68",
+            "equalIndicator/v1": "d5caef604ce28b1aaa61bfb566993bc4b07f3481b97e0e23e053203379991085"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -25370,6 +23204,63 @@
           "partialFingerprints": {
             "equalIndicator/v2": "412bb759ac5f8573",
             "equalIndicator/v1": "d8e8de3bdfd7ea853e6a709817fa082f1514682f40e6fc49c536b503ef640f5e"
+          },
+          "properties": {
+            "ideaSeverity": "WARNING",
+            "qodanaSeverity": "High",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "ExceptionCaughtLocallyJS",
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "'throw' of exception caught locally",
+            "markdown": "'throw' of exception caught locally"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "components/membership/LeaderApplicationPlatform.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 272,
+                  "startColumn": 9,
+                  "charOffset": 7623,
+                  "charLength": 5,
+                  "snippet": {
+                    "text": "throw"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 270,
+                  "startColumn": 1,
+                  "charOffset": 7552,
+                  "charLength": 169,
+                  "snippet": {
+                    "text": "      } else {\r\n        const result = await response.json();\r\n        throw new Error(result.message || 'Error al enviar postulación');\r\n      }\r\n    } catch (error) {\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "eeabec2178cc2afe",
+            "equalIndicator/v1": "d8e970e5baca0ff926486d90b85f9bc6e8ccbba5844ec1b6c2cbc7af4e4a021f"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -25484,63 +23375,6 @@
           "partialFingerprints": {
             "equalIndicator/v2": "890958f1a13a9fc4",
             "equalIndicator/v1": "db2a007f44fad3987b682bf9a376f17a58de2e88630d0f15609b9ae0a1a99db8"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/useProfile.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 188,
-                  "startColumn": 9,
-                  "charOffset": 5657,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 186,
-                  "startColumn": 1,
-                  "charOffset": 5620,
-                  "charLength": 114,
-                  "snippet": {
-                    "text": "\r\n      if (!response.ok) {\r\n        throw new Error(`Error fetching activities: ${response.status}`);\r\n      }\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "e4d4cfd1e8251b5e",
-            "equalIndicator/v1": "dc34cdb59649c00bedd934f28c6eba449e75ff559335c350440dc46873872ca8"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -25791,63 +23625,6 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "components/leadership/VotingSystem.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 146,
-                  "startColumn": 9,
-                  "charOffset": 4161,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 144,
-                  "startColumn": 1,
-                  "charOffset": 4091,
-                  "charLength": 166,
-                  "snippet": {
-                    "text": "      } else {\r\n        const error = await response.json();\r\n        throw new Error(error.message || 'Error al controlar proceso');\r\n      }\r\n    } catch (error) {\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "d00eda6307787636",
-            "equalIndicator/v1": "ea772a5267a44d43db5d15db90bac9c439ec3ef19864487b39a8fdd70e310fd3"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
                   "uri": "components/comunidad/PublicacionForm.tsx",
                   "uriBaseId": "SRCROOT"
                 },
@@ -25997,63 +23774,6 @@
           "partialFingerprints": {
             "equalIndicator/v2": "682dd0518ba348b5",
             "equalIndicator/v1": "ef0bc32856880c3217e3667452c15d1ebffeec4e51b9c94a3d2fcdfc3e53c12e"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/register/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 273,
-                  "startColumn": 11,
-                  "charOffset": 11755,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 271,
-                  "startColumn": 1,
-                  "charOffset": 11649,
-                  "charLength": 251,
-                  "snippet": {
-                    "text": "              ? result.errors \r\n              : 'Errores de validación en los datos enviados';\r\n          throw new Error(`Errores de validación: ${validationErrors}`);\r\n        } else if (result.message) {\r\n          throw new Error(result.message);\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "ba8f95a4347c458d",
-            "equalIndicator/v1": "ef9caccdde3475cb5e8210bc637afae767d8690269282fc9bcdc732275ccc240"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -26396,63 +24116,6 @@
           "partialFingerprints": {
             "equalIndicator/v2": "a0383b16b5373863",
             "equalIndicator/v1": "f863b210b7bb37952d7ac087ceeb740bd45169af32271683576696a648db334d"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "ExceptionCaughtLocallyJS",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "'throw' of exception caught locally",
-            "markdown": "'throw' of exception caught locally"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/puntos/EstadisticasRapidas.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 86,
-                  "startColumn": 11,
-                  "charOffset": 2489,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "throw"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 84,
-                  "startColumn": 1,
-                  "charOffset": 2422,
-                  "charLength": 149,
-                  "snippet": {
-                    "text": "          setEstadisticas(statsData);\r\n        } else {\r\n          throw new Error('Error en la respuesta del servidor');\r\n        }\r\n      } else {\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "87bc35756c6482e7",
-            "equalIndicator/v1": "f955641c5d516b792c3b6e4c54fc2bd06efec18ee3c949cfdb33c6179b131570"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -29148,63 +26811,6 @@
           "kind": "fail",
           "level": "note",
           "message": {
-            "text": "Promise returned from fetchProfile is ignored",
-            "markdown": "Promise returned from fetchProfile is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/useProfile.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 239,
-                  "startColumn": 5,
-                  "charOffset": 7573,
-                  "charLength": 12,
-                  "snippet": {
-                    "text": "fetchProfile"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 237,
-                  "startColumn": 1,
-                  "charOffset": 7460,
-                  "charLength": 167,
-                  "snippet": {
-                    "text": "  // Carga perfil al montar y cuando cambia el usuario (mantener si hay contexto útil)\r\n  useEffect(() => {\r\n    fetchProfile();\r\n  }, [isAuthenticated, user?.id]);\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "20dffda78c79df00",
-            "equalIndicator/v1": "01a6854bcbf4ea06842da8ef21b053fc3214e9ba1a5ae8a47acec6ac0f92010d"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
             "text": "Promise returned from loadEvent is ignored",
             "markdown": "Promise returned from loadEvent is ignored"
           },
@@ -29418,6 +27024,63 @@
           "partialFingerprints": {
             "equalIndicator/v2": "3aaf4b802c65e627",
             "equalIndicator/v1": "07c95a1b8588814fa585149394bb91dfbf5501e4b3af22faf6378c7c96bdc896"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "JSIgnoredPromiseFromCall",
+          "kind": "fail",
+          "level": "note",
+          "message": {
+            "text": "Promise returned from loadStats is ignored",
+            "markdown": "Promise returned from loadStats is ignored"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/admin/notifications/page.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 108,
+                  "startColumn": 7,
+                  "charOffset": 3040,
+                  "charLength": 9,
+                  "snippet": {
+                    "text": "loadStats"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 106,
+                  "startColumn": 1,
+                  "charOffset": 2978,
+                  "charLength": 97,
+                  "snippet": {
+                    "text": "  useEffect(() => {\r\n    if (user?.role === 'admin') {\r\n      loadStats();\r\n    }\r\n  }, [user]);\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "ac65e24c3caef604",
+            "equalIndicator/v1": "080f1f72f41e29a93d499e3fe7f2b86df9ed83e287987611339d6c59a4299513"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -29703,6 +27366,63 @@
           "partialFingerprints": {
             "equalIndicator/v2": "4d5f49f4fdb5eaef",
             "equalIndicator/v1": "15486cb1ffbcb9dacfd198d69874a3b8cf78164194a4b6e3333424f2c7572ecc"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "JSIgnoredPromiseFromCall",
+          "kind": "fail",
+          "level": "note",
+          "message": {
+            "text": "Promise returned from cargarLogros is ignored",
+            "markdown": "Promise returned from cargarLogros is ignored"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "components/puntos/LogrosUsuario.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 91,
+                  "startColumn": 5,
+                  "charOffset": 2410,
+                  "charLength": 12,
+                  "snippet": {
+                    "text": "cargarLogros"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 89,
+                  "startColumn": 1,
+                  "charOffset": 2396,
+                  "charLength": 52,
+                  "snippet": {
+                    "text": "    };\r\n\r\n    cargarLogros();\r\n  }, [usuarioId]);\r\n\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "48590f4766053db5",
+            "equalIndicator/v1": "19cbfdc50935a42c124acb25bcc8aff0e8b66f2b830333ef3dbd59aa3d9487b5"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -30288,63 +28008,6 @@
           "kind": "fail",
           "level": "note",
           "message": {
-            "text": "Promise returned from loadStats is ignored",
-            "markdown": "Promise returned from loadStats is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/notifications/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 108,
-                  "startColumn": 7,
-                  "charOffset": 3048,
-                  "charLength": 9,
-                  "snippet": {
-                    "text": "loadStats"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 106,
-                  "startColumn": 1,
-                  "charOffset": 2986,
-                  "charLength": 97,
-                  "snippet": {
-                    "text": "  useEffect(() => {\r\n    if (user?.role === 'admin') {\r\n      loadStats();\r\n    }\r\n  }, [user]);\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "41ee4872545af220",
-            "equalIndicator/v1": "29e040d607cea0cb1aed08178afac172bffbf63058a71dfeabcdf6eb1eccbc5f"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
             "text": "Promise returned from handleVerify is ignored",
             "markdown": "Promise returned from handleVerify is ignored"
           },
@@ -30444,6 +28107,63 @@
           "partialFingerprints": {
             "equalIndicator/v2": "16acea6531132beb",
             "equalIndicator/v1": "2c393359649397d73e0318f6edb091cdb88708ae9e43b83b847ff8482b50c7a9"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "JSIgnoredPromiseFromCall",
+          "kind": "fail",
+          "level": "note",
+          "message": {
+            "text": "Promise returned from fetchToken is ignored",
+            "markdown": "Promise returned from fetchToken is ignored"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "hooks/useCSRFToken.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 161,
+                  "startColumn": 5,
+                  "charOffset": 4223,
+                  "charLength": 10,
+                  "snippet": {
+                    "text": "fetchToken"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 159,
+                  "startColumn": 1,
+                  "charOffset": 4196,
+                  "charLength": 64,
+                  "snippet": {
+                    "text": "\r\n  useEffect(() => {\r\n    fetchToken();\r\n  }, [fetchToken]);\r\n\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "e5ab636aa0098346",
+            "equalIndicator/v1": "2ccaf383c78c2e041056977dca126d270420caf451c747bbed31b39df5ae1fbf"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -30915,120 +28635,6 @@
           "kind": "fail",
           "level": "note",
           "message": {
-            "text": "Promise returned from fetchStats is ignored",
-            "markdown": "Promise returned from fetchStats is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/useUserStats.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 89,
-                  "startColumn": 5,
-                  "charOffset": 2236,
-                  "charLength": 10,
-                  "snippet": {
-                    "text": "fetchStats"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 87,
-                  "startColumn": 1,
-                  "charOffset": 2198,
-                  "charLength": 60,
-                  "snippet": {
-                    "text": "\r\n  const refreshStats = () => {\r\n    fetchStats();\r\n  };\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "10ece4bfb7abe55e",
-            "equalIndicator/v1": "3e79527180c789c35486da593b59aadd074948bd9a33bbbb22f74b6d1275f789"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from fetchMembershipData is ignored",
-            "markdown": "Promise returned from fetchMembershipData is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/useMembership.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 125,
-                  "startColumn": 5,
-                  "charOffset": 3139,
-                  "charLength": 19,
-                  "snippet": {
-                    "text": "fetchMembershipData"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 123,
-                  "startColumn": 1,
-                  "charOffset": 3092,
-                  "charLength": 78,
-                  "snippet": {
-                    "text": "\r\n  const refreshMembershipData = () => {\r\n    fetchMembershipData();\r\n  };\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "19cf7c9615dfbd40",
-            "equalIndicator/v1": "3f75274a13d7e77b52cbc9b8c057cc28b0f01d06a721ea677e6c5579540934f0"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
             "text": "Promise returned from eliminarPublicacion is ignored",
             "markdown": "Promise returned from eliminarPublicacion is ignored"
           },
@@ -31143,63 +28749,6 @@
           "kind": "fail",
           "level": "note",
           "message": {
-            "text": "Promise returned from fetchToken is ignored",
-            "markdown": "Promise returned from fetchToken is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/useCSRFToken.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 211,
-                  "startColumn": 5,
-                  "charOffset": 5434,
-                  "charLength": 10,
-                  "snippet": {
-                    "text": "fetchToken"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 209,
-                  "startColumn": 1,
-                  "charOffset": 5420,
-                  "charLength": 69,
-                  "snippet": {
-                    "text": "    };\r\n\r\n    fetchToken();\r\n\r\n    return () => clearTimeout(timer);\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "b47af989059b4ead",
-            "equalIndicator/v1": "43b312f589becf9638598277e26166b800c8a3cf83e87d5f52fd40c2a085d628"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
             "text": "Promise returned from fetchDashboardData is ignored",
             "markdown": "Promise returned from fetchDashboardData is ignored"
           },
@@ -31242,6 +28791,63 @@
           "partialFingerprints": {
             "equalIndicator/v2": "f6bab17133fd27b6",
             "equalIndicator/v1": "442d00a0e2fae6e5f288b1a490ac4f0cc86cf7ed9fc16fbd4f6e4e6418676b8f"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "JSIgnoredPromiseFromCall",
+          "kind": "fail",
+          "level": "note",
+          "message": {
+            "text": "Promise returned from fetchProfile is ignored",
+            "markdown": "Promise returned from fetchProfile is ignored"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "hooks/useProfile.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 243,
+                  "startColumn": 5,
+                  "charOffset": 7703,
+                  "charLength": 12,
+                  "snippet": {
+                    "text": "fetchProfile"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 241,
+                  "startColumn": 1,
+                  "charOffset": 7590,
+                  "charLength": 167,
+                  "snippet": {
+                    "text": "  // Carga perfil al montar y cuando cambia el usuario (mantener si hay contexto útil)\r\n  useEffect(() => {\r\n    fetchProfile();\r\n  }, [isAuthenticated, user?.id]);\r\n\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "6c27746870498b12",
+            "equalIndicator/v1": "44b1e2f1c4c9b5e9e6eefbf626d000704d172eaac5a9479781af8e1a50f54be1"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -31470,6 +29076,63 @@
           "partialFingerprints": {
             "equalIndicator/v2": "82327c124941e563",
             "equalIndicator/v1": "4a4cf4a1ee1957cb885e50ab30a85e0d3545eeb71d572bfc86e1ece90e56b2fb"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "JSIgnoredPromiseFromCall",
+          "kind": "fail",
+          "level": "note",
+          "message": {
+            "text": "Promise returned from fetchEmergency is ignored",
+            "markdown": "Promise returned from fetchEmergency is ignored"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/admin/emergencies/view/[id]/page.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 122,
+                  "startColumn": 7,
+                  "charOffset": 3588,
+                  "charLength": 14,
+                  "snippet": {
+                    "text": "fetchEmergency"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 120,
+                  "startColumn": 1,
+                  "charOffset": 3512,
+                  "charLength": 127,
+                  "snippet": {
+                    "text": "  useEffect(() => {\r\n    if (!isLoading && user?.role === 'admin') {\r\n      fetchEmergency();\r\n    }\r\n  }, [user, isLoading]);\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "9ba2e61d8cdd6f65",
+            "equalIndicator/v1": "4bd247a9c8a5d3650a63d89a1e60302aaac32ed9ae87be647671b33aced0de03"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -32169,6 +29832,120 @@
           "kind": "fail",
           "level": "note",
           "message": {
+            "text": "Promise returned from fetchMembershipData is ignored",
+            "markdown": "Promise returned from fetchMembershipData is ignored"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "hooks/useMembership.ts",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 122,
+                  "startColumn": 5,
+                  "charOffset": 3039,
+                  "charLength": 19,
+                  "snippet": {
+                    "text": "fetchMembershipData"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 120,
+                  "startColumn": 1,
+                  "charOffset": 3012,
+                  "charLength": 84,
+                  "snippet": {
+                    "text": "\r\n  useEffect(() => {\r\n    fetchMembershipData();\r\n  }, [isAuthenticated, user]);\r\n\r"
+                  },
+                  "sourceLanguage": "TypeScript"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "886e60daa783bdf4",
+            "equalIndicator/v1": "625344e4283529fef2bc0dc2acbdc5aba274a326a0102b8b727b72da6a4d762a"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "JSIgnoredPromiseFromCall",
+          "kind": "fail",
+          "level": "note",
+          "message": {
+            "text": "Promise returned from fetchStats is ignored",
+            "markdown": "Promise returned from fetchStats is ignored"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "hooks/useUserStats.ts",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 86,
+                  "startColumn": 5,
+                  "charOffset": 2154,
+                  "charLength": 10,
+                  "snippet": {
+                    "text": "fetchStats"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 84,
+                  "startColumn": 1,
+                  "charOffset": 2127,
+                  "charLength": 75,
+                  "snippet": {
+                    "text": "\r\n  useEffect(() => {\r\n    fetchStats();\r\n  }, [isAuthenticated, user]);\r\n\r"
+                  },
+                  "sourceLanguage": "TypeScript"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "c87fa8b65cb8b6e4",
+            "equalIndicator/v1": "62f3e7f867819908a545687028ad304ef92ac4a23422b0ef91f66c5319436e49"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "JSIgnoredPromiseFromCall",
+          "kind": "fail",
+          "level": "note",
+          "message": {
             "text": "Promise returned from fetchUserDetails is ignored",
             "markdown": "Promise returned from fetchUserDetails is ignored"
           },
@@ -32439,63 +30216,6 @@
           "partialFingerprints": {
             "equalIndicator/v2": "bec931c2d1578185",
             "equalIndicator/v1": "698c31d4c93831eba70e772702353c082091737663d1488f47947b2256f0292a"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from cargarLogros is ignored",
-            "markdown": "Promise returned from cargarLogros is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/puntos/LogrosUsuario.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 88,
-                  "startColumn": 5,
-                  "charOffset": 2337,
-                  "charLength": 12,
-                  "snippet": {
-                    "text": "cargarLogros"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 86,
-                  "startColumn": 1,
-                  "charOffset": 2323,
-                  "charLength": 52,
-                  "snippet": {
-                    "text": "    };\r\n\r\n    cargarLogros();\r\n  }, [usuarioId]);\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "58928e2a28509f2b",
-            "equalIndicator/v1": "6a82d03bda31b594c83f265aaa4c6030f72a2c947cd6c495d85476505d0bb147"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -33423,6 +31143,63 @@
           "kind": "fail",
           "level": "note",
           "message": {
+            "text": "Promise returned from loadPreferences is ignored",
+            "markdown": "Promise returned from loadPreferences is ignored"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "components/dashboard/security/NotificationPreferencesSection.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 98,
+                  "startColumn": 5,
+                  "charOffset": 2765,
+                  "charLength": 15,
+                  "snippet": {
+                    "text": "loadPreferences"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 96,
+                  "startColumn": 1,
+                  "charOffset": 2690,
+                  "charLength": 105,
+                  "snippet": {
+                    "text": "  // Cargar preferencias al montar el componente\r\n  useEffect(() => {\r\n    loadPreferences()\r\n  }, [])\r\n\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "62d51b3ddf2da095",
+            "equalIndicator/v1": "82bcb0981c978c5c99568bc1e79a4259ba19350add5379648eeb4f4427dcfe30"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "JSIgnoredPromiseFromCall",
+          "kind": "fail",
+          "level": "note",
+          "message": {
             "text": "Promise returned from actualizarActividad is ignored",
             "markdown": "Promise returned from actualizarActividad is ignored"
           },
@@ -33651,63 +31428,6 @@
           "kind": "fail",
           "level": "note",
           "message": {
-            "text": "Promise returned from fetchMembershipData is ignored",
-            "markdown": "Promise returned from fetchMembershipData is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/useMembership.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 121,
-                  "startColumn": 5,
-                  "charOffset": 3036,
-                  "charLength": 19,
-                  "snippet": {
-                    "text": "fetchMembershipData"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 119,
-                  "startColumn": 1,
-                  "charOffset": 3009,
-                  "charLength": 84,
-                  "snippet": {
-                    "text": "\r\n  useEffect(() => {\r\n    fetchMembershipData();\r\n  }, [isAuthenticated, user]);\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "4b969601c95eef8a",
-            "equalIndicator/v1": "8db13160ea5d1387407d9a6ad1b71861be2256419c36b6eebd01c46fa1ab6444"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
             "text": "Promise returned from cargarPublicaciones is ignored",
             "markdown": "Promise returned from cargarPublicaciones is ignored"
           },
@@ -33822,63 +31542,6 @@
           "kind": "fail",
           "level": "note",
           "message": {
-            "text": "Promise returned from fetchEmergencies is ignored",
-            "markdown": "Promise returned from fetchEmergencies is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/emergencies/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 191,
-                  "startColumn": 7,
-                  "charOffset": 5928,
-                  "charLength": 16,
-                  "snippet": {
-                    "text": "fetchEmergencies"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 189,
-                  "startColumn": 1,
-                  "charOffset": 5852,
-                  "charLength": 200,
-                  "snippet": {
-                    "text": "  useEffect(() => {\r\n    if (!isLoading && user?.role === 'admin') {\r\n      fetchEmergencies();\r\n    }\r\n  }, [user, currentPage, search, statusFilter, priorityFilter, typeFilter, sortBy, sortOrder]);\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "c8c2838ff3f3e57b",
-            "equalIndicator/v1": "9969d4b66f9f36c076ec7eb41ba2705c160476c74cde3b24748cdeb0c2b7781d"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
             "text": "Promise returned from fetchApplicationStatus is ignored",
             "markdown": "Promise returned from fetchApplicationStatus is ignored"
           },
@@ -33978,63 +31641,6 @@
           "partialFingerprints": {
             "equalIndicator/v2": "4683661034669c64",
             "equalIndicator/v1": "9fc9eb6bfaa20fc5848ccdb2f859e0857f8f5b29b5f1aaa84d1202892aa7332c"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from fetchToken is ignored",
-            "markdown": "Promise returned from fetchToken is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/useCSRFToken.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 157,
-                  "startColumn": 5,
-                  "charOffset": 4032,
-                  "charLength": 10,
-                  "snippet": {
-                    "text": "fetchToken"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 155,
-                  "startColumn": 1,
-                  "charOffset": 4005,
-                  "charLength": 64,
-                  "snippet": {
-                    "text": "\r\n  useEffect(() => {\r\n    fetchToken();\r\n  }, [fetchToken]);\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "4fade3ea45dc6f19",
-            "equalIndicator/v1": "a0f3b0781db3fe7df0c4059d5bb1b78042d0bfa51d96aba864599452e7d2edf1"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -34905,6 +32511,63 @@
           "kind": "fail",
           "level": "note",
           "message": {
+            "text": "Promise returned from fetchStats is ignored",
+            "markdown": "Promise returned from fetchStats is ignored"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "hooks/useUserStats.ts",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 90,
+                  "startColumn": 5,
+                  "charOffset": 2239,
+                  "charLength": 10,
+                  "snippet": {
+                    "text": "fetchStats"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 88,
+                  "startColumn": 1,
+                  "charOffset": 2201,
+                  "charLength": 60,
+                  "snippet": {
+                    "text": "\r\n  const refreshStats = () => {\r\n    fetchStats();\r\n  };\r\n\r"
+                  },
+                  "sourceLanguage": "TypeScript"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "9302847bb3b3239f",
+            "equalIndicator/v1": "c5730d149d13bddfaac2d6285b00390ad4f36e57a2c81238363d862fac4acf69"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "JSIgnoredPromiseFromCall",
+          "kind": "fail",
+          "level": "note",
+          "message": {
             "text": "Promise returned from cargarEstadisticas is ignored",
             "markdown": "Promise returned from cargarEstadisticas is ignored"
           },
@@ -35418,33 +33081,33 @@
           "kind": "fail",
           "level": "note",
           "message": {
-            "text": "Promise returned from loadPreferences is ignored",
-            "markdown": "Promise returned from loadPreferences is ignored"
+            "text": "Promise returned from fetchEmergencies is ignored",
+            "markdown": "Promise returned from fetchEmergencies is ignored"
           },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "components/dashboard/security/NotificationPreferencesSection.tsx",
+                  "uri": "app/admin/emergencies/page.tsx",
                   "uriBaseId": "SRCROOT"
                 },
                 "region": {
-                  "startLine": 92,
-                  "startColumn": 5,
-                  "charOffset": 2610,
-                  "charLength": 15,
+                  "startLine": 192,
+                  "startColumn": 7,
+                  "charOffset": 5938,
+                  "charLength": 16,
                   "snippet": {
-                    "text": "loadPreferences"
+                    "text": "fetchEmergencies"
                   },
                   "sourceLanguage": "JavaScript"
                 },
                 "contextRegion": {
-                  "startLine": 90,
+                  "startLine": 190,
                   "startColumn": 1,
-                  "charOffset": 2535,
-                  "charLength": 105,
+                  "charOffset": 5862,
+                  "charLength": 200,
                   "snippet": {
-                    "text": "  // Cargar preferencias al montar el componente\r\n  useEffect(() => {\r\n    loadPreferences()\r\n  }, [])\r\n\r"
+                    "text": "  useEffect(() => {\r\n    if (!isLoading && user?.role === 'admin') {\r\n      fetchEmergencies();\r\n    }\r\n  }, [user, currentPage, search, statusFilter, priorityFilter, typeFilter, sortBy, sortOrder]);\r"
                   },
                   "sourceLanguage": "TypeScript JSX"
                 }
@@ -35458,8 +33121,8 @@
             }
           ],
           "partialFingerprints": {
-            "equalIndicator/v2": "7e0d0ccc95468d4f",
-            "equalIndicator/v1": "d3da0e60306e74d48bd5fea37c1c68a4203df47ee3db55dd5d3ca2e4e0a38a97"
+            "equalIndicator/v2": "78b5e8d0562343a7",
+            "equalIndicator/v1": "d424b03de1b5455d49567c9fc44edad4da15f12162f2f101b966fcdd7541b49b"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -35916,6 +33579,120 @@
           "partialFingerprints": {
             "equalIndicator/v2": "79215341bed85769",
             "equalIndicator/v1": "dff82610b52a6fd3b125e910eb7fc6f1d17a70b8a2eb335f0a1fc16672e73167"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "JSIgnoredPromiseFromCall",
+          "kind": "fail",
+          "level": "note",
+          "message": {
+            "text": "Promise returned from fetchMembershipData is ignored",
+            "markdown": "Promise returned from fetchMembershipData is ignored"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "hooks/useMembership.ts",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 126,
+                  "startColumn": 5,
+                  "charOffset": 3142,
+                  "charLength": 19,
+                  "snippet": {
+                    "text": "fetchMembershipData"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 124,
+                  "startColumn": 1,
+                  "charOffset": 3095,
+                  "charLength": 78,
+                  "snippet": {
+                    "text": "\r\n  const refreshMembershipData = () => {\r\n    fetchMembershipData();\r\n  };\r\n\r"
+                  },
+                  "sourceLanguage": "TypeScript"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "021773243cb4118e",
+            "equalIndicator/v1": "dff99213583bb92263ae447dbaf8bbfe63f62b4d9ec00824a26ccf7e65198617"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "JSIgnoredPromiseFromCall",
+          "kind": "fail",
+          "level": "note",
+          "message": {
+            "text": "Promise returned from fetchToken is ignored",
+            "markdown": "Promise returned from fetchToken is ignored"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "hooks/useCSRFToken.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 215,
+                  "startColumn": 5,
+                  "charOffset": 5625,
+                  "charLength": 10,
+                  "snippet": {
+                    "text": "fetchToken"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 213,
+                  "startColumn": 1,
+                  "charOffset": 5611,
+                  "charLength": 69,
+                  "snippet": {
+                    "text": "    };\r\n\r\n    fetchToken();\r\n\r\n    return () => clearTimeout(timer);\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "fee1f80554d1c4df",
+            "equalIndicator/v1": "e081060b1d2ebe5d1c6e7e30ae52c16f1570e613935bbff3763487bf35c888bc"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -36444,63 +34221,6 @@
           "kind": "fail",
           "level": "note",
           "message": {
-            "text": "Promise returned from fetchStats is ignored",
-            "markdown": "Promise returned from fetchStats is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/useUserStats.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 85,
-                  "startColumn": 5,
-                  "charOffset": 2151,
-                  "charLength": 10,
-                  "snippet": {
-                    "text": "fetchStats"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 83,
-                  "startColumn": 1,
-                  "charOffset": 2124,
-                  "charLength": 75,
-                  "snippet": {
-                    "text": "\r\n  useEffect(() => {\r\n    fetchStats();\r\n  }, [isAuthenticated, user]);\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "c768670d2119da3e",
-            "equalIndicator/v1": "ef1f5f70441637e920beb1dcf4ac9e0c4bbc3912d78bee59ff2f5b6fe492c8c6"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
             "text": "Promise returned from fetchActivities is ignored",
             "markdown": "Promise returned from fetchActivities is ignored"
           },
@@ -36657,63 +34377,6 @@
           "partialFingerprints": {
             "equalIndicator/v2": "d1cc75e150c19066",
             "equalIndicator/v1": "f1c099056fddcadbf1d9d5b6969d631269b7bcac31400294b8ac24b979621e89"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from fetchEmergency is ignored",
-            "markdown": "Promise returned from fetchEmergency is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/emergencies/view/[id]/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 121,
-                  "startColumn": 7,
-                  "charOffset": 3581,
-                  "charLength": 14,
-                  "snippet": {
-                    "text": "fetchEmergency"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 119,
-                  "startColumn": 1,
-                  "charOffset": 3505,
-                  "charLength": 127,
-                  "snippet": {
-                    "text": "  useEffect(() => {\r\n    if (!isLoading && user?.role === 'admin') {\r\n      fetchEmergency();\r\n    }\r\n  }, [user, isLoading]);\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "ebc684315e2022d4",
-            "equalIndicator/v1": "f43cb25dd1cf816f380267d3ac19ac91c540ce48582de2ef1a5ec41730e2be50"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -41232,63 +38895,6 @@
           "kind": "fail",
           "level": "warning",
           "message": {
-            "text": "Unused parameter request",
-            "markdown": "Unused parameter request"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/api/notifications/admin/generate/route.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 87,
-                  "startColumn": 27,
-                  "charOffset": 2865,
-                  "charLength": 7,
-                  "snippet": {
-                    "text": "request"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 85,
-                  "startColumn": 1,
-                  "charOffset": 2699,
-                  "charLength": 223,
-                  "snippet": {
-                    "text": "// GET - Obtener estadísticas de notificaciones (solo para administradores)\r\n// eslint-disable-next-line @typescript-eslint/no-unused-vars\r\nexport async function GET(request: NextRequest) {\r\n  try {\r\n    await connectDB();\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "af2699c5bc6409f2",
-            "equalIndicator/v1": "4617d32b56033fc985d6b7bab568d2a1d146ead13e83f7b8521602e49bdb7b97"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSUnusedLocalSymbols",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
             "text": "Unused parameter type",
             "markdown": "Unused parameter type"
           },
@@ -42642,6 +40248,63 @@
           "partialFingerprints": {
             "equalIndicator/v2": "d481be462dd998e2",
             "equalIndicator/v1": "ab4bf93125532125692df7184957bab78c401f295a9bff214649fa406f2f27ad"
+          },
+          "properties": {
+            "ideaSeverity": "WARNING",
+            "qodanaSeverity": "High",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "JSUnusedLocalSymbols",
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "Unused parameter request",
+            "markdown": "Unused parameter request"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/api/notifications/admin/generate/route.ts",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 90,
+                  "startColumn": 27,
+                  "charOffset": 2945,
+                  "charLength": 7,
+                  "snippet": {
+                    "text": "request"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 88,
+                  "startColumn": 1,
+                  "charOffset": 2779,
+                  "charLength": 223,
+                  "snippet": {
+                    "text": "// GET - Obtener estadísticas de notificaciones (solo para administradores)\r\n// eslint-disable-next-line @typescript-eslint/no-unused-vars\r\nexport async function GET(request: NextRequest) {\r\n  try {\r\n    await connectDB();\r"
+                  },
+                  "sourceLanguage": "TypeScript"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "d795513f727d111a",
+            "equalIndicator/v1": "ac2c84250bfd638b05adc1119696c480b224a5e9539901f169afd58621404341"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -46768,6 +44431,63 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
+                  "uri": "app/admin/notifications/page.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 370,
+                  "startColumn": 34,
+                  "charOffset": 14193,
+                  "charLength": 5,
+                  "snippet": {
+                    "text": "React"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                },
+                "contextRegion": {
+                  "startLine": 368,
+                  "startColumn": 1,
+                  "charOffset": 14108,
+                  "charLength": 138,
+                  "snippet": {
+                    "text": "  const [loading, setLoading] = useState(false);\r\n\r\n  const handleSubmit = async (e: React.FormEvent) => {\r\n    e.preventDefault();\r\n    \r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "9950923d613241d5",
+            "equalIndicator/v1": "30ccf9dd9a895610738b6df7034b0b0e887c328d0150f9706aa71b8753616207"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "TypeScript JSX"
+            ]
+          }
+        },
+        {
+          "ruleId": "TypeScriptUMDGlobal",
+          "kind": "fail",
+          "level": "note",
+          "message": {
+            "text": "Referenced UMD global variable",
+            "markdown": "Referenced UMD global variable"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
                   "uri": "components/dashboard/profile/MedicalData.tsx",
                   "uriBaseId": "SRCROOT"
                 },
@@ -47202,63 +44922,6 @@
           "partialFingerprints": {
             "equalIndicator/v2": "40046ab377929620",
             "equalIndicator/v1": "412cf80dd16bb721a9f8e41a2dbba5fc2985cfb5c94ae9b98f3a3d19b62952b2"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "TypeScript JSX"
-            ]
-          }
-        },
-        {
-          "ruleId": "TypeScriptUMDGlobal",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Referenced UMD global variable",
-            "markdown": "Referenced UMD global variable"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/notifications/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 370,
-                  "startColumn": 34,
-                  "charOffset": 14201,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "React"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                },
-                "contextRegion": {
-                  "startLine": 368,
-                  "startColumn": 1,
-                  "charOffset": 14116,
-                  "charLength": 138,
-                  "snippet": {
-                    "text": "  const [loading, setLoading] = useState(false);\r\n\r\n  const handleSubmit = async (e: React.FormEvent) => {\r\n    e.preventDefault();\r\n    \r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "5d40d217c30235e1",
-            "equalIndicator/v1": "43fb7312423addd7dd5215cf4a0c7aafdb7cac7f809358071975757ec410380c"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -50920,7 +48583,7 @@
       ],
       "automationDetails": {
         "id": "LandingPage/qodana/2025-11-01",
-        "guid": "fe5678a7-000f-46d0-9b56-9fc5d23e3f10",
+        "guid": "c9c75e8f-4eab-4b73-a186-044319250f6f",
         "properties": {
           "jobUrl": "",
           "analysisKind": "ide"
@@ -50931,305 +48594,18 @@
         "\n"
       ],
       "properties": {
-        "qodana.promo.results": [
-          {
-            "ruleId": "UnnecessaryLocalVariableJS",
-            "kind": "fail",
-            "level": "warning",
-            "message": {
-              "text": "Local variable 'result' is redundant",
-              "markdown": "Local variable result is redundant"
-            },
-            "locations": [
-              {
-                "physicalLocation": {
-                  "artifactLocation": {
-                    "uri": "lib/cloudinary-service.ts",
-                    "uriBaseId": "SRCROOT"
-                  },
-                  "region": {
-                    "startLine": 141,
-                    "startColumn": 11,
-                    "charOffset": 4237,
-                    "charLength": 6,
-                    "snippet": {
-                      "text": "result"
-                    },
-                    "sourceLanguage": "JavaScript"
-                  },
-                  "contextRegion": {
-                    "startLine": 139,
-                    "startColumn": 1,
-                    "charOffset": 4140,
-                    "charLength": 192,
-                    "snippet": {
-                      "text": "export async function deleteFromCloudinary(publicId: string): Promise<any> {\r\n  try {\r\n    const result = await cloudinary.uploader.destroy(publicId);\r\n    return result;\r\n  } catch (error) {\r"
-                    },
-                    "sourceLanguage": "TypeScript"
-                  }
-                },
-                "logicalLocations": [
-                  {
-                    "fullyQualifiedName": "LandingPage",
-                    "kind": "module"
-                  }
-                ]
-              }
-            ],
-            "partialFingerprints": {
-              "equalIndicator/v2": "d557480f40f8aab7",
-              "equalIndicator/v1": "052d600df5c1bc65019f3ea8331f870d35ef08cccd1e2aeeeea38ddadc401e24"
-            },
-            "properties": {
-              "ideaSeverity": "WARNING",
-              "qodanaSeverity": "High",
-              "problemType": "REGULAR",
-              "tags": [
-                "JavaScript"
-              ]
-            }
-          },
-          {
-            "ruleId": "UnnecessaryLocalVariableJS",
-            "kind": "fail",
-            "level": "warning",
-            "message": {
-              "text": "Local variable 'hashedNewPassword' is redundant",
-              "markdown": "Local variable hashedNewPassword is redundant"
-            },
-            "locations": [
-              {
-                "physicalLocation": {
-                  "artifactLocation": {
-                    "uri": "app/api/users/change-password/route.ts",
-                    "uriBaseId": "SRCROOT"
-                  },
-                  "region": {
-                    "startLine": 78,
-                    "startColumn": 11,
-                    "charOffset": 2217,
-                    "charLength": 17,
-                    "snippet": {
-                      "text": "hashedNewPassword"
-                    },
-                    "sourceLanguage": "JavaScript"
-                  },
-                  "contextRegion": {
-                    "startLine": 76,
-                    "startColumn": 1,
-                    "charOffset": 2146,
-                    "charLength": 167,
-                    "snippet": {
-                      "text": "    // Hashear nueva contraseña\r\n    const saltRounds = 12;\r\n    const hashedNewPassword = await bcrypt.hash(newPassword, saltRounds);\r\n\r\n    // Actualizar contraseña\r"
-                    },
-                    "sourceLanguage": "TypeScript"
-                  }
-                },
-                "logicalLocations": [
-                  {
-                    "fullyQualifiedName": "LandingPage",
-                    "kind": "module"
-                  }
-                ]
-              }
-            ],
-            "partialFingerprints": {
-              "equalIndicator/v2": "3764b6b76e77ecaf",
-              "equalIndicator/v1": "51c56ea735961a36d0e5ae9a89dcf0f38b189f4ee95ab56672cbfb6b7404dfc9"
-            },
-            "properties": {
-              "ideaSeverity": "WARNING",
-              "qodanaSeverity": "High",
-              "problemType": "REGULAR",
-              "tags": [
-                "JavaScript"
-              ]
-            }
-          },
-          {
-            "ruleId": "UnnecessaryLocalVariableJS",
-            "kind": "fail",
-            "level": "warning",
-            "message": {
-              "text": "Local variable 'authUrl' is redundant",
-              "markdown": "Local variable authUrl is redundant"
-            },
-            "locations": [
-              {
-                "physicalLocation": {
-                  "artifactLocation": {
-                    "uri": "app/admin/email-config/page.tsx",
-                    "uriBaseId": "SRCROOT"
-                  },
-                  "region": {
-                    "startLine": 115,
-                    "startColumn": 11,
-                    "charOffset": 3930,
-                    "charLength": 7,
-                    "snippet": {
-                      "text": "authUrl"
-                    },
-                    "sourceLanguage": "JavaScript"
-                  },
-                  "contextRegion": {
-                    "startLine": 113,
-                    "startColumn": 1,
-                    "charOffset": 3802,
-                    "charLength": 339,
-                    "snippet": {
-                      "text": "    const scope = encodeURIComponent('ZohoMail.messages.CREATE,ZohoMail.accounts.READ,ZohoMail.folders.READ');\r\n    \r\n    const authUrl = `https://accounts.zoho.com/oauth/v2/auth?scope=${scope}&client_id=${clientId}&response_type=code&access_type=offline&redirect_uri=${redirectUri}`;\r\n    \r\n    // Usar la misma ventana en lugar de popup\r"
-                    },
-                    "sourceLanguage": "TypeScript JSX"
-                  }
-                },
-                "logicalLocations": [
-                  {
-                    "fullyQualifiedName": "LandingPage",
-                    "kind": "module"
-                  }
-                ]
-              }
-            ],
-            "partialFingerprints": {
-              "equalIndicator/v2": "ce251b0b26e8de4b",
-              "equalIndicator/v1": "83c03bc85ce6a6dedcb32074f59b611c7c5898d7bb1c6b4dc47983b1bd2219df"
-            },
-            "properties": {
-              "ideaSeverity": "WARNING",
-              "qodanaSeverity": "High",
-              "problemType": "REGULAR",
-              "tags": [
-                "JavaScript"
-              ]
-            }
-          },
-          {
-            "ruleId": "UnnecessaryLocalVariableJS",
-            "kind": "fail",
-            "level": "warning",
-            "message": {
-              "text": "Local variable 'activeUsers' is redundant",
-              "markdown": "Local variable activeUsers is redundant"
-            },
-            "locations": [
-              {
-                "physicalLocation": {
-                  "artifactLocation": {
-                    "uri": "app/api/admin/analytics/route.ts",
-                    "uriBaseId": "SRCROOT"
-                  },
-                  "region": {
-                    "startLine": 321,
-                    "startColumn": 11,
-                    "charOffset": 12816,
-                    "charLength": 11,
-                    "snippet": {
-                      "text": "activeUsers"
-                    },
-                    "sourceLanguage": "JavaScript"
-                  },
-                  "contextRegion": {
-                    "startLine": 319,
-                    "startColumn": 1,
-                    "charOffset": 12758,
-                    "charLength": 207,
-                    "snippet": {
-                      "text": "async function getMostActiveUsers() {\r\n  try {\r\n    const activeUsers = await User.find({ isActive: { $ne: false } })\r\n      .select('firstName lastName email lastLoginAt')\r\n      .sort({ lastLoginAt: -1 })\r"
-                    },
-                    "sourceLanguage": "TypeScript"
-                  }
-                },
-                "logicalLocations": [
-                  {
-                    "fullyQualifiedName": "LandingPage",
-                    "kind": "module"
-                  }
-                ]
-              }
-            ],
-            "partialFingerprints": {
-              "equalIndicator/v2": "f38ff38779958f41",
-              "equalIndicator/v1": "9dcec53a0150dcd1eeb7abdb86b522799f5cea164c1647d10b2578659244eacb"
-            },
-            "properties": {
-              "ideaSeverity": "WARNING",
-              "qodanaSeverity": "High",
-              "problemType": "REGULAR",
-              "tags": [
-                "JavaScript"
-              ]
-            }
-          },
-          {
-            "ruleId": "UnnecessaryLocalVariableJS",
-            "kind": "fail",
-            "level": "warning",
-            "message": {
-              "text": "Local variable 'removed' is redundant",
-              "markdown": "Local variable removed is redundant"
-            },
-            "locations": [
-              {
-                "physicalLocation": {
-                  "artifactLocation": {
-                    "uri": "lib/security-events.ts",
-                    "uriBaseId": "SRCROOT"
-                  },
-                  "region": {
-                    "startLine": 361,
-                    "startColumn": 9,
-                    "charOffset": 9067,
-                    "charLength": 7,
-                    "snippet": {
-                      "text": "removed"
-                    },
-                    "sourceLanguage": "JavaScript"
-                  },
-                  "contextRegion": {
-                    "startLine": 359,
-                    "startColumn": 1,
-                    "charOffset": 9028,
-                    "charLength": 145,
-                    "snippet": {
-                      "text": "  \r\n  // Remove from timeline\r\n  const removed = await redis.zremrangebyscore('security:events:timeline', 0, cutoffTime);\r\n  \r\n  return removed;\r"
-                    },
-                    "sourceLanguage": "TypeScript"
-                  }
-                },
-                "logicalLocations": [
-                  {
-                    "fullyQualifiedName": "LandingPage",
-                    "kind": "module"
-                  }
-                ]
-              }
-            ],
-            "partialFingerprints": {
-              "equalIndicator/v2": "13f834726c8556c8",
-              "equalIndicator/v1": "f6cf66be3b124d90c42163280a182eee1b1e2ecc7fdf68ba745ec24eec7d2dea"
-            },
-            "properties": {
-              "ideaSeverity": "WARNING",
-              "qodanaSeverity": "High",
-              "problemType": "REGULAR",
-              "tags": [
-                "JavaScript"
-              ]
-            }
-          }
-        ],
         "qodana.coverage.files.provided": false,
         "configProfile": "starter",
         "deviceId": "101025103da69cc-f9c8-4a4b-b2dc-9cf68aab4b7e",
         "qodanaNewResultSummary": {
-          "high": 252,
+          "high": 211,
           "moderate": 287,
-          "total": 539
+          "total": 498
         }
       }
     }
   ],
   "properties": {
-    "runTimestamp": "1762028756856"
+    "runTimestamp": "1762030071842"
   }
 }

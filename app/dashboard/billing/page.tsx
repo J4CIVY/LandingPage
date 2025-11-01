@@ -98,7 +98,7 @@ export default function BillingPage() {
         const data = await response.json();
         setTransactions(data.data?.transactions || []);
       } else {
-        throw new Error('No se pudieron cargar las transacciones');
+        setError('No se pudieron cargar las transacciones');
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {

@@ -94,7 +94,7 @@ export function useProfile() {
       if (!response.ok) {
         const errorMsg = `Error updating profile: ${response.status}`;
         setError(errorMsg);
-        throw new Error(errorMsg);
+        return null;
       }
 
       const data = await response.json();
@@ -102,7 +102,7 @@ export function useProfile() {
       return data.data.user;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error updating profile');
-      throw err;
+      return null;
     }
   };
 
@@ -125,7 +125,9 @@ export function useProfile() {
       });
 
       if (!response.ok) {
-        throw new Error(`Error uploading avatar: ${response.status}`);
+        const errorMsg = `Error uploading avatar: ${response.status}`;
+        setError(errorMsg);
+        return null;
       }
 
       const data = await response.json();
@@ -133,7 +135,7 @@ export function useProfile() {
       return data.data.avatarUrl;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error uploading avatar');
-      throw err;
+      return null;
     }
   };
 
@@ -160,7 +162,7 @@ export function useProfile() {
       if (!response.ok) {
         const errorMsg = `Error uploading document: ${response.status}`;
         setError(errorMsg);
-        throw new Error(errorMsg);
+        return null;
       }
 
       const data = await response.json();
@@ -169,7 +171,7 @@ export function useProfile() {
       return data.data.document;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error uploading document');
-      throw err;
+      return null;
     }
   };
 

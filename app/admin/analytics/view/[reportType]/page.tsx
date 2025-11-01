@@ -56,7 +56,8 @@ export default function ViewAnalyticsReportPage() {
       });
 
       if (!response.ok) {
-        throw new Error('Error al cargar el reporte');
+        setError('Error al cargar el reporte');
+        return;
       }
 
       const result = await response.json();

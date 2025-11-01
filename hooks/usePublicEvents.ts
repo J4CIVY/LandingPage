@@ -49,7 +49,10 @@ export const usePublicEvents = (): UsePublicEventsReturn => {
       const response = await fetch('/api/events?upcoming=true&limit=50');
       
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        setError(`HTTP error! status: ${response.status}`);
+        setEvents([]);
+        setLoading(false);
+        return;
       }
       
       const data: EventsApiResponse = await response.json();

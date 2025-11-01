@@ -72,7 +72,7 @@ export async function encryptPassword(password: string, publicKeyPem: string): P
 /**
  * Obtiene la llave pública del servidor
  */
-export async function getPublicKey(): Promise<string> {
+export async function getPublicKey(): Promise<string | null> {
   try {
     const response = await fetch('/api/auth/public-key', {
       method: 'GET',
@@ -86,14 +86,15 @@ export async function getPublicKey(): Promise<string> {
     const data = await response.json();
     
     if (!data.success || !data.publicKey) {
-      throw new Error('Llave pública no disponible');
+      console.error('Llave pública no disponible');
+      return null;
     }
 
     return data.publicKey;
 
   } catch (error) {
     console.error('Error obteniendo llave pública:', error);
-    throw error;
+    return null;
   }
 }
 
@@ -118,6 +119,10 @@ export async function encryptCredentials(email: string, password: string): Promi
 
   // Obtener llave pública del servidor
   const publicKey = await getPublicKey();
+
+  if (!publicKey) {
+    throw new Error('No se pudo obtener la llave pública del servidor');
+  }
 
   // Encriptar contraseña
   const encryptedPassword = await encryptPassword(password, publicKey);

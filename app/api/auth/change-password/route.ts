@@ -99,7 +99,13 @@ export async function POST(request: NextRequest) {
       isSamePassword = await bcrypt.compare(newPassword, user.password);
     } catch (bcryptError) {
       console.error('❌ Paso 8: Error en segunda bcrypt.compare:', bcryptError);
-      throw new Error(`Error en segunda bcrypt.compare: ${bcryptError instanceof Error ? bcryptError.message : String(bcryptError)}`);
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: `Error en segunda bcrypt.compare: ${bcryptError instanceof Error ? bcryptError.message : String(bcryptError)}` 
+        },
+        { status: 500 }
+      );
     }
     
     if (isSamePassword) {
