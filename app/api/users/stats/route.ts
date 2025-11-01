@@ -44,7 +44,16 @@ export async function GET(request: NextRequest) {
     }
 
     // Obtener estadísticas de gamificación
-    const estadisticasGamificacion = await GamificationService.obtenerEstadisticasUsuario(decoded.userId);
+    const estadisticasGamificacion = await GamificationService.obtenerEstadisticasUsuario(decoded.userId) as {
+      estadisticas?: {
+        puntos?: { total?: number; hoy?: number; esteMes?: number; esteAno?: number };
+        actividad?: { diasActivo?: number; rachaActual?: number; mejorRacha?: number; ultimaConexion?: Date | string; interacciones?: number };
+        ranking?: { cambioSemanal?: number };
+        logros?: { total?: number; ultimoLogro?: unknown };
+      };
+      nivelInfo?: { actual?: string; icono?: string; progreso?: number; puntosSiguienteNivel?: number };
+      ranking?: { posicion?: number; totalUsuarios?: number; percentil?: number };
+    };
 
     // Contar eventos
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

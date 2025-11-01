@@ -19,7 +19,12 @@ export async function GET(request: NextRequest) {
     const { user } = authResult;
 
     // Obtener logros del usuario
-    const logros = await gamificationService.obtenerLogrosUsuario(user.id);
+    const logros = await gamificationService.obtenerLogrosUsuario(user.id) as Array<{
+      desbloqueado: boolean;
+      fechaDesbloqueo?: Date | string;
+      progreso: { actual: number; total: number };
+      [key: string]: unknown;
+    }>;
 
     // Calcular estadísticas de logros
     const logrosDesbloqueados = logros.filter(l => l.desbloqueado).length;

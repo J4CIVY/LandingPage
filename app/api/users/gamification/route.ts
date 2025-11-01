@@ -21,7 +21,19 @@ export async function GET(request: NextRequest) {
     const userId = authResult.user.id;
     
     // Obtener estadísticas completas usando el servicio
-    const estadisticasCompletas = await GamificationService.obtenerEstadisticasUsuario(userId);
+    const estadisticasCompletas = await GamificationService.obtenerEstadisticasUsuario(userId) as {
+      estadisticas?: {
+        actividad?: { interacciones?: number; rachaActual?: number; mejorRacha?: number; diasActivo?: number; ultimaConexion?: Date | string };
+        puntos?: { total?: number; hoy?: number; esteMes?: number; esteAno?: number; ganados?: number; canjeados?: number; pendientes?: number };
+        eventos?: { asistidos?: number; registrados?: number };
+        ranking?: { cambioSemanal?: number };
+        logros?: { total?: number };
+      };
+      nivelInfo?: { actual?: string; icono?: string; color?: string; puntosActuales?: number; puntosSiguienteNivel?: number; progreso?: number };
+      ranking?: { posicion?: number; totalUsuarios?: number; percentil?: number };
+      proximasRecompensas?: unknown[];
+      usuario?: { firstName?: string; lastName?: string; membershipType?: string; joinDate?: Date | string };
+    };
     
     // Formatear datos para compatibilidad con el frontend existente
     const datosCompatibles = {
@@ -117,10 +129,18 @@ export async function POST(request: NextRequest) {
     const userId = authResult.user.id;
     
     // Otorgar puntos usando el servicio
-    const transaccion = await GamificationService.otorgarPuntos(userId, action, metadata);
+    const transaccion = await GamificationService.otorgarPuntos(userId, action, metadata) as {
+      cantidad?: number;
+      _id?: unknown;
+      razon?: string;
+      fechaTransaccion?: Date | string;
+    };
     
     // Obtener estadísticas actualizadas
-    const estadisticasActualizadas = await GamificationService.obtenerEstadisticasUsuario(userId);
+    const estadisticasActualizadas = await GamificationService.obtenerEstadisticasUsuario(userId) as {
+      estadisticas?: { puntos?: { total?: number } };
+      nivelInfo?: { actual?: string };
+    };
     
     return NextResponse.json({
       success: true,

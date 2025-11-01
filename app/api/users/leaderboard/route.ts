@@ -22,8 +22,12 @@ export async function GET(request: NextRequest) {
     
     // Si hay usuario autenticado y se solicita incluir su posición
     if (authResult.success && authResult.user && includeUser) {
-      const ranking = await GamificationService.obtenerRankingUsuario(authResult.user.id);
-      const userStats = await GamificationService.obtenerEstadisticasUsuario(authResult.user.id);
+      const ranking = await GamificationService.obtenerRankingUsuario(authResult.user.id) as { posicion?: number };
+      const userStats = await GamificationService.obtenerEstadisticasUsuario(authResult.user.id) as {
+        estadisticas?: { puntos?: { total?: number }; ranking?: { cambioSemanal?: number } };
+        nivelInfo?: { actual?: string };
+        usuario?: unknown;
+      };
       
       userPosition = {
         position: ranking.posicion,

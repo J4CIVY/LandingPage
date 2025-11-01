@@ -24,7 +24,15 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(url.searchParams.get('limit') || '10');
     
     // Obtener estadísticas completas
-    const estadisticas = await GamificationService.obtenerEstadisticasUsuario(userId);
+    const estadisticas = await GamificationService.obtenerEstadisticasUsuario(userId) as {
+      estadisticas?: {
+        puntos?: { total?: number; hoy?: number; esteMes?: number; esteAno?: number; ganados?: number; canjeados?: number; pendientes?: number };
+      };
+      nivelInfo?: unknown;
+      ranking?: unknown;
+      proximasRecompensas?: unknown;
+      usuario?: unknown;
+    };
     
     // Obtener historial de transacciones
     const historial = await GamificationService.obtenerHistorialTransacciones(userId, limit, page);
@@ -107,10 +115,18 @@ export async function POST(request: NextRequest) {
         reason: reason,
         manualPoints: points
       }
-    );
+    ) as { 
+      cantidad?: number;
+      _id?: unknown;
+      razon?: string;
+      fechaTransaccion?: Date | string;
+    };
     
     // Obtener estadísticas actualizadas del usuario objetivo
-    const estadisticasActualizadas = await GamificationService.obtenerEstadisticasUsuario(targetUserId);
+    const estadisticasActualizadas = await GamificationService.obtenerEstadisticasUsuario(targetUserId) as {
+      estadisticas?: { puntos?: { total?: number } };
+      nivelInfo?: { actual?: string };
+    };
     
     return NextResponse.json({
       success: true,
