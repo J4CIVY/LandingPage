@@ -73,6 +73,11 @@ export async function POST(req: NextRequest) {
       usuario._id.toString()
     );
 
+    // Type assertion for the statistics response
+    const stats = estadisticasActualizadas.estadisticas as {
+      puntos?: { total?: number };
+    };
+
     return NextResponse.json({
       success: true,
       message: `Se asignaron ${puntos} puntos a ${usuario.firstName} ${usuario.lastName}`,
@@ -87,7 +92,7 @@ export async function POST(req: NextRequest) {
           id: usuario._id,
           nombre: `${usuario.firstName} ${usuario.lastName}`,
           email: usuario.email,
-          puntosActuales: estadisticasActualizadas.estadisticas?.puntos?.total || 0,
+          puntosActuales: stats?.puntos?.total || 0,
           nivelActual: estadisticasActualizadas.nivelInfo?.actual || 'Novato'
         }
       }

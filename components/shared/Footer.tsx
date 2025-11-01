@@ -11,7 +11,7 @@ const Footer = async () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-linear-to-b from-white to-gray-50 dark:from-slate-950 dark:to-slate-900 text-slate-950 dark:text-gray-300 border-t border-gray-200/50 dark:border-gray-800/50" role="contentinfo">
+    <footer className="bg-linear-to-b from-white to-white dark:from-slate-950 dark:to-slate-950 text-slate-950 dark:text-gray-300 border-t border-gray-200/50 dark:border-gray-800/50" role="contentinfo">
       {/* First Section - Logo and Motto */}
       <section className="py-12 px-4">
         <div className="max-w-6xl mx-auto flex flex-col items-center justify-center space-y-6">
