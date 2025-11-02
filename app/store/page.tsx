@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo, type FC, type ChangeEvent, type KeyboardEvent } from 'react';
 import SEOComponent from '@/components/home/SEOComponent';
 import { generateBreadcrumb } from '@/lib/seo-config';
 import { Product } from '@/types/products';
@@ -23,9 +23,9 @@ interface ProductsApiResponse {
 
 /**
  * Store component displays a list of products with filtering, searching, and a product modal.
- * @returns {React.ReactElement}
+ * @returns {ReactElement}
  */
-const Store: React.FC = () => {
+const Store: FC = () => {
   // State for products, loading, and error handling
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
@@ -160,7 +160,7 @@ const Store: React.FC = () => {
 
   // Get unique categories from products
   // Memoize categories to prevent re-calculation on every render if products don't change
-  const categories: string[] = React.useMemo(() => {
+  const categories: string[] = useMemo(() => {
     const uniqueCategories = new Set(products.map(product => product.category).filter(Boolean));
     return ['all', ...Array.from(uniqueCategories)];
   }, [products]);
@@ -232,7 +232,7 @@ const Store: React.FC = () => {
               placeholder="Search by product name..."
               className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 dark:bg-gray-900 dark:text-white"
               value={searchTerm}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
               aria-label="Search products by name"
             />
           </div>
@@ -246,7 +246,7 @@ const Store: React.FC = () => {
               id="category"
               className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 dark:bg-gray-900 dark:text-white"
               value={categoryFilter}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setCategoryFilter(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLSelectElement>) => setCategoryFilter(e.target.value)}
               aria-label="Filter products by category"
             >
               {categories.map(category => (
@@ -266,7 +266,7 @@ const Store: React.FC = () => {
               id="availability"
               className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 dark:bg-gray-900 dark:text-white"
               value={availabilityFilter}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setAvailabilityFilter(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLSelectElement>) => setAvailabilityFilter(e.target.value)}
               aria-label="Filter products by availability"
             >
               <option value="all">All Products</option>
@@ -288,7 +288,7 @@ const Store: React.FC = () => {
               max="200000"
               step="10000"
               value={priceRange[0]}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPriceRange([parseInt(e.target.value, 10), priceRange[1]])}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setPriceRange([parseInt(e.target.value, 10), priceRange[1]])}
               className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer"
               aria-label="Minimum price"
             />
@@ -298,7 +298,7 @@ const Store: React.FC = () => {
               max="200000"
               step="10000"
               value={priceRange[1]}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPriceRange([priceRange[0], parseInt(e.target.value, 10)])}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setPriceRange([priceRange[0], parseInt(e.target.value, 10)])}
               className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer"
               aria-label="Maximum price"
             />
@@ -335,7 +335,7 @@ const Store: React.FC = () => {
               <div
                 className="h-64 bg-gray-100 dark:bg-gray-900 relative overflow-hidden cursor-pointer"
                 onClick={() => openProductModal(product)}
-                onKeyPress={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                onKeyPress={(e: KeyboardEvent<HTMLDivElement>) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     openProductModal(product);
                   }
@@ -368,7 +368,7 @@ const Store: React.FC = () => {
                 <h3
                   className="font-bold text-lg mb-1 cursor-pointer hover:text-red-500 dark:hover:text-red-400"
                   onClick={() => openProductModal(product)}
-                  onKeyPress={(e: React.KeyboardEvent<HTMLHeadingElement>) => {
+                  onKeyPress={(e: KeyboardEvent<HTMLHeadingElement>) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                       openProductModal(product);
                     }

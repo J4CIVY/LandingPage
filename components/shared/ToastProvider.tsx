@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import { createContext, useContext, useState, useCallback, type FC, type ReactNode } from 'react';
 import { FaCheckCircle, FaExclamationTriangle, FaInfoCircle, FaTimes } from 'react-icons/fa';
 
 interface Toast {
@@ -29,10 +29,10 @@ export const useToast = () => {
 };
 
 interface ToastProviderProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
+export const ToastProvider: FC<ToastProviderProps> = ({ children }) => {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
   const addToast = useCallback((toast: Omit<Toast, 'id'>) => {
@@ -63,7 +63,7 @@ export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
   );
 };
 
-const ToastContainer: React.FC = () => {
+const ToastContainer: FC = () => {
   const { toasts, removeToast } = useToast();
 
   if (toasts.length === 0) {
@@ -84,7 +84,7 @@ interface ToastItemProps {
   onRemove: () => void;
 }
 
-const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
+const ToastItem: FC<ToastItemProps> = ({ toast, onRemove }) => {
   const icons = {
     success: <FaCheckCircle className="w-5 h-5 text-white dark:text-green-200" />, 
     error: <FaExclamationTriangle className="w-5 h-5 text-white dark:text-red-200" />, 

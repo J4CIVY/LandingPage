@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import { useState, useRef, useMemo, type FC, type ChangeEvent, type MouseEvent, type DragEvent } from 'react';
 import { FaCamera, FaSpinner, FaUser, FaTimes } from 'react-icons/fa';
 import { useImageUpload } from '@/hooks/useImageUpload';
 
@@ -58,7 +58,7 @@ interface ImageUploadProps {
   preserveOriginalSize?: boolean;
 }
 
-const ImageUpload: React.FC<ImageUploadProps> = ({
+const ImageUpload: FC<ImageUploadProps> = ({
   onImageUploaded,
   currentImageUrl,
   disabled = false,
@@ -117,14 +117,14 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       void handleFileSelect(file);
     }
   };
 
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setDragOver(false);
 
@@ -134,12 +134,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     }
   };
 
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setDragOver(true);
   };
 
-  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDragLeave = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setDragOver(false);
   };
@@ -150,7 +150,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     }
   };
 
-  const handleRemoveImage = (e: React.MouseEvent) => {
+  const handleRemoveImage = (e: MouseEvent) => {
     e.stopPropagation();
     setPreviewUrl(null);
     onImageUploaded('');
