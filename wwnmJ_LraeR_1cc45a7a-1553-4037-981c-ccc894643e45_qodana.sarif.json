@@ -20173,7 +20173,7 @@
       },
       "invocations": [
         {
-          "startTimeUtc": "2025-11-02T07:32:51.8688Z",
+          "startTimeUtc": "2025-11-02T07:50:56.3202409Z",
           "exitCode": 0,
           "executionSuccessful": true
         }
@@ -20182,7 +20182,7 @@
       "versionControlProvenance": [
         {
           "repositoryUri": "https://github.com/J4CIVY/LandingPage.git",
-          "revisionId": "397cde919a041ffdd56ce1e9d1bc07a1fcae191e",
+          "revisionId": "ce1332c11103120d61a0699d3b7606c6b4764f39",
           "branch": "main",
           "properties": {
             "repoUrl": "https://github.com/J4CIVY/LandingPage.git",
@@ -20262,6 +20262,63 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
+                  "uri": "lib/env-validation.ts",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 110,
+                  "startColumn": 47,
+                  "charOffset": 4119,
+                  "charLength": 7,
+                  "snippet": {
+                    "text": "flatten"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 108,
+                  "startColumn": 1,
+                  "charOffset": 3991,
+                  "charLength": 221,
+                  "snippet": {
+                    "text": "  if (!parsed.success) {\r\n    console.error('❌ Invalid environment variables:');\r\n    console.error(JSON.stringify(parsed.error.flatten(), null, 2));\r\n    \r\n    // Allow build to continue but warn about missing variables\r"
+                  },
+                  "sourceLanguage": "TypeScript"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "ed835f2dc76bbd6d",
+            "equalIndicator/v1": "4db912736719a6ce149a65d33dfc1295a7bfb9a2b8ea33c2c51f331f260159c2"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "JSDeprecatedSymbols",
+          "kind": "fail",
+          "level": "note",
+          "message": {
+            "text": "Deprecated symbol used, consult docs for better alternative",
+            "markdown": "Deprecated symbol used, consult docs for better alternative"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
                   "uri": "hooks/useConfirmation.ts",
                   "uriBaseId": "SRCROOT"
                 },
@@ -20301,291 +20358,6 @@
           "properties": {
             "ideaSeverity": "WEAK WARNING",
             "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/env-validation.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 106,
-                  "startColumn": 47,
-                  "charOffset": 3885,
-                  "charLength": 7,
-                  "snippet": {
-                    "text": "flatten"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 104,
-                  "startColumn": 1,
-                  "charOffset": 3757,
-                  "charLength": 178,
-                  "snippet": {
-                    "text": "  if (!parsed.success) {\r\n    console.error('❌ Invalid environment variables:');\r\n    console.error(JSON.stringify(parsed.error.flatten(), null, 2));\r\n    \r\n    throw new Error(\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "864be0ccf6cb5d51",
-            "equalIndicator/v1": "b679790b816e7ea02e01ea2a8296ddfaf9a623e4b90b57e97d53f886e09b7b7e"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSUnusedLocalSymbols",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Unused parameter userStats",
-            "markdown": "Unused parameter userStats"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/api/membership/route.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 865,
-                  "startColumn": 49,
-                  "charOffset": 39879,
-                  "charLength": 9,
-                  "snippet": {
-                    "text": "userStats"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 863,
-                  "startColumn": 1,
-                  "charOffset": 39730,
-                  "charLength": 263,
-                  "snippet": {
-                    "text": "\r\n// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars\r\nasync function getLeaderRequirements(user: any, userStats: any): Promise<RequirementStatus[]> {\r\n  // Función especializada para evaluar requisitos de Leader\r\n  \r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "5899d26b7ce884c2",
-            "equalIndicator/v1": "1ec2d0ff2e2a79f31e30d4d098503eb035af9ddd1d583c1111a0964f94f6c828"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSUnusedLocalSymbols",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Unused parameter forwardedRef",
-            "markdown": "Unused parameter forwardedRef"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/animations/AnimatedText.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 23,
-                  "startColumn": 6,
-                  "charOffset": 710,
-                  "charLength": 12,
-                  "snippet": {
-                    "text": "forwardedRef"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 21,
-                  "startColumn": 1,
-                  "charOffset": 625,
-                  "charLength": 197,
-                  "snippet": {
-                    "text": "    ...props \r\n  // eslint-disable-next-line @typescript-eslint/no-unused-vars\r\n  }, forwardedRef) => {\r\n    const { ref, className: animationClassName } = useTextAnimation({\r\n      animationType,\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "a2e93efa9ea4391e",
-            "equalIndicator/v1": "82f323e07fee074176c58bdc3f588da3594dd5be10f54fb42a044630ace34602"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSUnusedLocalSymbols",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Unused parameter userId",
-            "markdown": "Unused parameter userId"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/dashboard/profile/Documents.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 50,
-                  "startColumn": 37,
-                  "charOffset": 2556,
-                  "charLength": 6,
-                  "snippet": {
-                    "text": "userId"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 48,
-                  "startColumn": 1,
-                  "charOffset": 2455,
-                  "charLength": 335,
-                  "snippet": {
-                    "text": "\r\n// eslint-disable-next-line @typescript-eslint/no-unused-vars\r\nexport default function Documents({ userId, onDocumentUpload, onDocumentDelete, onDocumentView, isEditing = false, onEditToggle }: DocumentsProps) {\r\n  const [documents, setDocuments] = useState<DocumentInfo[]>([\r\n    // Mock data - En producción esto vendría de la API\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "f8df404d3bf840a1",
-            "equalIndicator/v1": "885a0b7e43adbd57d53ea5328e890a243b65f39fe6265cbd41b9f62d3f7dc6f7"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSUnusedLocalSymbols",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Unused constant userProfile",
-            "markdown": "Unused constant userProfile"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/dashboard/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 21,
-                  "startColumn": 10,
-                  "charOffset": 992,
-                  "charLength": 11,
-                  "snippet": {
-                    "text": "userProfile"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 19,
-                  "startColumn": 1,
-                  "charOffset": 881,
-                  "charLength": 224,
-                  "snippet": {
-                    "text": "  // Estados para datos del usuario\r\n  // eslint-disable-next-line @typescript-eslint/no-unused-vars\r\n  const [userProfile, setUserProfile] = useState(null);\r\n  const [stats, setStats] = useState({\r\n    eventsRegistered: 0,\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "8883aa492529e672",
-            "equalIndicator/v1": "8ec1c7ad285e692062e6d0a6cefe3a3f0164cda97bcf6f70e735ba1ab07e20fe"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
             "problemType": "REGULAR",
             "tags": [
               "JavaScript"
@@ -24423,6 +24195,63 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
+                  "uri": "components/dashboard/profile/Documents.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 155,
+                  "startColumn": 42,
+                  "charOffset": 5849,
+                  "charLength": 5,
+                  "snippet": {
+                    "text": "React"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                },
+                "contextRegion": {
+                  "startLine": 153,
+                  "startColumn": 1,
+                  "charOffset": 5800,
+                  "charLength": 185,
+                  "snippet": {
+                    "text": "  };\r\n\r\n  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {\r\n    const file = event.target.files?.[0];\r\n    if (file && onDocumentUpload && uploadType) {\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "bc24258adec3df79",
+            "equalIndicator/v1": "1c2c6540a6953d3e1aa339112f3c6163b4512f432394ad7d4f5c33f2a9ec9041"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "TypeScript JSX"
+            ]
+          }
+        },
+        {
+          "ruleId": "TypeScriptUMDGlobal",
+          "kind": "fail",
+          "level": "note",
+          "message": {
+            "text": "Referenced UMD global variable",
+            "markdown": "Referenced UMD global variable"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
                   "uri": "components/pwa/ServiceWorkerManager.tsx",
                   "uriBaseId": "SRCROOT"
                 },
@@ -25313,63 +25142,6 @@
           "partialFingerprints": {
             "equalIndicator/v2": "f1e2bf4a1e168065",
             "equalIndicator/v1": "3e39672e9d55f834f5b69458a2759519aa53906932d748533dd8e82939e569a5"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "TypeScript JSX"
-            ]
-          }
-        },
-        {
-          "ruleId": "TypeScriptUMDGlobal",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Referenced UMD global variable",
-            "markdown": "Referenced UMD global variable"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/dashboard/profile/Documents.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 157,
-                  "startColumn": 42,
-                  "charOffset": 5939,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "React"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                },
-                "contextRegion": {
-                  "startLine": 155,
-                  "startColumn": 1,
-                  "charOffset": 5890,
-                  "charLength": 185,
-                  "snippet": {
-                    "text": "  };\r\n\r\n  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {\r\n    const file = event.target.files?.[0];\r\n    if (file && onDocumentUpload && uploadType) {\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "40046ab377929620",
-            "equalIndicator/v1": "412cf80dd16bb721a9f8e41a2dbba5fc2985cfb5c94ae9b98f3a3d19b62952b2"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -29088,7 +28860,7 @@
       ],
       "automationDetails": {
         "id": "LandingPage/qodana/2025-11-02",
-        "guid": "d95585b3-1258-4eaa-b3d6-51f2f28cd8ba",
+        "guid": "1cc45a7a-1553-4037-981c-ccc894643e45",
         "properties": {
           "jobUrl": "",
           "analysisKind": "ide"
@@ -29105,33 +28877,33 @@
             "kind": "fail",
             "level": "warning",
             "message": {
-              "text": "Local variable 'data' is redundant",
-              "markdown": "Local variable data is redundant"
+              "text": "Local variable 'delay' is redundant",
+              "markdown": "Local variable delay is redundant"
             },
             "locations": [
               {
                 "physicalLocation": {
                   "artifactLocation": {
-                    "uri": "lib/services/pqrsdf-service.ts",
+                    "uri": "lib/redis-client.ts",
                     "uriBaseId": "SRCROOT"
                   },
                   "region": {
-                    "startLine": 216,
-                    "startColumn": 13,
-                    "charOffset": 7046,
-                    "charLength": 4,
+                    "startLine": 24,
+                    "startColumn": 15,
+                    "charOffset": 735,
+                    "charLength": 5,
                     "snippet": {
-                      "text": "data"
+                      "text": "delay"
                     },
                     "sourceLanguage": "JavaScript"
                   },
                   "contextRegion": {
-                    "startLine": 214,
+                    "startLine": 22,
                     "startColumn": 1,
-                    "charOffset": 7023,
-                    "charLength": 107,
+                    "charOffset": 665,
+                    "charLength": 139,
                     "snippet": {
-                      "text": "      }\r\n\r\n      const data = await handleFetchError(response);\r\n      return data;\r\n    } catch (error) {\r"
+                      "text": "      lazyConnect: true,\r\n      retryStrategy(times) {\r\n        const delay = Math.min(times * 50, 2000);\r\n        return delay;\r\n      },\r"
                     },
                     "sourceLanguage": "TypeScript"
                   }
@@ -29145,65 +28917,8 @@
               }
             ],
             "partialFingerprints": {
-              "equalIndicator/v2": "5dfebf94259dbffe",
-              "equalIndicator/v1": "42d2debd3002d57eb35f3cb4acbf12b96350e3866daf4b7df9582ff831e1338e"
-            },
-            "properties": {
-              "ideaSeverity": "WARNING",
-              "qodanaSeverity": "High",
-              "problemType": "REGULAR",
-              "tags": [
-                "JavaScript"
-              ]
-            }
-          },
-          {
-            "ruleId": "UnnecessaryLocalVariableJS",
-            "kind": "fail",
-            "level": "warning",
-            "message": {
-              "text": "Local variable 'solicitudesMock' is redundant",
-              "markdown": "Local variable solicitudesMock is redundant"
-            },
-            "locations": [
-              {
-                "physicalLocation": {
-                  "artifactLocation": {
-                    "uri": "lib/services/pqrsdf-service.ts",
-                    "uriBaseId": "SRCROOT"
-                  },
-                  "region": {
-                    "startLine": 196,
-                    "startColumn": 13,
-                    "charOffset": 6504,
-                    "charLength": 15,
-                    "snippet": {
-                      "text": "solicitudesMock"
-                    },
-                    "sourceLanguage": "JavaScript"
-                  },
-                  "contextRegion": {
-                    "startLine": 194,
-                    "startColumn": 1,
-                    "charOffset": 6388,
-                    "charLength": 218,
-                    "snippet": {
-                      "text": "      // Fallback a datos mock en caso de error\r\n      console.log('Usando datos mock como fallback');\r\n      const solicitudesMock = await this.obtenerSolicitudesMock(usuarioId);\r\n      return solicitudesMock;\r\n    }\r"
-                    },
-                    "sourceLanguage": "TypeScript"
-                  }
-                },
-                "logicalLocations": [
-                  {
-                    "fullyQualifiedName": "LandingPage",
-                    "kind": "module"
-                  }
-                ]
-              }
-            ],
-            "partialFingerprints": {
-              "equalIndicator/v2": "67046285a88a0ca0",
-              "equalIndicator/v1": "4e50702972a730f486d75a226c4dd795ef2e90d2d08eb634cf35eacf386ad7ff"
+              "equalIndicator/v2": "98acdc63eb04f466",
+              "equalIndicator/v1": "26184dc1b83df8c0e115f76b8c23540292eaaaeffc83c7d1d71127d716ce5297"
             },
             "properties": {
               "ideaSeverity": "WARNING",
@@ -29219,14 +28934,14 @@
         "configProfile": "starter",
         "deviceId": "101025103da69cc-f9c8-4a4b-b2dc-9cf68aab4b7e",
         "qodanaNewResultSummary": {
-          "high": 53,
+          "high": 49,
           "moderate": 103,
-          "total": 156
+          "total": 152
         }
       }
     }
   ],
   "properties": {
-    "runTimestamp": "1762068900204"
+    "runTimestamp": "1762069967261"
   }
 }

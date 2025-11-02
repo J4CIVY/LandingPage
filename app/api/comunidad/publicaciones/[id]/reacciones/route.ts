@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
-import { Publicacion, UsuarioRanking } from '@/lib/models/Comunidad';
+import { Publicacion } from '@/lib/models/Comunidad';
 import { verifySession } from '@/lib/auth-utils';
 import { actualizarPuntos } from '@/lib/services/GamificacionService';
 import { requireCSRFToken } from '@/lib/csrf-protection';
@@ -109,56 +109,5 @@ export async function POST(
       { exito: false, error: 'Error interno del servidor' },
       { status: 500 }
     );
-  }
-}
-
-// Función auxiliar para actualizar puntos por reacciones (no utilizada actualmente)
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function actualizarPuntosReaccion(usuarioId: string, cambio: number) {
-  try {
-    let ranking = await UsuarioRanking.findOne({ usuarioId });
-    
-    if (!ranking) {
-      ranking = new UsuarioRanking({
-        usuarioId,
-        puntos: {
-          publicaciones: 0,
-          comentarios: 0,
-          reaccionesRecibidas: 0,
-          participacionEventos: 0,
-          total: 0
-        },
-        insignias: [],
-        nivel: 'Novato',
-        fechaActualizacion: new Date()
-      });
-    }
-
-    // Actualizar puntos de reacciones recibidas
-    ranking.puntos.reaccionesRecibidas = Math.max(0, ranking.puntos.reaccionesRecibidas + cambio);
-    
-    // Recalcular total
-    ranking.puntos.total = 
-      ranking.puntos.publicaciones + 
-      ranking.puntos.comentarios + 
-      ranking.puntos.reaccionesRecibidas + 
-      ranking.puntos.participacionEventos;
-
-    // Actualizar nivel
-    if (ranking.puntos.total >= 1500) {
-      ranking.nivel = 'Leyenda BSKMT';
-    } else if (ranking.puntos.total >= 500) {
-      ranking.nivel = 'Motociclista Activo';
-    } else if (ranking.puntos.total >= 100) {
-      ranking.nivel = 'Colaborador';
-    } else {
-      ranking.nivel = 'Novato';
-    }
-
-    ranking.fechaActualizacion = new Date();
-    await ranking.save();
-
-  } catch (error) {
-    console.error('Error al actualizar puntos de reacción:', error);
   }
 }

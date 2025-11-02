@@ -86,8 +86,7 @@ export async function POST(request: NextRequest) {
 }
 
 // GET - Obtener estadísticas de notificaciones (solo para administradores)
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     await connectDB();
 

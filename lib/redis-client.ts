@@ -21,8 +21,7 @@ export function getRedisClient(): Redis | null {
       enableReadyCheck: true,
       lazyConnect: true,
       retryStrategy(times) {
-        const delay = Math.min(times * 50, 2000);
-        return delay;
+        return Math.min(times * 50, 2000);
       },
     };
 

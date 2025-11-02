@@ -141,7 +141,7 @@ export default function Timeline({ items, filtro, onFiltroChange }: TimelineProp
             <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-200 dark:bg-slate-700 hidden md:block"></div>
             
             <div className="space-y-6">
-              {items.map((item, index) => { // eslint-disable-line @typescript-eslint/no-unused-vars
+              {items.map((item) => {
                 const IconComponent = getIconForType(item.tipo);
                 const colorClass = getColorForType(item.tipo);
                 const date = formatDate(item.fecha);

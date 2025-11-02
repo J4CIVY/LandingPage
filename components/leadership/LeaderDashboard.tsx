@@ -126,26 +126,6 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
     }
   };
 
-  const createAnnouncement = async (announcement: Omit<Announcement, 'id' | 'status'>) => { // eslint-disable-line @typescript-eslint/no-unused-vars
-    try {
-      const csrfToken = getCSRFToken();
-      const response = await fetch('/api/leadership/announcements', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-csrf-token': csrfToken || '',
-        },
-        body: JSON.stringify(announcement),
-      });
-
-      if (response.ok) {
-        await fetchDashboardData(); // Recargar datos
-      }
-    } catch (error) {
-      console.error('Error creating announcement:', error);
-    }
-  };
-
   const tabs = [
     { id: 'overview', label: 'Resumen', icon: FaChartLine },
     { id: 'team', label: 'Equipo', icon: FaUsers },

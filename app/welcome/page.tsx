@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, Suspense } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { FaCheckCircle, FaSpinner, FaEnvelope, FaMedal, FaMotorcycle, FaUsers, FaCalendarAlt } from 'react-icons/fa';
 import { GiSteelwingEmblem } from 'react-icons/gi';
 import Link from 'next/link';
@@ -14,8 +14,6 @@ interface WelcomeData {
 
 const WelcomeContent: React.FC = () => {
   const searchParams = useSearchParams();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const router = useRouter();
   const [welcomeData, setWelcomeData] = useState<WelcomeData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 

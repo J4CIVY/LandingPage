@@ -15,7 +15,6 @@ import { EventFilters, EventType, EventDifficulty, EventDisplayStatus } from '@/
 interface EventosFilterProps {
   filters: EventFilters;
   onFiltersChange: (filters: EventFilters) => void;
-  onClearFilters?: () => void;
   loading: boolean;
 }
 
@@ -48,8 +47,7 @@ const difficulties: { value: EventDifficulty | 'all'; label: string }[] = [
   { value: 'expert', label: 'Experto' }
 ];
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function EventosFilter({ filters, onFiltersChange, onClearFilters, loading }: EventosFilterProps) {
+export default function EventosFilter({ filters, onFiltersChange, loading }: EventosFilterProps) {
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [localFilters, setLocalFilters] = useState<EventFilters>(filters);
 

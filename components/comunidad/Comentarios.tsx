@@ -392,8 +392,7 @@ export default function Comentarios({
       });
 
       if (response.ok) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const data = await response.json();
+        await response.json();
         
         // Recargar comentarios
         const comentariosResponse = await fetch(`/api/comunidad/publicaciones/${publicacionId}/comentarios`, {

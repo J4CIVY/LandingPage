@@ -34,8 +34,6 @@ const eventTypes: EventType[] = [
   'Competencia', 'Social', 'Mantenimiento', 'Turismo', 'Beneficencia'
 ];
 
-const eventStatuses: EventStatus[] = ['draft', 'published', 'cancelled', 'completed']; // eslint-disable-line @typescript-eslint/no-unused-vars
-
 const difficulties: EventDifficulty[] = ['beginner', 'intermediate', 'advanced', 'expert'];
 
 const difficultyLabels = {

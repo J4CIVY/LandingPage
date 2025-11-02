@@ -82,8 +82,8 @@ const StoreSection: React.FC = () => {
         {featuredProducts.length > 0 ? (
           <>
             <div className="grid md:grid-cols-3 gap-8">
-              {featuredProducts.map((product: any, index: number) => ( // eslint-disable-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
-                <div className="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg hover:scale-105">
+              {featuredProducts.map((product: any) => ( // eslint-disable-line @typescript-eslint/no-explicit-any
+                <div className="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg hover:scale-105" key={product.id || product.name}>
                   <div className="relative" style={{ aspectRatio: '1/1' }}>
                     <Image
                       src={product.featuredImage}

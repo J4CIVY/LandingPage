@@ -113,8 +113,7 @@ export default function ProfilePage() {
   );
 
   // Handlers para callbacks de componentes
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleAvatarUpload = async (file: File) => {
+  const handleAvatarUpload = async (_file: File) => { // eslint-disable-line @typescript-eslint/no-unused-vars
     // Implementar subida de avatar
   };
 

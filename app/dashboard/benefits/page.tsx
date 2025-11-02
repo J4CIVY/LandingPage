@@ -83,12 +83,6 @@ const BenefitsPage = () => {
     setFormModalOpen(true);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleEditBenefit = (benefit: Benefit) => {
-    setSelectedBenefit(benefit);
-    setFormModalOpen(true);
-  };
-
   const handleSubmitBenefit = async (data: BenefitFormData) => {
     setIsLoading(true);
     

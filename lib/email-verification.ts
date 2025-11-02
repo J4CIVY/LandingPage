@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Email Verification for High-Risk Actions v2.5.0
  * 
@@ -154,7 +154,7 @@ export async function createVerificationRequest(
     const zohoClient = (emailService as any).client;
     const fromEmail = process.env.ZOHO_FROM_EMAIL || '';
     
-    const result = await zohoClient.sendEmail({
+    await zohoClient.sendEmail({
       fromAddress: fromEmail,
       toAddress: email,
       subject: `Verificación de ${actionNames[action]}`,

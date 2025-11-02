@@ -61,7 +61,7 @@ const BlogSection: React.FC = () => {
         </h2>
 
         <div className="grid md:grid-cols-2 gap-8 mb-12">
-          {blogPosts.map((post: BlogPost, index: number) => { // eslint-disable-line @typescript-eslint/no-unused-vars
+          {blogPosts.map((post: BlogPost) => {
             const imageSources = generateImageSources(post.image);
             
             return (

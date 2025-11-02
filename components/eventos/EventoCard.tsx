@@ -27,7 +27,6 @@ interface EventoCardProps {
   onUnregister: () => void;
   onEdit: () => void;
   onDelete: () => void;
-  isDashboard?: boolean;
 }
 
 export default function EventoCard({
@@ -37,8 +36,7 @@ export default function EventoCard({
   onRegister,
   onUnregister,
   onEdit,
-  onDelete,
-  isDashboard = true // eslint-disable-line @typescript-eslint/no-unused-vars
+  onDelete
 }: EventoCardProps) {
   const [imageError, setImageError] = useState(false);
   const [loading, setLoading] = useState(false);

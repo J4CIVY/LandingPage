@@ -381,12 +381,12 @@ export const obtenerRecompensas = async (): Promise<Recompensa[]> => {
   return recompensas.filter(r => r.disponible);
 };
 
-export const obtenerHistorialPuntos = async (usuarioId: string): Promise<PuntosActividad[]> => {
+export const obtenerHistorialPuntos = async (_usuarioId: string): Promise<PuntosActividad[]> => {
   await new Promise(resolve => setTimeout(resolve, 400));
   return historialActividades;
 };
 
-export const obtenerLeaderboard = async (periodo: "Mensual" | "Anual" | "Histórico" = "Histórico"): Promise<Usuario[]> => {
+export const obtenerLeaderboard = async (_periodo: "Mensual" | "Anual" | "Histórico" = "Histórico"): Promise<Usuario[]> => {
   await new Promise(resolve => setTimeout(resolve, 350));
   return leaderboard.sort((a, b) => b.puntosTotales - a.puntosTotales);
 };

@@ -9,8 +9,7 @@ import { db } from '@/lib/database';
  * GET /api/stats
  * Obtiene estadísticas generales del sistema
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function handleGet(request: NextRequest) {
+async function handleGet() {
   const users = db.getAllUsers();
   const products = db.getAllProducts();
   const events = db.getAllEvents();
