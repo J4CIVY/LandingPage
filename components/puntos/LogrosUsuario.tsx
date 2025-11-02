@@ -36,11 +36,10 @@ interface EstadisticasLogros {
 
 interface LogrosProps {
   usuarioId: string;
-  puntosActuales: number;
+  puntosActuales?: number; // Optional as it's not currently used
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps) {
+export default function LogrosUsuario({ usuarioId }: LogrosProps) {
   const [logros, setLogros] = useState<Logro[]>([]);
   const [estadisticas, setEstadisticas] = useState<EstadisticasLogros | null>(null);
   const [loading, setLoading] = useState(true);

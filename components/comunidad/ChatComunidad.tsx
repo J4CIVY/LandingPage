@@ -30,8 +30,7 @@ export default function ChatComunidad({
 }: ChatComunidadProps) {
   const [nuevoMensaje, setNuevoMensaje] = useState('');
   const [usuariosEnLinea, setUsuariosEnLinea] = useState<UsuarioEnLinea[]>([]);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [cargandoUsuarios, setCargandoUsuarios] = useState(false);
+  const [, setCargandoUsuarios] = useState(false);
   const [mostrarUsuarios, setMostrarUsuarios] = useState(false);
   const [menuAbierto, setMenuAbierto] = useState<string | null>(null);
   const [enviandoMensaje, setEnviandoMensaje] = useState(false);

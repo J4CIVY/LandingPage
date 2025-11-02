@@ -608,8 +608,6 @@ export const calculateRiderUpgradeRequirements = async (
   timeRequired: number;
   lastYearPointsRequired: number;
 }> => {
-  const riderRules = MEMBERSHIP_RULES.Rider;
-  
   // Calcular eventos confirmados acumulados requeridos (50% del total histórico)
   const totalEventsHistorical = userStats.totalEventsAttended || userStats.eventsAttended;
   const eventsRequired = Math.ceil(totalEventsHistorical * 0.5); // 50% de eventos confirmados asistidos
@@ -1014,7 +1012,6 @@ export const calculateHighParticipationEvents = async (user: any) => {
   
   const allEventsFromFriend = user.allEventsFromFriend || [];
   const attendedEvents = user.attendedEvents || [];
-  const confirmedAttendance = user.confirmedAttendance || [];
   
   const totalEventsAvailable = allEventsFromFriend.length;
   const totalEventsAttended = attendedEvents.length;

@@ -196,8 +196,7 @@ export default function RankingPage() {
         {/* Top 3 - Destacados */}
         {!loading && filteredLeaderboard.length >= 3 && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            {/* eslint-disable-next-line @typescript-eslint/no-unused-vars */}
-            {filteredLeaderboard.slice(0, 3).map((member, index) => {
+            {filteredLeaderboard.slice(0, 3).map((member) => {
               const badge = getRankingBadge(member.position);
               const memberConfig = MEMBERSHIP_CONFIG[member.membershipType];
               const isUser = isCurrentUser(member.userId);

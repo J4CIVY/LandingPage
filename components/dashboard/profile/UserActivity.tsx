@@ -32,8 +32,7 @@ interface LoginSession {
 }
 
 export default function UserActivity({ user }: UserActivityProps) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [activities, setActivities] = useState<ActivityLog[]>([
+  const [activities] = useState<ActivityLog[]>([
     // Mock data - En producción vendría de la API
     {
       id: '1',
