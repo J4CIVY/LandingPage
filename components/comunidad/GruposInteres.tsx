@@ -410,7 +410,7 @@ export default function GruposInteres({
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            eliminarGrupo(grupo.id);
+                            void eliminarGrupo(grupo.id);
                           }}
                           className="p-1 text-gray-400 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400"
                           title="Eliminar grupo"

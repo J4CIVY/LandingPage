@@ -346,7 +346,7 @@ export default function DashboardEventDetailsPage() {
 
   useEffect(() => {
     if (user && eventId) {
-      fetchUserEventData();
+      void fetchUserEventData();
     }
   }, [user, eventId]);
 

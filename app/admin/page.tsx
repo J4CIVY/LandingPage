@@ -63,7 +63,7 @@ export default function AdminDashboard() {
     };
 
     if (user && (user.role === 'admin' || user.role === 'super-admin')) {
-      loadStats();
+      void loadStats();
     }
   }, [user]);
 

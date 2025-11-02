@@ -61,7 +61,7 @@ const Store: React.FC = () => {
       }
     };
 
-    fetchProducts();
+    void fetchProducts();
   }, []); // Empty dependency array means this runs once on mount
 
   /**

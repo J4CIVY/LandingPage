@@ -87,7 +87,7 @@ export function useUserStats() {
   }, [isAuthenticated, user]);
 
   const refreshStats = () => {
-    fetchStats();
+    void fetchStats();
   };
 
   return {

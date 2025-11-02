@@ -125,7 +125,7 @@ export default function AnalyticsPage() {
   const handlePeriodChange = (newPeriod: string) => {
     setPeriod(newPeriod);
     setLoading(true);
-    fetchAnalytics(newPeriod);
+    void fetchAnalytics(newPeriod);
   };
 
   const handleRefresh = () => {

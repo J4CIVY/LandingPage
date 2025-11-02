@@ -44,7 +44,7 @@ export default function EstadisticasRapidas({ usuarioId, puntosActuales = 0 }: E
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    cargarEstadisticas();
+    void cargarEstadisticas();
   }, [usuarioId]);
 
   const cargarEstadisticas = async () => {
