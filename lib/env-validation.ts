@@ -99,11 +99,27 @@ export type Env = z.infer<typeof envSchema>;
  * @throws {Error} If environment variables are invalid
  */
 export function validateEnv(): Env {
+  // During build time, use lenient validation to allow builds without all env vars
+  const isBuildTime = process.env.NEXT_PHASE === 'phase-production-build' || 
+                      process.env.npm_lifecycle_event === 'build';
+
   const parsed = envSchema.safeParse(process.env);
 
   if (!parsed.success) {
     console.error('❌ Invalid environment variables:');
     console.error(JSON.stringify(parsed.error.flatten(), null, 2));
+    
+    // Allow build to continue but warn about missing variables
+    if (isBuildTime) {
+      console.warn('⚠️  Build continuing with invalid environment variables. Ensure they are set for runtime.');
+      // Return a minimal valid object for build time
+      return {
+        NODE_ENV: (process.env.NODE_ENV as 'development' | 'production' | 'test') || 'production',
+        MONGODB_URI: process.env.MONGODB_URI || 'mongodb://placeholder',
+        JWT_SECRET: process.env.JWT_SECRET || 'placeholder-secret-min-32-chars-long',
+        JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET || 'placeholder-refresh-secret-32-chars',
+      } as Env;
+    }
     
     throw new Error(
       'Invalid environment variables. Check the logs above for details.'
