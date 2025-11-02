@@ -225,7 +225,7 @@ export default function ProfilePage() {
               <EmergencyContact user={profile} onSave={handleSave} />
             )}
             {activeTab === 'documents' && (
-              <Documents userId={profile.id} />
+              <Documents />
             )}
             {activeTab === 'account' && (
               <AccountSettings user={profile} onSave={handleSave} />

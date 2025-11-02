@@ -17,8 +17,6 @@ export default function DashboardPage() {
   const { user, isLoading, isAuthenticated, isInitialized } = useAuth();
   
   // Estados para datos del usuario
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [userProfile, setUserProfile] = useState(null);
   const [stats, setStats] = useState({
     eventsRegistered: 0,
     eventsAttended: 0,
@@ -43,7 +41,8 @@ export default function DashboardPage() {
 
       if (response.ok) {
         const data = await response.json();
-        setUserProfile(data.data.user);
+        // TODO: Use profile data when implementing user profile display
+        console.log('User profile loaded:', data.data.user);
       }
     } catch (error) {
       console.error('Error fetching user profile:', error);

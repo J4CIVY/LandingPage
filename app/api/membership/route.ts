@@ -142,7 +142,7 @@ export async function GET(request: NextRequest) {
     } else if (currentMembershipType === 'Master') {
       requirements = await getMasterRequirements(user, userStats);
     } else if (currentMembershipType === 'Leader') {
-      requirements = await getLeaderRequirements(user, userStats);
+      requirements = await getLeaderRequirements(user);
     } else {
       requirements = getDetailedRequirements(currentMembershipType, progress.nextType || undefined, userStats);
     }
@@ -861,8 +861,8 @@ async function getVolunteerStatus(user: any, userStats: any, currentMembershipTy
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
-async function getLeaderRequirements(user: any, userStats: any): Promise<RequirementStatus[]> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function getLeaderRequirements(user: any): Promise<RequirementStatus[]> {
   // Función especializada para evaluar requisitos de Leader
   
   try {

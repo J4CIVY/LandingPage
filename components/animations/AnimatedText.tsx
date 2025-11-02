@@ -1,6 +1,6 @@
 "use client";
 
-import React, { forwardRef } from 'react';
+import React from 'react';
 import { useTextAnimation } from '@/hooks/useTextAnimation';
 
 interface AnimatedTextProps extends React.HTMLAttributes<HTMLElement> {
@@ -11,80 +11,80 @@ interface AnimatedTextProps extends React.HTMLAttributes<HTMLElement> {
   className?: string;
 }
 
-export const AnimatedText = forwardRef<HTMLElement, AnimatedTextProps>(
-  ({ 
-    as = 'div', 
-    animationType = 'fadeIn', 
-    delay = 0, 
-    children, 
-    className = '', 
-    ...props 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  }, forwardedRef) => {
-    const { ref, className: animationClassName } = useTextAnimation({
-      animationType,
-      delay,
-      triggerOnce: true,
-      threshold: 0.1
-    });
+export const AnimatedText = ({ 
+  as = 'div', 
+  animationType = 'fadeIn', 
+  delay = 0, 
+  children, 
+  className = '', 
+  ...props 
+}: AnimatedTextProps) => {
+  const { ref, className: animationClassName } = useTextAnimation({
+    animationType,
+    delay,
+    triggerOnce: true,
+    threshold: 0.1
+  });
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const Component = as as any;
-    const combinedClassName = `${animationClassName} ${className}`.trim();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const Component = as as any;
+  const combinedClassName = `${animationClassName} ${className}`.trim();
 
-    return (
-      <Component
-        ref={ref}
-        className={combinedClassName}
-        {...props}
-      >
-        {children}
-      </Component>
-    );
-  }
-);
+  return (
+    <Component
+      ref={ref}
+      className={combinedClassName}
+      {...props}
+    >
+      {children}
+    </Component>
+  );
+};
 
 AnimatedText.displayName = 'AnimatedText';
 
 // Componentes específicos para diferentes tipos de texto
-export const AnimatedHeading = forwardRef<HTMLHeadingElement, Omit<AnimatedTextProps, 'as'> & { level?: 1 | 2 | 3 | 4 | 5 | 6 }>(
-  ({ level = 2, animationType = 'fadeIn', delay = 0, ...props }, ref) => (
-    <AnimatedText
-      ref={ref}
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      as={`h${level}` as any}
-      animationType={animationType}
-      delay={delay}
-      {...props}
-    />
-  )
+export const AnimatedHeading = ({ 
+  level = 2, 
+  animationType = 'fadeIn', 
+  delay = 0, 
+  ...props 
+}: Omit<AnimatedTextProps, 'as'> & { level?: 1 | 2 | 3 | 4 | 5 | 6 }) => (
+  <AnimatedText
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    as={`h${level}` as any}
+    animationType={animationType}
+    delay={delay}
+    {...props}
+  />
 );
 
 AnimatedHeading.displayName = 'AnimatedHeading';
 
-export const AnimatedParagraph = forwardRef<HTMLParagraphElement, Omit<AnimatedTextProps, 'as'>>(
-  ({ animationType = 'fadeIn', delay = 0, ...props }, ref) => (
-    <AnimatedText
-      ref={ref}
-      as="p"
-      animationType={animationType}
-      delay={delay}
-      {...props}
-    />
-  )
+export const AnimatedParagraph = ({ 
+  animationType = 'fadeIn', 
+  delay = 0, 
+  ...props 
+}: Omit<AnimatedTextProps, 'as'>) => (
+  <AnimatedText
+    as="p"
+    animationType={animationType}
+    delay={delay}
+    {...props}
+  />
 );
 
 AnimatedParagraph.displayName = 'AnimatedParagraph';
 
-export const AnimatedSpan = forwardRef<HTMLSpanElement, Omit<AnimatedTextProps, 'as'>>(
-  ({ animationType = 'fadeIn', ...props }, ref) => (
-    <AnimatedText
-      ref={ref}
-      as="span"
-      animationType={animationType}
-      {...props}
-    />
-  )
+export const AnimatedSpan = ({ 
+  animationType = 'fadeIn', 
+  ...props 
+}: Omit<AnimatedTextProps, 'as'>) => (
+  <AnimatedText
+    as="span"
+    animationType={animationType}
+    {...props}
+  />
 );
 
 AnimatedSpan.displayName = 'AnimatedSpan';
