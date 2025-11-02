@@ -214,7 +214,7 @@ export default function Normas({ usuarioActual }: NormasProps) {
   // Cargar reportes al montar el componente si es admin
   useEffect(() => {
     if (esAdmin) {
-      cargarReportes();
+      void cargarReportes();
     }
   }, [esAdmin]);
 

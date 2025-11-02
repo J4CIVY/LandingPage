@@ -34,7 +34,7 @@ const EmailConfigPage: React.FC = () => {
 
   useEffect(() => {
     if (!authLoading && user && user.role === 'admin') {
-      fetchConfig();
+      void fetchConfig();
       
       // Verificar si venimos de una autorización exitosa
       const urlParams = new URLSearchParams(window.location.search);
