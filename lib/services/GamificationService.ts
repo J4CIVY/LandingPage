@@ -117,7 +117,7 @@ export class GamificationService {
       let estadisticas = await EstadisticasUsuario.findOne({ usuarioId });
       
       if (!estadisticas) {
-        estadisticas = await this.crearEstadisticasIniciales(usuarioId);
+        await this.crearEstadisticasIniciales(usuarioId);
       }
 
       // Actualizar estadísticas en tiempo real
@@ -1080,7 +1080,7 @@ export class GamificationService {
       }
 
       // Evaluar si se cumple la condición
-      let desbloqueado = false;
+      let desbloqueado: boolean;
       switch (operador) {
         case 'mayor_igual':
           desbloqueado = valorActual >= valor;

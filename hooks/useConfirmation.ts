@@ -33,19 +33,12 @@ export const useConfirmNavigation = (shouldConfirm: boolean, message = '¿Estás
   useEffect(() => {
     if (!shouldConfirm) return;
 
-    const handleRouteChange = () => { // eslint-disable-line @typescript-eslint/no-unused-vars
-      if (shouldConfirm) {
-        const confirmed = window.confirm(message);
-        if (!confirmed) {
-          throw new Error('Route change cancelled');
-        }
-      }
-    };
-
-  // En Next.js 13+ con App Router, se maneja diferente (mantener si hay contexto útil)
-  // Implementación simplificada (mantener si hay contexto útil)
+    // Note: Next.js 13+ App Router doesn't provide direct route change interception
+    // This hook is kept for compatibility and future implementation
+    // For now, we rely on useBeforeUnload for page navigation warnings
+    
     return () => {
-  // Limpieza si es necesario
+      // Cleanup if needed
     };
   }, [shouldConfirm, message, router]);
 };
@@ -62,13 +55,10 @@ export const useConfirmation = () => {
   const confirm = ({
     title = 'Confirmar acción',
     message,
-    confirmText = 'Confirmar', // eslint-disable-line @typescript-eslint/no-unused-vars
-    cancelText = 'Cancelar', // eslint-disable-line @typescript-eslint/no-unused-vars
-    type = 'warning' // eslint-disable-line @typescript-eslint/no-unused-vars
   }: ConfirmationOptions): Promise<boolean> => {
     return new Promise((resolve) => {
-  // Para una implementación completa, aquí crearías un modal personalizado (mantener si hay contexto útil)
-  // Por ahora se usa el confirm nativo del navegador
+      // For a complete implementation, a custom modal component would be created
+      // Currently using native browser confirm dialog
       const result = window.confirm(`${title}\n\n${message}`);
       resolve(result);
     });

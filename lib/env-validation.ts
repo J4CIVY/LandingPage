@@ -103,7 +103,7 @@ export function validateEnv(): Env {
 
   if (!parsed.success) {
     console.error('❌ Invalid environment variables:');
-    console.error(JSON.stringify(parsed.error.format(), null, 2));
+    console.error(JSON.stringify(parsed.error.flatten(), null, 2));
     
     throw new Error(
       'Invalid environment variables. Check the logs above for details.'

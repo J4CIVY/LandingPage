@@ -51,8 +51,6 @@ export default function ProfileHeader({ user, onEdit, onAvatarChange, isEditing 
   // SECURITY: Sanitize user-generated content to prevent XSS
   const safeFirstName = sanitizeText(user.firstName || '', 50);
   const safeLastName = sanitizeText(user.lastName || '', 50);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const safeEmail = user.email; // Email already validated by schema
   
   // SECURITY: Sanitize profile image URL to prevent XSS
   const safeProfileImage = useMemo(() => {

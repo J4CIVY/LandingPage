@@ -560,7 +560,7 @@ export const calculateMinimumDaysForUpgrade = (joinDate: Date): number => {
   return isLeapYear(joinYear) ? 366 : 365;
 };
 
-export const calculateRequiredEventsForFriend = async (year: number): Promise<number> => {
+export const calculateRequiredEventsForFriend = async (): Promise<number> => {
   // TODO: Implementar lógica para obtener el total de eventos oficiales del año
   // Por ahora, estimamos basándose en un promedio
   const averageEventsPerYear = 24; // Estimación: 2 eventos por mes
@@ -586,8 +586,7 @@ export const calculateFriendUpgradeRequirements = async (
   
   const joinDate = new Date(user.joinDate || user.createdAt);
   const minimumDaysActual = calculateMinimumDaysForUpgrade(joinDate);
-  const currentYear = new Date().getFullYear();
-  const eventsRequired = await calculateRequiredEventsForFriend(currentYear);
+  const eventsRequired = await calculateRequiredEventsForFriend();
   
   return {
     pointsRequired: friendRules.pointsRequired,

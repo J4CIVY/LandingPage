@@ -2,8 +2,6 @@ import { useCallback, useEffect, useState } from 'react';
 
 interface ScrollToSectionOptions {
   behavior?: ScrollBehavior;
-  block?: ScrollLogicalPosition;
-  inline?: ScrollLogicalPosition;
   offset?: number;
 }
 
@@ -16,9 +14,7 @@ export const useScrollToSection = () => {
   ) => {
     const {
       behavior = 'smooth',
-      block = 'start', // eslint-disable-line @typescript-eslint/no-unused-vars
-      inline = 'nearest', // eslint-disable-line @typescript-eslint/no-unused-vars
-  offset = 80
+      offset = 80
     } = options;
 
     setIsScrolling(true);
@@ -26,7 +22,7 @@ export const useScrollToSection = () => {
     const element = document.querySelector(selector);
     
     if (element) {
-  // Calcula posición considerando el offset del header
+      // Calcula posición considerando el offset del header
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
 

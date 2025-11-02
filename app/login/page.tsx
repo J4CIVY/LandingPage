@@ -19,9 +19,8 @@ function LoginFlow() {
   const [email, setEmail] = useState('');
   const [preAuthToken, setPreAuthToken] = useState<string | null>(null);
   const [twoFactorData, setTwoFactorData] = useState<TwoFactorData | null>(null);
-  // Error state used for displaying error messages in login flow
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [error, setError] = useState<string | null>(null);
+  // TODO: Display error state in UI when authentication errors occur
+  const [, setError] = useState<string | null>(null);
   
   const router = useRouter();
   const searchParams = useSearchParams();

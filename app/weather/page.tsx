@@ -35,35 +35,18 @@ interface TabContent {
  */
 const Weather: React.FC = () => {
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isMobile, setIsMobile] = useState<boolean>(false); // Inicializa como false
-
   const [activeTab, setActiveTab] = useState<string>('radar');
 
-  // Effect to update lastUpdated timestamp and handle window resize
+  // Effect to update lastUpdated timestamp
   useEffect(() => {
     // Set interval for updating timestamp
     const interval = setInterval(() => {
       setLastUpdated(new Date());
     }, 150000); // 2.5 minutes (150000 ms)
-
-    // Handle window resize for mobile detection
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    // Solo agregar el listener si estamos en el cliente
-    if (typeof window !== 'undefined') {
-      handleResize(); // Llama a la función para establecer el estado inicial
-      window.addEventListener('resize', handleResize);
-    }
     
     // Cleanup function for useEffect
     return () => {
       clearInterval(interval);
-      if (typeof window !== 'undefined') {
-        window.removeEventListener('resize', handleResize);
-      }
     };
   }, []); // Empty dependency array means this effect runs once on mount and cleans up on unmount
 

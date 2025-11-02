@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    let membershipData = null;
+    let membershipData;
 
     if (activeMembership) {
       // Calcular días restantes

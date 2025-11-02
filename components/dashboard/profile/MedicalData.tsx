@@ -141,8 +141,6 @@ export default function MedicalData({ user, onSave, isEditing = false, onEditTog
   };
 
   const hasBasicMedicalInfo = formData.bloodType || formData.rhFactor || formData.allergies || formData.healthInsurance;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const hasExtendedMedicalInfo = formData.medications || formData.medicalConditions || formData.emergencyMedicalNotes;
 
   return (
     <div className="bg-linear-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 border-2 border-blue-200 dark:border-blue-800 rounded-xl shadow-lg p-6">

@@ -20173,7 +20173,7 @@
       },
       "invocations": [
         {
-          "startTimeUtc": "2025-11-02T06:31:25.4333057Z",
+          "startTimeUtc": "2025-11-02T06:41:43.3075364Z",
           "exitCode": 0,
           "executionSuccessful": true
         }
@@ -20182,7 +20182,7 @@
       "versionControlProvenance": [
         {
           "repositoryUri": "https://github.com/J4CIVY/LandingPage.git",
-          "revisionId": "6774046a4755de07201ccca9953e14509f717428",
+          "revisionId": "4c9f19130b087e27912d0216fd4c3efeeba97261",
           "branch": "main",
           "properties": {
             "repoUrl": "https://github.com/J4CIVY/LandingPage.git",
@@ -20361,576 +20361,6 @@
             "problemType": "REGULAR",
             "tags": [
               "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSNonASCIINames",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Name contains both ASCII and non-ASCII symbols: Membresía",
-            "markdown": "Name contains both ASCII and non-ASCII symbols: Membresía"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/puntos/HistorialPuntos.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 156,
-                  "startColumn": 7,
-                  "charOffset": 4811,
-                  "charLength": 9,
-                  "snippet": {
-                    "text": "Membresía"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 154,
-                  "startColumn": 1,
-                  "charOffset": 4704,
-                  "charLength": 345,
-                  "snippet": {
-                    "text": "    const iconos = {\r\n      Evento: <FaMotorcycle className=\"text-blue-600 dark:text-blue-400\" />, \r\n      Membresía: <FaUsers className=\"text-purple-600 dark:text-purple-400\" />, \r\n      Beneficio: <FaGift className=\"text-green-600 dark:text-green-400\" />, \r\n      Comunidad: <FaComments className=\"text-emerald-600 dark:text-emerald-400\" />, \r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "160cea29108124f5",
-            "equalIndicator/v1": "3b222a6e70b24422fe66f75743de7bc6df367545f5f074c94ef337548d4b4a71"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSNonASCIINames",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Name contains both ASCII and non-ASCII symbols: año",
-            "markdown": "Name contains both ASCII and non-ASCII symbols: año"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/models/PQRSDF.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 237,
-                  "startColumn": 18,
-                  "charOffset": 6613,
-                  "charLength": 3,
-                  "snippet": {
-                    "text": "año"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 235,
-                  "startColumn": 1,
-                  "charOffset": 6535,
-                  "charLength": 101,
-                  "snippet": {
-                    "text": "  });\r\n  const numero = String(count + 1).padStart(4, '0');\r\n  return `PQRS-${año}-${numero}`;\r\n};\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "fd302d620e18a3a1",
-            "equalIndicator/v1": "44e7b5f9cb5fdefed3d89d1a210b1e110d31479edb5ff556cf230eaa3a763368"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSNonASCIINames",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Name contains both ASCII and non-ASCII symbols: año",
-            "markdown": "Name contains both ASCII and non-ASCII symbols: año"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "types/puntos/index.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 73,
-                  "startColumn": 3,
-                  "charOffset": 1615,
-                  "charLength": 3,
-                  "snippet": {
-                    "text": "año"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 71,
-                  "startColumn": 1,
-                  "charOffset": 1549,
-                  "charLength": 85,
-                  "snippet": {
-                    "text": "  periodo: \"Mensual\" | \"Anual\" | \"Histórico\";\r\n  mes?: number;\r\n  año?: number;\r\n}\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "f7decece26659bd0",
-            "equalIndicator/v1": "464357d53cc61f345fb9fea18245b539d62ed128782f6e96568cf5696a886b79"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSNonASCIINames",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Name contains both ASCII and non-ASCII symbols: año",
-            "markdown": "Name contains both ASCII and non-ASCII symbols: año"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/models/PQRSDF.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 232,
-                  "startColumn": 9,
-                  "charOffset": 6407,
-                  "charLength": 3,
-                  "snippet": {
-                    "text": "año"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 230,
-                  "startColumn": 1,
-                  "charOffset": 6263,
-                  "charLength": 271,
-                  "snippet": {
-                    "text": "// Método estático para generar número de solicitud\r\nPQRSDFSchema.statics.generarNumeroSolicitud = async function(): Promise<string> {\r\n  const año = new Date().getFullYear();\r\n  const count = await this.countDocuments({\r\n    numeroSolicitud: { $regex: `^PQRS-${año}-` }\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "3458ef2dff2f7dc0",
-            "equalIndicator/v1": "99ddc6af438dcaf4bb69e8bef676437eee44897009837a948bfc1a8d97f2b383"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSNonASCIINames",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Name contains both ASCII and non-ASCII symbols: mentoría",
-            "markdown": "Name contains both ASCII and non-ASCII symbols: mentoría"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/services/GamificationService.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 76,
-                  "startColumn": 3,
-                  "charOffset": 2413,
-                  "charLength": 8,
-                  "snippet": {
-                    "text": "mentoría"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 74,
-                  "startColumn": 1,
-                  "charOffset": 2351,
-                  "charLength": 115,
-                  "snippet": {
-                    "text": "    descripcion: 'Liderazgo en proyecto comunitario'\r\n  },\r\n  mentoría: {\r\n    tipo: 'mentoría',\r\n    puntos: 150,\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "9a3761e00770f2cf",
-            "equalIndicator/v1": "ca90ccf635f6cddf887053cefbf7ab382c9ad2854027e21934c3d94a8d24a2b5"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSNonASCIINames",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Name contains both ASCII and non-ASCII symbols: '_id.año'",
-            "markdown": "Name contains both ASCII and non-ASCII symbols: '_id.año'"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/api/pqrsdf/estadisticas/route.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 179,
-                  "startColumn": 18,
-                  "charOffset": 5042,
-                  "charLength": 9,
-                  "snippet": {
-                    "text": "'_id.año'"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 177,
-                  "startColumn": 1,
-                  "charOffset": 5004,
-                  "charLength": 80,
-                  "snippet": {
-                    "text": "        }\r\n      },\r\n      { $sort: { '_id.año': 1, '_id.mes': 1 } }\r\n    ]);\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "365a66eb9cfdde3c",
-            "equalIndicator/v1": "ce59bf49aecf3e4e4df3c977478e88cf391227b987f7ade4ebba7fe258dc59cb"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSNonASCIINames",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Name contains both ASCII and non-ASCII symbols: 'Membresía'",
-            "markdown": "Name contains both ASCII and non-ASCII symbols: 'Membresía'"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "utils/historialUtils.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 57,
-                  "startColumn": 5,
-                  "charOffset": 2330,
-                  "charLength": 11,
-                  "snippet": {
-                    "text": "'Membresía'"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 55,
-                  "startColumn": 1,
-                  "charOffset": 2276,
-                  "charLength": 127,
-                  "snippet": {
-                    "text": "      badge: 'bg-blue-100 text-blue-800'\r\n    },\r\n    'Membresía': {\r\n      icon: 'text-green-600',\r\n      bg: 'bg-green-500',\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "d2c3f5ef33d7ef39",
-            "equalIndicator/v1": "e6d3d3fa09c34bf12598224e7ebed030882818dc5d5ab527c7f40572468066da"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSNonASCIINames",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Name contains both ASCII and non-ASCII symbols: año",
-            "markdown": "Name contains both ASCII and non-ASCII symbols: año"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/models/PQRSDF.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 234,
-                  "startColumn": 41,
-                  "charOffset": 6525,
-                  "charLength": 3,
-                  "snippet": {
-                    "text": "año"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 232,
-                  "startColumn": 1,
-                  "charOffset": 6399,
-                  "charLength": 196,
-                  "snippet": {
-                    "text": "  const año = new Date().getFullYear();\r\n  const count = await this.countDocuments({\r\n    numeroSolicitud: { $regex: `^PQRS-${año}-` }\r\n  });\r\n  const numero = String(count + 1).padStart(4, '0');\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "e51ed40ca7109661",
-            "equalIndicator/v1": "f38acbba4f2108e7f27a04ccb74fa8aad8585a6a76f2d4f65042e84016e78f56"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSNonASCIINames",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Name contains both ASCII and non-ASCII symbols: año",
-            "markdown": "Name contains both ASCII and non-ASCII symbols: año"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/api/pqrsdf/estadisticas/route.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 164,
-                  "startColumn": 13,
-                  "charOffset": 4658,
-                  "charLength": 3,
-                  "snippet": {
-                    "text": "año"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 162,
-                  "startColumn": 1,
-                  "charOffset": 4609,
-                  "charLength": 144,
-                  "snippet": {
-                    "text": "        $group: {\r\n          _id: {\r\n            año: { $year: '$fechaCreacion' },\r\n            mes: { $month: '$fechaCreacion' }\r\n          },\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "85570df512c44493",
-            "equalIndicator/v1": "fe35e2b997f62df74019ccfad4ceca49ee8229e73083b03c2ef3377ae08c814e"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSObjectNullOrUndefined",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "obj is possibly null",
-            "markdown": "obj is possibly null"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "utils/security.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 48,
-                  "startColumn": 12,
-                  "charOffset": 1245,
-                  "charLength": 3,
-                  "snippet": {
-                    "text": "obj"
-                  },
-                  "sourceLanguage": "TypeScript"
-                },
-                "contextRegion": {
-                  "startLine": 46,
-                  "startColumn": 1,
-                  "charOffset": 1201,
-                  "charLength": 92,
-                  "snippet": {
-                    "text": "  \r\n  if (Array.isArray(obj)) {\r\n    return obj.map(item => sanitizeObject(item));\r\n  }\r\n  \r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "48d18dd2a5cc476d",
-            "equalIndicator/v1": "06d355e752737331034844b17bc90af940a9997bff32930c6362134b354883d1"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "TypeScript"
             ]
           }
         },
@@ -31995,7 +31425,7 @@
       ],
       "automationDetails": {
         "id": "LandingPage/qodana/2025-11-02",
-        "guid": "f3dbcbb2-0407-442b-841b-dc5ce59619a0",
+        "guid": "0de9dc02-0d3c-415b-80a4-ad7e6e13b7e5",
         "properties": {
           "jobUrl": "",
           "analysisKind": "ide"
@@ -32012,35 +31442,35 @@
             "kind": "fail",
             "level": "warning",
             "message": {
-              "text": "Local variable 'delay' is redundant",
-              "markdown": "Local variable delay is redundant"
+              "text": "Local variable 'formattedDate' is redundant",
+              "markdown": "Local variable formattedDate is redundant"
             },
             "locations": [
               {
                 "physicalLocation": {
                   "artifactLocation": {
-                    "uri": "lib/redis-client.ts",
+                    "uri": "components/eventos/EventoForm.tsx",
                     "uriBaseId": "SRCROOT"
                   },
                   "region": {
-                    "startLine": 24,
-                    "startColumn": 15,
-                    "charOffset": 735,
-                    "charLength": 5,
+                    "startLine": 134,
+                    "startColumn": 13,
+                    "charOffset": 4383,
+                    "charLength": 13,
                     "snippet": {
-                      "text": "delay"
+                      "text": "formattedDate"
                     },
                     "sourceLanguage": "JavaScript"
                   },
                   "contextRegion": {
-                    "startLine": 22,
+                    "startLine": 132,
                     "startColumn": 1,
-                    "charOffset": 665,
-                    "charLength": 139,
+                    "charOffset": 4284,
+                    "charLength": 214,
                     "snippet": {
-                      "text": "      lazyConnect: true,\r\n      retryStrategy(times) {\r\n        const delay = Math.min(times * 50, 2000);\r\n        return delay;\r\n      },\r"
+                      "text": "      const minutes = String(colombianTime.getUTCMinutes()).padStart(2, '0');\r\n      \r\n      const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;\r\n      return formattedDate;\r\n    } catch (error) {\r"
                     },
-                    "sourceLanguage": "TypeScript"
+                    "sourceLanguage": "TypeScript JSX"
                   }
                 },
                 "logicalLocations": [
@@ -32052,8 +31482,179 @@
               }
             ],
             "partialFingerprints": {
-              "equalIndicator/v2": "98acdc63eb04f466",
-              "equalIndicator/v1": "26184dc1b83df8c0e115f76b8c23540292eaaaeffc83c7d1d71127d716ce5297"
+              "equalIndicator/v2": "749aa715df90f154",
+              "equalIndicator/v1": "19f3281ce29d06d4daaa506bf8cf7aaed45c88755e22a46e1650c3f19e6328bd"
+            },
+            "properties": {
+              "ideaSeverity": "WARNING",
+              "qodanaSeverity": "High",
+              "problemType": "REGULAR",
+              "tags": [
+                "JavaScript"
+              ]
+            }
+          },
+          {
+            "ruleId": "UnnecessaryLocalVariableJS",
+            "kind": "fail",
+            "level": "warning",
+            "message": {
+              "text": "Local variable 'formattedDate' is redundant",
+              "markdown": "Local variable formattedDate is redundant"
+            },
+            "locations": [
+              {
+                "physicalLocation": {
+                  "artifactLocation": {
+                    "uri": "components/eventos/EventoForm.tsx",
+                    "uriBaseId": "SRCROOT"
+                  },
+                  "region": {
+                    "startLine": 123,
+                    "startColumn": 15,
+                    "charOffset": 3816,
+                    "charLength": 13,
+                    "snippet": {
+                      "text": "formattedDate"
+                    },
+                    "sourceLanguage": "JavaScript"
+                  },
+                  "contextRegion": {
+                    "startLine": 121,
+                    "startColumn": 1,
+                    "charOffset": 3723,
+                    "charLength": 196,
+                    "snippet": {
+                      "text": "        const minutes = String(date.getMinutes()).padStart(2, '0');\r\n        \r\n        const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;\r\n        return formattedDate;\r\n      }\r"
+                    },
+                    "sourceLanguage": "TypeScript JSX"
+                  }
+                },
+                "logicalLocations": [
+                  {
+                    "fullyQualifiedName": "LandingPage",
+                    "kind": "module"
+                  }
+                ]
+              }
+            ],
+            "partialFingerprints": {
+              "equalIndicator/v2": "fccc3ba96fd5fcff",
+              "equalIndicator/v1": "325815101062d591d62f62a905b0e451fec7eee4db0fa43a485d7aff70511fb1"
+            },
+            "properties": {
+              "ideaSeverity": "WARNING",
+              "qodanaSeverity": "High",
+              "problemType": "REGULAR",
+              "tags": [
+                "JavaScript"
+              ]
+            }
+          },
+          {
+            "ruleId": "UnnecessaryLocalVariableJS",
+            "kind": "fail",
+            "level": "warning",
+            "message": {
+              "text": "Local variable 'processedDate' is redundant",
+              "markdown": "Local variable processedDate is redundant"
+            },
+            "locations": [
+              {
+                "physicalLocation": {
+                  "artifactLocation": {
+                    "uri": "components/eventos/EventoForm.tsx",
+                    "uriBaseId": "SRCROOT"
+                  },
+                  "region": {
+                    "startLine": 305,
+                    "startColumn": 21,
+                    "charOffset": 10230,
+                    "charLength": 13,
+                    "snippet": {
+                      "text": "processedDate"
+                    },
+                    "sourceLanguage": "JavaScript"
+                  },
+                  "contextRegion": {
+                    "startLine": 303,
+                    "startColumn": 1,
+                    "charOffset": 10095,
+                    "charLength": 233,
+                    "snippet": {
+                      "text": "            // Si ya tiene formato datetime-local (YYYY-MM-DDTHH:mm)\r\n            if (dateString.length === 16) {\r\n              const processedDate = dateString + ':00.000-05:00';\r\n              return processedDate;\r\n            }\r"
+                    },
+                    "sourceLanguage": "TypeScript JSX"
+                  }
+                },
+                "logicalLocations": [
+                  {
+                    "fullyQualifiedName": "LandingPage",
+                    "kind": "module"
+                  }
+                ]
+              }
+            ],
+            "partialFingerprints": {
+              "equalIndicator/v2": "ebb96e8dcc461c6d",
+              "equalIndicator/v1": "6d0ebfef7c624d74ae9cbd999ad94e3e824ead1ec6f6a948990ddcfb93f0530e"
+            },
+            "properties": {
+              "ideaSeverity": "WARNING",
+              "qodanaSeverity": "High",
+              "problemType": "REGULAR",
+              "tags": [
+                "JavaScript"
+              ]
+            }
+          },
+          {
+            "ruleId": "UnnecessaryLocalVariableJS",
+            "kind": "fail",
+            "level": "warning",
+            "message": {
+              "text": "Local variable 'processedDate' is redundant",
+              "markdown": "Local variable processedDate is redundant"
+            },
+            "locations": [
+              {
+                "physicalLocation": {
+                  "artifactLocation": {
+                    "uri": "components/eventos/EventoForm.tsx",
+                    "uriBaseId": "SRCROOT"
+                  },
+                  "region": {
+                    "startLine": 311,
+                    "startColumn": 21,
+                    "charOffset": 10532,
+                    "charLength": 13,
+                    "snippet": {
+                      "text": "processedDate"
+                    },
+                    "sourceLanguage": "JavaScript"
+                  },
+                  "contextRegion": {
+                    "startLine": 309,
+                    "startColumn": 1,
+                    "charOffset": 10343,
+                    "charLength": 280,
+                    "snippet": {
+                      "text": "            // Si ya tiene más información pero no zona horaria\r\n            if (!dateString.includes('+') && !dateString.includes('-') && !dateString.endsWith('Z')) {\r\n              const processedDate = dateString + '-05:00';\r\n              return processedDate;\r\n            }\r"
+                    },
+                    "sourceLanguage": "TypeScript JSX"
+                  }
+                },
+                "logicalLocations": [
+                  {
+                    "fullyQualifiedName": "LandingPage",
+                    "kind": "module"
+                  }
+                ]
+              }
+            ],
+            "partialFingerprints": {
+              "equalIndicator/v2": "12840251f6ed3d45",
+              "equalIndicator/v1": "e4efbd3b4df4df618f01c1000c39ec0c506c42319e752ba8abb779fa3a4d8663"
             },
             "properties": {
               "ideaSeverity": "WARNING",
@@ -32069,14 +31670,14 @@
         "configProfile": "starter",
         "deviceId": "101025103da69cc-f9c8-4a4b-b2dc-9cf68aab4b7e",
         "qodanaNewResultSummary": {
-          "high": 104,
+          "high": 94,
           "moderate": 103,
-          "total": 207
+          "total": 197
         }
       }
     }
   ],
   "properties": {
-    "runTimestamp": "1762065176395"
+    "runTimestamp": "1762065798012"
   }
 }

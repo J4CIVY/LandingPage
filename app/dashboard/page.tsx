@@ -14,8 +14,7 @@ import QuickActions from '@/components/dashboard/sections/QuickActions';
 import GamificationPanel from '@/components/dashboard/sections/GamificationPanel';
 
 export default function DashboardPage() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { user, logout, isLoading, isAuthenticated, isInitialized } = useAuth();
+  const { user, isLoading, isAuthenticated, isInitialized } = useAuth();
   
   // Estados para datos del usuario
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

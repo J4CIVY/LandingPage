@@ -36,8 +36,7 @@ export default function TwoFactorVerificationWithTimer({
   const [internalExpiresIn, setInternalExpiresIn] = useState(expiresIn);
 
   // Timer de inactividad: 120 segundos (2 minutos), advertencia a los 30 segundos
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { timeRemaining, resetTimer, pauseTimer } = useInactivityTimer({
+  const { resetTimer, pauseTimer } = useInactivityTimer({
     timeout: 120000, // 2 minutos
     warningTime: 30000, // Advertencia a los 30 segundos
     onTimeout: () => {

@@ -136,9 +136,9 @@ export default function MembershipAlerts({ membershipData }: MembershipAlertsPro
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleDismiss = (alertId: string) => {
-    // Aquí implementar la lógica para ocultar la alerta
+    // TODO: Implement alert dismissal logic
+    console.log('Dismissing alert:', alertId);
   };
 
   if (alerts.length === 0) {

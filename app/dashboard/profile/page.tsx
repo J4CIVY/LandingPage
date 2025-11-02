@@ -135,19 +135,19 @@ export default function ProfilePage() {
     // Implementar cambio de estado
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleRoleChange = async (newRole: 'user' | 'admin') => {
-    // Implementar cambio de rol
+  const handleRoleChange = async () => {
+    // TODO: Implement role change functionality
+    // Expected parameters: newRole: 'user' | 'admin'
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleDocumentApproval = async (documentId: string, approved: boolean, notes?: string) => {
-    // Implementar aprobación de documentos
+  const handleDocumentApproval = async () => {
+    // TODO: Implement document approval functionality
+    // Expected parameters: documentId: string, approved: boolean, notes?: string
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleProfileApproval = async (approved: boolean, notes?: string) => {
-    // Implementar aprobación de perfil
+  const handleProfileApproval = async () => {
+    // TODO: Implement profile approval functionality
+    // Expected parameters: approved: boolean, notes?: string
   };
 
   const handleGenerateReport = async () => {

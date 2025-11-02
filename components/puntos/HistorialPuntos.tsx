@@ -36,10 +36,8 @@ export default function HistorialPuntos({ usuarioId }: HistorialPuntosProps) {
   const [filtros, setFiltros] = useState<FiltroHistorial>({});
   const [loading, setLoading] = useState(true);
   const [historialFiltrado, setHistorialFiltrado] = useState<PuntosActividad[]>([]);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [pagina, setPagina] = useState(1);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [totalPaginas, setTotalPaginas] = useState(1);
+  const [pagina] = useState(1);
+  const [, setTotalPaginas] = useState(1);
 
   const mapearTransaccionReal = (transaccion: TransaccionReal, saldoAcumulado: number): PuntosActividad => {
     const tipoMapeado = mapearTipoTransaccion(transaccion.metadata.categoria || 'otro');
