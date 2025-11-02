@@ -53,7 +53,7 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
 
   useEffect(() => {
     if (isOpen && formData.type === 'leader_application') {
-      fetchCandidates();
+      void fetchCandidates();
     }
   }, [isOpen, formData.type]);
 

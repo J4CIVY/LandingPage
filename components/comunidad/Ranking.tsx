@@ -75,7 +75,7 @@ export default function Ranking({
 
   // Cargar configuración al montar el componente
   useEffect(() => {
-    cargarConfiguracion();
+    void cargarConfiguracion();
   }, []);
 
   // Usar configuración cargada o valores por defecto

@@ -26,9 +26,9 @@ export default function RankingPage() {
   const [filterMembership, setFilterMembership] = useState<string>('all');
 
   useEffect(() => {
-    fetchFullLeaderboard();
-    fetchUserRanking();
-    fetchRealPoints();
+    void fetchFullLeaderboard();
+    void fetchUserRanking();
+    void fetchRealPoints();
   }, []);
 
   const fetchRealPoints = async () => {

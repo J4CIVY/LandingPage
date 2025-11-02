@@ -71,5 +71,5 @@ export const cleanupObsoleteServiceWorkers = async () => {
 
 // Auto-ejecutar al cargar el módulo (mantener si hay contexto útil)
 if (typeof window !== 'undefined') {
-  cleanupObsoleteServiceWorkers();
+  void cleanupObsoleteServiceWorkers();
 }

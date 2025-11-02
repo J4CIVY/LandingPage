@@ -68,7 +68,7 @@ export default function GamificationPanel() {
 
   useEffect(() => {
     if (user) {
-      fetchGamificationStats();
+      void fetchGamificationStats();
     }
   }, [user]);
 

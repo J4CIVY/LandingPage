@@ -38,7 +38,7 @@ export default function Leaderboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    cargarLeaderboard();
+    void cargarLeaderboard();
   }, [filtro]);
 
   const cargarLeaderboard = async () => {

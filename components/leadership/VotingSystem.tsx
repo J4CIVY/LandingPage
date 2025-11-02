@@ -81,7 +81,7 @@ const VotingSystem: React.FC<VotingSystemProps> = ({
   const [showCreateModal, setShowCreateModal] = useState(false);
 
   useEffect(() => {
-    fetchVotingData();
+    void fetchVotingData();
   }, [activeTab]);
 
   const fetchVotingData = async () => {

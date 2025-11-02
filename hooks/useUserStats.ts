@@ -83,7 +83,7 @@ export function useUserStats() {
   };
 
   useEffect(() => {
-    fetchStats();
+    void fetchStats();
   }, [isAuthenticated, user]);
 
   const refreshStats = () => {

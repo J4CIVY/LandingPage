@@ -62,7 +62,7 @@ export default function SessionManagementSection() {
 
   // Cargar sesiones al montar el componente
   useEffect(() => {
-    loadSessions()
+    void loadSessions()
   }, [])
 
   const showToast = (toast: ToastType) => {

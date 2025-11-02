@@ -120,7 +120,7 @@ export default function TwoFactorAuthSection() {
 
   const copySecretKey = () => {
     const secretKey = "ABCD EFGH IJKL MNOP QRST UVWX YZ01 2345"
-    navigator.clipboard.writeText(secretKey.replace(/\s/g, ''))
+    void navigator.clipboard.writeText(secretKey.replace(/\s/g, ''))
     showToast({
       title: "Clave copiada",
       description: "La clave secreta ha sido copiada al portapapeles",

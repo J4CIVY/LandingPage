@@ -229,7 +229,7 @@ export default function NotificationDropdown({ className = '' }: NotificationDro
                               <button
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  deleteNotification(notification._id);
+                                  void deleteNotification(notification._id);
                                 }}
                                 className="p-1 text-gray-400 hover:text-red-600 dark:hover:text-red-400"
                                 title="Eliminar"

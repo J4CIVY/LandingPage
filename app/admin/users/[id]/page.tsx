@@ -93,7 +93,7 @@ export default function UserDetailsPage() {
     };
 
     if (params.id) {
-      fetchUserDetails();
+      void fetchUserDetails();
     }
   }, [params.id]);
 

@@ -71,7 +71,7 @@ const PdfUpload: React.FC<PdfUploadProps> = ({
 
     const file = e.dataTransfer.files[0];
     if (file) {
-      handleFileSelect(file);
+      void handleFileSelect(file);
     }
   };
 

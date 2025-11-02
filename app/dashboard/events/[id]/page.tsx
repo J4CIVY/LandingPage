@@ -340,7 +340,7 @@ export default function DashboardEventDetailsPage() {
 
   useEffect(() => {
     if (eventId && isAuthenticated) {
-      fetchEvent();
+      void fetchEvent();
     }
   }, [eventId, isAuthenticated]);
 

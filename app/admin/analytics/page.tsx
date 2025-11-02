@@ -199,7 +199,7 @@ export default function AnalyticsPage() {
               onClick={() => {
                 setError(null);
                 setLoading(true);
-                fetchAnalytics();
+                void fetchAnalytics();
               }}
               className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors"
             >

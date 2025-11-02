@@ -74,7 +74,7 @@ export default function ViewAnalyticsReportPage() {
 
   useEffect(() => {
     if (user && reportType) {
-      fetchReport();
+      void fetchReport();
     }
   }, [user, reportType]);
 

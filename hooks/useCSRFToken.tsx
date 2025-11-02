@@ -212,7 +212,7 @@ export function useRequireCSRFToken(timeout: number = 5000): string {
       }
     };
 
-    fetchToken();
+    void fetchToken();
 
     return () => clearTimeout(timer);
   }, [timeout]);

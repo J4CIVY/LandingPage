@@ -196,7 +196,7 @@ export default function EventFormPage() {
     };
 
     if (user && (user.role === 'admin' || user.role === 'super-admin')) {
-      loadEvent();
+      void loadEvent();
     }
   }, [isEdit, eventId, user]);
 

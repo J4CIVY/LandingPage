@@ -135,7 +135,7 @@ export default function HistorialPage() {
 
   useEffect(() => {
     if (user && isAuthenticated) {
-      fetchHistorial();
+      void fetchHistorial();
     }
   }, [user, isAuthenticated]);
 

@@ -24,7 +24,7 @@ export default function RecentActivities() {
 
   useEffect(() => {
     if (user) {
-      fetchRecentActivities();
+      void fetchRecentActivities();
     }
   }, [user]);
 

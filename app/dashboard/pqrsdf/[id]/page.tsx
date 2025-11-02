@@ -45,7 +45,7 @@ export default function DetalleSolicitudPage() {
   // Cargar solicitud
   useEffect(() => {
     if (solicitudId && user) {
-      cargarSolicitud();
+      void cargarSolicitud();
     }
   }, [solicitudId, user]);
 

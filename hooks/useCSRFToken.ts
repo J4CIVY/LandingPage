@@ -70,7 +70,7 @@ export function useCSRFToken() {
 
   // Cargar token al montar el componente
   useEffect(() => {
-    fetchToken();
+    void fetchToken();
   }, [fetchToken]);
 
   // Función para refrescar el token manualmente

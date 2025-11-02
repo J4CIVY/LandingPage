@@ -68,7 +68,7 @@ export default function AdminPanel() {
   });
 
   useEffect(() => {
-    cargarDatos();
+    void cargarDatos();
   }, []);
 
   const cargarDatos = async () => {

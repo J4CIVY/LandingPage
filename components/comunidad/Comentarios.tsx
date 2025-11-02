@@ -198,7 +198,7 @@ function ComentarioItem({
                           </button>
                           <button
                             onClick={() => {
-                              eliminarComentario();
+                              void eliminarComentario();
                               setMostrarMenu(false);
                             }}
                             className="flex items-center space-x-2 w-full px-3 py-1 text-xs text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900"

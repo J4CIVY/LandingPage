@@ -119,7 +119,7 @@ export function useMembership() {
   };
 
   useEffect(() => {
-    fetchMembershipData();
+    void fetchMembershipData();
   }, [isAuthenticated, user]);
 
   const refreshMembershipData = () => {

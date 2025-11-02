@@ -98,7 +98,7 @@ export default function AdminEventsPage() {
     };
 
     if (user && (user.role === 'admin' || user.role === 'super-admin')) {
-      loadEvents();
+      void loadEvents();
     }
   }, [user, currentPage, searchTerm, filterType, filterStatus]);
 
