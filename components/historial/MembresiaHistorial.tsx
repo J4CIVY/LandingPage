@@ -111,7 +111,7 @@ export default function MembresiaHistorial() {
     }).format(amount);
   };
 
-  const calcularAñosMembresia = () => {
+  const calcularAnosMembresia = () => {
     if (!membresia) return 0;
     const fechaAfiliacion = new Date(membresia.fechaAfiliacion);
     const fechaActual = new Date();
@@ -161,7 +161,7 @@ export default function MembresiaHistorial() {
 
   const TipoIcon = getTipoIcon(membresia.tipoMembresia);
   const EstadoIcon = getEstadoIcon(membresia.estado);
-  const añosMembresia = calcularAñosMembresia();
+  const anosMembresia = calcularAnosMembresia();
   const diasRestantes = calcularDiasRestantes();
   const totalInvertido = calcularTotalInvertido();
 
@@ -200,7 +200,7 @@ export default function MembresiaHistorial() {
           </div>
           
           <div className="text-right">
-            <div className="text-2xl font-bold">{añosMembresia}</div>
+            <div className="text-2xl font-bold">{anosMembresia}</div>
             <div className="text-blue-100 dark:text-blue-300 text-sm">Años como miembro</div>
           </div>
         </div>

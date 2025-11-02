@@ -36,7 +36,7 @@ export interface DatosBancariosReembolso {
 export interface Adjunto {
   id: string;
   nombre: string;
-  tamaño: number;
+  tamano: number;
   tipo: string;
   url: string;
   fechaSubida: Date;

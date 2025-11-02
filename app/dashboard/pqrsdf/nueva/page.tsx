@@ -236,9 +236,9 @@ function NuevaSolicitudPageContent() {
       nuevosErrores.adjuntos = 'No puedes subir más de 5 archivos';
     }
 
-    const tamañoTotal = archivosSeleccionados.reduce((total, archivo) => total + archivo.size, 0);
-    const tamañoLimite = 10 * 1024 * 1024; // 10MB
-    if (tamañoTotal > tamañoLimite) {
+    const tamanoTotal = archivosSeleccionados.reduce((total, archivo) => total + archivo.size, 0);
+    const tamanoLimite = 10 * 1024 * 1024; // 10MB
+    if (tamanoTotal > tamanoLimite) {
       nuevosErrores.adjuntos = 'El tamaño total de los archivos no puede exceder 10MB';
     }
 
@@ -303,12 +303,12 @@ function NuevaSolicitudPageContent() {
   };
 
   // Formatear tamaño de archivo
-  const formatearTamaño = (bytes: number) => {
+  const formatearTamano = (bytes: number) => {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;
-    const tamaños = ['Bytes', 'KB', 'MB', 'GB'];
+    const tamanos = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + tamaños[i];
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + tamanos[i];
   };
 
   // Enviar formulario
@@ -805,7 +805,7 @@ function NuevaSolicitudPageContent() {
                         <div className="flex items-center space-x-2">
                           <FaPaperclip className="w-4 h-4" />
                           <span>{archivo.name}</span>
-                          <span className="text-gray-500">({formatearTamaño(archivo.size)})</span>
+                          <span className="text-gray-500">({formatearTamano(archivo.size)})</span>
                         </div>
                         <button
                           type="button"

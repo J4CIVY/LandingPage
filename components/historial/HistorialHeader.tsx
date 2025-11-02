@@ -74,7 +74,7 @@ export default function HistorialHeader({ estadisticas, onExportPDF, historialIt
     {
       icon: FaUsers,
       titulo: 'Membresía',
-      valor: estadisticas?.añosMembresia || 0,
+      valor: estadisticas?.anosMembresia || 0,
       total: null,
       color: 'text-green-600',
       bgColor: 'bg-green-50',
@@ -168,7 +168,7 @@ export default function HistorialHeader({ estadisticas, onExportPDF, historialIt
             
             <div className="text-center">
               <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-1">
-                {estadisticas.añosMembresia}
+                {estadisticas.anosMembresia}
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-400">Años en el Motoclub</div>
             </div>

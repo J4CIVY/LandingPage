@@ -92,7 +92,7 @@ export default function HistorialPage() {
           ).length,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           logrosObtenidos: activities.filter((a: any) => a.type === 'achievement_earned').length,
-          añosMembresia: 0, // Se puede calcular desde la fecha de registro del usuario
+          anosMembresia: 0, // Se puede calcular desde la fecha de registro del usuario
           puntosAcumulados: activities
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .filter((a: any) => a.metadata?.points)
@@ -110,7 +110,7 @@ export default function HistorialPage() {
           beneficiosUsados: 0,
           pqrsdfAbiertas: 0,
           logrosObtenidos: 0,
-          añosMembresia: 0,
+          anosMembresia: 0,
           puntosAcumulados: 0
         });
       }
@@ -125,7 +125,7 @@ export default function HistorialPage() {
         beneficiosUsados: 0,
         pqrsdfAbiertas: 0,
         logrosObtenidos: 0,
-        añosMembresia: 0,
+        anosMembresia: 0,
         puntosAcumulados: 0
       });
     } finally {

@@ -20173,7 +20173,7 @@
       },
       "invocations": [
         {
-          "startTimeUtc": "2025-11-02T05:44:39.2440414Z",
+          "startTimeUtc": "2025-11-02T06:15:58.0728484Z",
           "exitCode": 0,
           "executionSuccessful": true
         }
@@ -20182,7 +20182,7 @@
       "versionControlProvenance": [
         {
           "repositoryUri": "https://github.com/J4CIVY/LandingPage.git",
-          "revisionId": "5be8cddabb349bf983366b2264fa8c2dbb53a010",
+          "revisionId": "4956f87bb45a2505c3cbfd9bd9b8995e099dfc5a",
           "branch": "main",
           "properties": {
             "repoUrl": "https://github.com/J4CIVY/LandingPage.git",
@@ -20262,754 +20262,13 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "lib/validation-schemas.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 464,
-                  "startColumn": 25,
-                  "charOffset": 20274,
-                  "charLength": 8,
-                  "snippet": {
-                    "text": "datetime"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 462,
-                  "startColumn": 1,
-                  "charOffset": 20165,
-                  "charLength": 251,
-                  "snippet": {
-                    "text": "  isVisible: z.boolean().default(true),\r\n  isTemporary: z.boolean().default(false),\r\n  validFrom: z.string().datetime('Fecha de inicio inválida').optional(),\r\n  validUntil: z.string().datetime('Fecha de fin inválida').optional(),\r\n  terms: z.string()\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "a0630222f224fab2",
-            "equalIndicator/v1": "046ff41ba62670b36206072b4e196ca4d3ecea2ccb4aefc1dc96ed357bfc2e91"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "schemas/authSchemas.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 8,
-                  "startColumn": 6,
-                  "charOffset": 159,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "email"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 6,
-                  "startColumn": 1,
-                  "charOffset": 101,
-                  "charLength": 127,
-                  "snippet": {
-                    "text": "    .string()\r\n    .min(1, 'El email es requerido')\r\n    .email('Formato de email inválido')\r\n    .toLowerCase()\r\n    .trim(),\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "4b96bf7731b59834",
-            "equalIndicator/v1": "0fdaf16821e1527417588c4cbc81ec1c6695f7ac2bef70274d9fb8b8fdf6c079"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "schemas/emailSchemas.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 7,
-                  "startColumn": 25,
-                  "charOffset": 229,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "email"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 5,
-                  "startColumn": 1,
-                  "charOffset": 95,
-                  "charLength": 305,
-                  "snippet": {
-                    "text": "export const emailConfigSchema = z.object({\r\n  fromAddress: z.string().email('Email de remitente inválido'),\r\n  toAddress: z.string().email('Email de destinatario inválido'),\r\n  ccAddress: z.string().email('Email CC inválido').optional(),\r\n  bccAddress: z.string().email('Email BCC inválido').optional(),\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "3878a51b140f9046",
-            "equalIndicator/v1": "14ee013d28431f1d1c3f56811ee4b8b22aa4b3c423b2542794f227cd4ad62175"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/validation-schemas.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 294,
-                  "startColumn": 25,
-                  "charOffset": 12925,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "email"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 292,
-                  "startColumn": 1,
-                  "charOffset": 12817,
-                  "charLength": 221,
-                  "snippet": {
-                    "text": "    commitment: z.array(z.string().max(200)).default([]),\r\n    support: z.object({\r\n      email: z.string().email().optional(),\r\n      whatsapp: z.string().max(20).optional(),\r\n      phone: z.string().max(20).optional(),\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "564801a25a4ba94a",
-            "equalIndicator/v1": "181c61893f550dffa358cd085121e1d06e94dcdb273a88d1dce35068262d2bbc"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/validation-schemas.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 65,
-                  "startColumn": 6,
-                  "charOffset": 2587,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "email"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 63,
-                  "startColumn": 1,
-                  "charOffset": 2525,
-                  "charLength": 142,
-                  "snippet": {
-                    "text": "    .transform(val => val.trim()),\r\n  email: z.string()\r\n    .email('Email inválido')\r\n    .toLowerCase()\r\n    .transform(val => val.trim()),\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "7a878c860159a4b8",
-            "equalIndicator/v1": "1c79858a660a724cc038c69f29a78afd1588e22fd50ad9fb38d4def3b2cab38b"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/validation-schemas.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 93,
-                  "startColumn": 6,
-                  "charOffset": 3632,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "email"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 91,
-                  "startColumn": 1,
-                  "charOffset": 3570,
-                  "charLength": 142,
-                  "snippet": {
-                    "text": "    .transform(val => val.trim()),\r\n  email: z.string()\r\n    .email('Email inválido')\r\n    .toLowerCase()\r\n    .transform(val => val.trim()),\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "960a8ba70e4c192f",
-            "equalIndicator/v1": "1e9caf417d2f272ce5373e881aca37d5872ec78dfbf0b926eadc6d2de7606aae"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/validation-schemas.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 169,
-                  "startColumn": 25,
-                  "charOffset": 6901,
-                  "charLength": 3,
-                  "snippet": {
-                    "text": "url"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 167,
-                  "startColumn": 1,
-                  "charOffset": 6760,
-                  "charLength": 238,
-                  "snippet": {
-                    "text": "    .regex(SAFE_TEXT_REGEX, 'La descripción contiene caracteres no permitidos')\r\n    .transform(val => val.trim()),\r\n  mainImage: z.string().url('URL de imagen inválida'),\r\n  eventType: z.string()\r\n    .min(1, 'Tipo de evento requerido')\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "b5dbcda54987d783",
-            "equalIndicator/v1": "1ffd9c183b581ddc303b1ad87f4cd177ef2d621ca42e89950669740ce43f0550"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "schemas/emailSchemas.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 9,
-                  "startColumn": 26,
-                  "charOffset": 360,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "email"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 7,
-                  "startColumn": 1,
-                  "charOffset": 205,
-                  "charLength": 347,
-                  "snippet": {
-                    "text": "  toAddress: z.string().email('Email de destinatario inválido'),\r\n  ccAddress: z.string().email('Email CC inválido').optional(),\r\n  bccAddress: z.string().email('Email BCC inválido').optional(),\r\n  subject: z.string().min(1, 'El asunto es requerido').max(200, 'El asunto es muy largo'),\r\n  content: z.string().min(1, 'El contenido es requerido'),\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "fac873a0e98d2e79",
-            "equalIndicator/v1": "20b854eb40b2254c21e4f0cb23fb5e95ae9675eb80c76b32155818c7ebb468a9"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "schemas/emailSchemas.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 8,
-                  "startColumn": 25,
-                  "charOffset": 295,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "email"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 6,
-                  "startColumn": 1,
-                  "charOffset": 140,
-                  "charLength": 352,
-                  "snippet": {
-                    "text": "  fromAddress: z.string().email('Email de remitente inválido'),\r\n  toAddress: z.string().email('Email de destinatario inválido'),\r\n  ccAddress: z.string().email('Email CC inválido').optional(),\r\n  bccAddress: z.string().email('Email BCC inválido').optional(),\r\n  subject: z.string().min(1, 'El asunto es requerido').max(200, 'El asunto es muy largo'),\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "8c6cc2048ac37795",
-            "equalIndicator/v1": "2a9016e80da8bbb2774d5cb1a4cd44522a9ffa687f0ef55fdf641a1db192cee5"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/validation-schemas.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 163,
-                  "startColumn": 25,
-                  "charOffset": 6619,
-                  "charLength": 8,
-                  "snippet": {
-                    "text": "datetime"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 161,
-                  "startColumn": 1,
-                  "charOffset": 6483,
-                  "charLength": 230,
-                  "snippet": {
-                    "text": "    .regex(SAFE_TEXT_REGEX, 'El nombre contiene caracteres no permitidos')\r\n    .transform(val => val.trim()),\r\n  startDate: z.string().datetime('Fecha inválida'),\r\n  description: z.string()\r\n    .min(10, 'Descripción requerida')\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "fe1d4fc3188a6f2c",
-            "equalIndicator/v1": "3e807817a6cfed8e014ec2522b30d1eaf37a7ad9e755dea43463885ec9ad5b77"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/env-validation.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 68,
-                  "startColumn": 6,
-                  "charOffset": 2561,
-                  "charLength": 3,
-                  "snippet": {
-                    "text": "url"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 66,
-                  "startColumn": 1,
-                  "charOffset": 2499,
-                  "charLength": 151,
-                  "snippet": {
-                    "text": "  // Application URL\r\n  NEXT_PUBLIC_APP_URL: z.string()\r\n    .url('NEXT_PUBLIC_APP_URL must be a valid URL')\r\n    .default('http://localhost:3000'),\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "7296087e04b6f8fa",
-            "equalIndicator/v1": "43eb197607bc9f5cf2669946e9220c7c1806d2c8f25dff51bb088c1452499193"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/validation-schemas.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 195,
-                  "startColumn": 26,
-                  "charOffset": 8153,
-                  "charLength": 3,
-                  "snippet": {
-                    "text": "url"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 193,
-                  "startColumn": 1,
-                  "charOffset": 7964,
-                  "charLength": 405,
-                  "snippet": {
-                    "text": "  registrationDeadline: z.string().datetime('Fecha límite inválida').optional(),\r\n  pointsAwarded: z.number().min(0, 'Los puntos deben ser positivos').optional(),\r\n  detailsPdf: z.string().url('URL del PDF inválida').optional(),\r\n  includedServices: z.array(z.string().max(100, 'Servicio demasiado largo')).optional(),\r\n  requirements: z.array(z.string().max(200, 'Requisito demasiado largo')).optional()\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "76dc353eba36b891",
-            "equalIndicator/v1": "49e4147fd5c02463d60e1a6aa67571a6e3c66c95dc6be9c62fbc94babaf4c261"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/env-validation.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 45,
-                  "startColumn": 26,
-                  "charOffset": 1629,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "email"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 43,
-                  "startColumn": 1,
-                  "charOffset": 1537,
-                  "charLength": 157,
-                  "snippet": {
-                    "text": "  // Email Service\r\n  MESSAGEBIRD_API_KEY: z.string().optional(),\r\n  EMAIL_FROM: z.string().email().optional(),\r\n  EMAIL_FROM_NAME: z.string().optional(),\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "2e009c4919da2c42",
-            "equalIndicator/v1": "51467380959d27ada561c35d19fc09e05ca9c6f09e29298e3d1fa02e8540455f"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
                   "uri": "hooks/useConfirmation.ts",
                   "uriBaseId": "SRCROOT"
                 },
                 "region": {
                   "startLine": 18,
                   "startColumn": 9,
-                  "charOffset": 705,
+                  "charOffset": 718,
                   "charLength": 11,
                   "snippet": {
                     "text": "returnValue"
@@ -21020,9 +20279,9 @@
                   "startLine": 16,
                   "startColumn": 1,
                   "charOffset": 601,
-                  "charLength": 148,
+                  "charLength": 161,
                   "snippet": {
-                    "text": "      e.preventDefault();\r\n      // Setting returnValue to empty string is the modern standard\r\n      e.returnValue = '';\r\n      return '';\r\n    };\r"
+                    "text": "      e.preventDefault();\r\n      // Setting returnValue to empty string is the modern standard per MDN spec\r\n      e.returnValue = '';\r\n      return '';\r\n    };\r"
                   },
                   "sourceLanguage": "TypeScript"
                 }
@@ -21036,8 +20295,8 @@
             }
           ],
           "partialFingerprints": {
-            "equalIndicator/v2": "3f91ffa3be391b7a",
-            "equalIndicator/v1": "544bd7e42b9d9d7fddb0cde15cf2f0a4aaab8910c077de0fe153906e8b4b99d4"
+            "equalIndicator/v2": "5d3117a998c65947",
+            "equalIndicator/v1": "5489f7b9908d9537da7ae8daacdaceca03ccfbd9f744bd4289825ab1e9fe14cb"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -21064,364 +20323,22 @@
                   "uriBaseId": "SRCROOT"
                 },
                 "region": {
-                  "startLine": 19,
-                  "startColumn": 61,
-                  "charOffset": 565,
-                  "charLength": 3,
-                  "snippet": {
-                    "text": "url"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 17,
-                  "startColumn": 1,
-                  "charOffset": 488,
-                  "charLength": 165,
-                  "snippet": {
-                    "text": "\r\n  // Database\r\n  MONGODB_URI: z.string().min(1, 'MONGODB_URI is required').url('MONGODB_URI must be a valid URL'),\r\n  \r\n  // Redis (for rate limiting and caching)\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "bea29b845441e71c",
-            "equalIndicator/v1": "5ebfd0ed5c64e5716b396e8accb0b51004741f977604b8f8000e85b9f07234f6"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "schemas/emailSchemas.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 53,
-                  "startColumn": 21,
-                  "charOffset": 1743,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "email"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 51,
-                  "startColumn": 1,
-                  "charOffset": 1603,
-                  "charLength": 322,
-                  "snippet": {
-                    "text": "export const contactEmailSchema = z.object({\r\n  name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),\r\n  email: z.string().email('Email inválido'),\r\n  subject: z.string().min(5, 'El asunto debe tener al menos 5 caracteres'),\r\n  message: z.string().min(10, 'El mensaje debe tener al menos 10 caracteres'),\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "b9e68a12c93709de",
-            "equalIndicator/v1": "6922ab4b36797b769fbe32b73ccc2124ba250366a4e6d32b4e4f8dc8e582ee3f"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/validation-schemas.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 193,
-                  "startColumn": 36,
-                  "charOffset": 7999,
-                  "charLength": 8,
-                  "snippet": {
-                    "text": "datetime"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 191,
-                  "startColumn": 1,
-                  "charOffset": 7859,
-                  "charLength": 334,
-                  "snippet": {
-                    "text": "  }).optional(),\r\n  registrationOpenDate: z.string().datetime('Fecha de apertura inválida').optional(),\r\n  registrationDeadline: z.string().datetime('Fecha límite inválida').optional(),\r\n  pointsAwarded: z.number().min(0, 'Los puntos deben ser positivos').optional(),\r\n  detailsPdf: z.string().url('URL del PDF inválida').optional(),\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "098e7c7ffcc21a3b",
-            "equalIndicator/v1": "7b333a9f435c3587e5ce748403073eabba2a041b3fc270e8d0e7a85c134401b7"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/env-validation.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 73,
-                  "startColumn": 6,
-                  "charOffset": 2705,
-                  "charLength": 3,
-                  "snippet": {
-                    "text": "url"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 71,
-                  "startColumn": 1,
-                  "charOffset": 2651,
-                  "charLength": 121,
-                  "snippet": {
-                    "text": "  // API URL\r\n  NEXT_PUBLIC_API_URL: z.string()\r\n    .url('NEXT_PUBLIC_API_URL must be a valid URL')\r\n    .optional(),\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "2345e47dcb7a7735",
-            "equalIndicator/v1": "80cc277b6ab81892ea5c64d508bb5cba2ff6de64d121ffea67145fa48da02db3"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "schemas/emailSchemas.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 6,
-                  "startColumn": 27,
-                  "charOffset": 166,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "email"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 4,
-                  "startColumn": 1,
-                  "charOffset": 93,
-                  "charLength": 241,
-                  "snippet": {
-                    "text": "\r\nexport const emailConfigSchema = z.object({\r\n  fromAddress: z.string().email('Email de remitente inválido'),\r\n  toAddress: z.string().email('Email de destinatario inválido'),\r\n  ccAddress: z.string().email('Email CC inválido').optional(),\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "0bcf07ebcc2e03be",
-            "equalIndicator/v1": "8c61200d98503391e35a5b85d958329d1be20c39e52eb86430a293cd76192588"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/validation-schemas.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 471,
-                  "startColumn": 24,
-                  "charOffset": 20618,
-                  "charLength": 3,
-                  "snippet": {
-                    "text": "url"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 469,
-                  "startColumn": 1,
-                  "charOffset": 20542,
-                  "charLength": 196,
-                  "snippet": {
-                    "text": "    .transform(val => val.trim())\r\n    .optional(),\r\n  imageUrl: z.string().url('URL de imagen inválida').optional(),\r\n  partnerName: z.string()\r\n    .max(100, 'Nombre del socio demasiado largo')\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "334506150ae8cc27",
-            "equalIndicator/v1": "8e9a430eda73c7c55218c3c7c3bcb0e1e6fafc9526547f99ad3623b471f85bcc"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/env-validation.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 103,
+                  "startLine": 106,
                   "startColumn": 47,
-                  "charOffset": 3695,
-                  "charLength": 7,
+                  "charOffset": 3885,
+                  "charLength": 6,
                   "snippet": {
-                    "text": "flatten"
+                    "text": "format"
                   },
                   "sourceLanguage": "JavaScript"
                 },
                 "contextRegion": {
-                  "startLine": 101,
+                  "startLine": 104,
                   "startColumn": 1,
-                  "charOffset": 3567,
-                  "charLength": 178,
+                  "charOffset": 3757,
+                  "charLength": 177,
                   "snippet": {
-                    "text": "  if (!parsed.success) {\r\n    console.error('❌ Invalid environment variables:');\r\n    console.error(JSON.stringify(parsed.error.flatten(), null, 2));\r\n    \r\n    throw new Error(\r"
+                    "text": "  if (!parsed.success) {\r\n    console.error('❌ Invalid environment variables:');\r\n    console.error(JSON.stringify(parsed.error.format(), null, 2));\r\n    \r\n    throw new Error(\r"
                   },
                   "sourceLanguage": "TypeScript"
                 }
@@ -21435,749 +20352,8 @@
             }
           ],
           "partialFingerprints": {
-            "equalIndicator/v2": "885bba57a590eb75",
-            "equalIndicator/v1": "98bb7a109181c4cd98d943ad976c943940655d3ca6aaa00ea3696e5c250d8647"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/pdf-service.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 244,
-                  "startColumn": 26,
-                  "charOffset": 8077,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "write"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 242,
-                  "startColumn": 1,
-                  "charOffset": 7948,
-                  "charLength": 186,
-                  "snippet": {
-                    "text": "    // Use modern DOM methods instead of deprecated document.write()\r\n    printWindow.document.open();\r\n    printWindow.document.write(htmlContent);\r\n    printWindow.document.close();\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "56a3d70bd39c9f42",
-            "equalIndicator/v1": "9aaea0fb338f4eb2a3f51100b084c6e67e491823dd3c504ee29e9c4d0c575238"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/validation-schemas.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 485,
-                  "startColumn": 23,
-                  "charOffset": 21244,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "email"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 483,
-                  "startColumn": 1,
-                  "charOffset": 21112,
-                  "charLength": 250,
-                  "snippet": {
-                    "text": "      .regex(PHONE_REGEX, 'Formato de teléfono inválido')\r\n      .transform(val => val.replace(/\\s+/g, '')),\r\n    email: z.string().email('Email inválido').toLowerCase()\r\n  }).optional(),\r\n  discountPercentage: z.number().min(0).max(100).optional(),\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "cd9388a47312f4ea",
-            "equalIndicator/v1": "b0400bb5e089e40299089f3b46f672cc6f0dd0fb42f5e60cf1791ee96a108daa"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "schemas/compatibleUserSchema.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 16,
-                  "startColumn": 21,
-                  "charOffset": 704,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "email"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 14,
-                  "startColumn": 1,
-                  "charOffset": 575,
-                  "charLength": 248,
-                  "snippet": {
-                    "text": "  phone: z.string().min(10, 'Teléfono debe tener al menos 10 dígitos'),\r\n  whatsapp: z.string().optional(),\r\n  email: z.string().email('Email inválido'),\r\n  address: z.string().min(1, 'Dirección requerida'),\r\n  neighborhood: z.string().optional(),\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "c0b92cd5383add3c",
-            "equalIndicator/v1": "b4b8d2d59d043d24f2459ba4ab7d4343c5cb0e24e2cad01aa433dc9ef025f7e7"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/validation-schemas.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 137,
-                  "startColumn": 31,
-                  "charOffset": 5583,
-                  "charLength": 3,
-                  "snippet": {
-                    "text": "url"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 135,
-                  "startColumn": 1,
-                  "charOffset": 5418,
-                  "charLength": 275,
-                  "snippet": {
-                    "text": "  availability: z.enum(['in-stock', 'out-of-stock']).default('in-stock'),\r\n  featuredImage: z.string().url('URL de imagen inválida'),\r\n  gallery: z.array(z.string().url('URL de imagen inválida')).optional(),\r\n  newProduct: z.boolean().default(false),\r\n  category: z.string()\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "702d4c1abbcf2d1d",
-            "equalIndicator/v1": "c364cd3eb772f60f93774298b66245064582033c765c01de1c9451c90ee405d8"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/validation-schemas.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 465,
-                  "startColumn": 26,
-                  "charOffset": 20349,
-                  "charLength": 8,
-                  "snippet": {
-                    "text": "datetime"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 463,
-                  "startColumn": 1,
-                  "charOffset": 20206,
-                  "charLength": 255,
-                  "snippet": {
-                    "text": "  isTemporary: z.boolean().default(false),\r\n  validFrom: z.string().datetime('Fecha de inicio inválida').optional(),\r\n  validUntil: z.string().datetime('Fecha de fin inválida').optional(),\r\n  terms: z.string()\r\n    .max(1000, 'Términos demasiado largos')\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "b76d7fe1f621a658",
-            "equalIndicator/v1": "c7dbf59523bd5f19b778c4ce07c50779a1fbaddc167c1f55a9e920dab969e14c"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/validation-schemas.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 136,
-                  "startColumn": 29,
-                  "charOffset": 5521,
-                  "charLength": 3,
-                  "snippet": {
-                    "text": "url"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 134,
-                  "startColumn": 1,
-                  "charOffset": 5353,
-                  "charLength": 316,
-                  "snippet": {
-                    "text": "  finalPrice: z.number().min(0, 'El precio debe ser positivo'),\r\n  availability: z.enum(['in-stock', 'out-of-stock']).default('in-stock'),\r\n  featuredImage: z.string().url('URL de imagen inválida'),\r\n  gallery: z.array(z.string().url('URL de imagen inválida')).optional(),\r\n  newProduct: z.boolean().default(false),\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "4f07b869c2800fb8",
-            "equalIndicator/v1": "cf074522dd40bf885a42efefc63ec19d075fe67c42fd6b43cbf82a2a8bc900cc"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/api/auth/check-email/route.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 15,
-                  "startColumn": 21,
-                  "charOffset": 484,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "email"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 13,
-                  "startColumn": 1,
-                  "charOffset": 402,
-                  "charLength": 113,
-                  "snippet": {
-                    "text": "// Schema de validación\r\nconst checkEmailSchema = z.object({\r\n  email: z.string().email('Email inválido')\r\n});\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "b304dc545a3c734a",
-            "equalIndicator/v1": "d51221cdb609a80f5f756d0e677e21b1c8046a13c2d5d9017ef5739d5a7e4de9"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "schemas/authSchemas.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 23,
-                  "startColumn": 6,
-                  "charOffset": 576,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "email"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 21,
-                  "startColumn": 1,
-                  "charOffset": 518,
-                  "charLength": 126,
-                  "snippet": {
-                    "text": "    .string()\r\n    .min(1, 'El email es requerido')\r\n    .email('Formato de email inválido')\r\n    .toLowerCase()\r\n    .trim()\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "5833e9dba2915ab8",
-            "equalIndicator/v1": "df99aa83a49d5b7847642b7624b9cc5b7ef6c0411fe34eb8c8207a6f0cec68b0"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/env-validation.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 22,
-                  "startColumn": 25,
-                  "charOffset": 678,
-                  "charLength": 3,
-                  "snippet": {
-                    "text": "url"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 20,
-                  "startColumn": 1,
-                  "charOffset": 606,
-                  "charLength": 243,
-                  "snippet": {
-                    "text": "  \r\n  // Redis (for rate limiting and caching)\r\n  REDIS_URL: z.string().url('REDIS_URL must be a valid URL').optional(),\r\n  REDIS_HOST: z.string().optional(),\r\n  REDIS_PORT: z.string().regex(/^\\d+$/, 'REDIS_PORT must be a number').optional(),\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "b49c472384f02337",
-            "equalIndicator/v1": "e3b99312485f4e56c7319dd58c9f62677ca559fcce75ccd6a506ccb04c434802"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/api/auth/resend-verification/route.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 10,
-                  "startColumn": 21,
-                  "charOffset": 383,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "email"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 8,
-                  "startColumn": 1,
-                  "charOffset": 323,
-                  "charLength": 91,
-                  "snippet": {
-                    "text": "\r\nconst resendEmailSchema = z.object({\r\n  email: z.string().email('Email inválido')\r\n});\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "3f043977efaf1b8e",
-            "equalIndicator/v1": "ec40913a2a323fd0b8805b3dc4a66fbb3caa75285400cf1adb5fa4363cad5157"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/validation-schemas.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 192,
-                  "startColumn": 36,
-                  "charOffset": 7912,
-                  "charLength": 8,
-                  "snippet": {
-                    "text": "datetime"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 190,
-                  "startColumn": 1,
-                  "charOffset": 7822,
-                  "charLength": 305,
-                  "snippet": {
-                    "text": "      .transform(val => val.trim())\r\n  }).optional(),\r\n  registrationOpenDate: z.string().datetime('Fecha de apertura inválida').optional(),\r\n  registrationDeadline: z.string().datetime('Fecha límite inválida').optional(),\r\n  pointsAwarded: z.number().min(0, 'Los puntos deben ser positivos').optional(),\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "89a3231ea2358b2f",
-            "equalIndicator/v1": "ed54423103b1cf936f6d54b037fbdb1d10056e660236ce1ce575014a31f468fc"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "schemas/emailSchemas.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 62,
-                  "startColumn": 30,
-                  "charOffset": 2294,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "email"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 60,
-                  "startColumn": 1,
-                  "charOffset": 2103,
-                  "charLength": 365,
-                  "snippet": {
-                    "text": "export const notificationEmailSchema = z.object({\r\n  type: z.enum(['welcome', 'password_reset', 'account_verification', 'event_reminder', 'membership_update']),\r\n  recipientEmail: z.string().email('Email de destinatario inválido'),\r\n  recipientName: z.string().min(1, 'Nombre del destinatario requerido'),\r\n  templateData: z.record(z.string(), z.any()).optional(),\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "503b942d7e3a37f9",
-            "equalIndicator/v1": "f4d000ba1a041d08f5a0f9f6089a19f6a952cd878ab5bbc0dcd0fb864390c6ee"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from validateToken is ignored",
-            "markdown": "Promise returned from validateToken is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/reset-password/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 87,
-                  "startColumn": 5,
-                  "charOffset": 2862,
-                  "charLength": 13,
-                  "snippet": {
-                    "text": "validateToken"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 85,
-                  "startColumn": 1,
-                  "charOffset": 2848,
-                  "charLength": 49,
-                  "snippet": {
-                    "text": "    };\r\n\r\n    validateToken();\r\n  }, [token]);\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "b353cd6b36acb587",
-            "equalIndicator/v1": "f72b3e35e6105ccf5aa39f6772c545ef243c09e50cc7f6e905475be61ba43dea"
+            "equalIndicator/v2": "2f4221b34f30922e",
+            "equalIndicator/v1": "d22cdfdfd2dbe42fd4256cfa1e564efde3ba7111ba52458b0df1db946331621f"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -25100,6 +23276,63 @@
           "kind": "fail",
           "level": "warning",
           "message": {
+            "text": "Unused constant handleRouteChange",
+            "markdown": "Unused constant handleRouteChange"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "hooks/useConfirmation.ts",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 36,
+                  "startColumn": 11,
+                  "charOffset": 1218,
+                  "charLength": 17,
+                  "snippet": {
+                    "text": "handleRouteChange"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 34,
+                  "startColumn": 1,
+                  "charOffset": 1173,
+                  "charLength": 210,
+                  "snippet": {
+                    "text": "    if (!shouldConfirm) return;\r\n\r\n    const handleRouteChange = () => { // eslint-disable-line @typescript-eslint/no-unused-vars\r\n      if (shouldConfirm) {\r\n        const confirmed = window.confirm(message);\r"
+                  },
+                  "sourceLanguage": "TypeScript"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "7fbe90a35d10ab9a",
+            "equalIndicator/v1": "00ae02cf6c673ab983b21d91d42a1368ca6110a26ca57ce4301fac483f3c3d31"
+          },
+          "properties": {
+            "ideaSeverity": "WARNING",
+            "qodanaSeverity": "High",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "JSUnusedLocalSymbols",
+          "kind": "fail",
+          "level": "warning",
+          "message": {
             "text": "Unused constant JWT_EXPIRES_IN",
             "markdown": "Unused constant JWT_EXPIRES_IN"
           },
@@ -25442,8 +23675,8 @@
           "kind": "fail",
           "level": "warning",
           "message": {
-            "text": "Unused parameter confirmText",
-            "markdown": "Unused parameter confirmText"
+            "text": "Unused parameter type",
+            "markdown": "Unused parameter type"
           },
           "locations": [
             {
@@ -25453,22 +23686,22 @@
                   "uriBaseId": "SRCROOT"
                 },
                 "region": {
-                  "startLine": 65,
+                  "startLine": 67,
                   "startColumn": 5,
-                  "charOffset": 2023,
-                  "charLength": 11,
+                  "charOffset": 2212,
+                  "charLength": 4,
                   "snippet": {
-                    "text": "confirmText"
+                    "text": "type"
                   },
                   "sourceLanguage": "JavaScript"
                 },
                 "contextRegion": {
-                  "startLine": 63,
+                  "startLine": 65,
                   "startColumn": 1,
-                  "charOffset": 1972,
-                  "charLength": 301,
+                  "charOffset": 2032,
+                  "charLength": 343,
                   "snippet": {
-                    "text": "    title = 'Confirmar acción',\r\n    message,\r\n    confirmText = 'Confirmar', // eslint-disable-line @typescript-eslint/no-unused-vars\r\n    cancelText = 'Cancelar', // eslint-disable-line @typescript-eslint/no-unused-vars\r\n    type = 'warning' // eslint-disable-line @typescript-eslint/no-unused-vars\r"
+                    "text": "    confirmText = 'Confirmar', // eslint-disable-line @typescript-eslint/no-unused-vars\r\n    cancelText = 'Cancelar', // eslint-disable-line @typescript-eslint/no-unused-vars\r\n    type = 'warning' // eslint-disable-line @typescript-eslint/no-unused-vars\r\n  }: ConfirmationOptions): Promise<boolean> => {\r\n    return new Promise((resolve) => {\r"
                   },
                   "sourceLanguage": "TypeScript"
                 }
@@ -25482,8 +23715,8 @@
             }
           ],
           "partialFingerprints": {
-            "equalIndicator/v2": "81f1733bc9ecb6cb",
-            "equalIndicator/v1": "1056bd1cbc3807f16038a2376518aefbd84e05f6ff33c246f06840dc0a2efad4"
+            "equalIndicator/v2": "2364b0d44a678107",
+            "equalIndicator/v1": "10697081d49630606249187e4fa2e098afe988b7237d6da9ec2fea84e2219f6e"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -25712,63 +23945,6 @@
           "partialFingerprints": {
             "equalIndicator/v2": "ef12adceb2f6a231",
             "equalIndicator/v1": "1784d66d9f3b5e9460946901c7a892796d44ef4b46abce3c655097777c9b41fa"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSUnusedLocalSymbols",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Unused constant handleRouteChange",
-            "markdown": "Unused constant handleRouteChange"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/useConfirmation.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 36,
-                  "startColumn": 11,
-                  "charOffset": 1205,
-                  "charLength": 17,
-                  "snippet": {
-                    "text": "handleRouteChange"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 34,
-                  "startColumn": 1,
-                  "charOffset": 1160,
-                  "charLength": 210,
-                  "snippet": {
-                    "text": "    if (!shouldConfirm) return;\r\n\r\n    const handleRouteChange = () => { // eslint-disable-line @typescript-eslint/no-unused-vars\r\n      if (shouldConfirm) {\r\n        const confirmed = window.confirm(message);\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "31dbe52a887db988",
-            "equalIndicator/v1": "18389c6178b54432cf3a142ba1b8a87e7207d1d030def6a59c1faa1e20ea01b7"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -26225,63 +24401,6 @@
           "partialFingerprints": {
             "equalIndicator/v2": "507755ec8e6acb9f",
             "equalIndicator/v1": "40ee149923ed5979f44d52946e47cfa733c3b8d6c8542312bd44d63a331b3e77"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSUnusedLocalSymbols",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Unused parameter type",
-            "markdown": "Unused parameter type"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/useConfirmation.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 67,
-                  "startColumn": 5,
-                  "charOffset": 2199,
-                  "charLength": 4,
-                  "snippet": {
-                    "text": "type"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 65,
-                  "startColumn": 1,
-                  "charOffset": 2019,
-                  "charLength": 343,
-                  "snippet": {
-                    "text": "    confirmText = 'Confirmar', // eslint-disable-line @typescript-eslint/no-unused-vars\r\n    cancelText = 'Cancelar', // eslint-disable-line @typescript-eslint/no-unused-vars\r\n    type = 'warning' // eslint-disable-line @typescript-eslint/no-unused-vars\r\n  }: ConfirmationOptions): Promise<boolean> => {\r\n    return new Promise((resolve) => {\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "5833632a54f47682",
-            "equalIndicator/v1": "4701a3ee5f8f1b686ba16207144645e16a3a26a8b80bdc8639275dc2ba56d09c"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -27308,6 +25427,63 @@
           "partialFingerprints": {
             "equalIndicator/v2": "56000f1b66a3a2d6",
             "equalIndicator/v1": "9790b7c8b19d2dcb68849251b06c19b9b6ecbda346b37f2d878597967668613e"
+          },
+          "properties": {
+            "ideaSeverity": "WARNING",
+            "qodanaSeverity": "High",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "JSUnusedLocalSymbols",
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "Unused parameter confirmText",
+            "markdown": "Unused parameter confirmText"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "hooks/useConfirmation.ts",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 65,
+                  "startColumn": 5,
+                  "charOffset": 2036,
+                  "charLength": 11,
+                  "snippet": {
+                    "text": "confirmText"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 63,
+                  "startColumn": 1,
+                  "charOffset": 1985,
+                  "charLength": 301,
+                  "snippet": {
+                    "text": "    title = 'Confirmar acción',\r\n    message,\r\n    confirmText = 'Confirmar', // eslint-disable-line @typescript-eslint/no-unused-vars\r\n    cancelText = 'Cancelar', // eslint-disable-line @typescript-eslint/no-unused-vars\r\n    type = 'warning' // eslint-disable-line @typescript-eslint/no-unused-vars\r"
+                  },
+                  "sourceLanguage": "TypeScript"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "40c41224cf9be1a4",
+            "equalIndicator/v1": "9c8164bbf607e0386da0131b2413cfbeed79aa7c93d717ad21beb954af51a39a"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -28577,63 +26753,6 @@
           "kind": "fail",
           "level": "warning",
           "message": {
-            "text": "Unused parameter cancelText",
-            "markdown": "Unused parameter cancelText"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/useConfirmation.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 66,
-                  "startColumn": 5,
-                  "charOffset": 2112,
-                  "charLength": 10,
-                  "snippet": {
-                    "text": "cancelText"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 64,
-                  "startColumn": 1,
-                  "charOffset": 2005,
-                  "charLength": 318,
-                  "snippet": {
-                    "text": "    message,\r\n    confirmText = 'Confirmar', // eslint-disable-line @typescript-eslint/no-unused-vars\r\n    cancelText = 'Cancelar', // eslint-disable-line @typescript-eslint/no-unused-vars\r\n    type = 'warning' // eslint-disable-line @typescript-eslint/no-unused-vars\r\n  }: ConfirmationOptions): Promise<boolean> => {\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "5430a8811c178fe2",
-            "equalIndicator/v1": "e451cb39497eb388d6e90b0b44728459162be7b730f0fbe07edc5a3d372772b3"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSUnusedLocalSymbols",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
             "text": "Unused parameter historyItem",
             "markdown": "Unused parameter historyItem"
           },
@@ -28904,6 +27023,63 @@
           "partialFingerprints": {
             "equalIndicator/v2": "644c476e75247d79",
             "equalIndicator/v1": "f3c5f58230d2916d9087b4efa6908458c1f57dc8ec9b4904ed6e2f224f482008"
+          },
+          "properties": {
+            "ideaSeverity": "WARNING",
+            "qodanaSeverity": "High",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "JSUnusedLocalSymbols",
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "Unused parameter cancelText",
+            "markdown": "Unused parameter cancelText"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "hooks/useConfirmation.ts",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 66,
+                  "startColumn": 5,
+                  "charOffset": 2125,
+                  "charLength": 10,
+                  "snippet": {
+                    "text": "cancelText"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 64,
+                  "startColumn": 1,
+                  "charOffset": 2018,
+                  "charLength": 318,
+                  "snippet": {
+                    "text": "    message,\r\n    confirmText = 'Confirmar', // eslint-disable-line @typescript-eslint/no-unused-vars\r\n    cancelText = 'Cancelar', // eslint-disable-line @typescript-eslint/no-unused-vars\r\n    type = 'warning' // eslint-disable-line @typescript-eslint/no-unused-vars\r\n  }: ConfirmationOptions): Promise<boolean> => {\r"
+                  },
+                  "sourceLanguage": "TypeScript"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "9c6710f9f6d8a373",
+            "equalIndicator/v1": "f55a43d84c8ddf38df34229b3b3f8272d6f1a599f01aa0a0c85ab017ecb46b34"
           },
           "properties": {
             "ideaSeverity": "WARNING",
@@ -35985,7 +34161,7 @@
       ],
       "automationDetails": {
         "id": "LandingPage/qodana/2025-11-02",
-        "guid": "e4741581-3745-4d72-b78f-877176c58eef",
+        "guid": "e5a31cc8-cd5a-4407-b2b2-4529a3f62fd1",
         "properties": {
           "jobUrl": "",
           "analysisKind": "ide"
@@ -35998,154 +34174,39 @@
       "properties": {
         "qodana.promo.results": [
           {
-            "ruleId": "RegExpSimplifiable",
-            "kind": "fail",
-            "level": "note",
-            "message": {
-              "text": "'[^\\d]' can be simplified to '\\D'",
-              "markdown": "`[^\\d]` can be simplified to '\\\\D'"
-            },
-            "locations": [
-              {
-                "physicalLocation": {
-                  "artifactLocation": {
-                    "uri": "utils/validation.ts",
-                    "uriBaseId": "SRCROOT"
-                  },
-                  "region": {
-                    "startLine": 290,
-                    "startColumn": 33,
-                    "charOffset": 6132,
-                    "charLength": 5,
-                    "snippet": {
-                      "text": "[^\\d]"
-                    },
-                    "sourceLanguage": "RegExp"
-                  },
-                  "contextRegion": {
-                    "startLine": 288,
-                    "startColumn": 1,
-                    "charOffset": 6026,
-                    "charLength": 180,
-                    "snippet": {
-                      "text": " */\r\nexport function validateColombianId(id: string): ValidationResult {\r\n  const sanitized = id.replace(/[^\\d]/g, '');\r\n  \r\n  if (sanitized.length < 6 || sanitized.length > 10) {\r"
-                    },
-                    "sourceLanguage": "TypeScript"
-                  }
-                },
-                "logicalLocations": [
-                  {
-                    "fullyQualifiedName": "LandingPage",
-                    "kind": "module"
-                  }
-                ]
-              }
-            ],
-            "partialFingerprints": {
-              "equalIndicator/v2": "d075f672200a48e6",
-              "equalIndicator/v1": "b564b3eacac8ba0d2b95032d365a325fcbafdbfd67602429d301b9f55a1ff89e"
-            },
-            "properties": {
-              "ideaSeverity": "WEAK WARNING",
-              "qodanaSeverity": "Moderate",
-              "problemType": "REGULAR",
-              "hasFixes": true,
-              "tags": [
-                "RegExp"
-              ]
-            }
-          },
-          {
             "ruleId": "UnnecessaryLocalVariableJS",
             "kind": "fail",
             "level": "warning",
             "message": {
-              "text": "Local variable 'hash' is redundant",
-              "markdown": "Local variable hash is redundant"
+              "text": "Local variable 'removed' is redundant",
+              "markdown": "Local variable removed is redundant"
             },
             "locations": [
               {
                 "physicalLocation": {
                   "artifactLocation": {
-                    "uri": "lib/bold-utils.ts",
+                    "uri": "lib/security-events.ts",
                     "uriBaseId": "SRCROOT"
                   },
                   "region": {
-                    "startLine": 110,
+                    "startLine": 361,
                     "startColumn": 9,
-                    "charOffset": 2979,
-                    "charLength": 4,
-                    "snippet": {
-                      "text": "hash"
-                    },
-                    "sourceLanguage": "JavaScript"
-                  },
-                  "contextRegion": {
-                    "startLine": 108,
-                    "startColumn": 1,
-                    "charOffset": 2941,
-                    "charLength": 112,
-                    "snippet": {
-                      "text": "  \r\n  // Generar hash SHA256\r\n  const hash = crypto\r\n    .createHash('sha256')\r\n    .update(concatenatedString)\r"
-                    },
-                    "sourceLanguage": "TypeScript"
-                  }
-                },
-                "logicalLocations": [
-                  {
-                    "fullyQualifiedName": "LandingPage",
-                    "kind": "module"
-                  }
-                ]
-              }
-            ],
-            "partialFingerprints": {
-              "equalIndicator/v2": "048970ecb1936424",
-              "equalIndicator/v1": "973d978a8943114e1e2f8d9aa476eb8e9848523cf6fcdeaed6f3348f52010604"
-            },
-            "properties": {
-              "ideaSeverity": "WARNING",
-              "qodanaSeverity": "High",
-              "problemType": "REGULAR",
-              "tags": [
-                "JavaScript"
-              ]
-            }
-          },
-          {
-            "ruleId": "UnnecessaryLocalVariableJS",
-            "kind": "fail",
-            "level": "warning",
-            "message": {
-              "text": "Local variable 'authUrl' is redundant",
-              "markdown": "Local variable authUrl is redundant"
-            },
-            "locations": [
-              {
-                "physicalLocation": {
-                  "artifactLocation": {
-                    "uri": "app/admin/email-config/page.tsx",
-                    "uriBaseId": "SRCROOT"
-                  },
-                  "region": {
-                    "startLine": 115,
-                    "startColumn": 11,
-                    "charOffset": 3935,
+                    "charOffset": 9067,
                     "charLength": 7,
                     "snippet": {
-                      "text": "authUrl"
+                      "text": "removed"
                     },
                     "sourceLanguage": "JavaScript"
                   },
                   "contextRegion": {
-                    "startLine": 113,
+                    "startLine": 359,
                     "startColumn": 1,
-                    "charOffset": 3807,
-                    "charLength": 339,
+                    "charOffset": 9028,
+                    "charLength": 145,
                     "snippet": {
-                      "text": "    const scope = encodeURIComponent('ZohoMail.messages.CREATE,ZohoMail.accounts.READ,ZohoMail.folders.READ');\r\n    \r\n    const authUrl = `https://accounts.zoho.com/oauth/v2/auth?scope=${scope}&client_id=${clientId}&response_type=code&access_type=offline&redirect_uri=${redirectUri}`;\r\n    \r\n    // Usar la misma ventana en lugar de popup\r"
+                      "text": "  \r\n  // Remove from timeline\r\n  const removed = await redis.zremrangebyscore('security:events:timeline', 0, cutoffTime);\r\n  \r\n  return removed;\r"
                     },
-                    "sourceLanguage": "TypeScript JSX"
+                    "sourceLanguage": "TypeScript"
                   }
                 },
                 "logicalLocations": [
@@ -36157,8 +34218,8 @@
               }
             ],
             "partialFingerprints": {
-              "equalIndicator/v2": "c949a41c054709b1",
-              "equalIndicator/v1": "f94f17fbae3039bfb9d1376f348dbecba80da634688e3ea6550cc833a64c2cdd"
+              "equalIndicator/v2": "13f834726c8556c8",
+              "equalIndicator/v1": "f6cf66be3b124d90c42163280a182eee1b1e2ecc7fdf68ba745ec24eec7d2dea"
             },
             "properties": {
               "ideaSeverity": "WARNING",
@@ -36175,13 +34236,13 @@
         "deviceId": "101025103da69cc-f9c8-4a4b-b2dc-9cf68aab4b7e",
         "qodanaNewResultSummary": {
           "high": 142,
-          "moderate": 135,
-          "total": 277
+          "moderate": 103,
+          "total": 245
         }
       }
     }
   ],
   "properties": {
-    "runTimestamp": "1762062382742"
+    "runTimestamp": "1762064235885"
   }
 }

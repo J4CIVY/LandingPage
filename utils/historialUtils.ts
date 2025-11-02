@@ -37,7 +37,7 @@ export const formatearMoneda = (cantidad: number): string => {
 };
 
 // Calculadora de años de membresía (mantener si hay contexto útil)
-export const calcularAñosMembresia = (fechaAfiliacion: string): number => {
+export const calcularAnosMembresia = (fechaAfiliacion: string): number => {
   return differenceInYears(new Date(), parseISO(fechaAfiliacion));
 };
 
@@ -137,7 +137,7 @@ export const calcularEstadisticas = (historialItems: HistorialItem[]): Estadisti
     beneficiosUsados,
     pqrsdfAbiertas,
     logrosObtenidos: logros.length,
-  añosMembresia: 0,
+    anosMembresia: 0,
     puntosAcumulados
   };
 };

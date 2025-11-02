@@ -208,7 +208,7 @@ export const generateHistorialPDF = async (
                   <div class="stat-label">Logros Obtenidos</div>
                 </div>
                 <div class="stat-item">
-                  <div class="stat-value">${estadisticas.añosMembresia}</div>
+                  <div class="stat-value">${estadisticas.anosMembresia}</div>
                   <div class="stat-label">Años Miembro</div>
                 </div>
                 <div class="stat-item">

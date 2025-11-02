@@ -4,7 +4,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 export interface IAdjunto {
   id: string;
   nombre: string;
-  tamaño: number;
+  tamano: number;
   tipo: string;
   url: string;
   fechaSubida: Date;
@@ -95,7 +95,7 @@ const DatosBancariosReembolsoSchema = new Schema<IDatosBancariosReembolso>({
 const AdjuntoSchema = new Schema<IAdjunto>({
   id: { type: String, required: true },
   nombre: { type: String, required: true },
-  tamaño: { type: Number, required: true },
+  tamano: { type: Number, required: true },
   tipo: { type: String, required: true },
   url: { type: String, required: true },
   fechaSubida: { type: Date, required: true }

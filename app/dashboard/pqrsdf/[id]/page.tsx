@@ -122,12 +122,12 @@ export default function DetalleSolicitudPage() {
   };
 
   // Formatear tamaño de archivo
-  const formatearTamaño = (bytes: number) => {
+  const formatearTamano = (bytes: number) => {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;
-    const tamaños = ['Bytes', 'KB', 'MB', 'GB'];
+    const tamanos = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + tamaños[i];
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + tamanos[i];
   };
 
   if (cargando) {
@@ -301,7 +301,7 @@ export default function DetalleSolicitudPage() {
                             <FaPaperclip className="w-4 h-4 text-gray-400" />
                             <span className="text-gray-900 dark:text-slate-100">{adjunto.nombre}</span>
                             <span className="text-gray-500 dark:text-slate-400">
-                              ({formatearTamaño(adjunto.tamaño)})
+                              ({formatearTamano(adjunto.tamano)})
                             </span>
                           </div>
                           <a 

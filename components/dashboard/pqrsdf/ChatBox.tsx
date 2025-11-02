@@ -66,12 +66,12 @@ export default function ChatBox({
     setAdjuntos(prev => prev.filter((_, i) => i !== index));
   };
 
-  const formatearTamaño = (bytes: number) => {
+  const formatearTamano = (bytes: number) => {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;
-    const tamaños = ['Bytes', 'KB', 'MB', 'GB'];
+    const tamanos = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + tamaños[i];
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + tamanos[i];
   };
 
   return (
@@ -133,7 +133,7 @@ export default function ChatBox({
                           <div key={adjunto.id} className="flex items-center space-x-2 text-xs opacity-90">
                             <FaPaperclip className="w-3 h-3" />
                             <span>{adjunto.nombre}</span>
-                            <span>({formatearTamaño(adjunto.tamaño)})</span>
+                            <span>({formatearTamano(adjunto.tamano)})</span>
                             <a 
                               href={adjunto.url} 
                               download 
@@ -164,7 +164,7 @@ export default function ChatBox({
                   <div className="flex items-center space-x-2">
                     <FaPaperclip className="w-3 h-3" />
                     <span>{archivo.name}</span>
-                    <span>({formatearTamaño(archivo.size)})</span>
+                    <span>({formatearTamano(archivo.size)})</span>
                   </div>
                   <button
                     onClick={() => removerAdjunto(index)}

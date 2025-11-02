@@ -339,7 +339,7 @@ class InMemoryDatabase {
         technicalSpecifications: {
           "Material": "Fibra de carbono",
           "Peso": "1.2 kg",
-          "Certificación": "DOT, ECE R22.05",
+          "Certificacion": "DOT, ECE R22.05",
           "Tallas": "S, M, L, XL"
         },
         features: ["Anti-empañamiento", "Ventilación avanzada", "Micrófono integrado"]

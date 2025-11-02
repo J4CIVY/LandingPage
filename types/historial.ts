@@ -86,6 +86,6 @@ export interface EstadisticasHistorial {
   beneficiosUsados: number;
   pqrsdfAbiertas: number;
   logrosObtenidos: number;
-  añosMembresia: number;
+  anosMembresia: number;
   puntosAcumulados: number;
 }

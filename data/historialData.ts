@@ -368,7 +368,7 @@ export const estadisticasSimuladas: EstadisticasHistorial = {
   beneficiosUsados: 12,
   pqrsdfAbiertas: 1,
   logrosObtenidos: 7,
-  añosMembresia: 3,
+  anosMembresia: 3,
   puntosAcumulados: 800
 };
 

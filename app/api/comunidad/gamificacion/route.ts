@@ -123,7 +123,7 @@ export async function GET(request: NextRequest) {
       comentarioUtil: { puntos: 5, descripcion: 'Comentario marcado como útil por moderador' },
       invitarAmigo: { puntos: 300, descripcion: 'Invitar a un nuevo miembro que se registre' },
       voluntariado: { puntos: 200, descripcion: 'Participar en actividad de voluntariado' },
-      mentoría: { puntos: 150, descripcion: 'Mentorizar a nuevos miembros' },
+      mentoria: { puntos: 150, descripcion: 'Mentorizar a nuevos miembros' },
       liderazgoProyecto: { puntos: 1000, descripcion: 'Liderar proyecto comunitario' }
     };
 
