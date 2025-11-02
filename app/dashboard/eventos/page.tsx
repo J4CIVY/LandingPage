@@ -348,16 +348,6 @@ export default function EventosPage() {
     setEditingEvent(null);
   };
 
-  const handleClearFilters = () => {
-    setFilters({
-      search: '',
-      eventType: 'all',
-      status: 'all',
-      location: '',
-      myEvents: false
-    });
-  };
-
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
       <main className="container mx-auto px-4 py-8">
@@ -373,7 +363,6 @@ export default function EventosPage() {
         <EventosFilter 
           filters={filters}
           onFiltersChange={setFilters}
-          onClearFilters={handleClearFilters}
           loading={loading}
         />
 
