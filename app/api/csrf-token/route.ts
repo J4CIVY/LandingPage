@@ -18,7 +18,7 @@ import { verifyAuth } from '@/lib/auth-utils';
  * Generates and returns a CSRF token for the authenticated user.
  * The token is valid for 2 hours.
  * 
- * @requires Authentication - User must be logged in
+ * @description Requires authentication - User must be logged in
  * @returns JSON with CSRF token
  */
 export async function GET(request: NextRequest) {

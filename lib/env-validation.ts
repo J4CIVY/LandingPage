@@ -107,7 +107,7 @@ export function validateEnv(): Env {
 
   if (!parsed.success) {
     console.error('❌ Invalid environment variables:');
-    console.error(JSON.stringify(parsed.error.format(), null, 2));
+    console.error(JSON.stringify(parsed.error.issues, null, 2));
     
     // Allow build to continue but warn about missing variables
     if (isBuildTime) {

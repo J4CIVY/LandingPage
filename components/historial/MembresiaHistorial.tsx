@@ -84,16 +84,6 @@ export default function MembresiaHistorial() {
     }
   };
 
-  const getEstadoColor = (estado: string) => { // eslint-disable-line @typescript-eslint/no-unused-vars
-    switch (estado) {
-      case 'activa': return 'text-green-600 bg-green-50';
-      case 'vencida': return 'text-red-600 bg-red-50';
-      case 'suspendida': return 'text-yellow-600 bg-yellow-50';
-      case 'cancelada': return 'text-gray-600 bg-gray-50';
-      default: return 'text-gray-600 bg-gray-50';
-    }
-  };
-
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('es-ES', {

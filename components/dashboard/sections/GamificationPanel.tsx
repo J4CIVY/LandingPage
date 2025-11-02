@@ -161,8 +161,7 @@ export default function GamificationPanel() {
     return Math.round(((gamificationData.stats.participationScore || 0) / gamificationData.stats.maxParticipationScore) * 100);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const getLevelColor = (level: string) => {
+  const getLevelColor = () => {
     return gamificationData?.level?.color || '#10B981';
   };
 
@@ -250,7 +249,7 @@ export default function GamificationPanel() {
           <div className="flex items-center justify-center mb-2">
             <span className="text-3xl mr-2">{getLevelIcon(level.current)}</span>
             <div>
-              <h4 className="text-lg font-bold" style={{ color: getLevelColor(level.current) }}>
+              <h4 className="text-lg font-bold" style={{ color: getLevelColor() }}>
                 Nivel {level.current}
               </h4>
               <p className="text-sm text-gray-600 dark:text-slate-400">

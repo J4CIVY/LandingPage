@@ -12,9 +12,8 @@ export const useBeforeUnload = ({ enabled, message = '¿Estás seguro de que qui
 
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       // Modern browsers require preventDefault() and setting returnValue
-      // The custom message parameter is ignored by most modern browsers for security
+      // Note: returnValue is deprecated but still required for cross-browser compatibility
       e.preventDefault();
-      // Setting returnValue to empty string is the modern standard per MDN spec
       e.returnValue = '';
       return '';
     };

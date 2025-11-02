@@ -15,12 +15,10 @@ import type { EstadisticasHistorial } from '@/types/historial';
 interface HistorialHeaderProps {
   estadisticas: EstadisticasHistorial | null;
   onExportPDF: () => void;
-  historialItems?: any[]; // eslint-disable-line @typescript-eslint/no-explicit-any
   userName?: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function HistorialHeader({ estadisticas, onExportPDF, historialItems = [] }: HistorialHeaderProps) {
+export default function HistorialHeader({ estadisticas, onExportPDF }: HistorialHeaderProps) {
   const [isExporting, setIsExporting] = useState(false);
 
   const handleExportPDF = async () => {

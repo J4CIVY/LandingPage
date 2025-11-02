@@ -7,11 +7,9 @@ import Image from 'next/image';
 
 interface Step1EmailProps {
   onEmailVerified: (email: string) => void;
-  returnUrl: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function Step1Email({ onEmailVerified, returnUrl }: Step1EmailProps) {
+export default function Step1Email({ onEmailVerified }: Step1EmailProps) {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

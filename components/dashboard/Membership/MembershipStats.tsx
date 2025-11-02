@@ -33,8 +33,7 @@ interface Badge {
   earned: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function MembershipStats({ user, membershipData }: MembershipStatsProps) {
+export default function MembershipStats({ user }: MembershipStatsProps) {
   const { stats, loading, error } = useUserStats();
   
   if (loading) {
