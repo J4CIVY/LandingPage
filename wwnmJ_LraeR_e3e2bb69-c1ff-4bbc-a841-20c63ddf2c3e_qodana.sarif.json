@@ -20173,7 +20173,7 @@
       },
       "invocations": [
         {
-          "startTimeUtc": "2025-11-02T03:52:04.080978Z",
+          "startTimeUtc": "2025-11-02T04:23:09.6819279Z",
           "exitCode": 0,
           "executionSuccessful": true
         }
@@ -20182,7 +20182,7 @@
       "versionControlProvenance": [
         {
           "repositoryUri": "https://github.com/J4CIVY/LandingPage.git",
-          "revisionId": "de645ce4f9cc3124e81cc7f9c2fcfa1e658954a3",
+          "revisionId": "3f978853a5f188e6ce2586aa30fb368ea427cba0",
           "branch": "main",
           "properties": {
             "repoUrl": "https://github.com/J4CIVY/LandingPage.git",
@@ -22136,120 +22136,6 @@
           "kind": "fail",
           "level": "note",
           "message": {
-            "text": "Promise returned from fetchUserProfile is ignored",
-            "markdown": "Promise returned from fetchUserProfile is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/dashboard/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 97,
-                  "startColumn": 7,
-                  "charOffset": 3304,
-                  "charLength": 16,
-                  "snippet": {
-                    "text": "fetchUserProfile"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 95,
-                  "startColumn": 1,
-                  "charOffset": 3241,
-                  "charLength": 115,
-                  "snippet": {
-                    "text": "  useEffect(() => {\r\n    if (isAuthenticated && user) {\r\n      fetchUserProfile();\r\n      fetchUserStats();\r\n    }\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "c8a9ae81e16cf6bf",
-            "equalIndicator/v1": "04a1dccdb25261dbc35f67bbbab23fdc6fcbc68d264bcf991d3b2b12df9ef594"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from reportarContenido is ignored",
-            "markdown": "Promise returned from reportarContenido is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/comunidad/PublicacionCard.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 264,
-                  "startColumn": 25,
-                  "charOffset": 9690,
-                  "charLength": 17,
-                  "snippet": {
-                    "text": "reportarContenido"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 262,
-                  "startColumn": 1,
-                  "charOffset": 9597,
-                  "charLength": 188,
-                  "snippet": {
-                    "text": "                    <button\r\n                      onClick={() => {\r\n                        reportarContenido();\r\n                        setMostrarMenu(false);\r\n                      }}\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "3aaf4b802c65e627",
-            "equalIndicator/v1": "07c95a1b8588814fa585149394bb91dfbf5501e4b3af22faf6378c7c96bdc896"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
             "text": "Promise returned from loadStats is ignored",
             "markdown": "Promise returned from loadStats is ignored"
           },
@@ -22292,234 +22178,6 @@
           "partialFingerprints": {
             "equalIndicator/v2": "ac65e24c3caef604",
             "equalIndicator/v1": "080f1f72f41e29a93d499e3fe7f2b86df9ed83e287987611339d6c59a4299513"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from cargarUsuariosEnLinea is ignored",
-            "markdown": "Promise returned from cargarUsuariosEnLinea is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/comunidad/ChatComunidad.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 86,
-                  "startColumn": 7,
-                  "charOffset": 2504,
-                  "charLength": 21,
-                  "snippet": {
-                    "text": "cargarUsuariosEnLinea"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 84,
-                  "startColumn": 1,
-                  "charOffset": 2451,
-                  "charLength": 116,
-                  "snippet": {
-                    "text": "  useEffect(() => {\r\n    if (usuarioActual) {\r\n      cargarUsuariosEnLinea();\r\n      actualizarActividad();\r\n      \r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "0ff58b4b4e35535c",
-            "equalIndicator/v1": "0ac1269101930318d2cf7e40eaafe08dbc9fda7e2b59040ca783c4788f5c26c2"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from cargarResumenSemanal is ignored",
-            "markdown": "Promise returned from cargarResumenSemanal is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/puntos/ResumenSemanal.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 99,
-                  "startColumn": 5,
-                  "charOffset": 3223,
-                  "charLength": 20,
-                  "snippet": {
-                    "text": "cargarResumenSemanal"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 97,
-                  "startColumn": 1,
-                  "charOffset": 3209,
-                  "charLength": 60,
-                  "snippet": {
-                    "text": "    };\r\n\r\n    cargarResumenSemanal();\r\n  }, [usuarioId]);\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "b5456f4b9bf61b8b",
-            "equalIndicator/v1": "0b12dcd22b1788e582c642dd8e390905a3b2fcfb450fc5ae4e2bc9731ad84750"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from cargarMensajes is ignored",
-            "markdown": "Promise returned from cargarMensajes is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/dashboard/comunidad/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 51,
-                  "startColumn": 7,
-                  "charOffset": 1864,
-                  "charLength": 14,
-                  "snippet": {
-                    "text": "cargarMensajes"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 49,
-                  "startColumn": 1,
-                  "charOffset": 1811,
-                  "charLength": 110,
-                  "snippet": {
-                    "text": "      cargarGrupos();\r\n      cargarRanking();\r\n      cargarMensajes();\r\n    }\r\n  }, [isAuthenticated, user]);\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "449536fab31408fb",
-            "equalIndicator/v1": "0d75f901ed217029dfeafbcd78c92959b195f63045b640f26b6e15cfc46506d1"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from logout is ignored",
-            "markdown": "Promise returned from logout is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/shared/AuthButton.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 141,
-                  "startColumn": 15,
-                  "charOffset": 5261,
-                  "charLength": 6,
-                  "snippet": {
-                    "text": "logout"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 139,
-                  "startColumn": 1,
-                  "charOffset": 5198,
-                  "charLength": 126,
-                  "snippet": {
-                    "text": "          <button\r\n            onClick={() => {\r\n              logout();\r\n              setIsMenuOpen(false);\r\n            }}\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "b0b46471275bf714",
-            "equalIndicator/v1": "0eef44af918e2c814634ed08fbe0088a8a1b3edd23862b7f9e2d58023dc72e92"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -22592,33 +22250,33 @@
           "kind": "fail",
           "level": "note",
           "message": {
-            "text": "Promise returned from cargarLogros is ignored",
-            "markdown": "Promise returned from cargarLogros is ignored"
+            "text": "Promise returned from fetchAnalytics is ignored",
+            "markdown": "Promise returned from fetchAnalytics is ignored"
           },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "components/puntos/LogrosUsuario.tsx",
+                  "uri": "app/admin/analytics/page.tsx",
                   "uriBaseId": "SRCROOT"
                 },
                 "region": {
-                  "startLine": 91,
+                  "startLine": 132,
                   "startColumn": 5,
-                  "charOffset": 2410,
-                  "charLength": 12,
+                  "charOffset": 3559,
+                  "charLength": 14,
                   "snippet": {
-                    "text": "cargarLogros"
+                    "text": "fetchAnalytics"
                   },
                   "sourceLanguage": "JavaScript"
                 },
                 "contextRegion": {
-                  "startLine": 89,
+                  "startLine": 130,
                   "startColumn": 1,
-                  "charOffset": 2396,
-                  "charLength": 52,
+                  "charOffset": 3520,
+                  "charLength": 65,
                   "snippet": {
-                    "text": "    };\r\n\r\n    cargarLogros();\r\n  }, [usuarioId]);\r\n\r"
+                    "text": "\r\n  const handleRefresh = () => {\r\n    fetchAnalytics();\r\n  };\r\n\r"
                   },
                   "sourceLanguage": "TypeScript JSX"
                 }
@@ -22632,179 +22290,8 @@
             }
           ],
           "partialFingerprints": {
-            "equalIndicator/v2": "48590f4766053db5",
-            "equalIndicator/v1": "19cbfdc50935a42c124acb25bcc8aff0e8b66f2b830333ef3dbd59aa3d9487b5"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from logout is ignored",
-            "markdown": "Promise returned from logout is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/shared/AuthButton.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 66,
-                  "startColumn": 11,
-                  "charOffset": 2075,
-                  "charLength": 6,
-                  "snippet": {
-                    "text": "logout"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 64,
-                  "startColumn": 1,
-                  "charOffset": 2024,
-                  "charLength": 122,
-                  "snippet": {
-                    "text": "      <button\r\n        onClick={() => {\r\n          logout();\r\n          if (onMobileAction) onMobileAction();\r\n        }}\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "4e8f2144b5a8fdcf",
-            "equalIndicator/v1": "1ad57802651fc7ce47ee4699eabdccb17d9541e674637f066a0363fdafa5e60f"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from fetchRealPoints is ignored",
-            "markdown": "Promise returned from fetchRealPoints is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/membership/RankingWidget.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 26,
-                  "startColumn": 5,
-                  "charOffset": 836,
-                  "charLength": 15,
-                  "snippet": {
-                    "text": "fetchRealPoints"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 24,
-                  "startColumn": 1,
-                  "charOffset": 754,
-                  "charLength": 114,
-                  "snippet": {
-                    "text": "  useEffect(() => {\r\n    // Cargar puntos reales del sistema de gamificación\r\n    fetchRealPoints();\r\n  }, []);\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "2015b345ae5256de",
-            "equalIndicator/v1": "1b1404097efd3f1952ee7af155240f84d2511cb37c971d994520890102f8fd4e"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from fetchParticipants is ignored",
-            "markdown": "Promise returned from fetchParticipants is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/eventos/EventoModal.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 142,
-                  "startColumn": 7,
-                  "charOffset": 4282,
-                  "charLength": 17,
-                  "snippet": {
-                    "text": "fetchParticipants"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 140,
-                  "startColumn": 1,
-                  "charOffset": 4225,
-                  "charLength": 111,
-                  "snippet": {
-                    "text": "  useEffect(() => {\r\n    if (isOpen && isAdmin) {\r\n      fetchParticipants();\r\n    }\r\n  }, [isOpen, isAdmin]);\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "608cb0160c7cdc21",
-            "equalIndicator/v1": "1cf9274989f0fc9e274bf97907bcbb648da22fc849107b2ad44d32c69b6940f3"
+            "equalIndicator/v2": "61719d4d8e94cfc7",
+            "equalIndicator/v1": "1415468e2a8d3ff49adbdfa8d5ed3012511afe77b522fbce4e941b9c6a697b90"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -22934,234 +22421,6 @@
           "kind": "fail",
           "level": "note",
           "message": {
-            "text": "Promise returned from silenciarUsuario is ignored",
-            "markdown": "Promise returned from silenciarUsuario is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/comunidad/ChatComunidad.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 389,
-                  "startColumn": 39,
-                  "charOffset": 15075,
-                  "charLength": 16,
-                  "snippet": {
-                    "text": "silenciarUsuario"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 387,
-                  "startColumn": 1,
-                  "charOffset": 14940,
-                  "charLength": 271,
-                  "snippet": {
-                    "text": "                                  <button\r\n                                    onClick={() => {\r\n                                      silenciarUsuario(mensaje.autorId);\r\n                                      setMenuAbierto(null);\r\n                                    }}\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "4aad3534ee196a66",
-            "equalIndicator/v1": "238a6f76483c0baf2f891364ca5bec9885e0ee9dd387c1ce21d23dffbabad911"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from loadApplications is ignored",
-            "markdown": "Promise returned from loadApplications is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/memberships/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 144,
-                  "startColumn": 5,
-                  "charOffset": 4342,
-                  "charLength": 16,
-                  "snippet": {
-                    "text": "loadApplications"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 142,
-                  "startColumn": 1,
-                  "charOffset": 4328,
-                  "charLength": 131,
-                  "snippet": {
-                    "text": "    };\r\n\r\n    loadApplications();\r\n  }, [user, currentPage, searchTerm, filterStatus, filterMembershipType, sortBy, sortOrder]);\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "90bf2a0b0a875686",
-            "equalIndicator/v1": "24aa4f9b9c620619a30648b91f4e4b4c805982c4fab4788ab47d3f437d8a89a5"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from fetchUserEventData is ignored",
-            "markdown": "Promise returned from fetchUserEventData is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/dashboard/sections/UpcomingEvents.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 31,
-                  "startColumn": 7,
-                  "charOffset": 822,
-                  "charLength": 18,
-                  "snippet": {
-                    "text": "fetchUserEventData"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 29,
-                  "startColumn": 1,
-                  "charOffset": 771,
-                  "charLength": 95,
-                  "snippet": {
-                    "text": "    fetchUpcomingEvents();\r\n    if (user) {\r\n      fetchUserEventData();\r\n    }\r\n  }, [user]);\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "05be99494e92e4c5",
-            "equalIndicator/v1": "26141d423eed4418fd6e2a295661e1498f6c42a644e04829f58cd282fada4bd7"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from fetchAnalytics is ignored",
-            "markdown": "Promise returned from fetchAnalytics is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/analytics/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 202,
-                  "startColumn": 17,
-                  "charOffset": 6067,
-                  "charLength": 14,
-                  "snippet": {
-                    "text": "fetchAnalytics"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 200,
-                  "startColumn": 1,
-                  "charOffset": 5983,
-                  "charLength": 225,
-                  "snippet": {
-                    "text": "                setError(null);\r\n                setLoading(true);\r\n                fetchAnalytics();\r\n              }}\r\n              className=\"bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors\"\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "f7a215aaaa8341f7",
-            "equalIndicator/v1": "269e6702a55d1718d4c22cf8718d3677d76f07c5b70681d8a971911b263a1dd6"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
             "text": "Promise returned from cargarEventosRegistrados is ignored",
             "markdown": "Promise returned from cargarEventosRegistrados is ignored"
           },
@@ -23204,405 +22463,6 @@
           "partialFingerprints": {
             "equalIndicator/v2": "3b5864ac67045118",
             "equalIndicator/v1": "276526aa2cc3f6964cfce589aa892cd45a64d525f6bc7e736a37537f2160308e"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from fetchAnalytics is ignored",
-            "markdown": "Promise returned from fetchAnalytics is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/analytics/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 121,
-                  "startColumn": 7,
-                  "charOffset": 3329,
-                  "charLength": 14,
-                  "snippet": {
-                    "text": "fetchAnalytics"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 119,
-                  "startColumn": 1,
-                  "charOffset": 3285,
-                  "charLength": 84,
-                  "snippet": {
-                    "text": "  useEffect(() => {\r\n    if (user) {\r\n      fetchAnalytics();\r\n    }\r\n  }, [user]);\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "2bd42c25e1a37ec2",
-            "equalIndicator/v1": "363e01cdecfb10a0d18e73468a113a8f40095f248a75c90d831208cd8afb9d16"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from fetchEvents is ignored",
-            "markdown": "Promise returned from fetchEvents is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/useEvents.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 42,
-                  "startColumn": 5,
-                  "charOffset": 1456,
-                  "charLength": 11,
-                  "snippet": {
-                    "text": "fetchEvents"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 40,
-                  "startColumn": 1,
-                  "charOffset": 1429,
-                  "charLength": 66,
-                  "snippet": {
-                    "text": "\r\n  useEffect(() => {\r\n    fetchEvents();\r\n  }, [fetchEvents]);\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "858485991fa7b1aa",
-            "equalIndicator/v1": "3738c1a2ee01b9b0cdc32be86a7ddad6b112da6e211096e6b61614a4aea0b81c"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from loadProducts is ignored",
-            "markdown": "Promise returned from loadProducts is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/products/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 98,
-                  "startColumn": 7,
-                  "charOffset": 2675,
-                  "charLength": 12,
-                  "snippet": {
-                    "text": "loadProducts"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 96,
-                  "startColumn": 1,
-                  "charOffset": 2592,
-                  "charLength": 176,
-                  "snippet": {
-                    "text": "\r\n    if (user && (user.role === 'admin' || user.role === 'super-admin')) {\r\n      loadProducts();\r\n    }\r\n  }, [user, currentPage, searchTerm, filterCategory, filterStatus]);\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "5612d64f0734df53",
-            "equalIndicator/v1": "3770fe33531f857be769e674020919908d58da0b2915ad7f5585e9b8f30562b6"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from fetchUserData is ignored",
-            "markdown": "Promise returned from fetchUserData is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/users/[id]/edit/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 145,
-                  "startColumn": 7,
-                  "charOffset": 4290,
-                  "charLength": 13,
-                  "snippet": {
-                    "text": "fetchUserData"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 143,
-                  "startColumn": 1,
-                  "charOffset": 4260,
-                  "charLength": 74,
-                  "snippet": {
-                    "text": "\r\n    if (params.id) {\r\n      fetchUserData();\r\n    }\r\n  }, [params.id]);\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "1697f89daaffb491",
-            "equalIndicator/v1": "3c04698374bca0920b272ee98a31ac5df428ec9b7d6fa6b5c3d1d4282c4550c9"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from loadMembership is ignored",
-            "markdown": "Promise returned from loadMembership is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/memberships/[id]/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 97,
-                  "startColumn": 7,
-                  "charOffset": 2897,
-                  "charLength": 14,
-                  "snippet": {
-                    "text": "loadMembership"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 95,
-                  "startColumn": 1,
-                  "charOffset": 2864,
-                  "charLength": 81,
-                  "snippet": {
-                    "text": "\r\n    if (membershipId) {\r\n      loadMembership();\r\n    }\r\n  }, [membershipId]);\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "5a73bce334cadfd5",
-            "equalIndicator/v1": "3c8d6b29bc3663662b2f016e9d7d37409c72013d064c9441261c377f600c7bb1"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from fetchEvents is ignored",
-            "markdown": "Promise returned from fetchEvents is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "hooks/usePublicEvents.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 75,
-                  "startColumn": 5,
-                  "charOffset": 1943,
-                  "charLength": 11,
-                  "snippet": {
-                    "text": "fetchEvents"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 73,
-                  "startColumn": 1,
-                  "charOffset": 1916,
-                  "charLength": 66,
-                  "snippet": {
-                    "text": "\r\n  useEffect(() => {\r\n    fetchEvents();\r\n  }, [fetchEvents]);\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "0c1bb404d6d79904",
-            "equalIndicator/v1": "3e697a812dbaa9eaa0d0239653a969d98d8098c2bc53bf3572506c6888d664af"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from eliminarPublicacion is ignored",
-            "markdown": "Promise returned from eliminarPublicacion is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/comunidad/PublicacionCard.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 251,
-                  "startColumn": 25,
-                  "charOffset": 9104,
-                  "charLength": 19,
-                  "snippet": {
-                    "text": "eliminarPublicacion"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 249,
-                  "startColumn": 1,
-                  "charOffset": 9011,
-                  "charLength": 190,
-                  "snippet": {
-                    "text": "                    <button\r\n                      onClick={() => {\r\n                        eliminarPublicacion();\r\n                        setMostrarMenu(false);\r\n                      }}\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "544d78f1272e3307",
-            "equalIndicator/v1": "405a1c1d0c48002cb9dff0f8f03453788d3270ccfcbff3b221fbf67c537bf121"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -24017,63 +22877,6 @@
           "kind": "fail",
           "level": "note",
           "message": {
-            "text": "Promise returned from fetchAnalytics is ignored",
-            "markdown": "Promise returned from fetchAnalytics is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/analytics/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 132,
-                  "startColumn": 5,
-                  "charOffset": 3554,
-                  "charLength": 14,
-                  "snippet": {
-                    "text": "fetchAnalytics"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 130,
-                  "startColumn": 1,
-                  "charOffset": 3515,
-                  "charLength": 65,
-                  "snippet": {
-                    "text": "\r\n  const handleRefresh = () => {\r\n    fetchAnalytics();\r\n  };\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "ca5b1f8f2e9fe4c3",
-            "equalIndicator/v1": "4ea466098cfb3c74950416ec2a68d5151485e446a4eb80ec951353e7f40f8bca"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
             "text": "Promise returned from fetchEvent is ignored",
             "markdown": "Promise returned from fetchEvent is ignored"
           },
@@ -24359,6 +23162,63 @@
           "kind": "fail",
           "level": "note",
           "message": {
+            "text": "Promise returned from fetchLeaderboard is ignored",
+            "markdown": "Promise returned from fetchLeaderboard is ignored"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "components/membership/RankingWidget.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 31,
+                  "startColumn": 7,
+                  "charOffset": 929,
+                  "charLength": 16,
+                  "snippet": {
+                    "text": "fetchLeaderboard"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 29,
+                  "startColumn": 1,
+                  "charOffset": 874,
+                  "charLength": 108,
+                  "snippet": {
+                    "text": "  useEffect(() => {\r\n    if (showLeaderboard) {\r\n      fetchLeaderboard();\r\n    }\r\n  }, [showLeaderboard]);\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "52b514a0ece4651d",
+            "equalIndicator/v1": "5615b19ac85df110b344795af79195dc31278bf04e2be66f1665018962d924aa"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "JSIgnoredPromiseFromCall",
+          "kind": "fail",
+          "level": "note",
+          "message": {
             "text": "Promise returned from checkSystemHealth is ignored",
             "markdown": "Promise returned from checkSystemHealth is ignored"
           },
@@ -24515,120 +23375,6 @@
           "partialFingerprints": {
             "equalIndicator/v2": "479687fea26548e6",
             "equalIndicator/v1": "5bf2e87487ded441dc268a7fa0d14d09461ae0b393c1f8d40e05684f349dcd94"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from fetchUserStats is ignored",
-            "markdown": "Promise returned from fetchUserStats is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/dashboard/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 98,
-                  "startColumn": 7,
-                  "charOffset": 3331,
-                  "charLength": 14,
-                  "snippet": {
-                    "text": "fetchUserStats"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 96,
-                  "startColumn": 1,
-                  "charOffset": 3262,
-                  "charLength": 126,
-                  "snippet": {
-                    "text": "    if (isAuthenticated && user) {\r\n      fetchUserProfile();\r\n      fetchUserStats();\r\n    }\r\n  }, [isAuthenticated, user]);\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "e8dcab8566e0a35b",
-            "equalIndicator/v1": "5bf2f225df3e733413b7f7632e14d1a43e2c81ad5326f98d699016ae3e7ab7c4"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from cargarRanking is ignored",
-            "markdown": "Promise returned from cargarRanking is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/dashboard/comunidad/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 50,
-                  "startColumn": 7,
-                  "charOffset": 1840,
-                  "charLength": 13,
-                  "snippet": {
-                    "text": "cargarRanking"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 48,
-                  "startColumn": 1,
-                  "charOffset": 1781,
-                  "charLength": 108,
-                  "snippet": {
-                    "text": "      cargarPublicaciones();\r\n      cargarGrupos();\r\n      cargarRanking();\r\n      cargarMensajes();\r\n    }\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "0e95fc914db072f5",
-            "equalIndicator/v1": "5f99831b4bf341793c2c54d005b6995e5b821fce1ae3e301a47d4ae329b6b58a"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -25214,63 +23960,6 @@
           "kind": "fail",
           "level": "note",
           "message": {
-            "text": "Promise returned from fetchLeaderboard is ignored",
-            "markdown": "Promise returned from fetchLeaderboard is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/membership/RankingWidget.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 31,
-                  "startColumn": 7,
-                  "charOffset": 924,
-                  "charLength": 16,
-                  "snippet": {
-                    "text": "fetchLeaderboard"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 29,
-                  "startColumn": 1,
-                  "charOffset": 869,
-                  "charLength": 108,
-                  "snippet": {
-                    "text": "  useEffect(() => {\r\n    if (showLeaderboard) {\r\n      fetchLeaderboard();\r\n    }\r\n  }, [showLeaderboard]);\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "1dad49850bb3a177",
-            "equalIndicator/v1": "71016a2e6482023f40a1e21c050cb00f3dae4c1aebbb2840966ba66e96413ef7"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
             "text": "Promise returned from fetchToken is ignored",
             "markdown": "Promise returned from fetchToken is ignored"
           },
@@ -25670,63 +24359,6 @@
           "kind": "fail",
           "level": "note",
           "message": {
-            "text": "Promise returned from cargarGrupos is ignored",
-            "markdown": "Promise returned from cargarGrupos is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/dashboard/comunidad/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 49,
-                  "startColumn": 7,
-                  "charOffset": 1817,
-                  "charLength": 12,
-                  "snippet": {
-                    "text": "cargarGrupos"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 47,
-                  "startColumn": 1,
-                  "charOffset": 1745,
-                  "charLength": 137,
-                  "snippet": {
-                    "text": "    if (isAuthenticated && user) {\r\n      cargarPublicaciones();\r\n      cargarGrupos();\r\n      cargarRanking();\r\n      cargarMensajes();\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "31be357748312781",
-            "equalIndicator/v1": "75bc0499b8dd8f9de2eef400e55b0026eb5ab218e25678f67157c7d7dae63a50"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
             "text": "Promise returned from handleProfileAction is ignored",
             "markdown": "Promise returned from handleProfileAction is ignored"
           },
@@ -25955,63 +24587,6 @@
           "kind": "fail",
           "level": "note",
           "message": {
-            "text": "Promise returned from actualizarActividad is ignored",
-            "markdown": "Promise returned from actualizarActividad is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/comunidad/ChatComunidad.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 87,
-                  "startColumn": 7,
-                  "charOffset": 2536,
-                  "charLength": 19,
-                  "snippet": {
-                    "text": "actualizarActividad"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 85,
-                  "startColumn": 1,
-                  "charOffset": 2472,
-                  "charLength": 151,
-                  "snippet": {
-                    "text": "    if (usuarioActual) {\r\n      cargarUsuariosEnLinea();\r\n      actualizarActividad();\r\n      \r\n      // Actualizar usuarios en línea cada 30 segundos\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "756ca36cdcef3d47",
-            "equalIndicator/v1": "848508db076bab5fed3e26985d1bc696802827b766a7bd489da8f8fa8f40e10e"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
             "text": "Promise returned from handleDocumentAction is ignored",
             "markdown": "Promise returned from handleDocumentAction is ignored"
           },
@@ -26168,63 +24743,6 @@
           "partialFingerprints": {
             "equalIndicator/v2": "e79032cde105eb6e",
             "equalIndicator/v1": "8b34297ba351ed380c8351d6e16a73fe1a9c9282afaff128900739143f7ffa50"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from cargarPublicaciones is ignored",
-            "markdown": "Promise returned from cargarPublicaciones is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/dashboard/comunidad/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 48,
-                  "startColumn": 7,
-                  "charOffset": 1787,
-                  "charLength": 19,
-                  "snippet": {
-                    "text": "cargarPublicaciones"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 46,
-                  "startColumn": 1,
-                  "charOffset": 1724,
-                  "charLength": 133,
-                  "snippet": {
-                    "text": "  useEffect(() => {\r\n    if (isAuthenticated && user) {\r\n      cargarPublicaciones();\r\n      cargarGrupos();\r\n      cargarRanking();\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "462987290626cde2",
-            "equalIndicator/v1": "8f0953aea8e9cc03f845685c4a45ad857194d5ae63928dd63df5381bf9a95bf8"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -27323,6 +25841,63 @@
           "kind": "fail",
           "level": "note",
           "message": {
+            "text": "Promise returned from fetchAnalytics is ignored",
+            "markdown": "Promise returned from fetchAnalytics is ignored"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/admin/analytics/page.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 128,
+                  "startColumn": 5,
+                  "charOffset": 3486,
+                  "charLength": 14,
+                  "snippet": {
+                    "text": "fetchAnalytics"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 126,
+                  "startColumn": 1,
+                  "charOffset": 3432,
+                  "charLength": 89,
+                  "snippet": {
+                    "text": "    setPeriod(newPeriod);\r\n    setLoading(true);\r\n    fetchAnalytics(newPeriod);\r\n  };\r\n\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "eea7366d171b4ccc",
+            "equalIndicator/v1": "c1e4fe88d7cb8b53b99641ac378aca7a2613701a0bcc8cbb93ffdaa71b8e0690"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "JSIgnoredPromiseFromCall",
+          "kind": "fail",
+          "level": "note",
+          "message": {
             "text": "Promise returned from loadStats is ignored",
             "markdown": "Promise returned from loadStats is ignored"
           },
@@ -28235,6 +26810,120 @@
           "kind": "fail",
           "level": "note",
           "message": {
+            "text": "Promise returned from fetchAnalytics is ignored",
+            "markdown": "Promise returned from fetchAnalytics is ignored"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/admin/analytics/page.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 202,
+                  "startColumn": 17,
+                  "charOffset": 6072,
+                  "charLength": 14,
+                  "snippet": {
+                    "text": "fetchAnalytics"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 200,
+                  "startColumn": 1,
+                  "charOffset": 5988,
+                  "charLength": 225,
+                  "snippet": {
+                    "text": "                setError(null);\r\n                setLoading(true);\r\n                fetchAnalytics();\r\n              }}\r\n              className=\"bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors\"\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "aa78f9094501e004",
+            "equalIndicator/v1": "d5e3c27c943e9ae73665df9c1fa2f7681f0ca7c55702901969e59a4eb9da737a"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "JSIgnoredPromiseFromCall",
+          "kind": "fail",
+          "level": "note",
+          "message": {
+            "text": "Promise returned from reportarMensaje is ignored",
+            "markdown": "Promise returned from reportarMensaje is ignored"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "components/comunidad/ChatComunidad.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 376,
+                  "startColumn": 39,
+                  "charOffset": 14361,
+                  "charLength": 15,
+                  "snippet": {
+                    "text": "reportarMensaje"
+                  },
+                  "sourceLanguage": "JavaScript"
+                },
+                "contextRegion": {
+                  "startLine": 374,
+                  "startColumn": 1,
+                  "charOffset": 14226,
+                  "charLength": 265,
+                  "snippet": {
+                    "text": "                                  <button\r\n                                    onClick={() => {\r\n                                      reportarMensaje(mensaje.id);\r\n                                      setMenuAbierto(null);\r\n                                    }}\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "ee8a46f9a405018e",
+            "equalIndicator/v1": "d75e32e4fbb10f846428d790346406b6566631781de3ff6ce99f7901dbf434f9"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "JavaScript"
+            ]
+          }
+        },
+        {
+          "ruleId": "JSIgnoredPromiseFromCall",
+          "kind": "fail",
+          "level": "note",
+          "message": {
             "text": "Promise returned from fetchReport is ignored",
             "markdown": "Promise returned from fetchReport is ignored"
           },
@@ -28619,63 +27308,6 @@
           "partialFingerprints": {
             "equalIndicator/v2": "9c06d5653c6a63dc",
             "equalIndicator/v1": "e11a1d2d9365f2f1dd75a7651bdbca84c6277d47d1cfdcad351186db12fec71e"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from fetchAnalytics is ignored",
-            "markdown": "Promise returned from fetchAnalytics is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/analytics/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 128,
-                  "startColumn": 5,
-                  "charOffset": 3481,
-                  "charLength": 14,
-                  "snippet": {
-                    "text": "fetchAnalytics"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 126,
-                  "startColumn": 1,
-                  "charOffset": 3427,
-                  "charLength": 89,
-                  "snippet": {
-                    "text": "    setPeriod(newPeriod);\r\n    setLoading(true);\r\n    fetchAnalytics(newPeriod);\r\n  };\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "52a61ce8db1326f9",
-            "equalIndicator/v1": "e6e8b0b88724d830acdcc869fc5c44f1499293a332bb474af6d3686d48fcdd2a"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -29246,120 +27878,6 @@
           "partialFingerprints": {
             "equalIndicator/v2": "3fa751652fc2dc62",
             "equalIndicator/v1": "fb754a84b318c857e76b080af6c0b3f1c200bced88a0c0e170a3c9c7e9de0012"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from fetchUpcomingEvents is ignored",
-            "markdown": "Promise returned from fetchUpcomingEvents is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/dashboard/sections/UpcomingEvents.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 29,
-                  "startColumn": 5,
-                  "charOffset": 775,
-                  "charLength": 19,
-                  "snippet": {
-                    "text": "fetchUpcomingEvents"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 27,
-                  "startColumn": 1,
-                  "charOffset": 748,
-                  "charLength": 96,
-                  "snippet": {
-                    "text": "\r\n  useEffect(() => {\r\n    fetchUpcomingEvents();\r\n    if (user) {\r\n      fetchUserEventData();\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "8df3f8bb6d491d28",
-            "equalIndicator/v1": "fcade80ec203db7e8326657bb8abce2a62122bef47619dbd82f97c869b144114"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSIgnoredPromiseFromCall",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Promise returned from reportarMensaje is ignored",
-            "markdown": "Promise returned from reportarMensaje is ignored"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/comunidad/ChatComunidad.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 376,
-                  "startColumn": 39,
-                  "charOffset": 14325,
-                  "charLength": 15,
-                  "snippet": {
-                    "text": "reportarMensaje"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 374,
-                  "startColumn": 1,
-                  "charOffset": 14190,
-                  "charLength": 265,
-                  "snippet": {
-                    "text": "                                  <button\r\n                                    onClick={() => {\r\n                                      reportarMensaje(mensaje.id);\r\n                                      setMenuAbierto(null);\r\n                                    }}\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "eb841b0e29491cc0",
-            "equalIndicator/v1": "fcc5e2161d215926689e4a35e7cf70e182f4f8fd7c6af6643586ceb7b82acad6"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -37989,6 +36507,63 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
+                  "uri": "app/admin/users/[id]/edit/page.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 149,
+                  "startColumn": 33,
+                  "charOffset": 4374,
+                  "charLength": 5,
+                  "snippet": {
+                    "text": "React"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                },
+                "contextRegion": {
+                  "startLine": 147,
+                  "startColumn": 1,
+                  "charOffset": 4320,
+                  "charLength": 211,
+                  "snippet": {
+                    "text": "  }, [params.id]);\r\n\r\n  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {\r\n    const { name, value, type } = e.target;\r\n    setFormData(prev => ({\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "69d9608308ebddc5",
+            "equalIndicator/v1": "00e455af059ff12f341e7fb22630df159152c3b61c19a136694053e2dc999d1f"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "TypeScript JSX"
+            ]
+          }
+        },
+        {
+          "ruleId": "TypeScriptUMDGlobal",
+          "kind": "fail",
+          "level": "note",
+          "message": {
+            "text": "Referenced UMD global variable",
+            "markdown": "Referenced UMD global variable"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
                   "uri": "components/dashboard/profile/MotorcycleInfo.tsx",
                   "uriBaseId": "SRCROOT"
                 },
@@ -38274,6 +36849,63 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
+                  "uri": "app/admin/users/[id]/edit/page.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 157,
+                  "startColumn": 34,
+                  "charOffset": 4683,
+                  "charLength": 5,
+                  "snippet": {
+                    "text": "React"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                },
+                "contextRegion": {
+                  "startLine": 155,
+                  "startColumn": 1,
+                  "charOffset": 4642,
+                  "charLength": 94,
+                  "snippet": {
+                    "text": "  };\r\n\r\n  const handleSubmit = async (e: React.FormEvent) => {\r\n    e.preventDefault();\r\n    \r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "08ec40bb194c524e",
+            "equalIndicator/v1": "0bc6baa45d0bfcbfcc40280223a299d42ef463075ee51f9d3834153261d3c9e2"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "TypeScript JSX"
+            ]
+          }
+        },
+        {
+          "ruleId": "TypeScriptUMDGlobal",
+          "kind": "fail",
+          "level": "note",
+          "message": {
+            "text": "Referenced UMD global variable",
+            "markdown": "Referenced UMD global variable"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
                   "uri": "components/dashboard/sections/QuickActions.tsx",
                   "uriBaseId": "SRCROOT"
                 },
@@ -38537,63 +37169,6 @@
           "partialFingerprints": {
             "equalIndicator/v2": "d257a603b86b4d83",
             "equalIndicator/v1": "14547b51bd506405180c143f37cc239707143dba1d0a1f6ba416672f2084b6b4"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "TypeScript JSX"
-            ]
-          }
-        },
-        {
-          "ruleId": "TypeScriptUMDGlobal",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Referenced UMD global variable",
-            "markdown": "Referenced UMD global variable"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/admin/memberships/[id]/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 146,
-                  "startColumn": 34,
-                  "charOffset": 4287,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "React"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                },
-                "contextRegion": {
-                  "startLine": 144,
-                  "startColumn": 1,
-                  "charOffset": 4246,
-                  "charLength": 94,
-                  "snippet": {
-                    "text": "  };\r\n\r\n  const handleSubmit = async (e: React.FormEvent) => {\r\n    e.preventDefault();\r\n    \r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "5f799d2518f6fcbc",
-            "equalIndicator/v1": "19427fe7ae3615b90350806d361719d004eebbb8c5a5e71b5dcdd3f3ff88a5d9"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -38958,63 +37533,6 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "app/admin/memberships/[id]/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 101,
-                  "startColumn": 33,
-                  "charOffset": 2980,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "React"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                },
-                "contextRegion": {
-                  "startLine": 99,
-                  "startColumn": 1,
-                  "charOffset": 2923,
-                  "charLength": 177,
-                  "snippet": {
-                    "text": "  }, [membershipId]);\r\n\r\n  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {\r\n    if (!membership) return;\r\n    \r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "2cb74f04795d517f",
-            "equalIndicator/v1": "29a4d8a342626b4391249dc69b4452a0f6253b6dd0d3316cbdf25203cf4b6243"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "TypeScript JSX"
-            ]
-          }
-        },
-        {
-          "ruleId": "TypeScriptUMDGlobal",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Referenced UMD global variable",
-            "markdown": "Referenced UMD global variable"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
                   "uri": "components/auth/TwoFactorVerification.tsx",
                   "uriBaseId": "SRCROOT"
                 },
@@ -39164,6 +37682,63 @@
           "partialFingerprints": {
             "equalIndicator/v2": "95f3ee46d4e77eed",
             "equalIndicator/v1": "2a73fb4374f0d1498d6af439b90c3b748b6187daec63def987a43aea38da0b85"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "TypeScript JSX"
+            ]
+          }
+        },
+        {
+          "ruleId": "TypeScriptUMDGlobal",
+          "kind": "fail",
+          "level": "note",
+          "message": {
+            "text": "Referenced UMD global variable",
+            "markdown": "Referenced UMD global variable"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/admin/memberships/[id]/page.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 101,
+                  "startColumn": 33,
+                  "charOffset": 2985,
+                  "charLength": 5,
+                  "snippet": {
+                    "text": "React"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                },
+                "contextRegion": {
+                  "startLine": 99,
+                  "startColumn": 1,
+                  "charOffset": 2928,
+                  "charLength": 177,
+                  "snippet": {
+                    "text": "  }, [membershipId]);\r\n\r\n  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {\r\n    if (!membership) return;\r\n    \r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "ee2728e6335afe69",
+            "equalIndicator/v1": "2ad04f5d809c23ad26ae4b231a8069628962b4c7069a329f2f7c56482a0f38d4"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -40839,63 +39414,6 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "app/admin/users/[id]/edit/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 149,
-                  "startColumn": 33,
-                  "charOffset": 4369,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "React"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                },
-                "contextRegion": {
-                  "startLine": 147,
-                  "startColumn": 1,
-                  "charOffset": 4315,
-                  "charLength": 211,
-                  "snippet": {
-                    "text": "  }, [params.id]);\r\n\r\n  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {\r\n    const { name, value, type } = e.target;\r\n    setFormData(prev => ({\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "5f5a1d40a585fbbc",
-            "equalIndicator/v1": "67eb07680c4bba69ccb0fa6fbe44c73475d5042729a29e15dd79357a977f747d"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "TypeScript JSX"
-            ]
-          }
-        },
-        {
-          "ruleId": "TypeScriptUMDGlobal",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Referenced UMD global variable",
-            "markdown": "Referenced UMD global variable"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
                   "uri": "components/performance/LazyGoogleMaps.tsx",
                   "uriBaseId": "SRCROOT"
                 },
@@ -41865,63 +40383,6 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "app/admin/users/[id]/edit/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 157,
-                  "startColumn": 34,
-                  "charOffset": 4678,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "React"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                },
-                "contextRegion": {
-                  "startLine": 155,
-                  "startColumn": 1,
-                  "charOffset": 4637,
-                  "charLength": 94,
-                  "snippet": {
-                    "text": "  };\r\n\r\n  const handleSubmit = async (e: React.FormEvent) => {\r\n    e.preventDefault();\r\n    \r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "6b7502020cf3a7db",
-            "equalIndicator/v1": "a19865c6a4bd00c5a602bdaa79c805d2330e960dee18552d84b483fbd9e3e5ab"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "TypeScript JSX"
-            ]
-          }
-        },
-        {
-          "ruleId": "TypeScriptUMDGlobal",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Referenced UMD global variable",
-            "markdown": "Referenced UMD global variable"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
                   "uri": "components/admin/SystemHealthDashboard.tsx",
                   "uriBaseId": "SRCROOT"
                 },
@@ -42606,63 +41067,6 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "components/comunidad/ChatComunidad.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 127,
-                  "startColumn": 35,
-                  "charOffset": 3945,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "React"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                },
-                "contextRegion": {
-                  "startLine": 125,
-                  "startColumn": 1,
-                  "charOffset": 3875,
-                  "charLength": 123,
-                  "snippet": {
-                    "text": "\r\n  // Función para enviar mensaje\r\n  const enviarMensaje = async (e: React.FormEvent) => {\r\n    e.preventDefault();\r\n    \r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "43a773efb7f2b3c4",
-            "equalIndicator/v1": "c46ac597cc09d843ad1ced2e97570da1c9eaf910d55da2bea79b5e7109fc0b77"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "TypeScript JSX"
-            ]
-          }
-        },
-        {
-          "ruleId": "TypeScriptUMDGlobal",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Referenced UMD global variable",
-            "markdown": "Referenced UMD global variable"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
                   "uri": "components/benefits/BenefitForm.tsx",
                   "uriBaseId": "SRCROOT"
                 },
@@ -42755,6 +41159,120 @@
           "partialFingerprints": {
             "equalIndicator/v2": "19f878723c31051e",
             "equalIndicator/v1": "c6f10345a20126d046446d311d83c618e9c29a35af80e4ef037da3483cdbc9d9"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "TypeScript JSX"
+            ]
+          }
+        },
+        {
+          "ruleId": "TypeScriptUMDGlobal",
+          "kind": "fail",
+          "level": "note",
+          "message": {
+            "text": "Referenced UMD global variable",
+            "markdown": "Referenced UMD global variable"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "components/comunidad/ChatComunidad.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 127,
+                  "startColumn": 35,
+                  "charOffset": 3981,
+                  "charLength": 5,
+                  "snippet": {
+                    "text": "React"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                },
+                "contextRegion": {
+                  "startLine": 125,
+                  "startColumn": 1,
+                  "charOffset": 3911,
+                  "charLength": 123,
+                  "snippet": {
+                    "text": "\r\n  // Función para enviar mensaje\r\n  const enviarMensaje = async (e: React.FormEvent) => {\r\n    e.preventDefault();\r\n    \r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "8c0893ad19554ae6",
+            "equalIndicator/v1": "ca206aa1929f134be9d22a3d1c670bb457488ec152d0bc5a635b9f1730b179de"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "TypeScript JSX"
+            ]
+          }
+        },
+        {
+          "ruleId": "TypeScriptUMDGlobal",
+          "kind": "fail",
+          "level": "note",
+          "message": {
+            "text": "Referenced UMD global variable",
+            "markdown": "Referenced UMD global variable"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/admin/memberships/[id]/page.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 146,
+                  "startColumn": 34,
+                  "charOffset": 4292,
+                  "charLength": 5,
+                  "snippet": {
+                    "text": "React"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                },
+                "contextRegion": {
+                  "startLine": 144,
+                  "startColumn": 1,
+                  "charOffset": 4251,
+                  "charLength": 94,
+                  "snippet": {
+                    "text": "  };\r\n\r\n  const handleSubmit = async (e: React.FormEvent) => {\r\n    e.preventDefault();\r\n    \r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "4884cf2115a8bdcb",
+            "equalIndicator/v1": "cb154ecca2d40fa3164ccd78e6e95cf452a1e0ee747d43ea0cd9df17e1709faa"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -43395,7 +41913,7 @@
       ],
       "automationDetails": {
         "id": "LandingPage/qodana/2025-11-01",
-        "guid": "08300356-28da-4aba-bbac-68a40e354932",
+        "guid": "e3e2bb69-c1ff-4bbc-a841-20c63ddf2c3e",
         "properties": {
           "jobUrl": "",
           "analysisKind": "ide"
@@ -43408,37 +41926,37 @@
       "properties": {
         "qodana.promo.results": [
           {
-            "ruleId": "UnnecessaryLocalVariableJS",
+            "ruleId": "RegExpSimplifiable",
             "kind": "fail",
-            "level": "warning",
+            "level": "note",
             "message": {
-              "text": "Local variable 'data' is redundant",
-              "markdown": "Local variable data is redundant"
+              "text": "'[^\\d]' can be simplified to '\\D'",
+              "markdown": "`[^\\d]` can be simplified to '\\\\D'"
             },
             "locations": [
               {
                 "physicalLocation": {
                   "artifactLocation": {
-                    "uri": "lib/services/pqrsdf-service.ts",
+                    "uri": "utils/validation.ts",
                     "uriBaseId": "SRCROOT"
                   },
                   "region": {
-                    "startLine": 216,
-                    "startColumn": 13,
-                    "charOffset": 7046,
-                    "charLength": 4,
+                    "startLine": 290,
+                    "startColumn": 33,
+                    "charOffset": 6132,
+                    "charLength": 5,
                     "snippet": {
-                      "text": "data"
+                      "text": "[^\\d]"
                     },
-                    "sourceLanguage": "JavaScript"
+                    "sourceLanguage": "RegExp"
                   },
                   "contextRegion": {
-                    "startLine": 214,
+                    "startLine": 288,
                     "startColumn": 1,
-                    "charOffset": 7023,
-                    "charLength": 107,
+                    "charOffset": 6026,
+                    "charLength": 180,
                     "snippet": {
-                      "text": "      }\r\n\r\n      const data = await handleFetchError(response);\r\n      return data;\r\n    } catch (error) {\r"
+                      "text": " */\r\nexport function validateColombianId(id: string): ValidationResult {\r\n  const sanitized = id.replace(/[^\\d]/g, '');\r\n  \r\n  if (sanitized.length < 6 || sanitized.length > 10) {\r"
                     },
                     "sourceLanguage": "TypeScript"
                   }
@@ -43452,8 +41970,66 @@
               }
             ],
             "partialFingerprints": {
-              "equalIndicator/v2": "5dfebf94259dbffe",
-              "equalIndicator/v1": "42d2debd3002d57eb35f3cb4acbf12b96350e3866daf4b7df9582ff831e1338e"
+              "equalIndicator/v2": "d075f672200a48e6",
+              "equalIndicator/v1": "b564b3eacac8ba0d2b95032d365a325fcbafdbfd67602429d301b9f55a1ff89e"
+            },
+            "properties": {
+              "ideaSeverity": "WEAK WARNING",
+              "qodanaSeverity": "Moderate",
+              "problemType": "REGULAR",
+              "hasFixes": true,
+              "tags": [
+                "RegExp"
+              ]
+            }
+          },
+          {
+            "ruleId": "TrivialIfJS",
+            "kind": "fail",
+            "level": "warning",
+            "message": {
+              "text": "'if' statement can be simplified",
+              "markdown": "`if` statement can be simplified"
+            },
+            "locations": [
+              {
+                "physicalLocation": {
+                  "artifactLocation": {
+                    "uri": "lib/models/Benefit.ts",
+                    "uriBaseId": "SRCROOT"
+                  },
+                  "region": {
+                    "startLine": 205,
+                    "startColumn": 3,
+                    "charOffset": 6284,
+                    "charLength": 2,
+                    "snippet": {
+                      "text": "if"
+                    },
+                    "sourceLanguage": "JavaScript"
+                  },
+                  "contextRegion": {
+                    "startLine": 203,
+                    "startColumn": 1,
+                    "charOffset": 6164,
+                    "charLength": 223,
+                    "snippet": {
+                      "text": "BenefitSchema.methods.canBeUsed = function(this: IBenefit): boolean {\r\n  if (!this.isCurrentlyValid()) return false;\r\n  if (this.totalUsageLimit && this.usageCount >= this.totalUsageLimit) return false;\r\n  \r\n  return true;\r"
+                    },
+                    "sourceLanguage": "TypeScript"
+                  }
+                },
+                "logicalLocations": [
+                  {
+                    "fullyQualifiedName": "LandingPage",
+                    "kind": "module"
+                  }
+                ]
+              }
+            ],
+            "partialFingerprints": {
+              "equalIndicator/v2": "5accc64860c101c4",
+              "equalIndicator/v1": "03efa982cd166ffbfea6dd7407a0bec394e10d36c59ad8451b3f257085d4b1b5"
             },
             "properties": {
               "ideaSeverity": "WARNING",
@@ -43469,33 +42045,33 @@
             "kind": "fail",
             "level": "warning",
             "message": {
-              "text": "Local variable 'solicitudesMock' is redundant",
-              "markdown": "Local variable solicitudesMock is redundant"
+              "text": "Local variable 'hashedNewPassword' is redundant",
+              "markdown": "Local variable hashedNewPassword is redundant"
             },
             "locations": [
               {
                 "physicalLocation": {
                   "artifactLocation": {
-                    "uri": "lib/services/pqrsdf-service.ts",
+                    "uri": "app/api/users/change-password/route.ts",
                     "uriBaseId": "SRCROOT"
                   },
                   "region": {
-                    "startLine": 196,
-                    "startColumn": 13,
-                    "charOffset": 6504,
-                    "charLength": 15,
+                    "startLine": 78,
+                    "startColumn": 11,
+                    "charOffset": 2217,
+                    "charLength": 17,
                     "snippet": {
-                      "text": "solicitudesMock"
+                      "text": "hashedNewPassword"
                     },
                     "sourceLanguage": "JavaScript"
                   },
                   "contextRegion": {
-                    "startLine": 194,
+                    "startLine": 76,
                     "startColumn": 1,
-                    "charOffset": 6388,
-                    "charLength": 218,
+                    "charOffset": 2146,
+                    "charLength": 167,
                     "snippet": {
-                      "text": "      // Fallback a datos mock en caso de error\r\n      console.log('Usando datos mock como fallback');\r\n      const solicitudesMock = await this.obtenerSolicitudesMock(usuarioId);\r\n      return solicitudesMock;\r\n    }\r"
+                      "text": "    // Hashear nueva contraseña\r\n    const saltRounds = 12;\r\n    const hashedNewPassword = await bcrypt.hash(newPassword, saltRounds);\r\n\r\n    // Actualizar contraseña\r"
                     },
                     "sourceLanguage": "TypeScript"
                   }
@@ -43509,8 +42085,8 @@
               }
             ],
             "partialFingerprints": {
-              "equalIndicator/v2": "67046285a88a0ca0",
-              "equalIndicator/v1": "4e50702972a730f486d75a226c4dd795ef2e90d2d08eb634cf35eacf386ad7ff"
+              "equalIndicator/v2": "3764b6b76e77ecaf",
+              "equalIndicator/v1": "51c56ea735961a36d0e5ae9a89dcf0f38b189f4ee95ab56672cbfb6b7404dfc9"
             },
             "properties": {
               "ideaSeverity": "WARNING",
@@ -43577,63 +42153,6 @@
                 "JavaScript"
               ]
             }
-          },
-          {
-            "ruleId": "UnnecessaryLocalVariableJS",
-            "kind": "fail",
-            "level": "warning",
-            "message": {
-              "text": "Local variable 'checkout' is redundant",
-              "markdown": "Local variable checkout is redundant"
-            },
-            "locations": [
-              {
-                "physicalLocation": {
-                  "artifactLocation": {
-                    "uri": "components/shared/BoldCheckoutButton.tsx",
-                    "uriBaseId": "SRCROOT"
-                  },
-                  "region": {
-                    "startLine": 175,
-                    "startColumn": 13,
-                    "charOffset": 5454,
-                    "charLength": 8,
-                    "snippet": {
-                      "text": "checkout"
-                    },
-                    "sourceLanguage": "JavaScript"
-                  },
-                  "contextRegion": {
-                    "startLine": 173,
-                    "startColumn": 1,
-                    "charOffset": 5431,
-                    "charLength": 122,
-                    "snippet": {
-                      "text": "      }\r\n\r\n      const checkout = new boldWindow.BoldCheckout(boldConfig);\r\n      return checkout;\r\n    } catch (error) {\r"
-                    },
-                    "sourceLanguage": "TypeScript JSX"
-                  }
-                },
-                "logicalLocations": [
-                  {
-                    "fullyQualifiedName": "LandingPage",
-                    "kind": "module"
-                  }
-                ]
-              }
-            ],
-            "partialFingerprints": {
-              "equalIndicator/v2": "c5f1e3d8652508b4",
-              "equalIndicator/v1": "ca106e206fb56671fea68c4cf43a26c999feeb55a06ed2684894f3c586146b6d"
-            },
-            "properties": {
-              "ideaSeverity": "WARNING",
-              "qodanaSeverity": "High",
-              "problemType": "REGULAR",
-              "tags": [
-                "JavaScript"
-              ]
-            }
           }
         ],
         "qodana.coverage.files.provided": false,
@@ -43641,13 +42160,13 @@
         "deviceId": "101025103da69cc-f9c8-4a4b-b2dc-9cf68aab4b7e",
         "qodanaNewResultSummary": {
           "high": 142,
-          "moderate": 265,
-          "total": 407
+          "moderate": 239,
+          "total": 381
         }
       }
     }
   ],
   "properties": {
-    "runTimestamp": "1762055673078"
+    "runTimestamp": "1762057493123"
   }
 }

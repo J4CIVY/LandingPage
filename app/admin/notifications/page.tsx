@@ -105,7 +105,7 @@ export default function AdminNotifications() {
 
   useEffect(() => {
     if (user?.role === 'admin') {
-      loadStats();
+      void loadStats();
     }
   }, [user]);
 

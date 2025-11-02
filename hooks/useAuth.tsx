@@ -209,7 +209,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setIsInitialized(true);
     };
 
-    initAuth();
+    void initAuth();
   }, [checkAuth]);
 
   useEffect(() => {

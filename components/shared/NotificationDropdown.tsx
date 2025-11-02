@@ -218,7 +218,7 @@ export default function NotificationDropdown({ className = '' }: NotificationDro
                                 <button
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    markAsRead(notification._id);
+                                    void markAsRead(notification._id);
                                   }}
                                   className="p-1 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
                                   title="Marcar como leída"

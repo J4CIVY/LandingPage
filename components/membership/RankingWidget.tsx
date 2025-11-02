@@ -28,7 +28,7 @@ export default function RankingWidget({
 
   useEffect(() => {
     if (showLeaderboard) {
-      fetchLeaderboard();
+      void fetchLeaderboard();
     }
   }, [showLeaderboard]);
 

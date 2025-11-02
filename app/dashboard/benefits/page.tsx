@@ -64,7 +64,7 @@ const BenefitsPage = () => {
   const handleShareBenefit = (benefit: Benefit) => {
     // In a real app, here would implement sharing functionality
     if (navigator.share) {
-      navigator.share({
+      void navigator.share({
         title: `BSK Benefit: ${benefit.name}`,
         text: `Check out this exclusive benefit for BSK members! ${benefit.briefDescription}`,
         url: window.location.href

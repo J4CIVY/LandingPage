@@ -69,7 +69,7 @@ const VerifyEmailContent: React.FC = () => {
       }
     };
 
-    verifyEmail();
+    void verifyEmail();
   }, [searchParams]);
 
   if (isLoading) {

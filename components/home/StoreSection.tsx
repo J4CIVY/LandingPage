@@ -31,7 +31,7 @@ const StoreSection: React.FC = () => {
       }
     };
 
-    fetchFeaturedProducts();
+    void fetchFeaturedProducts();
   }, []);
 
   if (loading) {

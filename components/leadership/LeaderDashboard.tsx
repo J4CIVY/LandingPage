@@ -83,7 +83,7 @@ const LeaderDashboard: React.FC<LeaderDashboardProps> = ({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchDashboardData();
+    void fetchDashboardData();
   }, []);
 
   const fetchDashboardData = async () => {

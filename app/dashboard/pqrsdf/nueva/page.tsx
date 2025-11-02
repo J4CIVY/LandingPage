@@ -157,7 +157,7 @@ function NuevaSolicitudPageContent() {
       }
     };
     
-    cargarEventosRegistrados();
+    void cargarEventosRegistrados();
   }, [formulario.subcategoria, user]);
 
   // Validación del formulario

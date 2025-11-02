@@ -129,7 +129,7 @@ export default function AnalyticsPage() {
   };
 
   const handleRefresh = () => {
-    fetchAnalytics();
+    void fetchAnalytics();
   };
 
   const exportReport = async (type: string) => {

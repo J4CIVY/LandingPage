@@ -79,7 +79,7 @@ export default function EventAttendancePage() {
 
   useEffect(() => {
     if (user && (user.role === 'admin' || user.role === 'super-admin') && eventId) {
-      loadAttendanceData();
+      void loadAttendanceData();
     }
   }, [user, eventId, router]);
 

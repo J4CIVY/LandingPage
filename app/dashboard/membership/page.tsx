@@ -43,7 +43,7 @@ export default function MembershipPage() {
 
   useEffect(() => {
     if (user) {
-      fetchMembershipData();
+      void fetchMembershipData();
     }
   }, [user]);
 
@@ -420,7 +420,7 @@ export default function MembershipPage() {
               currentMembership={membership}
               onUpgradeSuccess={() => {
                 setShowUpgradeModal(false);
-                fetchMembershipData();
+                void fetchMembershipData();
               }}
             />
 

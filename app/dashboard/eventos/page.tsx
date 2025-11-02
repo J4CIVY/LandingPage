@@ -451,7 +451,7 @@ export default function EventosPage() {
           }}
           onDelete={() => {
             handleCloseModal();
-            handleDeleteEvent(selectedEvent._id);
+            void handleDeleteEvent(selectedEvent._id);
           }}
         />
       )}

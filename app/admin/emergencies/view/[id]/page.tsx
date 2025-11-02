@@ -119,7 +119,7 @@ export default function ViewEmergencyPage({ params }: PageProps<'/admin/emergenc
 
   useEffect(() => {
     if (!isLoading && user?.role === 'admin') {
-      fetchEmergency();
+      void fetchEmergency();
     }
   }, [user, isLoading]);
 

@@ -113,7 +113,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (isAuthenticated && user) {
-      fetchProfile();
+      void fetchProfile();
     } else if (!isLoading && !isAuthenticated) {
       router.push('/login?returnUrl=/profile');
     }

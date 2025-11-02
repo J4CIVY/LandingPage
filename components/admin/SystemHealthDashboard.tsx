@@ -19,7 +19,7 @@ export default function SystemHealthDashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    checkSystemHealth();
+    void checkSystemHealth();
   }, []);
 
   const checkSystemHealth = async () => {

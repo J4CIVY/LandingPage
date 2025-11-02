@@ -64,7 +64,7 @@ export default function PaymentResultPage() {
       return;
     }
 
-    fetchTransactionStatus();
+    void fetchTransactionStatus();
   }, [orderId, isAuthenticated, checkingAuth]);
 
   const fetchTransactionStatus = async () => {

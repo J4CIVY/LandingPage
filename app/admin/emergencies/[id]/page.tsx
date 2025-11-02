@@ -177,8 +177,8 @@ export default function EditEmergencyPage({ params }: PageProps<'/admin/emergenc
 
   useEffect(() => {
     if (!isLoading && user?.role === 'admin') {
-      fetchEmergency();
-      fetchAvailableUsers();
+      void fetchEmergency();
+      void fetchAvailableUsers();
     }
   }, [user, isLoading]);
 

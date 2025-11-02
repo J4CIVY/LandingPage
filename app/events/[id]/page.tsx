@@ -319,7 +319,7 @@ export default function EventDetailsPage() {
 
   useEffect(() => {
     if (eventId) {
-      fetchEvent();
+      void fetchEvent();
     }
   }, [eventId]);
 

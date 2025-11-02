@@ -94,7 +94,7 @@ export function useCSRFToken(): string | null {
       }
     };
 
-    fetchToken();
+    void fetchToken();
   }, []);
 
   return token;
