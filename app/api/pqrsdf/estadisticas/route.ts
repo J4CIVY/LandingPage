@@ -161,7 +161,7 @@ export async function GET(request: NextRequest) {
       {
         $group: {
           _id: {
-            año: { $year: '$fechaCreacion' },
+            ano: { $year: '$fechaCreacion' },
             mes: { $month: '$fechaCreacion' }
           },
           total: { $sum: 1 },
@@ -176,7 +176,7 @@ export async function GET(request: NextRequest) {
           }
         }
       },
-      { $sort: { '_id.año': 1, '_id.mes': 1 } }
+      { $sort: { '_id.ano': 1, '_id.mes': 1 } }
     ]);
 
     const respuesta = {

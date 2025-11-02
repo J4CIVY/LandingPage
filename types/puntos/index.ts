@@ -1,7 +1,7 @@
 export interface PuntosActividad {
   id: string;
   fecha: string;
-  tipo: "Evento" | "Membresía" | "Beneficio" | "Comunidad" | "Otro";
+  tipo: "Evento" | "Membresia" | "Beneficio" | "Comunidad" | "Otro";
   descripcion: string;
   puntos: number;
   saldo: number;
@@ -70,7 +70,7 @@ export interface FiltroHistorial {
 export interface FiltroPeriodo {
   periodo: "Mensual" | "Anual" | "Histórico";
   mes?: number;
-  año?: number;
+  ano?: number;
 }
 
 export type NotificacionTipo = "success" | "error" | "warning" | "info";

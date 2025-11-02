@@ -44,7 +44,7 @@ export function sanitizeObject(obj: any): any { // eslint-disable-line @typescri
     return sanitized;
   }
   
-  if (Array.isArray(obj)) {
+  if (obj !== null && Array.isArray(obj)) {
     return obj.map(item => sanitizeObject(item));
   }
   

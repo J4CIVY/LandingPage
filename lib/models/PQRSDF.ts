@@ -229,12 +229,12 @@ export interface IPQRSDFModel extends mongoose.Model<IPQRSDF> {
 
 // Método estático para generar número de solicitud
 PQRSDFSchema.statics.generarNumeroSolicitud = async function(): Promise<string> {
-  const año = new Date().getFullYear();
+  const ano = new Date().getFullYear();
   const count = await this.countDocuments({
-    numeroSolicitud: { $regex: `^PQRS-${año}-` }
+    numeroSolicitud: { $regex: `^PQRS-${ano}-` }
   });
   const numero = String(count + 1).padStart(4, '0');
-  return `PQRS-${año}-${numero}`;
+  return `PQRS-${ano}-${numero}`;
 };
 
 // Método para agregar mensaje

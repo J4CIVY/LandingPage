@@ -11,7 +11,7 @@ import {
 import { Achievement, UserAchievement, IAchievement } from '@/lib/models/Achievement';
 
 export interface AccionPuntos {
-  tipo: 'registro_evento' | 'asistencia_evento' | 'publicacion' | 'comentario' | 'reaccion' | 'bonificacion' | 'bonificacion_admin' | 'referido' | 'voluntariado' | 'organizacion_evento' | 'liderazgo_proyecto' | 'mentoría';
+  tipo: 'registro_evento' | 'asistencia_evento' | 'publicacion' | 'comentario' | 'reaccion' | 'bonificacion' | 'bonificacion_admin' | 'referido' | 'voluntariado' | 'organizacion_evento' | 'liderazgo_proyecto' | 'mentoria';
   puntos: number;
   descripcion: string;
 }
@@ -73,8 +73,8 @@ export const ACCIONES_PUNTOS: Record<string, AccionPuntos> = {
     puntos: 1000,
     descripcion: 'Liderazgo en proyecto comunitario'
   },
-  mentoría: {
-    tipo: 'mentoría',
+  mentoria: {
+    tipo: 'mentoria',
     puntos: 150,
     descripcion: 'Mentoría a nuevos miembros'
   }

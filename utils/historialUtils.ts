@@ -54,7 +54,7 @@ export const obtenerColoresTipo = (tipo: string) => {
       bg: 'bg-blue-500',
       badge: 'bg-blue-100 text-blue-800'
     },
-    'Membresía': {
+    'Membresia': {
       icon: 'text-green-600',
       bg: 'bg-green-500',
       badge: 'bg-green-100 text-green-800'

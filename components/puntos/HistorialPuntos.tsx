@@ -61,7 +61,7 @@ export default function HistorialPuntos({ usuarioId }: HistorialPuntosProps) {
         return 'Evento';
       case 'membresia':
       case 'membership':
-        return 'Membresía';
+        return 'Membresia';
       case 'beneficio':
       case 'beneficios':
         return 'Beneficio';
@@ -148,12 +148,12 @@ export default function HistorialPuntos({ usuarioId }: HistorialPuntosProps) {
     setFiltros({});
   };
 
-  const tiposActividad = ["Evento", "Membresía", "Beneficio", "Comunidad", "Otro"] as const;
+  const tiposActividad = ["Evento", "Membresia", "Beneficio", "Comunidad", "Otro"] as const;
 
   const getIconoActividad = (tipo: PuntosActividad['tipo']) => {
     const iconos = {
       Evento: <FaMotorcycle className="text-blue-600 dark:text-blue-400" />, 
-      Membresía: <FaUsers className="text-purple-600 dark:text-purple-400" />, 
+      Membresia: <FaUsers className="text-purple-600 dark:text-purple-400" />, 
       Beneficio: <FaGift className="text-green-600 dark:text-green-400" />, 
       Comunidad: <FaComments className="text-emerald-600 dark:text-emerald-400" />, 
       Otro: <FaStar className="text-yellow-500 dark:text-yellow-300" />
