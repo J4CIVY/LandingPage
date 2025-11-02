@@ -136,7 +136,7 @@ function LoginFlow() {
 
   // Renderizar el paso correspondiente
   if (currentStep === 1) {
-    return <Step1Email onEmailVerified={handleEmailVerified} returnUrl={returnUrl} />;
+    return <Step1Email onEmailVerified={handleEmailVerified} />;
   }
 
   if (currentStep === 2) {
