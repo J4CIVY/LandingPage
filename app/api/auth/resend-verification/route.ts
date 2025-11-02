@@ -6,8 +6,10 @@ import { z } from 'zod';
 import { rateLimit } from '@/utils/rateLimit';
 import { requireCSRFToken } from '@/lib/csrf-protection';
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 const resendEmailSchema = z.object({
-  email: z.string().email('Email inválido')
+  email: z.string().regex(EMAIL_REGEX, 'Email inválido')
 });
 
 // Rate limiting para reenvío de emails (más restrictivo)

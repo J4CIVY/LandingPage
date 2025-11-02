@@ -240,9 +240,12 @@ export const generateHistorialPDF = async (
     }
 
     // Use modern DOM methods instead of deprecated document.write()
+    // Create a new document in the print window
     printWindow.document.open();
-    printWindow.document.write(htmlContent);
     printWindow.document.close();
+    
+    // Use innerHTML to set content instead of document.write()
+    printWindow.document.documentElement.innerHTML = htmlContent;
 
     // Esperar a que se cargue el contenido y luego imprimir
     printWindow.onload = () => {

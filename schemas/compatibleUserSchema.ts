@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 // Esquema de validación local - sin conexión a API
 export const compatibleUserSchema = z.object({
   // Información personal básica
@@ -13,7 +15,7 @@ export const compatibleUserSchema = z.object({
   // Información de contacto
   phone: z.string().min(10, 'Teléfono debe tener al menos 10 dígitos'),
   whatsapp: z.string().optional(),
-  email: z.string().email('Email inválido'),
+  email: z.string().regex(EMAIL_REGEX, 'Email inválido'),
   address: z.string().min(1, 'Dirección requerida'),
   neighborhood: z.string().optional(),
   city: z.string().min(1, 'Ciudad requerida'),

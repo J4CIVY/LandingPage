@@ -106,7 +106,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
       aria-live="assertive"
     >
       <div className="flex items-start">
-        <div className="flex-shrink-0 mr-3 mt-0.5">
+        <div className="shrink-0 mr-3 mt-0.5">
           {icons[toast.type]}
         </div>
         <div className="flex-1">
@@ -117,7 +117,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
         </div>
         <button
           onClick={onRemove}
-          className="flex-shrink-0 ml-2 opacity-70 hover:opacity-100 focus:opacity-100 focus:outline-none"
+          className="shrink-0 ml-2 opacity-70 hover:opacity-100 focus:opacity-100 focus:outline-none"
           aria-label="Cerrar notificación"
         >
           <FaTimes className="w-4 h-4 text-white dark:text-gray-200" />

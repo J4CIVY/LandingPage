@@ -84,7 +84,7 @@ function ResetPasswordForm() {
       }
     };
 
-    validateToken();
+    void validateToken();
   }, [token]);
 
   const onSubmit: SubmitHandler<ResetPasswordFormData> = async (data) => {

@@ -8,6 +8,9 @@
 
 import { z } from 'zod';
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const URL_REGEX = /^https?:\/\/.+$/;
+
 /**
  * Schema for required environment variables
  */
@@ -16,10 +19,10 @@ const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
 
   // Database
-  MONGODB_URI: z.string().min(1, 'MONGODB_URI is required').url('MONGODB_URI must be a valid URL'),
+  MONGODB_URI: z.string().min(1, 'MONGODB_URI is required').regex(URL_REGEX, 'MONGODB_URI must be a valid URL'),
   
   // Redis (for rate limiting and caching)
-  REDIS_URL: z.string().url('REDIS_URL must be a valid URL').optional(),
+  REDIS_URL: z.string().regex(URL_REGEX, 'REDIS_URL must be a valid URL').optional(),
   REDIS_HOST: z.string().optional(),
   REDIS_PORT: z.string().regex(/^\d+$/, 'REDIS_PORT must be a number').optional(),
   REDIS_PASSWORD: z.string().optional(),
@@ -42,7 +45,7 @@ const envSchema = z.object({
 
   // Email Service
   MESSAGEBIRD_API_KEY: z.string().optional(),
-  EMAIL_FROM: z.string().email().optional(),
+  EMAIL_FROM: z.string().regex(EMAIL_REGEX, 'EMAIL_FROM must be a valid email').optional(),
   EMAIL_FROM_NAME: z.string().optional(),
 
   // Cloud Storage
@@ -65,12 +68,12 @@ const envSchema = z.object({
 
   // Application URL
   NEXT_PUBLIC_APP_URL: z.string()
-    .url('NEXT_PUBLIC_APP_URL must be a valid URL')
+    .regex(URL_REGEX, 'NEXT_PUBLIC_APP_URL must be a valid URL')
     .default('http://localhost:3000'),
 
   // API URL
   NEXT_PUBLIC_API_URL: z.string()
-    .url('NEXT_PUBLIC_API_URL must be a valid URL')
+    .regex(URL_REGEX, 'NEXT_PUBLIC_API_URL must be a valid URL')
     .optional(),
 
   // Feature Flags
@@ -100,7 +103,7 @@ export function validateEnv(): Env {
 
   if (!parsed.success) {
     console.error('❌ Invalid environment variables:');
-    console.error(JSON.stringify(parsed.error.flatten(), null, 2));
+    console.error(JSON.stringify(parsed.error.format(), null, 2));
     
     throw new Error(
       'Invalid environment variables. Check the logs above for details.'

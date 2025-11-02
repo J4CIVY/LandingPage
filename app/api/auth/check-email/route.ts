@@ -4,6 +4,8 @@ import User from '@/lib/models/User';
 import { z } from 'zod';
 import { rateLimit } from '@/utils/rateLimit';
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 // Rate limiting para verificación de emails (previene enumeración)
 const checkEmailRateLimit = rateLimit({
   interval: 5 * 60 * 1000, // 5 minutos
@@ -12,7 +14,7 @@ const checkEmailRateLimit = rateLimit({
 
 // Schema de validación
 const checkEmailSchema = z.object({
-  email: z.string().email('Email inválido')
+  email: z.string().regex(EMAIL_REGEX, 'Email inválido')
 });
 
 /**

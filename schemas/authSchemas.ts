@@ -1,13 +1,14 @@
 import { z } from 'zod';
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 // Schema para login
 export const loginSchema = z.object({
   email: z
     .string()
     .min(1, 'El email es requerido')
-    .email('Formato de email inválido')
-    .toLowerCase()
-    .trim(),
+    .regex(EMAIL_REGEX, 'Formato de email inválido')
+    .transform(val => val.toLowerCase().trim()),
   password: z
     .string()
     .min(1, 'La contraseña es requerida')
@@ -20,9 +21,8 @@ export const forgotPasswordSchema = z.object({
   email: z
     .string()
     .min(1, 'El email es requerido')
-    .email('Formato de email inválido')
-    .toLowerCase()
-    .trim()
+    .regex(EMAIL_REGEX, 'Formato de email inválido')
+    .transform(val => val.toLowerCase().trim())
 });
 
 // Schema para resetear contraseña

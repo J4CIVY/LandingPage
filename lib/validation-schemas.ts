@@ -7,6 +7,9 @@ import { z } from 'zod';
 const ALPHANUMERIC_REGEX = /^[a-zA-Z0-9\s\-_]+$/;
 const PHONE_REGEX = /^[\d+\-\s()]+$/;
 const SAFE_TEXT_REGEX = /^[^<>{}[\]\\]+$/; // Prevent HTML/script injection
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const URL_REGEX = /^https?:\/\/.+$/;
+const DATETIME_ISO_REGEX = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z?$/;
 
 // Esquema para emergencias SOS
 export const emergencyRequestSchema = z.object({
@@ -62,9 +65,8 @@ export const membershipApplicationSchema = z.object({
     .regex(SAFE_TEXT_REGEX, 'El nombre contiene caracteres no permitidos')
     .transform(val => val.trim()),
   email: z.string()
-    .email('Email inválido')
-    .toLowerCase()
-    .transform(val => val.trim()),
+    .regex(EMAIL_REGEX, 'Email inválido')
+    .transform(val => val.toLowerCase().trim()),
   phone: z.string()
     .min(10, 'Teléfono debe tener al menos 10 dígitos')
     .max(15, 'Teléfono demasiado largo')
@@ -90,9 +92,8 @@ export const contactMessageSchema = z.object({
     .regex(SAFE_TEXT_REGEX, 'El nombre contiene caracteres no permitidos')
     .transform(val => val.trim()),
   email: z.string()
-    .email('Email inválido')
-    .toLowerCase()
-    .transform(val => val.trim()),
+    .regex(EMAIL_REGEX, 'Email inválido')
+    .transform(val => val.toLowerCase().trim()),
   phone: z.string()
     .min(10, 'Teléfono debe tener al menos 10 dígitos')
     .max(15, 'Teléfono demasiado largo')
@@ -133,8 +134,8 @@ export const productSchema = z.object({
     .transform(val => val.trim()),
   finalPrice: z.number().min(0, 'El precio debe ser positivo'),
   availability: z.enum(['in-stock', 'out-of-stock']).default('in-stock'),
-  featuredImage: z.string().url('URL de imagen inválida'),
-  gallery: z.array(z.string().url('URL de imagen inválida')).optional(),
+  featuredImage: z.string().regex(URL_REGEX, 'URL de imagen inválida'),
+  gallery: z.array(z.string().regex(URL_REGEX, 'URL de imagen inválida')).optional(),
   newProduct: z.boolean().default(false),
   category: z.string()
     .min(1, 'Categoría requerida')
@@ -160,13 +161,13 @@ export const eventSchema = z.object({
     .max(100, 'Nombre demasiado largo')
     .regex(SAFE_TEXT_REGEX, 'El nombre contiene caracteres no permitidos')
     .transform(val => val.trim()),
-  startDate: z.string().datetime('Fecha inválida'),
+  startDate: z.string().regex(DATETIME_ISO_REGEX, 'Fecha inválida'),
   description: z.string()
     .min(10, 'Descripción requerida')
     .max(500, 'Descripción demasiado larga')
     .regex(SAFE_TEXT_REGEX, 'La descripción contiene caracteres no permitidos')
     .transform(val => val.trim()),
-  mainImage: z.string().url('URL de imagen inválida'),
+  mainImage: z.string().regex(URL_REGEX, 'URL de imagen inválida'),
   eventType: z.string()
     .min(1, 'Tipo de evento requerido')
     .max(50, 'Tipo de evento demasiado largo')
@@ -189,10 +190,10 @@ export const eventSchema = z.object({
       .regex(SAFE_TEXT_REGEX, 'El país contiene caracteres no permitidos')
       .transform(val => val.trim())
   }).optional(),
-  registrationOpenDate: z.string().datetime('Fecha de apertura inválida').optional(),
-  registrationDeadline: z.string().datetime('Fecha límite inválida').optional(),
+  registrationOpenDate: z.string().regex(DATETIME_ISO_REGEX, 'Fecha de apertura inválida').optional(),
+  registrationDeadline: z.string().regex(DATETIME_ISO_REGEX, 'Fecha límite inválida').optional(),
   pointsAwarded: z.number().min(0, 'Los puntos deben ser positivos').optional(),
-  detailsPdf: z.string().url('URL del PDF inválida').optional(),
+  detailsPdf: z.string().regex(URL_REGEX, 'URL del PDF inválida').optional(),
   includedServices: z.array(z.string().max(100, 'Servicio demasiado largo')).optional(),
   requirements: z.array(z.string().max(200, 'Requisito demasiado largo')).optional()
 });
@@ -291,7 +292,7 @@ export const membershipSchema = z.object({
     requirements: z.array(z.string().max(200)).default([]),
     commitment: z.array(z.string().max(200)).default([]),
     support: z.object({
-      email: z.string().email().optional(),
+      email: z.string().regex(EMAIL_REGEX, 'Email inválido').optional(),
       whatsapp: z.string().max(20).optional(),
       phone: z.string().max(20).optional(),
       emergencyLine: z.string().max(20).optional()
@@ -461,14 +462,14 @@ export const benefitSchema = z.object({
   isActive: z.boolean().default(true),
   isVisible: z.boolean().default(true),
   isTemporary: z.boolean().default(false),
-  validFrom: z.string().datetime('Fecha de inicio inválida').optional(),
-  validUntil: z.string().datetime('Fecha de fin inválida').optional(),
+  validFrom: z.string().regex(DATETIME_ISO_REGEX, 'Fecha de inicio inválida').optional(),
+  validUntil: z.string().regex(DATETIME_ISO_REGEX, 'Fecha de fin inválida').optional(),
   terms: z.string()
     .max(1000, 'Términos demasiado largos')
     .regex(SAFE_TEXT_REGEX, 'Los términos contienen caracteres no permitidos')
     .transform(val => val.trim())
     .optional(),
-  imageUrl: z.string().url('URL de imagen inválida').optional(),
+  imageUrl: z.string().regex(URL_REGEX, 'URL de imagen inválida').optional(),
   partnerName: z.string()
     .max(100, 'Nombre del socio demasiado largo')
     .regex(SAFE_TEXT_REGEX, 'El nombre del socio contiene caracteres no permitidos')
@@ -482,7 +483,7 @@ export const benefitSchema = z.object({
     phone: z.string()
       .regex(PHONE_REGEX, 'Formato de teléfono inválido')
       .transform(val => val.replace(/\s+/g, '')),
-    email: z.string().email('Email inválido').toLowerCase()
+    email: z.string().regex(EMAIL_REGEX, 'Email inválido').transform(val => val.toLowerCase())
   }).optional(),
   discountPercentage: z.number().min(0).max(100).optional(),
   locationRestrictions: z.array(
