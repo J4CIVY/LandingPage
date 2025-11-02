@@ -176,7 +176,6 @@ export default function HistorialPage() {
         {/* Header del historial */}
         <HistorialHeader 
           estadisticas={estadisticas} 
-          historialItems={historialItems}
           userName={user?.firstName ? `${user.firstName} ${user.lastName || ''}`.trim() : 'Miembro BSK'}
           onExportPDF={async () => {
             try {
