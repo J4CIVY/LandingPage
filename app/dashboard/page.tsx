@@ -94,8 +94,8 @@ export default function DashboardPage() {
   // Cargar datos cuando el usuario esté autenticado
   useEffect(() => {
     if (isAuthenticated && user) {
-      fetchUserProfile();
-      fetchUserStats();
+      void fetchUserProfile();
+      void fetchUserStats();
     }
   }, [isAuthenticated, user]);
 

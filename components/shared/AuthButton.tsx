@@ -63,7 +63,7 @@ export default function AuthButton({ isMobile = false, onMobileAction }: AuthBut
     return (
       <button
         onClick={() => {
-          logout();
+          void logout();
           if (onMobileAction) onMobileAction();
         }}
         className="block w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-lg text-center"
@@ -138,7 +138,7 @@ export default function AuthButton({ isMobile = false, onMobileAction }: AuthBut
           {/* Logout */}
           <button
             onClick={() => {
-              logout();
+              void logout();
               setIsMenuOpen(false);
             }}
             className="flex items-center w-full px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"

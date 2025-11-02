@@ -96,7 +96,7 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
       }
     };
 
-    cargarResumenSemanal();
+    void cargarResumenSemanal();
   }, [usuarioId]);
 
   const maxPuntos = actividades && actividades.length > 0 ? Math.max(...actividades.map(a => a.puntos)) : 0;

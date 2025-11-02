@@ -26,9 +26,9 @@ export default function UpcomingEvents() {
   const [userFavorites, setUserFavorites] = useState<string[]>([]);
 
   useEffect(() => {
-    fetchUpcomingEvents();
+    void fetchUpcomingEvents();
     if (user) {
-      fetchUserEventData();
+      void fetchUserEventData();
     }
   }, [user]);
 

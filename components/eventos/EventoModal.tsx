@@ -139,7 +139,7 @@ export default function EventoModal({
   // Cargar participantes cuando se abre el modal y el usuario es admin
   useEffect(() => {
     if (isOpen && isAdmin) {
-      fetchParticipants();
+      void fetchParticipants();
     }
   }, [isOpen, isAdmin]);
 

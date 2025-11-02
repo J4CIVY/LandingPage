@@ -88,7 +88,7 @@ export default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps
       }
     };
 
-    cargarLogros();
+    void cargarLogros();
   }, [usuarioId]);
 
   const logrosFiltrados = logros && logros.length > 0 ? logros.filter(logro => 

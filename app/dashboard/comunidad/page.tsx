@@ -45,10 +45,10 @@ export default function ComunidadPage() {
   // Efectos para cargar datos
   useEffect(() => {
     if (isAuthenticated && user) {
-      cargarPublicaciones();
-      cargarGrupos();
-      cargarRanking();
-      cargarMensajes();
+      void cargarPublicaciones();
+      void cargarGrupos();
+      void cargarRanking();
+      void cargarMensajes();
     }
   }, [isAuthenticated, user]);
 

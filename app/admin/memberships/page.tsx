@@ -141,7 +141,7 @@ export default function MembershipsAdminPage() {
       }
     };
 
-    loadApplications();
+    void loadApplications();
   }, [user, currentPage, searchTerm, filterStatus, filterMembershipType, sortBy, sortOrder]);
 
   // Aprobar solicitud de membresía

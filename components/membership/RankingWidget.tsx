@@ -23,7 +23,7 @@ export default function RankingWidget({
 
   useEffect(() => {
     // Cargar puntos reales del sistema de gamificación
-    fetchRealPoints();
+    void fetchRealPoints();
   }, []);
 
   useEffect(() => {

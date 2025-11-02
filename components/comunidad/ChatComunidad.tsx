@@ -83,14 +83,14 @@ export default function ChatComunidad({
   // Cargar usuarios en línea al montar el componente
   useEffect(() => {
     if (usuarioActual) {
-      cargarUsuariosEnLinea();
-      actualizarActividad();
+      void cargarUsuariosEnLinea();
+      void actualizarActividad();
       
       // Actualizar usuarios en línea cada 30 segundos
-      const intervaloUsuarios = setInterval(cargarUsuariosEnLinea, 30000);
+      const intervaloUsuarios = setInterval(() => void cargarUsuariosEnLinea(), 30000);
       
       // Actualizar actividad cada 5 minutos
-      const intervaloActividad = setInterval(actualizarActividad, 5 * 60 * 1000);
+      const intervaloActividad = setInterval(() => void actualizarActividad(), 5 * 60 * 1000);
       
       return () => {
         clearInterval(intervaloUsuarios);
@@ -386,7 +386,7 @@ export default function ChatComunidad({
                                 {esAdmin && !esPropio && (
                                   <button
                                     onClick={() => {
-                                      silenciarUsuario(mensaje.autorId);
+                                      void silenciarUsuario(mensaje.autorId);
                                       setMenuAbierto(null);
                                     }}
                                     className="flex items-center space-x-2 w-full px-3 py-1 text-xs text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900"
