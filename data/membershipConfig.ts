@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any, prefer-const */
+/* eslint-disable @typescript-eslint/no-explicit-any, prefer-const */
 import { MembershipType, MembershipRules, MembershipConfig, MembershipBenefits } from '@/types/membership';
 
 // Reglas de negocio para cada tipo de membresía
@@ -570,8 +570,7 @@ export const calculateRequiredEventsForFriend = async (): Promise<number> => {
 };
 
 export const calculateFriendUpgradeRequirements = async (
-  user: any, 
-  userStats: any
+  user: any
 ): Promise<{
   pointsRequired: number;
   eventsRequired: number;

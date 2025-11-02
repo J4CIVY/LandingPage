@@ -298,7 +298,7 @@ async function getFriendRequirements(user: any, userStats: any): Promise<Require
   }
   
   try {
-    const upgradeReqs = await calculateFriendUpgradeRequirements(user, userStats);
+    const upgradeReqs = await calculateFriendUpgradeRequirements(user);
     const requirements: RequirementStatus[] = [];
     
     // Requisito de puntos

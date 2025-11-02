@@ -233,7 +233,7 @@ export const historialActividades: PuntosActividad[] = [
   {
     id: "3",
     fecha: "2024-12-01",
-    tipo: "Membresía",
+    tipo: "Membresia",
     descripcion: "Renovación de membresía anual",
     puntos: 200,
     saldo: 675
@@ -396,8 +396,10 @@ export const obtenerEstadisticasAdmin = async (): Promise<EstadisticasAdmin> => 
   return estadisticasAdmin;
 };
 
-export const canjearRecompensa = async (recompensaId: string, usuarioId: string): Promise<boolean> => {
+export const canjearRecompensa = async (recompensaId: string): Promise<boolean> => {
+  // TODO: Use usuarioId when implementing actual API call
   await new Promise(resolve => setTimeout(resolve, 800));
   // Simular éxito del canje
+  console.log('Redeeming reward:', recompensaId);
   return true;
 };

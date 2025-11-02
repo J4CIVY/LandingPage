@@ -94,7 +94,7 @@ export const useInteractionPreloader = () => {
     document.head.appendChild(link);
   };
 
-  const preloadOnFocus = (href: string, as: PreloadResource['as']) => { // eslint-disable-line @typescript-eslint/no-unused-vars
+  const preloadOnFocus = (href: string) => {
     const link = document.createElement('link');
     link.rel = 'prefetch';
     link.href = href;

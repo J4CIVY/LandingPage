@@ -25,8 +25,7 @@ export const AnimatedButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, 
     variant = 'primary',
     disabled,
     ...props 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  }, forwardedRef) => {
+  }) => {
     const { ref, className: animationClassName } = useTextAnimation({
       animationType,
       delay,

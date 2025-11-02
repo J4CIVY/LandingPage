@@ -20173,7 +20173,7 @@
       },
       "invocations": [
         {
-          "startTimeUtc": "2025-11-02T07:06:49.1021972Z",
+          "startTimeUtc": "2025-11-02T07:20:59.9735379Z",
           "exitCode": 0,
           "executionSuccessful": true
         }
@@ -20182,7 +20182,7 @@
       "versionControlProvenance": [
         {
           "repositoryUri": "https://github.com/J4CIVY/LandingPage.git",
-          "revisionId": "56ed9409aa5ab0fc3631ef8f75328e9db9733fb2",
+          "revisionId": "5217e16cc9c8d3818033285a6d8bd2d3057bfaf0",
           "branch": "main",
           "properties": {
             "repoUrl": "https://github.com/J4CIVY/LandingPage.git",
@@ -20193,63 +20193,6 @@
         }
       ],
       "results": [
-        {
-          "ruleId": "Eslint",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "ESLint: Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-unused-vars').",
-            "markdown": "ESLint: Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-unused-vars')."
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/auth-utils.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 1,
-                  "startColumn": 1,
-                  "charOffset": 0,
-                  "charLength": 109,
-                  "snippet": {
-                    "text": "/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, no-useless-escape */"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 1,
-                  "startColumn": 1,
-                  "charOffset": 0,
-                  "charLength": 173,
-                  "snippet": {
-                    "text": "/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, no-useless-escape */\r\nimport jwt from 'jsonwebtoken';\r\nimport crypto from 'crypto';\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "0210ae187c540a5d",
-            "equalIndicator/v1": "ac624ce55ae72393caaada18faa81096a357a1bd7ecb38d5f214298e28a471b4"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
         {
           "ruleId": "Eslint",
           "kind": "fail",
@@ -20415,348 +20358,6 @@
           "properties": {
             "ideaSeverity": "WEAK WARNING",
             "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSUnusedLocalSymbols",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Unused constant riderRules",
-            "markdown": "Unused constant riderRules"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "data/membershipConfig.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 611,
-                  "startColumn": 9,
-                  "charOffset": 28076,
-                  "charLength": 10,
-                  "snippet": {
-                    "text": "riderRules"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 609,
-                  "startColumn": 1,
-                  "charOffset": 28024,
-                  "charLength": 176,
-                  "snippet": {
-                    "text": "  lastYearPointsRequired: number;\r\n}> => {\r\n  const riderRules = MEMBERSHIP_RULES.Rider;\r\n  \r\n  // Calcular eventos confirmados acumulados requeridos (50% del total histórico)\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "ffa62a7e6ac8cc24",
-            "equalIndicator/v1": "3378d6a66c69f1c8a8a23e200b60a724699fa529be5b5e9d031387164bf53107"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSUnusedLocalSymbols",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Unused constant confirmedAttendance",
-            "markdown": "Unused constant confirmedAttendance"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "data/membershipConfig.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 1017,
-                  "startColumn": 9,
-                  "charOffset": 46511,
-                  "charLength": 19,
-                  "snippet": {
-                    "text": "confirmedAttendance"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 1015,
-                  "startColumn": 1,
-                  "charOffset": 46387,
-                  "charLength": 242,
-                  "snippet": {
-                    "text": "  const allEventsFromFriend = user.allEventsFromFriend || [];\r\n  const attendedEvents = user.attendedEvents || [];\r\n  const confirmedAttendance = user.confirmedAttendance || [];\r\n  \r\n  const totalEventsAvailable = allEventsFromFriend.length;\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "057fd7dc967f7c84",
-            "equalIndicator/v1": "35922fc2212af9803e18df2f2679a33272c5da15e7c6f41a71163c4b3052dae4"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSUnusedLocalSymbols",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Unused parameter puntosActuales",
-            "markdown": "Unused parameter puntosActuales"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/puntos/LogrosUsuario.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 43,
-                  "startColumn": 52,
-                  "charOffset": 871,
-                  "charLength": 14,
-                  "snippet": {
-                    "text": "puntosActuales"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 41,
-                  "startColumn": 1,
-                  "charOffset": 755,
-                  "charLength": 289,
-                  "snippet": {
-                    "text": "\r\n// eslint-disable-next-line @typescript-eslint/no-unused-vars\r\nexport default function LogrosUsuario({ usuarioId, puntosActuales }: LogrosProps) {\r\n  const [logros, setLogros] = useState<Logro[]>([]);\r\n  const [estadisticas, setEstadisticas] = useState<EstadisticasLogros | null>(null);\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "3a6fb19815e1c9d1",
-            "equalIndicator/v1": "3e821f0a633918c3935f422987d882d78bb72b83736533bd8b4fc7162947d923"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSUnusedLocalSymbols",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Unused constant setActivities",
-            "markdown": "Unused constant setActivities"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/dashboard/profile/UserActivity.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 36,
-                  "startColumn": 22,
-                  "charOffset": 941,
-                  "charLength": 13,
-                  "snippet": {
-                    "text": "setActivities"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 34,
-                  "startColumn": 1,
-                  "charOffset": 786,
-                  "charLength": 257,
-                  "snippet": {
-                    "text": "export default function UserActivity({ user }: UserActivityProps) {\r\n  // eslint-disable-next-line @typescript-eslint/no-unused-vars\r\n  const [activities, setActivities] = useState<ActivityLog[]>([\r\n    // Mock data - En producción vendría de la API\r\n    {\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "cc4ab4a7ba9ffd5e",
-            "equalIndicator/v1": "4b2a29bf44e25ef6d97336533358ef6dbd28496dcfbf0d791639176b37f53b00"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSUnusedLocalSymbols",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Unused constant cargandoUsuarios",
-            "markdown": "Unused constant cargandoUsuarios"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/comunidad/ChatComunidad.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 34,
-                  "startColumn": 10,
-                  "charOffset": 846,
-                  "charLength": 16,
-                  "snippet": {
-                    "text": "cargandoUsuarios"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 32,
-                  "startColumn": 1,
-                  "charOffset": 691,
-                  "charLength": 351,
-                  "snippet": {
-                    "text": "  const [usuariosEnLinea, setUsuariosEnLinea] = useState<UsuarioEnLinea[]>([]);\r\n  // eslint-disable-next-line @typescript-eslint/no-unused-vars\r\n  const [cargandoUsuarios, setCargandoUsuarios] = useState(false);\r\n  const [mostrarUsuarios, setMostrarUsuarios] = useState(false);\r\n  const [menuAbierto, setMenuAbierto] = useState<string | null>(null);\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "f94d612ff01d51d4",
-            "equalIndicator/v1": "4cfd08f06ac9d617b15656ec5b2d59c1f2b2d3af9a569048176d9623eb1301cc"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSUnusedLocalSymbols",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Unused parameter index",
-            "markdown": "Unused parameter index"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/dashboard/ranking/page.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 200,
-                  "startColumn": 59,
-                  "charOffset": 8057,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "index"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 198,
-                  "startColumn": 1,
-                  "charOffset": 7847,
-                  "charLength": 363,
-                  "snippet": {
-                    "text": "          <div className=\"grid grid-cols-1 md:grid-cols-3 gap-6 mb-8\">\r\n            {/* eslint-disable-next-line @typescript-eslint/no-unused-vars */}\r\n            {filteredLeaderboard.slice(0, 3).map((member, index) => {\r\n              const badge = getRankingBadge(member.position);\r\n              const memberConfig = MEMBERSHIP_CONFIG[member.membershipType];\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "296542e94f1c034f",
-            "equalIndicator/v1": "4efff1d5ee6c72ce6ecbb328bf9264b5b70970bb573a2daf9b75125f1113a040"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
             "problemType": "REGULAR",
             "tags": [
               "JavaScript"
@@ -24857,6 +24458,63 @@
           "partialFingerprints": {
             "equalIndicator/v2": "08ec40bb194c524e",
             "equalIndicator/v1": "0bc6baa45d0bfcbfcc40280223a299d42ef463075ee51f9d3834153261d3c9e2"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "TypeScript JSX"
+            ]
+          }
+        },
+        {
+          "ruleId": "TypeScriptUMDGlobal",
+          "kind": "fail",
+          "level": "note",
+          "message": {
+            "text": "Referenced UMD global variable",
+            "markdown": "Referenced UMD global variable"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "components/comunidad/ChatComunidad.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 126,
+                  "startColumn": 35,
+                  "charOffset": 3900,
+                  "charLength": 5,
+                  "snippet": {
+                    "text": "React"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                },
+                "contextRegion": {
+                  "startLine": 124,
+                  "startColumn": 1,
+                  "charOffset": 3830,
+                  "charLength": 123,
+                  "snippet": {
+                    "text": "\r\n  // Función para enviar mensaje\r\n  const enviarMensaje = async (e: React.FormEvent) => {\r\n    e.preventDefault();\r\n    \r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "84a55f4899a44cde",
+            "equalIndicator/v1": "0be27e9bfd76d1d0232d471063d3b5856860e75e3aaca45d68a298aa663ba4b1"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -29097,63 +28755,6 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "components/comunidad/ChatComunidad.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 127,
-                  "startColumn": 35,
-                  "charOffset": 3981,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "React"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                },
-                "contextRegion": {
-                  "startLine": 125,
-                  "startColumn": 1,
-                  "charOffset": 3911,
-                  "charLength": 123,
-                  "snippet": {
-                    "text": "\r\n  // Función para enviar mensaje\r\n  const enviarMensaje = async (e: React.FormEvent) => {\r\n    e.preventDefault();\r\n    \r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "8c0893ad19554ae6",
-            "equalIndicator/v1": "ca206aa1929f134be9d22a3d1c670bb457488ec152d0bc5a635b9f1730b179de"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "TypeScript JSX"
-            ]
-          }
-        },
-        {
-          "ruleId": "TypeScriptUMDGlobal",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Referenced UMD global variable",
-            "markdown": "Referenced UMD global variable"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
                   "uri": "app/admin/memberships/[id]/page.tsx",
                   "uriBaseId": "SRCROOT"
                 },
@@ -30000,7 +29601,7 @@
       ],
       "automationDetails": {
         "id": "LandingPage/qodana/2025-11-02",
-        "guid": "631ff671-5683-423e-b3b8-698e1204dcc1",
+        "guid": "89f35340-608f-4b98-b86a-f1cacc367c07",
         "properties": {
           "jobUrl": "",
           "analysisKind": "ide"
@@ -30012,63 +29613,6 @@
       ],
       "properties": {
         "qodana.promo.results": [
-          {
-            "ruleId": "UnnecessaryLocalVariableJS",
-            "kind": "fail",
-            "level": "warning",
-            "message": {
-              "text": "Local variable 'formattedDate' is redundant",
-              "markdown": "Local variable formattedDate is redundant"
-            },
-            "locations": [
-              {
-                "physicalLocation": {
-                  "artifactLocation": {
-                    "uri": "components/eventos/EventoForm.tsx",
-                    "uriBaseId": "SRCROOT"
-                  },
-                  "region": {
-                    "startLine": 134,
-                    "startColumn": 13,
-                    "charOffset": 4383,
-                    "charLength": 13,
-                    "snippet": {
-                      "text": "formattedDate"
-                    },
-                    "sourceLanguage": "JavaScript"
-                  },
-                  "contextRegion": {
-                    "startLine": 132,
-                    "startColumn": 1,
-                    "charOffset": 4284,
-                    "charLength": 214,
-                    "snippet": {
-                      "text": "      const minutes = String(colombianTime.getUTCMinutes()).padStart(2, '0');\r\n      \r\n      const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;\r\n      return formattedDate;\r\n    } catch (error) {\r"
-                    },
-                    "sourceLanguage": "TypeScript JSX"
-                  }
-                },
-                "logicalLocations": [
-                  {
-                    "fullyQualifiedName": "LandingPage",
-                    "kind": "module"
-                  }
-                ]
-              }
-            ],
-            "partialFingerprints": {
-              "equalIndicator/v2": "749aa715df90f154",
-              "equalIndicator/v1": "19f3281ce29d06d4daaa506bf8cf7aaed45c88755e22a46e1650c3f19e6328bd"
-            },
-            "properties": {
-              "ideaSeverity": "WARNING",
-              "qodanaSeverity": "High",
-              "problemType": "REGULAR",
-              "tags": [
-                "JavaScript"
-              ]
-            }
-          },
           {
             "ruleId": "UnnecessaryLocalVariableJS",
             "kind": "fail",
@@ -30116,63 +29660,6 @@
             "partialFingerprints": {
               "equalIndicator/v2": "98acdc63eb04f466",
               "equalIndicator/v1": "26184dc1b83df8c0e115f76b8c23540292eaaaeffc83c7d1d71127d716ce5297"
-            },
-            "properties": {
-              "ideaSeverity": "WARNING",
-              "qodanaSeverity": "High",
-              "problemType": "REGULAR",
-              "tags": [
-                "JavaScript"
-              ]
-            }
-          },
-          {
-            "ruleId": "UnnecessaryLocalVariableJS",
-            "kind": "fail",
-            "level": "warning",
-            "message": {
-              "text": "Local variable 'formattedDate' is redundant",
-              "markdown": "Local variable formattedDate is redundant"
-            },
-            "locations": [
-              {
-                "physicalLocation": {
-                  "artifactLocation": {
-                    "uri": "components/eventos/EventoForm.tsx",
-                    "uriBaseId": "SRCROOT"
-                  },
-                  "region": {
-                    "startLine": 123,
-                    "startColumn": 15,
-                    "charOffset": 3816,
-                    "charLength": 13,
-                    "snippet": {
-                      "text": "formattedDate"
-                    },
-                    "sourceLanguage": "JavaScript"
-                  },
-                  "contextRegion": {
-                    "startLine": 121,
-                    "startColumn": 1,
-                    "charOffset": 3723,
-                    "charLength": 196,
-                    "snippet": {
-                      "text": "        const minutes = String(date.getMinutes()).padStart(2, '0');\r\n        \r\n        const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;\r\n        return formattedDate;\r\n      }\r"
-                    },
-                    "sourceLanguage": "TypeScript JSX"
-                  }
-                },
-                "logicalLocations": [
-                  {
-                    "fullyQualifiedName": "LandingPage",
-                    "kind": "module"
-                  }
-                ]
-              }
-            ],
-            "partialFingerprints": {
-              "equalIndicator/v2": "fccc3ba96fd5fcff",
-              "equalIndicator/v1": "325815101062d591d62f62a905b0e451fec7eee4db0fa43a485d7aff70511fb1"
             },
             "properties": {
               "ideaSeverity": "WARNING",
@@ -30245,35 +29732,35 @@
             "kind": "fail",
             "level": "warning",
             "message": {
-              "text": "Local variable 'processedDate' is redundant",
-              "markdown": "Local variable processedDate is redundant"
+              "text": "Local variable 'response' is redundant",
+              "markdown": "Local variable response is redundant"
             },
             "locations": [
               {
                 "physicalLocation": {
                   "artifactLocation": {
-                    "uri": "components/eventos/EventoForm.tsx",
+                    "uri": "app/api/auth/forgot-password/route.ts",
                     "uriBaseId": "SRCROOT"
                   },
                   "region": {
-                    "startLine": 305,
-                    "startColumn": 21,
-                    "charOffset": 10230,
-                    "charLength": 13,
+                    "startLine": 139,
+                    "startColumn": 11,
+                    "charOffset": 4649,
+                    "charLength": 8,
                     "snippet": {
-                      "text": "processedDate"
+                      "text": "response"
                     },
                     "sourceLanguage": "JavaScript"
                   },
                   "contextRegion": {
-                    "startLine": 303,
+                    "startLine": 137,
                     "startColumn": 1,
-                    "charOffset": 10095,
-                    "charLength": 233,
+                    "charOffset": 4577,
+                    "charLength": 136,
                     "snippet": {
-                      "text": "            // Si ya tiene formato datetime-local (YYYY-MM-DDTHH:mm)\r\n            if (dateString.length === 16) {\r\n              const processedDate = dateString + ':00.000-05:00';\r\n              return processedDate;\r\n            }\r"
+                      "text": "    console.error('Error en forgot password:', error);\r\n    \r\n    const response = NextResponse.json(\r\n      {\r\n        success: false,\r"
                     },
-                    "sourceLanguage": "TypeScript JSX"
+                    "sourceLanguage": "TypeScript"
                   }
                 },
                 "logicalLocations": [
@@ -30285,8 +29772,8 @@
               }
             ],
             "partialFingerprints": {
-              "equalIndicator/v2": "ebb96e8dcc461c6d",
-              "equalIndicator/v1": "6d0ebfef7c624d74ae9cbd999ad94e3e824ead1ec6f6a948990ddcfb93f0530e"
+              "equalIndicator/v2": "a6e50caaa8991d7c",
+              "equalIndicator/v1": "77eeecea8544bb66178a9a04944b145deff7c3ab2124957c7aa2a98508703b50"
             },
             "properties": {
               "ideaSeverity": "WARNING",
@@ -30302,35 +29789,35 @@
             "kind": "fail",
             "level": "warning",
             "message": {
-              "text": "Local variable 'processedDate' is redundant",
-              "markdown": "Local variable processedDate is redundant"
+              "text": "Local variable 'benefitId' is redundant",
+              "markdown": "Local variable benefitId is redundant"
             },
             "locations": [
               {
                 "physicalLocation": {
                   "artifactLocation": {
-                    "uri": "components/eventos/EventoForm.tsx",
+                    "uri": "app/api/benefits/[id]/route.ts",
                     "uriBaseId": "SRCROOT"
                   },
                   "region": {
-                    "startLine": 311,
-                    "startColumn": 21,
-                    "charOffset": 10532,
-                    "charLength": 13,
+                    "startLine": 26,
+                    "startColumn": 11,
+                    "charOffset": 784,
+                    "charLength": 9,
                     "snippet": {
-                      "text": "processedDate"
+                      "text": "benefitId"
                     },
                     "sourceLanguage": "JavaScript"
                   },
                   "contextRegion": {
-                    "startLine": 309,
+                    "startLine": 24,
                     "startColumn": 1,
-                    "charOffset": 10343,
-                    "charLength": 280,
+                    "charOffset": 737,
+                    "charLength": 90,
                     "snippet": {
-                      "text": "            // Si ya tiene más información pero no zona horaria\r\n            if (!dateString.includes('+') && !dateString.includes('-') && !dateString.endsWith('Z')) {\r\n              const processedDate = dateString + '-05:00';\r\n              return processedDate;\r\n            }\r"
+                      "text": "\r\n    const user = authResult.user;\r\n    const benefitId = id;\r\n\r\n    // Buscar beneficio\r"
                     },
-                    "sourceLanguage": "TypeScript JSX"
+                    "sourceLanguage": "TypeScript"
                   }
                 },
                 "logicalLocations": [
@@ -30342,8 +29829,122 @@
               }
             ],
             "partialFingerprints": {
-              "equalIndicator/v2": "12840251f6ed3d45",
-              "equalIndicator/v1": "e4efbd3b4df4df618f01c1000c39ec0c506c42319e752ba8abb779fa3a4d8663"
+              "equalIndicator/v2": "1f1882ba3cc5193e",
+              "equalIndicator/v1": "98aba5bdc168b2459082a318bddd9b813653d9f75b23875fe5f5d062e5d2a9f0"
+            },
+            "properties": {
+              "ideaSeverity": "WARNING",
+              "qodanaSeverity": "High",
+              "problemType": "REGULAR",
+              "tags": [
+                "JavaScript"
+              ]
+            }
+          },
+          {
+            "ruleId": "UnnecessaryLocalVariableJS",
+            "kind": "fail",
+            "level": "warning",
+            "message": {
+              "text": "Local variable 'benefitId' is redundant",
+              "markdown": "Local variable benefitId is redundant"
+            },
+            "locations": [
+              {
+                "physicalLocation": {
+                  "artifactLocation": {
+                    "uri": "app/api/benefits/[id]/route.ts",
+                    "uriBaseId": "SRCROOT"
+                  },
+                  "region": {
+                    "startLine": 166,
+                    "startColumn": 11,
+                    "charOffset": 4670,
+                    "charLength": 9,
+                    "snippet": {
+                      "text": "benefitId"
+                    },
+                    "sourceLanguage": "JavaScript"
+                  },
+                  "contextRegion": {
+                    "startLine": 164,
+                    "startColumn": 1,
+                    "charOffset": 4651,
+                    "charLength": 73,
+                    "snippet": {
+                      "text": "    }\r\n\r\n    const benefitId = id;\r\n\r\n    // Buscar y eliminar beneficio\r"
+                    },
+                    "sourceLanguage": "TypeScript"
+                  }
+                },
+                "logicalLocations": [
+                  {
+                    "fullyQualifiedName": "LandingPage",
+                    "kind": "module"
+                  }
+                ]
+              }
+            ],
+            "partialFingerprints": {
+              "equalIndicator/v2": "0f172a76a7ac3307",
+              "equalIndicator/v1": "cd988fbc892469651f33d8c9d37042938511f53105d8870d4a8c1d7e38a03f83"
+            },
+            "properties": {
+              "ideaSeverity": "WARNING",
+              "qodanaSeverity": "High",
+              "problemType": "REGULAR",
+              "tags": [
+                "JavaScript"
+              ]
+            }
+          },
+          {
+            "ruleId": "UnnecessaryLocalVariableJS",
+            "kind": "fail",
+            "level": "warning",
+            "message": {
+              "text": "Local variable 'removed' is redundant",
+              "markdown": "Local variable removed is redundant"
+            },
+            "locations": [
+              {
+                "physicalLocation": {
+                  "artifactLocation": {
+                    "uri": "lib/security-events.ts",
+                    "uriBaseId": "SRCROOT"
+                  },
+                  "region": {
+                    "startLine": 361,
+                    "startColumn": 9,
+                    "charOffset": 9067,
+                    "charLength": 7,
+                    "snippet": {
+                      "text": "removed"
+                    },
+                    "sourceLanguage": "JavaScript"
+                  },
+                  "contextRegion": {
+                    "startLine": 359,
+                    "startColumn": 1,
+                    "charOffset": 9028,
+                    "charLength": 145,
+                    "snippet": {
+                      "text": "  \r\n  // Remove from timeline\r\n  const removed = await redis.zremrangebyscore('security:events:timeline', 0, cutoffTime);\r\n  \r\n  return removed;\r"
+                    },
+                    "sourceLanguage": "TypeScript"
+                  }
+                },
+                "logicalLocations": [
+                  {
+                    "fullyQualifiedName": "LandingPage",
+                    "kind": "module"
+                  }
+                ]
+              }
+            ],
+            "partialFingerprints": {
+              "equalIndicator/v2": "13f834726c8556c8",
+              "equalIndicator/v1": "f6cf66be3b124d90c42163280a182eee1b1e2ecc7fdf68ba745ec24eec7d2dea"
             },
             "properties": {
               "ideaSeverity": "WARNING",
@@ -30359,14 +29960,14 @@
         "configProfile": "starter",
         "deviceId": "101025103da69cc-f9c8-4a4b-b2dc-9cf68aab4b7e",
         "qodanaNewResultSummary": {
-          "high": 69,
+          "high": 62,
           "moderate": 103,
-          "total": 172
+          "total": 165
         }
       }
     }
   ],
   "properties": {
-    "runTimestamp": "1762067298922"
+    "runTimestamp": "1762068161817"
   }
 }

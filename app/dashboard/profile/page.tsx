@@ -28,8 +28,7 @@ interface ProfileTab {
 
 export default function ProfilePage() {
   const { user: authUser } = useAuth();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { profileData, loading, error, profileCompletion, updateProfile, uploadAvatar, refresh } = useProfile();
+  const { profileData, loading, error, profileCompletion, updateProfile, refresh } = useProfile();
   const [currentUserRole, setCurrentUserRole] = useState<'user' | 'admin' | 'super-admin'>('user');
   const [activeTab, setActiveTab] = useState('personal');
   const [isEditMode, setIsEditMode] = useState(false);
@@ -130,9 +129,9 @@ export default function ProfilePage() {
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleStatusChange = async (newStatus: 'active' | 'suspended' | 'inactive') => {
-    // Implementar cambio de estado
+  const handleStatusChange = async () => {
+    // TODO: Implement status change functionality
+    // Expected parameter: newStatus: 'active' | 'suspended' | 'inactive'
   };
 
   const handleRoleChange = async () => {

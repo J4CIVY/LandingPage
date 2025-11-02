@@ -48,9 +48,6 @@ export default function EventoModal({
   const [loading, setLoading] = useState(false);
   const [participants, setParticipants] = useState<any[]>([]); // eslint-disable-line @typescript-eslint/no-explicit-any
   const [loadingParticipants, setLoadingParticipants] = useState(false);
-  const [showParticipants, setShowParticipants] = useState(false); // eslint-disable-line @typescript-eslint/no-unused-vars
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_setShowParticipants, _setSetShowParticipants] = [setShowParticipants, setShowParticipants];
 
   // Verificar si el usuario está inscrito
   const isUserRegistered = event.participants?.includes(currentUser?.id) || false;
