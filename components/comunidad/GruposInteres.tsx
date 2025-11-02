@@ -425,7 +425,7 @@ export default function GruposInteres({
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          toggleMiembroGrupo(grupo.id, esmiembro);
+                          void toggleMiembroGrupo(grupo.id, esmiembro);
                         }}
                         disabled={gruposCargandoAccion.has(grupo.id)}
                         className={`px-3 py-1 text-xs font-medium rounded ${

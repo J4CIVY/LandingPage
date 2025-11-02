@@ -29,7 +29,7 @@ export default function MembershipProgress({
   useEffect(() => {
     // Opcionalmente refrescar datos en tiempo real
     if (refreshData) {
-      fetchLatestProgress();
+      void fetchLatestProgress();
     }
   }, [refreshData]);
 

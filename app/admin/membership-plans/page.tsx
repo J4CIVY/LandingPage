@@ -84,7 +84,7 @@ export default function AdminMembershipPlansPage() {
 
   // Cargar planes de membresía
   useEffect(() => {
-    fetchMembershipPlans();
+    void fetchMembershipPlans();
   }, []);
 
   // Aplicar filtros

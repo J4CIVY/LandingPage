@@ -72,7 +72,7 @@ export default function BillingPage() {
   // Cargar transacciones
   useEffect(() => {
     if (user) {
-      fetchTransactions();
+      void fetchTransactions();
     }
   }, [user]);
 

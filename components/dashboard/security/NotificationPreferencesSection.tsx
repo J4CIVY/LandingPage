@@ -95,7 +95,7 @@ export default function NotificationPreferencesSection() {
 
   // Cargar preferencias al montar el componente
   useEffect(() => {
-    loadPreferences()
+    void loadPreferences()
   }, [])
 
   const showToast = (toast: ToastType) => {

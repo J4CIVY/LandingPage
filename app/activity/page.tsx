@@ -99,7 +99,7 @@ export default function ActivityPage() {
   }, [isAuthenticated, user, isLoading, router]);
 
   const handlePageChange = (newPage: number) => {
-    fetchActivities(newPage, pagination.limit);
+    void fetchActivities(newPage, pagination.limit);
   };
 
   const getActivityIcon = (iconName: string) => {

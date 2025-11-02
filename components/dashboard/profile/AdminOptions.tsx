@@ -408,9 +408,9 @@ export default function AdminOptions({
               <button
                 onClick={() => {
                   if (showNotesModal.type.includes('document')) {
-                    handleDocumentAction(showNotesModal.id, !showNotesModal.type.includes('reject'));
+                    void handleDocumentAction(showNotesModal.id, !showNotesModal.type.includes('reject'));
                   } else {
-                    handleProfileAction(!showNotesModal.type.includes('reject'));
+                    void handleProfileAction(!showNotesModal.type.includes('reject'));
                   }
                 }}
                 disabled={showNotesModal.type.includes('reject') && !adminNotes.trim()}

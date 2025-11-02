@@ -128,7 +128,7 @@ const ImageGalleryUpload: React.FC<ImageGalleryUploadProps> = ({
     setDragOver(false);
     
     const files = e.dataTransfer.files;
-    handleFileSelect(files);
+    void handleFileSelect(files);
   };
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {

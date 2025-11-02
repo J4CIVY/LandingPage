@@ -46,7 +46,7 @@ const LeaderRequirements: React.FC<LeaderRequirementsProps> = ({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchLeaderRequirements();
+    void fetchLeaderRequirements();
   }, [userId]);
 
   const fetchLeaderRequirements = async () => {

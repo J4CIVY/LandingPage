@@ -104,7 +104,7 @@ export default function NewEmergencyPage() {
 
   useEffect(() => {
     if (!isLoading && user?.role === 'admin') {
-      fetchAvailableUsers();
+      void fetchAvailableUsers();
     }
   }, [user, isLoading]);
 

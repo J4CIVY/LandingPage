@@ -131,7 +131,7 @@ export default function ProductViewPage() {
     };
 
     if (user && (user.role === 'admin' || user.role === 'super-admin') && productId) {
-      loadProduct();
+      void loadProduct();
     }
   }, [productId, user]);
 
@@ -159,7 +159,7 @@ export default function ProductViewPage() {
   };
 
   const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text);
+    void navigator.clipboard.writeText(text);
     // Aquí podrías agregar una notificación
   };
 

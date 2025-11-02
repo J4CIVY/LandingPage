@@ -61,7 +61,7 @@ const PdfUpload: React.FC<PdfUploadProps> = ({
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      handleFileSelect(file);
+      void handleFileSelect(file);
     }
   };
 

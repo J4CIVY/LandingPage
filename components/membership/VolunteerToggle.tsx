@@ -34,7 +34,7 @@ export default function VolunteerToggle({
   const [applicationStatus, setApplicationStatus] = useState<ApplicationStatus>({ status: 'none' });
 
   useEffect(() => {
-    fetchApplicationStatus();
+    void fetchApplicationStatus();
   }, []);
 
   const fetchApplicationStatus = async () => {
@@ -53,7 +53,7 @@ export default function VolunteerToggle({
   };
 
   const handleApplicationSuccess = () => {
-    fetchApplicationStatus();
+    void fetchApplicationStatus();
     if (onToggle) {
       onToggle(true);
     }

@@ -434,7 +434,7 @@ export default function MembershipPage() {
               ]}
               onApplicationSubmit={() => {
                 setShowLeaderModal(false);
-                fetchMembershipData();
+                void fetchMembershipData();
               }}
             />
           </>
