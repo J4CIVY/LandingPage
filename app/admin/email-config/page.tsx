@@ -191,7 +191,7 @@ const EmailConfigPage: React.FC = () => {
   };
 
   const refreshConfig = () => {
-    fetchConfig();
+    void fetchConfig();
     setTestResult(null);
   };
 

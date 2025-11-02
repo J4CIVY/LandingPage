@@ -81,7 +81,7 @@ export default function TwoFactorVerification({
   useEffect(() => {
     const fullCode = code.join('');
     if (fullCode.length === 6) {
-      handleVerify(fullCode);
+      void handleVerify(fullCode);
     }
   }, [code]);
 

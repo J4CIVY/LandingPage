@@ -4,6 +4,15 @@ import React, { useEffect } from 'react';
 import Head from 'next/head';
 
 /**
+ * JSON-LD structured data type for Schema.org
+ */
+type StructuredDataObject = {
+  '@context': string;
+  '@type': string;
+  [key: string]: unknown;
+};
+
+/**
  * @interface SEOComponentProps
  * @property {string} [title] - The title of the page.
  * @property {string} [description] - The description of the page for SEO.
@@ -13,7 +22,7 @@ import Head from 'next/head';
  * @property {string} [type] - The Open Graph type (e.g., 'website', 'article').
  * @property {string} [robots] - The robots meta tag content (e.g., 'index, follow').
  * @property {string} [canonical] - The canonical URL for the page.
- * @property {any} [structuredData] - JSON-LD structured data object.
+ * @property {StructuredDataObject | StructuredDataObject[]} [structuredData] - JSON-LD structured data object or array of objects.
  * @property {React.ReactNode} [children] - React children to be rendered inside Head.
  */
 interface SEOComponentProps {
@@ -25,7 +34,7 @@ interface SEOComponentProps {
   type?: string;
   robots?: string;
   canonical?: string;
-  structuredData?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  structuredData?: StructuredDataObject | StructuredDataObject[];
   children?: React.ReactNode;
 }
 

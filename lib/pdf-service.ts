@@ -239,6 +239,8 @@ export const generateHistorialPDF = async (
       return;
     }
 
+    // Use modern DOM methods instead of deprecated document.write()
+    printWindow.document.open();
     printWindow.document.write(htmlContent);
     printWindow.document.close();
 

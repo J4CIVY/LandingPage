@@ -183,7 +183,7 @@ export async function PUT(
 
         // Agregar mensaje directamente
         const nuevoMensaje = {
-          id: `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          id: `msg_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
           contenido: datos.contenido,
           tipo: (esAdmin ? 'admin' : 'usuario') as 'admin' | 'usuario',
           autorId: authResult.user.id,
@@ -196,7 +196,7 @@ export async function PUT(
 
         // Agregar evento al timeline
         const timelineEvento = {
-          id: `tl_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          id: `tl_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
           tipo: 'mensaje' as const,
           descripcion: `Nuevo mensaje de ${authResult.user.email || 'Usuario'}`,
           fecha: new Date(),
@@ -246,7 +246,7 @@ export async function PUT(
 
         // Agregar evento al timeline
         const timelineEstado = {
-          id: `tl_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          id: `tl_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
           tipo: tipoTimeline,
           descripcion: datos.descripcion || `Estado cambiado de ${estadoAnterior} a ${datos.estado}`,
           fecha: new Date(),
@@ -262,7 +262,7 @@ export async function PUT(
         solicitud.adjuntos.push(datos.adjunto);
 
         const timelineAdjunto = {
-          id: `tl_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          id: `tl_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
           tipo: 'actualizada' as const,
           descripcion: 'Adjunto agregado',
           fecha: new Date(),
@@ -293,7 +293,7 @@ export async function PUT(
 
         // Agregar evento al timeline
         const timelineCalificacion = {
-          id: `tl_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          id: `tl_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
           tipo: 'actualizada' as const,
           descripcion: `Solicitud calificada con ${datos.satisfaccion} estrellas`,
           fecha: new Date(),
@@ -316,7 +316,7 @@ export async function PUT(
 
         // Agregar evento al timeline
         const timelineAsignacion = {
-          id: `tl_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          id: `tl_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
           tipo: 'actualizada' as const,
           descripcion: `Solicitud asignada a ${datos.nombreAsignado}`,
           fecha: new Date(),

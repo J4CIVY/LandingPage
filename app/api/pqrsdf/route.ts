@@ -190,7 +190,7 @@ export async function POST(request: NextRequest) {
       adjuntos: [],
       mensajes: [],
       timeline: [{
-        id: `tl_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        id: `tl_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
         tipo: 'creada',
         descripcion: 'Solicitud creada',
         fecha: fechaActual,

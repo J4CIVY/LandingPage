@@ -188,7 +188,7 @@ export function useNotifications(): UseNotificationsReturn {
 
   // Carga notificaciones iniciales
   useEffect(() => {
-    fetchNotifications({ limit: 10 });
+    void fetchNotifications({ limit: 10 });
   }, [fetchNotifications]);
 
   // Polling para actualizar el conteo cada 30 segundos (mantener si hay contexto útil)

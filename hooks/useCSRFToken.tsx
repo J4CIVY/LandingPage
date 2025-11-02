@@ -158,7 +158,7 @@ export function useCSRFTokenAdvanced(): UseCSRFTokenReturn {
   }, []);
 
   useEffect(() => {
-    fetchToken();
+    void fetchToken();
   }, [fetchToken]);
 
   return {

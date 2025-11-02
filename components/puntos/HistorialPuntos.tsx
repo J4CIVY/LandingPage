@@ -74,7 +74,7 @@ export default function HistorialPuntos({ usuarioId }: HistorialPuntosProps) {
   };
 
   useEffect(() => {
-    cargarHistorial();
+    void cargarHistorial();
   }, [usuarioId, pagina]);
 
   const cargarHistorial = async () => {

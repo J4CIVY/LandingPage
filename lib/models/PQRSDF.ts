@@ -241,14 +241,14 @@ PQRSDFSchema.statics.generarNumeroSolicitud = async function(): Promise<string> 
 PQRSDFSchema.methods.agregarMensaje = function(mensaje: Omit<IMensaje, 'id'>) {
   const nuevoMensaje: IMensaje = {
     ...mensaje,
-    id: `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+    id: `msg_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`
   };
   
   this.mensajes.push(nuevoMensaje);
   
   // Agregar evento al timeline
   const timelineEvento: ITimelineEvento = {
-    id: `tl_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+    id: `tl_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
     tipo: 'mensaje',
     descripcion: `Nuevo mensaje de ${mensaje.autorNombre}`,
     fecha: new Date(),
@@ -287,7 +287,7 @@ PQRSDFSchema.methods.cambiarEstado = function(
   }
   
   const timelineEvento: ITimelineEvento = {
-    id: `tl_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+    id: `tl_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
     tipo: tipoTimeline,
     descripcion: descripcion || `Estado cambiado de ${estadoAnterior} a ${nuevoEstado}`,
     fecha: new Date(),

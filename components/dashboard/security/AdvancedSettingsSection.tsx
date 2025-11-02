@@ -43,7 +43,7 @@ export default function AdvancedSettingsSection() {
 
   // Cargar configuración de alertas de seguridad al montar
   useEffect(() => {
-    loadSecurityAlerts()
+    void loadSecurityAlerts()
   }, [])
 
   const loadSecurityAlerts = async () => {

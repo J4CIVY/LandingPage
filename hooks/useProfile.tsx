@@ -244,7 +244,7 @@ export function useProfile() {
 
   // Carga perfil al montar y cuando cambia el usuario (mantener si hay contexto útil)
   useEffect(() => {
-    fetchProfile();
+    void fetchProfile();
   }, [isAuthenticated, user?.id]);
 
   return {

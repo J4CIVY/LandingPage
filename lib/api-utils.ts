@@ -181,7 +181,7 @@ export function getQueryParams(request: NextRequest) {
  * Genera un ID único simple
  */
 export function generateId(): string {
-  return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  return Date.now().toString(36) + Math.random().toString(36).substring(2);
 }
 
 /**

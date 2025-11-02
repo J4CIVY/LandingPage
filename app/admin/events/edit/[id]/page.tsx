@@ -198,7 +198,8 @@ export default function EditEventPage() {
     };
 
     if (user && (user.role === 'admin' || user.role === 'super-admin') && eventId) {
-      loadEvent();
+      // Handle promise to avoid ignored promise warning
+      void loadEvent();
     }
   }, [eventId, user, router]);
 

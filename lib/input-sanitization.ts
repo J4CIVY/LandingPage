@@ -315,6 +315,9 @@ export function deepSanitize<T>(obj: T, depth: number = 5): T {
  * Common validations for typical form fields
  * 
  * @param data - Form data object
+ * @param rules - Validation rules object where each key corresponds to a field in the data object.
+ *                Each rule is a function that takes the field value and returns a validation result
+ *                with a valid boolean, optional error message, and optional sanitized value.
  * @returns Validation result with sanitized data or errors
  */
 export function validateFormData<T extends Record<string, any>>(
