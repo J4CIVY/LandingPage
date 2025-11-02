@@ -7,9 +7,9 @@ import { ZohoEmailConfig, ContactFormEmail } from '@/types/email';
  */
 export class EmailService {
   private client = getZohoMailClient();
-  private fromEmail: string;
-  private adminEmail: string;
-  private supportEmail: string;
+  private readonly fromEmail: string;
+  private readonly adminEmail: string;
+  private readonly supportEmail: string;
 
   constructor() {
     this.fromEmail = process.env.ZOHO_FROM_EMAIL || '';
