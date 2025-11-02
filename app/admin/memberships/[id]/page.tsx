@@ -94,7 +94,7 @@ export default function EditMembershipPage() {
     };
 
     if (membershipId) {
-      loadMembership();
+      void loadMembership();
     }
   }, [membershipId]);
 

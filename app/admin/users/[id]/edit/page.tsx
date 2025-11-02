@@ -142,7 +142,7 @@ export default function EditUserPage() {
     };
 
     if (params.id) {
-      fetchUserData();
+      void fetchUserData();
     }
   }, [params.id]);
 

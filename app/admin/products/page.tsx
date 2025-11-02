@@ -95,7 +95,7 @@ export default function AdminProductsPage() {
     };
 
     if (user && (user.role === 'admin' || user.role === 'super-admin')) {
-      loadProducts();
+      void loadProducts();
     }
   }, [user, currentPage, searchTerm, filterCategory, filterStatus]);
 

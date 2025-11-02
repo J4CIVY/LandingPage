@@ -39,7 +39,7 @@ export const useEvents = (upcoming = false, limit = 10) => {
   }, [upcoming, limit]);
 
   useEffect(() => {
-    fetchEvents();
+    void fetchEvents();
   }, [fetchEvents]);
 
   return { events, loading, error, refetch: fetchEvents };

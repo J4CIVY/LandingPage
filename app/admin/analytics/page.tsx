@@ -118,7 +118,7 @@ export default function AnalyticsPage() {
 
   useEffect(() => {
     if (user) {
-      fetchAnalytics();
+      void fetchAnalytics();
     }
   }, [user]);
 

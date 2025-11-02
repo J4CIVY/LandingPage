@@ -248,7 +248,7 @@ export default function PublicacionCard({
                   {esAdmin && !esAutor && (
                     <button
                       onClick={() => {
-                        eliminarPublicacion();
+                        void eliminarPublicacion();
                         setMostrarMenu(false);
                       }}
                       className="flex items-center space-x-2 w-full px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900"

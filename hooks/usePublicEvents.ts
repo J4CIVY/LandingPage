@@ -72,7 +72,7 @@ export const usePublicEvents = (): UsePublicEventsReturn => {
   }, []);
 
   useEffect(() => {
-    fetchEvents();
+    void fetchEvents();
   }, [fetchEvents]);
 
   // Filtra eventos para mostrar solo los próximos 6 meses (mantener si hay contexto útil)
