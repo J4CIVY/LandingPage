@@ -36,7 +36,7 @@ export default function EmailConfigPanel() {
   } = useEmail();
 
   useEffect(() => {
-    loadConfig();
+    void loadConfig();
   }, []);
 
   const loadConfig = async () => {

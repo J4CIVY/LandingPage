@@ -194,7 +194,7 @@ export function useNotifications(): UseNotificationsReturn {
   // Polling para actualizar el conteo cada 30 segundos (mantener si hay contexto útil)
   useEffect(() => {
     const interval = setInterval(() => {
-      refreshUnreadCount();
+      void refreshUnreadCount();
   }, 30000);
 
     return () => clearInterval(interval);

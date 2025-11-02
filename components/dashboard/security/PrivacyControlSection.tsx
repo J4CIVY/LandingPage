@@ -34,7 +34,7 @@ export default function PrivacyControlSection() {
 
   // Cargar preferencias de privacidad al montar el componente
   useEffect(() => {
-    loadPrivacySettings()
+    void loadPrivacySettings()
   }, [])
 
   const loadPrivacySettings = async () => {
