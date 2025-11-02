@@ -6,13 +6,13 @@ import { ZohoAuthTokens, ZohoAccount, ZohoEmailConfig, ZohoEmailResponse } from 
  * Maneja autenticación OAuth 2.0 y envío de correos electrónicos
  */
 export class ZohoMailClient {
-  private clientId: string;
-  private clientSecret: string;
+  private readonly clientId: string;
+  private readonly clientSecret: string;
   private accountId: string;
   private accessToken: string;
   private refreshToken: string;
-  private apiDomain: string;
-  private baseUrl: string;
+  private readonly apiDomain: string;
+  private readonly baseUrl: string;
 
   constructor() {
     this.clientId = process.env.ZOHO_CLIENT_ID || '';

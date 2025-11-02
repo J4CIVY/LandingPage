@@ -58,7 +58,7 @@ const years = Array.from({ length: 50 }, (_, i) => currentYear - i);
  * Esta función actúa como una barrera de sanitización explícita para CodeQL
  */
 function sanitizeImageUrl(url: string): string {
-  if (!url || typeof url !== 'string') return '';
+  if (!url) return '';
   
   try {
     // Para data URLs, validar estrictamente que sea una imagen base64
@@ -103,7 +103,7 @@ function sanitizeImageUrl(url: string): string {
  * @returns URL sanitizada o null si no es segura
  */
 function validateImageUrlForRendering(url: string): string | null {
-  if (!url || typeof url !== 'string') {
+  if (!url) {
     return null;
   }
   

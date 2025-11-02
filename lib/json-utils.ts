@@ -14,7 +14,7 @@ import { sanitizeJson } from '@/lib/input-sanitization';
  * @returns Parsed object or fallback value
  */
 export function safeJsonParse<T>(jsonString: string, fallback: T): T {
-  if (!jsonString || typeof jsonString !== 'string') {
+  if (!jsonString) {
     return fallback;
   }
 

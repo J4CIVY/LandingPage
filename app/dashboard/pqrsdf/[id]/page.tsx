@@ -77,8 +77,10 @@ export default function DetalleSolicitudPage() {
   };
 
   // Enviar mensaje
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleEnviarMensaje = async (contenido: string, adjuntos?: File[]) => {
+  const handleEnviarMensaje = async (
+    contenido: string, 
+    adjuntos?: File[] // eslint-disable-line @typescript-eslint/no-unused-vars
+  ) => {
     if (!solicitud || !user) return;
 
     try {

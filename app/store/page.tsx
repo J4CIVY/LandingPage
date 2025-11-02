@@ -85,10 +85,6 @@ const Store: React.FC = () => {
    * @returns {string} The formatted price string.
    */
   const formatPrice = useCallback((price: number): string => {
-    // Ensure price is a number before formatting
-    if (typeof price !== 'number') {
-      return 'N/A'; // Or handle as appropriate
-    }
     return new Intl.NumberFormat('es-CO', {
       style: 'currency',
       currency: 'COP',
@@ -130,8 +126,6 @@ const Store: React.FC = () => {
 
     // Apply price range filter
     result = result.filter(product =>
-      // Ensure product.finalPrice is a number
-      typeof product.finalPrice === 'number' &&
       product.finalPrice >= priceRange[0] &&
       product.finalPrice <= priceRange[1]
     );

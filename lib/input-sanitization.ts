@@ -22,8 +22,6 @@ import sanitizeHtmlLib from 'sanitize-html';
  * @returns Sanitized string safe for display
  */
 export function sanitizeHtml(dirty: string, allowBasicFormatting: boolean = false): string {
-  if (typeof dirty !== 'string') return '';
-
   // If no formatting allowed, escape everything
   if (!allowBasicFormatting) {
     return dirty
@@ -76,8 +74,6 @@ export function sanitizeHtml(dirty: string, allowBasicFormatting: boolean = fals
  * @returns Safe URL or empty string if invalid
  */
 export function sanitizeUrl(url: string): string {
-  if (typeof url !== 'string') return '';
-
   // Allow only http(s) and mailto protocols
   const allowedProtocols = /^(https?:|mailto:|tel:)/i;
 
@@ -162,8 +158,6 @@ export function sanitizeJson<T>(jsonString: string): T | null {
  * @returns Sanitized input
  */
 export function sanitizeSql(input: string): string {
-  if (typeof input !== 'string') return '';
-
   // Remove or escape SQL special characters
   return input
     .replace(/['";]/g, '') // Remove quotes and semicolons
@@ -207,8 +201,6 @@ export function sanitizeEmail(email: string): string {
  * @returns Sanitized phone number or empty string if invalid
  */
 export function sanitizePhone(phone: string): string {
-  if (typeof phone !== 'string') return '';
-
   // Remove all non-numeric characters except + at start
   const cleaned = phone.replace(/[^\d+]/g, '');
 
@@ -235,8 +227,6 @@ export function sanitizePhone(phone: string): string {
  * @returns Sanitized text
  */
 export function sanitizeText(text: string, maxLength: number = 10000): string {
-  if (typeof text !== 'string') return '';
-
   const truncated = text.trim().substring(0, maxLength);
   
   // Use sanitize-html library with strict configuration

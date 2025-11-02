@@ -75,7 +75,7 @@ const initialFormData: ProductFormData = {
  * Esta función actúa como una barrera de sanitización explícita para CodeQL
  */
 function sanitizeImageUrl(url: string): string {
-  if (!url || typeof url !== 'string') return '';
+  if (!url) return '';
   
   try {
     // Para data URLs, validar estrictamente que sea una imagen base64
@@ -120,7 +120,7 @@ function sanitizeImageUrl(url: string): string {
  * @returns URL sanitizada o null si no es segura
  */
 function validateImageUrlForRendering(url: string): string | null {
-  if (!url || typeof url !== 'string') {
+  if (!url) {
     return null;
   }
   
@@ -386,7 +386,7 @@ export default function ProductFormPage() {
     if (!formData.category) newErrors.category = 'La categoría es requerida';
 
     // Validar precio original si existe
-    if (formData.originalPrice && typeof formData.originalPrice === 'number' && typeof formData.finalPrice === 'number' && formData.originalPrice < formData.finalPrice) {
+    if (formData.originalPrice && formData.finalPrice && formData.originalPrice < formData.finalPrice) {
       newErrors.originalPrice = 'El precio original debe ser mayor al precio final';
     }
 

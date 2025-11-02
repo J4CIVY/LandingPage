@@ -16,10 +16,6 @@ const htmlEntities: Record<string, string> = {
  * Sanitize string input to prevent XSS attacks
  */
 export function sanitizeInput(input: string): string {
-  if (typeof input !== 'string') {
-    return '';
-  }
-
   return input
     .replace(/[&<>"'/]/g, (s) => htmlEntities[s] || s)
     .trim()
