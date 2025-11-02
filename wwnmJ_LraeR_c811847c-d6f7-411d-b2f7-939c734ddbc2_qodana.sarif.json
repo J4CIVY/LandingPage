@@ -20173,7 +20173,7 @@
       },
       "invocations": [
         {
-          "startTimeUtc": "2025-11-02T08:05:12.1365841Z",
+          "startTimeUtc": "2025-11-02T08:17:59.7854846Z",
           "exitCode": 0,
           "executionSuccessful": true
         }
@@ -20182,7 +20182,7 @@
       "versionControlProvenance": [
         {
           "repositoryUri": "https://github.com/J4CIVY/LandingPage.git",
-          "revisionId": "a4de0575c8fb61f432cd2b70e52024959ec05c10",
+          "revisionId": "abefe7a17f2e653975a250f8fccfa0b24420e3eb",
           "branch": "main",
           "properties": {
             "repoUrl": "https://github.com/J4CIVY/LandingPage.git",
@@ -20262,70 +20262,13 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "lib/env-validation.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 110,
-                  "startColumn": 47,
-                  "charOffset": 4119,
-                  "charLength": 6,
-                  "snippet": {
-                    "text": "format"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 108,
-                  "startColumn": 1,
-                  "charOffset": 3991,
-                  "charLength": 220,
-                  "snippet": {
-                    "text": "  if (!parsed.success) {\r\n    console.error('❌ Invalid environment variables:');\r\n    console.error(JSON.stringify(parsed.error.format(), null, 2));\r\n    \r\n    // Allow build to continue but warn about missing variables\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "40000e176e095447",
-            "equalIndicator/v1": "2330d9e7192679c344ef07f0f31b339153d1eb5ef14f0da1d4430f3e9b7b878c"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSDeprecatedSymbols",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Deprecated symbol used, consult docs for better alternative",
-            "markdown": "Deprecated symbol used, consult docs for better alternative"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
                   "uri": "hooks/useConfirmation.ts",
                   "uriBaseId": "SRCROOT"
                 },
                 "region": {
-                  "startLine": 18,
+                  "startLine": 17,
                   "startColumn": 9,
-                  "charOffset": 718,
+                  "charOffset": 642,
                   "charLength": 11,
                   "snippet": {
                     "text": "returnValue"
@@ -20333,12 +20276,12 @@
                   "sourceLanguage": "JavaScript"
                 },
                 "contextRegion": {
-                  "startLine": 16,
+                  "startLine": 15,
                   "startColumn": 1,
-                  "charOffset": 601,
-                  "charLength": 161,
+                  "charOffset": 514,
+                  "charLength": 172,
                   "snippet": {
-                    "text": "      e.preventDefault();\r\n      // Setting returnValue to empty string is the modern standard per MDN spec\r\n      e.returnValue = '';\r\n      return '';\r\n    };\r"
+                    "text": "      // Note: returnValue is deprecated but still required for cross-browser compatibility\r\n      e.preventDefault();\r\n      e.returnValue = '';\r\n      return '';\r\n    };\r"
                   },
                   "sourceLanguage": "TypeScript"
                 }
@@ -20352,69 +20295,12 @@
             }
           ],
           "partialFingerprints": {
-            "equalIndicator/v2": "5d3117a998c65947",
-            "equalIndicator/v1": "5489f7b9908d9537da7ae8daacdaceca03ccfbd9f744bd4289825ab1e9fe14cb"
+            "equalIndicator/v2": "3002f3cd451ee87d",
+            "equalIndicator/v1": "163f665f61603fd9f1c2598c95b4064967b972edfe11296d342b7e4a31c6c701"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
             "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSUnusedLocalSymbols",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Unused parameter membershipData",
-            "markdown": "Unused parameter membershipData"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/dashboard/Membership/MembershipStats.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 37,
-                  "startColumn": 49,
-                  "charOffset": 900,
-                  "charLength": 14,
-                  "snippet": {
-                    "text": "membershipData"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 35,
-                  "startColumn": 1,
-                  "charOffset": 787,
-                  "charLength": 212,
-                  "snippet": {
-                    "text": "\r\n// eslint-disable-next-line @typescript-eslint/no-unused-vars\r\nexport default function MembershipStats({ user, membershipData }: MembershipStatsProps) {\r\n  const { stats, loading, error } = useUserStats();\r\n  \r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "17fba032979591a4",
-            "equalIndicator/v1": "c148bb5e418d34ed8a5aa82789af11b50a404ab007087d192a0eac0f7412991b"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
             "problemType": "REGULAR",
             "tags": [
               "JavaScript"
@@ -20703,291 +20589,6 @@
             "problemType": "REGULAR",
             "tags": [
               "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSUnusedLocalSymbols",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Unused parameter level",
-            "markdown": "Unused parameter level"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/dashboard/sections/GamificationPanel.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 165,
-                  "startColumn": 26,
-                  "charOffset": 4437,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "level"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 163,
-                  "startColumn": 1,
-                  "charOffset": 4345,
-                  "charLength": 175,
-                  "snippet": {
-                    "text": "\r\n  // eslint-disable-next-line @typescript-eslint/no-unused-vars\r\n  const getLevelColor = (level: string) => {\r\n    return gamificationData?.level?.color || '#10B981';\r\n  };\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "ab5b43583838b19d",
-            "equalIndicator/v1": "f1696d5b9d3e7f2547545717dd2fd840327f9c88377c289ccd8e13ffad3308ba"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSUnusedLocalSymbols",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Unused parameter returnUrl",
-            "markdown": "Unused parameter returnUrl"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/auth/Step1Email.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 14,
-                  "startColumn": 55,
-                  "charOffset": 420,
-                  "charLength": 9,
-                  "snippet": {
-                    "text": "returnUrl"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 12,
-                  "startColumn": 1,
-                  "charOffset": 301,
-                  "charLength": 248,
-                  "snippet": {
-                    "text": "\r\n// eslint-disable-next-line @typescript-eslint/no-unused-vars\r\nexport default function Step1Email({ onEmailVerified, returnUrl }: Step1EmailProps) {\r\n  const [email, setEmail] = useState('');\r\n  const [isLoading, setIsLoading] = useState(false);\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "55a39e7a10fd1f03",
-            "equalIndicator/v1": "f89a10751a06dd0a18eeab3c807b1be0a0d4bbb33a88fd4fd6f3ae0fd6c05c04"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSUnusedLocalSymbols",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Unused constant getEstadoColor",
-            "markdown": "Unused constant getEstadoColor"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/historial/MembresiaHistorial.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 87,
-                  "startColumn": 9,
-                  "charOffset": 2356,
-                  "charLength": 14,
-                  "snippet": {
-                    "text": "getEstadoColor"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 85,
-                  "startColumn": 1,
-                  "charOffset": 2340,
-                  "charLength": 194,
-                  "snippet": {
-                    "text": "  };\r\n\r\n  const getEstadoColor = (estado: string) => { // eslint-disable-line @typescript-eslint/no-unused-vars\r\n    switch (estado) {\r\n      case 'activa': return 'text-green-600 bg-green-50';\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "4b9c1c1a18510a3d",
-            "equalIndicator/v1": "fc2d96b84b569809e9fdadfbebff96242a2d364c139423933173352341945386"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSUnusedLocalSymbols",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Unused parameter historialItems",
-            "markdown": "Unused parameter historialItems"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "components/historial/HistorialHeader.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 23,
-                  "startColumn": 70,
-                  "charOffset": 611,
-                  "charLength": 14,
-                  "snippet": {
-                    "text": "historialItems"
-                  },
-                  "sourceLanguage": "JavaScript"
-                },
-                "contextRegion": {
-                  "startLine": 21,
-                  "startColumn": 1,
-                  "charOffset": 477,
-                  "charLength": 241,
-                  "snippet": {
-                    "text": "\r\n// eslint-disable-next-line @typescript-eslint/no-unused-vars\r\nexport default function HistorialHeader({ estadisticas, onExportPDF, historialItems = [] }: HistorialHeaderProps) {\r\n  const [isExporting, setIsExporting] = useState(false);\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "dd444af4b0141580",
-            "equalIndicator/v1": "ffe8d83af502e7cf015a179e25f17cfd2651fe3417b764e5ce5cfc3b172d6ea4"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "JSValidateJSDoc",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "Unresolved variable or type 'Authentication'",
-            "markdown": "Unresolved variable or type 'Authentication'"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "app/api/csrf-token/route.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 21,
-                  "startColumn": 14,
-                  "charOffset": 686,
-                  "charLength": 14,
-                  "snippet": {
-                    "text": "Authentication"
-                  },
-                  "sourceLanguage": "TypeScript"
-                },
-                "contextRegion": {
-                  "startLine": 19,
-                  "startColumn": 1,
-                  "charOffset": 632,
-                  "charLength": 133,
-                  "snippet": {
-                    "text": " * The token is valid for 2 hours.\r\n * \r\n * @requires Authentication - User must be logged in\r\n * @returns JSON with CSRF token\r\n */\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "b8bc6b343a67e4cb",
-            "equalIndicator/v1": "40da11439ccbfc5409e21742b88d848e7ae80fa225bc3e3fd3bedb058d477b6a"
-          },
-          "properties": {
-            "ideaSeverity": "WARNING",
-            "qodanaSeverity": "High",
-            "problemType": "REGULAR",
-            "tags": [
-              "TypeScript"
             ]
           }
         },
@@ -22884,63 +22485,6 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "components/auth/Step1Email.tsx",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 35,
-                  "startColumn": 34,
-                  "charOffset": 1600,
-                  "charLength": 5,
-                  "snippet": {
-                    "text": "React"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                },
-                "contextRegion": {
-                  "startLine": 33,
-                  "startColumn": 1,
-                  "charOffset": 1559,
-                  "charLength": 109,
-                  "snippet": {
-                    "text": "  };\r\n\r\n  const handleSubmit = async (e: React.FormEvent) => {\r\n    e.preventDefault();\r\n    setError(null);\r"
-                  },
-                  "sourceLanguage": "TypeScript JSX"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "261012303a1ce9f6",
-            "equalIndicator/v1": "140780632fe5bda34b8aa8117be55af5789cfec54052dd3ce9914451b081c69e"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "TypeScript JSX"
-            ]
-          }
-        },
-        {
-          "ruleId": "TypeScriptUMDGlobal",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Referenced UMD global variable",
-            "markdown": "Referenced UMD global variable"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
                   "uri": "app/admin/products/new/page.tsx",
                   "uriBaseId": "SRCROOT"
                 },
@@ -24515,6 +24059,63 @@
           "partialFingerprints": {
             "equalIndicator/v2": "4bc2894981c4f549",
             "equalIndicator/v1": "4aab3bf5e0a98cea6b9a480cd112c2ea767fbd688c5fe4ba4adb8a13c2ca90f4"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "TypeScript JSX"
+            ]
+          }
+        },
+        {
+          "ruleId": "TypeScriptUMDGlobal",
+          "kind": "fail",
+          "level": "note",
+          "message": {
+            "text": "Referenced UMD global variable",
+            "markdown": "Referenced UMD global variable"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "components/auth/Step1Email.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 33,
+                  "startColumn": 34,
+                  "charOffset": 1504,
+                  "charLength": 5,
+                  "snippet": {
+                    "text": "React"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                },
+                "contextRegion": {
+                  "startLine": 31,
+                  "startColumn": 1,
+                  "charOffset": 1463,
+                  "charLength": 109,
+                  "snippet": {
+                    "text": "  };\r\n\r\n  const handleSubmit = async (e: React.FormEvent) => {\r\n    e.preventDefault();\r\n    setError(null);\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "419396f5fd414784",
+            "equalIndicator/v1": "4d23f6f8ca43d75edf1f155374b54767d65310499c67ccda7674282c11297ce5"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -27777,7 +27378,7 @@
       ],
       "automationDetails": {
         "id": "LandingPage/qodana/2025-11-02",
-        "guid": "23112abd-dd61-4a10-883e-dd6656d92437",
+        "guid": "c811847c-d6f7-411d-b2f7-939c734ddbc2",
         "properties": {
           "jobUrl": "",
           "analysisKind": "ide"
@@ -27794,33 +27395,33 @@
             "kind": "fail",
             "level": "warning",
             "message": {
-              "text": "Local variable 'datosPDF' is redundant",
-              "markdown": "Local variable datosPDF is redundant"
+              "text": "Local variable 'benefitId' is redundant",
+              "markdown": "Local variable benefitId is redundant"
             },
             "locations": [
               {
                 "physicalLocation": {
                   "artifactLocation": {
-                    "uri": "utils/historialUtils.ts",
+                    "uri": "app/api/benefits/[id]/route.ts",
                     "uriBaseId": "SRCROOT"
                   },
                   "region": {
-                    "startLine": 213,
-                    "startColumn": 9,
-                    "charOffset": 7470,
-                    "charLength": 8,
+                    "startLine": 26,
+                    "startColumn": 11,
+                    "charOffset": 784,
+                    "charLength": 9,
                     "snippet": {
-                      "text": "datosPDF"
+                      "text": "benefitId"
                     },
                     "sourceLanguage": "JavaScript"
                   },
                   "contextRegion": {
-                    "startLine": 211,
+                    "startLine": 24,
                     "startColumn": 1,
-                    "charOffset": 7376,
-                    "charLength": 267,
+                    "charOffset": 737,
+                    "charLength": 90,
                     "snippet": {
-                      "text": "  datosUsuario?: { nombre?: string; email?: string; numeroMiembro?: string }\r\n) => {\r\n  const datosPDF = {\r\n    usuario: datosUsuario || { nombre: 'Usuario BSK', email: '', numeroMiembro: '' },\r\n    fechaGeneracion: formatearFecha(new Date().toISOString(), 'larga'),\r"
+                      "text": "\r\n    const user = authResult.user;\r\n    const benefitId = id;\r\n\r\n    // Buscar beneficio\r"
                     },
                     "sourceLanguage": "TypeScript"
                   }
@@ -27834,8 +27435,8 @@
               }
             ],
             "partialFingerprints": {
-              "equalIndicator/v2": "68d2ab0c0664f6f2",
-              "equalIndicator/v1": "551084ca3678b32437f5d5338f0ed077e48c89c94f41bd19c4dd51c2f956b5ff"
+              "equalIndicator/v2": "1f1882ba3cc5193e",
+              "equalIndicator/v1": "98aba5bdc168b2459082a318bddd9b813653d9f75b23875fe5f5d062e5d2a9f0"
             },
             "properties": {
               "ideaSeverity": "WARNING",
@@ -27851,33 +27452,33 @@
             "kind": "fail",
             "level": "warning",
             "message": {
-              "text": "Local variable 'finalDecision' is redundant",
-              "markdown": "Local variable finalDecision is redundant"
+              "text": "Local variable 'benefitId' is redundant",
+              "markdown": "Local variable benefitId is redundant"
             },
             "locations": [
               {
                 "physicalLocation": {
                   "artifactLocation": {
-                    "uri": "app/api/leadership/decisions/[id]/route.ts",
+                    "uri": "app/api/benefits/[id]/route.ts",
                     "uriBaseId": "SRCROOT"
                   },
                   "region": {
-                    "startLine": 104,
-                    "startColumn": 15,
-                    "charOffset": 3528,
-                    "charLength": 13,
+                    "startLine": 166,
+                    "startColumn": 11,
+                    "charOffset": 4670,
+                    "charLength": 9,
                     "snippet": {
-                      "text": "finalDecision"
+                      "text": "benefitId"
                     },
                     "sourceLanguage": "JavaScript"
                   },
                   "contextRegion": {
-                    "startLine": 102,
+                    "startLine": 164,
                     "startColumn": 1,
-                    "charOffset": 3456,
-                    "charLength": 228,
+                    "charOffset": 4651,
+                    "charLength": 73,
                     "snippet": {
-                      "text": "\r\n        // Determinar resultado final (mayoría simple)\r\n        const finalDecision = approvals > rejections ? 'approved' : 'rejected';\r\n        updateData.status = finalDecision;\r\n        updateData.finalizedAt = new Date();\r"
+                      "text": "    }\r\n\r\n    const benefitId = id;\r\n\r\n    // Buscar y eliminar beneficio\r"
                     },
                     "sourceLanguage": "TypeScript"
                   }
@@ -27891,8 +27492,8 @@
               }
             ],
             "partialFingerprints": {
-              "equalIndicator/v2": "8c0e8fe5cd9a790e",
-              "equalIndicator/v1": "86f64534c307b402e288d9d508624c8ad3fbb73ab2c842e072ff22dafbe8afca"
+              "equalIndicator/v2": "0f172a76a7ac3307",
+              "equalIndicator/v1": "cd988fbc892469651f33d8c9d37042938511f53105d8870d4a8c1d7e38a03f83"
             },
             "properties": {
               "ideaSeverity": "WARNING",
@@ -27908,14 +27509,14 @@
         "configProfile": "starter",
         "deviceId": "101025103da69cc-f9c8-4a4b-b2dc-9cf68aab4b7e",
         "qodanaNewResultSummary": {
-          "high": 30,
-          "moderate": 103,
-          "total": 133
+          "high": 24,
+          "moderate": 102,
+          "total": 126
         }
       }
     }
   ],
   "properties": {
-    "runTimestamp": "1762070815393"
+    "runTimestamp": "1762071602525"
   }
 }

@@ -110,8 +110,6 @@ export function sanitizeUrl(url: string): string {
  * @returns Safe filename
  */
 export function sanitizeFilename(filename: string): string {
-  if (typeof filename !== 'string') return 'file';
-
   let sanitized = filename
     .replace(/[^a-zA-Z0-9._-]/g, '_') // Remove special chars
     .replace(/^\.+/, ''); // Remove leading dots
@@ -138,8 +136,6 @@ export function sanitizeFilename(filename: string): string {
  * @returns Parsed object or null if invalid
  */
 export function sanitizeJson<T>(jsonString: string): T | null {
-  if (typeof jsonString !== 'string') return null;
-
   try {
     // Use JSON.parse with reviver to block dangerous constructors
     return JSON.parse(jsonString, (key, value) => {
@@ -192,8 +188,6 @@ export function sanitizeSql(input: string): string {
  * @returns Sanitized email or empty string if invalid
  */
 export function sanitizeEmail(email: string): string {
-  if (typeof email !== 'string') return '';
-
   const trimmed = email.trim().toLowerCase();
   
   // Basic email regex (RFC 5322 simplified)

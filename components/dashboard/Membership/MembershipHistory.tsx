@@ -96,13 +96,11 @@ export default function MembershipHistory({ history }: MembershipHistoryProps) {
     );
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleDownloadReceipt = (historyItem: MembershipHistoryItem) => {
+  const handleDownloadReceipt = (historyItem: MembershipHistoryItem) => { // eslint-disable-line @typescript-eslint/no-unused-vars
     // Aquí implementar la lógica para descargar el recibo
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleViewDetails = (historyItem: MembershipHistoryItem) => {
+  const handleViewDetails = (historyItem: MembershipHistoryItem) => { // eslint-disable-line @typescript-eslint/no-unused-vars
     // Aquí implementar la lógica para ver detalles
   };
 

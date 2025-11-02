@@ -94,15 +94,6 @@ export default function Ranking({
     ? usuariosOrdenados.findIndex(u => u.id === usuarioActual.id) + 1
     : 0;
 
-  // Función para obtener el color de la posición
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const getColorPosicion = (posicion: number) => {
-    if (posicion === 1) return 'text-yellow-600'; // Oro
-    if (posicion === 2) return 'text-gray-500'; // Plata
-    if (posicion === 3) return 'text-orange-600'; // Bronce
-    return 'text-gray-700';
-  };
-
   // Función para obtener el icono de la posición
   const getIconoPosicion = (posicion: number) => {
     if (posicion === 1) return <FaTrophy className="h-5 w-5 text-yellow-500" />;
