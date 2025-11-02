@@ -189,7 +189,7 @@ export default function EmergenciesAdminPage() {
   // Efectos
   useEffect(() => {
     if (!isLoading && user?.role === 'admin') {
-      fetchEmergencies();
+      void fetchEmergencies();
     }
   }, [user, currentPage, search, statusFilter, priorityFilter, typeFilter, sortBy, sortOrder]);
 

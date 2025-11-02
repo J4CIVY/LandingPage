@@ -125,7 +125,7 @@ export default function MembershipStatus({ user, stats }: MembershipStatusProps)
 
   useEffect(() => {
     if (user && user._id) {
-      fetchMembershipData();
+      void fetchMembershipData();
     } else {
       // Si no hay usuario autenticado, usar datos básicos
       setLoading(false);

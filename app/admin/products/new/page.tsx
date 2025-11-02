@@ -161,7 +161,7 @@ export default function ProductFormPage() {
     };
 
     if (user && (user.role === 'admin' || user.role === 'super-admin') && productId) {
-      loadProduct();
+      void loadProduct();
     }
   }, [isEdit, productId, user, router]);
 

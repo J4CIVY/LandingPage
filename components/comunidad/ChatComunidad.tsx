@@ -373,7 +373,7 @@ export default function ChatComunidad({
                                 {!esPropio && (
                                   <button
                                     onClick={() => {
-                                      reportarMensaje(mensaje.id);
+                                      void reportarMensaje(mensaje.id);
                                       setMenuAbierto(null);
                                     }}
                                     className="flex items-center space-x-2 w-full px-3 py-1 text-xs text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700"

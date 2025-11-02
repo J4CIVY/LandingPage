@@ -81,7 +81,7 @@ export default function ViewAnalyticsReportPage() {
   const handleDateFilter = () => {
     if (startDate && endDate) {
       setLoading(true);
-      fetchReport(startDate, endDate);
+      void fetchReport(startDate, endDate);
     }
   };
 

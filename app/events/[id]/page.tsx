@@ -325,7 +325,7 @@ export default function EventDetailsPage() {
 
   useEffect(() => {
     if (user && eventId) {
-      fetchUserEventData();
+      void fetchUserEventData();
     }
   }, [user, eventId]);
 

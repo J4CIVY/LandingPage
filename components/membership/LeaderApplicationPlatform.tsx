@@ -86,7 +86,7 @@ const LeaderApplicationPlatform: React.FC<LeaderApplicationPlatformProps> = ({
   ];
 
   useEffect(() => {
-    fetchAvailableEndorsers();
+    void fetchAvailableEndorsers();
   }, []);
 
   const fetchAvailableEndorsers = async () => {

@@ -92,7 +92,7 @@ export default function ActivityPage() {
 
   useEffect(() => {
     if (isAuthenticated && user) {
-      fetchActivities();
+      void fetchActivities();
     } else if (!isLoading && !isAuthenticated) {
       router.push('/login?returnUrl=/activity');
     }

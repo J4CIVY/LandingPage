@@ -37,7 +37,7 @@ export default function PQRSDFPage() {
   // Cargar datos iniciales
   useEffect(() => {
     if (user?._id) {
-      cargarDatos();
+      void cargarDatos();
     } else if (!authLoading && !user) {
       // Si no está cargando auth y no hay usuario, mostrar error
       setError('Usuario no autenticado');

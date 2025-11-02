@@ -88,7 +88,7 @@ export default function AdminUsersPage() {
     };
 
     if (user && (user.role === 'admin' || user.role === 'super-admin')) {
-      loadUsers();
+      void loadUsers();
     }
   }, [user, currentPage, searchTerm, filterRole, filterMembership, filterStatus]);
 

@@ -26,7 +26,7 @@ export default function CaptchaFallback({ onVerified, onCancel }: CaptchaFallbac
 
   // Load challenge on mount
   useEffect(() => {
-    loadChallenge();
+    void loadChallenge();
   }, []);
 
   // Countdown timer

@@ -69,7 +69,7 @@ export default function ComunidadHeader({
 
   // Cargar estadísticas al montar el componente
   useEffect(() => {
-    cargarEstadisticas();
+    void cargarEstadisticas();
   }, []);
 
   return (

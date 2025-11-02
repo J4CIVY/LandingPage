@@ -158,7 +158,7 @@ export default function EventDetailPage() {
     };
 
     if (user && (user.role === 'admin' || user.role === 'super-admin') && eventId) {
-      loadEvent();
+      void loadEvent();
     }
   }, [user, eventId, router]);
 
@@ -206,7 +206,7 @@ export default function EventDetailPage() {
   // Cargar datos de asistencia cuando se muestren los participantes
   useEffect(() => {
     if (showParticipants && eventId) {
-      loadAttendanceData();
+      void loadAttendanceData();
     }
   }, [showParticipants, eventId]);
 

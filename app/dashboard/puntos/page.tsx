@@ -220,7 +220,7 @@ export default function PuntosPage() {
 
   useEffect(() => {
     if (user) {
-      cargarDatos();
+      void cargarDatos();
     }
   }, [user]);
 

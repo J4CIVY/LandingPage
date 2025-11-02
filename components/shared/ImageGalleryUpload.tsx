@@ -120,7 +120,7 @@ const ImageGalleryUpload: React.FC<ImageGalleryUploadProps> = ({
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleFileSelect(e.target.files);
+    void handleFileSelect(e.target.files);
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {

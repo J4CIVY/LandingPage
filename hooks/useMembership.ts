@@ -123,7 +123,7 @@ export function useMembership() {
   }, [isAuthenticated, user]);
 
   const refreshMembershipData = () => {
-    fetchMembershipData();
+    void fetchMembershipData();
   };
 
   return {
