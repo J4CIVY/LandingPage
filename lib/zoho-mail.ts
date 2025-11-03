@@ -110,7 +110,7 @@ export class ZohoMailClient {
     }
 
     // 4. Validar que solo contenga caracteres seguros para URLs
-    const safeEndpointRegex = /^\/[a-zA-Z0-9\/_\-\.]*$/;
+    const safeEndpointRegex = /^\/[a-zA-Z0-9/_\-.]*$/;
     if (!safeEndpointRegex.test(endpoint)) {
       throw new Error('Invalid endpoint: contains unsafe characters');
     }
