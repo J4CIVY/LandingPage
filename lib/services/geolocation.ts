@@ -10,12 +10,42 @@ interface GeoLocation {
 }
 
 /**
+ * Verificar si la IP es válida (IPv4/IPv6 pública)
+ * Solo permite direcciones IP públicas, para evitar SSRF
+ */
+function isValidPublicIP(ip: string): boolean {
+  if (!ip || typeof ip !== 'string') return false;
+  // IPv4 regex
+  const ipv4 = /^(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?!$)|$)){4}$/;
+  // IPv6 regex (simplificado)
+  const ipv6 = /^([a-fA-F\d]{0,4}:){2,7}[a-fA-F\d]{0,4}$/;
+  
+  // Blacklist private/reserved ranges for IPv4
+  // 10.0.0.0–10.255.255.255; 172.16.0.0–172.31.255.255; 192.168.0.0–192.168.255.255; 127.0.0.0–127.255.255.255
+  const privateIPv4 = [
+    /^10\./,
+    /^127\./,
+    /^192\.168\./,
+    /^172\.(1[6-9]|2\d|3[0-1])\./
+  ];
+  // Blacklist localhost IPv6
+  if (ip === '::1') return false;
+  // Basic format test
+  if (ipv4.test(ip)) {
+    if (privateIPv4.some(re => re.test(ip))) return false;
+    return true;
+  }
+  if (ipv6.test(ip)) return true;
+  return false;
+}
+
+/**
  * Obtener ubicación por IP usando ip-api.com (gratuito)
  */
 export async function getLocationByIP(ip: string): Promise<GeoLocation | null> {
   try {
-    // Ignorar IPs locales
-    if (!ip || ip === 'unknown' || ip.startsWith('192.168.') || ip.startsWith('127.0.') || ip === '::1') {
+    // Validar IP pública
+    if (!isValidPublicIP(ip)) {
       return {
         country: 'Colombia',
         city: 'Bogotá'
