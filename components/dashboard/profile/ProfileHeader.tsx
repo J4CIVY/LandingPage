@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, type ChangeEvent } from 'react';
 import { FaUser, FaEdit, FaCamera, FaCheck, FaTimes } from 'react-icons/fa';
 import { sanitizeText, sanitizeUrl } from '@/lib/input-sanitization';
 
@@ -86,7 +86,7 @@ export default function ProfileHeader({ user, onEdit, onAvatarChange, isEditing 
     }
   }, [user.profileImage]);
 
-  const handleAvatarChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAvatarChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file && onAvatarChange) {
       setImageLoading(true);

@@ -1,12 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useRef, useEffect, type FormEvent } from 'react';
 import { 
-  FaReply, 
+  FaComment, 
   FaThumbsUp, 
-  FaEllipsisV, 
-  FaEdit, 
-  FaTrash, 
+  FaReply, 
+  FaTimes,
+  FaEllipsisV,
+  FaEdit,
+  FaTrash,
   FaFlag,
   FaSpinner,
   FaPaperPlane
@@ -371,7 +373,7 @@ export default function Comentarios({
   };
 
   // Función para enviar comentario
-  const enviarComentario = async (e: React.FormEvent) => {
+  const enviarComentario = async (e: FormEvent) => {
     e.preventDefault();
     
     if (!nuevoComentario.trim() || !usuarioActual || cargandoEnvio) return;

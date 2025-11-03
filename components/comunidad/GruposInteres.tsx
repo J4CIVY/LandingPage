@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { 
   FaUsers, 
   FaPlus, 
@@ -61,7 +61,7 @@ export default function GruposInteres({
   };
 
   // Función para crear/editar grupo
-  const guardarGrupo = async (e: React.FormEvent) => {
+  const guardarGrupo = async (e: FormEvent) => {
     e.preventDefault();
     
     if (!formulario.nombre.trim() || !formulario.descripcion.trim()) {

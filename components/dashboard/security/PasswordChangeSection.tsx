@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, type ChangeEvent } from 'react'
 import { FaEye, FaEyeSlash, FaLock, FaCheckCircle, FaTimesCircle, FaExclamationTriangle } from 'react-icons/fa'
 
 interface PasswordStrength {
@@ -68,7 +68,7 @@ export default function PasswordChangeSection() {
 
   const passwordStrength = getPasswordStrength(formData.newPassword)
 
-  const handleInputChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (field: string) => (e: ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({
       ...prev,
       [field]: e.target.value

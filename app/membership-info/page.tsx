@@ -1,4 +1,4 @@
-import React from 'react';
+import { type FC } from 'react';
 import { FaMotorcycle, FaShieldAlt, FaUsers, FaMedal, FaHandsHelping } from 'react-icons/fa';
 import { GiSteelwingEmblem } from 'react-icons/gi';
 import Link from 'next/link';
@@ -15,7 +15,7 @@ import Link from 'next/link';
  * It outlines benefits, duties, and obligations, and includes links for navigation.
  * @returns {React.ReactElement}
  */
-const MembershipInfoPage: React.FC = () => {
+const MembershipInfoPage: FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden p-6">

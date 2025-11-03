@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, type FC, type FormEvent } from 'react';
 import { getCSRFToken } from '@/lib/csrf-client';
 import { 
   FaTimes, 
@@ -24,7 +24,7 @@ interface Candidate {
   membershipType: string;
 }
 
-const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
+const CreateVotingModal: FC<CreateVotingModalProps> = ({
   isOpen,
   onClose,
   onSuccess
@@ -74,7 +74,7 @@ const CreateVotingModal: React.FC<CreateVotingModalProps> = ({
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     
     if (step < 3) {

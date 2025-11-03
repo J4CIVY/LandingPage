@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, type FC, type ReactElement } from 'react';
 import { 
   FaCrown, 
   FaCheckCircle, 
@@ -37,7 +37,7 @@ interface LeaderRequirementsProps {
   className?: string;
 }
 
-const LeaderRequirements: React.FC<LeaderRequirementsProps> = ({ 
+const LeaderRequirements: FC<LeaderRequirementsProps> = ({ 
   userId, 
   className = '' 
 }) => {
@@ -78,7 +78,7 @@ const LeaderRequirements: React.FC<LeaderRequirementsProps> = ({
   };
 
   const getRequirementIcon = (requirementId: string) => {
-    const iconMap: Record<string, React.ReactElement> = {
+    const iconMap: Record<string, ReactElement> = {
       must_be_master: <FaCrown className="text-yellow-500" />,
       must_be_active_volunteer: <FaHandshake className="text-blue-500" />,
       minimum_points: <FaUsers className="text-green-500" />,

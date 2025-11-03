@@ -1,5 +1,6 @@
 'use client';
 
+import { type ReactNode } from 'react';
 import { 
   FaHome,
   FaUser,
@@ -25,7 +26,7 @@ interface QuickAction {
   id: string;
   title: string;
   description: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   href: string;
   color: string;
   bgColor: string;

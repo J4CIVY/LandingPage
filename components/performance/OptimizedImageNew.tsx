@@ -7,7 +7,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, type FC } from 'react';
 import { useIntersectionObserver } from './LazyComponents';
 
 interface OptimizedImageProps {
@@ -44,7 +44,7 @@ const generateBlurDataURL = (width: number, height: number): string => {
   ).toString('base64')}`;
 };
 
-export const OptimizedImage: React.FC<OptimizedImageProps> = ({
+export const OptimizedImage: FC<OptimizedImageProps> = ({
   src,
   alt,
   width = 800,
@@ -162,7 +162,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
 };
 
 // Componente específico para avatares con optimizaciones adicionales
-export const OptimizedAvatar: React.FC<{
+export const OptimizedAvatar: FC<{
   src: string;
   alt: string;
   size?: number;
@@ -185,7 +185,7 @@ export const OptimizedAvatar: React.FC<{
 };
 
 // Componente para hero images con optimizaciones específicas
-export const OptimizedHeroImage: React.FC<{
+export const OptimizedHeroImage: FC<{
   src: string;
   alt: string;
   className?: string;

@@ -3,7 +3,7 @@
 import { Mensaje, MensajeTipo } from '@/types/pqrsdf';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { useState } from 'react';
+import { useState, type ComponentType, type ChangeEvent } from 'react';
 import { 
   FaPaperPlane, 
   FaUser, 
@@ -21,7 +21,7 @@ interface ChatBoxProps {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ICONOS_TIPO: Record<MensajeTipo, { icon: React.ComponentType<any>, color: string }> = {
+const ICONOS_TIPO: Record<MensajeTipo, { icon: ComponentType<any>, color: string }> = {
   usuario: { icon: FaUser, color: 'bg-blue-600' },
   admin: { icon: FaUserTie, color: 'bg-green-600' },
   sistema: { icon: FaCog, color: 'bg-gray-600' }
@@ -57,7 +57,7 @@ export default function ChatBox({
     }
   };
 
-  const handleAdjuntos = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAdjuntos = (e: ChangeEvent<HTMLInputElement>) => {
     const archivos = Array.from(e.target.files || []);
     setAdjuntos(prev => [...prev, ...archivos]);
   };

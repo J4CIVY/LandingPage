@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, type FC } from 'react';
 import { getCSRFToken } from '@/lib/csrf-client';
 import { 
   FaFileUpload, 
@@ -47,7 +47,7 @@ interface LeaderApplicationPlatformProps {
   className?: string;
 }
 
-const LeaderApplicationPlatform: React.FC<LeaderApplicationPlatformProps> = ({ 
+const LeaderApplicationPlatform: FC<LeaderApplicationPlatformProps> = ({ 
   className = '' 
 }) => {
   const [formData, setFormData] = useState<ApplicationFormData>({

@@ -1,5 +1,6 @@
 'use client';
 
+import { type ReactNode } from 'react';
 import { FaExclamationTriangle, FaClock, FaRedo, FaSignOutAlt } from 'react-icons/fa';
 
 interface InactivityWarningProps {
@@ -10,7 +11,7 @@ interface InactivityWarningProps {
   onCancel: () => void;
   retryText?: string;
   cancelText?: string;
-  alternativeOptions?: React.ReactNode;
+  alternativeOptions?: ReactNode;
 }
 
 /**

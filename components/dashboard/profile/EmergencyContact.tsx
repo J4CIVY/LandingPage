@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type ChangeEvent } from 'react';
 import { FaPhone, FaUser, FaExclamationTriangle, FaEdit, FaSave, FaTimes, FaShieldAlt, FaHeart } from 'react-icons/fa';
 import { IUser } from '@/lib/models/User';
 
@@ -85,7 +85,7 @@ export default function EmergencyContact({ user, onSave, isEditing = false, onEd
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     

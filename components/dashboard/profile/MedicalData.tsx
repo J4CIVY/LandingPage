@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type ChangeEvent } from 'react';
 import { FaHeartbeat, FaEdit, FaSave, FaTimes, FaExclamationTriangle, FaLock, FaEye, FaEyeSlash, FaShieldAlt, FaUserMd, FaPills } from 'react-icons/fa';
 import { IUser } from '@/lib/models/User';
 
@@ -78,7 +78,7 @@ export default function MedicalData({ user, onSave, isEditing = false, onEditTog
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     

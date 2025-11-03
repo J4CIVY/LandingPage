@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, type FC } from 'react';
 import { getCSRFToken } from '@/lib/csrf-client';
 import CreateVotingModal from './CreateVotingModal';
 import { 
@@ -69,7 +69,7 @@ interface VotingSystemProps {
   className?: string;
 }
 
-const VotingSystem: React.FC<VotingSystemProps> = ({ 
+const VotingSystem: FC<VotingSystemProps> = ({ 
   className = '' 
 }) => {
   const [activeTab, setActiveTab] = useState('active');

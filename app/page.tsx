@@ -1,4 +1,4 @@
-import React from "react";
+import { type FC } from "react";
 import HeroSection from "@/components/home/HeroSection";
 import HomeContent from "@/components/home/HomeContent";
 import CachedHomeContent from "@/components/home/CachedHomeContent";
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
 };
 
 // Componente base sin analytics
-const Home: React.FC = () => {
+const Home: FC = () => {
   return (
     <>
       <HeroSection />
@@ -67,7 +67,7 @@ const Home: React.FC = () => {
 };
 
 // Componente con analytics para producción
-const HomeProduction: React.FC = () => {
+const HomeProduction: FC = () => {
   return (
     <>
       <HeroSection />

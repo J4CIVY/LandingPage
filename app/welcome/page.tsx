@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, Suspense, type FC } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { FaCheckCircle, FaSpinner, FaEnvelope, FaMedal, FaMotorcycle, FaUsers, FaCalendarAlt } from 'react-icons/fa';
 import { GiSteelwingEmblem } from 'react-icons/gi';
@@ -12,7 +12,7 @@ interface WelcomeData {
   lastName: string;
 }
 
-const WelcomeContent: React.FC = () => {
+const WelcomeContent: FC = () => {
   const searchParams = useSearchParams();
   const [welcomeData, setWelcomeData] = useState<WelcomeData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -184,7 +184,7 @@ const WelcomeContent: React.FC = () => {
 };
 
 // Componente principal que envuelve con Suspense
-const WelcomePage: React.FC = () => {
+const WelcomePage: FC = () => {
   return (
     <Suspense fallback={
       <div className="min-h-screen bg-linear-to-br from-red-50 to-orange-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">

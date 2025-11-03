@@ -1,4 +1,4 @@
-import React from 'react';
+import { type FC } from 'react';
 import { FaMotorcycle, FaHandsHelping, FaShieldAlt } from 'react-icons/fa';
 import type { Metadata } from 'next';
 export const metadata: Metadata = {
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
  * About component displays information about BSK Motorcycle Team, including its history, mission, vision, and values.
  * @returns {React.ReactElement}
  */
-const About: React.FC = () => {
+const About: FC = () => {
   return (
     <main className="min-h-screen bg-gray-100 dark:bg-slate-950 text-slate-950 dark:text-white">
       {/* Hero Section */}

@@ -1,4 +1,4 @@
-import { useState, useMemo, type FC, type ChangeEvent, type MouseEvent, type DragEvent } from 'react';
+import { useState, useMemo, type FC, type ChangeEvent, type DragEvent } from 'react';
 import { FaSpinner, FaTimes, FaPlus } from 'react-icons/fa';
 import { useImageUpload } from '@/hooks/useImageUpload';
 

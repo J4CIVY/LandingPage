@@ -1,9 +1,10 @@
 'use client';
 
+import { type FC } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { BenefitsHeaderProps } from '@/types/benefits';
 
-const BenefitsHeader: React.FC<BenefitsHeaderProps> = ({ 
+const BenefitsHeader: FC<BenefitsHeaderProps> = ({ 
   isAdmin, 
   onAddBenefit 
 }) => {

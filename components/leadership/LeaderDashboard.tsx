@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, type FC } from 'react';
 import { getCSRFToken } from '@/lib/csrf-client';
 import { 
   FaUserTie, 
@@ -71,7 +71,7 @@ interface LeaderDashboardProps {
   className?: string;
 }
 
-const LeaderDashboard: React.FC<LeaderDashboardProps> = ({ 
+const LeaderDashboard: FC<LeaderDashboardProps> = ({ 
   className = '' 
 }) => {
   const [activeTab, setActiveTab] = useState('overview');

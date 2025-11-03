@@ -10,7 +10,7 @@
  * - Interactive forms still work client-side via ContactTabs component
  */
 
-import React from "react";
+import { type FC } from "react";
 import SEOComponent from '@/components/home/SEOComponent';
 import { generateBreadcrumb, generateFAQ } from '@/lib/seo-config';
 import ContactTabs from '@/components/shared/ContactTabs';
@@ -26,7 +26,7 @@ const contactInfo = {
   }
 };
 
-const Contact: React.FC = () => {
+const Contact: FC = () => {
   // ✅ Server Component: Structured data generated on server
   const breadcrumbData = generateBreadcrumb([
     { name: 'Inicio', url: 'https://bskmt.com' },

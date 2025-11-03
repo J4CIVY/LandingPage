@@ -1,12 +1,12 @@
 'use client';
 
-import React from 'react';
+import { type FC } from 'react';
 
 /**
  * CookiePolicy component displays the detailed cookie policy of BSK Motorcycle Team.
  * @returns {React.ReactElement}
  */
-const CookiePolicy: React.FC = () => {
+const CookiePolicy: FC = () => {
   return (
   <div className="max-w-4xl mx-auto p-6 text-gray-800 dark:text-gray-200 bg-white dark:bg-slate-950 rounded-xl shadow">
   <h1 className="text-3xl font-bold text-slate-950 dark:text-white mb-6">Política de Cookies - BSK Motorcycle Team</h1>

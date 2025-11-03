@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, type FC } from 'react';
 import Image from 'next/image';
 import { FaTimes, FaMapMarkerAlt, FaExternalLinkAlt, FaDownload, FaShare, FaQrcode, FaCopy, FaCheckCircle, FaClock } from 'react-icons/fa';
 import { BenefitModalProps } from '@/types/benefits';
 
-const BenefitModal: React.FC<BenefitModalProps> = ({
+const BenefitModal: FC<BenefitModalProps> = ({
   benefit,
   isOpen,
   onClose,

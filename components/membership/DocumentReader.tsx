@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, type ReactNode } from 'react';
 import { FaCheckCircle, FaScroll, FaArrowDown } from 'react-icons/fa';
 
 interface DocumentReaderProps {
   title: string;
-  content: React.ReactNode;
+  content: ReactNode;
   onAccept: () => void;
   onCancel: () => void;
   acceptButtonText?: string;

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, type FormEvent } from 'react';
 import { 
   FaPaperPlane, 
   FaUsers, 
@@ -123,7 +123,7 @@ export default function ChatComunidad({
   };
 
   // Función para enviar mensaje
-  const enviarMensaje = async (e: React.FormEvent) => {
+  const enviarMensaje = async (e: FormEvent) => {
     e.preventDefault();
     
     if (!nuevoMensaje.trim() || !usuarioActual || enviandoMensaje) return;

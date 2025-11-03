@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type FC, type ChangeEvent, type FormEvent } from 'react';
 import { FaTimes, FaCalendarAlt, FaPlus, FaTrash } from 'react-icons/fa';
 import { BenefitFormProps, CategoryType } from '@/types/benefits';
 
@@ -18,7 +18,7 @@ const sanitizeDataUrl = (dataUrl: string): string | null => {
   return dataUrl;
 };
 
-const BenefitForm: React.FC<BenefitFormProps> = ({
+const BenefitForm: FC<BenefitFormProps> = ({
   isOpen,
   onClose,
   onSubmit,
@@ -112,7 +112,7 @@ const BenefitForm: React.FC<BenefitFormProps> = ({
   }, [isOpen, onClose]);
 
   // Handle input changes
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -150,7 +150,7 @@ const BenefitForm: React.FC<BenefitFormProps> = ({
   };
 
   // Handle image upload
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setImageFile(file);
@@ -167,7 +167,7 @@ const BenefitForm: React.FC<BenefitFormProps> = ({
   };
 
   // Submit form
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     
     const dataToSubmit = {

@@ -1,15 +1,15 @@
 "use client";
 
-import React, { forwardRef } from 'react';
+import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react';
 import { useTextAnimation } from '@/hooks/useTextAnimation';
 import { useButtonAnimation } from '@/hooks/useButtonAnimation';
 
-interface AnimatedButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface AnimatedButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   as?: 'button' | 'a';
   href?: string;
   animationType?: 'fadeIn' | 'slideUp' | 'slideInLeft' | 'slideInRight' | 'scaleIn';
   delay?: number;
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
 }

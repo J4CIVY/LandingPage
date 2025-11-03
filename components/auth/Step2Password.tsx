@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type FormEvent } from 'react';
 import { FaLock, FaEye, FaEyeSlash, FaArrowRight, FaArrowLeft, FaSpinner, FaShieldAlt, FaCheckCircle } from 'react-icons/fa';
 import { useInactivityTimer } from '@/hooks/useInactivityTimer';
 import InactivityWarning from './InactivityWarning';
@@ -91,7 +91,7 @@ export default function Step2Password({ email, onPasswordVerified, onBack }: Ste
     );
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
     setIsLoading(true);

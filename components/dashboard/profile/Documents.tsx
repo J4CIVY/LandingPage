@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type ChangeEvent } from 'react';
 import { FaFileAlt, FaUpload, FaDownload, FaTrash, FaEye, FaCheck, FaTimes, FaExclamationTriangle, FaFilePdf, FaFileImage, FaFile, FaPlus, FaSpinner } from 'react-icons/fa';
 
 interface DocumentsProps {
@@ -152,7 +152,7 @@ export default function Documents({ onDocumentUpload, onDocumentDelete, onDocume
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
-  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file && onDocumentUpload && uploadType) {
       setIsUploading(true);

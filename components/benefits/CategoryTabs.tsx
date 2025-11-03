@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type FC } from 'react';
 import { FaWrench, FaCog, FaUtensils, FaShieldAlt, FaHeartbeat, FaEllipsisH, FaChevronDown } from 'react-icons/fa';
 import { CategoryTabsProps, CategoryType } from '@/types/benefits';
 
-const CategoryTabs: React.FC<CategoryTabsProps> = ({
+const CategoryTabs: FC<CategoryTabsProps> = ({
   categories,
   activeCategory,
   onCategoryChange

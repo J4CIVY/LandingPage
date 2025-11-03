@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, type FC, Fragment } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { compatibleUserSchema as userSchema, type CompatibleUserSchema as FormUserSchema } from '@/schemas/compatibleUserSchema';
@@ -27,7 +27,7 @@ import { usePhoneValidation } from '@/hooks/usePhoneValidation';
 
 const years = generateYears();
 
-const UserRegister: React.FC = () => {
+const UserRegister: FC = () => {
   const { register, handleSubmit, formState: { errors }, watch, trigger, setValue } = useForm<FormUserSchema>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(userSchema) as any,
@@ -385,7 +385,7 @@ const UserRegister: React.FC = () => {
     return (
       <div className="flex justify-center items-center mb-8">
         {stepIcons.map((Icon, index) => (
-          <React.Fragment key={index}>
+          <Fragment key={index}>
             <div 
               className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium text-lg ${currentStep > index + 1 ? 'bg-green-500' : currentStep === index + 1 ? 'bg-red-600' : 'bg-gray-300'}`}
               aria-current={currentStep === index + 1 ? 'step' : undefined}
@@ -396,7 +396,7 @@ const UserRegister: React.FC = () => {
             {index < totalSteps - 1 && (
               <div className={`h-1 grow ${currentStep > index + 1 ? 'bg-green-500' : 'bg-gray-300'}`}></div>
             )}
-          </React.Fragment>
+          </Fragment>
         ))}
       </div>
     );

@@ -1,9 +1,10 @@
 'use client';
 
+import { type FC } from 'react';
 import { FaCheckCircle, FaClock, FaTicketAlt, FaCalendarAlt } from 'react-icons/fa';
 import { UsageHistoryProps } from '@/types/benefits';
 
-const UsageHistory: React.FC<UsageHistoryProps> = ({ 
+const UsageHistory: FC<UsageHistoryProps> = ({ 
   history, 
   isLoading = false 
 }) => {
