@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, type FC, type ChangeEvent, type FormEvent } from "react";
+import { useState, useEffect, useCallback, type FC, type ChangeEvent, type FormEvent, type CSSProperties } from "react";
 import { 
   FaWhatsapp, 
   FaPhone, 
@@ -99,7 +99,7 @@ const Sos: FC = () => {
   const GOOGLE_MAPS_API_KEY: string = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "YOUR_GOOGLE_MAPS_API_KEY"; // Replace with actual key from .env
 
   // Map configuration
-  const mapContainerStyle: React.CSSProperties = {
+  const mapContainerStyle: CSSProperties = {
     width: '100%',
     height: '400px'
   };

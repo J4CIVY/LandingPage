@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ElementType } from 'react';
 import { FaCheckCircle, FaExclamationTriangle, FaTimesCircle, FaServer, FaDatabase, FaCloud, FaShieldAlt } from 'react-icons/fa';
 
 interface HealthStatus {
   service: string;
   status: 'healthy' | 'warning' | 'error';
   message: string;
-  icon: React.ElementType;
+  icon: ElementType;
 }
 
 /**

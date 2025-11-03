@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useMemo, type FC, type ChangeEvent, type KeyboardEvent } from 'react';
+import { useState, useEffect, useCallback, useMemo, type FC, type ChangeEvent, type KeyboardEvent, type SyntheticEvent } from 'react';
 import SEOComponent from '@/components/home/SEOComponent';
 import { generateBreadcrumb } from '@/lib/seo-config';
 import { Product } from '@/types/products';
@@ -348,7 +348,7 @@ const Store: FC = () => {
                   src={product.featuredImage}
                   alt={product.name}
                   className="w-full h-full object-cover"
-                  onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+                  onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
                     // Fallback image for broken links
                     (e.target as HTMLImageElement).src = 'https://via.placeholder.com/300x300?text=Image+Not+Available';
                     (e.target as HTMLImageElement).alt = 'Image not available'; // Update alt text for fallback
@@ -450,7 +450,7 @@ const Store: FC = () => {
                           src={selectedProduct.featuredImage}
                           alt={selectedProduct.name}
                           className="w-full h-full object-cover"
-                          onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+                          onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
                             (e.target as HTMLImageElement).src = 'https://via.placeholder.com/600x600?text=Image+Not+Available';
                             (e.target as HTMLImageElement).alt = 'Image not available';
                           }}
@@ -464,7 +464,7 @@ const Store: FC = () => {
                               src={image}
                               alt={`${selectedProduct.name} thumbnail ${index + 1}`}
                               className="w-full h-full object-cover"
-                              onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+                              onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
                                 (e.target as HTMLImageElement).src = 'https://via.placeholder.com/100x100?text=Thumb';
                                 (e.target as HTMLImageElement).alt = 'Thumbnail not available';
                               }}

@@ -5,7 +5,7 @@
 
 'use client';
 
-import { lazy, Suspense, type FC, type ReactNode } from 'react';
+import { lazy, Suspense, type FC, type ReactNode, type CSSProperties } from 'react';
 
 // Skeleton específico para mapas
 const SkeletonMap = () => (
@@ -39,7 +39,7 @@ const LoadScriptComponent = lazy(() =>
 
 interface LazyGoogleMapsProps {
   apiKey: string;
-  mapContainerStyle: React.CSSProperties;
+  mapContainerStyle: CSSProperties;
   center: { lat: number; lng: number };
   zoom: number;
   children?: ReactNode;

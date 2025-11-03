@@ -1,11 +1,9 @@
 'use client';
 
-import { useState, useRef, useEffect, type FormEvent } from 'react';
+import { useState, useEffect, type FormEvent } from 'react';
 import { 
-  FaComment, 
   FaThumbsUp, 
   FaReply, 
-  FaTimes,
   FaEllipsisV,
   FaEdit,
   FaTrash,

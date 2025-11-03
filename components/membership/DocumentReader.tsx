@@ -43,7 +43,7 @@ export default function DocumentReader({
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[60] overflow-y-auto" aria-labelledby="document-title" role="dialog" aria-modal="true">
+    <div className="fixed inset-0 z-60 overflow-y-auto" aria-labelledby="document-title" role="dialog" aria-modal="true">
       {/* Background overlay */}
       <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={onCancel}></div>
 
@@ -51,7 +51,7 @@ export default function DocumentReader({
       <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
         <div className="relative transform overflow-hidden rounded-lg bg-white dark:bg-slate-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-3xl">
           {/* Header */}
-          <div className="bg-gradient-to-r from-cyan-600 to-blue-600 px-6 py-4">
+          <div className="bg-linear-to-r from-cyan-600 to-blue-600 px-6 py-4">
             <div className="flex items-center">
               <FaScroll className="text-white text-2xl mr-3" />
               <h3 className="text-xl font-semibold text-white">
@@ -72,7 +72,7 @@ export default function DocumentReader({
 
             {/* Scroll indicator */}
             {showScrollHint && !hasScrolledToBottom && (
-              <div className="sticky bottom-0 left-0 right-0 bg-gradient-to-t from-white dark:from-slate-800 via-white/90 dark:via-slate-800/90 to-transparent pt-8 pb-4 text-center">
+              <div className="sticky bottom-0 left-0 right-0 bg-linear-to-t from-white dark:from-slate-800 via-white/90 dark:via-slate-800/90 to-transparent pt-8 pb-4 text-center">
                 <div className="flex flex-col items-center space-y-2 animate-bounce">
                   <FaArrowDown className="text-cyan-600 text-xl" />
                   <p className="text-sm font-medium text-gray-700 dark:text-slate-300">
@@ -112,7 +112,7 @@ export default function DocumentReader({
                 disabled={!hasScrolledToBottom}
                 className={`px-6 py-2 rounded-lg font-medium transition-all ${
                   hasScrolledToBottom
-                    ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white hover:from-cyan-700 hover:to-blue-700 shadow-md'
+                    ? 'bg-linear-to-r from-cyan-600 to-blue-600 text-white hover:from-cyan-700 hover:to-blue-700 shadow-md'
                     : 'bg-gray-300 dark:bg-slate-700 text-gray-500 dark:text-slate-500 cursor-not-allowed'
                 }`}
               >

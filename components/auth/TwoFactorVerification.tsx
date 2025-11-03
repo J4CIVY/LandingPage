@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, type KeyboardEvent, type ClipboardEvent } from 'react';
 import { FaSpinner, FaWhatsapp, FaRedo, FaClock, FaEnvelope, FaExclamationTriangle } from 'react-icons/fa';
 import Image from 'next/image';
 
@@ -122,7 +122,7 @@ export default function TwoFactorVerification({
     setError(null);
   };
 
-  const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (index: number, e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Backspace' && !code[index] && index > 0) {
       inputRefs.current[index - 1]?.focus();
     }
@@ -136,7 +136,7 @@ export default function TwoFactorVerification({
     }
   };
 
-  const handlePaste = (e: React.ClipboardEvent) => {
+  const handlePaste = (e: ClipboardEvent) => {
     e.preventDefault();
     const pastedData = e.clipboardData.getData('text');
     const sanitized = pastedData.toUpperCase().replace(/[^A-Z0-9]/g, '');

@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react';
+import { forwardRef, type ButtonHTMLAttributes, type ReactNode, type RefObject, type AnchorHTMLAttributes } from 'react';
 import { useTextAnimation } from '@/hooks/useTextAnimation';
 import { useButtonAnimation } from '@/hooks/useButtonAnimation';
 
@@ -53,11 +53,11 @@ export const AnimatedButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, 
     if (as === 'a' && href) {
       return (
         <a
-          ref={ref as React.RefObject<HTMLAnchorElement>}
+          ref={ref as RefObject<HTMLAnchorElement>}
           href={href}
           className={combinedClassName}
           {...buttonEventHandlers}
-          {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+          {...(props as AnchorHTMLAttributes<HTMLAnchorElement>)}
         >
           {children}
         </a>
@@ -66,7 +66,7 @@ export const AnimatedButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, 
 
     return (
       <button
-        ref={ref as React.RefObject<HTMLButtonElement>}
+        ref={ref as RefObject<HTMLButtonElement>}
         className={combinedClassName}
         disabled={disabled}
         {...buttonEventHandlers}
