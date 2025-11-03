@@ -4,6 +4,16 @@ import { ZohoAuthTokens, ZohoAccount, ZohoEmailConfig, ZohoEmailResponse } from 
 /**
  * Cliente para la API de Zoho Mail
  * Maneja autenticación OAuth 2.0 y envío de correos electrónicos
+ * 
+ * SECURITY FEATURES:
+ * - SSRF Protection: Todas las URLs son validadas contra una allowlist de dominios Zoho
+ * - Path Traversal Prevention: Los endpoints son sanitizados para prevenir ataques de traversal
+ * - HTTPS Enforcement: Solo se permiten conexiones HTTPS
+ * - Input Validation: Caracteres peligrosos y patrones maliciosos son rechazados
+ * 
+ * @see validateZohoUrl - Validación de dominios contra allowlist
+ * @see sanitizeEndpoint - Sanitización de endpoints contra path traversal
+ * @see buildAndValidateUrl - Construcción segura de URLs
  */
 export class ZohoMailClient {
   private readonly clientId: string;
@@ -260,20 +270,28 @@ export class ZohoMailClient {
   /**
    * Realiza una petición a la API de Zoho Mail
    * Incluye protección contra SSRF mediante validación de URLs
+   * 
+   * SECURITY: Este método implementa múltiples capas de protección contra SSRF:
+   * 1. sanitizeEndpoint() previene path traversal y caracteres peligrosos
+   * 2. buildAndValidateUrl() valida la URL contra allowlist de dominios Zoho
+   * 3. Solo se permite HTTPS a dominios Zoho autorizados
+   * 
+   * @param endpoint - Ruta del endpoint de la API (será sanitizado)
+   * @param method - Método HTTP
+   * @param body - Cuerpo de la petición (opcional)
+   * @returns Respuesta de la API
    */
   private async makeApiRequest(
     endpoint: string,
     method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
     body?: any
   ): Promise<Response> {
-    // Sanitizar el endpoint para prevenir SSRF y path traversal
+    // SECURITY: Sanitizar el endpoint para prevenir SSRF y path traversal
     const safeEndpoint = this.sanitizeEndpoint(endpoint);
     
-    // Construir la URL completa
-    const url = `${this.baseUrl}${safeEndpoint}`;
-    
-    // Validar la URL completa antes de hacer la petición
-    this.validateZohoUrl(url);
+    // SECURITY: Construir y validar la URL completa antes de cualquier uso
+    // La URL solo puede apuntar a dominios Zoho en la allowlist
+    const url = this.buildAndValidateUrl(safeEndpoint);
     
     const headers: Record<string, string> = {
       'Authorization': `Zoho-oauthtoken ${this.accessToken}`,
@@ -293,6 +311,8 @@ export class ZohoMailClient {
       config.body = JSON.stringify(body);
     }
 
+    // SECURITY: La URL ha sido validada por buildAndValidateUrl()
+    // Solo puede apuntar a dominios Zoho autorizados con HTTPS
     let response = await fetch(url, config);
 
     // Si el token ha expirado, intentar renovarlo
@@ -301,15 +321,42 @@ export class ZohoMailClient {
         await this.refreshAccessToken();
         headers['Authorization'] = `Zoho-oauthtoken ${this.accessToken}`;
         config.headers = headers;
-        // Volver a validar la URL antes de reintentar
-        this.validateZohoUrl(url);
-        response = await fetch(url, config);
+        // SECURITY: Reconstruir y revalidar la URL antes de reintentar
+        const retryUrl = this.buildAndValidateUrl(safeEndpoint);
+        response = await fetch(retryUrl, config);
       } catch (error) {
         console.error('Failed to refresh token:', error);
       }
     }
 
     return response;
+  }
+
+  /**
+   * Construye y valida una URL completa de forma segura
+   * Este método garantiza que la URL final es segura antes de ser usada
+   * 
+   * SECURITY: Esta función actúa como barrera de sanitización para prevenir SSRF.
+   * La URL construida es validada contra una allowlist de dominios Zoho permitidos,
+   * asegurando que solo se pueden hacer peticiones a endpoints legítimos de Zoho.
+   * 
+   * @param safeEndpoint - Endpoint ya sanitizado por sanitizeEndpoint()
+   * @returns URL validada y segura para usar en fetch()
+   * @throws Error si la URL no pasa la validación de seguridad
+   */
+  private buildAndValidateUrl(safeEndpoint: string): string {
+    // Construir la URL completa
+    const url = `${this.baseUrl}${safeEndpoint}`;
+    
+    // SECURITY: Validación crítica contra SSRF
+    // Esta validación garantiza que:
+    // 1. La URL usa HTTPS
+    // 2. El dominio está en la allowlist de dominios Zoho
+    // 3. No hay credenciales embebidas en la URL
+    this.validateZohoUrl(url);
+    
+    // La URL ha sido validada y es segura para usar
+    return url;
   }
 
   /**
