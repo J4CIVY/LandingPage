@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, type FC } from 'react';
 
 /**
  * Accessibility Helper Component
  * Provides keyboard shortcuts, screen reader announcements, and focus management
  */
-const AccessibilityHelper: React.FC = () => {
+const AccessibilityHelper: FC = () => {
   const [announcement, setAnnouncement] = useState('');
 
   useEffect(() => {

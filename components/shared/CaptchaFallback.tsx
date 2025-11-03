@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, type FormEvent } from 'react';
 
 interface CaptchaFallbackProps {
   onVerified: () => void;
@@ -69,7 +69,7 @@ export default function CaptchaFallback({ onVerified, onCancel }: CaptchaFallbac
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     if (!challenge || !answer.trim()) {

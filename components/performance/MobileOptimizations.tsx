@@ -6,7 +6,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, type FC } from 'react';
 
 // Hook para gestos táctiles optimizados
 export function useTouchGestures(
@@ -185,7 +185,7 @@ export function useDeviceInfo() {
 }
 
 // Componente para manejo de estado offline
-export const OfflineIndicator: React.FC = () => {
+export const OfflineIndicator: FC = () => {
   const { isOnline } = useNetworkStatus();
 
   if (isOnline) return null;
@@ -198,7 +198,7 @@ export const OfflineIndicator: React.FC = () => {
 };
 
 // Componente para indicador de conexión lenta
-export const SlowConnectionIndicator: React.FC = () => {
+export const SlowConnectionIndicator: FC = () => {
   const { isSlowConnection } = useNetworkStatus();
   const [isVisible, setIsVisible] = useState(false);
 

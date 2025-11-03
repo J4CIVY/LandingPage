@@ -5,7 +5,7 @@
 
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, type FC } from 'react';
 
 export function useServiceWorker() {
   useEffect(() => {
@@ -106,7 +106,7 @@ export function useCacheManagement() {
 }
 
 // Componente para gestión de PWA (mantener si hay contexto útil)
-export const PWAManager: React.FC = () => {
+export const PWAManager: FC = () => {
   useServiceWorker();
   
   useEffect(() => {

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import { FaMapMarkerAlt, FaPhoneAlt, FaRegEnvelope, FaRegClock } from 'react-icons/fa';
 import ContactForm from '@/components/shared/ContactForm';
 import { useRecaptcha, RecaptchaActions } from '@/lib/recaptcha-client';
@@ -70,12 +70,12 @@ export default function ContactTabs({ contactInfo }: ContactTabsProps) {
     description: ""
   });
 
-  const handleComplaintChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleComplaintChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setComplaintForm(prev => ({ ...prev, [name]: value }));
   };
 
-  const handlePqrsdfChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handlePqrsdfChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     
     // Update validation hooks for email and phone
@@ -88,7 +88,7 @@ export default function ContactTabs({ contactInfo }: ContactTabsProps) {
     setPqrsdfForm(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     if (file) {
       const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf', 'video/mp4', 'video/avi'];
@@ -108,7 +108,7 @@ export default function ContactTabs({ contactInfo }: ContactTabsProps) {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     if (isSubmitting) return; // Prevent double submission

@@ -1,11 +1,11 @@
-import React from 'react';
+import { type FC } from 'react';
 
 interface SkeletonProps {
   className?: string;
   count?: number;
 }
 
-export const SkeletonLine: React.FC<SkeletonProps> = ({ className = '', count = 1 }) => (
+export const SkeletonLine: FC<SkeletonProps> = ({ className = '', count = 1 }) => (
   <>
     {Array.from({ length: count }).map((_, index) => (
       <div
@@ -17,7 +17,7 @@ export const SkeletonLine: React.FC<SkeletonProps> = ({ className = '', count = 
   </>
 );
 
-export const SkeletonCard: React.FC<SkeletonProps> = ({ className = '' }) => (
+export const SkeletonCard: FC<SkeletonProps> = ({ className = '' }) => (
   <div className={`animate-pulse ${className}`} aria-hidden="true">
     <div className="bg-gray-300 dark:bg-slate-600 h-48 rounded-t-lg"></div>
     <div className="p-4 space-y-3">
@@ -29,7 +29,7 @@ export const SkeletonCard: React.FC<SkeletonProps> = ({ className = '' }) => (
   </div>
 );
 
-export const SkeletonEvent: React.FC = () => (
+export const SkeletonEvent: FC = () => (
   <div className="animate-pulse bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg" aria-hidden="true">
     <div className="bg-gray-300 dark:bg-slate-600 h-40"></div>
     <div className="p-4 space-y-3">
@@ -50,7 +50,7 @@ export const SkeletonEvent: React.FC = () => (
   </div>
 );
 
-export const SkeletonProduct: React.FC = () => (
+export const SkeletonProduct: FC = () => (
   <div className="animate-pulse bg-white dark:bg-slate-800 rounded-lg overflow-hidden shadow-md" aria-hidden="true">
     <div className="bg-gray-300 dark:bg-slate-600 h-48"></div>
     <div className="p-4 space-y-3">
@@ -64,7 +64,7 @@ export const SkeletonProduct: React.FC = () => (
   </div>
 );
 
-export const SkeletonTable: React.FC<{ rows?: number; cols?: number }> = ({ 
+export const SkeletonTable: FC<{ rows?: number; cols?: number }> = ({ 
   rows = 5, 
   cols = 4 
 }) => (
@@ -80,7 +80,7 @@ export const SkeletonTable: React.FC<{ rows?: number; cols?: number }> = ({
   </div>
 );
 
-export const SkeletonAvatar: React.FC<{ size?: 'sm' | 'md' | 'lg' }> = ({ size = 'md' }) => {
+export const SkeletonAvatar: FC<{ size?: 'sm' | 'md' | 'lg' }> = ({ size = 'md' }) => {
   const sizeClasses = {
     sm: 'w-8 h-8',
     md: 'w-12 h-12', 
@@ -95,7 +95,7 @@ export const SkeletonAvatar: React.FC<{ size?: 'sm' | 'md' | 'lg' }> = ({ size =
   );
 };
 
-export const SkeletonText: React.FC<{ lines?: number; className?: string }> = ({ 
+export const SkeletonText: FC<{ lines?: number; className?: string }> = ({ 
   lines = 3, 
   className = '' 
 }) => (

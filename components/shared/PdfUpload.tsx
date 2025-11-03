@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef, type FC, type ChangeEvent, type MouseEvent, type DragEvent } from 'react';
 import { FaFilePdf, FaSpinner, FaTimes, FaUpload, FaEye } from 'react-icons/fa';
 import { usePdfUpload } from '@/hooks/usePdfUpload';
 
@@ -11,7 +11,7 @@ interface PdfUploadProps {
   publicIdPrefix?: string;
 }
 
-const PdfUpload: React.FC<PdfUploadProps> = ({
+const PdfUpload: FC<PdfUploadProps> = ({
   onPdfUploaded,
   currentPdfUrl,
   disabled = false,
@@ -58,14 +58,14 @@ const PdfUpload: React.FC<PdfUploadProps> = ({
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       void handleFileSelect(file);
     }
   };
 
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setDragOver(false);
 
@@ -75,12 +75,12 @@ const PdfUpload: React.FC<PdfUploadProps> = ({
     }
   };
 
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setDragOver(true);
   };
 
-  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDragLeave = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setDragOver(false);
   };
@@ -91,7 +91,7 @@ const PdfUpload: React.FC<PdfUploadProps> = ({
     }
   };
 
-  const handleRemovePdf = (e: React.MouseEvent) => {
+  const handleRemovePdf = (e: MouseEvent) => {
     e.stopPropagation();
     setPdfUrl(null);
     onPdfUploaded('');
@@ -100,7 +100,7 @@ const PdfUpload: React.FC<PdfUploadProps> = ({
     }
   };
 
-  const openPdf = (e: React.MouseEvent) => {
+  const openPdf = (e: MouseEvent) => {
     e.stopPropagation();
     if (pdfUrl) {
       window.open(pdfUrl, '_blank');

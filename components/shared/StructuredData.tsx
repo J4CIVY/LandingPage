@@ -1,4 +1,4 @@
-import React from 'react';
+import { type FC } from 'react';
 import sanitizeHtml from 'sanitize-html';
 
 interface StructuredDataProps {
@@ -54,7 +54,7 @@ const sanitizeForJsonLd = (obj: unknown): unknown => {
   return obj;
 };
 
-const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
+const StructuredData: FC<StructuredDataProps> = ({ type, data }) => {
   const generateSchema = () => {
     const baseContext = "https://schema.org";
     

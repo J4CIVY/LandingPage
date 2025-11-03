@@ -1,4 +1,4 @@
-import React from 'react';
+import { type ReactNode } from 'react';
 import { sanitizeHtml } from '@/lib/input-sanitization';
 
 interface SafeHtmlProps {
@@ -103,7 +103,7 @@ export function SafeText({
 
 interface SafeLinkProps {
   href: string;
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   target?: string;
   rel?: string;

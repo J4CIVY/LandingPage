@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, type FC } from 'react';
 import { CookieSettings } from '@/types/cookies';
 import { useFocusTrap } from '@/hooks/useFocusTrap';
 import { safeJsonParse } from '@/lib/json-utils';
 
-const CookieBanner: React.FC = () => {
+const CookieBanner: FC = () => {
   const [showBanner, setShowBanner] = useState<boolean>(false);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [showSettings, setShowSettings] = useState<boolean>(false);

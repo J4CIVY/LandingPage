@@ -20173,7 +20173,7 @@
       },
       "invocations": [
         {
-          "startTimeUtc": "2025-11-02T08:59:19.6197578Z",
+          "startTimeUtc": "2025-11-02T09:21:50.5996637Z",
           "exitCode": 0,
           "executionSuccessful": true
         }
@@ -20182,7 +20182,7 @@
       "versionControlProvenance": [
         {
           "repositoryUri": "https://github.com/J4CIVY/LandingPage.git",
-          "revisionId": "72df55612f7a0bb4eabc740d7dc8e3721890985b",
+          "revisionId": "c4f1d5b77e5aeedfdbfccf0623299e0c26842270",
           "branch": "main",
           "properties": {
             "repoUrl": "https://github.com/J4CIVY/LandingPage.git",
@@ -20475,177 +20475,6 @@
             "problemType": "REGULAR",
             "tags": [
               "JavaScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "TypeScriptFieldCanBeMadeReadonly",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Field can be readonly",
-            "markdown": "Field can be readonly"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/email-service.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 12,
-                  "startColumn": 3,
-                  "charOffset": 386,
-                  "charLength": 7,
-                  "snippet": {
-                    "text": "private"
-                  },
-                  "sourceLanguage": "TypeScript"
-                },
-                "contextRegion": {
-                  "startLine": 10,
-                  "startColumn": 1,
-                  "charOffset": 323,
-                  "charLength": 114,
-                  "snippet": {
-                    "text": "  private fromEmail: string;\r\n  private adminEmail: string;\r\n  private supportEmail: string;\r\n\r\n  constructor() {\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "070159e953f65cb5",
-            "equalIndicator/v1": "3d1cd9181f10bb823433f770b8420d21340d0c6a858ec41273adf62b5993af60"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "TypeScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "TypeScriptFieldCanBeMadeReadonly",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Field can be readonly",
-            "markdown": "Field can be readonly"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/email-service.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 10,
-                  "startColumn": 3,
-                  "charOffset": 325,
-                  "charLength": 7,
-                  "snippet": {
-                    "text": "private"
-                  },
-                  "sourceLanguage": "TypeScript"
-                },
-                "contextRegion": {
-                  "startLine": 8,
-                  "startColumn": 1,
-                  "charOffset": 253,
-                  "charLength": 163,
-                  "snippet": {
-                    "text": "export class EmailService {\r\n  private client = getZohoMailClient();\r\n  private fromEmail: string;\r\n  private adminEmail: string;\r\n  private supportEmail: string;\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "6a86c03c2b66b825",
-            "equalIndicator/v1": "b0c99f6ee1c5be516af0f7c4e2da851089429ab8f74597418084036de53503a5"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "TypeScript"
-            ]
-          }
-        },
-        {
-          "ruleId": "TypeScriptFieldCanBeMadeReadonly",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Field can be readonly",
-            "markdown": "Field can be readonly"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "lib/email-service.ts",
-                  "uriBaseId": "SRCROOT"
-                },
-                "region": {
-                  "startLine": 11,
-                  "startColumn": 3,
-                  "charOffset": 355,
-                  "charLength": 7,
-                  "snippet": {
-                    "text": "private"
-                  },
-                  "sourceLanguage": "TypeScript"
-                },
-                "contextRegion": {
-                  "startLine": 9,
-                  "startColumn": 1,
-                  "charOffset": 282,
-                  "charLength": 136,
-                  "snippet": {
-                    "text": "  private client = getZohoMailClient();\r\n  private fromEmail: string;\r\n  private adminEmail: string;\r\n  private supportEmail: string;\r\n\r"
-                  },
-                  "sourceLanguage": "TypeScript"
-                }
-              },
-              "logicalLocations": [
-                {
-                  "fullyQualifiedName": "LandingPage",
-                  "kind": "module"
-                }
-              ]
-            }
-          ],
-          "partialFingerprints": {
-            "equalIndicator/v2": "f7e5f78a5498dc1e",
-            "equalIndicator/v1": "f47bacfdc0bb0604044a9e8084fe6fc01df667faf5ca9ff81f12c5f26eb414a3"
-          },
-          "properties": {
-            "ideaSeverity": "WEAK WARNING",
-            "qodanaSeverity": "Moderate",
-            "problemType": "REGULAR",
-            "tags": [
-              "TypeScript"
             ]
           }
         },
@@ -21687,6 +21516,63 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
+                  "uri": "app/store/page.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 453,
+                  "startColumn": 40,
+                  "charOffset": 19763,
+                  "charLength": 5,
+                  "snippet": {
+                    "text": "React"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                },
+                "contextRegion": {
+                  "startLine": 451,
+                  "startColumn": 1,
+                  "charOffset": 19604,
+                  "charLength": 430,
+                  "snippet": {
+                    "text": "                          alt={selectedProduct.name}\r\n                          className=\"w-full h-full object-cover\"\r\n                          onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {\r\n                            (e.target as HTMLImageElement).src = 'https://via.placeholder.com/600x600?text=Image+Not+Available';\r\n                            (e.target as HTMLImageElement).alt = 'Image not available';\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "6883eed654f2ba76",
+            "equalIndicator/v1": "29484536c59825c79b053b45efa3437d16b7a96cd7f5fd108b2809de626354f4"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "TypeScript JSX"
+            ]
+          }
+        },
+        {
+          "ruleId": "TypeScriptUMDGlobal",
+          "kind": "fail",
+          "level": "note",
+          "message": {
+            "text": "Referenced UMD global variable",
+            "markdown": "Referenced UMD global variable"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
                   "uri": "components/auth/TwoFactorVerification.tsx",
                   "uriBaseId": "SRCROOT"
                 },
@@ -21893,6 +21779,63 @@
           "partialFingerprints": {
             "equalIndicator/v2": "ee2728e6335afe69",
             "equalIndicator/v1": "2ad04f5d809c23ad26ae4b231a8069628962b4c7069a329f2f7c56482a0f38d4"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "TypeScript JSX"
+            ]
+          }
+        },
+        {
+          "ruleId": "TypeScriptUMDGlobal",
+          "kind": "fail",
+          "level": "note",
+          "message": {
+            "text": "Referenced UMD global variable",
+            "markdown": "Referenced UMD global variable"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/store/page.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 467,
+                  "startColumn": 44,
+                  "charOffset": 20776,
+                  "charLength": 5,
+                  "snippet": {
+                    "text": "React"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                },
+                "contextRegion": {
+                  "startLine": 465,
+                  "startColumn": 1,
+                  "charOffset": 20577,
+                  "charLength": 468,
+                  "snippet": {
+                    "text": "                              alt={`${selectedProduct.name} thumbnail ${index + 1}`}\r\n                              className=\"w-full h-full object-cover\"\r\n                              onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {\r\n                                (e.target as HTMLImageElement).src = 'https://via.placeholder.com/100x100?text=Thumb';\r\n                                (e.target as HTMLImageElement).alt = 'Thumbnail not available';\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "5d4c65b10551eccc",
+            "equalIndicator/v1": "2b8890a090b15a6441be853ed3b7df5b7c180b9674e2f4b7481672091197a3a5"
           },
           "properties": {
             "ideaSeverity": "WEAK WARNING",
@@ -24423,6 +24366,63 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
+                  "uri": "app/store/page.tsx",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 351,
+                  "startColumn": 32,
+                  "charOffset": 14588,
+                  "charLength": 5,
+                  "snippet": {
+                    "text": "React"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                },
+                "contextRegion": {
+                  "startLine": 349,
+                  "startColumn": 1,
+                  "charOffset": 14461,
+                  "charLength": 357,
+                  "snippet": {
+                    "text": "                  alt={product.name}\r\n                  className=\"w-full h-full object-cover\"\r\n                  onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {\r\n                    // Fallback image for broken links\r\n                    (e.target as HTMLImageElement).src = 'https://via.placeholder.com/300x300?text=Image+Not+Available';\r"
+                  },
+                  "sourceLanguage": "TypeScript JSX"
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "LandingPage",
+                  "kind": "module"
+                }
+              ]
+            }
+          ],
+          "partialFingerprints": {
+            "equalIndicator/v2": "8b78231fbcc621a9",
+            "equalIndicator/v1": "9f0cbe0135ad1963c6e3301d51e3225a1b4531d63f6a5f13b4544ec454161935"
+          },
+          "properties": {
+            "ideaSeverity": "WEAK WARNING",
+            "qodanaSeverity": "Moderate",
+            "problemType": "REGULAR",
+            "tags": [
+              "TypeScript JSX"
+            ]
+          }
+        },
+        {
+          "ruleId": "TypeScriptUMDGlobal",
+          "kind": "fail",
+          "level": "note",
+          "message": {
+            "text": "Referenced UMD global variable",
+            "markdown": "Referenced UMD global variable"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
                   "uri": "app/admin/events/edit/[id]/page.tsx",
                   "uriBaseId": "SRCROOT"
                 },
@@ -26067,7 +26067,7 @@
       ],
       "automationDetails": {
         "id": "LandingPage/qodana/2025-11-02",
-        "guid": "5fead8f3-832a-4107-a8d6-710c0a44f4cf",
+        "guid": "85bbd853-b6b5-4fbc-94e9-d1674028b038",
         "properties": {
           "jobUrl": "",
           "analysisKind": "ide"
@@ -26080,37 +26080,37 @@
       "properties": {
         "qodana.promo.results": [
           {
-            "ruleId": "TrivialIfJS",
+            "ruleId": "UnnecessaryLocalVariableJS",
             "kind": "fail",
             "level": "warning",
             "message": {
-              "text": "'if' statement can be simplified",
-              "markdown": "`if` statement can be simplified"
+              "text": "Local variable 'hashedNewPassword' is redundant",
+              "markdown": "Local variable hashedNewPassword is redundant"
             },
             "locations": [
               {
                 "physicalLocation": {
                   "artifactLocation": {
-                    "uri": "lib/ip-reputation.ts",
+                    "uri": "app/api/users/change-password/route.ts",
                     "uriBaseId": "SRCROOT"
                   },
                   "region": {
-                    "startLine": 191,
-                    "startColumn": 3,
-                    "charOffset": 5431,
-                    "charLength": 2,
+                    "startLine": 78,
+                    "startColumn": 11,
+                    "charOffset": 2217,
+                    "charLength": 17,
                     "snippet": {
-                      "text": "if"
+                      "text": "hashedNewPassword"
                     },
                     "sourceLanguage": "JavaScript"
                   },
                   "contextRegion": {
-                    "startLine": 189,
+                    "startLine": 76,
                     "startColumn": 1,
-                    "charOffset": 5380,
-                    "charLength": 129,
+                    "charOffset": 2146,
+                    "charLength": 167,
                     "snippet": {
-                      "text": "  \r\n  // Block if low score but massive reports\r\n  if (abuseScore >= 25 && totalReports >= 50) return true;\r\n  \r\n  return false;\r"
+                      "text": "    // Hashear nueva contraseña\r\n    const saltRounds = 12;\r\n    const hashedNewPassword = await bcrypt.hash(newPassword, saltRounds);\r\n\r\n    // Actualizar contraseña\r"
                     },
                     "sourceLanguage": "TypeScript"
                   }
@@ -26124,122 +26124,8 @@
               }
             ],
             "partialFingerprints": {
-              "equalIndicator/v2": "dba7f02407400c90",
-              "equalIndicator/v1": "e80e741ca47a8dc48a7f2ac1d258e73c188401ab89ef4bb2861977e1768a0d72"
-            },
-            "properties": {
-              "ideaSeverity": "WARNING",
-              "qodanaSeverity": "High",
-              "problemType": "REGULAR",
-              "tags": [
-                "JavaScript"
-              ]
-            }
-          },
-          {
-            "ruleId": "UnnecessaryLocalVariableJS",
-            "kind": "fail",
-            "level": "warning",
-            "message": {
-              "text": "Local variable 'fileName' is redundant",
-              "markdown": "Local variable fileName is redundant"
-            },
-            "locations": [
-              {
-                "physicalLocation": {
-                  "artifactLocation": {
-                    "uri": "app/dashboard/events/[id]/page.tsx",
-                    "uriBaseId": "SRCROOT"
-                  },
-                  "region": {
-                    "startLine": 331,
-                    "startColumn": 13,
-                    "charOffset": 10460,
-                    "charLength": 8,
-                    "snippet": {
-                      "text": "fileName"
-                    },
-                    "sourceLanguage": "JavaScript"
-                  },
-                  "contextRegion": {
-                    "startLine": 329,
-                    "startColumn": 1,
-                    "charOffset": 10362,
-                    "charLength": 248,
-                    "snippet": {
-                      "text": "      const link = document.createElement('a');\r\n      link.href = event.detailsPdf;\r\n      const fileName = event.detailsPdf.includes('.pdf') \r\n        ? event.detailsPdf.split('/').pop() || 'evento-detalles.pdf'\r\n        : 'evento-detalles.pdf';\r"
-                    },
-                    "sourceLanguage": "TypeScript JSX"
-                  }
-                },
-                "logicalLocations": [
-                  {
-                    "fullyQualifiedName": "LandingPage",
-                    "kind": "module"
-                  }
-                ]
-              }
-            ],
-            "partialFingerprints": {
-              "equalIndicator/v2": "04c9c228081a79e8",
-              "equalIndicator/v1": "29e6c615ce0aab2c635debd79b1b813df9d52229fba7d909099a5287763a4d55"
-            },
-            "properties": {
-              "ideaSeverity": "WARNING",
-              "qodanaSeverity": "High",
-              "problemType": "REGULAR",
-              "tags": [
-                "JavaScript"
-              ]
-            }
-          },
-          {
-            "ruleId": "UnnecessaryLocalVariableJS",
-            "kind": "fail",
-            "level": "warning",
-            "message": {
-              "text": "Local variable 'datosPDF' is redundant",
-              "markdown": "Local variable datosPDF is redundant"
-            },
-            "locations": [
-              {
-                "physicalLocation": {
-                  "artifactLocation": {
-                    "uri": "utils/historialUtils.ts",
-                    "uriBaseId": "SRCROOT"
-                  },
-                  "region": {
-                    "startLine": 213,
-                    "startColumn": 9,
-                    "charOffset": 7470,
-                    "charLength": 8,
-                    "snippet": {
-                      "text": "datosPDF"
-                    },
-                    "sourceLanguage": "JavaScript"
-                  },
-                  "contextRegion": {
-                    "startLine": 211,
-                    "startColumn": 1,
-                    "charOffset": 7376,
-                    "charLength": 267,
-                    "snippet": {
-                      "text": "  datosUsuario?: { nombre?: string; email?: string; numeroMiembro?: string }\r\n) => {\r\n  const datosPDF = {\r\n    usuario: datosUsuario || { nombre: 'Usuario BSK', email: '', numeroMiembro: '' },\r\n    fechaGeneracion: formatearFecha(new Date().toISOString(), 'larga'),\r"
-                    },
-                    "sourceLanguage": "TypeScript"
-                  }
-                },
-                "logicalLocations": [
-                  {
-                    "fullyQualifiedName": "LandingPage",
-                    "kind": "module"
-                  }
-                ]
-              }
-            ],
-            "partialFingerprints": {
-              "equalIndicator/v2": "68d2ab0c0664f6f2",
-              "equalIndicator/v1": "551084ca3678b32437f5d5338f0ed077e48c89c94f41bd19c4dd51c2f956b5ff"
+              "equalIndicator/v2": "3764b6b76e77ecaf",
+              "equalIndicator/v1": "51c56ea735961a36d0e5ae9a89dcf0f38b189f4ee95ab56672cbfb6b7404dfc9"
             },
             "properties": {
               "ideaSeverity": "WARNING",
@@ -26263,6 +26149,6 @@
     }
   ],
   "properties": {
-    "runTimestamp": "1762074066385"
+    "runTimestamp": "1762075424269"
   }
 }

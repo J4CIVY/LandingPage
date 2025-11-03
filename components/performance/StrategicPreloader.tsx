@@ -5,7 +5,7 @@
 
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, type FC } from 'react';
 import { useNetworkStatus } from './MobileOptimizations';
 
 interface PreloadResource {
@@ -21,7 +21,7 @@ interface StrategicPreloaderProps {
   enableOnSlowConnection?: boolean;
 }
 
-export const StrategicPreloader: React.FC<StrategicPreloaderProps> = ({
+export const StrategicPreloader: FC<StrategicPreloaderProps> = ({
   resources,
   enableOnSlowConnection = false,
 }) => {

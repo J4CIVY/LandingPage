@@ -5,7 +5,7 @@
 
 'use client';
 
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, type FC, type ReactNode } from 'react';
 
 // Skeleton específico para mapas
 const SkeletonMap = () => (
@@ -42,12 +42,12 @@ interface LazyGoogleMapsProps {
   mapContainerStyle: React.CSSProperties;
   center: { lat: number; lng: number };
   zoom: number;
-  children?: React.ReactNode;
+  children?: ReactNode;
   onLoad?: (map: google.maps.Map) => void;
   options?: google.maps.MapOptions;
 }
 
-export const LazyGoogleMaps: React.FC<LazyGoogleMapsProps> = ({
+export const LazyGoogleMaps: FC<LazyGoogleMapsProps> = ({
   apiKey,
   mapContainerStyle,
   center,

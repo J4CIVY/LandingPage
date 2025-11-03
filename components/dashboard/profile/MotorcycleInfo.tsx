@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, type FC, type ChangeEvent, type SyntheticEvent } from 'react';
 import { FaMotorcycle, FaEdit, FaSave, FaTimes, FaExclamationTriangle, FaCamera, FaCheckCircle, FaTimesCircle, FaCertificate, FaImage, FaPlus, FaTrash } from 'react-icons/fa';
 import { IUser } from '@/lib/models/User';
 import { sanitizeUrl } from '@/lib/input-sanitization';
@@ -144,11 +144,11 @@ function validateImageUrlForRendering(url: string): string | null {
  * Creates an explicit sanitization boundary for CodeQL taint analysis
  * Uses textContent to break taint chain and React's built-in XSS protection
  */
-const SafeImage: React.FC<{
+const SafeImage: FC<{
   src: string;
   alt: string;
   className?: string;
-  onError?: (e: React.SyntheticEvent<HTMLImageElement>) => void;
+  onError?: (e: SyntheticEvent<HTMLImageElement>) => void;
 }> = ({ src, alt, className, onError }) => {
   // Validate URL before rendering - this breaks the taint chain for CodeQL
   const safeSrc = validateImageUrlForRendering(src);
@@ -279,7 +279,7 @@ export default function MotorcycleInfo({ user, onSave, isEditing = false, onEdit
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     let processedValue = value;
 
@@ -296,7 +296,7 @@ export default function MotorcycleInfo({ user, onSave, isEditing = false, onEdit
     }
   };
 
-  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file && onImageUpload) {
       setIsUploadingImage(true);

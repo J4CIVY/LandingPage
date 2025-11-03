@@ -1,4 +1,4 @@
-import React from 'react';
+import { type FC } from 'react';
 import Link from 'next/link';
 import { FaHome, FaChevronRight } from 'react-icons/fa';
 import sanitizeHtml from 'sanitize-html';
@@ -54,7 +54,7 @@ const sanitizeBreadcrumbItem = (item: BreadcrumbItem): BreadcrumbItem => {
   };
 };
 
-const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
+const Breadcrumbs: FC<BreadcrumbsProps> = ({ items }) => {
   // SECURITY FIX: Sanitize items before processing
   const sanitizedItems = items.map(sanitizeBreadcrumbItem);
   

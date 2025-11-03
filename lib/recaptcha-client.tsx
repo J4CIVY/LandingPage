@@ -10,7 +10,7 @@
 
 'use client';
 
-import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
 
 const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '';
 
@@ -120,7 +120,7 @@ const RecaptchaContext = createContext<RecaptchaContextValue>({
  * reCAPTCHA Provider Component with CSP nonce support
  * Wrap your app or specific pages with this
  */
-export function RecaptchaProvider({ children }: { children: React.ReactNode }) {
+export function RecaptchaProvider({ children }: { children: ReactNode }) {
   const [isReady, setIsReady] = useState(false);
   const [scriptError, setScriptError] = useState<Error | null>(null);
 

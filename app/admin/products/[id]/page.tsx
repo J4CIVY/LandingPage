@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuth } from '@/hooks/useAuth';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, type FC, type SyntheticEvent, type ChangeEvent, type FormEvent } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { getCSRFToken } from '@/lib/csrf-client';
 import { sanitizeUrl } from '@/lib/input-sanitization';
@@ -161,11 +161,11 @@ function validateImageUrlForRendering(url: string): string | null {
  * Creates an explicit sanitization boundary for CodeQL taint analysis
  * Uses textContent to break taint chain and React's built-in XSS protection
  */
-const SafeImage: React.FC<{
+const SafeImage: FC<{
   src: string;
   alt: string;
   className?: string;
-  onError?: (e: React.SyntheticEvent<HTMLImageElement>) => void;
+  onError?: (e: SyntheticEvent<HTMLImageElement>) => void;
 }> = ({ src, alt, className, onError }) => {
   // Validate URL before rendering - this breaks the taint chain for CodeQL
   const safeSrc = validateImageUrlForRendering(src);
@@ -286,7 +286,7 @@ export default function ProductFormPage() {
     }
   }, [isEdit, productId, user, router]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     
     if (name.includes('.')) {
@@ -403,7 +403,7 @@ export default function ProductFormPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     
     if (!validateForm()) return;

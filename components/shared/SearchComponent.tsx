@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, type FC, type FormEvent } from 'react';
 import { FaSearch, FaTimes } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 
@@ -17,7 +17,7 @@ interface SearchComponentProps {
   isCollapsible?: boolean;
 }
 
-const SearchComponent: React.FC<SearchComponentProps> = ({ 
+const SearchComponent: FC<SearchComponentProps> = ({ 
   placeholder = "Buscar eventos, cursos, documentos...",
   onSearch,
   isCollapsible = false
@@ -158,7 +158,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({
     router.push(path);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (onSearch) {
       onSearch(query);

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo, type FC } from 'react';
 import { FaUser } from 'react-icons/fa';
 import { sanitizeUrl } from '@/lib/input-sanitization';
 
@@ -10,7 +10,7 @@ interface UserAvatarProps {
   showBorder?: boolean;
 }
 
-const UserAvatar: React.FC<UserAvatarProps> = ({
+const UserAvatar: FC<UserAvatarProps> = ({
   imageUrl,
   name,
   size = 'md',

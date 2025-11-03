@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, type FC } from 'react';
 
 interface LiveRegionProps {
   message: string;
@@ -13,7 +13,7 @@ interface LiveRegionProps {
  * LiveRegion component for announcing dynamic content changes to screen readers
  * Implements aria-live regions for better accessibility
  */
-const LiveRegion: React.FC<LiveRegionProps> = ({ 
+const LiveRegion: FC<LiveRegionProps> = ({ 
   message, 
   politeness = 'polite', 
   atomic = true,

@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, type FC } from 'react';
 import { FaChevronUp } from 'react-icons/fa';
 
-const ScrollToTop: React.FC = () => {
+const ScrollToTop: FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
 
