@@ -49,7 +49,7 @@ export class ZohoMailClient {
   constructor() {
     this.clientId = process.env.ZOHO_CLIENT_ID || '';
     this.clientSecret = process.env.ZOHO_CLIENT_SECRET || '';
-    this.accountId = process.env.ZOHO_ACCOUNT_ID || '';
+    const envAccountId = process.env.ZOHO_ACCOUNT_ID || '';
     this.accessToken = process.env.ZOHO_ACCESS_TOKEN || '';
     this.refreshToken = process.env.ZOHO_REFRESH_TOKEN || '';
     this.apiDomain = process.env.ZOHO_API_DOMAIN || 'https://www.zohoapis.com';
@@ -57,6 +57,19 @@ export class ZohoMailClient {
 
     if (!this.clientId || !this.clientSecret) {
       throw new Error('Zoho client credentials not configured');
+    }
+
+    // SECURITY: Validar el accountId del entorno antes de asignarlo
+    // Esto previene que valores maliciosos desde variables de entorno comprometan el sistema
+    if (envAccountId) {
+      try {
+        this.accountId = this.sanitizeUrlParameter(envAccountId, 'ZOHO_ACCOUNT_ID');
+      } catch (error) {
+        console.warn('Invalid ZOHO_ACCOUNT_ID in environment, will fetch from API:', error);
+        this.accountId = '';
+      }
+    } else {
+      this.accountId = '';
     }
 
     // Validar que las URLs base sean seguras
@@ -92,6 +105,54 @@ export class ZohoMailClient {
       }
       throw error;
     }
+  }
+
+  /**
+   * Sanitiza y valida parámetros de URL como accountId para prevenir inyección
+   * 
+   * SECURITY: Este método previene que valores maliciosos sean interpolados en endpoints
+   * antes de que el endpoint completo sea validado por sanitizeEndpoint()
+   * 
+   * @param value - Valor a sanitizar (ej: accountId)
+   * @param paramName - Nombre del parámetro para mensajes de error
+   * @returns Valor sanitizado y validado
+   * @throws Error si el valor contiene caracteres peligrosos
+   */
+  private sanitizeUrlParameter(value: string, paramName: string = 'parameter'): string {
+    // Eliminar espacios en blanco
+    value = value.trim();
+
+    // 1. Validar que no esté vacío
+    if (!value) {
+      throw new Error(`Invalid ${paramName}: value cannot be empty`);
+    }
+
+    // 2. Prevenir path traversal
+    if (value.includes('..') || value.includes('/') || value.includes('\\')) {
+      throw new Error(`Invalid ${paramName}: path traversal characters detected`);
+    }
+
+    // 3. Prevenir caracteres peligrosos
+    const dangerousChars = ['<', '>', '"', "'", '`', '{', '}', '|', '^', '&', '?', '#', '%', ' '];
+    for (const char of dangerousChars) {
+      if (value.includes(char)) {
+        throw new Error(`Invalid ${paramName}: dangerous character '${char}' detected`);
+      }
+    }
+
+    // 4. Validar que solo contenga caracteres alfanuméricos, guiones y guiones bajos
+    // Esto es apropiado para IDs de Zoho que típicamente son alfanuméricos
+    const safeValueRegex = /^[a-zA-Z0-9_-]+$/;
+    if (!safeValueRegex.test(value)) {
+      throw new Error(`Invalid ${paramName}: contains unsafe characters`);
+    }
+
+    // 5. Limitar longitud para prevenir ataques de denegación de servicio
+    if (value.length > 128) {
+      throw new Error(`Invalid ${paramName}: value too long`);
+    }
+
+    return value;
   }
 
   /**
@@ -237,11 +298,23 @@ export class ZohoMailClient {
       if (accounts.length === 0) {
         throw new Error('No email accounts found');
       }
-      this.accountId = accounts[0].accountId;
+      
+      // SECURITY: Validar el accountId obtenido de la API antes de usarlo
+      // Esto previene que respuestas manipuladas de la API comprometan el sistema
+      const apiAccountId = accounts[0].accountId;
+      try {
+        this.accountId = this.sanitizeUrlParameter(apiAccountId, 'accountId');
+      } catch (error) {
+        throw new Error(`Invalid accountId received from Zoho API: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      }
     }
 
+    // SECURITY: Sanitizar el accountId antes de usarlo en la construcción del endpoint
+    // Esto previene que valores maliciosos sean interpolados en el endpoint
+    const safeAccountId = this.sanitizeUrlParameter(this.accountId, 'accountId');
+
     const response = await this.makeApiRequest(
-      `/accounts/${this.accountId}/messages`,
+      `/accounts/${safeAccountId}/messages`,
       'POST',
       emailConfig
     );
