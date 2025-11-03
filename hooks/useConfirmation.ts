@@ -14,7 +14,8 @@ export const useBeforeUnload = ({ enabled, message = '¿Estás seguro de que qui
       // Modern browsers require preventDefault() and setting returnValue
       // returnValue is deprecated but still required for cross-browser compatibility
       e.preventDefault();
-      e.returnValue = ''; // Legacy support for older browsers
+      // Using type assertion to handle deprecated property that's still needed
+      (e as BeforeUnloadEvent & { returnValue: string }).returnValue = '';
       return '';
     };
 
