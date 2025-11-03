@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, createElement } from 'react';
 import { 
   FaCreditCard, 
   FaCheckCircle, 
@@ -275,7 +275,7 @@ export default function MembresiaHistorial() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${getTipoColor(renovacion.tipo)} dark:bg-slate-800 dark:border-slate-700`}>
-                    {React.createElement(getTipoIcon(renovacion.tipo), { className: 'text-lg' })}
+                    {createElement(getTipoIcon(renovacion.tipo), { className: 'text-lg' })}
                   </div>
                   <div>
                     <div className="font-medium text-gray-900 dark:text-white">

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Suspense } from "react";
+import { Suspense, lazy } from "react";
 import { useEvents } from "@/hooks/useEvents";
 import { 
   LazyAboutSection,
@@ -18,7 +18,7 @@ import {
   useDeviceInfo 
 } from "@/components/performance/MobileOptimizations";
 
-const HermandadSection = React.lazy(() => import("@/components/home/HermandadSection"));
+const HermandadSection = lazy(() => import("@/components/home/HermandadSection"));
 
 export default function HomeContent() {
   const { events, loading, error } = useEvents(true, 6); // Solo eventos futuros, máximo 6

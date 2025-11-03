@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import { useState, createElement } from 'react'
 import { FaShieldAlt, FaKey, FaMobile, FaUsers, FaEye, FaCog, FaBell } from 'react-icons/fa'
 
 // Componentes
@@ -113,7 +113,7 @@ export default function SecurityPage() {
         <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
           <div className="p-6 border-b border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-2 mb-2">
-              {React.createElement(tabs.find(tab => tab.id === activeTab)?.icon || FaShieldAlt, {
+              {createElement(tabs.find(tab => tab.id === activeTab)?.icon || FaShieldAlt, {
                 className: "h-5 w-5 text-blue-600 dark:text-blue-400"
               })}
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white">

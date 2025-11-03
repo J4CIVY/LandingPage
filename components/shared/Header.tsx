@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, forwardRef } from 'react';
+import { useState, useEffect, forwardRef, type HTMLAttributes } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { navItems } from '@/data/navigation';
@@ -8,7 +8,7 @@ import Image from 'next/image';
 import SearchComponent from './SearchComponent';
 import AuthButton from './AuthButton';
 
-interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
+interface HeaderProps extends HTMLAttributes<HTMLElement> {
   className?: string;
 }
 

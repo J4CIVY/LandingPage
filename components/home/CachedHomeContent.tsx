@@ -11,18 +11,18 @@
  * - Faster page loads for users
  */
 
-import React, { Suspense } from "react";
+import { Suspense, lazy } from "react";
 import CachedAboutSection from "@/components/home/CachedAboutSection";
 import CachedBenefitsSection from "@/components/home/CachedBenefitsSection";
 import CachedEventsSection from "@/components/home/CachedEventsSection";
 import { SkeletonCard } from "@/components/shared/SkeletonLoaders";
 
 // Lazy load less critical sections
-const LazyGallerySection = React.lazy(() => import("@/components/home/GallerySection"));
-const LazyFAQSection = React.lazy(() => import("@/components/home/FAQSection"));
-const LazyStoreSection = React.lazy(() => import("@/components/home/StoreSection"));
-const LazyBlogSection = React.lazy(() => import("@/components/home/BlogSection"));
-const HermandadSection = React.lazy(() => import("@/components/home/HermandadSection"));
+const LazyGallerySection = lazy(() => import("@/components/home/GallerySection"));
+const LazyFAQSection = lazy(() => import("@/components/home/FAQSection"));
+const LazyStoreSection = lazy(() => import("@/components/home/StoreSection"));
+const LazyBlogSection = lazy(() => import("@/components/home/BlogSection"));
+const HermandadSection = lazy(() => import("@/components/home/HermandadSection"));
 
 export default function CachedHomeContent() {
   return (

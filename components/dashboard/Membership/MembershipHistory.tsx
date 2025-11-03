@@ -97,14 +97,14 @@ export default function MembershipHistory({ history }: MembershipHistoryProps) {
     );
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleDownloadReceipt = (historyItem: MembershipHistoryItem) => {
-    // Aquí implementar la lógica para descargar el recibo
+    // TODO: Implementar la lógica para descargar el recibo
+    console.log('Download receipt for:', historyItem.id);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleViewDetails = (historyItem: MembershipHistoryItem) => {
-    // Aquí implementar la lógica para ver detalles
+    // TODO: Implementar la lógica para ver detalles
+    console.log('View details for:', historyItem.id);
   };
 
   return (

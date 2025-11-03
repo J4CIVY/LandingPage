@@ -69,7 +69,7 @@ const addDays = (date: Date, days: number): Date => {
  * @interface CalendarProps
  * @property {Event[]} events - An array of event objects to display on the calendar.
  * @property {Date} currentMonth - The currently displayed month in the calendar.
- * @property {React.Dispatch<React.SetStateAction<Date>>} setCurrentMonth - Function to update the current month.
+ * @property {Dispatch<SetStateAction<Date>>} setCurrentMonth - Function to update the current month.
  */
 interface CalendarProps {
   events: Event[];
