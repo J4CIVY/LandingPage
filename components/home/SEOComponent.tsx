@@ -23,7 +23,7 @@ type StructuredDataObject = {
  * @property {string} [robots] - The robots meta tag content (e.g., 'index, follow').
  * @property {string} [canonical] - The canonical URL for the page.
  * @property {StructuredDataObject | StructuredDataObject[]} [structuredData] - JSON-LD structured data object or array of objects.
- * @property {React.ReactNode} [children] - React children to be rendered inside Head.
+ * @property {ReactNode} [children] - React children to be rendered inside Head.
  */
 interface SEOComponentProps {
   title?: string;

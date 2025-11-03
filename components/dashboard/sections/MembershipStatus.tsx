@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type ComponentType } from 'react';
 import { IUser } from '@/lib/models/User';
 import { 
   FaUser, 
@@ -28,7 +28,7 @@ interface MembershipInfo {
   current: string;
   displayName: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  icon: React.ComponentType<any>;
+  icon: ComponentType<any>;
   color: string;
   bgColor: string;
   isVolunteer: boolean;

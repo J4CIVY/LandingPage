@@ -4,7 +4,7 @@ import { type FC } from 'react';
 
 /**
  * CookiePolicy component displays the detailed cookie policy of BSK Motorcycle Team.
- * @returns {React.ReactElement}
+ * @returns {ReactElement}
  */
 const CookiePolicy: FC = () => {
   return (

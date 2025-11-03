@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type FormEvent } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { getCSRFToken } from '@/lib/csrf-client';
 import { useRouter } from 'next/navigation';
@@ -199,7 +199,7 @@ export default function NewMembershipPlanPage() {
     );
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError(null);

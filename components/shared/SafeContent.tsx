@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react';
+import { type ReactNode, type ComponentType } from 'react';
 import { sanitizeHtml } from '@/lib/input-sanitization';
 
 interface SafeHtmlProps {
@@ -168,7 +168,7 @@ export function SafeLink({
  * Useful for automatically sanitizing all text props
  */
 export function withSanitization<P extends Record<string, unknown>>(
-  Component: React.ComponentType<P>,
+  Component: ComponentType<P>,
   propsToSanitize: (keyof P)[]
 ) {
   return function SanitizedComponent(props: P) {

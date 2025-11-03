@@ -1,3 +1,4 @@
+import { type ComponentType } from 'react';
 import { FaCalendarAlt, FaWrench, FaStore, FaGift, FaExternalLinkAlt, FaCheck, FaTimes } from 'react-icons/fa';
 
 interface Benefit {
@@ -13,7 +14,7 @@ interface MembershipBenefitsProps {
   benefits: Benefit[];
 }
 
-const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+const iconMap: Record<string, ComponentType<{ className?: string }>> = {
   FaCalendarAlt,
   FaWrench,
   FaStore,

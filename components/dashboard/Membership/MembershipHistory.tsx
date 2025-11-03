@@ -1,3 +1,4 @@
+import { type ComponentType } from 'react';
 import { FaDownload, FaEye, FaCalendarAlt, FaCreditCard, FaCheck, FaTimes, FaExclamationTriangle, FaHistory, FaSync } from 'react-icons/fa';
 
 interface MembershipHistoryItem {
@@ -25,7 +26,7 @@ const membershipTypeNames: Record<string, string> = {
   'pro-duo': 'Profesional Dúo'
 };
 
-const statusConfig: Record<string, { color: string; bgColor: string; icon: React.ComponentType<{ className?: string }> }> = {
+const statusConfig: Record<string, { color: string; bgColor: string; icon: ComponentType<{ className?: string }> }> = {
   active: {
     color: 'text-green-800 dark:text-green-200',
     bgColor: 'bg-green-100 dark:bg-green-900',

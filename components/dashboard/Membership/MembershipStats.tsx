@@ -1,3 +1,4 @@
+import { type ComponentType } from 'react';
 import { FaCalendarAlt, FaMedal, FaSync, FaTrophy, FaCrown, FaUsers, FaSpinner } from 'react-icons/fa';
 import { useUserStats } from '@/hooks/useUserStats';
 
@@ -28,7 +29,7 @@ interface Badge {
   id: string;
   name: string;
   description: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: ComponentType<{ className?: string }>;
   color: string;
   earned: boolean;
 }

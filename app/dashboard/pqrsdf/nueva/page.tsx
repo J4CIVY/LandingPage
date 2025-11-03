@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, Suspense, type ChangeEvent, type FormEvent } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -283,7 +283,7 @@ function NuevaSolicitudPageContent() {
   };
 
   // Manejar selección de archivos
-  const handleArchivos = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleArchivos = (e: ChangeEvent<HTMLInputElement>) => {
     const archivos = Array.from(e.target.files || []);
     setArchivosSeleccionados(prev => [...prev, ...archivos]);
     
@@ -312,7 +312,7 @@ function NuevaSolicitudPageContent() {
   };
 
   // Enviar formulario
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     if (!validarFormulario() || !user) return;

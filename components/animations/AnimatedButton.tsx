@@ -70,7 +70,7 @@ export const AnimatedButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, 
         className={combinedClassName}
         disabled={disabled}
         {...buttonEventHandlers}
-        {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+        {...(props as ButtonHTMLAttributes<HTMLButtonElement>)}
       >
         {children}
       </button>

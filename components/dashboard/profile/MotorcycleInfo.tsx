@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo, type FC, type ChangeEvent, type SyntheticEvent } from 'react';
+import { useState, useEffect, useMemo, type FC, type ChangeEvent, type SyntheticEvent, type ComponentType } from 'react';
 import { FaMotorcycle, FaEdit, FaSave, FaTimes, FaExclamationTriangle, FaCamera, FaCheckCircle, FaTimesCircle, FaCertificate, FaImage, FaPlus, FaTrash } from 'react-icons/fa';
 import { IUser } from '@/lib/models/User';
 import { sanitizeUrl } from '@/lib/input-sanitization';
@@ -37,7 +37,7 @@ interface DocumentStatus {
   daysUntilExpiration: number;
   color: string;
   bgColor: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: ComponentType<{ className?: string }>;
 }
 
 const licenseCategories = [

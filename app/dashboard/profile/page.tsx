@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type ComponentType } from 'react';
 import { FaUser, FaHeart, FaMotorcycle, FaFileAlt, FaCog, FaHistory, FaCrown, FaExclamationCircle } from 'react-icons/fa';
 import { 
   ProfileHeader, 
@@ -19,9 +19,9 @@ import { useProfile } from '@/hooks/useProfile';
 interface ProfileTab {
   id: string;
   label: string;
-  icon: React.ComponentType<{className?: string}>;
+  icon: ComponentType<{className?: string}>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  component: React.ComponentType<any>;
+  component: ComponentType<any>;
   adminOnly?: boolean;
   description: string;
 }
