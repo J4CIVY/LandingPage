@@ -14,6 +14,28 @@ export class ZohoMailClient {
   private readonly apiDomain: string;
   private readonly baseUrl: string;
 
+  // Allowlist de dominios Zoho permitidos para prevenir SSRF
+  private readonly ALLOWED_ZOHO_DOMAINS = [
+    'mail.zoho.com',
+    'mail.zoho.eu',
+    'mail.zoho.in',
+    'mail.zoho.com.au',
+    'mail.zoho.com.cn',
+    'mail.zoho.jp',
+    'accounts.zoho.com',
+    'accounts.zoho.eu',
+    'accounts.zoho.in',
+    'accounts.zoho.com.au',
+    'accounts.zoho.com.cn',
+    'accounts.zoho.jp',
+    'www.zohoapis.com',
+    'www.zohoapis.eu',
+    'www.zohoapis.in',
+    'www.zohoapis.com.au',
+    'www.zohoapis.com.cn',
+    'www.zohoapis.jp'
+  ];
+
   constructor() {
     this.clientId = process.env.ZOHO_CLIENT_ID || '';
     this.clientSecret = process.env.ZOHO_CLIENT_SECRET || '';
@@ -26,6 +48,74 @@ export class ZohoMailClient {
     if (!this.clientId || !this.clientSecret) {
       throw new Error('Zoho client credentials not configured');
     }
+
+    // Validar que las URLs base sean seguras
+    this.validateZohoUrl(this.apiDomain);
+    this.validateZohoUrl(this.baseUrl);
+  }
+
+  /**
+   * Valida que una URL sea segura y pertenezca a dominios Zoho permitidos
+   * Previene ataques SSRF
+   */
+  private validateZohoUrl(urlString: string): void {
+    try {
+      const url = new URL(urlString);
+
+      // 1. Verificar que use HTTPS
+      if (url.protocol !== 'https:') {
+        throw new Error('Only HTTPS URLs are allowed for Zoho API');
+      }
+
+      // 2. Verificar que el hostname esté en la allowlist
+      if (!this.ALLOWED_ZOHO_DOMAINS.includes(url.hostname)) {
+        throw new Error(`Domain ${url.hostname} is not in the allowed Zoho domains list`);
+      }
+
+      // 3. Prevenir credenciales en la URL
+      if (url.username || url.password) {
+        throw new Error('URLs with embedded credentials are not allowed');
+      }
+    } catch (error) {
+      if (error instanceof TypeError) {
+        throw new Error(`Invalid URL format: ${urlString}`);
+      }
+      throw error;
+    }
+  }
+
+  /**
+   * Sanitiza y valida el endpoint para prevenir path traversal y SSRF
+   */
+  private sanitizeEndpoint(endpoint: string): string {
+    // Eliminar espacios en blanco
+    endpoint = endpoint.trim();
+
+    // 1. Prevenir path traversal
+    if (endpoint.includes('..') || endpoint.includes('//') || endpoint.includes('\\')) {
+      throw new Error('Invalid endpoint: path traversal detected');
+    }
+
+    // 2. Asegurar que empiece con /
+    if (!endpoint.startsWith('/')) {
+      endpoint = '/' + endpoint;
+    }
+
+    // 3. Prevenir caracteres peligrosos
+    const dangerousChars = ['<', '>', '"', "'", '`', '{', '}', '|', '^'];
+    for (const char of dangerousChars) {
+      if (endpoint.includes(char)) {
+        throw new Error(`Invalid endpoint: dangerous character '${char}' detected`);
+      }
+    }
+
+    // 4. Validar que solo contenga caracteres seguros para URLs
+    const safeEndpointRegex = /^\/[a-zA-Z0-9\/_\-\.]*$/;
+    if (!safeEndpointRegex.test(endpoint)) {
+      throw new Error('Invalid endpoint: contains unsafe characters');
+    }
+
+    return endpoint;
   }
 
   /**
@@ -169,13 +259,21 @@ export class ZohoMailClient {
 
   /**
    * Realiza una petición a la API de Zoho Mail
+   * Incluye protección contra SSRF mediante validación de URLs
    */
   private async makeApiRequest(
     endpoint: string,
     method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
     body?: any
   ): Promise<Response> {
-    const url = `${this.baseUrl}${endpoint}`;
+    // Sanitizar el endpoint para prevenir SSRF y path traversal
+    const safeEndpoint = this.sanitizeEndpoint(endpoint);
+    
+    // Construir la URL completa
+    const url = `${this.baseUrl}${safeEndpoint}`;
+    
+    // Validar la URL completa antes de hacer la petición
+    this.validateZohoUrl(url);
     
     const headers: Record<string, string> = {
       'Authorization': `Zoho-oauthtoken ${this.accessToken}`,
@@ -203,6 +301,8 @@ export class ZohoMailClient {
         await this.refreshAccessToken();
         headers['Authorization'] = `Zoho-oauthtoken ${this.accessToken}`;
         config.headers = headers;
+        // Volver a validar la URL antes de reintentar
+        this.validateZohoUrl(url);
         response = await fetch(url, config);
       } catch (error) {
         console.error('Failed to refresh token:', error);
