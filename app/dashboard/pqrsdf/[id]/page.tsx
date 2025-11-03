@@ -79,11 +79,16 @@ export default function DetalleSolicitudPage() {
   // Enviar mensaje
   const handleEnviarMensaje = async (
     contenido: string, 
-    adjuntos?: File[] // eslint-disable-line @typescript-eslint/no-unused-vars
+    adjuntos?: File[]
   ) => {
     if (!solicitud || !user) return;
 
     try {
+      // Log para futura implementación de adjuntos
+      if (adjuntos && adjuntos.length > 0) {
+        console.log('Adjuntos a procesar en futura implementación:', adjuntos.length);
+      }
+      
       await PQRSDFService.enviarMensaje(
         solicitud.id, 
         contenido, 
