@@ -8,12 +8,12 @@
  * output is cached across requests.
  */
 
-import React from "react";
+import { type ReactNode } from "react";
 import { getCachedBenefits } from "@/lib/cache-utils";
 import { FaMotorcycle, FaTools, FaCalendarAlt, FaUsers, FaShieldAlt, FaMapMarkedAlt } from "react-icons/fa";
 
 // Icon mapping for benefits
-const iconMap: Record<string, React.ReactNode> = {
+const iconMap: Record<string, ReactNode> = {
   motorcycle: <FaMotorcycle className="text-4xl text-red-600" />,
   tools: <FaTools className="text-4xl text-red-600" />,
   calendar: <FaCalendarAlt className="text-4xl text-red-600" />,

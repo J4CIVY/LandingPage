@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import { useEffect, type FC, type ReactNode } from 'react';
 import Head from 'next/head';
 
 /**
@@ -35,10 +35,10 @@ interface SEOComponentProps {
   robots?: string;
   canonical?: string;
   structuredData?: StructuredDataObject | StructuredDataObject[];
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
-const SEOComponent: React.FC<SEOComponentProps> = ({ 
+const SEOComponent: FC<SEOComponentProps> = ({ 
   title = "BSK Motorcycle Team - Pasión por el Motociclismo en Colombia", 
   description = "Únete a BSK Motorcycle Team, el motoclub líder en Colombia. Disfruta de rutas épicas, eventos semanales, talleres especializados y una comunidad apasionada por el motociclismo. Comunidad, aventura y respeto sobre dos ruedas.", 
   image = "https://res.cloudinary.com/dz0peilmu/image/upload/f_auto,q_auto:best,w_1200,h_630/Logo_BSK_Motorcycle_Team_ggdyrl.png",

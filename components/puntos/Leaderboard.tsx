@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type ReactElement } from 'react';
 import { Usuario, FiltroPeriodo } from '@/types/puntos';
 import { 
   FaSeedling, 
@@ -112,7 +112,7 @@ export default function Leaderboard() {
   };
 
   const getNivelIcon = (nivel: string) => {
-    const iconos: Record<string, React.ReactElement> = {
+    const iconos: Record<string, ReactElement> = {
       'Aspirante': <FaSeedling className="inline text-green-500 dark:text-green-400" />, 
       'Explorador': <FaSearch className="inline text-gray-500 dark:text-gray-300" />, 
       'Participante': <FaRocket className="inline text-blue-500 dark:text-blue-400" />, 

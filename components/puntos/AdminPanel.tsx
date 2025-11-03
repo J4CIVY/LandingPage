@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type FormEvent } from 'react';
 import { getCSRFToken } from '@/lib/csrf-client';
 import { 
   FaCog, 
@@ -113,7 +113,7 @@ export default function AdminPanel() {
     }
   };
 
-  const handleCrearRecompensa = async (e: React.FormEvent) => {
+  const handleCrearRecompensa = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
     setSuccessMessage(null);
@@ -160,7 +160,7 @@ export default function AdminPanel() {
     }
   };
 
-  const handleAsignarPuntos = async (e: React.FormEvent) => {
+  const handleAsignarPuntos = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
     setSuccessMessage(null);

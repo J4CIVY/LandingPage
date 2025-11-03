@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, type FC } from "react";
 import { useRouter } from "next/navigation";
 import { Product } from '@/types/products';
 import Image from "next/image";
 import { SkeletonProduct } from '../shared/SkeletonLoaders';
-const StoreSection: React.FC = () => {
+const StoreSection: FC = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

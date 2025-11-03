@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, useMemo } from "react";
+import { useState, useMemo, type FC } from "react";
 import { FAQQuestion } from '@/types'; // Import the FAQQuestion interface
-const FAQSection: React.FC = () => {
+const FAQSection: FC = () => {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [faqFilter, setFaqFilter] = useState<'all' | 'membership' | 'events' | 'benefits' | 'general' | 'organization'>('all');
 

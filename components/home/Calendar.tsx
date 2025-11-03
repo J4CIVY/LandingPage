@@ -1,6 +1,6 @@
 'use client';
 
-import React from "react";
+import { type FC, type Dispatch, type SetStateAction, type ReactElement } from "react";
 import { Event } from '@/types/events';
 
 // SVG inline para flechas (reemplaza react-icons)
@@ -74,10 +74,10 @@ const addDays = (date: Date, days: number): Date => {
 interface CalendarProps {
   events: Event[];
   currentMonth: Date;
-  setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>;
+  setCurrentMonth: Dispatch<SetStateAction<Date>>;
 }
 
-const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMonth }) => {
+const Calendar: FC<CalendarProps> = ({ events, currentMonth, setCurrentMonth }) => {
   /**
    * Navigates to the next month in the calendar.
    */
@@ -106,9 +106,9 @@ const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMon
 
   /**
    * Renders the calendar header with month navigation buttons.
-   * @returns {React.ReactElement} The header JSX.
+   * @returns {ReactElement} The header JSX.
    */
-  const renderHeader = (): React.ReactElement => {
+  const renderHeader = (): ReactElement => {
     return (
       <div className="flex items-center justify-between mb-4">
         <button 
@@ -134,9 +134,9 @@ const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMon
 
   /**
    * Renders the day names (e.g., Dom, Lun, Mar).
-   * @returns {React.ReactElement} The day names JSX.
+   * @returns {ReactElement} The day names JSX.
    */
-  const renderDays = (): React.ReactElement => {
+  const renderDays = (): ReactElement => {
     const dayNames: string[] = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
     
     return (
@@ -152,16 +152,16 @@ const Calendar: React.FC<CalendarProps> = ({ events, currentMonth, setCurrentMon
 
   /**
    * Renders the calendar cells (days of the month) with events.
-   * @returns {React.ReactElement} The calendar cells JSX.
+   * @returns {ReactElement} The calendar cells JSX.
    */
-  const renderCells = (): React.ReactElement => {
+  const renderCells = (): ReactElement => {
     const monthStart: Date = startOfMonth(currentMonth);
     const monthEnd: Date = endOfMonth(currentMonth);
     const startDate: Date = startOfWeek(monthStart);
     const endDate: Date = endOfWeek(monthEnd);
 
-    const rows: React.ReactElement[] = [];
-    let days: React.ReactElement[] = [];
+    const rows: ReactElement[] = [];
+    let days: ReactElement[] = [];
     let day: Date = startDate;
 
     while (day <= endDate) {

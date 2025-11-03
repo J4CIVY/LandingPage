@@ -1,9 +1,9 @@
 'use client';
 
-import React from "react";
+import { type FC } from "react";
 import Image from "next/image";
 
-const Testimonials: React.FC = () => {
+const Testimonials: FC = () => {
   const cloudName: string = "dz0peilmu";
   const imagePath1: string = "member1_yq8lbk";
   const imagePath2: string = "member2_ryixrt";

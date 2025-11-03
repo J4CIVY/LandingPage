@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import React, { useState } from 'react';
+import { useState, type FC } from 'react';
 import dynamic from 'next/dynamic';
 import { SkeletonEvent } from '../shared/SkeletonLoaders';
 import { Event } from '@/types/events';
@@ -32,7 +32,7 @@ interface EventsSectionProps {
   error: string | null;
 }
 
-const EventsSection: React.FC<EventsSectionProps> = ({ events, loading, error }) => {
+const EventsSection: FC<EventsSectionProps> = ({ events, loading, error }) => {
   const [activeTab, setActiveTab] = useState<'events' | 'calendar'>('events');
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
 

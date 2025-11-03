@@ -1,7 +1,7 @@
 'use client';
 
-import React from "react";
-const HermandadSection: React.FC = () => {
+import { type FC } from "react";
+const HermandadSection: FC = () => {
   return (
     <section className="py-20 px-4 bg-white dark:bg-slate-950">
       <div className="max-w-6xl mx-auto text-center">

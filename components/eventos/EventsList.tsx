@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo, type ChangeEvent } from 'react';
 import { parseISO } from 'date-fns';
 import PublicEventCard from '@/components/eventos/PublicEventCard';
 
@@ -74,7 +74,7 @@ export default function EventsList({ initialEvents, locations }: EventsListProps
               id="search-event"
               placeholder="Buscar por nombre..."
               value={searchTerm}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-slate-950 dark:focus:ring-green-500 focus:border-transparent bg-white dark:bg-slate-800 text-slate-950 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
               aria-label="Buscar por nombre de evento"
             />
@@ -85,7 +85,7 @@ export default function EventsList({ initialEvents, locations }: EventsListProps
             <select
               id="filter-location"
               value={filterLocation}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFilterLocation(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLSelectElement>) => setFilterLocation(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-slate-950 dark:focus:ring-green-500 focus:border-transparent bg-white dark:bg-slate-800 text-slate-950 dark:text-white"
               aria-label="Filtrar por ubicación"
             >
@@ -103,7 +103,7 @@ export default function EventsList({ initialEvents, locations }: EventsListProps
             <select
               id="sort-order"
               value={sortOrder}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSortOrder(e.target.value as 'asc' | 'desc')}
+              onChange={(e: ChangeEvent<HTMLSelectElement>) => setSortOrder(e.target.value as 'asc' | 'desc')}
               className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-slate-950 dark:focus:ring-green-500 focus:border-transparent bg-white dark:bg-slate-800 text-slate-950 dark:text-white"
               aria-label="Ordenar eventos"
             >

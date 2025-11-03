@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, type ChangeEvent, type FormEvent } from 'react';
 import { FaImage, FaTimes, FaSpinner, FaPaperPlane } from 'react-icons/fa';
 import { Publicacion, FormularioPublicacion, EstadoCarga } from '@/types/comunidad';
 
@@ -46,7 +46,7 @@ export default function PublicacionForm({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Función para manejar cambios en el contenido
-  const manejarCambioContenido = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const manejarCambioContenido = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const valor = e.target.value;
     setFormulario(prev => ({ ...prev, contenido: valor }));
     
@@ -58,7 +58,7 @@ export default function PublicacionForm({
   };
 
   // Función para manejar selección de imágenes
-  const manejarSeleccionImagenes = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const manejarSeleccionImagenes = (e: ChangeEvent<HTMLInputElement>) => {
     const archivos = Array.from(e.target.files || []);
     const imagenesValidas = archivos.filter(archivo => 
       archivo.type.startsWith('image/') && archivo.size <= 5 * 1024 * 1024 // 5MB máximo
@@ -107,7 +107,7 @@ export default function PublicacionForm({
   };
 
   // Función para enviar publicación
-  const enviarPublicacion = async (e: React.FormEvent) => {
+  const enviarPublicacion = async (e: FormEvent) => {
     e.preventDefault();
     
     if (!formulario.contenido.trim()) {

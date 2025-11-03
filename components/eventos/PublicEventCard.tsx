@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import { type FC } from 'react';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import Image from 'next/image';
@@ -25,7 +25,7 @@ interface PublicEventCardProps {
 /**
  * Componente de tarjeta pública para eventos - información básica para visitantes no registrados
  */
-const PublicEventCard: React.FC<PublicEventCardProps> = ({ event }) => {
+const PublicEventCard: FC<PublicEventCardProps> = ({ event }) => {
   const eventDate = parseISO(event.startDate);
   
   // SECURITY: Sanitize user-generated content to prevent XSS

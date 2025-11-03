@@ -1,12 +1,12 @@
 'use client';
 
-import React from "react";
+import { type FC } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useScrollToSection } from "@/hooks/useScroll";
 
 
-const HeroSection: React.FC = () => {
+const HeroSection: FC = () => {
   const cloudName: string = "dz0peilmu";
   const imagePath: string = "Banner_Landing_Page_BSK_Motorcycle_Team_Julio_o2fcql";
   

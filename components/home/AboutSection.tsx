@@ -1,7 +1,7 @@
-import React from "react";
+import { type FC } from "react";
 import Image from "next/image";
 
-const AboutSection: React.FC = () => {
+const AboutSection: FC = () => {
   const cloudName: string = "dz0peilmu";
   const imagePath: string = "Banner_Tour_Andino_Motoclub_BSK_Motocycle_Team_2023_Carlos_is4ynj";
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type MouseEvent } from 'react';
 import Image from 'next/image';
 import { 
   FaCalendarAlt, 
@@ -106,7 +106,7 @@ export default function EventoCard({
   };
 
   // Manejar acción de inscripción
-  const handleAction = async (action: 'register' | 'unregister', e: React.MouseEvent) => {
+  const handleAction = async (action: 'register' | 'unregister', e: MouseEvent) => {
     e.stopPropagation();
     setLoading(true);
     
@@ -122,7 +122,7 @@ export default function EventoCard({
   };
 
   // Manejar acciones de admin
-  const handleAdminAction = (action: 'edit' | 'delete', e: React.MouseEvent) => {
+  const handleAdminAction = (action: 'edit' | 'delete', e: MouseEvent) => {
     e.stopPropagation();
     
     if (action === 'edit') {

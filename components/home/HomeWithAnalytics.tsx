@@ -1,6 +1,6 @@
 'use client';
 
-import React from "react";
+import { type FC } from "react";
 import HeroSection from "@/components/home/HeroSection";
 import HomeContent from "@/components/home/HomeContent";
 import { 
@@ -10,7 +10,7 @@ import {
 } from "@/components/analytics/PerformanceAnalytics";
 
 // Componente cliente para analytics
-const HomeWithAnalytics: React.FC = () => {
+const HomeWithAnalytics: FC = () => {
   // Hooks de analytics y performance
   useCoreWebVitals();
   usePerformanceMonitoring();

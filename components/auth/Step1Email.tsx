@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { FaEnvelope, FaArrowRight, FaSpinner, FaShieldAlt } from 'react-icons/fa';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -30,7 +30,7 @@ export default function Step1Email({ onEmailVerified }: Step1EmailProps) {
     png: `https://res.cloudinary.com/${cloudName}/image/upload/f_png,q_auto,w_192/BSK_MT_Logo_Letras_Blue_192_x_192_px_tj3msl`
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
     setIsLoading(true);

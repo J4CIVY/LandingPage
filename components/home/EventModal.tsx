@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import React, { useEffect } from 'react';
+import { useEffect, type FC } from 'react';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Event } from '@/types/events'; // Import the Event interface
@@ -17,7 +17,7 @@ interface EventModalProps {
   onClose: () => void;
 }
 
-const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
+const EventModal: FC<EventModalProps> = ({ event, onClose }) => {
   // If event is null, render nothing. This check is important for conditional rendering.
   if (!event) return null;
 

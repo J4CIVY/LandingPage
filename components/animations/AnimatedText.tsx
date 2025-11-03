@@ -1,13 +1,13 @@
 "use client";
 
-import React from 'react';
+import { type FC, type ReactNode, type HTMLAttributes } from 'react';
 import { useTextAnimation } from '@/hooks/useTextAnimation';
 
-interface AnimatedTextProps extends React.HTMLAttributes<HTMLElement> {
+interface AnimatedTextProps extends HTMLAttributes<HTMLElement> {
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'div' | 'li';
   animationType?: 'fadeIn' | 'slideUp' | 'slideInLeft' | 'slideInRight' | 'scaleIn';
   delay?: number;
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
 }
 
@@ -99,7 +99,7 @@ interface AnimatedListProps {
   className?: string;
 }
 
-export const AnimatedList: React.FC<AnimatedListProps> = ({
+export const AnimatedList: FC<AnimatedListProps> = ({
   items,
   as = 'ul',
   itemClassName = '',

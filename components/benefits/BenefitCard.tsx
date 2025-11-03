@@ -1,11 +1,12 @@
 'use client';
 
+import { type FC } from 'react';
 import Image from 'next/image';
 import { FaMapMarkerAlt, FaExternalLinkAlt, FaEye, FaTicketAlt, FaClock, FaCheckCircle } from 'react-icons/fa';
 import { BenefitCardProps } from '@/types/benefits';
 import { sanitizeText } from '@/lib/input-sanitization';
 
-const BenefitCard: React.FC<BenefitCardProps> = ({
+const BenefitCard: FC<BenefitCardProps> = ({
   benefit,
   onViewDetails,
   onClaimBenefit

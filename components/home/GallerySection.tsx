@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, type FC } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-const GallerySection: React.FC = () => {
+const GallerySection: FC = () => {
   const [activeGalleryImage, setActiveGalleryImage] = useState<number>(0);
   const cloudName: string = "dz0peilmu";
   const commonParams: string = "q_auto:best,c_fill,g_auto";

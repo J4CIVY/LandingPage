@@ -1,11 +1,11 @@
 'use client';
 
-import React from "react";
+import { type FC } from "react";
 import Link from 'next/link';
 import type { BlogPost } from '@/types/index.d.ts';
 import Image from "next/image";
 
-const BlogSection: React.FC = () => {
+const BlogSection: FC = () => {
   const cloudName: string = "dz0peilmu";
   const commonParams: string = "q_auto:best,c_fill,g_auto";
 

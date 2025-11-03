@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type FormEvent } from 'react';
 import { 
   FaTimes, 
   FaCalendarAlt, 
@@ -263,7 +263,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
   };
 
   // Manejar envío del formulario
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
 

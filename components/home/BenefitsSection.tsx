@@ -1,4 +1,4 @@
-import React from "react";
+import { type FC } from "react";
 import {
   FaUsers,
   FaTools,
@@ -9,7 +9,7 @@ import {
 } from 'react-icons/fa';
 import Testimonials from "./Testimonials";
 
-const BenefitsSection: React.FC = () => (
+const BenefitsSection: FC = () => (
   <section className="py-20 px-4 bg-white dark:bg-slate-950">
     <div className="max-w-6xl mx-auto">
       <h2 className="text-4xl font-bold text-center text-slate-950 dark:text-white mb-4">
