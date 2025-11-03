@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, Suspense, type FC } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 
-const PublicCallbackContent: React.FC = () => {
+const PublicCallbackContent: FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [status, setStatus] = useState<'processing' | 'success' | 'error'>('processing');
@@ -107,7 +107,7 @@ const PublicCallbackContent: React.FC = () => {
   );
 };
 
-const PublicCallbackPage: React.FC = () => {
+const PublicCallbackPage: FC = () => {
   return (
     <Suspense fallback={
       <div className="min-h-screen bg-gray-50 dark:bg-slate-950 flex items-center justify-center">

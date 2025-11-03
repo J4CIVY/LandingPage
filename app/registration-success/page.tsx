@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import { type FC } from 'react';
 import { GiSteelwingEmblem } from 'react-icons/gi';
 import { FaCheckCircle } from 'react-icons/fa'; 
 import Link from 'next/link';
@@ -10,9 +10,9 @@ import { Suspense } from 'react';
 /**
  * RegistrationSuccess component displays a success message after user registration.
  * It includes next steps and contact information.
- * @returns {React.ReactElement}
+ * @returns {ReactElement}
  */
-const ContentWithSearchParams: React.FC = () => {
+const ContentWithSearchParams: FC = () => {
   const searchParams = useSearchParams();
   const userEmail = searchParams.get('userEmail');
 
@@ -129,7 +129,7 @@ const ContentWithSearchParams: React.FC = () => {
   );
 };
 
-const RegistrationSuccess: React.FC = () => {
+const RegistrationSuccess: FC = () => {
   return (
   <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
       <Suspense fallback={<div className="text-center text-gray-500">Cargando...</div>}>

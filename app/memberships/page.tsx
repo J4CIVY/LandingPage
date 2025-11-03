@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback, type FC, type ChangeEvent, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import SEOComponent from '@/components/home/SEOComponent';
 import { generateBreadcrumb, generateFAQ } from '@/lib/seo-config';
@@ -48,7 +48,7 @@ interface MembershipPlan {
   onClick: () => void;
 }
 
-const Memberships: React.FC = () => {
+const Memberships: FC = () => {
   const router = useRouter();
   const [formData, setFormData] = useState<FormDataState>({
     name: '',
@@ -62,7 +62,7 @@ const Memberships: React.FC = () => {
   const emailValidation = useEmailValidation();
   const phoneValidation = usePhoneValidation();
 
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     
     // Update validation hooks
@@ -78,7 +78,7 @@ const Memberships: React.FC = () => {
     }));
   }, [emailValidation, phoneValidation]);
 
-  const handleSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = useCallback((e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     alert('Gracias por tu interés. Nos pondremos en contacto contigo pronto.');
     setFormData({

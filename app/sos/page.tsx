@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, type FC, type ChangeEvent, type FormEvent } from "react";
 import { 
   FaWhatsapp, 
   FaPhone, 
@@ -77,9 +77,9 @@ interface EmergencyApiResponse {
 /**
  * Sos component provides emergency assistance features for BSK Motorcycle Team members.
  * It includes emergency contacts, an emergency request form, and a map of associated workshops.
- * @returns {React.ReactElement}
+ * @returns {ReactElement}
  */
-const Sos: React.FC = () => {
+const Sos: FC = () => {
   const [activeTab, setActiveTab] = useState<"emergency" | "form" | "workshops">("emergency");
   const [userLocation, setUserLocation] = useState<LocationCoords | null>(null);
   const [nearestWorkshops, setNearestWorkshops] = useState<Workshop[]>([]);
@@ -183,9 +183,9 @@ const Sos: React.FC = () => {
   /**
    * Handles the submission of the emergency form.
    * This function is memoized using useCallback.
-   * @param {React.FormEvent<HTMLFormElement>} e - The form submission event.
+   * @param {FormEvent<HTMLFormElement>} e - The form submission event.
    */
-  const handleSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = useCallback(async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Basic client-side validation
     if (!formData.name || !formData.memberId || !formData.description || !formData.location) {
@@ -213,9 +213,9 @@ const Sos: React.FC = () => {
   /**
    * Handles changes in form inputs.
    * This function is memoized using useCallback.
-   * @param {React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>} e - The change event.
+   * @param {ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>} e - The change event.
    */
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value

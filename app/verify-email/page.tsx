@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, Suspense, type FC, type FormEvent } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { FaCheckCircle, FaTimesCircle, FaSpinner, FaEnvelope } from 'react-icons/fa';
 import Link from 'next/link';
@@ -15,7 +15,7 @@ interface VerificationResult {
   };
 }
 
-const VerifyEmailContent: React.FC = () => {
+const VerifyEmailContent: FC = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [verificationResult, setVerificationResult] = useState<VerificationResult | null>(null);
@@ -151,12 +151,12 @@ const VerifyEmailContent: React.FC = () => {
   );
 };
 
-const ResendVerificationSection: React.FC = () => {
+const ResendVerificationSection: FC = () => {
   const [email, setEmail] = useState('');
   const [isResending, setIsResending] = useState(false);
   const [resendMessage, setResendMessage] = useState('');
 
-  const handleResend = async (e: React.FormEvent) => {
+  const handleResend = async (e: FormEvent) => {
     e.preventDefault();
     
     if (!email) {
@@ -228,7 +228,7 @@ const ResendVerificationSection: React.FC = () => {
 };
 
 // Componente principal que envuelve con Suspense
-const VerifyEmailPage: React.FC = () => {
+const VerifyEmailPage: FC = () => {
   return (
     <Suspense fallback={
       <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">

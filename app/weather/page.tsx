@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, type FC, type ReactElement } from "react";
 import { 
   FaRadiation,
   FaExclamationTriangle,
@@ -16,24 +16,24 @@ import SEOComponent from '@/components/home/SEOComponent';
  * @typedef {Object} TabContent
  * @property {string} id - Unique identifier for the tab.
  * @property {string} title - Title displayed on the tab.
- * @property {React.ReactElement} icon - Icon for the tab.
- * @property {React.ReactElement} content - JSX content for the tab panel.
+ * @property {ReactElement} icon - Icon for the tab.
+ * @property {ReactElement} content - JSX content for the tab panel.
  * @property {string} source - Source of the data displayed in the tab.
  */
 interface TabContent {
   id: string;
   title: string;
-  icon: React.ReactElement;
-  content: React.ReactElement;
+  icon: ReactElement;
+  content: ReactElement;
   source: string;
 }
 
 /**
  * Weather component displays weather information for motorcyclists, including precipitation radar and monitoring networks.
  * It uses iframes to embed external weather services.
- * @returns {React.ReactElement}
+ * @returns {ReactElement}
  */
-const Weather: React.FC = () => {
+const Weather: FC = () => {
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
   const [activeTab, setActiveTab] = useState<string>('radar');
 

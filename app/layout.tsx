@@ -167,13 +167,13 @@ export const metadata: Metadata = {
 
 import { PWAManager } from '@/components/pwa/ServiceWorkerManager'
 import AccessibilityHelper from '@/components/shared/AccessibilityHelper'
-import { Suspense } from 'react'
+import { Suspense, type ReactNode } from 'react'
 import { ClientProviders } from '@/components/shared/ClientProviders'
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   // Note: CSP nonce removed to support static prerendering with cacheComponents
   // CSP is still enforced through middleware headers

@@ -1,6 +1,6 @@
 'use client';
 
-import React from "react";
+import { type FC, type ReactElement } from "react";
 import { FaMotorcycle, FaShieldAlt, FaRocket, FaCheck, FaRoute, FaPhone, FaCalendarAlt } from "react-icons/fa";
 import { GiSteeringWheel, GiMechanicGarage } from "react-icons/gi";
 import SEOComponent from '@/components/home/SEOComponent';
@@ -13,7 +13,7 @@ import { generateBreadcrumb, generateCourseSchema, generateFAQ } from '@/lib/seo
  * @property {string} duration - Duration of the course.
  * @property {string} price - Price of the course.
  * @property {string[]} includes - List of items included in the course.
- * @property {React.ReactElement} icon - React icon component for the course.
+ * @property {ReactElement} icon - React icon component for the course.
  */
 interface Course {
   id: number;
@@ -22,7 +22,7 @@ interface Course {
   duration: string;
   price: string;
   includes: string[];
-  icon: React.ReactElement;
+  icon: ReactElement;
 }
 
 /**
@@ -30,21 +30,21 @@ interface Course {
  * @property {string} name - Name of the person giving the testimonial.
  * @property {string} role - Role or description of the person.
  * @property {string} quote - The testimonial quote.
- * @property {React.ReactElement} icon - React icon component for the testimonial.
+ * @property {ReactElement} icon - React icon component for the testimonial.
  */
 interface Testimonial {
   name: string;
   role: string;
   quote: string;
-  icon: React.ReactElement;
+  icon: ReactElement;
 }
 
 /**
  * Courses component displays information about various motorcycle courses offered.
  * It includes course details, testimonials, and calls to action.
- * @returns {React.ReactElement}
+ * @returns {ReactElement}
  */
-const Courses: React.FC = () => {
+const Courses: FC = () => {
   const courses: Course[] = [
     {
       id: 1,

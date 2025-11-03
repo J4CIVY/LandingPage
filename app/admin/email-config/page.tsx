@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, type FC } from 'react';
 import { useRequireAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 
@@ -21,7 +21,7 @@ interface TestResult {
   details?: Record<string, unknown>;
 }
 
-const EmailConfigPage: React.FC = () => {
+const EmailConfigPage: FC = () => {
   const { user, isLoading: authLoading } = useRequireAuth();
   const router = useRouter();
   const [config, setConfig] = useState<EmailConfig | null>(null);

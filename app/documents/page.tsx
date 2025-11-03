@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, type FC, type ChangeEvent } from "react";
 import { 
   FaDownload, 
   FaShieldAlt, 
@@ -36,9 +36,9 @@ interface DocumentCollection {
 /**
  * Documents component displays various institutional documents, categorized into legal and operational.
  * It includes a search bar and allows users to view and download documents.
- * @returns {React.ReactElement}
+ * @returns {ReactElement}
  */
-const Documents: React.FC = () => {
+const Documents: FC = () => {
   const [activeDoc, setActiveDoc] = useState<string | null>("constitucion");
   const [searchTerm, setSearchTerm] = useState<string>("");
 
@@ -150,7 +150,7 @@ const Documents: React.FC = () => {
                   placeholder="Buscar documento..."
                   className="w-full pl-10 px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-green-400 focus:border-green-400 bg-white dark:bg-slate-700 text-slate-950 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                   value={searchTerm}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
                   aria-label="Buscar documento"
                 />
               </div>

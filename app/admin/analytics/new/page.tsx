@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { FiPlus, FiSave, FiX, FiCalendar } from 'react-icons/fi';
@@ -49,7 +49,7 @@ export default function NewAnalyticsReportPage() {
     { value: 'performance', label: 'Rendimiento', description: 'Métricas de eficiencia' }
   ];
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     
     if (!formData.name.trim()) {
