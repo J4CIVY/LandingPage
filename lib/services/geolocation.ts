@@ -3,6 +3,8 @@
  * Utiliza servicios gratuitos para obtener información de ubicación
  */
 
+import * as ipaddr from 'ipaddr.js';
+
 interface GeoLocation {
   country?: string;
   city?: string;
@@ -15,27 +17,26 @@ interface GeoLocation {
  */
 function isValidPublicIP(ip: string): boolean {
   if (!ip || typeof ip !== 'string') return false;
-  // IPv4 regex
-  const ipv4 = /^(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?!$)|$)){4}$/;
-  // IPv6 regex (simplificado)
-  const ipv6 = /^([a-fA-F\d]{0,4}:){2,7}[a-fA-F\d]{0,4}$/;
-  
-  // Blacklist private/reserved ranges for IPv4
-  // 10.0.0.0–10.255.255.255; 172.16.0.0–172.31.255.255; 192.168.0.0–192.168.255.255; 127.0.0.0–127.255.255.255
-  const privateIPv4 = [
-    /^10\./,
-    /^127\./,
-    /^192\.168\./,
-    /^172\.(1[6-9]|2\d|3[0-1])\./
-  ];
-  // Blacklist localhost IPv6
-  if (ip === '::1') return false;
-  // Basic format test
-  if (ipv4.test(ip)) {
-    if (privateIPv4.some(re => re.test(ip))) return false;
+  let addr;
+  try {
+    addr = ipaddr.parse(ip);
+  } catch (e) {
+    return false;
+  }
+  // For IPv4: reject private, loopback, link-local, and reserved
+  if (addr.kind() === 'ipv4') {
+    if (addr.range() === 'private' || addr.range() === 'loopback' || addr.range() === 'linkLocal' || addr.range() === 'broadcast' || addr.range() === 'reserved') {
+      return false;
+    }
     return true;
   }
-  if (ipv6.test(ip)) return true;
+  // For IPv6: reject unique-local, loopback, link-local, and unspecified
+  if (addr.kind() === 'ipv6') {
+    if (addr.range() === 'uniqueLocal' || addr.range() === 'loopback' || addr.range() === 'linkLocal' || addr.range() === 'unspecified' || addr.range() === 'reserved') {
+      return false;
+    }
+    return true;
+  }
   return false;
 }
 
