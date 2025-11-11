@@ -242,10 +242,11 @@ export default function EditUserPage() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="documentType" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Tipo de Documento *
               </label>
               <select
+                id="documentType"
                 name="documentType"
                 value={formData.documentType}
                 onChange={handleInputChange}
@@ -260,10 +261,11 @@ export default function EditUserPage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="documentNumber" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Número de Documento *
               </label>
               <input
+                id="documentNumber"
                 type="text"
                 name="documentNumber"
                 value={formData.documentNumber}
@@ -273,10 +275,11 @@ export default function EditUserPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Nombres *
               </label>
               <input
+                id="firstName"
                 type="text"
                 name="firstName"
                 value={formData.firstName}
@@ -286,10 +289,11 @@ export default function EditUserPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Apellidos *
               </label>
               <input
+                id="lastName"
                 type="text"
                 name="lastName"
                 value={formData.lastName}
@@ -299,10 +303,11 @@ export default function EditUserPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="birthDate" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Fecha de Nacimiento *
               </label>
               <input
+                id="birthDate"
                 type="date"
                 name="birthDate"
                 value={formData.birthDate?.split('T')[0]}
@@ -312,10 +317,11 @@ export default function EditUserPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="birthPlace" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Lugar de Nacimiento *
               </label>
               <input
+                id="birthPlace"
                 type="text"
                 name="birthPlace"
                 value={formData.birthPlace}
@@ -325,10 +331,11 @@ export default function EditUserPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="binaryGender" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Género *
               </label>
               <select
+                id="binaryGender"
                 name="binaryGender"
                 value={formData.binaryGender}
                 onChange={handleInputChange}
@@ -341,10 +348,11 @@ export default function EditUserPage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="occupation" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Ocupación
               </label>
               <input
+                id="occupation"
                 type="text"
                 name="occupation"
                 value={formData.occupation}
@@ -363,10 +371,11 @@ export default function EditUserPage() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Email *
               </label>
               <input
+                id="email"
                 type="email"
                 name="email"
                 value={formData.email}
@@ -376,10 +385,11 @@ export default function EditUserPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Teléfono *
               </label>
               <input
+                id="phone"
                 type="tel"
                 name="phone"
                 value={formData.phone}
@@ -389,10 +399,11 @@ export default function EditUserPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="whatsapp" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 WhatsApp
               </label>
               <input
+                id="whatsapp"
                 type="tel"
                 name="whatsapp"
                 value={formData.whatsapp}
@@ -411,10 +422,11 @@ export default function EditUserPage() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="address" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Dirección *
               </label>
               <input
+                id="address"
                 type="text"
                 name="address"
                 value={formData.address}
@@ -424,10 +436,11 @@ export default function EditUserPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="neighborhood" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Barrio
               </label>
               <input
+                id="neighborhood"
                 type="text"
                 name="neighborhood"
                 value={formData.neighborhood}
@@ -436,10 +449,11 @@ export default function EditUserPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="city" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Ciudad *
               </label>
               <input
+                id="city"
                 type="text"
                 name="city"
                 value={formData.city}
@@ -449,10 +463,11 @@ export default function EditUserPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="country" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 País *
               </label>
               <input
+                id="country"
                 type="text"
                 name="country"
                 value={formData.country}
@@ -462,10 +477,11 @@ export default function EditUserPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="postalCode" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Código Postal
               </label>
               <input
+                id="postalCode"
                 type="text"
                 name="postalCode"
                 value={formData.postalCode}
@@ -484,10 +500,11 @@ export default function EditUserPage() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="emergencyContactName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Nombre *
               </label>
               <input
+                id="emergencyContactName"
                 type="text"
                 name="emergencyContactName"
                 value={formData.emergencyContactName}
@@ -497,10 +514,11 @@ export default function EditUserPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="emergencyContactRelationship" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Relación *
               </label>
               <input
+                id="emergencyContactRelationship"
                 type="text"
                 name="emergencyContactRelationship"
                 value={formData.emergencyContactRelationship}
@@ -510,10 +528,11 @@ export default function EditUserPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="emergencyContactPhone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Teléfono *
               </label>
               <input
+                id="emergencyContactPhone"
                 type="tel"
                 name="emergencyContactPhone"
                 value={formData.emergencyContactPhone}
@@ -533,10 +552,11 @@ export default function EditUserPage() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="membershipType" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Tipo de Membresía *
               </label>
               <select
+                id="membershipType"
                 name="membershipType"
                 value={formData.membershipType}
                 onChange={handleInputChange}
@@ -552,10 +572,11 @@ export default function EditUserPage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="role" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Rol *
               </label>
               <select
+                id="role"
                 name="role"
                 value={formData.role}
                 onChange={handleInputChange}

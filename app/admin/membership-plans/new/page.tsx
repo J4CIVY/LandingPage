@@ -437,10 +437,11 @@ export default function NewMembershipPlanPage() {
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label htmlFor="level-tier" className="block text-sm font-medium text-gray-700 mb-2">
                           Nivel (Tier) *
                         </label>
                         <input
+                          id="level-tier"
                           type="number"
                           required
                           min="1"
@@ -840,10 +841,11 @@ export default function NewMembershipPlanPage() {
                               </div>
                               
                               <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label htmlFor={`benefit-category-${benefit.id}`} className="block text-sm font-medium text-gray-700 mb-2">
                                   Categoría *
                                 </label>
                                 <select
+                                  id={`benefit-category-${benefit.id}`}
                                   value={benefit.category}
                                   onChange={(e) => updateBenefit(benefit.id, 'category', e.target.value)}
                                   className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
@@ -931,10 +933,11 @@ export default function NewMembershipPlanPage() {
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label htmlFor="enrollment-minimum-age" className="block text-sm font-medium text-gray-700 mb-2">
                             Edad Mínima
                           </label>
                           <input
+                            id="enrollment-minimum-age"
                             type="number"
                             min="0"
                             max="100"
@@ -1012,6 +1015,7 @@ export default function NewMembershipPlanPage() {
                               type="button"
                               onClick={() => removeArrayItem('enrollmentProcess', index, 'steps')}
                               className="ml-2 text-red-600 hover:text-red-700"
+                              aria-label={`Eliminar paso ${index + 1}`}
                             >
                               <FaTrash />
                             </button>
@@ -1046,6 +1050,7 @@ export default function NewMembershipPlanPage() {
                               type="button"
                               onClick={() => removeArrayItem('enrollmentProcess', index, 'requiredDocuments')}
                               className="ml-2 text-red-600 hover:text-red-700"
+                              aria-label={`Eliminar documento ${index + 1}`}
                             >
                               <FaTrash />
                             </button>
@@ -1117,10 +1122,11 @@ export default function NewMembershipPlanPage() {
                         </div>
                         
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label htmlFor="auto-renewal-grace-period" className="block text-sm font-medium text-gray-700 mb-2">
                             Días de Gracia
                           </label>
                           <input
+                            id="auto-renewal-grace-period"
                             type="number"
                             min="0"
                             max="90"
@@ -1187,11 +1193,12 @@ export default function NewMembershipPlanPage() {
                       <h3 className="text-md font-medium text-gray-800 mb-4">Configuración de Visualización</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label htmlFor="display-color-text" className="block text-sm font-medium text-gray-700 mb-2">
                             Color Principal
                           </label>
                           <div className="flex items-center space-x-2">
                             <input
+                              id="display-color-picker"
                               type="color"
                               value={formData.display.color}
                               onChange={(e) => setFormData(prev => ({ 
@@ -1199,8 +1206,10 @@ export default function NewMembershipPlanPage() {
                                 display: { ...prev.display, color: e.target.value }
                               }))}
                               className="h-10 w-20 border border-gray-300 rounded-md"
+                              aria-label="Selector de color"
                             />
                             <input
+                              id="display-color-text"
                               type="text"
                               value={formData.display.color}
                               onChange={(e) => setFormData(prev => ({ 
@@ -1230,10 +1239,11 @@ export default function NewMembershipPlanPage() {
                         </div>
                         
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label htmlFor="display-order" className="block text-sm font-medium text-gray-700 mb-2">
                             Orden de Visualización
                           </label>
                           <input
+                            id="display-order"
                             type="number"
                             min="0"
                             value={formData.display.order}
@@ -1351,6 +1361,7 @@ export default function NewMembershipPlanPage() {
                                 type="button"
                                 onClick={() => removeArrayItem('seo', index, 'keywords')}
                                 className="ml-2 text-red-600 hover:text-red-700"
+                                aria-label={`Eliminar palabra clave ${index + 1}`}
                               >
                                 <FaTrash />
                               </button>

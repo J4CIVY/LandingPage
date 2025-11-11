@@ -419,22 +419,35 @@ export default function AnalyticsPage() {
               Tendencia de Usuarios (Últimos 7 días)
             </h3>
             <div className="space-y-2">
-              {data.trends.users.map((item, index) => (
-                <div key={index} className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600 dark:text-gray-400">
-                    {new Date(item.date).toLocaleDateString()}
-                  </span>
-                  <div className="flex items-center space-x-2">
-                    <div 
-                      className="bg-blue-200 dark:bg-blue-700 h-2 rounded"
-                      style={{ width: `${Math.max(item.count * 20, 4)}px` }}
-                    />
-                    <span className="text-sm font-medium text-gray-900 dark:text-white">
-                      {item.count}
+              {data.trends.users.map((item, index) => {
+                // Calculate width based on data (using predefined Tailwind widths)
+                const getWidthClass = (count: number) => {
+                  if (count === 0) return 'w-1';
+                  if (count === 1) return 'w-8';
+                  if (count === 2) return 'w-16';
+                  if (count === 3) return 'w-24';
+                  if (count === 4) return 'w-32';
+                  if (count >= 5) return 'w-40';
+                  return 'w-1';
+                };
+                
+                return (
+                  <div key={index} className="flex items-center justify-between">
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      {new Date(item.date).toLocaleDateString()}
                     </span>
+                    <div className="flex items-center space-x-2">
+                      <div 
+                        className={`bg-blue-200 dark:bg-blue-700 h-2 rounded transition-all duration-300 ${getWidthClass(item.count)}`}
+                        aria-label={`${item.count} usuarios`}
+                      />
+                      <span className="text-sm font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                        {item.count}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
