@@ -509,10 +509,11 @@ export default function ProductFormPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
                   Categoría *
                 </label>
                 <select
+                  id="category"
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
@@ -685,10 +686,11 @@ export default function ProductFormPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="availability" className="block text-sm font-medium text-gray-700 mb-2">
                   Disponibilidad
                 </label>
                 <select
+                  id="availability"
                   name="availability"
                   value={formData.availability}
                   onChange={handleInputChange}

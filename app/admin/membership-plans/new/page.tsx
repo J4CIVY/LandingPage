@@ -352,6 +352,7 @@ export default function NewMembershipPlanPage() {
             <button
               onClick={() => router.back()}
               className="mr-4 p-2 text-gray-400 hover:text-gray-600"
+              aria-label="Volver atrás"
             >
               <FaArrowLeft />
             </button>
@@ -471,10 +472,11 @@ export default function NewMembershipPlanPage() {
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-2">
                           Estado *
                         </label>
                         <select
+                          id="status"
                           value={formData.status}
                           onChange={(e) => setFormData(prev => ({ 
                             ...prev, 
@@ -545,10 +547,11 @@ export default function NewMembershipPlanPage() {
                       <h3 className="text-md font-medium text-gray-800 mb-4">Estructura de Precios</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label htmlFor="pricingInitial" className="block text-sm font-medium text-gray-700 mb-2">
                             Precio Inicial (COP) *
                           </label>
                           <input
+                            id="pricingInitial"
                             type="number"
                             required
                             min="0"
@@ -562,10 +565,11 @@ export default function NewMembershipPlanPage() {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label htmlFor="pricingWithDiscount" className="block text-sm font-medium text-gray-700 mb-2">
                             Precio con Descuento (COP)
                           </label>
                           <input
+                            id="pricingWithDiscount"
                             type="number"
                             min="0"
                             value={formData.pricing.withDiscount || ''}
@@ -578,10 +582,11 @@ export default function NewMembershipPlanPage() {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label htmlFor="pricingEarlyBird" className="block text-sm font-medium text-gray-700 mb-2">
                             Precio Early Bird (COP)
                           </label>
                           <input
+                            id="pricingEarlyBird"
                             type="number"
                             min="0"
                             value={formData.pricing.early_bird || ''}
@@ -594,10 +599,11 @@ export default function NewMembershipPlanPage() {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label htmlFor="pricingStudent" className="block text-sm font-medium text-gray-700 mb-2">
                             Precio Estudiante (COP)
                           </label>
                           <input
+                            id="pricingStudent"
                             type="number"
                             min="0"
                             value={formData.pricing.student || ''}
@@ -610,10 +616,11 @@ export default function NewMembershipPlanPage() {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label htmlFor="pricingFamily" className="block text-sm font-medium text-gray-700 mb-2">
                             Precio Familiar (COP)
                           </label>
                           <input
+                            id="pricingFamily"
                             type="number"
                             min="0"
                             value={formData.pricing.family || ''}
@@ -626,10 +633,11 @@ export default function NewMembershipPlanPage() {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label htmlFor="pricingCorporate" className="block text-sm font-medium text-gray-700 mb-2">
                             Precio Corporativo (COP)
                           </label>
                           <input
+                            id="pricingCorporate"
                             type="number"
                             min="0"
                             value={formData.pricing.corporate || ''}
@@ -648,10 +656,11 @@ export default function NewMembershipPlanPage() {
                       <h3 className="text-md font-medium text-gray-800 mb-4">Periodo de Vigencia</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label htmlFor="periodStartDate" className="block text-sm font-medium text-gray-700 mb-2">
                             Fecha de Inicio *
                           </label>
                           <input
+                            id="periodStartDate"
                             type="date"
                             required
                             value={formData.period.startDate}
@@ -664,10 +673,11 @@ export default function NewMembershipPlanPage() {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label htmlFor="periodEndDate" className="block text-sm font-medium text-gray-700 mb-2">
                             Fecha de Finalización *
                           </label>
                           <input
+                            id="periodEndDate"
                             type="date"
                             required
                             value={formData.period.endDate}
@@ -680,10 +690,11 @@ export default function NewMembershipPlanPage() {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label htmlFor="periodRenewalStartDate" className="block text-sm font-medium text-gray-700 mb-2">
                             Inicio de Renovación
                           </label>
                           <input
+                            id="periodRenewalStartDate"
                             type="date"
                             value={formData.period.renewalStartDate || ''}
                             onChange={(e) => setFormData(prev => ({ 
@@ -695,10 +706,11 @@ export default function NewMembershipPlanPage() {
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label htmlFor="periodRenewalDeadline" className="block text-sm font-medium text-gray-700 mb-2">
                             Fecha Límite de Renovación
                           </label>
                           <input
+                            id="periodRenewalDeadline"
                             type="date"
                             value={formData.period.renewalDeadline || ''}
                             onChange={(e) => setFormData(prev => ({ 
@@ -744,10 +756,11 @@ export default function NewMembershipPlanPage() {
                             </div>
 
                             <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                              <label htmlFor="renewalType" className="block text-sm font-medium text-gray-700 mb-2">
                                 Tipo de Renovación
                               </label>
                               <select
+                                id="renewalType"
                                 value={formData.renewalType}
                                 onChange={(e) => setFormData(prev => ({ 
                                   ...prev, 
@@ -805,6 +818,7 @@ export default function NewMembershipPlanPage() {
                                 type="button"
                                 onClick={() => removeBenefit(benefit.id)}
                                 className="text-red-600 hover:text-red-700"
+                                aria-label={`Eliminar beneficio ${index + 1}`}
                               >
                                 <FaTrash />
                               </button>
@@ -872,10 +886,11 @@ export default function NewMembershipPlanPage() {
                               </div>
                               
                               <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label htmlFor={`benefit-priority-${benefit.id}`} className="block text-sm font-medium text-gray-700 mb-2">
                                   Prioridad
                                 </label>
                                 <input
+                                  id={`benefit-priority-${benefit.id}`}
                                   type="number"
                                   min="0"
                                   max="100"

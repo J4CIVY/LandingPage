@@ -256,10 +256,11 @@ export default function AdminUsersPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="filterRole" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Rol
               </label>
               <select
+                id="filterRole"
                 value={filterRole}
                 onChange={(e) => setFilterRole(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -272,10 +273,11 @@ export default function AdminUsersPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="filterMembership" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Membresía
               </label>
               <select
+                id="filterMembership"
                 value={filterMembership}
                 onChange={(e) => setFilterMembership(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -290,10 +292,11 @@ export default function AdminUsersPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="filterStatus" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Estado
               </label>
               <select
+                id="filterStatus"
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
