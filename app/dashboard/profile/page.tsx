@@ -320,10 +320,15 @@ export default function ProfilePage() {
                   <span>Completitud del perfil</span>
                   <span className="font-medium">{profileCompletion}%</span>
                 </div>
-                <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+                <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2 overflow-hidden">
                   <div 
-                    className="bg-linear-to-r from-blue-500 to-green-500 h-2 rounded-full transition-all duration-300"
-                    style={{ width: `${profileCompletion}%` }}
+                    className={`bg-gradient-to-r from-blue-500 to-green-500 h-2 rounded-full transition-all duration-300 ${
+                      profileCompletion >= 90 ? 'w-full' :
+                      profileCompletion >= 75 ? 'w-11/12' :
+                      profileCompletion >= 60 ? 'w-3/4' :
+                      profileCompletion >= 50 ? 'w-1/2' :
+                      profileCompletion >= 25 ? 'w-1/4' : 'w-1/12'
+                    }`}
                   ></div>
                 </div>
                 <p className="text-xs text-slate-500 dark:text-slate-500 mt-1">

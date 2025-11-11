@@ -203,6 +203,7 @@ const BenefitForm: FC<BenefitFormProps> = ({
               <button
                 onClick={onClose}
                 className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                aria-label="Cerrar formulario"
               >
                 <FaTimes className="w-6 h-6" />
               </button>
@@ -252,10 +253,11 @@ const BenefitForm: FC<BenefitFormProps> = ({
             {/* Category and discount */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="benefit-category" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Category *
                 </label>
                 <select
+                  id="benefit-category"
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
@@ -380,11 +382,12 @@ const BenefitForm: FC<BenefitFormProps> = ({
             {/* Dates */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="benefit-start-date" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Start Date *
                 </label>
                 <div className="relative">
                   <input
+                    id="benefit-start-date"
                     type="date"
                     name="startDate"
                     value={formData.startDate}
@@ -399,11 +402,12 @@ const BenefitForm: FC<BenefitFormProps> = ({
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="benefit-end-date" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   End Date *
                 </label>
                 <div className="relative">
                   <input
+                    id="benefit-end-date"
                     type="date"
                     name="endDate"
                     value={formData.endDate}
@@ -420,11 +424,12 @@ const BenefitForm: FC<BenefitFormProps> = ({
 
             {/* Image */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="benefit-image" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Benefit Image
               </label>
               <div className="space-y-4">
                 <input
+                  id="benefit-image"
                   type="file"
                   accept="image/*"
                   onChange={handleImageChange}
@@ -467,6 +472,7 @@ const BenefitForm: FC<BenefitFormProps> = ({
                         onClick={() => removeRequirement(index)}
                         className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 
                                  rounded-lg"
+                        aria-label={`Eliminar requisito ${index + 1}`}
                       >
                         <FaTrash className="w-4 h-4" />
                       </button>

@@ -324,7 +324,7 @@ const Store: FC = () => {
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" role="list">
           {filteredProducts.map((product) => (
             <div
               key={product.id}
@@ -411,7 +411,7 @@ const Store: FC = () => {
                       'bg-red-500 dark:bg-red-400 text-white dark:text-gray-900 hover:bg-red-600 dark:hover:bg-red-500' :
                       'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
                       }`}
-                    aria-disabled={product.availability !== 'in-stock'}
+                    aria-disabled={product.availability !== 'in-stock' ? "true" : "false"}
                     tabIndex={product.availability !== 'in-stock' ? -1 : 0}
                   >
                     Buy Now
@@ -531,7 +531,7 @@ const Store: FC = () => {
                                 'bg-red-500 dark:bg-red-400 text-white dark:text-gray-900 hover:bg-red-600 dark:hover:bg-red-500' :
                                 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
                               }`}
-                            aria-disabled={selectedProduct.availability !== 'in-stock'}
+                            aria-disabled={selectedProduct.availability !== 'in-stock' ? "true" : "false"}
                             tabIndex={selectedProduct.availability !== 'in-stock' ? -1 : 0}
                           >
                             Buy Now

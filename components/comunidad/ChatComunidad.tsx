@@ -347,6 +347,7 @@ export default function ChatComunidad({
                           <button
                             onClick={() => setMenuAbierto(menuAbierto === mensaje.id ? null : mensaje.id)}
                             className="p-1 text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-100"
+                            aria-label="Opciones de mensaje"
                           >
                             <FaEllipsisV className="h-3 w-3" />
                           </button>

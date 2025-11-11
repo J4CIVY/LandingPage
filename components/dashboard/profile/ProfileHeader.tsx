@@ -154,6 +154,7 @@ export default function ProfileHeader({ user, onEdit, onAvatarChange, isEditing 
                 onChange={handleAvatarChange}
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                 disabled={imageLoading}
+                aria-label="Cambiar foto de perfil"
               />
             )}
           </div>

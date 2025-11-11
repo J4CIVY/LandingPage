@@ -363,6 +363,7 @@ export default function TwoFactorVerification({
                 maxLength={1}
                 value={digit}
                 onChange={e => handleInputChange(index, e.target.value)}
+                aria-label={`Dígito ${index + 1} del código`}
                 onKeyDown={e => handleKeyDown(index, e)}
                 disabled={isVerifying}
                 className={`w-12 h-14 text-center text-2xl font-bold border-2 rounded-lg

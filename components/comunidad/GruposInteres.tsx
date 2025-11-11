@@ -219,6 +219,7 @@ export default function GruposInteres({
             <button
               onClick={cancelarFormulario}
               className="text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-100"
+              aria-label="Cancelar formulario"
             >
               <FaTimes className="h-4 w-4" />
             </button>

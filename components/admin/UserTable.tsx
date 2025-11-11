@@ -105,6 +105,7 @@ export default function UserTable({
                   checked={allSelected}
                   onChange={onSelectAll}
                   className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  aria-label="Seleccionar todos los usuarios"
                 />
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
@@ -136,6 +137,7 @@ export default function UserTable({
                     checked={selectedUsers.includes(user._id)}
                     onChange={() => onSelectUser(user._id)}
                     className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    aria-label={`Seleccionar usuario ${user.firstName} ${user.lastName}`}
                   />
                 </td>
                 <td className="px-6 py-4">
@@ -230,6 +232,7 @@ export default function UserTable({
                       checked={selectedUsers.includes(user._id)}
                       onChange={() => onSelectUser(user._id)}
                       className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      aria-label={`Seleccionar usuario ${user.firstName} ${user.lastName}`}
                     />
                     <UserAvatar
                       imageUrl={user.profileImage}

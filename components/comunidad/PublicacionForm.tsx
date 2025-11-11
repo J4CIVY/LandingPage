@@ -171,6 +171,7 @@ export default function PublicacionForm({
         <button
           onClick={onCancelar}
           className="text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-100"
+          aria-label="Cancelar"
         >
           <FaTimes className="h-5 w-5" />
         </button>
@@ -224,6 +225,7 @@ export default function PublicacionForm({
                     type="button"
                     onClick={() => eliminarImagen(indice)}
                     className="absolute top-2 right-2 p-1 bg-red-600 text-white rounded-full hover:bg-red-700 dark:bg-red-800"
+                    aria-label={`Eliminar imagen ${indice + 1}`}
                   >
                     <FaTimes className="h-3 w-3" />
                   </button>
@@ -256,6 +258,7 @@ export default function PublicacionForm({
               multiple
               onChange={manejarSeleccionImagenes}
               className="hidden"
+              aria-label="Seleccionar imágenes"
             />
 
             {formulario.imagenes.length > 0 && (

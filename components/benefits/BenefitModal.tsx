@@ -108,6 +108,7 @@ const BenefitModal: FC<BenefitModalProps> = ({
               onClick={onClose}
               className="absolute top-4 right-4 p-2 bg-black bg-opacity-50 text-white 
                        rounded-full hover:bg-opacity-75 z-10"
+              aria-label="Cerrar modal"
             >
               <FaTimes className="w-5 h-5" />
             </button>

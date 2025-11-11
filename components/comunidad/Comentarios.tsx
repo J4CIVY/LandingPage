@@ -177,6 +177,7 @@ function ComentarioItem({
                 <button
                   onClick={() => setMostrarMenu(!mostrarMenu)}
                   className="p-1 text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-100"
+                  aria-label="Opciones de comentario"
                 >
                   <FaEllipsisV className="h-3 w-3" />
                 </button>
@@ -248,6 +249,7 @@ function ComentarioItem({
                   className="w-full p-2 text-sm border border-gray-300 dark:border-slate-600 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
                   rows={2}
                   maxLength={1000}
+                  aria-label="Editar comentario"
                 />
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-gray-500 dark:text-gray-300">

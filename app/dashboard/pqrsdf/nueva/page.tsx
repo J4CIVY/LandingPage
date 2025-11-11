@@ -528,6 +528,7 @@ function NuevaSolicitudPageContent() {
                       </div>
                     ) : eventosRegistrados.length > 0 ? (
                       <select
+                        aria-label="Seleccionar evento para reembolso"
                         value={formulario.eventoId || ''}
                         onChange={(e) => {
                           const eventoSeleccionado = eventosRegistrados.find(ev => ev.id === e.target.value);
@@ -592,10 +593,11 @@ function NuevaSolicitudPageContent() {
                   {/* Tipo y Número de Documento */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+                      <label htmlFor="tipo-documento-bancario" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                         Tipo de Documento <span className="text-red-500">*</span>
                       </label>
                       <select
+                        id="tipo-documento-bancario"
                         value={datosBancarios.tipoDocumento}
                         onChange={(e) => handleDatosBancariosChange('tipoDocumento', e.target.value)}
                         className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-slate-100"
@@ -630,10 +632,11 @@ function NuevaSolicitudPageContent() {
 
                   {/* Banco */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+                    <label htmlFor="banco-reembolso" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                       Banco <span className="text-red-500">*</span>
                     </label>
                     <select
+                      id="banco-reembolso"
                       value={datosBancarios.banco}
                       onChange={(e) => handleDatosBancariosChange('banco', e.target.value)}
                       className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-slate-100 ${
@@ -811,6 +814,7 @@ function NuevaSolicitudPageContent() {
                           type="button"
                           onClick={() => removerArchivo(index)}
                           className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+                          aria-label={`Eliminar archivo ${archivo.name}`}
                         >
                           <FaTimes className="w-4 h-4" />
                         </button>

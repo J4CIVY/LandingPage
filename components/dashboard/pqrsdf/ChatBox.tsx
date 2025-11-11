@@ -138,6 +138,7 @@ export default function ChatBox({
                               href={adjunto.url} 
                               download 
                               className="hover:underline"
+                              aria-label={`Descargar ${adjunto.nombre}`}
                             >
                               <FaDownload className="w-3 h-3" />
                             </a>
@@ -191,13 +192,14 @@ export default function ChatBox({
             
             <div className="flex flex-col space-y-2">
               {/* Botón adjuntar */}
-              <label className="cursor-pointer">
+              <label className="cursor-pointer" aria-label="Adjuntar archivos">
                 <input
                   type="file"
                   multiple
                   onChange={handleAdjuntos}
                   className="hidden"
                   disabled={enviando}
+                  aria-label="Seleccionar archivos para adjuntar"
                 />
                 <div className="p-3 text-gray-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700">
                   <FaPaperclip className="w-4 h-4" />
@@ -209,6 +211,7 @@ export default function ChatBox({
                 onClick={handleEnviar}
                 disabled={!nuevoMensaje.trim() || enviando}
                 className="p-3 bg-blue-600 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-800 disabled:bg-gray-400 dark:disabled:bg-slate-700 disabled:cursor-not-allowed"
+                aria-label="Enviar mensaje"
               >
                 <FaPaperPlane className="w-4 h-4" />
               </button>

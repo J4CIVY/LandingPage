@@ -176,6 +176,8 @@ export default function RankingPage() {
             <div className="relative">
               <FaFilter className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
               <select
+                id="filter-membership-ranking"
+                aria-label="Filtrar por tipo de membresía"
                 value={filterMembership}
                 onChange={(e) => setFilterMembership(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer"
@@ -238,11 +240,13 @@ export default function RankingPage() {
                       <span 
                         className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium mb-3"
                         style={{ 
-                          backgroundColor: memberConfig.bgColor,
-                          color: memberConfig.textColor 
-                        }}
+                          ['--bg-color' as string]: memberConfig.bgColor,
+                          ['--text-color' as string]: memberConfig.textColor 
+                        } as React.CSSProperties}
                       >
-                        {memberConfig.name}
+                        <span style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} className="px-3 py-1 rounded-full">
+                          {memberConfig.name}
+                        </span>
                       </span>
                       
                       <div className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
@@ -332,11 +336,13 @@ export default function RankingPage() {
                           <span 
                             className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
                             style={{ 
-                              backgroundColor: memberConfig.bgColor,
-                              color: memberConfig.textColor 
-                            }}
+                              ['--bg-color' as string]: memberConfig.bgColor,
+                              ['--text-color' as string]: memberConfig.textColor 
+                            } as React.CSSProperties}
                           >
-                            {memberConfig.name}
+                            <span style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} className="px-2.5 py-0.5 rounded-full">
+                              {memberConfig.name}
+                            </span>
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right">

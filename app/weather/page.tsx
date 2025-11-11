@@ -154,7 +154,7 @@ const Weather: FC = () => {
               className={`py-4 px-6 font-medium text-sm flex items-center whitespace-nowrap focus:outline-none ${activeTab === tab.id ? 'border-b-2 border-green-400 text-green-400 dark:text-green-400' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}
               onClick={() => setActiveTab(tab.id)}
               role="tab"
-              aria-selected={activeTab === tab.id}
+              aria-selected={activeTab === tab.id ? "true" : "false"}
               id={`tab-${tab.id}`}
               aria-controls={`panel-${tab.id}`}
             >

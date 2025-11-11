@@ -214,6 +214,7 @@ export default function MembershipRenewal({ membershipData }: MembershipRenewalP
                 type="checkbox" 
                 className="sr-only peer" 
                 defaultChecked={membershipData.autoRenewal}
+                aria-label="Activar renovación automática"
               />
               <div className="w-11 h-6 bg-gray-200 dark:bg-slate-800 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-900 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 dark:after:border-slate-700 after:border after:rounded-full after:h-5 after:w-5 peer-checked:bg-green-600 dark:peer-checked:bg-green-700"></div>
             </label>

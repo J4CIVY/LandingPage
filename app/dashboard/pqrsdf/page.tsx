@@ -298,6 +298,7 @@ export default function PQRSDFPage() {
                       ? 'bg-white dark:bg-slate-600 text-gray-900 dark:text-slate-100 shadow-sm' 
                       : 'text-gray-600 dark:text-slate-400 hover:text-gray-900 dark:hover:text-slate-100'
                   }`}
+                  aria-label="Ver como tabla"
                 >
                   <FaTable className="w-4 h-4" />
                 </button>
@@ -308,6 +309,7 @@ export default function PQRSDFPage() {
                       ? 'bg-white dark:bg-slate-600 text-gray-900 dark:text-slate-100 shadow-sm' 
                       : 'text-gray-600 dark:text-slate-400 hover:text-gray-900 dark:hover:text-slate-100'
                   }`}
+                  aria-label="Ver como cuadrícula"
                 >
                   <FaTh className="w-4 h-4" />
                 </button>

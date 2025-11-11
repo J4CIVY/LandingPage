@@ -391,11 +391,12 @@ export default function BillingPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+              <label htmlFor="billing-status-filter" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                 Estado
               </label>
               <div className="relative">
                 <select
+                  id="billing-status-filter"
                   value={filters.status}
                   onChange={(e) => setFilters({...filters, status: e.target.value})}
                   className="w-full px-4 py-2 pl-10 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 focus:ring-2 focus:ring-purple-500 appearance-none cursor-pointer"
@@ -432,10 +433,11 @@ export default function BillingPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+              <label htmlFor="billing-date-from" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                 Fecha Desde
               </label>
               <input
+                id="billing-date-from"
                 type="date"
                 value={filters.dateFrom}
                 onChange={(e) => setFilters({...filters, dateFrom: e.target.value})}
@@ -444,10 +446,11 @@ export default function BillingPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+              <label htmlFor="billing-date-to" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                 Fecha Hasta
               </label>
               <input
+                id="billing-date-to"
                 type="date"
                 value={filters.dateTo}
                 onChange={(e) => setFilters({...filters, dateTo: e.target.value})}

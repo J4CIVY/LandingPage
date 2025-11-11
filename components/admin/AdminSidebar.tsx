@@ -132,6 +132,7 @@ export default function AdminSidebar({ user, onLogout, isOpen = false, onClose }
           <button
             onClick={onClose}
             className="p-2 rounded-md text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-slate-800"
+            aria-label="Cerrar menú"
           >
             <FaTimes className="h-5 w-5" />
           </button>

@@ -315,6 +315,7 @@ export default function DetalleSolicitudPage() {
                             href={adjunto.url} 
                             download 
                             className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+                            aria-label={`Descargar ${adjunto.nombre}`}
                           >
                             <FaDownload className="w-4 h-4" />
                           </a>

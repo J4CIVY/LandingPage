@@ -213,6 +213,7 @@ export default function PublicacionCard({
             <button
               onClick={() => setMostrarMenu(!mostrarMenu)}
               className="p-2 text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-100"
+              aria-label="Opciones de publicación"
             >
               <FaEllipsisV className="h-4 w-4" />
             </button>
@@ -287,6 +288,7 @@ export default function PublicacionCard({
               className="w-full p-3 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
               rows={4}
               maxLength={5000}
+              aria-label="Editar publicación"
             />
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-500 dark:text-gray-300">
