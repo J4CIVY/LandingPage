@@ -258,6 +258,7 @@ export default function AnalyticsPage() {
                   value={period}
                   onChange={(e) => handlePeriodChange(e.target.value)}
                   className="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+                  aria-label="Seleccionar período"
                 >
                   <option value="7">Últimos 7 días</option>
                   <option value="30">Últimos 30 días</option>

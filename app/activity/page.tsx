@@ -204,6 +204,7 @@ export default function ActivityPage() {
                   value={filterType}
                   onChange={(e) => setFilterType(e.target.value)}
                   className="pl-10 pr-8 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-700 dark:text-slate-100 appearance-none"
+                  aria-label="Filtrar tipo de actividad"
                 >
                   <option value="all">Todas las actividades</option>
                   <option value="event_registration">Registros de eventos</option>

@@ -302,6 +302,7 @@ export default function EventAttendancePage() {
                 value={filterAttendance}
                 onChange={(e) => setFilterAttendance(e.target.value as 'all' | 'attended' | 'not-attended')}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                aria-label="Filtrar asistencia"
               >
                 <option value="all">Todos los participantes</option>
                 <option value="attended">Solo asistentes</option>

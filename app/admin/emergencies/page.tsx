@@ -345,10 +345,11 @@ export default function EmergenciesAdminPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="status-filter" className="block text-sm font-medium text-gray-700 mb-2">
                   Estado
                 </label>
                 <select
+                  id="status-filter"
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -363,10 +364,11 @@ export default function EmergenciesAdminPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="priority-filter" className="block text-sm font-medium text-gray-700 mb-2">
                   Prioridad
                 </label>
                 <select
+                  id="priority-filter"
                   value={priorityFilter}
                   onChange={(e) => setPriorityFilter(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -381,10 +383,11 @@ export default function EmergenciesAdminPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="type-filter" className="block text-sm font-medium text-gray-700 mb-2">
                   Tipo
                 </label>
                 <select
+                  id="type-filter"
                   value={typeFilter}
                   onChange={(e) => setTypeFilter(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -399,10 +402,11 @@ export default function EmergenciesAdminPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="sort-by" className="block text-sm font-medium text-gray-700 mb-2">
                   Ordenar por
                 </label>
                 <select
+                  id="sort-by"
                   value={`${sortBy}-${sortOrder}`}
                   onChange={(e) => {
                     const [field, order] = e.target.value.split('-');
@@ -523,6 +527,7 @@ export default function EmergenciesAdminPage() {
                             onChange={(e) => handleQuickStatusChange(emergency._id, e.target.value)}
                             className={`text-xs font-medium px-2.5 py-0.5 rounded-full border-0 ${getStatusColor(emergency.status)}`}
                             disabled={isSubmitting}
+                            aria-label={`Cambiar estado de ${emergency.name}`}
                           >
                             {STATUS_OPTIONS.map(option => (
                               <option key={option.value} value={option.value}>

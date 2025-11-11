@@ -295,10 +295,11 @@ export default function NewMembershipPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="membershipType" className="block text-sm font-medium text-gray-700 mb-2">
                     Tipo de Membresía *
                   </label>
                   <select
+                    id="membershipType"
                     name="membershipType"
                     value={formData.membershipType}
                     onChange={handleInputChange}
@@ -350,10 +351,11 @@ export default function NewMembershipPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="ridingExperience" className="block text-sm font-medium text-gray-700 mb-2">
                     Experiencia de Conducción
                   </label>
                   <select
+                    id="ridingExperience"
                     name="ridingExperience"
                     value={formData.ridingExperience}
                     onChange={handleInputChange}
@@ -388,10 +390,11 @@ export default function NewMembershipPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="source" className="block text-sm font-medium text-gray-700 mb-2">
                     Fuente
                   </label>
                   <select
+                    id="source"
                     name="source"
                     value={formData.source}
                     onChange={handleInputChange}

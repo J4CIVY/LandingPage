@@ -380,10 +380,11 @@ export default function MembershipsAdminPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="filterStatus" className="block text-sm font-medium text-gray-700 mb-2">
                 Estado
               </label>
               <select
+                id="filterStatus"
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -396,10 +397,11 @@ export default function MembershipsAdminPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="filterMembershipType" className="block text-sm font-medium text-gray-700 mb-2">
                 Tipo de Membresía
               </label>
               <select
+                id="filterMembershipType"
                 value={filterMembershipType}
                 onChange={(e) => setFilterMembershipType(e.target.value)}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -414,10 +416,11 @@ export default function MembershipsAdminPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="sortByOrder" className="block text-sm font-medium text-gray-700 mb-2">
                 Ordenar por
               </label>
               <select
+                id="sortByOrder"
                 value={`${sortBy}-${sortOrder}`}
                 onChange={(e) => {
                   const [field, order] = e.target.value.split('-');
@@ -475,6 +478,7 @@ export default function MembershipsAdminPage() {
                       checked={selectedApplications.length === applications.length && applications.length > 0}
                       onChange={handleSelectAll}
                       className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      aria-label="Seleccionar todas las solicitudes"
                     />
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -521,6 +525,7 @@ export default function MembershipsAdminPage() {
                           checked={selectedApplications.includes(application._id)}
                           onChange={() => handleSelectApplication(application._id)}
                           className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                          aria-label={`Seleccionar solicitud ${application._id}`}
                         />
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">

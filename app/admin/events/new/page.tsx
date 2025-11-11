@@ -333,6 +333,7 @@ export default function NewEventPage() {
             <button
               onClick={() => router.back()}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              aria-label="Volver atrás"
             >
               <FaArrowLeft className="text-gray-600" />
             </button>
@@ -405,10 +406,11 @@ export default function NewEventPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="eventType" className="block text-sm font-medium text-gray-700 mb-2">
                   Tipo de Evento
                 </label>
                 <select
+                  id="eventType"
                   name="eventType"
                   value={formData.eventType}
                   onChange={handleInputChange}
@@ -423,10 +425,11 @@ export default function NewEventPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="eventStatus" className="block text-sm font-medium text-gray-700 mb-2">
                   Estado
                 </label>
                 <select
+                  id="eventStatus"
                   name="status"
                   value={formData.status}
                   onChange={handleInputChange}
@@ -448,10 +451,11 @@ export default function NewEventPage() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="startDate" className="block text-sm font-medium text-gray-700 mb-2">
                   Fecha de Inicio *
                 </label>
                 <input
+                  id="startDate"
                   type="date"
                   name="startDate"
                   value={formData.startDate}
@@ -462,10 +466,11 @@ export default function NewEventPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="startTime" className="block text-sm font-medium text-gray-700 mb-2">
                   Hora de Inicio *
                 </label>
                 <input
+                  id="startTime"
                   type="time"
                   name="startTime"
                   value={formData.startTime}
@@ -476,10 +481,11 @@ export default function NewEventPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="endDate" className="block text-sm font-medium text-gray-700 mb-2">
                   Fecha de Fin
                 </label>
                 <input
+                  id="endDate"
                   type="date"
                   name="endDate"
                   value={formData.endDate}
@@ -490,10 +496,11 @@ export default function NewEventPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="endTime" className="block text-sm font-medium text-gray-700 mb-2">
                   Hora de Fin
                 </label>
                 <input
+                  id="endTime"
                   type="time"
                   name="endTime"
                   value={formData.endTime}
@@ -688,11 +695,12 @@ export default function NewEventPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="registrationOpenDate" className="block text-sm font-medium text-gray-700 mb-2">
                   <FaCalendarCheck className="inline mr-2 text-green-500" />
                   Fecha de Apertura de Inscripciones
                 </label>
                 <input
+                  id="registrationOpenDate"
                   type="datetime-local"
                   name="registrationOpenDate"
                   value={formData.registrationOpenDate}
@@ -703,11 +711,12 @@ export default function NewEventPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="registrationDeadline" className="block text-sm font-medium text-gray-700 mb-2">
                   <FaClock className="inline mr-2 text-orange-500" />
                   Fecha Límite de Inscripciones
                 </label>
                 <input
+                  id="registrationDeadline"
                   type="datetime-local"
                   name="registrationDeadline"
                   value={formData.registrationDeadline}

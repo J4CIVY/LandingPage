@@ -391,10 +391,11 @@ export default function EventFormPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="eventType" className="block text-sm font-medium text-gray-700 mb-2">
                   Tipo de Evento *
                 </label>
                 <select
+                  id="eventType"
                   name="eventType"
                   value={formData.eventType}
                   onChange={handleInputChange}
@@ -411,10 +412,11 @@ export default function EventFormPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-2">
                   Estado
                 </label>
                 <select
+                  id="status"
                   name="status"
                   value={formData.status}
                   onChange={handleInputChange}
@@ -492,10 +494,11 @@ export default function EventFormPage() {
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="startDate" className="block text-sm font-medium text-gray-700 mb-2">
                   Fecha y Hora de Inicio *
                 </label>
                 <input
+                  id="startDate"
                   type="datetime-local"
                   name="startDate"
                   value={formData.startDate}
@@ -508,10 +511,11 @@ export default function EventFormPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="endDate" className="block text-sm font-medium text-gray-700 mb-2">
                   Fecha y Hora de Fin
                 </label>
                 <input
+                  id="endDate"
                   type="datetime-local"
                   name="endDate"
                   value={formData.endDate}
@@ -524,10 +528,11 @@ export default function EventFormPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="registrationDeadline" className="block text-sm font-medium text-gray-700 mb-2">
                   Fecha Límite de Registro
                 </label>
                 <input
+                  id="registrationDeadline"
                   type="datetime-local"
                   name="registrationDeadline"
                   value={formData.registrationDeadline}
@@ -694,10 +699,11 @@ export default function EventFormPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="difficulty" className="block text-sm font-medium text-gray-700 mb-2">
                   Nivel de Dificultad
                 </label>
                 <select
+                  id="difficulty"
                   name="difficulty"
                   value={formData.difficulty}
                   onChange={handleInputChange}

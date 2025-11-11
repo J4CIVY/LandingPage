@@ -408,10 +408,11 @@ function CreateNotificationForm({ onSuccess }: { onSuccess: () => void }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Tipo */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label htmlFor="notificationType" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Tipo de Notificación
           </label>
           <select
+            id="notificationType"
             value={formData.type}
             onChange={(e) => setFormData({ ...formData, type: e.target.value as 'event_upcoming' | 'event_registration_open' | 'event_reminder' | 'membership_update' | 'system_announcement' })}
             className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
@@ -427,10 +428,11 @@ function CreateNotificationForm({ onSuccess }: { onSuccess: () => void }) {
 
         {/* Prioridad */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label htmlFor="notificationPriority" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Prioridad
           </label>
           <select
+            id="notificationPriority"
             value={formData.priority}
             onChange={(e) => setFormData({ ...formData, priority: e.target.value as 'low' | 'medium' | 'high' | 'urgent' })}
             className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
@@ -476,10 +478,11 @@ function CreateNotificationForm({ onSuccess }: { onSuccess: () => void }) {
 
       {/* Destinatarios */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        <label htmlFor="targetUsers" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
           Destinatarios
         </label>
         <select
+          id="targetUsers"
           value={formData.targetUsers}
           onChange={(e) => setFormData({ ...formData, targetUsers: e.target.value as 'all' | 'active' | 'premium' | 'specific' })}
           className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"

@@ -449,10 +449,11 @@ export default function EditMembershipPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="membershipType" className="block text-sm font-medium text-gray-700 mb-2">
                     Tipo de Membresía *
                   </label>
                   <select
+                    id="membershipType"
                     name="membershipType"
                     value={membership.membershipType}
                     onChange={handleInputChange}
@@ -504,10 +505,11 @@ export default function EditMembershipPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="ridingExperience" className="block text-sm font-medium text-gray-700 mb-2">
                     Experiencia de Conducción
                   </label>
                   <select
+                    id="ridingExperience"
                     name="ridingExperience"
                     value={membership.ridingExperience || 'beginner'}
                     onChange={handleInputChange}
@@ -542,10 +544,11 @@ export default function EditMembershipPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="source" className="block text-sm font-medium text-gray-700 mb-2">
                     Fuente
                   </label>
                   <select
+                    id="source"
                     name="source"
                     value={membership.source || 'website'}
                     onChange={handleInputChange}
@@ -595,10 +598,11 @@ export default function EditMembershipPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="membershipStartDate" className="block text-sm font-medium text-gray-700 mb-2">
                       Fecha de Inicio
                     </label>
                     <input
+                      id="membershipStartDate"
                       type="date"
                       name="membershipStartDate"
                       value={membership.membershipStartDate ? membership.membershipStartDate.split('T')[0] : ''}
@@ -608,10 +612,11 @@ export default function EditMembershipPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="orientationCompleted" className="block text-sm font-medium text-gray-700 mb-2">
                       Orientación Completada
                     </label>
                     <select
+                      id="orientationCompleted"
                       name="orientationCompleted"
                       value={membership.orientationCompleted ? 'true' : 'false'}
                       onChange={(e) => setMembership(prev => ({

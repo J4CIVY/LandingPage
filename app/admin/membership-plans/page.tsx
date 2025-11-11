@@ -322,10 +322,11 @@ export default function AdminMembershipPlansPage() {
             <div className="mt-4 pt-4 border-t border-gray-200">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="statusFilter" className="block text-sm font-medium text-gray-700 mb-1">
                     Estado
                   </label>
                   <select
+                    id="statusFilter"
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
                     className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
@@ -339,10 +340,11 @@ export default function AdminMembershipPlansPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="renewalFilter" className="block text-sm font-medium text-gray-700 mb-1">
                     Requiere Renovación
                   </label>
                   <select
+                    id="renewalFilter"
                     value={renewalFilter}
                     onChange={(e) => setRenewalFilter(e.target.value)}
                     className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
@@ -354,10 +356,11 @@ export default function AdminMembershipPlansPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="featuredFilter" className="block text-sm font-medium text-gray-700 mb-1">
                     Destacado
                   </label>
                   <select
+                    id="featuredFilter"
                     value={featuredFilter}
                     onChange={(e) => setFeaturedFilter(e.target.value)}
                     className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
@@ -422,7 +425,7 @@ export default function AdminMembershipPlansPage() {
                         <div className="flex items-center">
                           <div 
                             className="w-3 h-3 rounded-full mr-3"
-                            style={{ backgroundColor: plan.display.color }}
+                            {...{ style: { backgroundColor: plan.display.color } }}
                           />
                           <div>
                             <div className="flex items-center">
