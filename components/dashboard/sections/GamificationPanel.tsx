@@ -161,10 +161,6 @@ export default function GamificationPanel() {
     return Math.round(((gamificationData.stats.participationScore || 0) / gamificationData.stats.maxParticipationScore) * 100);
   };
 
-  const getLevelColor = () => {
-    return gamificationData?.level?.color || '#10B981';
-  };
-
   const getLevelIcon = (level: string) => {
     // Usar FaSeedling como icono de Novato, se pueden agregar más niveles si es necesario
     if (level === 'Novato') return <FaSeedling className="text-green-500 dark:text-green-400" />;
@@ -249,7 +245,7 @@ export default function GamificationPanel() {
           <div className="flex items-center justify-center mb-2">
             <span className="text-3xl mr-2">{getLevelIcon(level.current)}</span>
             <div>
-              <h4 className="text-lg font-bold" style={{ color: getLevelColor() }}>
+              <h4 className="text-lg font-bold text-green-600 dark:text-green-400">
                 Nivel {level.current}
               </h4>
               <p className="text-sm text-gray-600 dark:text-slate-400">
@@ -266,8 +262,8 @@ export default function GamificationPanel() {
             </div>
             <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
               <div 
-                className="bg-linear-to-r from-blue-500 to-purple-600 h-2 rounded-full"
-                style={{ width: `${Math.min(Math.max(level.progress || 0, 0), 100)}%` }}
+                className="bg-linear-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300"
+                style={{ width: `clamp(0%, ${level.progress || 0}%, 100%)` }}
               ></div>
             </div>
             <p className="text-xs text-gray-500 dark:text-slate-500 mt-1">
@@ -320,8 +316,8 @@ export default function GamificationPanel() {
           </div>
             <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-3">
               <div 
-                className="bg-linear-to-r from-green-400 to-blue-500 h-3 rounded-full"
-                style={{ width: `${getParticipationPercentage()}%` }}
+                className="bg-linear-to-r from-green-400 to-blue-500 h-3 rounded-full transition-all duration-300"
+                style={{ width: `clamp(0%, ${getParticipationPercentage()}%, 100%)` }}
               ></div>
             </div>
         </div>

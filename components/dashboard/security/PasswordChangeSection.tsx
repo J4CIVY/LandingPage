@@ -195,6 +195,7 @@ export default function PasswordChangeSection() {
             <button
               onClick={() => setToast(null)}
               className="ml-4 text-gray-400 hover:text-gray-600"
+              aria-label="Cerrar notificación"
             >
               <FaTimesCircle className="h-4 w-4" />
             </button>
@@ -265,8 +266,8 @@ export default function PasswordChangeSection() {
               </div>
               <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                 <div 
-                  className={`h-2 rounded-full ${passwordStrength.color}`}
-                  style={{ width: `${passwordStrength.score}%` }}
+                  className={`h-2 rounded-full transition-all duration-300 ${passwordStrength.color}`}
+                  style={{ width: `clamp(0%, ${passwordStrength.score}%, 100%)` }}
                 />
               </div>
             </div>

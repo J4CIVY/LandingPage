@@ -322,7 +322,7 @@ export default function ProfilePage() {
                 </div>
                 <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2 overflow-hidden">
                   <div 
-                    className={`bg-gradient-to-r from-blue-500 to-green-500 h-2 rounded-full transition-all duration-300 ${
+                    className={`bg-linear-to-r from-blue-500 to-green-500 h-2 rounded-full transition-all duration-300 ${
                       profileCompletion >= 90 ? 'w-full' :
                       profileCompletion >= 75 ? 'w-11/12' :
                       profileCompletion >= 60 ? 'w-3/4' :

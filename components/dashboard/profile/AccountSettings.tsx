@@ -380,6 +380,7 @@ export default function AccountSettings({ user, onSave, isEditing = false, onEdi
                   type="button"
                   onClick={() => localIsEditing && handleNotificationChange(key as keyof NotificationSettings)}
                   disabled={!localIsEditing || key === 'securityAlerts'}
+                  aria-label={`${notifications[key as keyof NotificationSettings] ? 'Desactivar' : 'Activar'} ${label}`}
                   className={`relative inline-flex h-6 w-11 items-center rounded-full ${
                     notifications[key as keyof NotificationSettings]
                       ? 'bg-green-600'

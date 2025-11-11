@@ -182,8 +182,8 @@ export default function MembershipCurrentStatus({ membershipData }: MembershipCu
             </div>
             <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
               <div 
-                className={`h-2 rounded-full ${statusConfig.progressColor}`}
-                style={{ width: `${progressPercentage}%` }}
+                className={`h-2 rounded-full transition-all duration-300 ${statusConfig.progressColor}`}
+                style={{ width: `clamp(0%, ${progressPercentage}%, 100%)` }}
               ></div>
             </div>
           </div>

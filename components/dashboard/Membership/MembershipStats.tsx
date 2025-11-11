@@ -257,8 +257,8 @@ export default function MembershipStats({ user }: MembershipStatsProps) {
           </div>
           <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
             <div 
-              className="bg-linear-to-r from-green-500 to-green-600 dark:from-green-700 dark:to-green-500 h-2 rounded-full"
-              style={{ width: `${Math.round(stats.levelProgress)}%` }}
+              className="bg-linear-to-r from-green-500 to-green-600 dark:from-green-700 dark:to-green-500 h-2 rounded-full transition-all duration-300"
+              style={{ width: `clamp(0%, ${Math.round(stats.levelProgress)}%, 100%)` }}
             ></div>
           </div>
         </div>

@@ -219,6 +219,7 @@ export default function SessionManagementSection() {
             <button
               onClick={() => setToast(null)}
               className="ml-4 text-gray-400 hover:text-gray-600"
+              aria-label="Cerrar notificación"
             >
               <FaTimesCircle className="h-4 w-4" />
             </button>

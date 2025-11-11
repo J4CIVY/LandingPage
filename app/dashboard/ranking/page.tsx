@@ -237,16 +237,8 @@ export default function RankingPage() {
                         {isUser && <span className="text-sm ml-2">(Tú)</span>}
                       </h3>
                       
-                      <span 
-                        className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium mb-3"
-                        style={{ 
-                          ['--bg-color' as string]: memberConfig.bgColor,
-                          ['--text-color' as string]: memberConfig.textColor 
-                        } as React.CSSProperties}
-                      >
-                        <span style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} className="px-3 py-1 rounded-full">
-                          {memberConfig.name}
-                        </span>
+                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium mb-3 ${memberConfig.bgColor} ${memberConfig.textColor}`}>
+                        {memberConfig.name}
                       </span>
                       
                       <div className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
@@ -333,16 +325,8 @@ export default function RankingPage() {
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span 
-                            className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
-                            style={{ 
-                              ['--bg-color' as string]: memberConfig.bgColor,
-                              ['--text-color' as string]: memberConfig.textColor 
-                            } as React.CSSProperties}
-                          >
-                            <span style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} className="px-2.5 py-0.5 rounded-full">
-                              {memberConfig.name}
-                            </span>
+                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${memberConfig.bgColor} ${memberConfig.textColor}`}>
+                            {memberConfig.name}
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right">

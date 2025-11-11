@@ -411,7 +411,7 @@ const Store: FC = () => {
                       'bg-red-500 dark:bg-red-400 text-white dark:text-gray-900 hover:bg-red-600 dark:hover:bg-red-500' :
                       'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
                       }`}
-                    aria-disabled={product.availability !== 'in-stock' ? "true" : "false"}
+                    aria-disabled={product.availability !== 'in-stock'}
                     tabIndex={product.availability !== 'in-stock' ? -1 : 0}
                   >
                     Buy Now
@@ -531,7 +531,7 @@ const Store: FC = () => {
                                 'bg-red-500 dark:bg-red-400 text-white dark:text-gray-900 hover:bg-red-600 dark:hover:bg-red-500' :
                                 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
                               }`}
-                            aria-disabled={selectedProduct.availability !== 'in-stock' ? "true" : "false"}
+                            aria-disabled={selectedProduct.availability !== 'in-stock'}
                             tabIndex={selectedProduct.availability !== 'in-stock' ? -1 : 0}
                           >
                             Buy Now
