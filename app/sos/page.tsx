@@ -244,6 +244,7 @@ const Sos: FC = () => {
       <div className="max-w-7xl mx-auto px-4 md:px-8 mt-8">
   <div className="flex border-b border-gray-200 dark:border-gray-700" role="tablist">
           <button
+            type="button"
             className={`py-4 px-6 font-medium flex items-center ${activeTab === "emergency" ? "text-green-400 border-b-2 border-green-400" : "text-gray-500 dark:text-gray-400"}`}
             onClick={() => setActiveTab("emergency")}
             role="tab"
@@ -255,6 +256,7 @@ const Sos: FC = () => {
             Contacto de Emergencia
           </button>
           <button
+            type="button"
             className={`py-4 px-6 font-medium flex items-center ${activeTab === "form" ? "text-green-400 border-b-2 border-green-400" : "text-gray-500 dark:text-gray-400"}`}
             onClick={() => setActiveTab("form")}
             role="tab"
@@ -266,6 +268,7 @@ const Sos: FC = () => {
             Formulario de Emergencia
           </button>
           <button
+            type="button"
             className={`py-4 px-6 font-medium flex items-center ${activeTab === "workshops" ? "text-green-400 border-b-2 border-green-400" : "text-gray-500 dark:text-gray-400"}`}
             onClick={() => setActiveTab("workshops")}
             role="tab"
