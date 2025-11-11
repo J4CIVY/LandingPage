@@ -504,11 +504,12 @@ export default function MotorcycleInfo({ user, onSave, isEditing = false, onEdit
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+              <label htmlFor="moto-year" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                 Año
               </label>
               {localIsEditing ? (
                 <select
+                  id="moto-year"
                   name="motorcycleYear"
                   value={formData.motorcycleYear}
                   onChange={handleInputChange}
@@ -619,11 +620,12 @@ export default function MotorcycleInfo({ user, onSave, isEditing = false, onEdit
               </div>
               
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                <label htmlFor="soat-vencimiento" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
                   Fecha de Vencimiento
                 </label>
                 {localIsEditing ? (
                   <input
+                    id="soat-vencimiento"
                     type="date"
                     name="soatExpirationDate"
                     value={formData.soatExpirationDate}
@@ -666,11 +668,12 @@ export default function MotorcycleInfo({ user, onSave, isEditing = false, onEdit
               </div>
               
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                <label htmlFor="tech-review-vencimiento" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
                   Fecha de Vencimiento
                 </label>
                 {localIsEditing ? (
                   <input
+                    id="tech-review-vencimiento"
                     type="date"
                     name="technicalReviewExpirationDate"
                     value={formData.technicalReviewExpirationDate}
@@ -734,11 +737,12 @@ export default function MotorcycleInfo({ user, onSave, isEditing = false, onEdit
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                  <label htmlFor="license-categoria" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                     Categoría
                   </label>
                   {localIsEditing ? (
                     <select
+                      id="license-categoria"
                       name="licenseCategory"
                       value={formData.licenseCategory}
                       onChange={handleInputChange}
@@ -757,11 +761,12 @@ export default function MotorcycleInfo({ user, onSave, isEditing = false, onEdit
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                  <label htmlFor="license-vencimiento" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                     Fecha de Vencimiento
                   </label>
                   {localIsEditing ? (
                     <input
+                      id="license-vencimiento"
                       type="date"
                       name="licenseExpirationDate"
                       value={formData.licenseExpirationDate}
@@ -818,6 +823,7 @@ export default function MotorcycleInfo({ user, onSave, isEditing = false, onEdit
                     type="button"
                     onClick={() => removeImage(index)}
                     className="absolute top-2 right-2 w-6 h-6 bg-red-600 hover:bg-red-700 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100"
+                    aria-label="Eliminar imagen de motocicleta"
                   >
                     <FaTrash className="w-3 h-3" />
                   </button>
@@ -833,6 +839,7 @@ export default function MotorcycleInfo({ user, onSave, isEditing = false, onEdit
                   onChange={handleImageUpload}
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                   disabled={isUploadingImage}
+                  aria-label="Subir imagen de motocicleta"
                 />
                 <div className="w-full h-32 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600">
                   {isUploadingImage ? (

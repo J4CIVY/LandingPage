@@ -273,10 +273,11 @@ export default function Documents({ onDocumentUpload, onDocumentDelete, onDocume
             
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                <label htmlFor="doc-tipo" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                   Tipo de Documento *
                 </label>
                 <select
+                  id="doc-tipo"
                   value={uploadType}
                   onChange={(e) => setUploadType(e.target.value)}
                   className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-slate-700 dark:border-slate-600 dark:text-white"
@@ -289,10 +290,11 @@ export default function Documents({ onDocumentUpload, onDocumentDelete, onDocume
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                <label htmlFor="doc-descripcion" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                   Descripción (Opcional)
                 </label>
                 <input
+                  id="doc-descripcion"
                   type="text"
                   value={uploadDescription}
                   onChange={(e) => setUploadDescription(e.target.value)}
@@ -302,15 +304,17 @@ export default function Documents({ onDocumentUpload, onDocumentDelete, onDocume
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                <label htmlFor="doc-archivo" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                   Archivo *
                 </label>
                 <input
+                  id="doc-archivo"
                   type="file"
                   accept=".pdf,.jpg,.jpeg,.png,.gif"
                   onChange={handleFileUpload}
                   disabled={!uploadType || isUploading}
                   className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-slate-700 dark:border-slate-600 dark:text-white"
+                  aria-label="Seleccionar archivo de documento"
                 />
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                   Formatos permitidos: PDF, JPG, PNG, GIF. Máximo 10MB.
@@ -440,6 +444,7 @@ export default function Documents({ onDocumentUpload, onDocumentDelete, onDocume
                     <button
                       onClick={() => handleDeleteDocument(document.id)}
                       className="px-3 py-2 bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-800/50 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 rounded-lg text-sm font-medium"
+                      aria-label="Eliminar documento"
                     >
                       <FaTrash className="w-4 h-4" />
                     </button>

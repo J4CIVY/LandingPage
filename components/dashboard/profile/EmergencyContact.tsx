@@ -263,11 +263,12 @@ export default function EmergencyContact({ user, onSave, isEditing = false, onEd
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+              <label htmlFor="emergency-relacion" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                 Relación *
               </label>
               {localIsEditing ? (
                 <select
+                  id="emergency-relacion"
                   name="emergencyContactRelationship"
                   value={formData.emergencyContactRelationship}
                   onChange={handleInputChange}

@@ -271,6 +271,7 @@ export default function AdminOptions({
                   <button
                     onClick={() => setShowNotesModal({type: 'document', id: doc.id})}
                     className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-800/50 text-blue-600 dark:text-blue-400 rounded-lg text-sm font-medium"
+                    aria-label="Ver documento"
                   >
                     <FaEye className="w-3 h-3" />
                   </button>
@@ -278,6 +279,7 @@ export default function AdminOptions({
                   <button
                     onClick={() => handleDocumentAction(doc.id, true)}
                     className="px-3 py-1 bg-green-100 dark:bg-green-900/30 hover:bg-green-200 dark:hover:bg-green-800/50 text-green-600 dark:text-green-400 rounded-lg text-sm font-medium"
+                    aria-label="Aprobar documento"
                   >
                     <FaCheck className="w-3 h-3" />
                   </button>
@@ -285,6 +287,7 @@ export default function AdminOptions({
                   <button
                     onClick={() => setShowNotesModal({type: 'document-reject', id: doc.id})}
                     className="px-3 py-1 bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-800/50 text-red-600 dark:text-red-400 rounded-lg text-sm font-medium"
+                    aria-label="Rechazar documento"
                   >
                     <FaTimes className="w-3 h-3" />
                   </button>
@@ -328,6 +331,7 @@ export default function AdminOptions({
                     <button
                       onClick={() => handleProfileAction(true)}
                       className="px-3 py-1 bg-green-100 dark:bg-green-900/30 hover:bg-green-200 dark:hover:bg-green-800/50 text-green-600 dark:text-green-400 rounded-lg text-sm font-medium"
+                      aria-label="Aprobar cambio de perfil"
                     >
                       <FaCheck className="w-3 h-3" />
                     </button>
@@ -335,6 +339,7 @@ export default function AdminOptions({
                     <button
                       onClick={() => setShowNotesModal({type: 'profile-reject', id: change.id})}
                       className="px-3 py-1 bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-800/50 text-red-600 dark:text-red-400 rounded-lg text-sm font-medium"
+                      aria-label="Rechazar cambio de perfil"
                     >
                       <FaTimes className="w-3 h-3" />
                     </button>

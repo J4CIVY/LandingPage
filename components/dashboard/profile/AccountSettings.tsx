@@ -205,12 +205,13 @@ export default function AccountSettings({ user, onSave, isEditing = false, onEdi
           
           <div className="space-y-3">
             <div>
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+              <label htmlFor="account-email" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                 Email Actual
               </label>
               <div className="flex items-center gap-2">
                 {localIsEditing ? (
                   <input
+                    id="account-email"
                     type="email"
                     value={newEmail}
                     onChange={(e) => setNewEmail(e.target.value)}
@@ -267,6 +268,7 @@ export default function AccountSettings({ user, onSave, isEditing = false, onEdi
                     type="button"
                     onClick={() => setShowPasswords(prev => ({ ...prev, current: !prev.current }))}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                    aria-label={showPasswords.current ? "Ocultar contraseña actual" : "Mostrar contraseña actual"}
                   >
                     {showPasswords.current ? <FaEyeSlash /> : <FaEye />}
                   </button>
@@ -291,6 +293,7 @@ export default function AccountSettings({ user, onSave, isEditing = false, onEdi
                     type="button"
                     onClick={() => setShowPasswords(prev => ({ ...prev, new: !prev.new }))}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                    aria-label={showPasswords.new ? "Ocultar nueva contraseña" : "Mostrar nueva contraseña"}
                   >
                     {showPasswords.new ? <FaEyeSlash /> : <FaEye />}
                   </button>
@@ -321,6 +324,7 @@ export default function AccountSettings({ user, onSave, isEditing = false, onEdi
                     type="button"
                     onClick={() => setShowPasswords(prev => ({ ...prev, confirm: !prev.confirm }))}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                    aria-label={showPasswords.confirm ? "Ocultar confirmación de contraseña" : "Mostrar confirmación de contraseña"}
                   >
                     {showPasswords.confirm ? <FaEyeSlash /> : <FaEye />}
                   </button>

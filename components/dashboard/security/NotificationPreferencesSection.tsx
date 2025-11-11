@@ -274,6 +274,7 @@ export default function NotificationPreferencesSection() {
             <button
               onClick={() => setToast(null)}
               className="ml-4 text-gray-400 hover:text-gray-600"
+              aria-label="Cerrar notificación"
             >
               <FaTimesCircle className="h-4 w-4" />
             </button>
@@ -315,6 +316,7 @@ export default function NotificationPreferencesSection() {
                 checked={notificationPreferences.email.events}
                 onChange={() => handleNotificationToggle('email', 'events')}
                 className="sr-only peer"
+                aria-label="Email - Notificaciones de eventos"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             </label>
@@ -342,6 +344,7 @@ export default function NotificationPreferencesSection() {
                 checked={notificationPreferences.email.reminders}
                 onChange={() => handleNotificationToggle('email', 'reminders')}
                 className="sr-only peer"
+                aria-label="Email - Recordatorios"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             </label>
@@ -369,6 +372,7 @@ export default function NotificationPreferencesSection() {
                 checked={notificationPreferences.email.newsletter}
                 onChange={() => handleNotificationToggle('email', 'newsletter')}
                 className="sr-only peer"
+                aria-label="Email - Noticias y actualizaciones"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             </label>
@@ -396,6 +400,7 @@ export default function NotificationPreferencesSection() {
                 checked={notificationPreferences.email.adminNotifications}
                 onChange={() => handleNotificationToggle('email', 'adminNotifications')}
                 className="sr-only peer"
+                aria-label="Email - Notificaciones administrativas"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             </label>
@@ -423,6 +428,7 @@ export default function NotificationPreferencesSection() {
                 checked={notificationPreferences.email.documentExpiry}
                 onChange={() => handleNotificationToggle('email', 'documentExpiry')}
                 className="sr-only peer"
+                aria-label="Email - Vencimiento de documentos"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             </label>
@@ -450,6 +456,7 @@ export default function NotificationPreferencesSection() {
                 checked={notificationPreferences.email.emergencyAlerts}
                 onChange={() => handleNotificationToggle('email', 'emergencyAlerts')}
                 className="sr-only peer"
+                aria-label="Email - Alertas de emergencia"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             </label>
@@ -482,6 +489,7 @@ export default function NotificationPreferencesSection() {
                 checked={notificationPreferences.push.events}
                 onChange={() => handleNotificationToggle('push', 'events')}
                 className="sr-only peer"
+                aria-label="Push - Notificaciones de eventos"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             </label>
@@ -509,6 +517,7 @@ export default function NotificationPreferencesSection() {
                 checked={notificationPreferences.push.reminders}
                 onChange={() => handleNotificationToggle('push', 'reminders')}
                 className="sr-only peer"
+                aria-label="Push - Recordatorios"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             </label>
@@ -536,6 +545,7 @@ export default function NotificationPreferencesSection() {
                 checked={notificationPreferences.push.emergencyAlerts}
                 onChange={() => handleNotificationToggle('push', 'emergencyAlerts')}
                 className="sr-only peer"
+                aria-label="Push - Alertas de emergencia"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             </label>
@@ -568,6 +578,7 @@ export default function NotificationPreferencesSection() {
                 checked={notificationPreferences.whatsapp.events}
                 onChange={() => handleNotificationToggle('whatsapp', 'events')}
                 className="sr-only peer"
+                aria-label="WhatsApp - Notificaciones de eventos"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             </label>
@@ -595,6 +606,7 @@ export default function NotificationPreferencesSection() {
                 checked={notificationPreferences.whatsapp.reminders}
                 onChange={() => handleNotificationToggle('whatsapp', 'reminders')}
                 className="sr-only peer"
+                aria-label="WhatsApp - Recordatorios"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             </label>
@@ -622,6 +634,7 @@ export default function NotificationPreferencesSection() {
                 checked={notificationPreferences.whatsapp.emergencyAlerts}
                 onChange={() => handleNotificationToggle('whatsapp', 'emergencyAlerts')}
                 className="sr-only peer"
+                aria-label="WhatsApp - Alertas de emergencia"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             </label>
@@ -639,10 +652,11 @@ export default function NotificationPreferencesSection() {
         </div>
         
         <div className="space-y-3">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label htmlFor="notif-language" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Selecciona tu idioma preferido
           </label>
           <select
+            id="notif-language"
             value={selectedLanguage}
             onChange={(e) => handleLanguageChange(e.target.value)}
             disabled={isLoading}
@@ -672,10 +686,11 @@ export default function NotificationPreferencesSection() {
         </div>
         
         <div className="space-y-3">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label htmlFor="notif-timezone" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Selecciona tu zona horaria
           </label>
           <select
+            id="notif-timezone"
             value={selectedTimezone}
             onChange={(e) => handleTimezoneChange(e.target.value)}
             disabled={isLoading}

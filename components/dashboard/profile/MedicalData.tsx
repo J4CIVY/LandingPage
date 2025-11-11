@@ -279,11 +279,12 @@ export default function MedicalData({ user, onSave, isEditing = false, onEditTog
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                <label htmlFor="medical-blood-type" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                   Tipo de Sangre
                 </label>
                 {localIsEditing ? (
                   <select
+                    id="medical-blood-type"
                     name="bloodType"
                     value={formData.bloodType}
                     onChange={handleInputChange}
@@ -309,11 +310,12 @@ export default function MedicalData({ user, onSave, isEditing = false, onEditTog
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                <label htmlFor="medical-rh-factor" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                   Factor RH
                 </label>
                 {localIsEditing ? (
                   <select
+                    id="medical-rh-factor"
                     name="rhFactor"
                     value={formData.rhFactor}
                     onChange={handleInputChange}

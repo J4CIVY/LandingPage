@@ -90,10 +90,11 @@ export default function FiltrosSolicitudes({
           <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Categoría */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
+              <label htmlFor="filtro-categoria" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                 Categoría
               </label>
               <select
+                id="filtro-categoria"
                 value={filtros.categoria || ''}
                 onChange={(e) => actualizarFiltro('categoria', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-slate-100"
@@ -109,10 +110,11 @@ export default function FiltrosSolicitudes({
 
             {/* Estado */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
+              <label htmlFor="filtro-estado" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                 Estado
               </label>
               <select
+                id="filtro-estado"
                 value={filtros.estado || ''}
                 onChange={(e) => actualizarFiltro('estado', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-slate-100"
@@ -128,10 +130,11 @@ export default function FiltrosSolicitudes({
 
             {/* Fecha desde */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
+              <label htmlFor="filtro-fecha-desde" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                 Desde
               </label>
               <input
+                id="filtro-fecha-desde"
                 type="date"
                 value={filtros.fechaDesde ? filtros.fechaDesde.toISOString().split('T')[0] : ''}
                 onChange={(e) => actualizarFiltro('fechaDesde', e.target.value ? new Date(e.target.value) : undefined)}
@@ -141,10 +144,11 @@ export default function FiltrosSolicitudes({
 
             {/* Fecha hasta */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
+              <label htmlFor="filtro-fecha-hasta" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                 Hasta
               </label>
               <input
+                id="filtro-fecha-hasta"
                 type="date"
                 value={filtros.fechaHasta ? filtros.fechaHasta.toISOString().split('T')[0] : ''}
                 onChange={(e) => actualizarFiltro('fechaHasta', e.target.value ? new Date(e.target.value) : undefined)}
