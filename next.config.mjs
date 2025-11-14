@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 import withPWAInit from "@ducanh2912/next-pwa";
-import { withBundleAnalyzer } from '@next/bundle-analyzer';
 
 const withPWA = withPWAInit({
   dest: "public",
@@ -75,10 +74,6 @@ const withPWA = withPWAInit({
       },
     ],
   },
-});
-
-const bundleAnalyzer = withBundleAnalyzer({
-  enabled: process.env.ANALYZE === 'true',
 });
 
 const nextConfig = {
@@ -253,4 +248,16 @@ const nextConfig = {
   compress: true,
 };
 
-export default bundleAnalyzer(withPWA(nextConfig));
+// Conditionally apply bundle analyzer only when ANALYZE env var is set
+let finalConfig = withPWA(nextConfig);
+
+// Only import and use bundle analyzer if ANALYZE is true
+if (process.env.ANALYZE === 'true') {
+  const { withBundleAnalyzer } = await import('@next/bundle-analyzer');
+  const bundleAnalyzer = withBundleAnalyzer({
+    enabled: true,
+  });
+  finalConfig = bundleAnalyzer(finalConfig);
+}
+
+export default finalConfig;
