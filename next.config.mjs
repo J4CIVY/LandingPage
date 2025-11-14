@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 import withPWAInit from "@ducanh2912/next-pwa";
-import withBundleAnalyzer from '@next/bundle-analyzer';
+import { withBundleAnalyzer } from '@next/bundle-analyzer';
 
 const withPWA = withPWAInit({
   dest: "public",
