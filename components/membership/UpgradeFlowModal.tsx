@@ -110,6 +110,7 @@ export default function UpgradeFlowModal({
               <button
                 onClick={handleClose}
                 className="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 p-2 rounded-full"
+                aria-label="Cerrar modal"
               >
                 <FaTimes className="h-4 w-4 text-gray-600 dark:text-gray-300" />
               </button>
@@ -128,7 +129,16 @@ export default function UpgradeFlowModal({
                     <p className="text-sm text-gray-600 dark:text-gray-300">
                       <span className="font-medium">{MEMBERSHIP_CONFIG[currentMembership.type].name}</span>
                       {' → '}
-                      <span className="font-medium" style={{ color: nextConfig.color }}>{nextConfig.name}</span>
+                      <span 
+                        className="font-medium"
+                        ref={(el) => {
+                          if (el) {
+                            el.style.color = nextConfig.color;
+                          }
+                        }}
+                      >
+                        {nextConfig.name}
+                      </span>
                     </p>
                   </div>
                 </div>

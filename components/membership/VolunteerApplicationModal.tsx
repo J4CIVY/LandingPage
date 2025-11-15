@@ -195,6 +195,7 @@ export default function VolunteerApplicationModal({
                 <button
                   onClick={onClose}
                   className="text-white hover:text-gray-200 transition-colors"
+                  aria-label="Cerrar modal de solicitud de voluntariado"
                 >
                   <FaTimes className="text-2xl" />
                 </button>
@@ -315,10 +316,14 @@ export default function VolunteerApplicationModal({
                     {Object.values(documentsAccepted).filter(v => v).length} de 4 documentos
                   </span>
                 </div>
-                <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
+                <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2 overflow-hidden relative">
                   <div
-                    className="bg-linear-to-r from-cyan-600 to-blue-600 h-2 rounded-full transition-all duration-300"
-                    style={{ width: `${(Object.values(documentsAccepted).filter(v => v).length / 4) * 100}%` }}
+                    className="absolute left-0 top-0 bg-linear-to-r from-cyan-600 to-blue-600 h-2 rounded-full transition-all duration-300"
+                    ref={(el) => {
+                      if (el) {
+                        el.style.width = `${Math.min(100, Math.max(0, (Object.values(documentsAccepted).filter(v => v).length / 4) * 100))}%`;
+                      }
+                    }}
                   />
                 </div>
               </div>

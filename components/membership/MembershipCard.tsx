@@ -80,7 +80,11 @@ export default function MembershipCard({
       {/* Header con gradiente */}
       <div 
         className={`p-6 bg-linear-to-r ${config.gradient} text-white relative dark:text-white`}
-        style={{ backgroundColor: config.color }}
+        ref={(el) => {
+          if (el) {
+            el.style.backgroundColor = config.color;
+          }
+        }}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
@@ -159,10 +163,14 @@ export default function MembershipCard({
                 {membership.progress.percent}%
               </span>
             </div>
-            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden relative">
               <div 
-                className={`h-2 rounded-full bg-linear-to-r ${config.gradient}`}
-                style={{ width: `${membership.progress.percent}%` }}
+                className={`absolute left-0 top-0 h-2 rounded-full bg-linear-to-r ${config.gradient}`}
+                ref={(el) => {
+                  if (el) {
+                    el.style.width = `${Math.min(100, Math.max(0, membership.progress.percent))}%`;
+                  }
+                }}
               ></div>
             </div>
             <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">

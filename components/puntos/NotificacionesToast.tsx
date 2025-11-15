@@ -62,6 +62,7 @@ export default function NotificacionesToast({ notificaciones, onEliminar }: Noti
               onClick={() => onEliminar(notificacion.id)}
               className="ml-2 text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-white focus:outline-none"
               type="button"
+              aria-label="Cerrar notificación"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

@@ -63,8 +63,7 @@ export default function DocumentReader({
           {/* Content */}
           <div 
             ref={contentRef}
-            className="relative max-h-[60vh] overflow-y-auto px-6 py-4 bg-white dark:bg-slate-800"
-            style={{ scrollBehavior: 'smooth' }}
+            className="relative max-h-[60vh] overflow-y-auto px-6 py-4 bg-white dark:bg-slate-800 scroll-smooth"
           >
             <div className="prose dark:prose-invert max-w-none">
               {content}

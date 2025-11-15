@@ -113,7 +113,15 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
         <div className="animate-pulse">
           <div className="flex justify-between items-end h-32 gap-2">
             {[1, 2, 3, 4, 5, 6, 7].map(i => (
-              <div key={i} className="flex-1 bg-gray-200 dark:bg-slate-700 rounded" style={{ height: `${Math.random() * 100 + 20}px` }}></div>
+              <div 
+                key={i} 
+                className="flex-1 bg-gray-200 dark:bg-slate-700 rounded"
+                ref={(el) => {
+                  if (el) {
+                    el.style.height = `${Math.random() * 100 + 20}px`;
+                  }
+                }}
+              ></div>
             ))}
           </div>
         </div>
@@ -150,14 +158,18 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
             return (
               <div key={index} className="flex-1 flex flex-col items-center">
                 {/* Barra (mantener si hay contexto útil) */}
-                <div className="relative w-full flex flex-col justify-end" style={{ height: '120px' }}>
+                <div className="relative w-full flex flex-col justify-end h-[120px]">
                   <div
                     className={`w-full rounded-t ${
                       esHoy 
                         ? 'bg-linear-to-t from-blue-500 to-blue-400 dark:from-blue-700 dark:to-blue-400' 
                         : 'bg-linear-to-t from-gray-300 to-gray-200 dark:from-slate-700 dark:to-slate-800'
                     }`}
-                    style={{ height: `${altura}%` }}
+                    ref={(el) => {
+                      if (el) {
+                        el.style.height = `${Math.min(100, Math.max(0, altura))}%`;
+                      }
+                    }}
                   />
                   
                   {/* Valor de puntos (mantener si hay contexto útil) */}

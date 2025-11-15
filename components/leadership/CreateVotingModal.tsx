@@ -197,10 +197,11 @@ const CreateVotingModal: FC<CreateVotingModalProps> = ({
           {step === 1 && (
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+                <label htmlFor="voting-title" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                   Título de la Votación
                 </label>
                 <input
+                  id="voting-title"
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
@@ -211,10 +212,11 @@ const CreateVotingModal: FC<CreateVotingModalProps> = ({
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+                <label htmlFor="voting-type" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                   Tipo de Votación
                 </label>
                 <select
+                  id="voting-type"
                   value={formData.type}
                   onChange={(e) => setFormData({ ...formData, type: e.target.value, candidateId: '' })}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 dark:bg-gray-800 dark:text-white"
@@ -229,19 +231,21 @@ const CreateVotingModal: FC<CreateVotingModalProps> = ({
 
               {formData.type === 'leader_application' && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+                  <label htmlFor="candidate-search" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                     <FaUserCheck className="inline mr-2" />
                     Candidato
                   </label>
                   <div className="space-y-2">
                     <div className="relative">
-                      <FaSearch className="absolute left-3 top-3 text-gray-400" />
+                      <FaSearch className="absolute left-3 top-3 text-gray-400" aria-hidden="true" />
                       <input
+                        id="candidate-search"
                         type="text"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 dark:bg-gray-800 dark:text-white"
                         placeholder="Buscar candidato..."
+                        aria-label="Buscar candidato"
                       />
                     </div>
                     <div className="max-h-40 overflow-y-auto border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900">
@@ -275,10 +279,11 @@ const CreateVotingModal: FC<CreateVotingModalProps> = ({
               )}
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+                <label htmlFor="voting-description" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                   Descripción
                 </label>
                 <textarea
+                  id="voting-description"
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   rows={4}
@@ -294,11 +299,12 @@ const CreateVotingModal: FC<CreateVotingModalProps> = ({
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-                    <FaCalendarAlt className="inline mr-2" />
+                  <label htmlFor="start-date" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+                    <FaCalendarAlt className="inline mr-2" aria-hidden="true" />
                     Fecha y Hora de Inicio
                   </label>
                   <input
+                    id="start-date"
                     type="datetime-local"
                     value={formData.startDate}
                     onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
@@ -308,11 +314,12 @@ const CreateVotingModal: FC<CreateVotingModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-                    <FaCalendarAlt className="inline mr-2" />
+                  <label htmlFor="end-date" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+                    <FaCalendarAlt className="inline mr-2" aria-hidden="true" />
                     Fecha y Hora de Fin
                   </label>
                   <input
+                    id="end-date"
                     type="datetime-local"
                     value={formData.endDate}
                     onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
@@ -346,7 +353,7 @@ const CreateVotingModal: FC<CreateVotingModalProps> = ({
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                    <label htmlFor="requires-quorum" className="text-sm font-medium text-gray-700 dark:text-gray-200">
                       Requiere Quórum
                     </label>
                     <p className="text-xs text-gray-600 dark:text-gray-400">
@@ -354,6 +361,7 @@ const CreateVotingModal: FC<CreateVotingModalProps> = ({
                     </p>
                   </div>
                   <input
+                    id="requires-quorum"
                     type="checkbox"
                     checked={formData.settings.requiresQuorum}
                     onChange={(e) => setFormData({
@@ -366,10 +374,11 @@ const CreateVotingModal: FC<CreateVotingModalProps> = ({
 
                 {formData.settings.requiresQuorum && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+                    <label htmlFor="quorum-percentage" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                       Porcentaje de Quórum (%)
                     </label>
                     <input
+                      id="quorum-percentage"
                       type="number"
                       min="1"
                       max="100"
@@ -385,7 +394,7 @@ const CreateVotingModal: FC<CreateVotingModalProps> = ({
 
                 <div className="flex items-center justify-between">
                   <div>
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                    <label htmlFor="allow-abstention" className="text-sm font-medium text-gray-700 dark:text-gray-200">
                       Permitir Abstención
                     </label>
                     <p className="text-xs text-gray-600 dark:text-gray-400">
@@ -393,6 +402,7 @@ const CreateVotingModal: FC<CreateVotingModalProps> = ({
                     </p>
                   </div>
                   <input
+                    id="allow-abstention"
                     type="checkbox"
                     checked={formData.settings.allowAbstention}
                     onChange={(e) => setFormData({
@@ -405,7 +415,7 @@ const CreateVotingModal: FC<CreateVotingModalProps> = ({
 
                 <div className="flex items-center justify-between">
                   <div>
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                    <label htmlFor="is-secret" className="text-sm font-medium text-gray-700 dark:text-gray-200">
                       Votación Secreta
                     </label>
                     <p className="text-xs text-gray-600 dark:text-gray-400">
@@ -413,6 +423,7 @@ const CreateVotingModal: FC<CreateVotingModalProps> = ({
                     </p>
                   </div>
                   <input
+                    id="is-secret"
                     type="checkbox"
                     checked={formData.settings.isSecret}
                     onChange={(e) => setFormData({
@@ -425,7 +436,7 @@ const CreateVotingModal: FC<CreateVotingModalProps> = ({
 
                 <div className="flex items-center justify-between">
                   <div>
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                    <label htmlFor="results-visible" className="text-sm font-medium text-gray-700 dark:text-gray-200">
                       Resultados Visibles
                     </label>
                     <p className="text-xs text-gray-600 dark:text-gray-400">
@@ -433,6 +444,7 @@ const CreateVotingModal: FC<CreateVotingModalProps> = ({
                     </p>
                   </div>
                   <input
+                    id="results-visible"
                     type="checkbox"
                     checked={formData.settings.resultsVisible}
                     onChange={(e) => setFormData({

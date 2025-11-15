@@ -326,6 +326,7 @@ const LeaderApplicationPlatform: FC<LeaderApplicationPlatformProps> = ({
                       type="button"
                       onClick={() => removePriority(index)}
                       className="ml-2 p-2 text-red-600 hover:text-red-800"
+                      aria-label={`Eliminar prioridad ${index + 1}`}
                     >
                       <FaTrash />
                     </button>
@@ -336,6 +337,7 @@ const LeaderApplicationPlatform: FC<LeaderApplicationPlatformProps> = ({
                 type="button"
                 onClick={addPriority}
                 className="flex items-center text-purple-600 hover:text-purple-800 text-sm"
+                aria-label="Agregar nueva prioridad estratégica"
               >
                 <FaPlus className="mr-1" /> Agregar Prioridad
               </button>
@@ -380,6 +382,7 @@ const LeaderApplicationPlatform: FC<LeaderApplicationPlatformProps> = ({
                       type="button"
                       onClick={() => removeMetric(index)}
                       className="ml-2 p-2 text-red-600 hover:text-red-800"
+                      aria-label={`Eliminar métrica ${index + 1}`}
                     >
                       <FaTrash />
                     </button>
@@ -390,6 +393,7 @@ const LeaderApplicationPlatform: FC<LeaderApplicationPlatformProps> = ({
                 type="button"
                 onClick={addMetric}
                 className="flex items-center text-purple-600 hover:text-purple-800 text-sm"
+                aria-label="Agregar nueva métrica de éxito"
               >
                 <FaPlus className="mr-1" /> Agregar Métrica
               </button>
@@ -529,6 +533,7 @@ const LeaderApplicationPlatform: FC<LeaderApplicationPlatformProps> = ({
                         onClick={() => requestEndorsement(endorser.id, endorser.membershipType.toLowerCase() as 'leader' | 'master')}
                         disabled={formData.endorsements.some(e => e.userId === endorser.id)}
                         className="px-3 py-1 bg-purple-600 text-white rounded text-sm hover:bg-purple-700 disabled:bg-gray-400"
+                        aria-label={`Solicitar aval de ${endorser.name}`}
                       >
                         {formData.endorsements.some(e => e.userId === endorser.id) ? 'Solicitado' : 'Solicitar'}
                       </button>
@@ -591,6 +596,7 @@ const LeaderApplicationPlatform: FC<LeaderApplicationPlatformProps> = ({
                           setFormData({ ...formData, documents: newDocs });
                         }}
                         className="text-red-600 hover:text-red-800"
+                        aria-label={`Eliminar documento ${file.name}`}
                       >
                         <FaTrash />
                       </button>
@@ -744,6 +750,7 @@ const LeaderApplicationPlatform: FC<LeaderApplicationPlatformProps> = ({
             onClick={() => setCurrentStep(Math.max(1, currentStep - 1))}
             disabled={currentStep === 1}
             className="px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white disabled:text-gray-400 dark:disabled:text-gray-500 disabled:cursor-not-allowed"
+            aria-label="Ir al paso anterior"
           >
             Anterior
           </button>
@@ -753,6 +760,7 @@ const LeaderApplicationPlatform: FC<LeaderApplicationPlatformProps> = ({
               onClick={saveAsDraft}
               disabled={saving}
               className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 flex items-center"
+              aria-label="Guardar progreso como borrador"
             >
               {saving ? <FaSpinner className="animate-spin mr-2" /> : <FaSave className="mr-2" />}
               Guardar Borrador
@@ -762,6 +770,7 @@ const LeaderApplicationPlatform: FC<LeaderApplicationPlatformProps> = ({
               <button
                 onClick={() => setCurrentStep(Math.min(steps.length, currentStep + 1))}
                 className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 dark:hover:bg-purple-500"
+                aria-label="Ir al siguiente paso"
               >
                 Siguiente
               </button>
@@ -770,6 +779,7 @@ const LeaderApplicationPlatform: FC<LeaderApplicationPlatformProps> = ({
                 onClick={submitApplication}
                 disabled={loading}
                 className="px-6 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 dark:hover:bg-purple-500 disabled:opacity-50 flex items-center"
+                aria-label="Enviar postulación para revisión"
               >
                 {loading ? <FaSpinner className="animate-spin mr-2" /> : <FaPaperPlane className="mr-2" />}
                 Enviar Postulación

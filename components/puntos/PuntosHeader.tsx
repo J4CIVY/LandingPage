@@ -49,7 +49,12 @@ export default function PuntosHeader({ usuario }: PuntosHeaderProps) {
           </div>
           <div 
             className="px-3 py-1 rounded-full text-sm font-medium"
-            style={{ backgroundColor: usuario.nivel.color + '20', color: usuario.nivel.color }}
+            ref={(el) => {
+              if (el) {
+                el.style.backgroundColor = usuario.nivel.color + '20';
+                el.style.color = usuario.nivel.color;
+              }
+            }}
           >
             {usuario.nivel.icono} {usuario.nivel.nombre}
           </div>

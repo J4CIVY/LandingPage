@@ -85,10 +85,14 @@ export default function MembershipProgress({
           </span>
         </div>
         {/* Barra de progreso principal */}
-        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 mb-2">
+        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 mb-2 overflow-hidden relative">
           <div 
-            className={`h-3 rounded-full bg-linear-to-r ${nextConfig?.gradient}`}
-            style={{ width: `${progress.percent}%` }}
+            className={`absolute left-0 top-0 h-3 rounded-full bg-linear-to-r ${nextConfig?.gradient}`}
+            ref={(el) => {
+              if (el) {
+                el.style.width = `${Math.min(100, Math.max(0, progress.percent))}%`;
+              }
+            }}
           ></div>
         </div>
         <p className="text-sm text-gray-600 dark:text-gray-300">
@@ -133,16 +137,20 @@ export default function MembershipProgress({
               </div>
 
               {/* Barra de progreso individual */}
-              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 mb-1">
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 mb-1 overflow-hidden relative">
                 <div 
-                  className={`h-1.5 rounded-full ${
+                  className={`absolute left-0 top-0 h-1.5 rounded-full ${
                     requirement.fulfilled 
                       ? 'bg-green-500 dark:bg-green-400' 
                       : requirement.progress > 0 
                         ? 'bg-yellow-500 dark:bg-yellow-400'
                         : 'bg-gray-300 dark:bg-gray-600'
                   }`}
-                  style={{ width: `${requirement.progress}%` }}
+                  ref={(el) => {
+                    if (el) {
+                      el.style.width = `${Math.min(100, Math.max(0, requirement.progress))}%`;
+                    }
+                  }}
                 ></div>
               </div>
 

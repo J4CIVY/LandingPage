@@ -110,13 +110,18 @@ const PdfUpload: FC<PdfUploadProps> = ({
   return (
     <div className={`relative ${className}`}>
       {/* Input oculto */}
+      <label htmlFor="pdf-upload-input" className="sr-only">
+        Subir archivo PDF del evento
+      </label>
       <input
+        id="pdf-upload-input"
         ref={fileInputRef}
         type="file"
         accept=".pdf,application/pdf"
         onChange={handleInputChange}
         className="hidden"
         disabled={disabled || uploading}
+        aria-label="Subir archivo PDF del evento"
       />
 
       {/* Área de drop/click */}
@@ -145,19 +150,23 @@ const PdfUpload: FC<PdfUploadProps> = ({
               </span>
               <div className="flex space-x-2">
                 <button
+                  type="button"
                   onClick={openPdf}
                   className="flex items-center space-x-1 px-3 py-1 bg-blue-500 dark:bg-blue-700 text-white rounded text-xs hover:bg-blue-600 dark:hover:bg-blue-800"
                   disabled={disabled || uploading}
+                  aria-label="Ver PDF del evento"
                 >
-                  <FaEye className="w-3 h-3" />
+                  <FaEye className="w-3 h-3" aria-hidden="true" />
                   <span>Ver</span>
                 </button>
                 <button
+                  type="button"
                   onClick={handleRemovePdf}
                   className="flex items-center space-x-1 px-3 py-1 bg-red-500 dark:bg-red-700 text-white rounded text-xs hover:bg-red-600 dark:hover:bg-red-800"
                   disabled={disabled || uploading}
+                  aria-label="Quitar PDF del evento"
                 >
-                  <FaTimes className="w-3 h-3" />
+                  <FaTimes className="w-3 h-3" aria-hidden="true" />
                   <span>Quitar</span>
                 </button>
               </div>

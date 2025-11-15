@@ -109,9 +109,14 @@ export const OptimizedImage: FC<OptimizedImageProps> = ({
   if (hasError) {
     return (
       <div 
-        ref={setRef}
+        ref={(el) => {
+          setRef(el);
+          if (el) {
+            el.style.width = `${width}px`;
+            el.style.height = `${height}px`;
+          }
+        }}
         className={`${className} bg-gray-200 dark:bg-gray-800 flex items-center justify-center`}
-        style={{ width, height }}
         aria-label={`Error cargando imagen: ${alt}`}
       >
         <svg className="w-8 h-8 text-gray-400 dark:text-gray-500" fill="currentColor" viewBox="0 0 20 20">
@@ -125,9 +130,14 @@ export const OptimizedImage: FC<OptimizedImageProps> = ({
   if (!shouldLoad) {
     return (
       <div 
-        ref={setRef}
+        ref={(el) => {
+          setRef(el);
+          if (el) {
+            el.style.width = `${width}px`;
+            el.style.height = `${height}px`;
+          }
+        }}
         className={`${className} bg-gray-200 dark:bg-gray-800 animate-pulse`}
-        style={{ width, height }}
         aria-label={`Cargando imagen: ${alt}`}
       />
     );

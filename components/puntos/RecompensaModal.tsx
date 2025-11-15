@@ -110,6 +110,7 @@ export default function RecompensaModal({
             onClick={onClose}
             className="text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-white focus:outline-none"
             type="button"
+            aria-label="Cerrar detalles de recompensa"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

@@ -159,6 +159,7 @@ const ImageGalleryUpload: FC<ImageGalleryUploadProps> = ({
         className="hidden"
         id="gallery-upload"
         disabled={uploading || !canAddMore}
+        aria-label="Subir imágenes a la galería"
       />
 
       {/* Área de subida */}
@@ -213,6 +214,7 @@ const ImageGalleryUpload: FC<ImageGalleryUploadProps> = ({
                 onClick={() => removeImage(index)}
                 className="absolute top-2 right-2 p-1 bg-red-500 dark:bg-red-700 text-white rounded-full opacity-0 group-hover:opacity-100 hover:bg-red-600 dark:hover:bg-red-800"
                 disabled={uploading}
+                aria-label={`Eliminar imagen ${index + 1}`}
               >
                 <FaTimes className="w-3 h-3" />
               </button>

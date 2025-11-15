@@ -121,10 +121,14 @@ export default function RankingWidget({
               <span>Percentil</span>
               <span>{getPercentile(userRanking.position, userRanking.totalMembers)}%</span>
             </div>
-            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden relative">
               <div 
-                className="h-2 rounded-full bg-linear-to-r from-blue-400 to-purple-500"
-                style={{ width: `${getPercentile(userRanking.position, userRanking.totalMembers)}%` }}
+                className="absolute left-0 top-0 h-2 rounded-full bg-linear-to-r from-blue-400 to-purple-500"
+                ref={(el) => {
+                  if (el) {
+                    el.style.width = `${Math.min(100, Math.max(0, getPercentile(userRanking.position, userRanking.totalMembers)))}%`;
+                  }
+                }}
               ></div>
             </div>
           </div>
@@ -181,9 +185,11 @@ export default function RankingWidget({
                         </p>
                         <span 
                           className="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium"
-                          style={{ 
-                            backgroundColor: memberConfig.bgColor,
-                            color: memberConfig.textColor 
+                          ref={(el) => {
+                            if (el) {
+                              el.style.backgroundColor = memberConfig.bgColor;
+                              el.style.color = memberConfig.textColor;
+                            }
                           }}
                         >
                           {memberConfig.name}

@@ -387,10 +387,11 @@ export default function AdminPanel() {
             <form onSubmit={handleCrearRecompensa} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label htmlFor="reward-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Nombre *
                   </label>
                   <input
+                    id="reward-name"
                     type="text"
                     required
                     value={nuevaRecompensa.nombre}
@@ -401,10 +402,11 @@ export default function AdminPanel() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label htmlFor="reward-cost" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Costo en Puntos *
                   </label>
                   <input
+                    id="reward-cost"
                     type="number"
                     required
                     min="1"
@@ -416,10 +418,11 @@ export default function AdminPanel() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label htmlFor="reward-category" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Categoría *
                   </label>
                   <select
+                    id="reward-category"
                     value={nuevaRecompensa.categoria}
                     onChange={(e) => setNuevaRecompensa(prev => ({ ...prev, categoria: e.target.value }))}
                     className="w-full px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-200"
@@ -433,10 +436,11 @@ export default function AdminPanel() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label htmlFor="reward-stock" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Stock (opcional)
                   </label>
                   <input
+                    id="reward-stock"
                     type="number"
                     min="0"
                     value={nuevaRecompensa.stock || ''}
@@ -447,10 +451,11 @@ export default function AdminPanel() {
                 </div>
 
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label htmlFor="reward-image" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     URL de Imagen (opcional)
                   </label>
                   <input
+                    id="reward-image"
                     type="text"
                     value={nuevaRecompensa.imagen}
                     onChange={(e) => setNuevaRecompensa(prev => ({ ...prev, imagen: e.target.value }))}
@@ -461,10 +466,11 @@ export default function AdminPanel() {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label htmlFor="reward-description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Descripción *
                 </label>
                 <textarea
+                  id="reward-description"
                   required
                   rows={3}
                   value={nuevaRecompensa.descripcion}
@@ -475,10 +481,11 @@ export default function AdminPanel() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label htmlFor="reward-conditions" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Condiciones (opcional)
                 </label>
                 <textarea
+                  id="reward-conditions"
                   rows={2}
                   value={nuevaRecompensa.condiciones}
                   onChange={(e) => setNuevaRecompensa(prev => ({ ...prev, condiciones: e.target.value }))}
@@ -546,10 +553,11 @@ export default function AdminPanel() {
           </p>
           <form onSubmit={handleAsignarPuntos} className="space-y-4 max-w-md">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="user-email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Email del Usuario *
               </label>
               <input
+                id="user-email"
                 type="email"
                 required
                 value={asignacionPuntos.usuarioEmail}
@@ -560,10 +568,11 @@ export default function AdminPanel() {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="points-amount" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Puntos * <span className="text-xs text-gray-500">(positivo para dar, negativo para quitar)</span>
               </label>
               <input
+                id="points-amount"
                 type="number"
                 required
                 value={asignacionPuntos.puntos}
@@ -574,10 +583,11 @@ export default function AdminPanel() {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label htmlFor="points-description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Descripción *
               </label>
               <input
+                id="points-description"
                 type="text"
                 required
                 value={asignacionPuntos.descripcion}

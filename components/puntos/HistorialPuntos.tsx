@@ -181,13 +181,16 @@ export default function HistorialPuntos({ usuarioId }: HistorialPuntosProps) {
         {/* Filtros */}
         <div className="flex flex-wrap gap-4">
           {/* Filtro por tipo */}
+          <label htmlFor="filter-type" className="sr-only">Filtrar por tipo de actividad</label>
           <select
+            id="filter-type"
             value={filtros.tipo || ''}
             onChange={(e) => setFiltros(prev => ({ 
               ...prev, 
               tipo: e.target.value as PuntosActividad['tipo'] || undefined 
             }))}
             className="px-3 py-2 border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-slate-100"
+            aria-label="Filtrar por tipo de actividad"
           >
             <option value="">Todos los tipos</option>
             {tiposActividad.map(tipo => (
@@ -198,7 +201,9 @@ export default function HistorialPuntos({ usuarioId }: HistorialPuntosProps) {
           </select>
 
           {/* Filtro fecha inicio */}
+          <label htmlFor="filter-start-date" className="sr-only">Fecha de inicio</label>
           <input
+            id="filter-start-date"
             type="date"
             value={filtros.fechaInicio || ''}
             onChange={(e) => setFiltros(prev => ({ 
@@ -207,10 +212,13 @@ export default function HistorialPuntos({ usuarioId }: HistorialPuntosProps) {
             }))}
             className="px-3 py-2 border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-slate-100"
             placeholder="Fecha inicio"
+            aria-label="Fecha de inicio"
           />
 
           {/* Filtro fecha fin */}
+          <label htmlFor="filter-end-date" className="sr-only">Fecha de fin</label>
           <input
+            id="filter-end-date"
             type="date"
             value={filtros.fechaFin || ''}
             onChange={(e) => setFiltros(prev => ({ 
@@ -219,13 +227,16 @@ export default function HistorialPuntos({ usuarioId }: HistorialPuntosProps) {
             }))}
             className="px-3 py-2 border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-slate-100"
             placeholder="Fecha fin"
+            aria-label="Fecha de fin"
           />
 
           {/* Limpiar filtros */}
           {(filtros.tipo || filtros.fechaInicio || filtros.fechaFin) && (
             <button
+              type="button"
               onClick={limpiarFiltros}
               className="px-3 py-2 text-sm text-gray-600 dark:text-slate-300 hover:text-gray-800 dark:hover:text-slate-100 underline"
+              aria-label="Limpiar todos los filtros"
             >
               Limpiar filtros
             </button>

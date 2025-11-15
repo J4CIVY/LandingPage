@@ -70,7 +70,7 @@ const BlogSection: FC = () => {
                 className="bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-lg text-gray-700 dark:text-gray-300"
               >
                 <Link href={`/blog/${post.slug}`} aria-label={`Leer más sobre ${post.title}`}>
-                  <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
+                  <div className="relative w-full aspect-video">
                     <picture>
                       <source type="image/avif" srcSet={imageSources.avif} sizes="(max-width: 768px) 683px, (max-width: 1024px) 1024px, 1366px" />
                       <source type="image/webp" srcSet={imageSources.webp} sizes="(max-width: 768px) 683px, (max-width: 1024px) 1024px, 1366px" />

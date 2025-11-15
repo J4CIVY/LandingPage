@@ -152,6 +152,7 @@ const LeaderDashboard: FC<LeaderDashboardProps> = ({
           <button 
             onClick={fetchDashboardData}
             className="mt-4 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+            aria-label="Reintentar carga de datos del dashboard"
           >
             Reintentar
           </button>
@@ -231,19 +232,19 @@ const LeaderDashboard: FC<LeaderDashboardProps> = ({
           Acciones Rápidas
         </h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <button className="flex flex-col items-center p-4 bg-white dark:bg-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+          <button className="flex flex-col items-center p-4 bg-white dark:bg-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Crear nuevo anuncio">
             <FaPlus className="text-2xl text-purple-600 mb-2" />
             <span className="text-sm font-medium text-gray-900 dark:text-white">Nuevo Anuncio</span>
           </button>
-          <button className="flex flex-col items-center p-4 bg-white dark:bg-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+          <button className="flex flex-col items-center p-4 bg-white dark:bg-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Crear nueva votación">
             <FaGavel className="text-2xl text-green-600 mb-2" />
             <span className="text-sm font-medium text-gray-900 dark:text-white">Nueva Votación</span>
           </button>
-          <button className="flex flex-col items-center p-4 bg-white dark:bg-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+          <button className="flex flex-col items-center p-4 bg-white dark:bg-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Gestionar miembros del equipo">
             <FaUsers className="text-2xl text-blue-600 mb-2" />
             <span className="text-sm font-medium text-gray-900 dark:text-white">Gestionar Equipo</span>
           </button>
-          <button className="flex flex-col items-center p-4 bg-white dark:bg-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+          <button className="flex flex-col items-center p-4 bg-white dark:bg-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Ver reportes y estadísticas">
             <FaFileAlt className="text-2xl text-orange-600 mb-2" />
             <span className="text-sm font-medium text-gray-900 dark:text-white">Reportes</span>
           </button>
@@ -258,7 +259,7 @@ const LeaderDashboard: FC<LeaderDashboardProps> = ({
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
           Gestión de Equipo
         </h3>
-  <button className="px-4 py-2 bg-purple-600 dark:bg-purple-700 text-white rounded hover:bg-purple-700 dark:hover:bg-purple-800 flex items-center">
+  <button className="px-4 py-2 bg-purple-600 dark:bg-purple-700 text-white rounded hover:bg-purple-700 dark:hover:bg-purple-800 flex items-center" aria-label="Agregar nuevo miembro al equipo">
           <FaPlus className="mr-2" />
           Agregar Miembro
         </button>
@@ -314,13 +315,13 @@ const LeaderDashboard: FC<LeaderDashboardProps> = ({
                   {member.assignedTasks}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                  <button className="text-purple-600 hover:text-purple-900 dark:hover:text-purple-300">
+                  <button className="text-purple-600 hover:text-purple-900 dark:hover:text-purple-300" aria-label={`Editar información de ${member.name}`}>
                     <FaEdit />
                   </button>
-                  <button className="text-blue-600 hover:text-blue-900 dark:hover:text-blue-300">
+                  <button className="text-blue-600 hover:text-blue-900 dark:hover:text-blue-300" aria-label={`Ver detalles de ${member.name}`}>
                     <FaEye />
                   </button>
-                  <button className="text-red-600 hover:text-red-900 dark:hover:text-red-300">
+                  <button className="text-red-600 hover:text-red-900 dark:hover:text-red-300" aria-label={`Eliminar a ${member.name} del equipo`}>
                     <FaTimes />
                   </button>
                 </td>
@@ -394,6 +395,7 @@ const LeaderDashboard: FC<LeaderDashboardProps> = ({
                 <button 
                   onClick={() => handleDecision(decision.id, 'approve')}
                   className="px-3 py-1 bg-green-600 dark:bg-green-700 text-white rounded text-sm hover:bg-green-700 dark:hover:bg-green-800 flex items-center"
+                  aria-label={`Aprobar decisión: ${decision.title}`}
                 >
                   <FaCheck className="mr-1" />
                   Aprobar
@@ -401,6 +403,7 @@ const LeaderDashboard: FC<LeaderDashboardProps> = ({
                 <button 
                   onClick={() => handleDecision(decision.id, 'reject')}
                   className="px-3 py-1 bg-red-600 dark:bg-red-700 text-white rounded text-sm hover:bg-red-700 dark:hover:bg-red-800 flex items-center"
+                  aria-label={`Rechazar decisión: ${decision.title}`}
                 >
                   <FaTimes className="mr-1" />
                   Rechazar
@@ -419,7 +422,7 @@ const LeaderDashboard: FC<LeaderDashboardProps> = ({
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
           Comunicaciones
         </h3>
-  <button className="px-4 py-2 bg-purple-600 dark:bg-purple-700 text-white rounded hover:bg-purple-700 dark:hover:bg-purple-800 flex items-center">
+  <button className="px-4 py-2 bg-purple-600 dark:bg-purple-700 text-white rounded hover:bg-purple-700 dark:hover:bg-purple-800 flex items-center" aria-label="Crear nuevo anuncio para la comunidad">
           <FaPlus className="mr-2" />
           Nuevo Anuncio
         </button>
@@ -449,10 +452,10 @@ const LeaderDashboard: FC<LeaderDashboardProps> = ({
                 </div>
               </div>
               <div className="flex space-x-2 ml-4">
-                <button className="p-2 text-blue-600 hover:text-blue-800 dark:hover:text-blue-300">
+                <button className="p-2 text-blue-600 hover:text-blue-800 dark:hover:text-blue-300" aria-label={`Editar anuncio: ${announcement.title}`}>
                   <FaEdit />
                 </button>
-                <button className="p-2 text-red-600 hover:text-red-800 dark:hover:text-red-300">
+                <button className="p-2 text-red-600 hover:text-red-800 dark:hover:text-red-300" aria-label={`Eliminar anuncio: ${announcement.title}`}>
                   <FaTimes />
                 </button>
               </div>
@@ -478,7 +481,7 @@ const LeaderDashboard: FC<LeaderDashboardProps> = ({
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
             Acceso a estatutos, reglamentos y documentos administrativos
           </p>
-          <button className="text-blue-600 hover:text-blue-800 dark:hover:text-blue-300 text-sm font-medium">
+          <button className="text-blue-600 hover:text-blue-800 dark:hover:text-blue-300 text-sm font-medium" aria-label="Ver documentos oficiales">
             Ver Documentos →
           </button>
         </div>
@@ -491,7 +494,7 @@ const LeaderDashboard: FC<LeaderDashboardProps> = ({
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
             Estadísticas del club, métricas de participación y reportes
           </p>
-          <button className="text-green-600 hover:text-green-800 dark:hover:text-green-300 text-sm font-medium">
+          <button className="text-green-600 hover:text-green-800 dark:hover:text-green-300 text-sm font-medium" aria-label="Ver reportes y analytics">
             Ver Reportes →
           </button>
         </div>
@@ -504,7 +507,7 @@ const LeaderDashboard: FC<LeaderDashboardProps> = ({
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
             Comunicación privada entre Leaders y Directiva
           </p>
-          <button className="text-purple-600 hover:text-purple-800 dark:hover:text-purple-300 text-sm font-medium">
+          <button className="text-purple-600 hover:text-purple-800 dark:hover:text-purple-300 text-sm font-medium" aria-label="Abrir canal directivo">
             Abrir Canal →
           </button>
         </div>
@@ -517,7 +520,7 @@ const LeaderDashboard: FC<LeaderDashboardProps> = ({
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
             Gestión de usuarios, permisos y configuraciones
           </p>
-          <button className="text-orange-600 hover:text-orange-800 dark:hover:text-orange-300 text-sm font-medium">
+          <button className="text-orange-600 hover:text-orange-800 dark:hover:text-orange-300 text-sm font-medium" aria-label="Acceder a herramientas administrativas">
             Acceder →
           </button>
         </div>
@@ -530,7 +533,7 @@ const LeaderDashboard: FC<LeaderDashboardProps> = ({
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
             Gestión de convenios con marcas y aliados estratégicos
           </p>
-          <button className="text-teal-600 hover:text-teal-800 dark:hover:text-teal-300 text-sm font-medium">
+          <button className="text-teal-600 hover:text-teal-800 dark:hover:text-teal-300 text-sm font-medium" aria-label="Gestionar convenios y aliados">
             Gestionar →
           </button>
         </div>
@@ -543,7 +546,7 @@ const LeaderDashboard: FC<LeaderDashboardProps> = ({
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
             Reuniones, eventos y compromisos oficiales
           </p>
-          <button className="text-indigo-600 hover:text-indigo-800 dark:hover:text-indigo-300 text-sm font-medium">
+          <button className="text-indigo-600 hover:text-indigo-800 dark:hover:text-indigo-300 text-sm font-medium" aria-label="Ver calendario ejecutivo">
             Ver Calendario →
           </button>
         </div>
@@ -597,6 +600,8 @@ const LeaderDashboard: FC<LeaderDashboardProps> = ({
                   ? 'border-purple-500 text-purple-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
               }`}
+              aria-label={`Ver sección de ${tab.label}`}
+              aria-current={activeTab === tab.id ? 'page' : undefined}
             >
               <tab.icon className="mr-2" />
               {tab.label}

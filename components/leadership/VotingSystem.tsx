@@ -254,10 +254,14 @@ const VotingSystem: FC<VotingSystemProps> = ({
                 <span>Participación</span>
                 <span>{progress.toFixed(1)}% ({process.votes.total}/{process.eligibleVoters.total})</span>
               </div>
-              <div className="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-2">
+              <div className="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-2 overflow-hidden relative">
                 <div 
-                  className="bg-purple-600 dark:bg-purple-500 h-2 rounded-full"
-                  style={{ width: `${Math.min(progress, 100)}%` }}
+                  className="absolute left-0 top-0 bg-purple-600 dark:bg-purple-500 h-2 rounded-full"
+                  ref={(el) => {
+                    if (el) {
+                      el.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+                    }
+                  }}
                 ></div>
               </div>
             </div>

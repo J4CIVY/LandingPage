@@ -87,8 +87,7 @@ const GallerySection: FC = () => {
             {galleryImages.map((image, index) => (
               <div
                 key={`image-container-${index}`}
-                className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${index === activeGalleryImage ? 'opacity-100' : 'opacity-0'}`}
-                style={{ backfaceVisibility: 'hidden' }}
+                className={`absolute inset-0 w-full h-full transition-opacity duration-1000 [backface-visibility:hidden] ${index === activeGalleryImage ? 'opacity-100' : 'opacity-0'}`}
               >
                 <LazyLoadImage
                   alt={image.alt}

@@ -37,14 +37,23 @@ export default function ProgresoNivel({ usuario }: ProgresoNivelProps) {
           <div className="text-center mb-6">
             <div 
               className="w-16 h-16 rounded-full flex items-center justify-center mb-3 border-3 mx-auto"
-              style={{ 
-                backgroundColor: usuario.nivel.color + '20',
-                borderColor: usuario.nivel.color
+              ref={(el) => {
+                if (el) {
+                  el.style.backgroundColor = usuario.nivel.color + '20';
+                  el.style.borderColor = usuario.nivel.color;
+                }
               }}
             >
               <span className="text-2xl">{usuario.nivel.icono}</span>
             </div>
-            <p className="text-lg font-semibold" style={{ color: usuario.nivel.color }}>
+            <p 
+              className="text-lg font-semibold"
+              ref={(el) => {
+                if (el) {
+                  el.style.color = usuario.nivel.color;
+                }
+              }}
+            >
               {usuario.nivel.nombre}
             </p>
             <p className="text-sm text-gray-600 dark:text-gray-300">
@@ -54,10 +63,14 @@ export default function ProgresoNivel({ usuario }: ProgresoNivelProps) {
 
           {/* Barra de progreso (mantener si hay contexto útil) */}
           <div className="mb-6">
-            <div className="bg-gray-200 dark:bg-slate-800 rounded-full h-4 overflow-hidden">
+            <div className="bg-gray-200 dark:bg-slate-800 rounded-full h-4 overflow-hidden relative">
               <div 
-                className="h-full bg-linear-to-r from-blue-500 to-blue-600 dark:from-blue-700 dark:to-blue-900 rounded-full"
-                style={{ width: `${progreso}%` }}
+                className="absolute left-0 top-0 h-full bg-linear-to-r from-blue-500 to-blue-600 dark:from-blue-700 dark:to-blue-900 rounded-full"
+                ref={(el) => {
+                  if (el) {
+                    el.style.width = `${Math.min(100, Math.max(0, progreso))}%`;
+                  }
+                }}
               />
             </div>
             <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300 mt-2">

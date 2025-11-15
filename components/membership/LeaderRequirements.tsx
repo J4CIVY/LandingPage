@@ -207,10 +207,14 @@ const LeaderRequirements: FC<LeaderRequirementsProps> = ({
               {data.eligibility.completionPercentage}%
             </span>
           </div>
-          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden relative">
             <div 
-              className={`h-3 rounded-full ${getProgressColor(data.eligibility.completionPercentage, data.eligibility.isEligible)}`}
-              style={{ width: `${data.eligibility.completionPercentage}%` }}
+              className={`absolute left-0 top-0 h-3 rounded-full ${getProgressColor(data.eligibility.completionPercentage, data.eligibility.isEligible)}`}
+              ref={(el) => {
+                if (el) {
+                  el.style.width = `${Math.min(100, Math.max(0, data.eligibility.completionPercentage))}%`;
+                }
+              }}
             ></div>
           </div>
         </div>
@@ -253,10 +257,14 @@ const LeaderRequirements: FC<LeaderRequirementsProps> = ({
                         </p>
                         
                         {/* Barra de progreso individual */}
-                        <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+                        <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2 overflow-hidden relative">
                           <div 
-                            className={`h-2 rounded-full ${getProgressColor(requirement.progress, requirement.fulfilled)}`}
-                            style={{ width: `${Math.min(100, requirement.progress)}%` }}
+                            className={`absolute left-0 top-0 h-2 rounded-full ${getProgressColor(requirement.progress, requirement.fulfilled)}`}
+                            ref={(el) => {
+                              if (el) {
+                                el.style.width = `${Math.min(100, Math.max(0, requirement.progress))}%`;
+                              }
+                            }}
                           ></div>
                         </div>
                         

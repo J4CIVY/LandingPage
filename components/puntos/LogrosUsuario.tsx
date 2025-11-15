@@ -159,19 +159,23 @@ export default function LogrosUsuario({ usuarioId }: LogrosProps) {
           <FaMedal className="text-yellow-500 dark:text-yellow-400" />
           Logros ({logrosDesbloqueados}/{totalLogros})
         </h3>
-    {/* Filtros (mantener si hay contexto útil) */}
-        <select
-          value={filtroCategoria}
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          onChange={(e) => setFiltroCategoria(e.target.value as any)}
-          className="text-sm border border-gray-300 dark:border-slate-700 rounded-lg px-3 py-1 bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-200"
-        >
-          <option value="Todos">Todos</option>
-          <option value="Actividad">Actividad</option>
-          <option value="Puntos">Puntos</option>
-          <option value="Social">Social</option>
-          <option value="Especial">Especial</option>
-        </select>
+        <div>
+          <label htmlFor="achievement-filter" className="sr-only">Filtrar logros por categoría</label>
+          <select
+            id="achievement-filter"
+            value={filtroCategoria}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            onChange={(e) => setFiltroCategoria(e.target.value as any)}
+            className="text-sm border border-gray-300 dark:border-slate-700 rounded-lg px-3 py-1 bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-200"
+            aria-label="Filtrar logros por categoría"
+          >
+            <option value="Todos">Todos</option>
+            <option value="Actividad">Actividad</option>
+            <option value="Puntos">Puntos</option>
+            <option value="Social">Social</option>
+            <option value="Especial">Especial</option>
+          </select>
+        </div>
       </div>
 
   {/* Barra de progreso general (mantener si hay contexto útil) */}
@@ -180,10 +184,14 @@ export default function LogrosUsuario({ usuarioId }: LogrosProps) {
           <span>Progreso general</span>
           <span>{estadisticas?.porcentajeCompletado || 0}%</span>
         </div>
-        <div className="bg-gray-200 dark:bg-slate-800 rounded-full h-2">
+        <div className="bg-gray-200 dark:bg-slate-800 rounded-full h-2 overflow-hidden relative">
           <div 
-            className="bg-linear-to-r from-blue-500 to-purple-600 dark:from-blue-700 dark:to-purple-900 h-2 rounded-full"
-            style={{ width: `${estadisticas?.porcentajeCompletado || 0}%` }}
+            className="absolute left-0 top-0 bg-linear-to-r from-blue-500 to-purple-600 dark:from-blue-700 dark:to-purple-900 h-2 rounded-full"
+            ref={(el) => {
+              if (el) {
+                el.style.width = `${Math.min(100, Math.max(0, estadisticas?.porcentajeCompletado || 0))}%`;
+              }
+            }}
           />
         </div>
       </div>
@@ -251,11 +259,13 @@ export default function LogrosUsuario({ usuarioId }: LogrosProps) {
                       <span>Progreso</span>
                       <span>{logro.progreso.actual}/{logro.progreso.total}</span>
                     </div>
-                    <div className="bg-gray-200 dark:bg-slate-700 rounded-full h-1.5">
+                    <div className="bg-gray-200 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden relative">
                       <div 
-                        className="bg-blue-500 dark:bg-blue-700 h-1.5 rounded-full"
-                        style={{ 
-                          width: `${Math.min((logro.progreso.actual / logro.progreso.total) * 100, 100)}%` 
+                        className="absolute left-0 top-0 bg-blue-500 dark:bg-blue-700 h-1.5 rounded-full"
+                        ref={(el) => {
+                          if (el && logro.progreso) {
+                            el.style.width = `${Math.min(100, Math.max(0, (logro.progreso.actual / logro.progreso.total) * 100))}%`;
+                          }
                         }}
                       />
                     </div>

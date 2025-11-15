@@ -71,7 +71,15 @@ export const SkeletonTable: FC<{ rows?: number; cols?: number }> = ({
   <div className="animate-pulse" aria-hidden="true">
     <div className="bg-gray-300 dark:bg-slate-600 h-12 rounded-t-lg mb-2"></div>
     {Array.from({ length: rows }).map((_, rowIndex) => (
-      <div key={rowIndex} className="grid gap-4 mb-2" style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}>
+      <div 
+        key={rowIndex} 
+        className="grid gap-4 mb-2"
+        ref={(el) => {
+          if (el) {
+            el.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+          }
+        }}
+      >
         {Array.from({ length: cols }).map((_, colIndex) => (
           <div key={colIndex} className="bg-gray-300 dark:bg-slate-600 h-8 rounded"></div>
         ))}

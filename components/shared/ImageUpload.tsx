@@ -162,13 +162,18 @@ const ImageUpload: FC<ImageUploadProps> = ({
   return (
     <div className={`relative ${className}`}>
       {/* Input oculto */}
+      <label htmlFor="image-upload-input" className="sr-only">
+        Subir imagen de perfil
+      </label>
       <input
+        id="image-upload-input"
         ref={fileInputRef}
         type="file"
         accept="image/*"
         onChange={handleInputChange}
         className="hidden"
         disabled={disabled || uploading}
+        aria-label="Subir imagen de perfil"
       />
 
       {/* Área de drop/click */}
@@ -202,15 +207,19 @@ const ImageUpload: FC<ImageUploadProps> = ({
                   onClick={handleClick}
                   className="p-2 bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200 rounded-full hover:bg-gray-100 dark:hover:bg-slate-700"
                   disabled={disabled || uploading}
+                  aria-label="Cambiar imagen"
+                  type="button"
                 >
-                  <FaCamera className="w-4 h-4" />
+                  <FaCamera className="w-4 h-4" aria-hidden="true" />
                 </button>
                 <button
                   onClick={handleRemoveImage}
                   className="p-2 bg-red-500 dark:bg-red-700 text-white rounded-full hover:bg-red-600 dark:hover:bg-red-800"
                   disabled={disabled || uploading}
+                  aria-label="Eliminar imagen"
+                  type="button"
                 >
-                  <FaTimes className="w-4 h-4" />
+                  <FaTimes className="w-4 h-4" aria-hidden="true" />
                 </button>
               </div>
             </div>

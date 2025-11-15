@@ -106,6 +106,7 @@ export default function NotificationDropdown({ className = '' }: NotificationDro
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="relative p-2 text-gray-400 dark:text-slate-500 hover:text-gray-600 dark:hover:text-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800 rounded-lg"
+        aria-label={`Notificaciones${unreadCount > 0 ? ` - ${unreadCount} sin leer` : ''}`}
       >
         <FaBell className="text-lg sm:text-xl" />
         {unreadCount > 0 && (
@@ -145,6 +146,7 @@ export default function NotificationDropdown({ className = '' }: NotificationDro
                 <button
                   onClick={() => setIsOpen(false)}
                   className="text-gray-400 dark:text-slate-500 hover:text-gray-600 dark:hover:text-slate-300"
+                  aria-label="Cerrar notificaciones"
                 >
                   <FaTimes />
                 </button>
@@ -222,6 +224,7 @@ export default function NotificationDropdown({ className = '' }: NotificationDro
                                   }}
                                   className="p-1 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
                                   title="Marcar como leída"
+                                  aria-label="Marcar como leída"
                                 >
                                   <FaEye className="text-xs" />
                                 </button>
@@ -233,6 +236,7 @@ export default function NotificationDropdown({ className = '' }: NotificationDro
                                 }}
                                 className="p-1 text-gray-400 hover:text-red-600 dark:hover:text-red-400"
                                 title="Eliminar"
+                                aria-label="Eliminar notificación"
                               >
                                 <FaTrash className="text-xs" />
                               </button>

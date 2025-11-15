@@ -38,10 +38,8 @@ const LiveRegion: FC<LiveRegionProps> = ({
     <div
       aria-live={politeness}
       aria-atomic={atomic}
-      className={className || 'sr-only'}
+      className={className === 'sr-only' ? 'sr-only' : `${className} bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 p-2 rounded-md`}
       role="status"
-      // Si no es sr-only, aplicar estilos de contraste para accesibilidad
-      style={className === 'sr-only' ? undefined : { backgroundColor: 'var(--tw-bg-opacity, #fff)', color: 'var(--tw-text-opacity, #020617)', padding: '0.5rem', borderRadius: '0.375rem' }}
     >
       {currentMessage}
     </div>

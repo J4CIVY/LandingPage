@@ -91,16 +91,20 @@ export default function RequirementItem({
 
           {/* Barra de progreso */}
           <div className="mt-3">
-            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden relative">
               <div 
-                className={`h-2 rounded-full ${
+                className={`absolute left-0 top-0 h-2 rounded-full ${
                   requirement.fulfilled 
                     ? 'bg-green-500 dark:bg-green-400' 
                     : requirement.progress > 0 
                       ? 'bg-yellow-500 dark:bg-yellow-400'
                       : 'bg-gray-300 dark:bg-gray-600'
                 }`}
-                style={{ width: `${requirement.progress}%` }}
+                ref={(el) => {
+                  if (el) {
+                    el.style.width = `${Math.min(100, Math.max(0, requirement.progress))}%`;
+                  }
+                }}
               ></div>
             </div>
           </div>
