@@ -20,7 +20,7 @@ function isValidPublicIP(ip: string): boolean {
   let addr;
   try {
     addr = ipaddr.parse(ip);
-  } catch (e) {
+  } catch {
     return false;
   }
   // For IPv4: reject private, loopback, link-local, and reserved
