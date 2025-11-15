@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { getSafeEnvInfo, getSecurityChecklist } from '@/lib/env-validation';
 
 /**
  * Health check endpoint for environment variables
@@ -9,29 +8,25 @@ import { getSafeEnvInfo, getSecurityChecklist } from '@/lib/env-validation';
  */
 export async function GET() {
   try {
-    // Get safe environment info
-    const envInfo = getSafeEnvInfo();
+    // Check basic environment variables
+    const hasCloudinary = !!process.env.CLOUDINARY_CLOUD_NAME;
+    const hasRecaptcha = !!process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+    const hasAnalytics = !!process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+    const hasBold = !!process.env.NEXT_PUBLIC_BOLD_API_KEY;
+    const hasJWT = !!process.env.JWT_SECRET;
     
-    // Get security checklist
-    const securityCheck = getSecurityChecklist();
-    
-    // Determine overall status
-    const valid = securityCheck.passed && securityCheck.warnings.length === 0;
+    const valid = hasJWT && hasCloudinary && hasRecaptcha;
     
     return NextResponse.json({
       success: true,
       valid,
-      environment: envInfo.nodeEnv,
+      environment: process.env.NODE_ENV,
       services: {
-        cloudinary: envInfo.hasCloudinary,
-        recaptcha: envInfo.hasRecaptcha,
-        analytics: envInfo.hasAnalytics,
-        payment: envInfo.hasBold,
-      },
-      security: {
-        passed: securityCheck.passed,
-        warnings: securityCheck.warnings.length,
-        critical: securityCheck.critical.length,
+        cloudinary: hasCloudinary,
+        recaptcha: hasRecaptcha,
+        analytics: hasAnalytics,
+        payment: hasBold,
+        jwt: hasJWT,
       },
       message: valid 
         ? 'All environment variables configured correctly' 

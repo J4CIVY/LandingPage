@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { getEnv } from '@/lib/env-validation';
 
 /**
  * Health check endpoint for Cloudinary configuration
@@ -9,18 +8,16 @@ import { getEnv } from '@/lib/env-validation';
  */
 export async function GET() {
   try {
-    const env = getEnv();
-    
     const configured = !!(
-      env.CLOUDINARY_CLOUD_NAME &&
-      env.CLOUDINARY_API_KEY &&
-      env.CLOUDINARY_API_SECRET
+      process.env.CLOUDINARY_CLOUD_NAME &&
+      process.env.CLOUDINARY_API_KEY &&
+      process.env.CLOUDINARY_API_SECRET
     );
     
     return NextResponse.json({
       success: true,
       configured,
-      cloudName: env.CLOUDINARY_CLOUD_NAME || 'not-set',
+      cloudName: process.env.CLOUDINARY_CLOUD_NAME || 'not-set',
       message: configured 
         ? 'Cloudinary is configured and ready' 
         : 'Cloudinary credentials missing'
