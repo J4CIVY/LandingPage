@@ -7,6 +7,11 @@ import { useAuth } from '@/hooks/useAuth';
 import { useSecureForm } from '@/hooks/useSecureForm';
 import { getCSRFToken } from '@/lib/csrf-client';
 
+type PageProps<T extends string = string> = {
+  params: Promise<{ [K in T extends `${infer _Start}/[${infer Param}]${infer _Rest}` ? Param : 'id']: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
 const EMERGENCY_TYPES = [
   { value: 'mechanical', label: 'Mecánica' },
   { value: 'medical', label: 'Médica' },

@@ -191,11 +191,11 @@ export default function Timeline({ items, filtro, onFiltroChange }: TimelineProp
                         </div>
                         
                         <div className="flex items-center space-x-2">
-                          <button className="text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400">
+                          <button className="text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400" aria-label="View details">
                             <FaEye className="text-sm" />
                           </button>
                           {item.referencia && (
-                            <button className="text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400">
+                            <button className="text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400" aria-label="Open reference link">
                               <FaExternalLinkAlt className="text-sm" />
                             </button>
                           )}

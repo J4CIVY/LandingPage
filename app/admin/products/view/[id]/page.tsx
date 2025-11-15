@@ -320,6 +320,7 @@ export default function ProductViewPage() {
                       className={`aspect-square border-2 rounded overflow-hidden ${
                         selectedImage === product.featuredImage ? 'border-blue-500' : 'border-gray-200'
                       }`}
+                      aria-label="View featured image"
                     >
                       <Image
                         src={product.featuredImage}
@@ -336,6 +337,7 @@ export default function ProductViewPage() {
                         className={`aspect-square border-2 rounded overflow-hidden ${
                           selectedImage === image ? 'border-blue-500' : 'border-gray-200'
                         }`}
+                        aria-label={`View gallery image ${index + 1}`}
                       >
                         <Image
                           src={image}
@@ -517,10 +519,10 @@ export default function ProductViewPage() {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {Object.entries(product.technicalSpecifications).map(([key, value]) => (
-                    <div key={key} className="border-b border-gray-200 pb-2">
+                    <dl key={key} className="border-b border-gray-200 pb-2">
                       <dt className="text-sm font-medium text-gray-700">{key}</dt>
                       <dd className="text-sm text-gray-900 mt-1">{value}</dd>
-                    </div>
+                    </dl>
                   ))}
                 </div>
               </div>

@@ -130,6 +130,7 @@ export default function EventosFilter({ filters, onFiltersChange, loading }: Eve
               appearance-none cursor-pointer
             "
             disabled={loading}
+            aria-label="Filter by event type"
           >
             {eventTypes.map((type) => (
               <option key={type.value} value={type.value}>
@@ -154,6 +155,7 @@ export default function EventosFilter({ filters, onFiltersChange, loading }: Eve
               appearance-none cursor-pointer
             "
             disabled={loading}
+            aria-label="Filter by event status"
           >
             {eventStatuses.map((status) => (
               <option key={status.value} value={status.value}>
@@ -259,6 +261,7 @@ export default function EventosFilter({ filters, onFiltersChange, loading }: Eve
                   appearance-none cursor-pointer
                 "
                 disabled={loading}
+                aria-label="Filter by difficulty level"
               >
                 {difficulties.map((difficulty) => (
                   <option key={difficulty.value} value={difficulty.value}>

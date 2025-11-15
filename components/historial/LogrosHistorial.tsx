@@ -277,6 +277,7 @@ export default function LogrosHistorial() {
           value={filtroCategoria}
           onChange={(e) => setFiltroCategoria(e.target.value as any)} // eslint-disable-line @typescript-eslint/no-explicit-any
           className="px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
+          aria-label="Filter achievements by category"
         >
           <option value="todos">Todas las categorías</option>
           <option value="participacion">Participación</option>
@@ -291,6 +292,7 @@ export default function LogrosHistorial() {
           value={filtroNivel}
           onChange={(e) => setFiltroNivel(e.target.value as any)} // eslint-disable-line @typescript-eslint/no-explicit-any
           className="px-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
+          aria-label="Filter achievements by level"
         >
           <option value="todos">Todos los niveles</option>
           <option value="bronce">Bronce</option>
@@ -353,10 +355,10 @@ export default function LogrosHistorial() {
                       {formatDate(logro.fechaObtencion)}
                     </div>
                     <div className="flex items-center space-x-2">
-                      <button className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+                      <button className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300" aria-label="View achievement details">
                         <FaEye className="text-sm" />
                       </button>
-                      <button className="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300">
+                      <button className="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300" aria-label="Download achievement certificate">
                         <FaDownload className="text-sm" />
                       </button>
                     </div>

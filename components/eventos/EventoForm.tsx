@@ -357,6 +357,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 dark:hover:text-slate-300 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-700"
+            aria-label="Close form"
           >
             <FaTimes className="text-xl" />
           </button>
@@ -381,14 +382,16 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+              <label htmlFor="event-type" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                 Tipo de evento *
               </label>
               <select
+                id="event-type"
                 required
                 value={formData.eventType}
                 onChange={(e) => updateField('eventType', e.target.value as EventType)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
+                aria-label="Event type"
               >
                 {eventTypes.map(type => (
                   <option key={type} value={type}>{type}</option>
@@ -400,44 +403,50 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
           {/* Fechas */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+              <label htmlFor="start-date" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                 <FaCalendarAlt className="inline mr-1" />
                 Fecha y hora de inicio *
               </label>
               <input
+                id="start-date"
                 type="datetime-local"
                 required
                 value={formData.startDate}
                 onChange={(e) => updateField('startDate', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
+                aria-label="Start date and time"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+              <label htmlFor="end-date" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                 <FaCalendarAlt className="inline mr-1" />
                 Fecha y hora de fin
               </label>
               <input
+                id="end-date"
                 type="datetime-local"
                 value={formData.endDate}
                 onChange={(e) => updateField('endDate', e.target.value)}
                 min={formData.startDate}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
+                aria-label="End date and time"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+              <label htmlFor="registration-deadline" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                 <FaCalendarAlt className="inline mr-1" />
                 Límite de inscripción
               </label>
               <input
+                id="registration-deadline"
                 type="datetime-local"
                 value={formData.registrationDeadline}
                 onChange={(e) => updateField('registrationDeadline', e.target.value)}
                 max={formData.startDate}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
+                aria-label="Registration deadline"
               />
             </div>
           </div>
@@ -682,28 +691,32 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
           {/* Fechas de registro */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+              <label htmlFor="registration-open" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                 <FaCalendarCheck className="inline mr-1" />
                 Apertura de inscripciones
               </label>
               <input
+                id="registration-open"
                 type="datetime-local"
                 value={formData.registrationOpenDate}
                 onChange={(e) => updateField('registrationOpenDate', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
+                aria-label="Registration open date"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+              <label htmlFor="registration-close" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                 <FaClock className="inline mr-1" />
                 Cierre de inscripciones
               </label>
               <input
+                id="registration-close"
                 type="datetime-local"
                 value={formData.registrationDeadline}
                 onChange={(e) => updateField('registrationDeadline', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
+                aria-label="Registration close date"
               />
             </div>
           </div>
@@ -745,13 +758,15 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
           {/* Estado y dificultad */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+              <label htmlFor="event-status" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                 Estado del evento
               </label>
               <select
+                id="event-status"
                 value={formData.status}
                 onChange={(e) => updateField('status', e.target.value as EventStatus)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
+                aria-label="Event status"
               >
                 <option value="draft">Borrador</option>
                 <option value="published">Publicado</option>
@@ -761,13 +776,15 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+              <label htmlFor="event-difficulty" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                 <FaTachometerAlt className="inline mr-1" />
                 Dificultad
               </label>
               <select
+                id="event-difficulty"
                 value={formData.difficulty}
                 onChange={(e) => updateField('difficulty', e.target.value as EventDifficulty)}
+                aria-label="Event difficulty"
                 className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
               >
                 {difficulties.map(diff => (
@@ -832,6 +849,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
                     type="button"
                     onClick={() => removeArrayItem('requirements', index)}
                     className="text-red-500 hover:text-red-700 p-2"
+                    aria-label="Remove requirement"
                   >
                     <FaMinus />
                   </button>
@@ -867,6 +885,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
                     type="button"
                     onClick={() => removeArrayItem('includedServices', index)}
                     className="text-red-500 hover:text-red-700 p-2"
+                    aria-label="Remove service"
                   >
                     <FaMinus />
                   </button>
@@ -902,6 +921,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
                     type="button"
                     onClick={() => removeArrayItem('tags', index)}
                     className="text-red-500 hover:text-red-700 p-2"
+                    aria-label="Remove tag"
                   >
                     <FaMinus />
                   </button>

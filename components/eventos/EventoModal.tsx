@@ -206,6 +206,7 @@ export default function EventoModal({
             <button
               onClick={onClose}
               className="absolute top-4 right-4 bg-black bg-opacity-50 hover:bg-opacity-70 text-white p-2 rounded-full"
+              aria-label="Close modal"
             >
               <FaTimes className="text-xl" />
             </button>
