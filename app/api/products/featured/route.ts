@@ -11,7 +11,6 @@ import { db } from '@/lib/database';
  * Obtiene productos destacados para la página principal
  */
 async function handleGet(request: NextRequest) {
-  await connection();
   const queryParams = getQueryParams(request);
   const limit = parseInt(queryParams.limit || '6', 10);
   
@@ -24,5 +23,6 @@ async function handleGet(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
+  await connection();
   return withErrorHandling(handleGet)(request);
 }
