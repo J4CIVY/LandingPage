@@ -5,8 +5,6 @@ import { ObjectId } from 'mongodb';
 import { calculateLeadershipEligibility } from '@/data/membershipConfig';
 import { requireCSRFToken } from '@/lib/csrf-protection';
 
-// Prevent prerendering - this route needs request data
-export const dynamic = 'force-dynamic';
 
 // POST - Enviar postulación final para Leader
 export async function POST(request: NextRequest) {

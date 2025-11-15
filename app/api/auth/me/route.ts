@@ -4,8 +4,6 @@ import User from '@/lib/models/User';
 import Session from '@/lib/models/Session';
 import { extractTokenFromRequest, verifyAccessToken } from '@/lib/auth-utils';
 
-// Prevent prerendering - this route needs request data
-export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
   try {

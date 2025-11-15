@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { verifyAccessToken } from '@/lib/auth-utils';
 
-// Prevent prerendering - this route needs request data
-export const dynamic = 'force-dynamic';
 
 // GET - Obtener endorsers disponibles (Leaders y Masters activos)
 export async function GET(request: NextRequest) {

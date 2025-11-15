@@ -4,8 +4,6 @@ import Session from '@/lib/models/Session';
 import { extractTokenFromRequest, verifyAccessToken } from '@/lib/auth-utils';
 import { requireCSRFToken } from '@/lib/csrf-protection';
 
-// Prevent prerendering - this route needs request data
-export const dynamic = 'force-dynamic';
 
 export async function POST(request: NextRequest) {
   try {

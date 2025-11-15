@@ -4,8 +4,6 @@ import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 import { GamificationService } from '@/lib/services/GamificationService';
 
-// Prevent prerendering - this route needs request data
-export const dynamic = 'force-dynamic';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 

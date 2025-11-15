@@ -6,8 +6,6 @@ import { RequestUpgradeRequest, RequestUpgradeResponse, MembershipType } from '@
 import { canUpgradeToMembership } from '@/data/membershipConfig';
 import { requireCSRFToken } from '@/lib/csrf-protection';
 
-// Prevent prerendering - this route needs request data
-export const dynamic = 'force-dynamic';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 

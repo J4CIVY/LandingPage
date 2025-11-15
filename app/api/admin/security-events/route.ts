@@ -11,8 +11,6 @@ import {
   SecurityEvent,
 } from '@/lib/security-events';
 
-// Prevent prerendering - this route needs request data
-export const dynamic = 'force-dynamic';
 
 /**
  * GET /api/admin/security-events
