@@ -31,13 +31,11 @@
   
   /* Improve heading readability */
   h1, h2, h3, h4, h5, h6 {
-    text-wrap: balance; /* Better text wrapping for headings */
     line-height: 1.2;
   }
   
   /* Better paragraph readability */
   p {
-    text-wrap: pretty; /* Prevent orphans */
     max-width: 75ch; /* Optimal reading width */
   }
 }
@@ -129,6 +127,11 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  /* Dynamic width utility for progress bars */
+  .progress-bar {
+    transition: width 0.3s ease-in-out;
+  }
 }
 /* Optimizaciones de rendimiento para móviles */
 @media (max-width: 768px) {
@@ -141,10 +144,6 @@
   
   section {
     contain: layout style;
-  }
-  
-  * {
-    -webkit-overflow-scrolling: touch;
   }
 }
 

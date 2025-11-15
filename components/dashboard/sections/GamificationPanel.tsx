@@ -260,10 +260,15 @@ export default function GamificationPanel() {
               <span>Progreso al siguiente nivel</span>
               <span>{Math.round(level.progress || 0)}%</span>
             </div>
-            <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
+            <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2 overflow-hidden relative">
+              {/* Progress bar with dynamic width using ref */}
               <div 
-                className="bg-linear-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300"
-                style={{ width: `clamp(0%, ${level.progress || 0}%, 100%)` }}
+                className="absolute left-0 top-0 bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300"
+                ref={(el) => {
+                  if (el) {
+                    el.style.width = `${Math.min(100, Math.max(0, level.progress || 0))}%`;
+                  }
+                }}
               ></div>
             </div>
             <p className="text-xs text-gray-500 dark:text-slate-500 mt-1">
@@ -314,10 +319,15 @@ export default function GamificationPanel() {
               {getParticipationPercentage()}%
             </span>
           </div>
-            <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-3">
+            <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-3 overflow-hidden relative">
+              {/* Progress bar with dynamic width using ref */}
               <div 
-                className="bg-linear-to-r from-green-400 to-blue-500 h-3 rounded-full transition-all duration-300"
-                style={{ width: `clamp(0%, ${getParticipationPercentage()}%, 100%)` }}
+                className="absolute left-0 top-0 bg-gradient-to-r from-green-400 to-blue-500 h-3 rounded-full transition-all duration-300"
+                ref={(el) => {
+                  if (el) {
+                    el.style.width = `${Math.min(100, Math.max(0, getParticipationPercentage()))}%`;
+                  }
+                }}
               ></div>
             </div>
         </div>

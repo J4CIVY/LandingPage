@@ -248,7 +248,7 @@ const Sos: FC = () => {
             className={`py-4 px-6 font-medium flex items-center ${activeTab === "emergency" ? "text-green-400 border-b-2 border-green-400" : "text-gray-500 dark:text-gray-400"}`}
             onClick={() => setActiveTab("emergency")}
             role="tab"
-            aria-selected={activeTab === "emergency"}
+            aria-selected={activeTab === "emergency" ? "true" : "false"}
             id="tab-emergency"
             aria-controls="panel-emergency"
           >
@@ -260,7 +260,7 @@ const Sos: FC = () => {
             className={`py-4 px-6 font-medium flex items-center ${activeTab === "form" ? "text-green-400 border-b-2 border-green-400" : "text-gray-500 dark:text-gray-400"}`}
             onClick={() => setActiveTab("form")}
             role="tab"
-            aria-selected={activeTab === "form"}
+            aria-selected={activeTab === "form" ? "true" : "false"}
             id="tab-form"
             aria-controls="panel-form"
           >
@@ -272,7 +272,7 @@ const Sos: FC = () => {
             className={`py-4 px-6 font-medium flex items-center ${activeTab === "workshops" ? "text-green-400 border-b-2 border-green-400" : "text-gray-500 dark:text-gray-400"}`}
             onClick={() => setActiveTab("workshops")}
             role="tab"
-            aria-selected={activeTab === "workshops"}
+            aria-selected={activeTab === "workshops" ? "true" : "false"}
             id="tab-workshops"
             aria-controls="panel-workshops"
           >

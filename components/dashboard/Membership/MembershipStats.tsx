@@ -255,10 +255,15 @@ export default function MembershipStats({ user }: MembershipStatsProps) {
             <span>{stats.currentLevel} {stats.levelIcon}</span>
             <span>{Math.round(stats.levelProgress)}%</span>
           </div>
-          <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
+          <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2 overflow-hidden relative">
+            {/* Progress bar with dynamic width - using ref for DOM manipulation */}
             <div 
-              className="bg-linear-to-r from-green-500 to-green-600 dark:from-green-700 dark:to-green-500 h-2 rounded-full transition-all duration-300"
-              style={{ width: `clamp(0%, ${Math.round(stats.levelProgress)}%, 100%)` }}
+              className="absolute left-0 top-0 bg-gradient-to-r from-green-500 to-green-600 dark:from-green-700 dark:to-green-500 h-2 rounded-full transition-all duration-300"
+              ref={(el) => {
+                if (el) {
+                  el.style.width = `${Math.min(100, Math.max(0, Math.round(stats.levelProgress)))}%`;
+                }
+              }}
             ></div>
           </div>
         </div>

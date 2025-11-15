@@ -434,10 +434,15 @@ export default function Ranking({
                             <span>Tu progreso</span>
                             <span>{usuarioActualNivel.puntos.total} puntos</span>
                           </div>
-                          <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
+                          <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2 overflow-hidden relative">
+                            {/* Progress bar with dynamic width using ref */}
                             <div
-                              className="bg-blue-600 dark:bg-blue-400 h-2 rounded-full transition-all duration-300"
-                              style={{ width: `clamp(0%, ${progreso}%, 100%)` }}
+                              className="absolute left-0 top-0 bg-blue-600 dark:bg-blue-400 h-2 rounded-full transition-all duration-300"
+                              ref={(el) => {
+                                if (el) {
+                                  el.style.width = `${Math.min(100, Math.max(0, progreso))}%`;
+                                }
+                              }}
                             />
                           </div>
                         </div>

@@ -180,10 +180,17 @@ export default function MembershipCurrentStatus({ membershipData }: MembershipCu
               <span>Progreso</span>
               <span>{Math.round(progressPercentage)}%</span>
             </div>
-            <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
+            <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2 overflow-hidden relative">
+              {/* Progress bar with dynamic width - using transform for animation */}
               <div 
-                className={`h-2 rounded-full transition-all duration-300 ${statusConfig.progressColor}`}
-                style={{ width: `clamp(0%, ${progressPercentage}%, 100%)` }}
+                className={`absolute left-0 top-0 h-2 rounded-full transition-all duration-300 ${statusConfig.progressColor}`}
+                data-progress={progressPercentage}
+                dangerouslySetInnerHTML={{ __html: '' }}
+                ref={(el) => {
+                  if (el) {
+                    el.style.width = `${progressPercentage}%`;
+                  }
+                }}
               ></div>
             </div>
           </div>
