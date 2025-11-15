@@ -1,10 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse, connection } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { verifyAccessToken } from '@/lib/auth-utils';
 
 
 // GET - Obtener endorsers disponibles (Leaders y Masters activos)
 export async function GET(request: NextRequest) {
+  await connection();
   try {
     // Verificar autenticación
     const token = request.headers.get('authorization')?.replace('Bearer ', '') ||

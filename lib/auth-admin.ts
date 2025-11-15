@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse, connection } from 'next/server';
 import jwt from 'jsonwebtoken';
 import User from '@/lib/models/User';
 import connectDB from '@/lib/mongodb';
@@ -18,6 +18,7 @@ export interface AdminRequest extends NextRequest {
  * Middleware para verificar autenticación de administradores
  */
 export async function requireAdmin(req: AdminRequest): Promise<NextResponse | null> {
+  await connection();
   try {
     const token = req.cookies.get('bsk-access-token')?.value;
     

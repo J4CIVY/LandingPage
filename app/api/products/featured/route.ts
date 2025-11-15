@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, connection } from 'next/server';
 import { 
   withErrorHandling, 
   createSuccessResponse,
@@ -11,6 +11,7 @@ import { db } from '@/lib/database';
  * Obtiene productos destacados para la página principal
  */
 async function handleGet(request: NextRequest) {
+  await connection();
   const queryParams = getQueryParams(request);
   const limit = parseInt(queryParams.limit || '6', 10);
   
