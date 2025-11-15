@@ -22,6 +22,9 @@ export interface PublicEvent {
  * Fetches public events from the API server-side
  * This runs on the server, so data is available immediately for SEO
  * 
+ * During build time, returns empty array to avoid fetch errors
+ * At runtime, fetches from API
+ * 
  * @param options - Optional parameters for filtering events
  * @returns Promise<PublicEvent[]> - Array of public events
  */
@@ -30,6 +33,16 @@ export async function getPublicEventsServerSide(options?: {
   limit?: number;
 }): Promise<PublicEvent[]> {
   try {
+    // During build/prerendering, skip fetch and return empty array
+    // This prevents ECONNREFUSED errors during static generation
+    const isBuildTime = process.env.NEXT_PHASE === 'phase-production-build' || 
+                        process.env.npm_lifecycle_event === 'build';
+    
+    if (isBuildTime) {
+      console.log('⚠️ Skipping event fetch during build time');
+      return [];
+    }
+    
     // Use environment variable or fallback to localhost
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
     

@@ -1,11 +1,14 @@
 import { MetadataRoute } from 'next'
-import { getPublicEventsServerSide } from '@/lib/events-server'
+import connectDB from '@/lib/mongodb'
+import Event from '@/lib/models/Event'
 
 /**
  * Generates comprehensive XML sitemap for BSK Motorcycle Team website
  * Includes static routes with appropriate priorities and change frequencies
  * ✅ SEO OPTIMIZATION: Now includes dynamic event pages for better crawl coverage
  * This helps search engines crawl and index the site more efficiently
+ * 
+ * NOTE: Accesses database directly during build instead of making HTTP calls
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://bskmt.com'
@@ -105,15 +108,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ]
 
-  // ✅ DYNAMIC CONTENT: Fetch upcoming events and add to sitemap
+  // ✅ DYNAMIC CONTENT: Fetch upcoming events directly from database
   let dynamicEventRoutes: MetadataRoute.Sitemap = []
   try {
-    const events = await getPublicEventsServerSide({ upcoming: true, limit: 100 })
+    // Connect to database directly (no HTTP calls during build)
+    await connectDB()
+    
+    // Fetch upcoming events from database
+    const now = new Date()
+    const events = await Event.find({
+      date: { $gte: now },
+      status: 'published'
+    })
+    .select('_id name date')
+    .limit(100)
+    .sort({ date: 1 })
+    .lean()
     
     // Generate sitemap entries for each event
     dynamicEventRoutes = events.map(event => ({
       url: `${baseUrl}/events/${event._id}`,
-      lastModified: new Date(event.startDate),
+      lastModified: new Date(event.date),
       changeFrequency: 'weekly' as const,
       priority: 0.7,
     }))
@@ -137,9 +152,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 /**
  * ✅ IMPLEMENTED: Dynamic sitemap generation
  * 
+ * Architecture:
+ * - Accesses MongoDB DIRECTLY during build (no HTTP fetch to localhost)
+ * - Prevents ECONNREFUSED errors during static generation
+ * - More efficient: no network overhead during build
+ * 
  * The sitemap now includes:
  * - All static routes (homepage, about, contact, etc.)
- * - Dynamic event pages (fetched from database)
+ * - Dynamic event pages (fetched directly from database)
  * - Proper priorities and change frequencies
  * - Graceful error handling (continues without dynamic content if fetch fails)
  * 
