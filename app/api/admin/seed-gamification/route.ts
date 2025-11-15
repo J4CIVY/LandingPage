@@ -5,6 +5,9 @@ import { requireCSRFToken } from '@/lib/csrf-protection';
 import { GamificationService } from '@/lib/services/GamificationService';
 import { Recompensa } from '@/lib/models/Gamification';
 
+// Prevent prerendering - this route needs request data
+export const dynamic = 'force-dynamic';
+
 // POST /api/admin/seed-gamification - Poblar datos de ejemplo para gamificación (solo admin)
 export async function POST(request: NextRequest) {
   // SECURITY: CSRF Protection

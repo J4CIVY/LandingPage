@@ -10,6 +10,9 @@ import Product from '@/lib/models/Product';
 import MembershipApplication from '@/lib/models/MembershipApplication';
 import Emergency from '@/lib/models/Emergency';
 
+// Prevent prerendering - this route needs request data
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/admin/analytics
  * Obtiene estadísticas completas de analytics para admin

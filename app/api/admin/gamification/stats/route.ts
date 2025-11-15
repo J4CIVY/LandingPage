@@ -5,6 +5,9 @@ import { EstadisticasUsuario } from '@/lib/models/Gamification';
 import { TransaccionPuntos } from '@/lib/models/Gamification';
 import { Recompensa, CanjeRecompensa } from '@/lib/models/Gamification';
 
+// Prevent prerendering - this route needs request data
+export const dynamic = 'force-dynamic';
+
 // GET /api/admin/gamification/stats - Obtener estadísticas de gamificación para admin
 export async function GET(req: NextRequest) {
   const adminRequest = req as AdminRequest;

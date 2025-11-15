@@ -9,6 +9,9 @@ import {
   extractDeviceInfo
 } from '@/lib/auth-utils';
 
+// Prevent prerendering - this route needs request data
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     await connectDB();

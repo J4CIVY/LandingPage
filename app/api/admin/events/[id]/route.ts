@@ -4,6 +4,9 @@ import { requireCSRFToken } from '@/lib/csrf-protection';
 import connectDB from '@/lib/mongodb';
 import Event from '@/lib/models/Event';
 
+// Prevent prerendering - this route needs request data
+export const dynamic = 'force-dynamic';
+
 export async function GET(
   req: NextRequest,
   context: { params: Promise<{ id: string }> }

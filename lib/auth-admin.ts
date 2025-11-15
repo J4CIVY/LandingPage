@@ -1,10 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
-import { getEnv } from './env-validation';
-
-// Get validated environment variables
-const env = getEnv();
 import User from '@/lib/models/User';
 import connectDB from '@/lib/mongodb';
 
@@ -32,7 +28,7 @@ export async function requireAdmin(req: AdminRequest): Promise<NextResponse | nu
       );
     }
 
-    const decoded = jwt.verify(token, env.JWT_SECRET) as any;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
     
     await connectDB();
     const user = await User.findById(decoded.userId);

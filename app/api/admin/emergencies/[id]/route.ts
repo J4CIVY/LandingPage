@@ -10,6 +10,9 @@ import connectDB from '@/lib/mongodb';
 import Emergency from '@/lib/models/Emergency';
 import mongoose from 'mongoose';
 
+// Prevent prerendering - this route needs request data
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/admin/emergencies/[id]
  * Obtiene una emergencia específica por ID para admin

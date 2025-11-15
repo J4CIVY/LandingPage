@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifyAuth } from '@/lib/auth-utils';
 import { getSecurityStatistics } from '@/lib/security-events';
 
+// Prevent prerendering - this route needs request data
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/admin/security-stats
  * Get security statistics for dashboard

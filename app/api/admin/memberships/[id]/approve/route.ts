@@ -10,6 +10,9 @@ import MembershipApplication from '@/lib/models/MembershipApplication';
 import jwt from 'jsonwebtoken';
 import User from '@/lib/models/User';
 
+// Prevent prerendering - this route needs request data
+export const dynamic = 'force-dynamic';
+
 // Función auxiliar para verificar autenticación de admin
 async function verifyAdminAuth(request: NextRequest) {
   try {

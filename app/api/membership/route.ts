@@ -42,6 +42,9 @@ import {
   validateLeaderHighImpactVolunteering
 } from '@/data/membershipConfig';
 
+// Prevent prerendering - this route needs request data
+export const dynamic = 'force-dynamic';
+
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
 interface JWTPayload {

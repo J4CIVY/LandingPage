@@ -5,6 +5,9 @@ import { GamificationService } from '@/lib/services/GamificationService';
 
 const gamificationService = new GamificationService();
 
+// Prevent prerendering - this route needs request data
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   // SECURITY: CSRF Protection
   const csrfError = requireCSRFToken(request);

@@ -4,6 +4,9 @@ import connectDB from '@/lib/mongodb';
 import Notification from '@/lib/models/Notification';
 import { requireCSRFToken } from '@/lib/csrf-protection';
 
+// Prevent prerendering - this route needs request data
+export const dynamic = 'force-dynamic';
+
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
 interface JWTPayload {

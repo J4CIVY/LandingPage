@@ -4,6 +4,9 @@ import { verifyAccessToken } from '@/lib/auth-utils';
 import { ObjectId } from 'mongodb';
 import { requireCSRFToken } from '@/lib/csrf-protection';
 
+// Prevent prerendering - this route needs request data
+export const dynamic = 'force-dynamic';
+
 // POST - Guardar borrador de postulación Leader
 export async function POST(request: NextRequest) {
   try {

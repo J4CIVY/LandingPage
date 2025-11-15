@@ -7,6 +7,9 @@ import Notification from '@/lib/models/Notification';
 import { requireCSRFToken } from '@/lib/csrf-protection';
 import { internalApiFetch } from '@/lib/internal-api-client';
 
+// Prevent prerendering - this route needs request data
+export const dynamic = 'force-dynamic';
+
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
 interface JWTPayload {

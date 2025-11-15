@@ -4,6 +4,9 @@ import { requireCSRFToken } from '@/lib/csrf-protection';
 import connectDB from '@/lib/mongodb';
 import User from '@/lib/models/User';
 
+// Prevent prerendering - this route needs request data
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   const adminRequest = req as AdminRequest;
   

@@ -4,6 +4,9 @@ import { requireCSRFToken } from '@/lib/csrf-protection';
 import connectDB from '@/lib/mongodb';
 import { Recompensa } from '@/lib/models/Gamification';
 
+// Prevent prerendering - this route needs request data
+export const dynamic = 'force-dynamic';
+
 // POST /api/admin/gamification/rewards - Crear una nueva recompensa
 export async function POST(req: NextRequest) {
   const adminRequest = req as AdminRequest;
