@@ -81,27 +81,6 @@ export default function GamificationPanel() {
       // NestJS: GET /users/gamification
       const response = await apiClient.get<GamificationData>('/users/gamification');
       setGamificationData(response);
-      // Old fetch code below commented out
-      /*const response = await fetch('/api/users/gamification', {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        if (data.success) {
-          setGamificationData(data.data);
-        } else {
-          setError(data.error || 'Error al cargar datos');
-          setGamificationData(getBasicData());
-        }
-      } else {
-        setError('Error del servidor');
-        setGamificationData(getBasicData());
-      }
     } catch (err) {
       console.error('Error fetching gamification stats:', err);
       setError(err instanceof Error ? err.message : 'Error desconocido');
@@ -156,7 +135,7 @@ export default function GamificationPanel() {
     user: {
       id: user?.id || '',
       name: user ? `${user.firstName} ${user.lastName}` : '',
-      membershipType: user?.membershipType || 'friend',
+      membershipType: (user as any)?.membershipType || 'friend',
       joinDate: new Date().toISOString()
     }
   });

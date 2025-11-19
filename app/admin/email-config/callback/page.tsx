@@ -2,11 +2,11 @@
 
 import { useEffect, useState, Suspense, type FC } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { useRequireAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 
 const CallbackContent: FC = () => {
-  const { user, isLoading: authLoading } = useRequireAuth();
+  const { user, isLoading: authLoading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [authCode, setAuthCode] = useState<string | null>(null);

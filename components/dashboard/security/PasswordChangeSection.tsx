@@ -130,38 +130,35 @@ export default function PasswordChangeSection() {
     setIsModalOpen(false)
 
     try {
-      // Este código quedó duplicado - ya está migrado arriba con apiClient
-      // Eliminando fetch duplicado...
+      // NestJS: POST /auth/change-password
+      await apiClient.post('/auth/change-password', {
+        currentPassword: formData.currentPassword,
+        newPassword: formData.newPassword,
+      });
+
       showToast({
         title: "✅ Contraseña actualizada",
         description: "Tu contraseña ha sido cambiada con éxito",
         type: "success"
       })
 
-        // Limpiar formulario
-        setFormData({
-          currentPassword: '',
-          newPassword: '',
-          confirmPassword: ''
-        })
-      } else {
-        showToast({
-          title: "Error",
-          description: data.error || "No se pudo actualizar la contraseña. Inténtalo de nuevo.",
-          type: "error"
-        })
-      }
+      // Limpiar formulario
+      setFormData({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+      });
     } catch (error) {
-      console.error('Error al cambiar contraseña:', error)
+      console.error('Error al cambiar contraseña:', error);
       showToast({
         title: "Error",
         description: "Error de conexión. Verifica tu conexión a internet e inténtalo de nuevo.",
         type: "error"
-      })
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="space-y-6">
