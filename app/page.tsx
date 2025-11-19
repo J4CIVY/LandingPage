@@ -7,6 +7,9 @@ import type { Metadata } from 'next';
 // Feature flag for cached components (Next.js 16 + React 19)
 const USE_CACHED_COMPONENTS = process.env.NEXT_PUBLIC_USE_CACHE === 'true' || true;
 
+// Revalidate every 5 minutes
+export const revalidate = 300;
+
 export const metadata: Metadata = {
   title: "Inicio - BSK Motorcycle Team | Motoclub #1 en Colombia",
   description: "🏍️ BSK Motorcycle Team: El motoclub más grande de Colombia. +500 moteros unidos por la pasión, +100 rutas épicas realizadas, eventos cada semana, talleres especializados y hermandad verdadera. Únete a la familia BSK MT en Bogotá y vive la aventura sobre dos ruedas.",

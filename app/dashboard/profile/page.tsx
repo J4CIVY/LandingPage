@@ -39,7 +39,7 @@ export default function ProfilePage() {
   // Set user role from auth data
   useEffect(() => {
     if (authUser?.role) {
-      setCurrentUserRole(authUser.role);
+      setCurrentUserRole(authUser.role as "admin" | "super-admin" | "user");
     }
   }, [authUser]);
 

@@ -47,10 +47,17 @@ const UserRegister: FC = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submitError, setSubmitError] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [isClient, setIsClient] = useState(false);
   const router = useRouter();
-  const successToast = useSuccessToast();
-  const errorToast = useErrorToast();
-  const infoToast = useInfoToast();
+  
+  // Initialize client-side only
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+  
+  const successToast = isClient ? useSuccessToast() : (() => {}) as any;
+  const errorToast = isClient ? useErrorToast() : (() => {}) as any;
+  const infoToast = isClient ? useInfoToast() : (() => {}) as any;
   
   // reCAPTCHA hook for bot protection
   const { verify } = useRecaptcha();

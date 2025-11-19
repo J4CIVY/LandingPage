@@ -207,7 +207,7 @@ export class PQRSDFService {
   static async crearSolicitud(usuarioId: string, datos: CrearSolicitudDto): Promise<Solicitud> {
     try {
       // NestJS: POST /contact/pqrsdf
-      const data = await apiClient.post<{ solicitud: Solicitud }>(`${API_BASE_URL}/pqrsdf`, datos);
+      const data = await apiClient.post<{ solicitud: Solicitud }>(`${API_BASE_URL}/pqrsdf`, datos as unknown as Record<string, unknown>);
       console.log('Solicitud creada:', data);
       
       return data.solicitud;
