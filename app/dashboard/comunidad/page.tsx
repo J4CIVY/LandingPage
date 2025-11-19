@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { FaSpinner } from 'react-icons/fa';
-import { IUser } from '@/lib/models/User';
+import { IUser } from '@/types/user';
 
 // Componentes de la comunidad
 import ComunidadHeader from '@/components/comunidad/ComunidadHeader';

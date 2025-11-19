@@ -1,6 +1,6 @@
 'use client';
 
-import { IUser } from '@/lib/models/User';
+import { IUser } from '@/types/user';
 import NotificationDropdown from '@/lib/components/shared/NotificationDropdown';
 import UserAvatar from '@/lib/components/shared/UserAvatar';
 

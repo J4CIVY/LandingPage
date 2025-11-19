@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { FaCog, FaLock, FaEnvelope, FaBell, FaShieldAlt, FaEye, FaEyeSlash, FaSave, FaTimes, FaExclamationTriangle, FaCheckCircle } from 'react-icons/fa';
-import { IUser } from '@/lib/models/User';
+import { IUser } from '@/types/user';
 
 interface AccountSettingsProps {
   user: IUser;

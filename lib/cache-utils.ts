@@ -10,7 +10,7 @@
  */
 
 import { cache } from 'react';
-import connectDB from './mongodb';
+import { apiClient } from './api-client';
 
 /**
  * Cache configuration types
@@ -19,14 +19,6 @@ export interface CacheConfig {
   revalidate?: number; // Seconds until revalidation
   tags?: string[]; // Cache tags for invalidation
 }
-
-/**
- * Cached database connection
- * Ensures only one connection is established per request
- */
-export const getCachedDB = cache(async () => {
-  return await connectDB();
-});
 
 /**
  * Creates a cached fetch function with custom configuration
@@ -64,24 +56,12 @@ export function createCachedFetch<T = any>(
  * Revalidates every 5 minutes
  */
 export const getCachedEvents = cache(async (upcoming: boolean = true) => {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  const url = `${baseUrl}/api/events?upcoming=${upcoming}`;
-  
   try {
-    const response = await fetch(url, {
-      next: { 
-        revalidate: 300, // 5 minutes
-        tags: ['events'] 
-      },
+    const response = await apiClient.get<{ data: { events: unknown[]; total: number } }>('/events/public', {
+      params: { upcoming: upcoming.toString() }
     });
     
-    if (!response.ok) {
-      console.error(`Failed to fetch events: ${response.statusText}`);
-      return { events: [], total: 0 };
-    }
-    
-    const data = await response.json();
-    return data.data || { events: [], total: 0 };
+    return response.data || { events: [], total: 0 };
   } catch (error) {
     console.error('Error fetching cached events:', error);
     return { events: [], total: 0 };
@@ -93,23 +73,9 @@ export const getCachedEvents = cache(async (upcoming: boolean = true) => {
  * Revalidates every 10 minutes
  */
 export const getCachedMemberships = cache(async () => {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  
   try {
-    const response = await fetch(`${baseUrl}/api/memberships/public`, {
-      next: { 
-        revalidate: 600, // 10 minutes
-        tags: ['memberships'] 
-      },
-    });
-    
-    if (!response.ok) {
-      console.error(`Failed to fetch memberships: ${response.statusText}`);
-      return [];
-    }
-    
-    const data = await response.json();
-    return data.data || [];
+    const response = await apiClient.get<{ data: unknown[] }>('/memberships/public');
+    return response.data || [];
   } catch (error) {
     console.error('Error fetching cached memberships:', error);
     return [];
@@ -121,23 +87,9 @@ export const getCachedMemberships = cache(async () => {
  * Revalidates every 30 minutes (benefits change rarely)
  */
 export const getCachedBenefits = cache(async () => {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  
   try {
-    const response = await fetch(`${baseUrl}/api/benefits`, {
-      next: { 
-        revalidate: 1800, // 30 minutes
-        tags: ['benefits'] 
-      },
-    });
-    
-    if (!response.ok) {
-      console.error(`Failed to fetch benefits: ${response.statusText}`);
-      return [];
-    }
-    
-    const data = await response.json();
-    return data.data || [];
+    const response = await apiClient.get<{ data: unknown[] }>('/benefits/public');
+    return response.data || [];
   } catch (error) {
     console.error('Error fetching cached benefits:', error);
     return [];
@@ -149,26 +101,10 @@ export const getCachedBenefits = cache(async () => {
  * Revalidates every 15 minutes
  */
 export const getCachedProducts = cache(async (featured: boolean = false) => {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  const url = featured 
-    ? `${baseUrl}/api/products/featured` 
-    : `${baseUrl}/api/products`;
-  
   try {
-    const response = await fetch(url, {
-      next: { 
-        revalidate: 900, // 15 minutes
-        tags: ['products'] 
-      },
-    });
-    
-    if (!response.ok) {
-      console.error(`Failed to fetch products: ${response.statusText}`);
-      return [];
-    }
-    
-    const data = await response.json();
-    return data.data || [];
+    const endpoint = featured ? '/products/featured' : '/products';
+    const response = await apiClient.get<{ data: unknown[] }>(endpoint);
+    return response.data || [];
   } catch (error) {
     console.error('Error fetching cached products:', error);
     return [];

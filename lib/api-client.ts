@@ -8,6 +8,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/a
 interface RequestOptions extends RequestInit {
   requireAuth?: boolean;
   csrfToken?: string;
+  params?: Record<string, string>;
 }
 
 /**
@@ -151,7 +152,14 @@ class ApiClient {
    * GET request
    */
   async get<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
-    const url = `${this.baseUrl}${endpoint}`;
+    let url = `${this.baseUrl}${endpoint}`;
+    
+    // Add query parameters if provided
+    if (options.params) {
+      const queryString = new URLSearchParams(options.params).toString();
+      url += `?${queryString}`;
+    }
+    
     const headers = this.buildHeaders(options);
 
     const response = await fetch(url, {

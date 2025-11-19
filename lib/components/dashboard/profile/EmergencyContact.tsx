@@ -2,7 +2,7 @@
 
 import { useState, useEffect, type ChangeEvent } from 'react';
 import { FaPhone, FaUser, FaExclamationTriangle, FaEdit, FaSave, FaTimes, FaShieldAlt, FaHeart } from 'react-icons/fa';
-import { IUser } from '@/lib/models/User';
+import { IUser } from '@/types/user';
 
 interface EmergencyContactProps {
   user: IUser;

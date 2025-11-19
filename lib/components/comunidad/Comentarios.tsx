@@ -13,7 +13,7 @@ import {
   FaPaperPlane
 } from 'react-icons/fa';
 import { Comentario } from '@/types/comunidad';
-import { IUser } from '@/lib/models/User';
+import { IUser } from '@/types/user';
 
 interface ComentariosProps {
   publicacionId: string;

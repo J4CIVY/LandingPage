@@ -14,7 +14,7 @@ import {
   FaInfoCircle
 } from 'react-icons/fa';
 import { UsuarioRanking } from '@/types/comunidad';
-import { IUser } from '@/lib/models/User';
+import { IUser } from '@/types/user';
 
 interface RankingProps {
   usuarios: UsuarioRanking[];

@@ -92,7 +92,7 @@ export default async function CachedEventsSection() {
 
         {/* Events Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {displayEvents.map((event: Event) => (
+          {displayEvents.map((event: Event | any) => (
             <article
               key={event._id}
               className="bg-white dark:bg-slate-950 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"

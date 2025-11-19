@@ -14,7 +14,7 @@ import {
   FaSpinner
 } from 'react-icons/fa';
 import { ChatMensaje, UsuarioEnLinea } from '@/types/comunidad';
-import { IUser } from '@/lib/models/User';
+import { IUser } from '@/types/user';
 
 interface ChatComunidadProps {
   mensajes: ChatMensaje[];

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo, type FC, type ChangeEvent, type SyntheticEvent, type ComponentType } from 'react';
 import { FaMotorcycle, FaEdit, FaSave, FaTimes, FaExclamationTriangle, FaCamera, FaCheckCircle, FaTimesCircle, FaCertificate, FaImage, FaPlus, FaTrash } from 'react-icons/fa';
-import { IUser } from '@/lib/models/User';
+import { IUser } from '@/types/user';
 import { sanitizeUrl } from '@/lib/input-sanitization';
 
 interface MotorcycleInfoProps {
@@ -174,7 +174,7 @@ export default function MotorcycleInfo({ user, onSave, isEditing = false, onEdit
   const [formData, setFormData] = useState<MotorcycleData>({
     motorcycleBrand: user.motorcycleBrand || '',
     motorcycleModel: user.motorcycleModel || '',
-    motorcycleYear: user.motorcycleYear || '',
+    motorcycleYear: user.motorcycleYear ? String(user.motorcycleYear) : '',
     motorcyclePlate: user.motorcyclePlate || '',
     motorcycleEngineSize: user.motorcycleEngineSize || '',
     motorcycleColor: user.motorcycleColor || '',
@@ -343,7 +343,7 @@ export default function MotorcycleInfo({ user, onSave, isEditing = false, onEdit
     setFormData({
       motorcycleBrand: user.motorcycleBrand || '',
       motorcycleModel: user.motorcycleModel || '',
-      motorcycleYear: user.motorcycleYear || '',
+      motorcycleYear: user.motorcycleYear ? String(user.motorcycleYear) : '',
       motorcyclePlate: user.motorcyclePlate || '',
       motorcycleEngineSize: user.motorcycleEngineSize || '',
       motorcycleColor: user.motorcycleColor || '',

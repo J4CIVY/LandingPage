@@ -15,7 +15,7 @@ import {
   FaSpinner
 } from 'react-icons/fa';
 import { Publicacion } from '@/types/comunidad';
-import { IUser } from '@/lib/models/User';
+import { IUser } from '@/types/user';
 import Comentarios from './Comentarios';
 import { sanitizeText } from '@/lib/input-sanitization';
 

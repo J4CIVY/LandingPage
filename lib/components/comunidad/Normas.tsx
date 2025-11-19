@@ -15,7 +15,7 @@ import {
   FaSpinner
 } from 'react-icons/fa';
 import { ReporteContenido } from '@/types/comunidad';
-import { IUser } from '@/lib/models/User';
+import { IUser } from '@/types/user';
 
 interface NormasProps {
   usuarioActual: IUser | null;

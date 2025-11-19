@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { FaUserShield, FaCheck, FaTimes, FaEye, FaEdit, FaExclamationTriangle, FaClipboardCheck, FaCrown, FaHistory, FaDownload } from 'react-icons/fa';
-import { IUser } from '@/lib/models/User';
+import { IUser } from '@/types/user';
 
 interface AdminOptionsProps {
   user: IUser;

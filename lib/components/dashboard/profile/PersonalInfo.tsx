@@ -2,7 +2,7 @@
 
 import { useState, useEffect, type ChangeEvent } from 'react';
 import { FaUser, FaIdCard, FaMapMarkerAlt, FaPhone, FaEdit, FaSave, FaTimes, FaExclamationTriangle } from 'react-icons/fa';
-import { IUser } from '@/lib/models/User';
+import { IUser } from '@/types/user';
 
 interface PersonalInfoProps {
   user: IUser;

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, type ComponentType } from 'react';
-import { IUser } from '@/lib/models/User';
+import { IUser } from '@/types/user';
 import apiClient from '@/lib/api-client';
 import { 
   FaUser, 

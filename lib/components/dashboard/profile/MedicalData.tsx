@@ -2,7 +2,7 @@
 
 import { useState, useEffect, type ChangeEvent } from 'react';
 import { FaHeartbeat, FaEdit, FaSave, FaTimes, FaExclamationTriangle, FaLock, FaEye, FaEyeSlash, FaShieldAlt, FaUserMd, FaPills } from 'react-icons/fa';
-import { IUser } from '@/lib/models/User';
+import { IUser } from '@/types/user';
 
 interface MedicalDataProps {
   user: IUser;

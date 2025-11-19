@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { FaHistory, FaMapMarkerAlt, FaMobile, FaDesktop, FaTablet, FaGlobe, FaShieldAlt, FaSignInAlt, FaEdit, FaClock } from 'react-icons/fa';
-import { IUser } from '@/lib/models/User';
+import { IUser } from '@/types/user';
 
 interface UserActivityProps {
   user: IUser;

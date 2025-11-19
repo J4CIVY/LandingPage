@@ -11,7 +11,7 @@ import {
   FaTrash
 } from 'react-icons/fa';
 import { GrupoInteres, FormularioGrupo, EstadoCarga } from '@/types/comunidad';
-import { IUser } from '@/lib/models/User';
+import { IUser } from '@/types/user';
 
 interface GruposInteresProps {
   grupos: GrupoInteres[];
@@ -353,7 +353,7 @@ export default function GruposInteres({
       ) : (
         <div className="space-y-3">
           {grupos.map((grupo) => {
-            const esmiembro = usuarioActual ? grupo.miembros.includes(usuarioActual.id) : false;
+            const esmiembro = usuarioActual && usuarioActual.id ? grupo.miembros.includes(usuarioActual.id) : false;
             const esAdminGrupo = usuarioActual?.id === grupo.adminId;
             const puedeAcceder = !grupo.esPrivado || esmiembro || esAdmin;
             

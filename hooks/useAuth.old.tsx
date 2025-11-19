@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useCallback, createContext, useContext, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
-import { IUser } from '@/lib/models/User';
+import { IUser } from '@/types/user';
 
 interface AuthState {
   isAuthenticated: boolean;
@@ -286,3 +286,4 @@ export function useRequireAuth() {
 
   return auth;
 }
+
