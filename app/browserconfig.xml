@@ -1,0 +1,22 @@
+import { MetadataRoute } from 'next'
+
+export default function browserconfig(): MetadataRoute.Browserconfig {
+  return {
+    browserconfig: {
+      msapplication: {
+        tile: {
+          square70x70logo: {
+            src: '/Logo_Letras_Motoclub_BSK_Motorcycle_Team_Blue_192X192.png',
+          },
+          square150x150logo: {
+            src: '/Logo_Letras_Motoclub_BSK_Motorcycle_Team_Blue_192X192.png',
+          },
+          square310x310logo: {
+            src: '/Logo_Letras_Motoclub_BSK_Motorcycle_Team_White_500X500.png',
+          },
+          TileColor: '#000000',
+        },
+      },
+    },
+  }
+}

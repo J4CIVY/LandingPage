@@ -1,0 +1,214 @@
+/* Font is loaded via next/font in layout.tsx for better performance */
+@import "tailwindcss";
+
+@layer base {
+  /* Smooth scrolling with accessibility respect */
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px; /* Account for fixed header */
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+  
+  body {
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  
+  /* Fallback font for progressive enhancement */
+  @font-face {
+    font-family: 'Inter-fallback';
+    src: local('Arial'), local('Helvetica'), local('system-ui');
+    font-display: swap;
+    font-weight: 400;
+  }
+  
+  /* Improve heading readability */
+  h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance; /* Better text wrapping for headings */
+    line-height: 1.2;
+  }
+  
+  /* Better paragraph readability */
+  p {
+    text-wrap: pretty; /* Prevent orphans */
+    max-width: 75ch; /* Optimal reading width */
+  }
+}
+
+@layer utilities {
+  /* Skip links para navegación por teclado */
+  .skip-link {
+    @apply absolute left-4 bg-slate-950 text-white px-6 py-3 rounded-md z-100;
+    @apply font-semibold text-sm;
+    @apply shadow-lg border-2 border-white;
+    @apply opacity-0 pointer-events-none;
+    @apply focus:opacity-100 focus:pointer-events-auto transition-opacity duration-200;
+    top: 1rem;
+  }
+  
+  .skip-link:focus {
+    @apply ring-4 ring-white/75;
+  }
+  
+  /* Estados de focus mejorados para WCAG 2.1 AA */
+  .focus-enhanced {
+    @apply focus:outline-none focus:ring-4 focus:ring-green-500/50;
+    @apply focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-slate-950;
+  }
+  
+  /* Área de toque mínima para móviles (44px WCAG) */
+  .touch-target {
+    @apply min-h-11 min-w-11;
+  }
+  
+  /* Estados de carga accesibles - usado en componentes loading */
+  .sr-only {
+    @apply absolute w-px h-px p-0 -m-px overflow-hidden;
+    @apply whitespace-nowrap border-0;
+    clip: rect(0, 0, 0, 0);
+  }
+  
+  /* Animaciones optimizadas */
+  .animate-slide-in-right {
+    animation: slideInRight 0.3s ease-out;
+  }
+  
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Utilidades para evitar saltos de layout */
+  .prevent-layout-shift {
+    contain: layout style;
+  }
+
+  .stable-height {
+    min-height: 200px;
+    contain: layout;
+  }
+
+  /* Optimización de lazy loading */
+  .lazy-container {
+    contain: layout style paint;
+    min-height: 200px;
+  }
+
+  /* Fix para intersection observer flickering */
+  .intersection-stable {
+    will-change: auto;
+    contain: layout style;
+  }
+
+  /* Utilidades para truncar texto */
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+/* Optimizaciones de rendimiento para móviles */
+@media (max-width: 768px) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.15s !important;
+    transition-duration: 0.15s !important;
+  }
+  
+  section {
+    contain: layout style;
+  }
+  
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Respeta las preferencias de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Optimizaciones touch para móviles */
+@media (pointer: coarse) {
+  button,
+  a,
+  input,
+  textarea,
+  select {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  button,
+  a {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    touch-action: manipulation;
+  }
+  
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+/* Optimizaciones de viewport para móviles */
+@supports (-webkit-touch-callout: none) {
+  .min-h-screen {
+    min-height: calc(100vh - env(safe-area-inset-bottom));
+    min-height: calc(var(--vh, 1vh) * 100);
+  }
+}
+
+/* Optimizaciones de tipografía para móviles */
+@media (max-width: 640px) {
+  body {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  h1 { font-size: 1.75rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+  h4 { font-size: 1.125rem; }
+  h5 { font-size: 1rem; }
+  h6 { font-size: 0.875rem; }
+}
+
+@layer components {
+  .ease-natural {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+  }
+}
