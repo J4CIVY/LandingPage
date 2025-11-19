@@ -199,7 +199,7 @@ const LeaderApplicationPlatform: FC<LeaderApplicationPlatformProps> = ({
     try {
       setSaving(true);
       // NestJS: POST /memberships/leader-application/draft
-      await apiClient.post('/memberships/leader-application/draft', formData);
+      await apiClient.post('/memberships/leader-application/draft', formData as unknown as Record<string, unknown>);
       setSuccess('Borrador guardado exitosamente');
     } catch {
       setError('Error al guardar borrador');
@@ -229,14 +229,13 @@ const LeaderApplicationPlatform: FC<LeaderApplicationPlatformProps> = ({
       }
 
       // NestJS: POST /memberships/leader-application/submit
-      await apiClient.post('/memberships/leader-application/submit', formData);
+      const result = await apiClient.post('/memberships/leader-application/submit', formData as unknown as Record<string, unknown>) as any;
 
-      {
+      if (result.success) {
         setSuccess('Postulación enviada exitosamente. Será revisada por la Comisión Evaluadora.');
         setCurrentStep(1); // Resetear formulario
       } else {
-        const result = await response.json();
-        setError(result.message || 'Error al enviar postulación');
+        setError(result.error || 'Error al enviar postulación');
       }
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Error al enviar postulación');

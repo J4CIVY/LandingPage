@@ -10,15 +10,15 @@ import {
   LazyEventsSection, 
   LazyBlogSection, 
   LazyStoreSection
-} from "@/components/performance/LazyComponents";
-import { SkeletonCard } from "@/components/shared/SkeletonLoaders";
+} from "@/lib/components/performance/LazyComponents";
+import { SkeletonCard } from "@/lib/components/shared/SkeletonLoaders";
 import { 
   OfflineIndicator, 
   SlowConnectionIndicator,
   useDeviceInfo 
-} from "@/components/performance/MobileOptimizations";
+} from "@/lib/components/performance/MobileOptimizations";
 
-const HermandadSection = lazy(() => import("@/components/home/HermandadSection"));
+const HermandadSection = lazy(() => import("@/lib/components/home/HermandadSection"));
 
 export default function HomeContent() {
   const { events, loading, error } = useEvents(true, 6); // Solo eventos futuros, máximo 6

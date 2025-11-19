@@ -80,12 +80,12 @@ export default function AuthButton({ isMobile = false, onMobileAction }: AuthBut
       <button
         onClick={() => setIsMenuOpen(!isMenuOpen)}
         className="flex items-center space-x-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg p-1"
-        aria-label={`Menú de usuario - ${user.firstName} ${user.lastName}`}
+        aria-label={`Menú de usuario - ${(user as any).firstName} ${(user as any).lastName}`}
         type="button"
       >
         <div className="relative w-8 h-8 rounded-full overflow-hidden bg-linear-to-br from-blue-500 to-blue-600 border-2 border-gray-300 dark:border-slate-600 flex items-center justify-center">
           <span className="text-white text-sm font-semibold">
-            {user.firstName[0]}{user.lastName[0]}
+            {(user as any).firstName?.[0]}{(user as any).lastName?.[0]}
           </span>
         </div>
         <svg
@@ -104,11 +104,11 @@ export default function AuthButton({ isMobile = false, onMobileAction }: AuthBut
           {/* Información del usuario */}
           <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-600">
             <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
-              {user.firstName} {user.lastName}
+              {(user as any).firstName} {(user as any).lastName}
             </div>
-            <div className="text-sm text-gray-500 dark:text-gray-400">{user.email}</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">{(user as any).email}</div>
             <div className="text-xs text-blue-600 dark:text-blue-400 capitalize mt-1">
-              Membresía: {user.membershipType}
+              Membresía: {(user as any).membershipType}
             </div>
           </div>
 

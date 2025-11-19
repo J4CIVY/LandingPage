@@ -132,12 +132,10 @@ export default function AdminPanel() {
     
     try {
       // NestJS: POST /admin/gamification/assign-points
-      const response = await apiClient.post('/admin/gamification/assign-points', asignacionPuntos);
+      const response = await apiClient.post('/admin/gamification/assign-points', asignacionPuntos) as any;
 
-      const result = await response.json();
-
-      if (response.ok && result.success) {
-        setSuccessMessage(`✅ ${result.message}`);
+      if (response.success) {
+        setSuccessMessage(`✅ ${response.message}`);
         
         // Limpiar formulario
         setAsignacionPuntos({
@@ -149,7 +147,7 @@ export default function AdminPanel() {
         // Recargar estadísticas
         await cargarDatos();
       } else {
-        setError(`❌ ${result.error || 'Error al asignar puntos'}`);
+        setError(`❌ ${response.error || 'Error al asignar puntos'}`);
       }
     } catch (error) {
       console.error('Error asignando puntos:', error);

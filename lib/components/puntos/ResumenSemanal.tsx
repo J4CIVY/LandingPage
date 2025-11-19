@@ -80,17 +80,12 @@ export default function ResumenSemanal({ usuarioId }: ResumenSemanalProps) {
         } else {
           setActividades([]);
         }
-      } catch (error) {
-        if (error) {
-          console.error('Error al obtener historial:', response.statusText);
-          setActividades([]);
-        }
-      } catch (error) {
-        console.error('Error al cargar actividad semanal:', error);
-        setActividades([]);
-      } finally {
-        setLoading(false);
-      }
+    } catch (error) {
+      console.error('Error al cargar actividad semanal:', error);
+      setActividades([]);
+    } finally {
+      setLoading(false);
+    }
     };
 
     void cargarResumenSemanal();

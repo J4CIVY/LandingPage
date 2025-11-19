@@ -1,8 +1,8 @@
 'use client';
 
 import { IUser } from '@/lib/models/User';
-import NotificationDropdown from '@/components/shared/NotificationDropdown';
-import UserAvatar from '@/components/shared/UserAvatar';
+import NotificationDropdown from '@/lib/components/shared/NotificationDropdown';
+import UserAvatar from '@/lib/components/shared/UserAvatar';
 
 interface WelcomeHeaderProps {
   user: IUser;

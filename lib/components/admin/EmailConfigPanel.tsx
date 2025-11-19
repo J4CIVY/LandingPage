@@ -43,8 +43,8 @@ export default function EmailConfigPanel() {
     setIsLoading(true);
     try {
       const result = await getEmailConfig();
-      if (result.success) {
-        setConfig(result.data);
+      if (result.success && result.data) {
+        setConfig(result.data as unknown as EmailConfigData);
       }
     } catch (error) {
       console.error('Error loading email config:', error);
@@ -56,7 +56,7 @@ export default function EmailConfigPanel() {
   const handleGetAuthUrl = async () => {
     try {
       const result = await getAuthUrl();
-      if (result.success && result.data.authUrl) {
+      if (result.success && result.data?.authUrl) {
         window.open(result.data.authUrl, '_blank');
       }
     } catch (error) {

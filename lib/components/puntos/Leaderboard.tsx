@@ -48,36 +48,28 @@ export default function Leaderboard() {
       // NestJS: GET /memberships/leaderboard
       const result = await apiClient.get<{ leaderboard: LeaderboardUser[] }>('/memberships/leaderboard?limit=20');
       const leaderboardData: LeaderboardUser[] = result.leaderboard || [];
-          
-          // Mapear a formato esperado por el componente
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const usuariosMapeados: any[] = leaderboardData.map(item => ({
-            id: item.usuario._id,
-            nombre: `${item.usuario.firstName} ${item.usuario.lastName}`,
-            puntosTotales: item.puntos,
-            nivel: {
-              id: 1,
-              nombre: item.nivel,
-              puntosMinimos: 0,
-              puntosMaximos: 999999,
-              color: getNivelColor(item.nivel),
-              icono: getNivelIcon(item.nivel),
-              beneficios: []
-            },
-            posicionRanking: item.posicion,
-            avatar: item.usuario.profileImage || `/api/placeholder/50/50`,
-            esAdmin: false
-          }));
+      
+      // Mapear a formato esperado por el componente
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const usuariosMapeados: any[] = leaderboardData.map(item => ({
+        id: item.usuario._id,
+        nombre: `${item.usuario.firstName} ${item.usuario.lastName}`,
+        puntosTotales: item.puntos,
+        nivel: {
+          id: 1,
+          nombre: item.nivel,
+          puntosMinimos: 0,
+          puntosMaximos: 999999,
+          color: getNivelColor(item.nivel),
+          icono: getNivelIcon(item.nivel),
+          beneficios: []
+        },
+        posicionRanking: item.posicion,
+        avatar: item.usuario.profileImage || `/api/placeholder/50/50`,
+        esAdmin: false
+      }));
 
-          setUsuarios(usuariosMapeados);
-        } else {
-          console.error('Error en respuesta:', result.error);
-          setUsuarios([]);
-        }
-      } else {
-        console.error('Error en request:', response.status);
-        setUsuarios([]);
-      }
+      setUsuarios(usuariosMapeados);
     } catch (error) {
       console.error('Error cargando leaderboard:', error);
       setUsuarios([]);

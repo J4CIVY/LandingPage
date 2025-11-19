@@ -232,28 +232,20 @@ export default function TwoFactorVerification({
     
     try {
       // NestJS: POST /auth/2fa/send-email-backup
-      await apiClient.post('/auth/2fa/send-email-backup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          twoFactorId
-        })
-      });
+      const result = await apiClient.post('/auth/2fa/send-email-backup', {
+        twoFactorId
+      }) as any;
 
-      const data = await response.json();
-
-      if (data.success) {
+      if (result.success) {
         setIsEmailBackup(true);
-        setTimeRemaining(data.data.expiresIn);
+        setTimeRemaining(result.data?.expiresIn || 300000);
         setShowEmailBackup(false);
         setAttemptsRemaining(null);
         setCode(['', '', '', '', '', '']);
         inputRefs.current[0]?.focus();
         setError(null);
       } else {
-        setError(data.message || 'Error al enviar código por email');
+        setError(result.error || 'Error al enviar código por email');
       }
     } catch (error) {
       console.error('Error enviando código por email:', error);

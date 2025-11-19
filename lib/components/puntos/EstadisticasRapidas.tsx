@@ -58,30 +58,23 @@ export default function EstadisticasRapidas({ usuarioId, puntosActuales = 0 }: E
       
       if (data.summary) {
         const { summary, ranking, nextRewards } = data;
-          
-          // Mapear datos reales a la interfaz esperada
-          const statsData: EstadisticasRapidas = {
-            puntosHoy: summary.pointsToday || 0,
-            puntosEsteMes: summary.pointsThisMonth || 0,
-            proximaRecompensa: nextRewards.length > 0 ? {
-              nombre: nextRewards[0].nombre,
-              puntosRestantes: Math.max(nextRewards[0].costoPuntos - summary.totalPoints, 0)
-            } : null,
-            posicionRanking: ranking.position || 0,
-            cambioRanking: ranking.change || 0,
-            totalPuntos: summary.totalPoints || 0,
-            rachaActual: data.data.user?.currentStreak || 0,
-            mejorRacha: data.data.user?.bestStreak || 0
-          };
-          
-          setEstadisticas(statsData);
-        } else {
-          console.error('Error en la respuesta del servidor');
-          setError('Error en la respuesta del servidor');
-        }
-      } else {
-        console.error('Error al cargar datos del servidor');
-        setError('Error al cargar datos del servidor');
+        
+        // Mapear datos reales a la interfaz esperada
+        const statsData: EstadisticasRapidas = {
+          puntosHoy: summary.pointsToday || 0,
+          puntosEsteMes: summary.pointsThisMonth || 0,
+          proximaRecompensa: nextRewards.length > 0 ? {
+            nombre: nextRewards[0].nombre,
+            puntosRestantes: Math.max(nextRewards[0].costoPuntos - summary.totalPoints, 0)
+          } : null,
+          posicionRanking: ranking.position || 0,
+          cambioRanking: ranking.change || 0,
+          totalPuntos: summary.totalPoints || 0,
+          rachaActual: data.user?.currentStreak || 0,
+          mejorRacha: data.user?.bestStreak || 0
+        };
+        
+        setEstadisticas(statsData);
       }
     } catch (err) {
       console.error('Error cargando estadísticas:', err);

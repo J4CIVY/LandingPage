@@ -3,7 +3,7 @@
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { useEffect, ReactNode, useState } from 'react';
-import AdminSidebar from '@/components/admin/AdminSidebar';
+import AdminSidebar from '@/lib/components/admin/AdminSidebar';
 import { FaSpinner, FaShieldAlt, FaBars } from 'react-icons/fa';
 import Link from 'next/link';
 
@@ -86,7 +86,7 @@ export default function AdminLayout({ children, title, description }: AdminLayou
 
       {/* Sidebar */}
       <AdminSidebar 
-        user={user} 
+        user={user as any} 
         onLogout={handleLogout} 
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}

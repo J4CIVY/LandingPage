@@ -1,0 +1,238 @@
+'use client';
+
+import { useState, type FormEvent } from 'react';
+import { FaEnvelope, FaArrowRight, FaSpinner, FaShieldAlt } from 'react-icons/fa';
+import Link from 'next/link';
+import Image from 'next/image';
+import apiClient from '@/lib/api-client';
+
+interface Step1EmailProps {
+  onEmailVerified: (email: string) => void;
+}
+
+export default function Step1Email({ onEmailVerified }: Step1EmailProps) {
+  const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const cloudName = "dz0peilmu";
+  
+  // Logo blanco para modo oscuro
+  const logoWhiteUrl = {
+    avif: `https://res.cloudinary.com/${cloudName}/image/upload/f_avif,q_auto,w_192/BSK_MT_Logo_Letras_White_192_x_192_px_nptwwj`,
+    webp: `https://res.cloudinary.com/${cloudName}/image/upload/f_webp,q_auto,w_192/BSK_MT_Logo_Letras_White_192_x_192_px_nptwwj`,
+    png: `https://res.cloudinary.com/${cloudName}/image/upload/f_png,q_auto,w_192/BSK_MT_Logo_Letras_White_192_x_192_px_nptwwj`
+  };
+
+  // Logo azul para modo claro
+  const logoBlueUrl = {
+    avif: `https://res.cloudinary.com/${cloudName}/image/upload/f_avif,q_auto,w_192/BSK_MT_Logo_Letras_Blue_192_x_192_px_tj3msl`,
+    webp: `https://res.cloudinary.com/${cloudName}/image/upload/f_webp,q_auto,w_192/BSK_MT_Logo_Letras_Blue_192_x_192_px_tj3msl`,
+    png: `https://res.cloudinary.com/${cloudName}/image/upload/f_png,q_auto,w_192/BSK_MT_Logo_Letras_Blue_192_x_192_px_tj3msl`
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      // Validación básica
+      if (!email || !email.includes('@')) {
+        setError('Por favor ingresa un correo electrónico válido');
+        setIsLoading(false);
+        return;
+      }
+
+      // Verificar si el email existe
+      // NestJS: POST /auth/check-email
+      const result = await apiClient.post<{ success: boolean; code?: string; message?: string }>('/auth/check-email', { 
+        email: email.trim().toLowerCase() 
+      });
+
+      if (result.success) {
+        // Email existe y está verificado, pasar al siguiente paso
+        onEmailVerified(email.trim().toLowerCase());
+      } else {
+        // Manejar diferentes códigos de error
+        if (result.code === 'USER_NOT_FOUND') {
+          setError('No se encontró una cuenta con este correo. ¿Quieres registrarte?');
+        } else if (result.code === 'EMAIL_NOT_VERIFIED') {
+          setError('Debes verificar tu correo antes de iniciar sesión.');
+        } else {
+          setError(result.message || 'Error al verificar el email');
+        }
+      }
+    } catch (error) {
+      console.error('Error verificando email:', error);
+      setError('Error de conexión. Por favor intenta nuevamente.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-white dark:bg-slate-950 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-md w-full">
+        {/* Card Principal */}
+        <div className="bg-gray-100 dark:bg-slate-900 rounded-2xl shadow-2xl overflow-hidden">
+          {/* Header */}
+          <div className="bg-gray-200 dark:bg-slate-800 px-6 py-8 sm:px-8">
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center mb-4">
+                {/* Logo para modo claro (azul) */}
+                <picture className="block dark:hidden">
+                  <source srcSet={logoBlueUrl.avif} type="image/avif" />
+                  <source srcSet={logoBlueUrl.webp} type="image/webp" />
+                  <Image
+                    src={logoBlueUrl.png}
+                    alt="Logo BSK Motorcycle Team"
+                    className="w-16 h-16 object-contain"
+                    width={64}
+                    height={64}
+                    priority
+                  />
+                </picture>
+                
+                {/* Logo para modo oscuro (blanco) */}
+                <picture className="hidden dark:block">
+                  <source srcSet={logoWhiteUrl.avif} type="image/avif" />
+                  <source srcSet={logoWhiteUrl.webp} type="image/webp" />
+                  <Image
+                    src={logoWhiteUrl.png}
+                    alt="Logo BSK Motorcycle Team"
+                    className="w-16 h-16 object-contain"
+                    width={64}
+                    height={64}
+                    priority
+                  />
+                </picture>
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-slate-800 dark:text-gray-100 mb-2">
+                Iniciar Sesión
+              </h1>
+              <p className="text-slate-600 dark:text-gray-300 text-sm sm:text-base">
+                Usa tu cuenta de BSK Motorcycle Team
+              </p>
+            </div>
+          </div>
+
+          {/* Body */}
+          <div className="p-6 sm:p-8">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Campo Email */}
+              <div>
+                <label 
+                  htmlFor="email" 
+                  className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2"
+                >
+                  Correo electrónico
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <FaEnvelope className="text-gray-400 dark:text-slate-500" />
+                  </div>
+                  <input
+                    type="email"
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className={`block w-full pl-10 pr-3 py-3 border ${
+                      error 
+                        ? 'border-red-300 dark:border-red-500' 
+                        : 'border-gray-300 dark:border-slate-600'
+                    } rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 placeholder-gray-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-all text-base`}
+                    placeholder="tu@email.com"
+                    autoComplete="email"
+                    autoFocus
+                    disabled={isLoading}
+                  />
+                </div>
+                {error && (
+                  <div className="mt-2">
+                    <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+                    {error.includes('registrarte') && (
+                      <Link
+                        href="/register"
+                        className="inline-flex items-center mt-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline"
+                      >
+                        Crear cuenta nueva
+                      </Link>
+                    )}
+                    {error.includes('verificar tu correo') && (
+                      <Link
+                        href="/verify-email"
+                        className="inline-flex items-center mt-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline"
+                      >
+                        Ir a verificación de email
+                      </Link>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Botón Siguiente */}
+              <button
+                type="submit"
+                disabled={isLoading || !email}
+                className={`w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white transition-all ${
+                  isLoading || !email
+                    ? 'bg-gray-400 dark:bg-slate-600 cursor-not-allowed'
+                    : 'bg-blue-600 dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-slate-800 active:scale-[0.98] hover:shadow-lg'
+                }`}
+              >
+                {isLoading ? (
+                  <>
+                    <FaSpinner className="animate-spin mr-2" />
+                    Verificando...
+                  </>
+                ) : (
+                  <>
+                    Siguiente
+                    <FaArrowRight className="ml-2" />
+                  </>
+                )}
+              </button>
+
+              {/* Indicador de Seguridad */}
+              <div className="flex items-center justify-center space-x-2 text-xs text-gray-500 dark:text-slate-400">
+                <FaShieldAlt className="text-green-600 dark:text-green-400" />
+                <span>Conexión segura con encriptación de punto a punto</span>
+              </div>
+            </form>
+
+            {/* Link a Recuperar Contraseña */}
+            <div className="mt-6 pt-6 border-t border-gray-200 dark:border-slate-600 text-center">
+              <Link
+                href="/auth/forgot-password"
+                className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium"
+              >
+                ¿Olvidaste tu correo o contraseña?
+              </Link>
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div className="bg-gray-200 dark:bg-slate-800 px-6 py-4 sm:px-8">
+            <p className="text-center text-sm text-gray-600 dark:text-slate-400">
+              ¿Nuevo en BSK Motorcycle Team?{' '}
+              <Link
+                href="/register"
+                className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium"
+              >
+                Crear cuenta
+              </Link>
+            </p>
+          </div>
+        </div>
+
+        {/* Copyright */}
+        <div className="mt-8 text-center">
+          <p className="text-gray-500 dark:text-slate-500 text-xs sm:text-sm">
+            © 2025 BSK Motorcycle Team. Todos los derechos reservados.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}

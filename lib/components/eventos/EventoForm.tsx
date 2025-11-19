@@ -18,9 +18,9 @@ import {
   FaCalendarCheck
 } from 'react-icons/fa';
 import { Event, EventType, EventStatus, EventDifficulty, CreateEventData } from '@/types/events';
-import ImageUpload from '@/components/shared/ImageUpload';
-import ImageGalleryUpload from '@/components/shared/ImageGalleryUpload';
-import PdfUpload from '@/components/shared/PdfUpload';
+import ImageUpload from '@/lib/components/shared/ImageUpload';
+import ImageGalleryUpload from '@/lib/components/shared/ImageGalleryUpload';
+import PdfUpload from '@/lib/components/shared/PdfUpload';
 
 interface EventoFormProps {
   event?: Event | null;
@@ -487,7 +487,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
                 Imagen principal del evento *
               </label>
               <ImageUpload
-                onImageUploaded={(imageUrl) => updateField('mainImage', imageUrl)}
+                onImageUploaded={(imageUrl: string) => updateField('mainImage', imageUrl)}
                 currentImageUrl={formData.mainImage}
                 folder="events"
                 publicIdPrefix={`event_${Date.now()}`}
@@ -507,7 +507,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
               </h4>
               <ImageGalleryUpload
                 images={formData.gallery || []}
-                onImagesChanged={(images) => updateField('gallery', images)}
+                onImagesChanged={(images: string[]) => updateField('gallery', images)}
                 folder="events/gallery"
                 publicIdPrefix={`event_gallery_${Date.now()}`}
                 maxImages={10}
@@ -526,7 +526,7 @@ export default function EventoForm({ event, isOpen, onClose, onSave }: EventoFor
                 Documento PDF con Detalles
               </h4>
               <PdfUpload
-                onPdfUploaded={(pdfUrl) => updateField('detailsPdf', pdfUrl)}
+                onPdfUploaded={(pdfUrl: string) => updateField('detailsPdf', pdfUrl)}
                 currentPdfUrl={formData.detailsPdf}
                 folder="events/documents"
                 publicIdPrefix={`event_details_${Date.now()}`}

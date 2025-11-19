@@ -1,7 +1,7 @@
 'use client';
 
 import { ThemeProvider } from '@/providers/ThemeProvider';
-import { ToastProvider } from '@/components/shared/ToastProvider';
+import { ToastProvider } from '@/lib/components/shared/ToastProvider';
 import { AuthProvider } from '@/hooks/useAuth';
 import { ReactNode } from 'react';
 

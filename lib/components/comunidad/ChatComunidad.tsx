@@ -164,17 +164,11 @@ export default function ChatComunidad({
     if (!motivo) return;
 
     try {
-      await fetch('/api/comunidad/reportes', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          contenidoId: mensajeId,
-          tipoContenido: 'mensaje',
-          motivo
-        })
+      // NestJS: POST /community/reports
+      await apiClient.post('/community/reports', {
+        contenidoId: mensajeId,
+        tipoContenido: 'mensaje',
+        motivo
       });
 
       alert('Mensaje reportado. Lo revisaremos pronto.');
@@ -188,8 +182,8 @@ export default function ChatComunidad({
     if (!confirm('¿Estás seguro de que quieres silenciar a este usuario?')) return;
 
     try {
-      await fetch('/api/comunidad/moderacion/silenciar', {
-        method: 'POST',
+      // NestJS: POST /community/moderation/silence
+      await apiClient.post('/community/moderation/silence', {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json'

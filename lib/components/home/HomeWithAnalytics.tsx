@@ -1,13 +1,13 @@
 'use client';
 
 import { type FC } from "react";
-import HeroSection from "@/components/home/HeroSection";
-import HomeContent from "@/components/home/HomeContent";
+import HeroSection from "@/lib/components/home/HeroSection";
+import HomeContent from "@/lib/components/home/HomeContent";
 import { 
   useCoreWebVitals, 
   usePerformanceMonitoring, 
   useScrollTracking 
-} from "@/components/analytics/PerformanceAnalytics";
+} from "@/lib/components/analytics/PerformanceAnalytics";
 
 // Componente cliente para analytics
 const HomeWithAnalytics: FC = () => {

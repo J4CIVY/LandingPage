@@ -43,10 +43,9 @@ export default function UpgradeFlowModal({
       );
 
       setResult({ 
-        allowed: true, 
-        missingRequirements: [],
-        ...data 
-      });
+        allowed: data.allowed ?? true, 
+        missingRequirements: (data.missingRequirements as any) ?? []
+      } as RequestUpgradeResponse);
       setStep('result');
       
       // Llamar callback si el ascenso fue exitoso

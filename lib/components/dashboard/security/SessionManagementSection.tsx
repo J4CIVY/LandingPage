@@ -91,26 +91,23 @@ export default function SessionManagementSection() {
     setIsLoading(true)
     
     try {
-      const csrfToken = getCSRFToken()
-      const response = await fetch(`/api/user/sessions?sessionId=${sessionId}`, {
-        method: 'DELETE',
-        headers: {
-          'x-csrf-token': csrfToken || '',
-        },
-      })
+      const response = await apiClient.delete(`/users/sessions/${sessionId}`) as any;
 
-      if (!response.ok) {
-        const error = await response.json()
+      if (response.success) {
+        showToast({
+          title: "Éxito",
+          description: 'Sesión cerrada exitosamente',
+          type: "success"
+        });
+        // Recargar las sesiones
+        await loadSessions();
+      } else {
         showToast({
           title: "Error",
-          description: error.error || 'Error al cerrar sesión',
+          description: response.error || 'Error al cerrar sesión',
           type: "error"
-        })
-        return
+        });
       }
-      
-      // Recargar las sesiones
-      await loadSessions()
       setSessionToTerminate(null)
       
       showToast({
