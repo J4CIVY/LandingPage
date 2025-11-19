@@ -10,7 +10,36 @@
  */
 
 import { revalidateTag, updateTag, refresh } from 'next/cache';
-import { internalApiFetch } from '@/lib/internal-api-client';
+import { cookies } from 'next/headers';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api/v1';
+
+/**
+ * Helper to make authenticated requests to NestJS backend from server actions
+ */
+async function backendFetch(endpoint: string, options?: RequestInit) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('bsk-access-token')?.value;
+  
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  };
+  
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  
+  // Merge with any headers from options
+  if (options?.headers) {
+    const optionsHeaders = options.headers as Record<string, string>;
+    Object.assign(headers, optionsHeaders);
+  }
+  
+  return fetch(`${API_URL}${endpoint}`, {
+    ...options,
+    headers,
+  });
+}
 
 // ============================================================================
 // EVENTOS - Usa revalidateTag con 'max' (soft revalidation)
@@ -23,9 +52,8 @@ import { internalApiFetch } from '@/lib/internal-api-client';
  */
 export async function createEvent(eventData: Record<string, unknown>) {
   try {
-    const response = await internalApiFetch('/api/events', {
+    const response = await backendFetch('/events', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(eventData),
     });
 
@@ -46,9 +74,8 @@ export async function createEvent(eventData: Record<string, unknown>) {
  */
 export async function updateEvent(eventId: string, eventData: Record<string, unknown>) {
   try {
-    const response = await internalApiFetch(`/api/events/${eventId}`, {
+    const response = await backendFetch(`/events/${eventId}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(eventData),
     });
 
@@ -77,9 +104,8 @@ export async function updateEvent(eventId: string, eventData: Record<string, unk
  */
 export async function updateUserProfile(userId: string, profileData: Record<string, unknown>) {
   try {
-    const response = await internalApiFetch(`/api/users/${userId}`, {
+    const response = await backendFetch(`/users/${userId}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(profileData),
     });
 
@@ -100,9 +126,8 @@ export async function updateUserProfile(userId: string, profileData: Record<stri
  */
 export async function updateUserSettings(userId: string, settings: Record<string, unknown>) {
   try {
-    const response = await internalApiFetch(`/api/users/${userId}/settings`, {
+    const response = await backendFetch(`/users/${userId}/settings`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(settings),
     });
 
@@ -129,9 +154,8 @@ export async function updateUserSettings(userId: string, settings: Record<string
  */
 export async function markNotificationAsRead(notificationId: string) {
   try {
-    const response = await internalApiFetch(`/api/notifications/${notificationId}`, {
+    const response = await backendFetch(`/notifications/${notificationId}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ read: true }),
     });
 
@@ -153,9 +177,8 @@ export async function markNotificationAsRead(notificationId: string) {
  */
 export async function markAllNotificationsAsRead(userId: string) {
   try {
-    const response = await internalApiFetch('/api/notifications/mark-all-read', {
+    const response = await backendFetch('/notifications/mark-all-read', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId }),
     });
 
@@ -182,9 +205,8 @@ export async function markAllNotificationsAsRead(userId: string) {
  */
 export async function updateEmergencyStatus(emergencyId: string, status: string) {
   try {
-    const response = await internalApiFetch(`/api/emergencies/${emergencyId}`, {
+    const response = await backendFetch(`/emergencies/${emergencyId}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status }),
     });
 
@@ -215,9 +237,8 @@ export async function updateEmergencyStatus(emergencyId: string, status: string)
  */
 export async function updateProduct(productId: string, productData: Record<string, unknown>) {
   try {
-    const response = await internalApiFetch(`/api/products/${productId}`, {
+    const response = await backendFetch(`/products/${productId}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(productData),
     });
 
@@ -246,9 +267,8 @@ export async function updateProduct(productId: string, productData: Record<strin
  */
 export async function registerForEvent(eventId: string, userId: string) {
   try {
-    const response = await internalApiFetch(`/api/events/${eventId}/register`, {
+    const response = await backendFetch(`/events/${eventId}/register`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId }),
     });
 
@@ -271,9 +291,8 @@ export async function registerForEvent(eventId: string, userId: string) {
  */
 export async function cancelEventRegistration(eventId: string, userId: string) {
   try {
-    const response = await internalApiFetch(`/api/events/${eventId}/register`, {
+    const response = await backendFetch(`/events/${eventId}/register`, {
       method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId }),
     });
 

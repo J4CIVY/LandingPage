@@ -141,10 +141,9 @@ export default function EditEventPage() {
     const loadEvent = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`/api/admin/events/${eventId}`);
-        if (response.ok) {
-          const data = await response.json();
-          const event = data.event;
+        const { apiClient } = await import('@/lib/api-client');
+        const data = await apiClient.get<{ event: any }>(`/events/${eventId}`);
+        const event = data.event;
           
           // Formatear fechas para inputs
           const formatDateForInput = (date: string) => {
@@ -186,9 +185,6 @@ export default function EditEventPage() {
             },
             tags: event.tags || []
           });
-        } else {
-          router.push('/admin/events');
-        }
       } catch (error) {
         console.error('Error cargando evento:', error);
         router.push('/admin/events');
@@ -310,18 +306,9 @@ export default function EditEventPage() {
         difficulty: formData.difficulty === '' ? undefined : formData.difficulty
       };
 
-      const response = await fetch(`/api/admin/events/${eventId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(eventData)
-      });
-
-      if (response.ok) {
-        router.push(`/admin/events/view/${eventId}`);
-      } else {
-        const data = await response.json();
-        alert(data.error || 'Error al actualizar evento');
-      }
+      const { apiClient } = await import('@/lib/api-client');
+      await apiClient.put(`/events/${eventId}`, eventData);
+      router.push(`/admin/events/view/${eventId}`);
     } catch (error) {
       console.error('Error actualizando evento:', error);
       alert('Error al actualizar el evento. Por favor intenta de nuevo.');

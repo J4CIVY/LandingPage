@@ -62,13 +62,9 @@ export default function EventAttendancePage() {
   const loadAttendanceData = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/admin/events/${eventId}/attendance`);
-      if (response.ok) {
-        const data = await response.json();
-        setAttendanceData(data.data);
-      } else {
-        router.push('/admin/events');
-      }
+      const { apiClient } = await import('@/lib/api-client');
+      const data = await apiClient.get<{ data: AttendanceData }>(`/events/${eventId}/attendance`);
+      setAttendanceData(data.data);
     } catch (error) {
       console.error('Error cargando datos de asistencia:', error);
       router.push('/admin/events');
@@ -87,31 +83,22 @@ export default function EventAttendancePage() {
   const handleToggleAttendance = async (participantId: string, currentAttendance: boolean) => {
     try {
       setUpdating(participantId);
-      const response = await fetch(`/api/admin/events/${eventId}/attendance`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          participantId,
-          action: currentAttendance ? 'unmark' : 'mark'
-        })
+      const { apiClient } = await import('@/lib/api-client');
+      await apiClient.patch(`/events/${eventId}/attendance`, {
+        participantId,
+        action: currentAttendance ? 'unmark' : 'mark'
       });
-
-      if (response.ok) {
-        // Actualizar estado local
-        setAttendanceData(prev => {
-          if (!prev) return prev;
-          return {
-            ...prev,
-            totalAttended: prev.totalAttended + (currentAttendance ? -1 : 1),
-            participants: prev.participants.map(p =>
-              p._id === participantId ? { ...p, hasAttended: !currentAttendance } : p
-            )
-          };
-        });
-      } else {
-        const errorData = await response.json();
-        alert(errorData.error || 'Error al actualizar asistencia');
-      }
+      // Actualizar estado local
+      setAttendanceData(prev => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          totalAttended: prev.totalAttended + (currentAttendance ? -1 : 1),
+          participants: prev.participants.map(p =>
+            p._id === participantId ? { ...p, hasAttended: !currentAttendance } : p
+          )
+        };
+      });
     } catch (error) {
       console.error('Error actualizando asistencia:', error);
       alert('Error de conexión');
@@ -128,16 +115,13 @@ export default function EventAttendancePage() {
 
     try {
       setLoading(true);
+      const { apiClient } = await import('@/lib/api-client');
       const promises = attendanceData.participants
         .filter(p => !p.hasAttended)
         .map(p => 
-          fetch(`/api/admin/events/${eventId}/attendance`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              participantId: p._id,
-              action: 'mark'
-            })
+          apiClient.patch(`/events/${eventId}/attendance`, {
+            participantId: p._id,
+            action: 'mark'
           })
         );
 

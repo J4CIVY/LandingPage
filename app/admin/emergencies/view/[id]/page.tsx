@@ -70,22 +70,8 @@ export default function ViewEmergencyPage({ params }: PageProps<'/admin/emergenc
   const { user, isLoading } = useAuth();
   const { isSubmitting, submit } = useSecureForm(async (data: Record<string, unknown>) => {
     const { id } = await params;
-    const csrfToken = getCSRFToken();
-    const response = await fetch(`/api/admin/emergencies/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-csrf-token': csrfToken || '',
-      },
-      credentials: 'include',
-      body: JSON.stringify(data)
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Error al actualizar el estado');
-    }
-
+    const { apiClient } = await import('@/lib/api-client');
+    await apiClient.put(`/emergencies/${id}`, data);
     // Recargar la emergencia
     await fetchEmergency();
   });
@@ -98,16 +84,8 @@ export default function ViewEmergencyPage({ params }: PageProps<'/admin/emergenc
     try {
       setLoading(true);
       const { id } = await params;
-      const response = await fetch(`/api/admin/emergencies/${id}`, {
-        credentials: 'include'
-      });
-
-      if (!response.ok) {
-        alert('Error al cargar la emergencia');
-        return;
-      }
-
-      const data = await response.json();
+      const { apiClient } = await import('@/lib/api-client');
+      const data = await apiClient.get<{ data: { emergency: Emergency } }>(`/emergencies/${id}`);
       setEmergency(data.data.emergency);
     } catch (error) {
       console.error('Error fetching emergency:', error);

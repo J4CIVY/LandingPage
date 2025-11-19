@@ -100,17 +100,8 @@ export default function EditEmergencyPage({ params }: { params: Promise<{ id: st
     try {
       setLoading(true);
       const { id } = await params;
-      const response = await fetch(`/api/admin/emergencies/${id}`, {
-        credentials: 'include'
-      });
-
-      if (!response.ok) {
-        alert('Error al cargar la emergencia');
-        setLoading(false);
-        return;
-      }
-
-      const data = await response.json();
+      const { apiClient } = await import('@/lib/api-client');
+      const data = await apiClient.get<{ data: { emergency: any } }>(`/emergencies/${id}`);
       const emergencyData = data.data.emergency;
       setEmergency(emergencyData);
       

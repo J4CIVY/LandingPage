@@ -142,17 +142,16 @@ export default function EventFormPage() {
 
       try {
         setLoading(true);
-        const response = await fetch(`/api/admin/events/${eventId}`);
-        if (response.ok) {
-          const data = await response.json();
-          const event = data.event;
-          
-          // Formatear fechas para inputs
-          const formatDateForInput = (date: string) => {
-            return new Date(date).toISOString().slice(0, 16);
-          };
+        const { apiClient } = await import('@/lib/api-client');
+        const data = await apiClient.get<{ event: any }>(`/events/${eventId}`);
+        const event = data.event;
+        
+        // Formatear fechas para inputs
+        const formatDateForInput = (date: string) => {
+          return new Date(date).toISOString().slice(0, 16);
+        };
 
-          setFormData({
+        setFormData({
             name: event.name || '',
             startDate: formatDateForInput(event.startDate),
             endDate: event.endDate ? formatDateForInput(event.endDate) : '',
@@ -187,7 +186,6 @@ export default function EventFormPage() {
             },
             tags: event.tags || []
           });
-        }
       } catch (error) {
         console.error('Error cargando evento:', error);
       } finally {

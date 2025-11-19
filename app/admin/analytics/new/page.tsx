@@ -87,26 +87,18 @@ export default function NewAnalyticsReportPage() {
 
   const generateReport = async () => {
     try {
-      const params = new URLSearchParams({
+      const { apiClient } = await import('@/lib/api-client');
+      const queryParams: Record<string, string> = {
         type: formData.type,
-        ...(formData.startDate && { startDate: formData.startDate }),
-        ...(formData.endDate && { endDate: formData.endDate }),
         format: formData.format
-      });
+      };
+      if (formData.startDate) queryParams.startDate = formData.startDate;
+      if (formData.endDate) queryParams.endDate = formData.endDate;
 
-      const response = await fetch(`/api/admin/analytics/reports?${params}`, {
-        credentials: 'include'
-      });
-
-      if (!response.ok) {
-        alert('Error al generar reporte');
-        return;
-      }
-
-      const result = await response.json();
+      const response = await apiClient.get<{ data: any }>('/analytics/reports', { params: queryParams });
       
       // Crear y descargar archivo
-      const blob = new Blob([JSON.stringify(result.data, null, 2)], { 
+      const blob = new Blob([JSON.stringify(response.data, null, 2)], { 
         type: formData.format === 'json' ? 'application/json' : 'text/csv' 
       });
       const url = URL.createObjectURL(blob);

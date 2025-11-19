@@ -46,22 +46,14 @@ export default function ViewAnalyticsReportPage() {
   const fetchReport = async (customStartDate?: string, customEndDate?: string) => {
     try {
       setRefreshing(true);
-      const params = new URLSearchParams({ type: reportType });
+      const { apiClient } = await import('@/lib/api-client');
+      const queryParams: Record<string, string> = { type: reportType };
       
-      if (customStartDate) params.append('startDate', customStartDate);
-      if (customEndDate) params.append('endDate', customEndDate);
+      if (customStartDate) queryParams.startDate = customStartDate;
+      if (customEndDate) queryParams.endDate = customEndDate;
 
-      const response = await fetch(`/api/admin/analytics/reports?${params}`, {
-        credentials: 'include'
-      });
-
-      if (!response.ok) {
-        setError('Error al cargar el reporte');
-        return;
-      }
-
-      const result = await response.json();
-      setData(result.data);
+      const response = await apiClient.get<{ data: any }>('/analytics/reports', { params: queryParams });
+      setData(response.data);
       setError(null);
     } catch (err) {
       console.error('Error fetching report:', err);

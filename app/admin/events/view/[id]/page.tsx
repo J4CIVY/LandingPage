@@ -142,13 +142,9 @@ export default function EventDetailPage() {
     const loadEvent = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`/api/admin/events/${eventId}`);
-        if (response.ok) {
-          const data = await response.json();
-          setEvent(data.event);
-        } else {
-          router.push('/admin/events');
-        }
+        const { apiClient } = await import('@/lib/api-client');
+        const data = await apiClient.get(`/events/${eventId}`);
+        setEvent(data.event);
       } catch (error) {
         console.error('Error cargando evento:', error);
         router.push('/admin/events');
@@ -166,11 +162,9 @@ export default function EventDetailPage() {
   const loadAttendanceData = async () => {
     try {
       setLoadingAttendance(true);
-      const response = await fetch(`/api/admin/events/${eventId}/attendance`);
-      if (response.ok) {
-        const data = await response.json();
-        setAttendanceData(data.data);
-      }
+      const { apiClient } = await import('@/lib/api-client');
+      const data = await apiClient.get(`/events/${eventId}/attendance`);
+      setAttendanceData(data.data);
     } catch (error) {
       console.error('Error cargando datos de asistencia:', error);
     } finally {
@@ -181,22 +175,13 @@ export default function EventDetailPage() {
   // Marcar/desmarcar asistencia
   const handleToggleAttendance = async (participantId: string, currentAttendance: boolean) => {
     try {
-      const response = await fetch(`/api/admin/events/${eventId}/attendance`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          participantId,
-          action: currentAttendance ? 'unmark' : 'mark'
-        })
+      const { apiClient } = await import('@/lib/api-client');
+      await apiClient.patch(`/events/${eventId}/attendance`, {
+        participantId,
+        action: currentAttendance ? 'unmark' : 'mark'
       });
-
-      if (response.ok) {
-        // Recargar datos de asistencia
-        await loadAttendanceData();
-      } else {
-        const errorData = await response.json();
-        alert(errorData.error || 'Error al actualizar asistencia');
-      }
+      // Recargar datos de asistencia
+      await loadAttendanceData();
     } catch (error) {
       console.error('Error actualizando asistencia:', error);
       alert('Error de conexión');
@@ -214,15 +199,9 @@ export default function EventDetailPage() {
     if (!event) return;
 
     try {
-      const response = await fetch(`/api/admin/events/${eventId}/toggle-status`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ isActive: !event.isActive })
-      });
-
-      if (response.ok) {
-        setEvent(prev => prev ? { ...prev, isActive: !prev.isActive } : null);
-      }
+      const { apiClient } = await import('@/lib/api-client');
+      await apiClient.patch(`/events/${eventId}/toggle-status`, { isActive: !event.isActive });
+      setEvent(prev => prev ? { ...prev, isActive: !prev.isActive } : null);
     } catch (error) {
       console.error('Error cambiando estado:', error);
     }
@@ -234,13 +213,9 @@ export default function EventDetailPage() {
     }
 
     try {
-      const response = await fetch(`/api/admin/events/${eventId}`, {
-        method: 'DELETE'
-      });
-
-      if (response.ok) {
-        router.push('/admin/events');
-      }
+      const { apiClient } = await import('@/lib/api-client');
+      await apiClient.delete(`/events/${eventId}`);
+      router.push('/admin/events');
     } catch (error) {
       console.error('Error eliminando evento:', error);
     }

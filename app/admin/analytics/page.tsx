@@ -95,16 +95,8 @@ export default function AnalyticsPage() {
   const fetchAnalytics = async (selectedPeriod = period) => {
     try {
       setRefreshing(true);
-      const response = await fetch(`/api/admin/analytics?period=${selectedPeriod}`, {
-        credentials: 'include'
-      });
-
-      if (!response.ok) {
-        setError('Error al cargar analytics');
-        return;
-      }
-
-      const result = await response.json();
+      const { apiClient } = await import('@/lib/api-client');
+      const result = await apiClient.get<{ data: typeof data }>(`/analytics`, { params: { period: selectedPeriod } });
       setData(result.data);
       setError(null);
     } catch (err) {
@@ -134,16 +126,8 @@ export default function AnalyticsPage() {
 
   const exportReport = async (type: string) => {
     try {
-      const response = await fetch(`/api/admin/analytics/reports?type=${type}&period=${period}`, {
-        credentials: 'include'
-      });
-
-      if (!response.ok) {
-        alert('Error al generar reporte');
-        return;
-      }
-
-      const result = await response.json();
+      const { apiClient } = await import('@/lib/api-client');
+      const result = await apiClient.get<{ data: unknown }>(`/analytics/reports`, { params: { type, period } });
       
       // Crear y descargar archivo JSON
       const blob = new Blob([JSON.stringify(result.data, null, 2)], { type: 'application/json' });

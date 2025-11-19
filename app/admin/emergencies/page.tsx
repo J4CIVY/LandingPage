@@ -85,36 +85,12 @@ export default function EmergenciesAdminPage() {
   const { isSubmitting, submit } = useSecureForm(async (data: Record<string, unknown>) => {
     // Esta función se ejecutará para operaciones seguras
     if (data.action === 'delete') {
-      const csrfToken = getCSRFToken();
-      const response = await fetch(`/api/admin/emergencies/${data.id}`, {
-        method: 'DELETE',
-        credentials: 'include',
-        headers: {
-          'x-csrf-token': csrfToken || '',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Error al eliminar emergencia');
-      }
-
+      const { apiClient } = await import('@/lib/api-client');
+      await apiClient.delete(`/emergencies/${data.id}`);
       await fetchEmergencies();
     } else if (data.action === 'updateStatus') {
-      const csrfToken = getCSRFToken();
-      const response = await fetch(`/api/admin/emergencies/${data.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-csrf-token': csrfToken || '',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ status: data.status })
-      });
-
-      if (!response.ok) {
-        throw new Error('Error al actualizar estado');
-      }
-
+      const { apiClient } = await import('@/lib/api-client');
+      await apiClient.put(`/emergencies/${data.id}`, { status: data.status });
       await fetchEmergencies();
     }
   });
