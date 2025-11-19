@@ -1,30 +1,32 @@
 /**
  * Server Initialization Script
- * Basic environment check before the server starts
+ * Validates environment variables before the server starts
  * 
  * This runs during the build process and on server startup
  */
 
+import { validateEnv, logSecurityChecklist, isDevelopment } from './env-validation';
+
 /**
  * Initialize and validate server environment
+ * Throws error if validation fails
  */
 export function initializeServer(): void {
   console.log('🚀 Initializing server...');
 
   try {
-    // Check critical environment variables
-    const requiredVars = ['JWT_SECRET', 'MONGODB_URI'];
-    const missing = requiredVars.filter(v => !process.env[v]);
-    
-    if (missing.length > 0) {
-      console.warn(`⚠️ Missing environment variables: ${missing.join(', ')}`);
-    } else {
-      console.log('✅ Critical environment variables present');
+    // Validate all required environment variables
+    const env = validateEnv();
+    console.log('✅ Environment variables validated successfully');
+
+    // Log security checklist in development
+    if (isDevelopment()) {
+      logSecurityChecklist();
     }
 
     // Additional server initialization can go here
-    console.log(`🌍 Environment: ${process.env.NODE_ENV}`);
-    console.log(`🔗 App URL: ${process.env.NEXT_PUBLIC_APP_URL || 'not-set'}`);
+    console.log(`🌍 Environment: ${env.NODE_ENV}`);
+    console.log(`🔗 App URL: ${env.NEXT_PUBLIC_APP_URL}`);
     
   } catch (error) {
     console.error('❌ Server initialization failed:', error);

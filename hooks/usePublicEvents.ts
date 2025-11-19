@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { parseISO, isAfter, isBefore, addMonths } from 'date-fns';
+import apiClient from '@/lib/api-client';
 
 interface Event {
   _id: string;
@@ -45,17 +46,8 @@ export const usePublicEvents = (): UsePublicEventsReturn => {
     setLoading(true);
     setError(null);
     try {
-  // Obtiene eventos próximos desde la API (mantener si hay contexto útil)
-      const response = await fetch('/api/events?upcoming=true&limit=50');
-      
-      if (!response.ok) {
-        setError(`HTTP error! status: ${response.status}`);
-        setEvents([]);
-        setLoading(false);
-        return;
-      }
-      
-      const data: EventsApiResponse = await response.json();
+      // Obtiene eventos próximos desde NestJS API
+      const data = await apiClient.get<EventsApiResponse>('/events?upcoming=true&limit=50');
       
       if (data.success && data.data?.events) {
         setEvents(data.data.events);

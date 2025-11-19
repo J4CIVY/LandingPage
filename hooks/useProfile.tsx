@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from './useAuth';
+import apiClient from '@/lib/api-client';
 
 export interface ProfileData {
   _id: string;
@@ -18,20 +19,20 @@ export interface ProfileData {
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
-  // Campos extendidos (mantener si hay contexto útil)
+  // Campos extendidos
   documentType?: string;
   documentNumber?: string;
   birthDate?: string;
   birthPlace?: string;
   binaryGender?: string;
-  // Datos adicionales del perfil extendido (mantener si hay contexto útil)
+  // Datos adicionales del perfil extendido
   profileCompletion?: number;
-  emergencyContact?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-  medicalData?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-  motorcycleInfo?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-  documents?: any[]; // eslint-disable-line @typescript-eslint/no-explicit-any
-  activities?: any[]; // eslint-disable-line @typescript-eslint/no-explicit-any
-  notificationPreferences?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  emergencyContact?: Record<string, unknown>;
+  medicalData?: Record<string, unknown>;
+  motorcycleInfo?: Record<string, unknown>;
+  documents?: Array<Record<string, unknown>>;
+  activities?: Array<Record<string, unknown>>;
+  notificationPreferences?: Record<string, unknown>;
 }
 
 export function useProfile() {
@@ -40,9 +41,9 @@ export function useProfile() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Obtiene datos del perfil de usuario (mantener si hay contexto útil)
+  // Obtiene datos del perfil de usuario - NestJS: GET /users/me
   const fetchProfile = async () => {
-    if (!isAuthenticated || !user?.id) {
+    if (!isAuthenticated) {
       setLoading(false);
       return;
     }
@@ -51,21 +52,8 @@ export function useProfile() {
       setLoading(true);
       setError(null);
 
-      const response = await fetch(`/api/users/${user.id}/profile`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        setError(`Error fetching profile: ${response.status}`);
-        return;
-      }
-
-      const data = await response.json();
-      setProfileData(data.data.user);
+      const data = await apiClient.get<ProfileData>('/users/me');
+      setProfileData(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error fetching profile');
       console.error('Error fetching profile:', err);
@@ -74,42 +62,27 @@ export function useProfile() {
     }
   };
 
-  // Actualiza perfil de usuario (mantener si hay contexto útil)
+  // Actualiza perfil de usuario - NestJS: PUT /users/me
   const updateProfile = async (updates: Partial<ProfileData>) => {
-    if (!isAuthenticated || !user?.id) {
+    if (!isAuthenticated) {
       throw new Error('User not authenticated');
     }
 
     try {
       setError(null);
 
-      const response = await fetch(`/api/users/${user.id}/profile`, {
-        method: 'PUT',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updates),
-      });
-
-      if (!response.ok) {
-        const errorMsg = `Error updating profile: ${response.status}`;
-        setError(errorMsg);
-        return null;
-      }
-
-      const data = await response.json();
-      setProfileData(data.data.user);
-      return data.data.user;
+      const data = await apiClient.put<ProfileData>('/users/me', updates);
+      setProfileData(data);
+      return data;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error updating profile');
       return null;
     }
   };
 
-  // Sube avatar (mantener si hay contexto útil)
+  // Sube avatar - NestJS: POST /uploads/profile-image
   const uploadAvatar = async (file: File) => {
-    if (!isAuthenticated || !user?.id) {
+    if (!isAuthenticated) {
       throw new Error('User not authenticated');
     }
 
@@ -117,32 +90,22 @@ export function useProfile() {
       setError(null);
 
       const formData = new FormData();
-      formData.append('avatar', file);
+      formData.append('file', file);
 
-      const response = await fetch(`/api/users/${user.id}/avatar`, {
-        method: 'POST',
-        credentials: 'include',
-        body: formData,
-      });
-
-      if (!response.ok) {
-        const errorMsg = `Error uploading avatar: ${response.status}`;
-        setError(errorMsg);
-        return null;
-      }
-
-      const data = await response.json();
-      setProfileData(prev => prev ? { ...prev, profilePicture: data.data.avatarUrl } : null);
-      return data.data.avatarUrl;
+      const data = await apiClient.upload<{ url: string }>('/uploads/profile-image', formData);
+      
+      // Actualizar el perfil con la nueva URL del avatar
+      setProfileData(prev => prev ? { ...prev, profilePicture: data.url } : null);
+      return data.url;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error uploading avatar');
       return null;
     }
   };
 
-  // Sube documento (mantener si hay contexto útil)
+  // Sube documento - NestJS: POST /uploads/document
   const uploadDocument = async (file: File, documentType: string, category: string) => {
-    if (!isAuthenticated || !user?.id) {
+    if (!isAuthenticated) {
       throw new Error('User not authenticated');
     }
 
@@ -150,54 +113,31 @@ export function useProfile() {
       setError(null);
 
       const formData = new FormData();
-      formData.append('document', file);
+      formData.append('file', file);
       formData.append('type', documentType);
       formData.append('category', category);
 
-      const response = await fetch(`/api/users/${user.id}/documents`, {
-        method: 'POST',
-        credentials: 'include',
-        body: formData,
-      });
-
-      if (!response.ok) {
-        const errorMsg = `Error uploading document: ${response.status}`;
-        setError(errorMsg);
-        return null;
-      }
-
-      const data = await response.json();
-  // Refresca perfil para obtener documentos actualizados
+      const data = await apiClient.upload<{ url: string; publicId: string }>('/uploads/document', formData);
+      
+      // Refresca perfil para obtener documentos actualizados
       await fetchProfile();
-      return data.data.document;
+      return data;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error uploading document');
       return null;
     }
   };
 
-  // Obtiene actividades del usuario (mantener si hay contexto útil)
+  // Obtiene actividades del usuario - NestJS: GET /users/:id/activities (puede no estar implementado aún)
   const fetchActivities = async () => {
     if (!isAuthenticated || !user?.id) {
       return [];
     }
 
     try {
-      const response = await fetch(`/api/users/${user.id}/activities`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        console.error(`Error fetching activities: ${response.status}`);
-        return [];
-      }
-
-      const data = await response.json();
-      return data.data.activities;
+      // Nota: Este endpoint puede necesitar ser implementado en el backend
+      const data = await apiClient.get<Array<Record<string, unknown>>>(`/users/${user.id}/activities`);
+      return data;
     } catch (err) {
       console.error('Error fetching activities:', err);
       return [];
@@ -231,7 +171,7 @@ export function useProfile() {
 
   // Moto (10%)
     totalFields += 1;
-    if (profile.motorcycleInfo?.motorcycles?.length > 0) filledFields += 1;
+    if (profile.motorcycleInfo?.motorcycles && Array.isArray(profile.motorcycleInfo.motorcycles) && profile.motorcycleInfo.motorcycles.length > 0) filledFields += 1;
 
   // Documentos requeridos (10%)
     totalFields += 1;

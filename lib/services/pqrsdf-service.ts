@@ -5,10 +5,10 @@ import {
   SolicitudEstado,
   EstadisticasSolicitudes
 } from '@/types/pqrsdf';
-import { getCSRFToken } from '@/lib/csrf-client';
+import apiClient from '@/lib/api-client';
 
-// Configuración de la API
-const API_BASE_URL = '/api/pqrsdf';
+// Configuración de la API - NestJS backend
+const API_BASE_URL = '/contact';
 
 // Utility function para manejar errores de fetch
 const handleFetchError = async (response: Response) => {
@@ -176,15 +176,8 @@ export class PQRSDFService {
     try {
       console.log('PQRSDFService.obtenerSolicitudes llamado con usuarioId:', usuarioId);
       
-      const response = await fetch(`${API_BASE_URL}?usuarioId=${encodeURIComponent(usuarioId)}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        cache: 'no-cache'
-      });
-
-      const data = await handleFetchError(response);
+      // NestJS: GET /contact/pqrsdf
+      const data = await apiClient.get<{ solicitudes: Solicitud[] }>(`${API_BASE_URL}/pqrsdf?usuarioId=${encodeURIComponent(usuarioId)}`);
       console.log('Solicitudes obtenidas desde API:', data);
       
       return data.solicitudes || [];
@@ -201,19 +194,8 @@ export class PQRSDFService {
   // Obtener una solicitud específica
   static async obtenerSolicitud(id: string): Promise<Solicitud | null> {
     try {
-      const response = await fetch(`${API_BASE_URL}/${encodeURIComponent(id)}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        cache: 'no-cache'
-      });
-
-      if (response.status === 404) {
-        return null;
-      }
-
-      const data = await handleFetchError(response);
+      // NestJS: GET /contact/pqrsdf/:id
+      const data = await apiClient.get<Solicitud>(`${API_BASE_URL}/pqrsdf/${encodeURIComponent(id)}`);
       return data;
     } catch (error) {
       console.error('Error al obtener solicitud desde API:', error);
@@ -224,17 +206,8 @@ export class PQRSDFService {
   // Crear nueva solicitud
   static async crearSolicitud(usuarioId: string, datos: CrearSolicitudDto): Promise<Solicitud> {
     try {
-      const csrfToken = getCSRFToken();
-      const response = await fetch(API_BASE_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-csrf-token': csrfToken || '',
-        },
-        body: JSON.stringify(datos)
-      });
-
-      const data = await handleFetchError(response);
+      // NestJS: POST /contact/pqrsdf
+      const data = await apiClient.post<{ solicitud: Solicitud }>(`${API_BASE_URL}/pqrsdf`, datos);
       console.log('Solicitud creada:', data);
       
       return data.solicitud;
@@ -247,27 +220,14 @@ export class PQRSDFService {
   // Enviar mensaje en una solicitud
   static async enviarMensaje(solicitudId: string, contenido: string, autorNombre: string): Promise<Mensaje> {
     try {
-      const csrfToken = getCSRFToken();
-      const response = await fetch(`${API_BASE_URL}/${encodeURIComponent(solicitudId)}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-csrf-token': csrfToken || '',
-        },
-        body: JSON.stringify({
-          accion: 'agregar_mensaje',
-          datos: {
-            contenido,
-            autorNombre
-          }
-        })
+      // NestJS: POST /contact/pqrsdf/:id/messages
+      const data = await apiClient.post<{ mensaje: Mensaje; solicitud: Solicitud }>(`${API_BASE_URL}/pqrsdf/${encodeURIComponent(solicitudId)}/messages`, {
+        contenido,
+        autorNombre
       });
-
-      const data = await handleFetchError(response);
       
-      // Retornar el último mensaje agregado
-      const mensajes = data.solicitud.mensajes;
-      return mensajes[mensajes.length - 1];
+      // Retornar el mensaje agregado o el último mensaje de la solicitud
+      return data.mensaje || data.solicitud?.mensajes[data.solicitud.mensajes.length - 1];
     } catch (error) {
       console.error('Error al enviar mensaje:', error);
       throw error;
@@ -281,23 +241,11 @@ export class PQRSDFService {
     descripcion?: string
   ): Promise<void> {
     try {
-      const csrfToken = getCSRFToken();
-      const response = await fetch(`${API_BASE_URL}/${encodeURIComponent(solicitudId)}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-csrf-token': csrfToken || '',
-        },
-        body: JSON.stringify({
-          accion: 'cambiar_estado',
-          datos: {
-            estado: nuevoEstado,
-            descripcion
-          }
-        })
+      // NestJS: PATCH /contact/pqrsdf/:id/status
+      await apiClient.patch(`${API_BASE_URL}/pqrsdf/${encodeURIComponent(solicitudId)}/status`, {
+        estado: nuevoEstado,
+        descripcion
       });
-
-      await handleFetchError(response);
     } catch (error) {
       console.error('Error al cambiar estado:', error);
       throw error;
@@ -311,23 +259,11 @@ export class PQRSDFService {
     comentario?: string
   ): Promise<void> {
     try {
-      const csrfToken = getCSRFToken();
-      const response = await fetch(`${API_BASE_URL}/${encodeURIComponent(solicitudId)}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-csrf-token': csrfToken || '',
-        },
-        body: JSON.stringify({
-          accion: 'calificar',
-          datos: {
-            satisfaccion,
-            comentario
-          }
-        })
+      // NestJS: POST /contact/pqrsdf/:id/rating
+      await apiClient.post(`${API_BASE_URL}/pqrsdf/${encodeURIComponent(solicitudId)}/rating`, {
+        satisfaccion,
+        comentario
       });
-
-      await handleFetchError(response);
     } catch (error) {
       console.error('Error al calificar solicitud:', error);
       throw error;
@@ -349,15 +285,8 @@ export class PQRSDFService {
     try {
       console.log('PQRSDFService.obtenerEstadisticas llamado con usuarioId:', usuarioId);
       
-      const response = await fetch(`${API_BASE_URL}/estadisticas?usuarioId=${encodeURIComponent(usuarioId)}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        cache: 'no-cache'
-      });
-
-      const data = await handleFetchError(response);
+      // NestJS: GET /contact/pqrsdf/statistics
+      const data = await apiClient.get<EstadisticasSolicitudes>(`${API_BASE_URL}/pqrsdf/statistics?usuarioId=${encodeURIComponent(usuarioId)}`);
       console.log('Estadísticas obtenidas desde API:', data);
       
       return data;

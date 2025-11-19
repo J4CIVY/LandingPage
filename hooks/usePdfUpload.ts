@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import apiClient from '@/lib/api-client';
 
 export interface PdfUploadResult {
   url: string;
@@ -28,38 +29,21 @@ export const usePdfUpload = (): UsePdfUploadReturn => {
     setUploadError(null);
 
     try {
-  // Crea FormData para enviar el archivo
+      // Create FormData for file upload
       const formData = new FormData();
       formData.append('file', file);
       formData.append('folder', folder);
-  formData.append('fileType', 'pdf');
+      formData.append('fileType', 'pdf');
       if (publicId) {
         formData.append('publicId', publicId);
       }
 
-  // Realiza la petición a la API
-      const response = await fetch('/api/upload-pdf', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        const errorMessage = result.error || 'Error al subir el PDF';
-        setUploadError(errorMessage);
-        return { url: '', publicId: '', format: '', bytes: 0 };
-      }
-
-      if (!result.success) {
-        const errorMessage = result.error || 'Error al procesar el PDF';
-        setUploadError(errorMessage);
-        return { url: '', publicId: '', format: '', bytes: 0 };
-      }
-
-      return result.data;
-    } catch (error: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
-      const errorMessage = error.message || 'Error desconocido al subir el PDF';
+      // NestJS endpoint: POST /uploads/pdf
+      const result = await apiClient.upload<PdfUploadResult>('/uploads/pdf', formData);
+      return result;
+      
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Error desconocido al subir el PDF';
       setUploadError(errorMessage);
       return { url: '', publicId: '', format: '', bytes: 0 };
     } finally {

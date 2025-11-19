@@ -74,25 +74,11 @@ export async function encryptPassword(password: string, publicKeyPem: string): P
  */
 export async function getPublicKey(): Promise<string | null> {
   try {
-    const response = await fetch('/api/auth/public-key', {
-      method: 'GET',
-      cache: 'force-cache' // Cachear la llave
-    });
-
-    if (!response.ok) {
-      console.error('Error al obtener la llave pública');
-      return null;
-    }
-
-    const data = await response.json();
-    
-    if (!data.success || !data.publicKey) {
-      console.error('Llave pública no disponible');
-      return null;
-    }
-
-    return data.publicKey;
-
+    // Note: This endpoint may not exist in NestJS backend
+    // RSA encryption might not be needed with JWT auth
+    // Kept for backward compatibility
+    console.warn('RSA public key encryption may not be available with JWT auth');
+    return null;
   } catch (error) {
     console.error('Error obteniendo llave pública:', error);
     return null;

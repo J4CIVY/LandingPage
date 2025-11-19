@@ -89,8 +89,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return true;
 
     } catch (error) {
-      const err = error as { status?: number; message?: string };
-      console.error('Error checking auth:', err);
+      console.error('Error checking auth:', error);
+      const err = error as { status?: number };
       
       // If token is invalid, clear it
       if (err.status === 401) {
@@ -112,7 +112,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
    */
   const login = useCallback(async (
     email: string,
-    password: string,
+    password: string
   ): Promise<boolean> => {
     try {
       updateAuthState({ isLoading: true, error: null });
@@ -137,8 +137,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return true;
 
     } catch (error) {
+      console.error('Login error:', error);
       const err = error as { message?: string };
-      console.error('Login error:', err);
       
       updateAuthState({
         isAuthenticated: false,

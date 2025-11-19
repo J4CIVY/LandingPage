@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Event } from '@/types/events';
+import apiClient from '@/lib/api-client';
 
 export const useEvents = (upcoming = false, limit = 10) => {
   const [events, setEvents] = useState<Event[]>([]);
@@ -11,28 +12,24 @@ export const useEvents = (upcoming = false, limit = 10) => {
       setLoading(true);
       setError(null);
       
+      // Build query parameters
       const params = new URLSearchParams();
-      if (upcoming) params.append('upcoming', 'true');
       if (limit) params.append('limit', limit.toString());
       
+      // Use NestJS endpoint: GET /events or GET /events/upcoming
+      const endpoint = upcoming 
+        ? `/events/upcoming?${params.toString()}`
+        : `/events?${params.toString()}`;
       
-      const response = await fetch(`/api/events?${params.toString()}`);
-      const data = await response.json();
+      const data = await apiClient.get<Event[]>(endpoint);
       
+      // NestJS returns array directly
+      setEvents(Array.isArray(data) ? data : []);
       
-      if (response.ok) {
-        const eventsArray = data.data?.events || [];
-        setEvents(eventsArray);
-      } else {
-        console.error('❌ useEvents: Error response:', data);
-        setError(data.message || 'Error al cargar eventos');
-      }
-    } catch (err: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
+    } catch (err: unknown) {
       console.error('❌ useEvents: Fetch error:', err);
-      if (process.env.NODE_ENV === 'development') {
-        console.error('Error fetching events:', err);
-      }
-      setError(err.message || 'Error de conexión al cargar eventos');
+      const errorMessage = err instanceof Error ? err.message : 'Error de conexión al cargar eventos';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

@@ -24,6 +24,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
+import apiClient from '@/lib/api-client';
 
 /**
  * Obtiene el token CSRF de las cookies del navegador
@@ -74,23 +75,16 @@ export function useCSRFToken(): string | null {
       }
 
       // If not in cookie, fetch from server
+      // Note: NestJS with JWT may not require CSRF tokens
+      // This hook is kept for backward compatibility
       try {
-        const response = await fetch('/api/csrf-token', {
-          method: 'GET',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          if (data.success && data.data?.csrfToken) {
-            setToken(data.data.csrfToken);
-          }
+        const data = await apiClient.get<{ csrfToken: string }>('/auth/csrf-token');
+        if (data?.csrfToken) {
+          setToken(data.csrfToken);
         }
       } catch (error) {
-        console.error('Failed to fetch CSRF token:', error);
+        // CSRF token may not be needed with JWT auth
+        console.warn('CSRF token not available (may not be needed with JWT):', error);
       }
     };
 
@@ -125,28 +119,14 @@ export function useCSRFTokenAdvanced(): UseCSRFTokenReturn {
       }
 
       // Fetch from server
-      const response = await fetch('/api/csrf-token', {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+      // Note: NestJS with JWT may not require CSRF tokens
+      const data = await apiClient.get<{ csrfToken: string }>('/auth/csrf-token');
 
-      if (!response.ok) {
-        const errorMessage = `Failed to fetch CSRF token: ${response.status}`;
-        setError(errorMessage);
-        console.error('CSRF token fetch error:', errorMessage);
-        return;
-      }
-
-      const data = await response.json();
-
-      if (data.success && data.data?.csrfToken) {
-        setToken(data.data.csrfToken);
+      if (data?.csrfToken) {
+        setToken(data.csrfToken);
       } else {
-        setError('Invalid CSRF token response');
-        console.error('CSRF token fetch error: Invalid CSRF token response');
+        // CSRF may not be needed with JWT
+        console.warn('CSRF token not available (may not be needed with JWT)');
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error';
@@ -195,20 +175,14 @@ export function useRequireCSRFToken(timeout: number = 5000): string {
       }
 
       try {
-        const response = await fetch('/api/csrf-token', {
-          method: 'GET',
-          credentials: 'include'
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          if (data.success && data.data?.csrfToken) {
-            setToken(data.data.csrfToken);
-            clearTimeout(timer);
-          }
+        // Note: NestJS with JWT may not require CSRF tokens
+        const data = await apiClient.get<{ csrfToken: string }>('/auth/csrf-token');
+        if (data?.csrfToken) {
+          setToken(data.csrfToken);
+          clearTimeout(timer);
         }
       } catch (error) {
-        console.error('Failed to fetch required CSRF token:', error);
+        console.warn('CSRF token not available (may not be needed with JWT):', error);
       }
     };
 

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import apiClient from '@/lib/api-client';
 
 export interface ImageUploadResult {
   url: string;
@@ -30,7 +31,7 @@ export const useImageUpload = (): UseImageUploadReturn => {
     setUploadError(null);
 
     try {
-  // Crea FormData para enviar el archivo
+      // Create FormData for file upload
       const formData = new FormData();
       formData.append('file', file);
       formData.append('folder', folder);
@@ -39,29 +40,13 @@ export const useImageUpload = (): UseImageUploadReturn => {
         formData.append('publicId', publicId);
       }
 
-  // Realiza la petición a la API
-      const response = await fetch('/api/upload-image', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        const errorMessage = result.error || 'Error al subir la imagen';
-        setUploadError(errorMessage);
-        return { url: '', publicId: '', width: 0, height: 0, format: '', bytes: 0 };
-      }
-
-      if (!result.success) {
-        const errorMessage = result.error || 'Error al procesar la imagen';
-        setUploadError(errorMessage);
-        return { url: '', publicId: '', width: 0, height: 0, format: '', bytes: 0 };
-      }
-
-      return result.data;
-    } catch (error: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
-      const errorMessage = error.message || 'Error desconocido al subir la imagen';
+      // Use NestJS endpoint: POST /uploads/image
+      const result = await apiClient.upload<ImageUploadResult>('/uploads/image', formData);
+      
+      return result;
+      
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Error desconocido al subir la imagen';
       setUploadError(errorMessage);
       return { url: '', publicId: '', width: 0, height: 0, format: '', bytes: 0 };
     } finally {

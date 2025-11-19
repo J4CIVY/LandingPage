@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from './useAuth';
+import apiClient from '@/lib/api-client';
 
 export interface MembershipData {
   type: string;
@@ -24,11 +25,11 @@ export interface MembershipData {
       early_bird?: number;
       student?: number;
     };
-    benefits?: any[]; // eslint-disable-line @typescript-eslint/no-explicit-any
+    benefits?: Array<Record<string, unknown>>;
     renewalType?: string;
     isLifetime?: boolean;
   } | null;
-  // Información adicional calculada (mantener si hay contexto útil)
+  // Información adicional calculada
   daysSinceJoining: number;
   membershipAge: string;
   nextRenewalDate: string;
@@ -90,26 +91,10 @@ export function useMembership() {
       setLoading(true);
       setError(null);
 
-      const response = await fetch('/api/users/membership', {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        setError(`Error fetching membership data: ${response.status}`);
-        return;
-      }
-
-      const result = await response.json();
+      // NestJS: GET /users/me para obtener info del usuario con membresía
+      const userData = await apiClient.get<UserMembershipData>('/users/me');
+      setMembershipData(userData);
       
-      if (result.success) {
-        setMembershipData(result.data);
-      } else {
-        setError(result.message || 'Error al obtener datos de membresía');
-      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al obtener datos de membresía');
       console.error('Error fetching membership data:', err);

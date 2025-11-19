@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import apiClient from '@/lib/api-client';
 
 interface Notification {
   _id: string;
@@ -48,22 +49,9 @@ export function useNotifications(): UseNotificationsReturn {
       if (options.limit) params.append('limit', options.limit.toString());
       if (options.page) params.append('page', options.page.toString());
 
-      const response = await fetch(`/api/notifications?${params.toString()}`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setNotifications(data.data.notifications);
-        setUnreadCount(data.data.unreadCount);
-      } else {
-        const errorData = await response.json();
-        setError(errorData.message || 'Error al cargar notificaciones');
-      }
+      const data = await apiClient.get<{ data: { notifications: Notification[]; unreadCount: number } }>(`/notifications?${params.toString()}`);
+      setNotifications(data.data.notifications);
+      setUnreadCount(data.data.unreadCount);
     } catch (error) {
       console.error('Error fetching notifications:', error);
       setError('Error de conexión');
@@ -74,31 +62,19 @@ export function useNotifications(): UseNotificationsReturn {
 
   const markAsRead = useCallback(async (notificationId: string) => {
     try {
-      const response = await fetch('/api/notifications', {
-        method: 'PUT',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ notificationId })
-      });
-
-      if (response.ok) {
-  // Actualiza el estado local
-        setNotifications(prev => 
-          prev.map(notification => 
-            notification._id === notificationId 
-              ? { ...notification, isRead: true, readAt: new Date().toISOString() }
-              : notification
-          )
-        );
-        
-  // Disminuye el conteo de no leídas
-        setUnreadCount(prev => Math.max(0, prev - 1));
-      } else {
-        const errorData = await response.json();
-        setError(errorData.message || 'Error al marcar como leída');
-      }
+      await apiClient.put('/notifications', { notificationId });
+      
+      // Actualiza el estado local
+      setNotifications(prev => 
+        prev.map(notification => 
+          notification._id === notificationId 
+            ? { ...notification, isRead: true, readAt: new Date().toISOString() }
+            : notification
+        )
+      );
+      
+      // Disminuye el conteo de no leídas
+      setUnreadCount(prev => Math.max(0, prev - 1));
     } catch (error) {
       console.error('Error marking as read:', error);
       setError('Error de conexión');
@@ -107,31 +83,19 @@ export function useNotifications(): UseNotificationsReturn {
 
   const markAllAsRead = useCallback(async () => {
     try {
-      const response = await fetch('/api/notifications', {
-        method: 'PUT',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ markAllAsRead: true })
-      });
-
-      if (response.ok) {
-  // Marca todas como leídas en el estado local
-        setNotifications(prev => 
-          prev.map(notification => ({
-            ...notification,
-            isRead: true,
-            readAt: new Date().toISOString()
-          }))
-        );
-        
-  // Resetea conteo de no leídas
-        setUnreadCount(0);
-      } else {
-        const errorData = await response.json();
-        setError(errorData.message || 'Error al marcar todas como leídas');
-      }
+      await apiClient.put('/notifications', { markAllAsRead: true });
+      
+      // Marca todas como leídas en el estado local
+      setNotifications(prev => 
+        prev.map(notification => ({
+          ...notification,
+          isRead: true,
+          readAt: new Date().toISOString()
+        }))
+      );
+      
+      // Resetea conteo de no leídas
+      setUnreadCount(0);
     } catch (error) {
       console.error('Error marking all as read:', error);
       setError('Error de conexión');
@@ -140,26 +104,15 @@ export function useNotifications(): UseNotificationsReturn {
 
   const deleteNotification = useCallback(async (notificationId: string) => {
     try {
-      const response = await fetch(`/api/notifications?id=${notificationId}`, {
-        method: 'DELETE',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-  // Remueve del estado local
-        const notificationToDelete = notifications.find(n => n._id === notificationId);
-        setNotifications(prev => prev.filter(notification => notification._id !== notificationId));
-        
-  // Si era no leída, disminuye el conteo
-        if (notificationToDelete && !notificationToDelete.isRead) {
-          setUnreadCount(prev => Math.max(0, prev - 1));
-        }
-      } else {
-        const errorData = await response.json();
-        setError(errorData.message || 'Error al eliminar notificación');
+      await apiClient.delete(`/notifications?id=${notificationId}`);
+      
+      // Remueve del estado local
+      const notificationToDelete = notifications.find(n => n._id === notificationId);
+      setNotifications(prev => prev.filter(notification => notification._id !== notificationId));
+      
+      // Si era no leída, disminuye el conteo
+      if (notificationToDelete && !notificationToDelete.isRead) {
+        setUnreadCount(prev => Math.max(0, prev - 1));
       }
     } catch (error) {
       console.error('Error deleting notification:', error);
@@ -169,18 +122,8 @@ export function useNotifications(): UseNotificationsReturn {
 
   const refreshUnreadCount = useCallback(async () => {
     try {
-      const response = await fetch('/api/notifications?unreadOnly=true&limit=1', {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setUnreadCount(data.data.unreadCount);
-      }
+      const response = await apiClient.get<{ data: { unreadCount: number } }>('/notifications?unreadOnly=true&limit=1');
+      setUnreadCount(response.data.unreadCount);
     } catch (error) {
       console.error('Error refreshing unread count:', error);
     }

@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import apiClient from '@/lib/api-client';
 
 interface EmailStatus {
   isLoading: boolean;
@@ -66,31 +67,12 @@ export function useEmail() {
     });
 
     try {
-      const response = await fetch('/api/email/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...data,
-          category: data.category || 'general',
-          priority: data.priority || 'medium',
-        }),
+      // NestJS: POST /contact/send
+      const result = await apiClient.post<{ message: string }>('/contact/send', {
+        ...data,
+        category: data.category || 'general',
+        priority: data.priority || 'medium',
       });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        const errorMsg = result.error || 'Error al enviar el correo';
-        setStatus({
-          isLoading: false,
-          isSuccess: false,
-          isError: true,
-          error: errorMsg,
-          message: null,
-        });
-        return { success: false, error: errorMsg };
-      }
 
       setStatus({
         isLoading: false,
@@ -100,7 +82,7 @@ export function useEmail() {
         message: result.message || 'Correo enviado exitosamente',
       });
 
-      return { success: true, data: result.data };
+      return { success: true, data: result };
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
       
@@ -127,26 +109,8 @@ export function useEmail() {
     });
 
     try {
-      const response = await fetch('/api/email/notifications', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        setStatus({
-          isLoading: false,
-          isSuccess: false,
-          isError: true,
-          error: result.error || 'Error al enviar la notificación',
-          message: null,
-        });
-        return { success: false, error: result.error };
-      }
+      // NestJS: POST /webhooks/email/notification
+      const result = await apiClient.post<{ message: string }>('/webhooks/email/notification', { ...data } as Record<string, unknown>);
 
       setStatus({
         isLoading: false,
@@ -156,7 +120,7 @@ export function useEmail() {
         message: result.message || 'Notificación enviada exitosamente',
       });
 
-      return { success: true, data: result.data };
+      return { success: true, data: result };
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
       
@@ -183,27 +147,8 @@ export function useEmail() {
     });
 
     try {
-      const response = await fetch('/api/email/test', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        const errorMessage = result.error || 'Error al enviar el correo de prueba';
-        setStatus({
-          isLoading: false,
-          isSuccess: false,
-          isError: true,
-          error: errorMessage,
-          message: null,
-        });
-        return { success: false, error: errorMessage };
-      }
+      // NestJS: POST /webhooks/email/test (endpoint de testing)
+      const result = await apiClient.post<{ message: string }>('/webhooks/email/test', { ...data } as Record<string, unknown>);
 
       setStatus({
         isLoading: false,
@@ -213,7 +158,7 @@ export function useEmail() {
         message: result.message || 'Correo de prueba enviado exitosamente',
       });
 
-      return { success: true, data: result.data };
+      return { success: true, data: result };
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
       
@@ -232,14 +177,9 @@ export function useEmail() {
   // Función para obtener configuración de correo (solo admins, mantener si hay contexto útil)
   const getEmailConfig = useCallback(async () => {
     try {
-      const response = await fetch('/api/email/config?action=status');
-      const result = await response.json();
-
-      if (!response.ok) {
-        return { success: false, error: result.error || 'Error al obtener configuración' };
-      }
-
-      return { success: true, data: result.data };
+      // NestJS: GET /webhooks/email/config
+      const result = await apiClient.get<{ status: string }>('/webhooks/email/config?action=status');
+      return { success: true, data: result };
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
       return { success: false, error: errorMessage };
@@ -254,15 +194,9 @@ export function useEmail() {
         params.append('redirect_uri', redirectUri);
       }
 
-      const response = await fetch(`/api/email/config?${params.toString()}`);
-      const result = await response.json();
-
-      if (!response.ok) {
-        const errorMessage = result.error || 'Error al obtener URL de autorización';
-        return { success: false, error: errorMessage };
-      }
-
-      return { success: true, data: result.data };
+      // NestJS: GET /webhooks/email/config
+      const result = await apiClient.get<{ authUrl: string }>(`/webhooks/email/config?${params.toString()}`);
+      return { success: true, data: result };
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
       return { success: false, error: errorMessage };
@@ -272,22 +206,9 @@ export function useEmail() {
   // Función para intercambiar código por tokens (solo admins, mantener si hay contexto útil)
   const exchangeCodeForTokens = useCallback(async (code: string, redirectUri: string) => {
     try {
-      const response = await fetch('/api/email/config', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ code, redirectUri }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        const errorMessage = result.error || 'Error al intercambiar código por tokens';
-        return { success: false, error: errorMessage };
-      }
-
-      return { success: true, data: result.data };
+      // NestJS: POST /webhooks/email/config
+      const result = await apiClient.post<{ tokens: string }>('/webhooks/email/config', { code, redirectUri });
+      return { success: true, data: result };
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
       return { success: false, error: errorMessage };

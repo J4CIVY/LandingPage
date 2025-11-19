@@ -167,7 +167,7 @@ export function methodNotAllowed(allowedMethods: string[]): NextResponse {
  * Extrae parámetros de consulta de la URL
  */
 export function getQueryParams(request: NextRequest) {
-  const { searchParams } = request.nextUrl;
+  const { searchParams } = new URL(request.url);
   const params: Record<string, string> = {};
   
   searchParams.forEach((value, key) => {

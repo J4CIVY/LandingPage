@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from './useAuth';
+import apiClient from '@/lib/api-client';
 
 export interface UserStats {
   eventsRegistered: number;
@@ -54,20 +55,7 @@ export function useUserStats() {
       setLoading(true);
       setError(null);
 
-      const response = await fetch('/api/users/stats', {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        setError(`Error fetching user stats: ${response.status}`);
-        return;
-      }
-
-      const result = await response.json();
+      const result = await apiClient.get<{ success: boolean; data: { stats: UserStats }; message?: string }>('/users/stats');
       
       if (result.success) {
         setStats(result.data.stats);
