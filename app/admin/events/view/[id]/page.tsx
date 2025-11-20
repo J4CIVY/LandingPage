@@ -143,7 +143,7 @@ export default function EventDetailPage() {
       try {
         setLoading(true);
         const { apiClient } = await import('@/lib/api-client');
-        const data = await apiClient.get(`/events/${eventId}`);
+        const data = await apiClient.get<{ event: typeof event }>(`/events/${eventId}`);
         setEvent(data.event);
       } catch (error) {
         console.error('Error cargando evento:', error);
@@ -163,7 +163,7 @@ export default function EventDetailPage() {
     try {
       setLoadingAttendance(true);
       const { apiClient } = await import('@/lib/api-client');
-      const data = await apiClient.get(`/events/${eventId}/attendance`);
+      const data = await apiClient.get<{ data: typeof attendanceData }>(`/events/${eventId}/attendance`);
       setAttendanceData(data.data);
     } catch (error) {
       console.error('Error cargando datos de asistencia:', error);
