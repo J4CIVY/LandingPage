@@ -65,9 +65,9 @@ class ApiClient {
   /**
    * Build headers for API requests
    */
-  private buildHeaders(options: RequestOptions = {}): HeadersInit {
+  private buildHeaders(options: RequestOptions = {}, isFormData = false): HeadersInit {
     const headers: HeadersInit = {
-      'Content-Type': 'application/json',
+      ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
       ...options.headers,
     } as Record<string, string>;
 
@@ -177,12 +177,13 @@ class ApiClient {
    */
   async post<T>(endpoint: string, body?: Record<string, unknown> | FormData, options: RequestOptions = {}): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
-    const headers = this.buildHeaders(options);
+    const isFormData = body instanceof FormData;
+    const headers = this.buildHeaders(options, isFormData);
 
     const response = await fetch(url, {
       method: 'POST',
       headers,
-      body: body ? JSON.stringify(body) : undefined,
+      body: isFormData ? body : (body ? JSON.stringify(body) : undefined),
       credentials: 'include',
       ...options,
     });
@@ -195,12 +196,13 @@ class ApiClient {
    */
   async put<T>(endpoint: string, body?: Record<string, unknown> | FormData, options: RequestOptions = {}): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
-    const headers = this.buildHeaders(options);
+    const isFormData = body instanceof FormData;
+    const headers = this.buildHeaders(options, isFormData);
 
     const response = await fetch(url, {
       method: 'PUT',
       headers,
-      body: body ? JSON.stringify(body) : undefined,
+      body: isFormData ? body : (body ? JSON.stringify(body) : undefined),
       credentials: 'include',
       ...options,
     });
@@ -213,12 +215,13 @@ class ApiClient {
    */
   async patch<T>(endpoint: string, body?: Record<string, unknown> | FormData, options: RequestOptions = {}): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
-    const headers = this.buildHeaders(options);
+    const isFormData = body instanceof FormData;
+    const headers = this.buildHeaders(options, isFormData);
 
     const response = await fetch(url, {
       method: 'PATCH',
       headers,
-      body: body ? JSON.stringify(body) : undefined,
+      body: isFormData ? body : (body ? JSON.stringify(body) : undefined),
       credentials: 'include',
       ...options,
     });
