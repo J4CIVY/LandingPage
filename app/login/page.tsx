@@ -42,8 +42,17 @@ function LoginFlow() {
     setIsLoading(true);
 
     try {
-      await login(email, password);
-      router.push(returnUrl);
+      console.log('Iniciando login...');
+      const success = await login(email, password);
+      console.log('Login result:', success);
+      
+      if (success) {
+        console.log('Redirigiendo a:', returnUrl);
+        router.push(returnUrl);
+      } else {
+        setError('Error al iniciar sesión');
+        setIsLoading(false);
+      }
     } catch (err) {
       console.error('Error en login:', err);
       setError(err instanceof Error ? err.message : 'Error al iniciar sesión');

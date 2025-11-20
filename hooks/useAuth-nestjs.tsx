@@ -108,12 +108,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         password,
       }, { requireAuth: false });
 
-      updateAuthState({
-        isAuthenticated: true,
-        user: response.user,
-        isLoading: false,
-        error: null
-      });
+      console.log('Login response:', response);
+
+      // Wait a bit for cookies to be set
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      // Verify authentication by checking /auth/me
+      const verified = await checkAuth();
+      console.log('Auth verified:', verified);
+
+      if (!verified) {
+        throw new Error('No se pudo verificar la sesión');
+      }
 
       return true;
 
@@ -129,7 +135,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
       return false;
     }
-  }, [updateAuthState]);
+  }, [updateAuthState, checkAuth]);
 
   /**
    * Logout user
