@@ -494,6 +494,7 @@ const UserRegister: FC = () => {
                       folder="user-profiles"
                       publicIdPrefix={`user_${watch('documentNumber')}`}
                       className="w-full"
+                      isPublic={true}
                     />
                     <p className="text-sm text-gray-600 dark:text-gray-400 mt-3 text-center">
                       Sube una foto de perfil para personalizar tu cuenta. Esta imagen será visible para otros miembros del club.

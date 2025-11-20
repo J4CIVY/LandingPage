@@ -56,6 +56,7 @@ interface ImageUploadProps {
   folder?: string;
   publicIdPrefix?: string;
   preserveOriginalSize?: boolean;
+  isPublic?: boolean;
 }
 
 const ImageUpload: FC<ImageUploadProps> = ({
@@ -66,11 +67,12 @@ const ImageUpload: FC<ImageUploadProps> = ({
   folder = 'user-profiles',
   publicIdPrefix,
   preserveOriginalSize = false,
+  isPublic = false,
 }) => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(currentImageUrl || null);
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { uploading, uploadImage, uploadError, clearError } = useImageUpload();
+  const { uploading, uploadImage, uploadError, clearError } = useImageUpload(isPublic);
 
   // Sanitize preview URL to prevent XSS
   const safePreviewUrl = useMemo(() => sanitizeImageUrl(previewUrl), [previewUrl]);

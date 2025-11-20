@@ -17,7 +17,7 @@ export interface UseImageUploadReturn {
   clearError: () => void;
 }
 
-export const useImageUpload = (): UseImageUploadReturn => {
+export const useImageUpload = (isPublic: boolean = false): UseImageUploadReturn => {
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
 
@@ -40,8 +40,9 @@ export const useImageUpload = (): UseImageUploadReturn => {
         formData.append('publicId', publicId);
       }
 
-      // Use NestJS endpoint: POST /uploads/image
-      const result = await apiClient.upload<ImageUploadResult>('/uploads/image', formData);
+      // Use public endpoint for unauthenticated uploads (e.g., registration)
+      const endpoint = isPublic ? '/uploads/public/image' : '/uploads/image';
+      const result = await apiClient.upload<ImageUploadResult>(endpoint, formData);
       
       return result;
       
