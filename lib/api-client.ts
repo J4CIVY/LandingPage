@@ -62,8 +62,9 @@ class ApiClient {
     const isPublicEndpoint = publicEndpoints.some(endpoint => url.includes(endpoint));
 
     // Handle 401 Unauthorized on protected endpoints - redirect to login
+    // But don't redirect if we're already on login page
     if (response.status === 401 && !isPublicEndpoint) {
-      if (typeof window !== 'undefined') {
+      if (typeof window !== 'undefined' && !window.location.pathname.includes('/login')) {
         window.location.href = '/login?expired=true';
       }
     }

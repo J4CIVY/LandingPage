@@ -195,6 +195,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const initAuth = async () => {
       if (mounted) {
+        // Skip auth check on public pages
+        if (typeof window !== 'undefined') {
+          const publicPages = ['/login', '/register', '/verify-email', '/forgot-password', '/reset-password'];
+          const isPublicPage = publicPages.some(page => window.location.pathname.startsWith(page));
+          
+          if (isPublicPage) {
+            setIsInitialized(true);
+            updateAuthState({ isLoading: false });
+            return;
+          }
+        }
+        
         await checkAuth();
         setIsInitialized(true);
       }
@@ -205,7 +217,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => {
       mounted = false;
     };
-  }, [checkAuth]);
+  }, [checkAuth, updateAuthState]);
 
   const value: AuthContextType = {
     ...authState,
