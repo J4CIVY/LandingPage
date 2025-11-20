@@ -12,17 +12,17 @@
  */
 
 import { Suspense, lazy } from "react";
-import CachedAboutSection from "@/lib/components/home/CachedAboutSection";
-import CachedBenefitsSection from "@/lib/components/home/CachedBenefitsSection";
-import CachedEventsSection from "@/lib/components/home/CachedEventsSection";
-import { SkeletonCard } from "@/lib/components/shared/SkeletonLoaders";
+import CachedAboutSection from "@/components/home/CachedAboutSection";
+import CachedBenefitsSection from "@/components/home/CachedBenefitsSection";
+import CachedEventsSection from "@/components/home/CachedEventsSection";
+import { SkeletonCard } from "@/components/shared/SkeletonLoaders";
 
 // Lazy load less critical sections
-const LazyGallerySection = lazy(() => import("@/lib/components/home/GallerySection"));
-const LazyFAQSection = lazy(() => import("@/lib/components/home/FAQSection"));
-const LazyStoreSection = lazy(() => import("@/lib/components/home/StoreSection"));
-const LazyBlogSection = lazy(() => import("@/lib/components/home/BlogSection"));
-const HermandadSection = lazy(() => import("@/lib/components/home/HermandadSection"));
+const LazyGallerySection = lazy(() => import("@/components/home/GallerySection"));
+const LazyFAQSection = lazy(() => import("@/components/home/FAQSection"));
+const LazyStoreSection = lazy(() => import("@/components/home/StoreSection"));
+const LazyBlogSection = lazy(() => import("@/components/home/BlogSection"));
+const HermandadSection = lazy(() => import("@/components/home/HermandadSection"));
 
 export default function CachedHomeContent() {
   return (

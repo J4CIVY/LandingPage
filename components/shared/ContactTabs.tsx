@@ -2,7 +2,7 @@
 
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { FaMapMarkerAlt, FaPhoneAlt, FaRegEnvelope, FaRegClock } from 'react-icons/fa';
-import ContactForm from '@/lib/components/shared/ContactForm';
+import ContactForm from '@/components/shared/ContactForm';
 import { useRecaptcha, RecaptchaActions } from '@/lib/recaptcha-client';
 import { useEmailValidation } from '@/hooks/useEmailValidation';
 import { usePhoneValidation } from '@/hooks/usePhoneValidation';

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
 import { useSecureForm } from '@/hooks/useSecureForm';
@@ -66,10 +66,10 @@ interface Emergency {
   isActive: boolean;
 }
 
-export default function ViewEmergencyPage({ params }: PageProps<'/admin/emergencies/view/[id]'>) {
+export default function ViewEmergencyPage({ params }: { params: Promise<{ id: string }> }) {
   const { user, isLoading } = useAuth();
   const { isSubmitting, submit } = useSecureForm(async (data: Record<string, unknown>) => {
-    const { id } = await params;
+    const { id } = use(params);
     const { apiClient } = await import('@/lib/api-client');
     await apiClient.put(`/emergencies/${id}`, data);
     // Recargar la emergencia
@@ -78,12 +78,12 @@ export default function ViewEmergencyPage({ params }: PageProps<'/admin/emergenc
   
   const [emergency, setEmergency] = useState<Emergency | null>(null);
   const [loading, setLoading] = useState(true);
+  const { id } = use(params);
 
   // Función para obtener la emergencia
   const fetchEmergency = async () => {
     try {
       setLoading(true);
-      const { id } = await params;
       const { apiClient } = await import('@/lib/api-client');
       const data = await apiClient.get<{ data: { emergency: Emergency } }>(`/emergencies/${id}`);
       setEmergency(data.data.emergency);

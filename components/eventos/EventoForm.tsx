@@ -18,9 +18,9 @@ import {
   FaCalendarCheck
 } from 'react-icons/fa';
 import { Event, EventType, EventStatus, EventDifficulty, CreateEventData } from '@/types/events';
-import ImageUpload from '@/lib/components/shared/ImageUpload';
-import ImageGalleryUpload from '@/lib/components/shared/ImageGalleryUpload';
-import PdfUpload from '@/lib/components/shared/PdfUpload';
+import ImageUpload from '@/components/shared/ImageUpload';
+import ImageGalleryUpload from '@/components/shared/ImageGalleryUpload';
+import PdfUpload from '@/components/shared/PdfUpload';
 
 interface EventoFormProps {
   event?: Event | null;

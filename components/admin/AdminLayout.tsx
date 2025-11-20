@@ -3,7 +3,7 @@
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { useEffect, ReactNode, useState } from 'react';
-import AdminSidebar from '@/lib/components/admin/AdminSidebar';
+import AdminSidebar from '@/components/admin/AdminSidebar';
 import { FaSpinner, FaShieldAlt, FaBars } from 'react-icons/fa';
 import Link from 'next/link';
 

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import UserAvatar from '@/lib/components/shared/UserAvatar';
+import UserAvatar from '@/components/shared/UserAvatar';
 import { 
   FaEdit,
   FaTrash,

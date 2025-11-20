@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import ThemeChanger from '@/lib/components/shared/ThemeChanger';
+import ThemeChanger from '@/components/shared/ThemeChanger';
 import { 
   FaHome,
   FaUsers, 

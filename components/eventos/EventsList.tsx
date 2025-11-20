@@ -2,7 +2,7 @@
 
 import { useState, useMemo, type ChangeEvent } from 'react';
 import { parseISO } from 'date-fns';
-import PublicEventCard from '@/lib/components/eventos/PublicEventCard';
+import PublicEventCard from '@/components/eventos/PublicEventCard';
 
 /**
  * ✅ SEO OPTIMIZATION: Client Component for Event Interactions
