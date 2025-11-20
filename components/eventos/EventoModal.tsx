@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import apiClient from '@/lib/api-client';
 import { 
   FaTimes, 
   FaCalendarAlt, 
@@ -118,14 +119,9 @@ export default function EventoModal({
     
     setLoadingParticipants(true);
     try {
-      const response = await fetch(`/api/events/${event._id}/participants`, {
-        credentials: 'include'
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        setParticipants(data.data.participants);
-      }
+      // NestJS: GET /events/:id/participants
+      const data = await apiClient.get<{ participants: any[] }>(`/events/${event._id}/participants`);
+      setParticipants(data.participants || []);
     } catch (error) {
       console.error('Error loading participants:', error);
     } finally {

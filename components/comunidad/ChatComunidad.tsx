@@ -145,14 +145,9 @@ export default function ChatComunidad({
     if (!confirm('¿Estás seguro de que quieres eliminar este mensaje?')) return;
 
     try {
-      const response = await fetch(`/api/comunidad/chat/${mensajeId}`, {
-        method: 'DELETE',
-        credentials: 'include'
-      });
-
-      if (response.ok) {
-        onEnviarMensaje(); // Recargar mensajes
-      }
+      // NestJS: DELETE /community/chat/:id
+      await apiClient.delete(`/community/chat/${mensajeId}`);
+      onEnviarMensaje(); // Recargar mensajes
     } catch (error) {
       console.error('Error al eliminar mensaje:', error);
     }

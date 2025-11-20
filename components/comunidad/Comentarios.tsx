@@ -73,18 +73,9 @@ function ComentarioItem({
 
     setCargandoReaccion(true);
     try {
-      const response = await fetch(`/api/comunidad/comentarios/${comentario.id}/reacciones`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        onActualizar(data.datos);
-      }
+      // NestJS: POST /community/comments/:id/reactions
+      const data = await apiClient.post<Comentario>(`/community/comments/${comentario.id}/reactions`, {});
+      onActualizar(data);
     } catch (error) {
       console.error('Error al reaccionar:', error);
     } finally {
@@ -98,20 +89,10 @@ function ComentarioItem({
 
     setCargandoEdicion(true);
     try {
-      const response = await fetch(`/api/comunidad/comentarios/${comentario.id}`, {
-        method: 'PUT',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ contenido: contenidoEditado })
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        onActualizar(data.datos);
-        setEditando(false);
-      }
+      // NestJS: PUT /community/comments/:id
+      const data = await apiClient.put<Comentario>(`/community/comments/${comentario.id}`, { contenido: contenidoEditado });
+      onActualizar(data);
+      setEditando(false);
     } catch (error) {
       console.error('Error al editar comentario:', error);
     } finally {
@@ -124,14 +105,9 @@ function ComentarioItem({
     if (!confirm('¿Estás seguro de que quieres eliminar este comentario?')) return;
 
     try {
-      const response = await fetch(`/api/comunidad/comentarios/${comentario.id}`, {
-        method: 'DELETE',
-        credentials: 'include'
-      });
-
-      if (response.ok) {
-        onEliminar(comentario.id);
-      }
+      // NestJS: DELETE /community/comments/:id
+      await apiClient.delete(`/community/comments/${comentario.id}`);
+      onEliminar(comentario.id);
     } catch (error) {
       console.error('Error al eliminar comentario:', error);
     }
@@ -357,15 +333,10 @@ export default function Comentarios({
   const cargarComentarios = async () => {
     setCargandoComentarios(true);
     try {
-      const response = await fetch(`/api/comunidad/publicaciones/${publicacionId}/comentarios`, {
-        credentials: 'include'
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        setComentarios(data.datos || []);
-        onActualizarComentarios(data.datos || []);
-      }
+      // NestJS: GET /community/posts/:id/comments
+      const data = await apiClient.get<{ datos: Comentario[] }>(`/community/posts/${publicacionId}/comments`);
+      setComentarios(data.datos || []);
+      onActualizarComentarios(data.datos || []);
     } catch (error) {
       console.error('Error al cargar comentarios:', error);
     } finally {

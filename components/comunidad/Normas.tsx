@@ -289,20 +289,12 @@ export default function Normas({ usuarioActual }: NormasProps) {
 
   const manejarActualizarReporte = async (reporteId: string, accion: 'resolver' | 'rechazar') => {
     try {
-      const response = await fetch(`/api/comunidad/reportes/${reporteId}`, {
-        method: 'PUT',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ 
-          estado: accion === 'resolver' ? 'resuelto' : 'rechazado' 
-        })
+      // NestJS: PUT /community/reports/:id
+      await apiClient.put(`/community/reports/${reporteId}`, { 
+        estado: accion === 'resolver' ? 'resuelto' : 'rechazado' 
       });
-
-      if (response.ok) {
-        // Recargar reportes
-      }
+      // Recargar reportes
+      await cargarReportes();
     } catch (error) {
       console.error('Error al actualizar reporte:', error);
     }

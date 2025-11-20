@@ -12,6 +12,7 @@ import {
 } from 'react-icons/fa';
 import { GrupoInteres, FormularioGrupo, EstadoCarga } from '@/types/comunidad';
 import { IUser } from '@/types/user';
+import apiClient from '@/lib/api-client';
 
 interface GruposInteresProps {
   grupos: GrupoInteres[];
@@ -72,40 +73,23 @@ export default function GruposInteres({
     setEstado({ cargando: true, error: null, exito: false });
 
     try {
-      const url = editandoGrupo 
-        ? `/api/comunidad/grupos/${editandoGrupo.id}`
-        : '/api/comunidad/grupos';
-      
-      const method = editandoGrupo ? 'PUT' : 'POST';
-
-      const response = await fetch(url, {
-        method,
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formulario)
-      });
-
-      if (response.ok) {
-        onActualizarGrupos();
-        setMostrarFormulario(false);
-        setEditandoGrupo(null);
-        setFormulario({
-          nombre: '',
-          descripcion: '',
-          icono: '🏍️',
-          esPrivado: false
-        });
-        setEstado({ cargando: false, error: null, exito: true });
+      // NestJS: POST/PUT /community/groups
+      if (editandoGrupo) {
+        await apiClient.put(`/community/groups/${editandoGrupo.id}`, formulario as unknown as Record<string, unknown>);
       } else {
-        const errorData = await response.json();
-        setEstado({
-          cargando: false,
-          error: errorData.mensaje || 'Error al guardar el grupo',
-          exito: false
-        });
+        await apiClient.post('/community/groups', formulario as unknown as Record<string, unknown>);
       }
+
+      onActualizarGrupos();
+      setMostrarFormulario(false);
+      setEditandoGrupo(null);
+      setFormulario({
+        nombre: '',
+        descripcion: '',
+        icono: '🏍️',
+        esPrivado: false
+      });
+      setEstado({ cargando: false, error: null, exito: true });
     } catch (error) {
       console.error('Error:', error);
       setEstado({
@@ -123,17 +107,14 @@ export default function GruposInteres({
     setGruposCargandoAccion(prev => new Set(prev).add(grupoId));
 
     try {
-      const response = await fetch(`/api/comunidad/grupos/${grupoId}/miembros`, {
-        method: esmiembro ? 'DELETE' : 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        onActualizarGrupos();
+      // NestJS: POST/DELETE /community/groups/:id/members
+      if (esmiembro) {
+        await apiClient.delete(`/community/groups/${grupoId}/members`);
+      } else {
+        await apiClient.post(`/community/groups/${grupoId}/members`, {});
       }
+      
+      onActualizarGrupos();
     } catch (error) {
       console.error('Error al cambiar membresía:', error);
     } finally {
@@ -150,17 +131,13 @@ export default function GruposInteres({
     if (!confirm('¿Estás seguro de que quieres eliminar este grupo?')) return;
 
     try {
-      const response = await fetch(`/api/comunidad/grupos/${grupoId}`, {
-        method: 'DELETE',
-        credentials: 'include'
-      });
-
-      if (response.ok) {
-        if (grupoSeleccionado === grupoId) {
-          onSeleccionarGrupo(null);
-        }
-        onActualizarGrupos();
+      // NestJS: DELETE /community/groups/:id
+      await apiClient.delete(`/community/groups/${grupoId}`);
+      
+      if (grupoSeleccionado === grupoId) {
+        onSeleccionarGrupo(null);
       }
+      onActualizarGrupos();
     } catch (error) {
       console.error('Error al eliminar grupo:', error);
     }

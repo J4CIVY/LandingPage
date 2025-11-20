@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, type FC } from 'react';
-import { getCSRFToken } from '@/lib/csrf-client';
+import apiClient from '@/lib/api-client';
 import CreateVotingModal from './CreateVotingModal';
 import { 
   FaVoteYea, 
@@ -87,14 +87,10 @@ const VotingSystem: FC<VotingSystemProps> = ({
   const fetchVotingData = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/leadership/voting?status=${activeTab}`);
-      if (response.ok) {
-        const result = await response.json();
-        setVotingProcesses(result.data.processes);
-        setUserVotes(result.data.userVotes);
-      } else {
-        setError('Error al cargar procesos de votación');
-      }
+      // NestJS: GET /leadership/voting?status=X
+      const result = await apiClient.get<{ processes: VotingProcess[]; userVotes: VoteRecord[] }>(`/leadership/voting?status=${activeTab}`);
+      setVotingProcesses(result.processes || []);
+      setUserVotes(result.userVotes || []);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error desconocido');
     } finally {
@@ -104,23 +100,9 @@ const VotingSystem: FC<VotingSystemProps> = ({
 
   const castVote = async (processId: string, vote: 'for' | 'against' | 'abstain', comment?: string) => {
     try {
-      const csrfToken = getCSRFToken();
-      const response = await fetch(`/api/leadership/voting/${processId}/vote`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-csrf-token': csrfToken || '',
-        },
-        body: JSON.stringify({ vote, comment }),
-      });
-
-      if (response.ok) {
-        await fetchVotingData(); // Recargar datos
-        // Mostrar mensaje de éxito
-      } else {
-        const error = await response.json();
-        setError(error.message || 'Error al registrar voto');
-      }
+      // NestJS: POST /leadership/voting/:processId/vote
+      await apiClient.post(`/leadership/voting/${processId}/vote`, { vote, comment });
+      await fetchVotingData(); // Recargar datos
     } catch (error) {
       console.error('Error casting vote:', error);
       setError(error instanceof Error ? error.message : 'Error al votar');
@@ -129,22 +111,9 @@ const VotingSystem: FC<VotingSystemProps> = ({
 
   const controlVotingProcess = async (processId: string, action: 'start' | 'stop' | 'cancel') => {
     try {
-      const csrfToken = getCSRFToken();
-      const response = await fetch(`/api/leadership/voting/${processId}/control`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-csrf-token': csrfToken || '',
-        },
-        body: JSON.stringify({ action }),
-      });
-
-      if (response.ok) {
-        await fetchVotingData(); // Recargar datos
-      } else {
-        const error = await response.json();
-        setError(error.message || 'Error al controlar proceso');
-      }
+      // NestJS: POST /leadership/voting/:processId/control
+      await apiClient.post(`/leadership/voting/${processId}/control`, { action });
+      await fetchVotingData(); // Recargar datos
     } catch (error) {
       console.error('Error controlling process:', error);
       setError(error instanceof Error ? error.message : 'Error al controlar proceso');

@@ -77,19 +77,9 @@ export default function PublicacionCard({
 
     setCargandoReaccion(true);
     try {
-      const response = await fetch(`/api/comunidad/publicaciones/${publicacion.id}/reacciones`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ tipo: tipoReaccion })
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        onActualizar(data.datos);
-      }
+      // NestJS: POST /community/posts/:id/reactions
+      const data = await apiClient.post<Publicacion>(`/community/posts/${publicacion.id}/reactions`, { tipo: tipoReaccion });
+      onActualizar(data);
     } catch (error) {
       console.error('Error al reaccionar:', error);
     } finally {
@@ -103,20 +93,10 @@ export default function PublicacionCard({
 
     setCargandoEdicion(true);
     try {
-      const response = await fetch(`/api/comunidad/publicaciones/${publicacion.id}`, {
-        method: 'PUT',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ contenido: contenidoEditado })
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        onActualizar(data.datos);
-        setEditando(false);
-      }
+      // NestJS: PUT /community/posts/:id
+      const data = await apiClient.put<Publicacion>(`/community/posts/${publicacion.id}`, { contenido: contenidoEditado });
+      onActualizar(data);
+      setEditando(false);
     } catch (error) {
       console.error('Error al editar publicación:', error);
     } finally {
@@ -129,14 +109,9 @@ export default function PublicacionCard({
     if (!confirm('¿Estás seguro de que quieres eliminar esta publicación?')) return;
 
     try {
-      const response = await fetch(`/api/comunidad/publicaciones/${publicacion.id}`, {
-        method: 'DELETE',
-        credentials: 'include'
-      });
-
-      if (response.ok) {
-        onEliminar(publicacion.id);
-      }
+      // NestJS: DELETE /community/posts/:id
+      await apiClient.delete(`/community/posts/${publicacion.id}`);
+      onEliminar(publicacion.id);
     } catch (error) {
       console.error('Error al eliminar publicación:', error);
     }

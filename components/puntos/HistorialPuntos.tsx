@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { FaMotorcycle, FaUsers, FaGift, FaComments, FaStar, FaChartBar } from 'react-icons/fa';
 import { PuntosActividad, FiltroHistorial } from '@/types/puntos';
+import apiClient from '@/lib/api-client';
 
 interface HistorialPuntosProps {
   usuarioId: string;
@@ -79,37 +80,28 @@ export default function HistorialPuntos({ usuarioId }: HistorialPuntosProps) {
     try {
       setLoading(true);
       
-      const response = await fetch(`/api/users/history?page=${pagina}&limit=10`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+      // NestJS: GET /users/activity?page=X&limit=Y
+      const result = await apiClient.get<{ transactions: TransaccionReal[]; total: number; page: number; totalPages: number }>(`/users/activity?page=${pagina}&limit=10`);
+      
+      if (result.transactions) {
+        const historialData: HistorialResponse = {
+          transacciones: result.transactions,
+          total: result.total,
+          pagina: result.page,
+          totalPaginas: result.totalPages
+        };
+        
+        // Calcular saldo acumulado
+        let saldoAcumulado = 0;
+        const historialMapeado = historialData.transacciones.reverse().map(transaccion => {
+          saldoAcumulado += transaccion.puntos;
+          return mapearTransaccionReal(transaccion, saldoAcumulado);
+        }).reverse();
 
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success) {
-          const historialData: HistorialResponse = result.data;
-          
-          // Calcular saldo acumulado
-          let saldoAcumulado = 0;
-          const historialMapeado = historialData.transacciones.reverse().map(transaccion => {
-            saldoAcumulado += transaccion.puntos;
-            return mapearTransaccionReal(transaccion, saldoAcumulado);
-          }).reverse();
-
-          setHistorial(historialMapeado);
-          setHistorialFiltrado(historialMapeado);
-          setTotalPaginas(historialData.totalPaginas);
-        } else {
-          console.error('Error en respuesta:', result.error);
-          // Usar datos vacíos en caso de error
-          setHistorial([]);
-          setHistorialFiltrado([]);
-        }
+        setHistorial(historialMapeado);
+        setHistorialFiltrado(historialMapeado);
+        setTotalPaginas(historialData.totalPaginas);
       } else {
-        console.error('Error en request:', response.status);
         setHistorial([]);
         setHistorialFiltrado([]);
       }
