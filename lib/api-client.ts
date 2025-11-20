@@ -12,45 +12,9 @@ interface RequestOptions extends RequestInit {
 }
 
 /**
- * Get authentication token from localStorage/cookies
+ * Authentication is handled via httpOnly cookies
+ * No localStorage is used for security reasons
  */
-export function getAuthToken(): string | null {
-  if (typeof window === 'undefined') return null;
-  return localStorage.getItem('accessToken') || null;
-}
-
-/**
- * Set authentication token in localStorage
- */
-export function setAuthToken(token: string): void {
-  if (typeof window === 'undefined') return;
-  localStorage.setItem('accessToken', token);
-}
-
-/**
- * Remove authentication token
- */
-export function removeAuthToken(): void {
-  if (typeof window === 'undefined') return;
-  localStorage.removeItem('accessToken');
-  localStorage.removeItem('refreshToken');
-}
-
-/**
- * Save refresh token
- */
-export function setRefreshToken(token: string): void {
-  if (typeof window === 'undefined') return;
-  localStorage.setItem('refreshToken', token);
-}
-
-/**
- * Get refresh token
- */
-export function getRefreshToken(): string | null {
-  if (typeof window === 'undefined') return null;
-  return localStorage.getItem('refreshToken');
-}
 
 /**
  * Centralized API client
@@ -71,13 +35,7 @@ class ApiClient {
       ...options.headers,
     } as Record<string, string>;
 
-    // Add authentication token
-    if (options.requireAuth !== false) {
-      const token = getAuthToken();
-      if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
-      }
-    }
+    // Authentication is handled via httpOnly cookies sent automatically with credentials: 'include'
 
     // Add CSRF token if provided
     if (options.csrfToken) {
@@ -89,40 +47,24 @@ class ApiClient {
 
   /**
    * Handle API response
+   * Authentication via httpOnly cookies - redirect on 401 for protected routes
    */
-  private async handleResponse<T>(response: Response): Promise<T> {
-    // Handle 401 Unauthorized - try to refresh token
-    if (response.status === 401) {
-      const refreshToken = getRefreshToken();
-      if (refreshToken) {
-        try {
-          const refreshResponse = await fetch(`${this.baseUrl}/auth/refresh`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ refreshToken }),
-          });
+  private async handleResponse<T>(response: Response, url: string): Promise<T> {
+    // Check if this is a public endpoint
+    const publicEndpoints = [
+      '/auth/register',
+      '/auth/verify-email',
+      '/auth/login',
+      '/auth/forgot-password',
+      '/auth/reset-password',
+    ];
+    
+    const isPublicEndpoint = publicEndpoints.some(endpoint => url.includes(endpoint));
 
-          if (refreshResponse.ok) {
-            const data = await refreshResponse.json();
-            setAuthToken(data.accessToken);
-            if (data.refreshToken) {
-              setRefreshToken(data.refreshToken);
-            }
-            // Retry original request
-            throw new Error('TOKEN_REFRESHED');
-          }
-        } catch {
-          removeAuthToken();
-          // Redirect to login
-          if (typeof window !== 'undefined') {
-            window.location.href = '/login';
-          }
-        }
-      } else {
-        removeAuthToken();
-        if (typeof window !== 'undefined') {
-          window.location.href = '/login';
-        }
+    // Handle 401 Unauthorized on protected endpoints - redirect to login
+    if (response.status === 401 && !isPublicEndpoint) {
+      if (typeof window !== 'undefined') {
+        window.location.href = '/login?expired=true';
       }
     }
 
@@ -169,7 +111,7 @@ class ApiClient {
       ...options,
     });
 
-    return this.handleResponse<T>(response);
+    return this.handleResponse<T>(response, url);
   }
 
   /**
@@ -183,12 +125,12 @@ class ApiClient {
     const response = await fetch(url, {
       method: 'POST',
       headers,
-      body: isFormData ? body : (body ? JSON.stringify(body) : undefined),
+      body: isFormData ? body : JSON.stringify(body),
       credentials: 'include',
       ...options,
     });
 
-    return this.handleResponse<T>(response);
+    return this.handleResponse<T>(response, url);
   }
 
   /**
@@ -207,7 +149,7 @@ class ApiClient {
       ...options,
     });
 
-    return this.handleResponse<T>(response);
+    return this.handleResponse<T>(response, url);
   }
 
   /**
@@ -226,7 +168,7 @@ class ApiClient {
       ...options,
     });
 
-    return this.handleResponse<T>(response);
+    return this.handleResponse<T>(response, url);
   }
 
   /**
@@ -243,11 +185,12 @@ class ApiClient {
       ...options,
     });
 
-    return this.handleResponse<T>(response);
+    return this.handleResponse<T>(response, url);
   }
 
   /**
    * Upload file (multipart/form-data)
+   * Authentication via httpOnly cookies sent automatically
    */
   async upload<T>(endpoint: string, formData: FormData, options: RequestOptions = {}): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
@@ -257,13 +200,7 @@ class ApiClient {
       ...options.headers,
     } as Record<string, string>;
 
-    // Add authentication token
-    if (options.requireAuth !== false) {
-      const token = getAuthToken();
-      if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
-      }
-    }
+    // Authentication is handled via httpOnly cookies sent automatically with credentials: 'include'
 
     const response = await fetch(url, {
       method: 'POST',
@@ -273,7 +210,7 @@ class ApiClient {
       ...options,
     });
 
-    return this.handleResponse<T>(response);
+    return this.handleResponse<T>(response, url);
   }
 }
 
