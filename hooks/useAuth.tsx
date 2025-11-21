@@ -59,15 +59,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   /**
-   * Check if user is authenticated
-   * Cookies httpOnly sent automatically
+   * Check if user is authenticated via cookies httpOnly
    */
   const checkAuth = useCallback(async (): Promise<boolean> => {
     try {
       updateAuthState({ isLoading: true, error: null });
 
-      // Verify token with backend - NestJS endpoint: GET /auth/me
-      // Cookies sent automatically via credentials: 'include'
+      // Verify with backend - cookies sent automatically
       const response = await apiClient.get<User>('/auth/me');
 
       updateAuthState({
@@ -93,7 +91,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [updateAuthState]);
 
   /**
-   * Login user
+   * Login user - backend sets httpOnly cookies
    */
   const login = useCallback(async (
     email: string,
@@ -102,25 +100,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       updateAuthState({ isLoading: true, error: null });
 
-      // NestJS endpoint: POST /auth/login
-      // Backend sets httpOnly cookies automatically
+      // Backend sets cookies automatically
       const response = await apiClient.post<LoginResponse>('/auth/login', {
         email,
         password,
       }, { requireAuth: false });
 
-      console.log('Login response:', response);
-
-      // Wait a bit for cookies to be set
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      // Verify authentication by checking /auth/me
-      const verified = await checkAuth();
-      console.log('Auth verified:', verified);
-
-      if (!verified) {
-        throw new Error('No se pudo verificar la sesión');
-      }
+      updateAuthState({
+        isAuthenticated: true,
+        user: response.user,
+        isLoading: false,
+        error: null
+      });
 
       return true;
 
@@ -136,7 +127,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
       return false;
     }
-  }, [updateAuthState, checkAuth]);
+  }, [updateAuthState]);
 
   /**
    * Logout user
@@ -145,12 +136,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       updateAuthState({ isLoading: true });
 
-      // NestJS endpoint: POST /auth/logout
-      // Backend clears httpOnly cookies automatically
+      // Backend clears cookies automatically
       try {
         await apiClient.post('/auth/logout', {});
       } catch (error) {
-        // Continue logout even if API call fails
         console.error('Logout API call failed:', error);
       }
 

@@ -12,8 +12,7 @@ interface RequestOptions extends RequestInit {
 }
 
 /**
- * Authentication is handled via httpOnly cookies
- * No localStorage is used for security reasons
+ * Authentication via httpOnly cookies - No localStorage
  */
 
 /**
@@ -35,7 +34,7 @@ class ApiClient {
       ...options.headers,
     } as Record<string, string>;
 
-    // Authentication is handled via httpOnly cookies sent automatically with credentials: 'include'
+    // Authentication via httpOnly cookies sent automatically with credentials: 'include'
 
     // Add CSRF token if provided
     if (options.csrfToken) {
@@ -46,8 +45,7 @@ class ApiClient {
   }
 
   /**
-   * Handle API response
-   * Authentication via httpOnly cookies - redirect on 401 for protected routes
+   * Handle API response - cookies httpOnly managed by browser
    */
   private async handleResponse<T>(response: Response, url: string): Promise<T> {
     // Check if this is a public endpoint
@@ -61,8 +59,7 @@ class ApiClient {
     
     const isPublicEndpoint = publicEndpoints.some(endpoint => url.includes(endpoint));
 
-    // Handle 401 Unauthorized on protected endpoints - redirect to login
-    // But don't redirect if we're already on login page
+    // Handle 401 - redirect to login if not already there
     if (response.status === 401 && !isPublicEndpoint) {
       if (typeof window !== 'undefined' && !window.location.pathname.includes('/login')) {
         window.location.href = '/login?expired=true';
