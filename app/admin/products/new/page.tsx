@@ -3,7 +3,7 @@
 // Esta página maneja la creación de nuevos productos
 // El parámetro id será "new" para indicar que es un producto nuevo
 
-import { useAuth } from '@/hooks/useAuth';
+
 import { useState, useEffect, type ChangeEvent, type FormEvent } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import AdminLayout from '@/components/admin/AdminLayout';

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { useAuth } from '@/hooks/useAuth';
+
 import { 
   FaFileInvoiceDollar, 
   FaSpinner, 

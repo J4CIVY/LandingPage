@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/hooks/useAuth';
+
 import { FiBarChart, FiUsers, FiAlertTriangle, FiDownload, FiRefreshCw, FiCalendar, FiActivity, FiDollarSign } from 'react-icons/fi';
 
 interface AnalyticsData {

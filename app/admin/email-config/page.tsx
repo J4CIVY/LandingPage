@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, type FC } from 'react';
-import { useAuth } from '@/hooks/useAuth';
+
 import { useRouter } from 'next/navigation';
 
 interface EmailConfig {

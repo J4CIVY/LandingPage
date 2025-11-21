@@ -8,7 +8,7 @@ import MembresiaHistorial from '@/components/historial/MembresiaHistorial';
 import PqrsdfHistorial from '@/components/historial/PqrsdfHistorial';
 import BeneficiosHistorial from '@/components/historial/BeneficiosHistorial';
 import LogrosHistorial from '@/components/historial/LogrosHistorial';
-import { useAuth } from '@/hooks/useAuth';
+
 import { 
   type HistorialItem, 
   type FiltroHistorial, 

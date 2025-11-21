@@ -13,7 +13,7 @@ import {
   UserActivity, 
   AdminOptions 
 } from '@/components/dashboard/profile';
-import { useAuth } from '@/hooks/useAuth';
+
 import { useProfile } from '@/hooks/useProfile';
 
 interface ProfileTab {

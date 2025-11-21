@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { FaUser, FaSignOutAlt, FaTachometerAlt, FaSpinner } from 'react-icons/fa';
-import { useAuth } from '@/hooks/useAuth';
+
 
 interface AuthButtonProps {
   isMobile?: boolean;

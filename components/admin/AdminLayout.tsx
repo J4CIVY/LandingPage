@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuth } from '@/hooks/useAuth';
+
 import { useRouter } from 'next/navigation';
 import { useEffect, ReactNode, useState } from 'react';
 import AdminSidebar from '@/components/admin/AdminSidebar';

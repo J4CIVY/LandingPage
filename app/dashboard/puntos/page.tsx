@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/hooks/useAuth';
+
 import PuntosHeader from '@/components/puntos/PuntosHeader';
 import ProgresoNivel from '@/components/puntos/ProgresoNivel';
 import HistorialPuntos from '@/components/puntos/HistorialPuntos';

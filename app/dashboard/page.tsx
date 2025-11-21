@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuth } from '@/hooks/useAuth';
+
 import { useState, useEffect } from 'react';
 import { FaSpinner } from 'react-icons/fa';
 

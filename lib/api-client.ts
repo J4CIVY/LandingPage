@@ -12,6 +12,10 @@ interface RequestOptions extends RequestInit {
 }
 
 /**
+ * Authentication via httpOnly cookies - No localStorage
+ */
+
+/**
  * Centralized API client
  */
 class ApiClient {
@@ -30,6 +34,8 @@ class ApiClient {
       ...options.headers,
     } as Record<string, string>;
 
+    // Authentication via httpOnly cookies sent automatically with credentials: 'include'
+
     // Add CSRF token if provided
     if (options.csrfToken) {
       headers['X-CSRF-Token'] = options.csrfToken;
@@ -39,9 +45,27 @@ class ApiClient {
   }
 
   /**
-   * Handle API response
+   * Handle API response - cookies httpOnly managed by browser
    */
   private async handleResponse<T>(response: Response, url: string): Promise<T> {
+    // Check if this is a public endpoint
+    const publicEndpoints = [
+      '/auth/register',
+      '/auth/verify-email',
+      '/auth/login',
+      '/auth/forgot-password',
+      '/auth/reset-password',
+    ];
+    
+    const isPublicEndpoint = publicEndpoints.some(endpoint => url.includes(endpoint));
+
+    // Handle 401 - redirect to login if not already there
+    if (response.status === 401 && !isPublicEndpoint) {
+      if (typeof window !== 'undefined' && !window.location.pathname.includes('/login')) {
+        window.location.href = '/login?expired=true';
+      }
+    }
+
     // Parse response
     const contentType = response.headers.get('content-type');
     let data: unknown;

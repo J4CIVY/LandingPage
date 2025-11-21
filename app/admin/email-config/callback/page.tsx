@@ -2,7 +2,7 @@
 
 import { useEffect, useState, Suspense, type FC } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { useAuth } from '@/hooks/useAuth';
+
 import { useRouter } from 'next/navigation';
 
 const CallbackContent: FC = () => {
