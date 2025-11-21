@@ -14,10 +14,14 @@ interface User {
   email: string;
   nombre: string;
   apellido: string;
+  firstName?: string;
+  lastName?: string;
   role: string;
   emailVerified: boolean;
   profileImage?: string;
   membershipStatus?: string;
+  membershipType?: string;
+  isActive?: boolean;
   [key: string]: unknown;
 }
 
@@ -29,9 +33,28 @@ interface AuthState {
 }
 
 interface LoginResponse {
+  success: boolean;
+  message: string;
   accessToken: string;
   refreshToken: string;
   user: User;
+}
+
+interface AuthResponse {
+  success: boolean;
+  message?: string;
+  user?: User;
+}
+
+interface RegisterData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  phone?: string;
+  address?: string;
+  city?: string;
+  [key: string]: unknown;
 }
 
 interface AuthContextType extends AuthState {
@@ -39,6 +62,10 @@ interface AuthContextType extends AuthState {
   logout: () => Promise<void>;
   refreshAuth: () => Promise<boolean>;
   checkAuth: () => Promise<boolean>;
+  register: (data: RegisterData) => Promise<{ success: boolean; message: string }>;
+  verifyEmail: (token: string) => Promise<{ success: boolean; message: string }>;
+  forgotPassword: (email: string) => Promise<{ success: boolean; message: string }>;
+  resetPassword: (token: string, newPassword: string) => Promise<{ success: boolean; message: string }>;
   isInitialized: boolean;
 }
 
@@ -66,19 +93,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       updateAuthState({ isLoading: true, error: null });
 
       // Verify with backend - cookies sent automatically
-      const response = await apiClient.get<User>('/auth/me');
+      const response = await apiClient.get<AuthResponse>('/auth/me');
+
+      if (response.success && response.user) {
+        updateAuthState({
+          isAuthenticated: true,
+          user: response.user,
+          isLoading: false,
+          error: null
+        });
+        return true;
+      }
 
       updateAuthState({
-        isAuthenticated: true,
-        user: response,
+        isAuthenticated: false,
+        user: null,
         isLoading: false,
         error: null
       });
-      return true;
+      return false;
 
     } catch (error) {
       const err = error as { status?: number; message?: string };
-      console.error('Error checking auth:', err);
+      
+      // Solo logear errores que no sean 401 (no autorizado es esperado)
+      if (err.status !== 401) {
+        console.error('Error checking auth:', err);
+      }
 
       updateAuthState({
         isAuthenticated: false,
@@ -96,6 +137,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = useCallback(async (
     email: string,
     password: string,
+    rememberMe?: boolean,
   ): Promise<boolean> => {
     try {
       updateAuthState({ isLoading: true, error: null });
@@ -104,26 +146,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const response = await apiClient.post<LoginResponse>('/auth/login', {
         email,
         password,
+        rememberMe: rememberMe || false,
       }, { requireAuth: false });
 
-      updateAuthState({
-        isAuthenticated: true,
-        user: response.user,
-        isLoading: false,
-        error: null
-      });
+      if (response.success && response.user) {
+        updateAuthState({
+          isAuthenticated: true,
+          user: response.user,
+          isLoading: false,
+          error: null
+        });
 
-      return true;
+        return true;
+      }
+
+      updateAuthState({
+        isAuthenticated: false,
+        user: null,
+        isLoading: false,
+        error: response.message || 'Error al iniciar sesión'
+      });
+      return false;
 
     } catch (error) {
-      const err = error as { message?: string };
+      const err = error as { message?: string; data?: { message?: string } };
       console.error('Login error:', err);
+      
+      const errorMessage = err.data?.message || err.message || 'Error al iniciar sesión';
       
       updateAuthState({
         isAuthenticated: false,
         user: null,
         isLoading: false,
-        error: err.message || 'Error al iniciar sesión'
+        error: errorMessage
       });
       return false;
     }
@@ -138,9 +193,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       // Backend clears cookies automatically
       try {
-        await apiClient.post('/auth/logout', {});
+        await apiClient.post<AuthResponse>('/auth/logout', {});
       } catch (error) {
         console.error('Logout API call failed:', error);
+        // Continue with logout even if API call fails
       }
 
       updateAuthState({
@@ -150,7 +206,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         error: null
       });
 
-      router.push('/login');
+      // Redirect to home instead of login
+      router.push('/');
       router.refresh();
 
     } catch (error) {
@@ -163,7 +220,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isLoading: false,
         error: null
       });
-      router.push('/login');
+      router.push('/');
     }
   }, [updateAuthState, router]);
 
@@ -172,16 +229,125 @@ export function AuthProvider({ children }: { children: ReactNode }) {
    */
   const refreshAuth = useCallback(async (): Promise<boolean> => {
     try {
-      // This is now handled automatically by apiClient
-      // when it receives a 401 response
+      // Call refresh endpoint - backend will rotate tokens
+      const response = await apiClient.post<LoginResponse>('/auth/refresh', {}, {
+        requireAuth: false,
+      });
+
+      if (response.success && response.user) {
+        updateAuthState({
+          isAuthenticated: true,
+          user: response.user,
+          isLoading: false,
+          error: null
+        });
+        return true;
+      }
+
+      // If refresh fails, check auth one more time
       return await checkAuth();
 
     } catch (error) {
       console.error('Error refreshing auth:', error);
-      await logout();
+      
+      // Don't force logout on refresh error - let the user continue
+      // The next API call will trigger a proper auth check
       return false;
     }
-  }, [checkAuth, logout]);
+  }, [checkAuth, updateAuthState]);
+
+  /**
+   * Register new user
+   */
+  const register = useCallback(async (data: RegisterData): Promise<{ success: boolean; message: string }> => {
+    try {
+      const response = await apiClient.post<AuthResponse>('/auth/register', data, {
+        requireAuth: false,
+      });
+
+      return {
+        success: response.success,
+        message: response.message || 'Usuario registrado exitosamente',
+      };
+    } catch (error) {
+      const err = error as { message?: string; data?: { message?: string } };
+      return {
+        success: false,
+        message: err.data?.message || err.message || 'Error al registrar usuario',
+      };
+    }
+  }, []);
+
+  /**
+   * Verify email with token
+   */
+  const verifyEmail = useCallback(async (token: string): Promise<{ success: boolean; message: string }> => {
+    try {
+      const response = await apiClient.post<AuthResponse>('/auth/verify-email', { token }, {
+        requireAuth: false,
+      });
+
+      return {
+        success: response.success,
+        message: response.message || 'Email verificado exitosamente',
+      };
+    } catch (error) {
+      const err = error as { message?: string; data?: { message?: string } };
+      return {
+        success: false,
+        message: err.data?.message || err.message || 'Error al verificar email',
+      };
+    }
+  }, []);
+
+  /**
+   * Request password reset
+   */
+  const forgotPassword = useCallback(async (email: string): Promise<{ success: boolean; message: string }> => {
+    try {
+      const response = await apiClient.post<AuthResponse>('/auth/forgot-password', { email }, {
+        requireAuth: false,
+      });
+
+      return {
+        success: true,
+        message: response.message || 'Si el email existe, recibirás instrucciones para resetear tu contraseña',
+      };
+    } catch (error) {
+      return {
+        success: true, // Always return success to avoid email enumeration
+        message: 'Si el email existe, recibirás instrucciones para resetear tu contraseña',
+      };
+    }
+  }, []);
+
+  /**
+   * Reset password with token
+   */
+  const resetPassword = useCallback(async (
+    token: string,
+    newPassword: string
+  ): Promise<{ success: boolean; message: string }> => {
+    try {
+      const response = await apiClient.post<AuthResponse>('/auth/reset-password', {
+        token,
+        newPassword,
+      }, {
+        requireAuth: false,
+      });
+
+      return {
+        success: response.success,
+        message: response.message || 'Contraseña reseteada exitosamente',
+      };
+    } catch (error) {
+      const err = error as { message?: string; data?: { message?: string } };
+      return {
+        success: false,
+        message: err.data?.message || err.message || 'Error al resetear contraseña',
+      };
+    }
+  }, []);
 
   /**
    * Initialize auth state on mount
@@ -221,6 +387,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     logout,
     refreshAuth,
     checkAuth,
+    register,
+    verifyEmail,
+    forgotPassword,
+    resetPassword,
     isInitialized
   };
 

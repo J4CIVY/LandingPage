@@ -24,6 +24,7 @@ import { useRecaptcha, RecaptchaActions } from '@/lib/recaptcha-client';
 import { safeJsonParse } from '@/lib/json-utils';
 import { useEmailValidation } from '@/hooks/useEmailValidation';
 import { usePhoneValidation } from '@/hooks/usePhoneValidation';
+import { useAuth } from '@/hooks/useAuth';
 
 const years = generateYears();
 
@@ -49,6 +50,7 @@ const UserRegister: FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
+  const { register: registerUser } = useAuth();
   
   // Initialize client-side only
   useEffect(() => {
@@ -170,35 +172,25 @@ const UserRegister: FC = () => {
         return;
       }
       
-      // Calcular edad más precisa
-      const birthDate = new Date(data.birthDate);
-      const today = new Date();
-      let age = today.getFullYear() - birthDate.getFullYear();
-      const monthDiff = today.getMonth() - birthDate.getMonth();
-      
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        age--; // age is calculated but not used - kept for potential future use
-      }
-      
       // Remover confirmPassword y preparar datos para la API
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { confirmPassword, ...submissionData } = data;
 
-      // Mapear los datos del formulario al formato esperado por la API
+      // Mapear los datos del formulario al formato esperado por el nuevo backend
       const userData = {
-        // Información personal básica
-        documentType: submissionData.documentType,
-        documentNumber: submissionData.documentNumber,
+        // Información personal básica (requerida por el nuevo AuthService)
         firstName: submissionData.firstName,
         lastName: submissionData.lastName,
+        email: submissionData.email,
+        password: submissionData.password,
+        phone: submissionData.phone,
+        
+        // Información adicional del usuario
+        documentType: submissionData.documentType,
+        documentNumber: submissionData.documentNumber,
         birthDate: submissionData.birthDate,
         birthPlace: submissionData.birthPlace,
-        
-        // Información de contacto
-        phone: submissionData.phone,
         whatsapp: submissionData.whatsapp || '',
-        email: submissionData.email,
         address: submissionData.address,
         neighborhood: submissionData.neighborhood || '',
         city: submissionData.city,
@@ -233,119 +225,55 @@ const UserRegister: FC = () => {
         motorcycleYear: submissionData.motorcycleYear || '',
         motorcyclePlate: submissionData.motorcyclePlate || '',
         motorcycleEngineSize: submissionData.motorcycleEngineSize || '',
-        motorcycleColor: '',
-        soatExpirationDate: '',
-        technicalReviewExpirationDate: '',
-        
-        // Información de licencia
-        licenseNumber: '',
-        licenseCategory: '',
-        licenseExpirationDate: '',
         
         // Información de BSK
         membershipType: 'friend' as const,
-        password: submissionData.password,
         
         // Imagen de perfil
         profileImage: submissionData.profileImage || '',
         
-        // Términos y condiciones (mapeo correcto a campos del backend)
+        // Términos y condiciones
         dataConsent: submissionData.dataConsent,
         liabilityWaiver: submissionData.liabilityWaiver,
-        termsAcceptance: submissionData.termsAcceptance
+        termsAcceptance: submissionData.termsAcceptance,
+        
+        // reCAPTCHA token
+        recaptchaToken
       };
 
-      // Enviar datos a la API NestJS
-      const apiClient = (await import('@/lib/api-client')).default;
+      // Usar el nuevo hook de autenticación
+      const result = await registerUser(userData);
       
-      try {
-        const result = await apiClient.post('/auth/register', {
-          ...userData,
-          recaptchaToken // Include reCAPTCHA token
-        });
+      if (result.success) {
+        // Limpiar draft guardado al completar registro exitosamente
+        localStorage.removeItem('bskmt-registration-draft');
         
-        console.log('✅ Usuario registrado exitosamente:', result);
-      } catch (error: unknown) {
-        // Manejar errores de la API
-        const err = error as { response?: { data?: { message?: string; errors?: string[] | string } } };
+        successToast(
+          '¡Registro exitoso!', 
+          result.message || `Bienvenido ${userData.firstName}! Se ha enviado un correo de verificación a ${userData.email}`
+        );
         
-        if (err.response?.data?.errors) {
-          const validationErrors = Array.isArray(err.response.data.errors) 
-            ? err.response.data.errors.join(', ')
-            : typeof err.response.data.errors === 'string' 
-              ? err.response.data.errors 
-              : 'Errores de validación en los datos enviados';
-          const errorMsg = `Errores de validación: ${validationErrors}`;
-          console.error('❌ Error en registro:', errorMsg);
-          errorToast('Error de validación', errorMsg);
-          return;
-        } else if (err.response?.data?.message) {
-          console.error('❌ Error en registro:', err.response.data.message);
-          errorToast('Error de registro', err.response.data.message);
-          return;
-        } else {
-          const errorMsg = error instanceof Error ? error.message : 'Error al registrar usuario';
-          console.error('❌ Error en registro:', errorMsg);
-          errorToast('Error de registro', errorMsg);
-          return;
+        // Redireccionar a página de verificación de email
+        setTimeout(() => {
+          router.push(`/verify-email?email=${encodeURIComponent(userData.email)}`);
+        }, 2000);
+      } else {
+        // Manejar error del registro
+        setSubmitError(result.message);
+        errorToast('Error en el registro', result.message);
+        
+        // Si el error es de email duplicado, ir al primer paso
+        if (result.message.includes('email') || result.message.includes('documento')) {
+          setCurrentStep(1);
         }
       }
-
       
-      // Enviar correo de bienvenida (opcional - el backend puede manejarlo)
-      try {
-        const apiClient = (await import('@/lib/api-client')).default;
-        await apiClient.post('/contact/send', {
-          type: 'welcome',
-          recipientEmail: userData.email,
-          recipientName: `${userData.firstName} ${userData.lastName}`,
-          templateData: {
-            userData: {
-              firstName: userData.firstName,
-              lastName: userData.lastName,
-              membershipType: userData.membershipType,
-              registrationDate: new Date().toISOString()
-            }
-          },
-          priority: 'high'
-        });
-      } catch (emailError) {
-        console.warn('⚠️ Error enviando correo de bienvenida:', emailError);
-        // No interrumpir el flujo de registro por error de email
-      }
-      
-      // Limpiar draft guardado al completar registro exitosamente
-      localStorage.removeItem('bskmt-registration-draft');
-      
-      successToast(
-        '¡Registro exitoso!', 
-        `Bienvenido ${userData.firstName}! Tu cuenta ha sido creada exitosamente. Se ha enviado un correo de confirmación.`
-      );
-      
-      // Redireccionar a página de éxito
-      setTimeout(() => {
-        router.push('/registration-success');
-      }, 2000);
-      
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
+    } catch (error) {
       console.error('❌ Error en registro:', error);
       
-      let errorMessage = 'Error inesperado. Por favor intenta nuevamente.';
-      
-      // Manejar errores específicos de la API
-      if (error.message) {
-        if (error.message.includes('ya existe') || error.message.includes('already exists')) {
-          errorMessage = 'Este email o número de documento ya está registrado. Intenta con datos diferentes.';
-          setCurrentStep(1); // Ir al primer paso
-        } else if (error.message.includes('validation') || error.message.includes('validación')) {
-          errorMessage = `Error de validación: ${error.message}`;
-        } else if (error.message.includes('network') || error.message.includes('fetch')) {
-          errorMessage = 'Error de conexión. Verifica tu internet e intenta nuevamente.';
-        } else {
-          errorMessage = error.message;
-        }
-      }
+      const errorMessage = error instanceof Error 
+        ? error.message 
+        : 'Error inesperado. Por favor intenta nuevamente.';
       
       setSubmitError(errorMessage);
       errorToast('Error en el registro', errorMessage);

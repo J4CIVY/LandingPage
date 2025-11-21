@@ -7,6 +7,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FaEye, FaEyeSlash, FaSpinner, FaLock, FaMotorcycle, FaCheck } from 'react-icons/fa';
 import { z } from 'zod';
+import { useAuth } from '@/hooks/useAuth';
 
 // Schema local para el formulario (sin token)
 const resetPasswordFormSchema = z.object({
@@ -30,6 +31,7 @@ type ResetPasswordFormData = {
 };
 
 function ResetPasswordForm() {
+  const { resetPassword } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState('');
@@ -63,8 +65,7 @@ function ResetPasswordForm() {
 
     const validateToken = async () => {
       try {
-        // En el backend NestJS, validaremos el token al hacer reset
-        // Por ahora solo verificamos que exista el token
+        // Verificamos que el token existe y tiene longitud adecuada
         if (token && token.length > 10) {
           setTokenValid(true);
         } else {
@@ -82,25 +83,29 @@ function ResetPasswordForm() {
   }, [token]);
 
   const onSubmit: SubmitHandler<ResetPasswordFormData> = async (data) => {
+    if (!token) {
+      setError('Token no encontrado');
+      return;
+    }
+
     setIsLoading(true);
     setError('');
 
     try {
-      const apiClient = (await import('@/lib/api-client')).default;
-      await apiClient.post('/auth/reset-password', {
-        token,
-        newPassword: data.password
-      });
+      const result = await resetPassword(token, data.password);
 
-      setIsSuccess(true);
-      // Redirigir al login después de 3 segundos
-      setTimeout(() => {
-        router.push('/login');
-      }, 3000);
+      if (result.success) {
+        setIsSuccess(true);
+        // Redirigir al login después de 3 segundos
+        setTimeout(() => {
+          router.push('/login?reset=true');
+        }, 3000);
+      } else {
+        setError(result.message);
+      }
     } catch (error) {
       console.error('Error:', error);
-      const err = error as { response?: { data?: { message?: string } } };
-      setError(err.response?.data?.message || 'Error de conexión. Intenta nuevamente.');
+      setError(error instanceof Error ? error.message : 'Error de conexión. Intenta nuevamente.');
     } finally {
       setIsLoading(false);
     }
@@ -109,10 +114,10 @@ function ResetPasswordForm() {
   // Mostrar loading mientras se valida el token
   if (tokenValid === null) {
     return (
-      <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-gray-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
         <div className="text-center">
           <FaSpinner className="animate-spin text-4xl text-blue-600 mx-auto mb-4" />
-          <p className="text-gray-600 dark:text-slate-400">Validando token...</p>
+          <p className="text-gray-600 dark:text-gray-400">Validando token...</p>
         </div>
       </div>
     );
@@ -121,31 +126,31 @@ function ResetPasswordForm() {
   // Mostrar error si el token no es válido
   if (!tokenValid) {
     return (
-      <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-gray-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
         <div className="max-w-md w-full space-y-8">
-          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-8 border border-gray-100 dark:border-slate-700">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8">
             <div className="text-center mb-8">
               <div className="mx-auto w-20 h-20 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mb-4">
                 <span className="text-3xl">❌</span>
               </div>
-              <h1 className="text-2xl font-bold text-slate-950 dark:text-white mb-2">
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
                 Token Inválido
               </h1>
-              <p className="text-gray-600 dark:text-slate-400 mb-4">
+              <p className="text-gray-600 dark:text-gray-400 mb-4">
                 {error || 'El enlace de restablecimiento no es válido o ha expirado'}
               </p>
             </div>
 
             <div className="space-y-4">
               <Link
-                href="/auth/forgot-password"
-                className="w-full flex justify-center items-center py-3 px-4 bg-blue-600 dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-400 text-white font-medium rounded-lg"
+                href="/forgot-password"
+                className="w-full flex justify-center items-center py-3 px-4 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors"
               >
                 Solicitar Nuevo Enlace
               </Link>
               <Link
                 href="/login"
-                className="w-full flex justify-center items-center py-3 px-4 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-700 dark:text-slate-300 font-medium rounded-lg"
+                className="w-full flex justify-center items-center py-3 px-4 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium rounded-lg transition-colors"
               >
                 Volver al Login
               </Link>
@@ -159,17 +164,17 @@ function ResetPasswordForm() {
   // Mostrar éxito
   if (isSuccess) {
     return (
-      <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-gray-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
         <div className="max-w-md w-full space-y-8">
-          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-8 border border-gray-100 dark:border-slate-700">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8">
             <div className="text-center mb-8">
               <div className="mx-auto w-20 h-20 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center mb-4">
-                <FaCheck className="text-3xl text-green-600" />
+                <FaCheck className="text-3xl text-green-600 dark:text-green-400" />
               </div>
-              <h1 className="text-2xl font-bold text-slate-950 dark:text-white mb-2">
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
                 ¡Contraseña Restablecida!
               </h1>
-              <p className="text-gray-600 dark:text-slate-400">
+              <p className="text-gray-600 dark:text-gray-400">
                 Tu contraseña ha sido actualizada exitosamente
               </p>
             </div>
@@ -182,7 +187,7 @@ function ResetPasswordForm() {
 
             <Link
               href="/login"
-              className="w-full flex justify-center items-center py-3 px-4 bg-blue-600 dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-400 text-white font-medium rounded-lg"
+              className="w-full flex justify-center items-center py-3 px-4 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors"
             >
               Iniciar Sesión Ahora
             </Link>
@@ -196,25 +201,25 @@ function ResetPasswordForm() {
   const password = watch('password');
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-gray-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
       <div className="max-w-md w-full space-y-8">
-        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-8 border border-gray-100 dark:border-slate-700">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8">
           {/* Encabezado */}
           <div className="text-center mb-8">
             <Link href="/" className="inline-block mb-6">
               <div className="flex items-center justify-center space-x-3">
-                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+                <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center">
                   <FaMotorcycle className="text-white text-xl" />
                 </div>
-                <div className="text-2xl font-bold text-slate-950 dark:text-white">
-                  BSK <span className="text-blue-600">MT</span>
+                <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                  BSK <span className="text-red-600">MT</span>
                 </div>
               </div>
             </Link>
-            <h1 className="text-2xl font-bold text-slate-950 dark:text-white mb-2">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
               Restablecer Contraseña
             </h1>
-            <p className="text-gray-600 dark:text-slate-400">
+            <p className="text-gray-600 dark:text-gray-400">
               Ingresa tu nueva contraseña
             </p>
           </div>
@@ -237,8 +242,8 @@ function ResetPasswordForm() {
                   className={`block w-full pl-10 pr-12 py-3 border ${
                     errors.password 
                       ? 'border-red-300 dark:border-red-500' 
-                      : 'border-gray-300 dark:border-slate-600'
-                  } rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 placeholder-gray-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent`}
+                      : 'border-gray-300 dark:border-gray-600'
+                  } rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 dark:focus:ring-red-400 focus:border-transparent transition-colors`}
                   placeholder="Tu nueva contraseña"
                   autoComplete="new-password"
                 />
@@ -275,8 +280,8 @@ function ResetPasswordForm() {
                   className={`block w-full pl-10 pr-12 py-3 border ${
                     errors.confirmPassword 
                       ? 'border-red-300 dark:border-red-500' 
-                      : 'border-gray-300 dark:border-slate-600'
-                  } rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 placeholder-gray-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent`}
+                      : 'border-gray-300 dark:border-gray-600'
+                  } rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 dark:focus:ring-red-400 focus:border-transparent transition-colors`}
                   placeholder="Confirma tu nueva contraseña"
                   autoComplete="new-password"
                 />
@@ -299,8 +304,8 @@ function ResetPasswordForm() {
 
             {/* Indicador de fuerza de contraseña */}
             {password && password.length > 0 && (
-              <div className="bg-gray-50 dark:bg-slate-700 rounded-lg p-4">
-                <h4 className="text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Requisitos de contraseña:
                 </h4>
                 <div className="space-y-1 text-xs">
@@ -341,10 +346,10 @@ function ResetPasswordForm() {
             <button
               type="submit"
               disabled={isLoading || !isValid}
-              className={`w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white ${
+              className={`w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white transition-colors ${
                 isLoading || !isValid
-                  ? 'bg-gray-400 dark:bg-slate-600 cursor-not-allowed'
-                  : 'bg-blue-600 dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-400'
+                  ? 'bg-gray-400 dark:bg-gray-600 cursor-not-allowed'
+                  : 'bg-red-600 hover:bg-red-700'
               }`}
             >
               {isLoading ? (
