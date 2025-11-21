@@ -136,3 +136,23 @@ export interface IUserUpdate {
   medicalConditions?: string;
   medications?: string;
 }
+
+// Login Response Types (Fase 3)
+export interface LoginResponse {
+  access_token?: string;
+  refresh_token?: string;
+  user?: IUser;
+  requires2FA?: boolean;
+  requiresDeviceTrust?: boolean;
+  blocked?: boolean;
+  alerts?: string[];
+  riskScore?: number;
+  message?: string;
+}
+
+export interface LoginCredentials {
+  email: string;
+  password: string;
+  twoFactorCode?: string;
+  rememberMe?: boolean;
+}

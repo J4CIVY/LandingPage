@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
-import { FaShieldAlt, FaDownload, FaCopy, FaCheckCircle, FaTimesCircle, FaExclamationTriangle } from 'react-icons/fa'
+import { useState, useEffect } from 'react'
+import { FaShieldAlt, FaDownload, FaCopy, FaCheckCircle, FaTimesCircle, FaExclamationTriangle, FaSpinner } from 'react-icons/fa'
+import twoFactorService from '@/lib/services/two-factor.service'
 
 interface ToastType {
   title: string
@@ -11,30 +12,63 @@ interface ToastType {
 
 export default function TwoFactorAuthSection() {
   const [is2FAEnabled, setIs2FAEnabled] = useState(false)
+  const [backupCodesRemaining, setBackupCodesRemaining] = useState(0)
   const [verificationCode, setVerificationCode] = useState('')
+  const [disableCode, setDisableCode] = useState('')
   const [isSetupModalOpen, setIsSetupModalOpen] = useState(false)
   const [isDisableModalOpen, setIsDisableModalOpen] = useState(false)
   const [setupStep, setSetupStep] = useState(1) // 1: QR Code, 2: Verification, 3: Backup Codes
   const [isLoading, setIsLoading] = useState(false)
+  const [isLoadingData, setIsLoadingData] = useState(true)
   const [toast, setToast] = useState<ToastType | null>(null)
-  const [backupCodes] = useState([
-    'ABC123', 'DEF456', 'GHI789', 'JKL012', 
-    'MNO345', 'PQR678', 'STU901', 'VWX234'
-  ])
+  const [backupCodes, setBackupCodes] = useState<string[]>([])
+  const [qrCodeImage, setQrCodeImage] = useState<string>('')
+  const [secretKey, setSecretKey] = useState<string>('')
 
   const showToast = (toast: ToastType) => {
     setToast(toast)
     setTimeout(() => setToast(null), 4000)
   }
 
-  const simulatedQRCode = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2ZmZiIvPgogIDx0ZXh0IHg9IjEwMCIgeT0iMTAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzMzMyI+CiAgICBRUiBDb2RlIFNpbXVsYWRvCiAgPC90ZXh0Pgo8L3N2Zz4="
+  // Load 2FA status on mount
+  useEffect(() => {
+    loadStatus()
+  }, [])
 
-  const handleToggle2FA = () => {
+  const loadStatus = async () => {
+    try {
+      setIsLoadingData(true)
+      const status = await twoFactorService.getStatus()
+      setIs2FAEnabled(status.enabled)
+      setBackupCodesRemaining(status.backupCodesRemaining)
+    } catch (error) {
+      console.error('Error loading 2FA status:', error)
+    } finally {
+      setIsLoadingData(false)
+    }
+  }
+
+  const handleToggle2FA = async () => {
     if (is2FAEnabled) {
       setIsDisableModalOpen(true)
     } else {
-      setIsSetupModalOpen(true)
-      setSetupStep(1)
+      // Generate new secret and QR code
+      try {
+        setIsLoading(true)
+        const data = await twoFactorService.generate()
+        setQrCodeImage(data.qrCodeImage)
+        setSecretKey(data.secret)
+        setIsSetupModalOpen(true)
+        setSetupStep(1)
+      } catch (error) {
+        showToast({
+          title: "Error",
+          description: error instanceof Error ? error.message : "No se pudo generar el código QR",
+          type: "error"
+        })
+      } finally {
+        setIsLoading(false)
+      }
     }
   }
 
@@ -51,28 +85,20 @@ export default function TwoFactorAuthSection() {
     setIsLoading(true)
     
     try {
-      // Simulación de verificación
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      
-      if (verificationCode === '123456') { // Código de prueba
-        setSetupStep(3) // Mostrar códigos de respaldo
-        showToast({
-          title: "✅ Código verificado",
-          description: "La verificación ha sido exitosa",
-          type: "success"
-        })
-      } else {
-        showToast({
-          title: "Código incorrecto",
-          description: "El código ingresado no es válido. Inténtalo de nuevo.",
-          type: "error"
-        })
-      }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // Enable 2FA with verification code
+      const result = await twoFactorService.enable(verificationCode)
+      setBackupCodes(result.backupCodes)
+      setBackupCodesRemaining(result.backupCodes.length)
+      setSetupStep(3) // Show backup codes
+      showToast({
+        title: "✅ Código verificado",
+        description: "La verificación ha sido exitosa",
+        type: "success"
+      })
     } catch (error) {
       showToast({
-        title: "Error de verificación",
-        description: "No se pudo verificar el código. Inténtalo de nuevo.",
+        title: "Código incorrecto",
+        description: error instanceof Error ? error.message : "El código ingresado no es válido. Inténtalo de nuevo.",
         type: "error"
       })
     } finally {
@@ -93,24 +119,32 @@ export default function TwoFactorAuthSection() {
   }
 
   const handleDisable2FA = async () => {
+    if (disableCode.length !== 6) {
+      showToast({
+        title: "Código requerido",
+        description: "Ingresa tu código 2FA para desactivar",
+        type: "error"
+      })
+      return
+    }
+
     setIsLoading(true)
     
     try {
-      // Simulación de desactivación
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      
+      await twoFactorService.disable(disableCode)
       setIs2FAEnabled(false)
+      setBackupCodesRemaining(0)
       setIsDisableModalOpen(false)
+      setDisableCode('')
       showToast({
         title: "2FA Desactivado",
         description: "La autenticación de dos factores ha sido desactivada",
         type: "warning"
       })
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       showToast({
         title: "Error",
-        description: "No se pudo desactivar 2FA. Inténtalo de nuevo.",
+        description: error instanceof Error ? error.message : "No se pudo desactivar 2FA. Verifica el código.",
         type: "error"
       })
     } finally {
@@ -119,7 +153,6 @@ export default function TwoFactorAuthSection() {
   }
 
   const copySecretKey = () => {
-    const secretKey = "ABCD EFGH IJKL MNOP QRST UVWX YZ01 2345"
     void navigator.clipboard.writeText(secretKey.replace(/\s/g, ''))
     showToast({
       title: "Clave copiada",
@@ -151,6 +184,19 @@ IMPORTANTE: Estos códigos te permitirán acceder a tu cuenta si pierdes acceso 
       description: "Los códigos de respaldo han sido descargados",
       type: "success"
     })
+  }
+
+  if (isLoadingData) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-center py-12">
+          <div className="flex flex-col items-center gap-3">
+            <FaSpinner className="h-8 w-8 text-blue-600 animate-spin" />
+            <p className="text-gray-600 dark:text-gray-400">Cargando configuración 2FA...</p>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -289,7 +335,7 @@ IMPORTANTE: Estos códigos te permitirán acceder a tu cuenta si pierdes acceso 
               <div className="text-center">
                 <div className="mb-4">
                   <img 
-                    src={simulatedQRCode} 
+                    src={qrCodeImage} 
                     alt="QR Code para 2FA" 
                     className="mx-auto border border-gray-300 rounded-lg"
                   />
@@ -301,8 +347,8 @@ IMPORTANTE: Estos códigos te permitirán acceder a tu cuenta si pierdes acceso 
                 <div className="bg-gray-50 dark:bg-gray-900 p-3 rounded-lg mb-4">
                   <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">O ingresa manualmente:</p>
                   <div className="flex items-center gap-2">
-                    <code className="flex-1 text-sm bg-white dark:bg-gray-800 p-2 rounded border">
-                      ABCD EFGH IJKL MNOP QRST UVWX YZ01 2345
+                    <code className="flex-1 text-sm bg-white dark:bg-gray-800 p-2 rounded border break-all">
+                      {secretKey}
                     </code>
                     <button
                       onClick={copySecretKey}
@@ -348,12 +394,6 @@ IMPORTANTE: Estos códigos te permitirán acceder a tu cuenta si pierdes acceso 
                   />
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
                     Ingresa el código de 6 dígitos de tu app de autenticación
-                  </p>
-                </div>
-
-                <div className="bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded-lg mb-4">
-                  <p className="text-sm text-yellow-700 dark:text-yellow-300">
-                    <strong>Código de prueba:</strong> 123456 (para demostración)
                   </p>
                 </div>
 
@@ -435,19 +475,40 @@ IMPORTANTE: Estos códigos te permitirán acceder a tu cuenta si pierdes acceso 
                 Desactivar Autenticación de Dos Factores
               </h3>
             </div>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
               ¿Estás seguro de que quieres desactivar 2FA? Esto reducirá la seguridad de tu cuenta.
             </p>
+            
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Código de verificación 2FA
+              </label>
+              <input
+                type="text"
+                value={disableCode}
+                onChange={(e) => setDisableCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                placeholder="123456"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-center text-lg font-mono"
+                maxLength={6}
+              />
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                Ingresa tu código 2FA para confirmar
+              </p>
+            </div>
+
             <div className="flex gap-3">
               <button
-                onClick={() => setIsDisableModalOpen(false)}
+                onClick={() => {
+                  setIsDisableModalOpen(false)
+                  setDisableCode('')
+                }}
                 className="flex-1 px-4 py-2 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
               >
                 Cancelar
               </button>
               <button
                 onClick={handleDisable2FA}
-                disabled={isLoading}
+                disabled={isLoading || disableCode.length !== 6}
                 className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white rounded-lg transition-colors"
               >
                 {isLoading ? 'Desactivando...' : 'Desactivar 2FA'}

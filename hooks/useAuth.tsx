@@ -35,9 +35,15 @@ interface AuthState {
 interface LoginResponse {
   success: boolean;
   message: string;
-  accessToken: string;
-  refreshToken: string;
-  user: User;
+  accessToken?: string;
+  refreshToken?: string;
+  user?: User;
+  // Fase 3: Multi-factor authentication
+  requires2FA?: boolean;
+  requiresDeviceTrust?: boolean;
+  blocked?: boolean;
+  alerts?: string[];
+  riskScore?: number;
 }
 
 interface AuthResponse {
@@ -58,7 +64,7 @@ interface RegisterData {
 }
 
 interface AuthContextType extends AuthState {
-  login: (email: string, password: string, rememberMe?: boolean) => Promise<boolean>;
+  login: (email: string, password: string, rememberMe?: boolean, twoFactorCode?: string) => Promise<LoginResult>;
   logout: () => Promise<void>;
   refreshAuth: () => Promise<boolean>;
   checkAuth: () => Promise<boolean>;
@@ -67,6 +73,17 @@ interface AuthContextType extends AuthState {
   forgotPassword: (email: string) => Promise<{ success: boolean; message: string }>;
   resetPassword: (token: string, newPassword: string) => Promise<{ success: boolean; message: string }>;
   isInitialized: boolean;
+}
+
+// Fase 3: Login result with 2FA support
+interface LoginResult {
+  success: boolean;
+  requires2FA?: boolean;
+  requiresDeviceTrust?: boolean;
+  blocked?: boolean;
+  alerts?: string[];
+  riskScore?: number;
+  message?: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -132,23 +149,75 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [updateAuthState]);
 
   /**
-   * Login user - backend sets httpOnly cookies
+   * Login user - Fase 3: Multi-step with 2FA and device trust
    */
   const login = useCallback(async (
     email: string,
     password: string,
     rememberMe?: boolean,
-  ): Promise<boolean> => {
+    twoFactorCode?: string
+  ): Promise<LoginResult> => {
     try {
       updateAuthState({ isLoading: true, error: null });
 
-      // Backend sets cookies automatically
+      // Backend sets cookies automatically and handles security checks
       const response = await apiClient.post<LoginResponse>('/auth/login', {
         email,
         password,
         rememberMe: rememberMe || false,
+        twoFactorCode, // Include 2FA code if provided
       }, { requireAuth: false });
 
+      // CASO 1: Cuenta bloqueada temporalmente
+      if (response.blocked) {
+        const errorMessage = response.alerts?.join('. ') || 'Cuenta bloqueada temporalmente por actividad sospechosa';
+        updateAuthState({
+          isAuthenticated: false,
+          user: null,
+          isLoading: false,
+          error: errorMessage
+        });
+        return {
+          success: false,
+          blocked: true,
+          alerts: response.alerts,
+          riskScore: response.riskScore,
+          message: errorMessage
+        };
+      }
+
+      // CASO 2: Requiere código 2FA
+      if (response.requires2FA) {
+        updateAuthState({
+          isAuthenticated: false,
+          user: null,
+          isLoading: false,
+          error: null
+        });
+        return {
+          success: false,
+          requires2FA: true,
+          riskScore: response.riskScore,
+          message: 'Se requiere código de autenticación de dos factores'
+        };
+      }
+
+      // CASO 3: Necesita confiar en dispositivo (opcional después de 2FA)
+      if (response.requiresDeviceTrust) {
+        updateAuthState({
+          isAuthenticated: false,
+          user: null,
+          isLoading: false,
+          error: null
+        });
+        return {
+          success: false,
+          requiresDeviceTrust: true,
+          message: '¿Confiar en este dispositivo por 30 días?'
+        };
+      }
+
+      // CASO 4: Login exitoso
       if (response.success && response.user) {
         updateAuthState({
           isAuthenticated: true,
@@ -156,17 +225,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           isLoading: false,
           error: null
         });
-
-        return true;
+        return {
+          success: true,
+          message: response.message || 'Inicio de sesión exitoso'
+        };
       }
 
+      // CASO 5: Error general
+      const errorMessage = response.message || 'Error al iniciar sesión';
       updateAuthState({
         isAuthenticated: false,
         user: null,
         isLoading: false,
-        error: response.message || 'Error al iniciar sesión'
+        error: errorMessage
       });
-      return false;
+      return {
+        success: false,
+        message: errorMessage
+      };
 
     } catch (error) {
       const err = error as { message?: string; data?: { message?: string } };
@@ -180,7 +256,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isLoading: false,
         error: errorMessage
       });
-      return false;
+      return {
+        success: false,
+        message: errorMessage
+      };
     }
   }, [updateAuthState]);
 

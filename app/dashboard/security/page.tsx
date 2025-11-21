@@ -7,6 +7,7 @@ import { FaShieldAlt, FaKey, FaMobile, FaUsers, FaEye, FaCog, FaBell } from 'rea
 import PasswordChangeSection from '@/components/dashboard/security/PasswordChangeSection'
 import TwoFactorAuthSection from '@/components/dashboard/security/TwoFactorAuthSection'
 import SessionManagementSection from '@/components/dashboard/security/SessionManagementSection'
+import SecurityAlertsSection from '@/components/dashboard/security/SecurityAlertsSection'
 import NotificationPreferencesSection from '@/components/dashboard/security/NotificationPreferencesSection'
 import PrivacyControlSection from '@/components/dashboard/security/PrivacyControlSection'
 import AdvancedSettingsSection from '@/components/dashboard/security/AdvancedSettingsSection'
@@ -17,7 +18,8 @@ export default function SecurityPage() {
   const tabs = [
     { id: 'password', label: 'Contraseña', icon: FaKey },
     { id: '2fa', label: '2FA', icon: FaMobile },
-    { id: 'sessions', label: 'Sesiones', icon: FaUsers },
+    { id: 'sessions', label: 'Dispositivos', icon: FaUsers },
+    { id: 'alerts', label: 'Alertas', icon: FaShieldAlt },
     { id: 'notifications', label: 'Notificaciones', icon: FaBell },
     { id: 'privacy', label: 'Privacidad', icon: FaEye },
     { id: 'advanced', label: 'Avanzado', icon: FaCog }
@@ -31,6 +33,8 @@ export default function SecurityPage() {
         return <TwoFactorAuthSection />
       case 'sessions':
         return <SessionManagementSection />
+      case 'alerts':
+        return <SecurityAlertsSection />
       case 'notifications':
         return <NotificationPreferencesSection />
       case 'privacy':
@@ -46,7 +50,8 @@ export default function SecurityPage() {
     const tabTitles = {
       password: 'Cambio de Contraseña',
       '2fa': 'Autenticación de Dos Factores (2FA)',
-      sessions: 'Gestión de Sesiones Activas',
+      sessions: 'Dispositivos Confiables',
+      alerts: 'Alertas de Seguridad',
       notifications: 'Notificaciones y Preferencias',
       privacy: 'Privacidad y Control de Datos',
       advanced: 'Configuraciones Avanzadas'
@@ -57,8 +62,9 @@ export default function SecurityPage() {
   const getTabDescription = () => {
     const tabDescriptions = {
       password: 'Actualiza tu contraseña para mantener tu cuenta segura',
-      '2fa': 'Añade una capa extra de seguridad a tu cuenta',
-      sessions: 'Controla dónde y cuándo has iniciado sesión',
+      '2fa': 'Añade una capa extra de seguridad con códigos TOTP',
+      sessions: 'Gestiona dispositivos confiables y evita ingresar 2FA por 30 días',
+      alerts: 'Revisa eventos de seguridad y actividad sospechosa detectada',
       notifications: 'Configura cómo y cuándo quieres recibir notificaciones',
       privacy: 'Gestiona tu privacidad y datos personales',
       advanced: 'Configuraciones adicionales e integraciones'
@@ -88,7 +94,7 @@ export default function SecurityPage() {
 
         {/* Tabs Navigation */}
         <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 mb-6">
-          <div className="grid grid-cols-3 lg:grid-cols-6 gap-1 p-1">
+          <div className="grid grid-cols-4 lg:grid-cols-7 gap-1 p-1">
             {tabs.map((tab) => {
               const Icon = tab.icon
               return (
