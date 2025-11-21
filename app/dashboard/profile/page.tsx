@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, type ComponentType } from 'react';
+import { useAuth } from '@/hooks/useAuth';
 import { FaUser, FaHeart, FaMotorcycle, FaFileAlt, FaCog, FaHistory, FaCrown, FaExclamationCircle } from 'react-icons/fa';
 import { 
   ProfileHeader, 

@@ -2,6 +2,7 @@
 
 
 import { useState, useEffect } from 'react';
+import { useAuth } from '@/hooks/useAuth';
 import { FaSpinner } from 'react-icons/fa';
 
 // Importar los nuevos componentes del dashboard

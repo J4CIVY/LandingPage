@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useAuth } from '@/hooks/useAuth';
 import HistorialHeader from '@/components/historial/HistorialHeader';
 import Timeline from '@/components/historial/Timeline';
 import EventosHistorial from '@/components/historial/EventosHistorial';

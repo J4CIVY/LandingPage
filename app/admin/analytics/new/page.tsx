@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
-
+import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { FiPlus, FiSave, FiX, FiCalendar } from 'react-icons/fi';
 

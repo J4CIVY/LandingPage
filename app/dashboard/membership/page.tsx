@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '@/hooks/useAuth';
 
 import { MembershipResponse } from '@/types/membership';
 import { getNextMembershipType } from '@/data/membershipConfig';

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-
+import { useAuth } from '@/hooks/useAuth';
 import apiClient from '@/lib/api-client';
 import { FaTrophy, FaChartLine, FaMedal, FaStar, FaSpinner, FaArrowRight, FaFireAlt, FaCalendarCheck, FaSeedling, FaArrowUp, FaArrowDown, FaArrowRight as FaArrowStraight, FaBolt, FaCheckCircle } from 'react-icons/fa';
 import Link from 'next/link';

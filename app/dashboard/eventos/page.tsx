@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useAuth } from '@/hooks/useAuth';
 
 import { useEvents } from '@/hooks/useEvents';
 import EventosHeader from '@/components/eventos/EventosHeader';

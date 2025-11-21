@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-
+import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { FaHistory, FaCalendarAlt, FaShoppingCart, FaEnvelope, FaMotorcycle, FaSpinner } from 'react-icons/fa';
 import apiClient from '@/lib/api-client';

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '@/hooks/useAuth';
 
 import { LeaderboardMember, UserRanking } from '@/types/membership';
 import { MEMBERSHIP_CONFIG } from '@/data/membershipConfig';

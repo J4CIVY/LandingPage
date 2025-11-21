@@ -6,6 +6,7 @@
 
 import { useState, useEffect, type ChangeEvent, type FormEvent } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import { useAuth } from '@/hooks/useAuth';
 import AdminLayout from '@/components/admin/AdminLayout';
 import ImageUpload from '@/components/shared/ImageUpload';
 import ImageGalleryUpload from '@/components/shared/ImageGalleryUpload';

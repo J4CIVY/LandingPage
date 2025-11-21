@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, Suspense, type ChangeEvent, type FormEvent } from 'react';
-
+import { useAuth } from '@/hooks/useAuth';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { 
