@@ -99,6 +99,10 @@ const LoginPage: FC = () => {
           }
         }
 
+        // Esperar un momento para asegurar que el estado se actualice
+        // antes de navegar al dashboard
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
         // Redirigir al dashboard
         router.push('/dashboard');
         return;
