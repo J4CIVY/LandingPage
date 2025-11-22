@@ -48,18 +48,19 @@ class ApiClient {
    * Handle API response - cookies httpOnly managed by browser
    */
   private async handleResponse<T>(response: Response, url: string): Promise<T> {
-    // Check if this is a public endpoint
+    // Check if this is a public endpoint or auth check endpoint
     const publicEndpoints = [
       '/auth/register',
       '/auth/verify-email',
       '/auth/login',
       '/auth/forgot-password',
       '/auth/reset-password',
+      '/auth/me', // Don't redirect on auth check endpoint
     ];
     
     const isPublicEndpoint = publicEndpoints.some(endpoint => url.includes(endpoint));
 
-    // Handle 401 - redirect to login if not already there
+    // Handle 401 - redirect to login if not already there and not on auth check
     if (response.status === 401 && !isPublicEndpoint) {
       if (typeof window !== 'undefined' && !window.location.pathname.includes('/login')) {
         window.location.href = '/login?expired=true';

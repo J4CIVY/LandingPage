@@ -438,8 +438,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (mounted) {
         // Skip auth check on public pages
         if (typeof window !== 'undefined') {
-          const publicPages = ['/login', '/register', '/verify-email', '/forgot-password', '/reset-password'];
-          const isPublicPage = publicPages.some(page => window.location.pathname.startsWith(page));
+          const publicPages = [
+            '/', 
+            '/login', 
+            '/register', 
+            '/verify-email', 
+            '/forgot-password', 
+            '/reset-password',
+            '/about',
+            '/contact',
+            '/events',
+            '/courses',
+            '/memberships',
+            '/membership-info',
+            '/cookie-policy',
+            '/sos',
+            '/weather',
+            '/activity',
+            '/store'
+          ];
+          const isPublicPage = publicPages.some(page => {
+            // Exact match for home page
+            if (page === '/' && window.location.pathname === '/') return true;
+            // Starts with for other pages
+            if (page !== '/') return window.location.pathname.startsWith(page);
+            return false;
+          });
           
           if (isPublicPage) {
             setIsInitialized(true);
